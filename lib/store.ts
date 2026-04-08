@@ -8,6 +8,7 @@ interface AuthStore {
   setToken: (token: string) => void;
   setProfile: (profile: any) => void;
   logout: () => void;
+  clearSession: () => void;
   setHasHydrated: (val: boolean) => void;
 }
 
