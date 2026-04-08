@@ -11,8 +11,12 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [showPass, setShowPass] = useState(false);
   const router = useRouter();
-  const { setToken } = useAuthStore();
+ const { setToken, token, _hasHydrated } = useAuthStore();
 
+  useEffect(() => {
+    if (!_hasHydrated) return;
+    if (token) router.replace("/dashboard");
+  }, [_hasHydrated, token, router]);
   async function handleLogin() {
     if (!email || !password) return setError("Please enter your email and password.");
     setLoading(true); setError("");
