@@ -23,7 +23,8 @@ export const useAuthStore = create<AuthStore>()(
         set({ token });
       },
       setProfile: (profile) => set({ profile }),
-      logout: () => {
+     logout: () => set({ profile: null }),
+      clearSession: () => {
         localStorage.removeItem("srmx_token");
         set({ token: null, profile: null });
       },
