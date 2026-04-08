@@ -1,4 +1,6 @@
 import axios from "axios";
+import { useAuthStore } from "./store";
+
 
 // In development, Next.js rewrites proxy /api/* to the backend.
 // In production on Vercel, NEXT_PUBLIC_API_URL should point to your hosted backend.
@@ -20,6 +22,8 @@ API.interceptors.response.use(
   (err) => {
     if (err.response?.status === 401 && typeof window !== "undefined") {
       localStorage.removeItem("srmx_token");
+      useAuthStore.getState().clearSession();
+
     }
     return Promise.reject(err);
   }
