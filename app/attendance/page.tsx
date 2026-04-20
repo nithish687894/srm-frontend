@@ -5,19 +5,23 @@ import Sidebar from "@/components/Sidebar";
 import AttendanceCard from "@/components/AttendanceCard";
 import { dataAPI } from "@/lib/api";
 import { useAuth } from "@/hooks/useAuth";
+import { useAuthStore } from "@/lib/store";
 
 export default function AttendancePage() {
-  const [att, setAtt] = useState<any[]>([]);
-  const [filter, setFilter] = useState("all");
-  const [loading, setLoading] = useState(true);
-  const router = useRouter();
   const { ready } = useAuth();
+  const { academicData, setAcademicData } = useAuthStore();
+  const [att, setAtt] = useState<any[]>(academicData?.attendance || []);
+  const [loading, setLoading] = useState(!academicData?.attendance);
+
+  const router = useRouter();
+  const [filter, setFilter] = useState("all");
 
   useEffect(() => {
     if (!ready) return;
+    if (academicData?.attendance) setLoading(false);
     dataAPI.getAttendance()
-      .then(d => { setAtt(d.data || []); setLoading(false); })
-      .catch(() => router.push("/"));
+      .then(d => { setAtt(d.data || []); setAcademicData({ ...academicData, attendance: d.data || [] }); setLoading(false); })
+      .catch(() => { if (!att.length) router.push("/"); });
   }, [ready]);
 
   const filtered = att.filter(c =>

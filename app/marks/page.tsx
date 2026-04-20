@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
+import { useAuthStore } from "@/lib/store";
 
 function ScoreRing({ score, max, color }: { score: number; max: number; color: string }) {
   const pct = Math.min((score / max) * 100, 100);
@@ -24,9 +25,10 @@ function ScoreRing({ score, max, color }: { score: number; max: number; color: s
 }
 
 export default function MarksPage() {
-  const [marks, setMarks] = useState<any[]>([]);
-  const [attendance, setAttendance] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { academicData, setAcademicData } = useAuthStore();
+  const [marks, setMarks] = useState<any[]>(academicData?.marks || []);
+  const [attendance, setAttendance] = useState<any[]>(academicData?.attendance || []);
+  const [loading, setLoading] = useState(!academicData?.marks);
   const [selected, setSelected] = useState<number | null>(null);
   const router = useRouter();
 
@@ -34,9 +36,15 @@ export default function MarksPage() {
     if (typeof window !== "undefined" && !localStorage.getItem("srmx_token")) {
       router.push("/"); return;
     }
+    if (academicData?.marks && academicData?.attendance) setLoading(false);
     Promise.all([dataAPI.getMarks(), dataAPI.getAttendance()])
-      .then(([m, a]) => { setMarks(m.data || []); setAttendance(a.data || []); setLoading(false); })
-      .catch(() => router.push("/"));
+      .then(([m, a]) => { 
+        setMarks(m.data || []); 
+        setAttendance(a.data || []); 
+        setAcademicData({ ...academicData, marks: m.data || [], attendance: a.data || [] });
+        setLoading(false); 
+      })
+      .catch(() => { if (!marks.length) router.push("/"); });
   }, []);
 
   const titleMap: Record<string, string> = {};

@@ -5,6 +5,7 @@ import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
 import { useQuery } from "@tanstack/react-query";
+import { useAuthStore } from "@/lib/store";
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
 interface AttendanceCourse {
@@ -265,23 +266,28 @@ export default function TimetablePage() {
     ? [0, 6].includes(new Date(`${selectedIso}T00:00:00`).getDay())
     : false;
 
+  const { academicData } = useAuthStore();
+
   const { data: tt, isLoading: loadingTT } = useQuery({
     queryKey: ["timetable", batch],
     queryFn: () => dataAPI.getTimetable(batch),
     retry: 1,
     staleTime: 5 * 60 * 1000,
+    initialData: academicData?.timetableBatch ? { success: true, headers: academicData.timetableHeaders, rows: academicData.timetableRows } : undefined,
   });
   const { data: att, isLoading: loadingAtt } = useQuery({
     queryKey: ["attendance"],
     queryFn: () => dataAPI.getAttendance(),
     retry: 1,
     staleTime: 2 * 60 * 1000,
+    initialData: academicData?.attendance ? { success: true, data: academicData.attendance } : undefined,
   });
   const { data: mytt, isLoading: loadingMy, isError: myttError, refetch: refetchMyTT } = useQuery({
     queryKey: ["myTT"],
     queryFn: () => dataAPI.getMyTimetable(),
     retry: 2,
     staleTime: 10 * 60 * 1000,
+    initialData: academicData?.timetable ? { success: true, data: academicData.timetable } : undefined,
   });
   const { data: cal, isLoading: loadingCal } = useQuery({
     queryKey: ["calendar"],

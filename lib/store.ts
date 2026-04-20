@@ -4,9 +4,11 @@ import { persist } from "zustand/middleware";
 interface AuthStore {
   token: string | null;
   profile: any;
+  academicData: any;
   _hasHydrated: boolean;
   setToken: (token: string) => void;
   setProfile: (profile: any) => void;
+  setAcademicData: (data: any) => void;
   logout: () => void;
   clearSession: () => void;
   setHasHydrated: (val: boolean) => void;
@@ -17,16 +19,18 @@ export const useAuthStore = create<AuthStore>()(
     (set) => ({
       token: null,
       profile: null,
+      academicData: null,
       _hasHydrated: false,
       setToken: (token) => {
         localStorage.setItem("srmx_token", token);
         set({ token });
       },
       setProfile: (profile) => set({ profile }),
-     logout: () => set({ profile: null }),
+      setAcademicData: (data) => set({ academicData: data }),
+     logout: () => set({ profile: null, academicData: null }),
       clearSession: () => {
         localStorage.removeItem("srmx_token");
-        set({ token: null, profile: null });
+        set({ token: null, profile: null, academicData: null });
       },
       setHasHydrated: (val) => set({ _hasHydrated: val }),
     }),

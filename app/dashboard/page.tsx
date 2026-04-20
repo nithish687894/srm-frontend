@@ -57,17 +57,17 @@ function StatCard({ title, value, subtitle, icon: Icon, variant, delay = 0 }: an
 }
 
 export default function Dashboard() {
-  const [data, setData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const router = useRouter();
   const { ready } = useAuth();
-  const { setProfile } = useAuthStore();
+  const router = useRouter();
+  const { setProfile, academicData, setAcademicData } = useAuthStore();
+  const [data, setData] = useState<any>(academicData || null);
+  const [loading, setLoading] = useState(!academicData);
 
   useEffect(() => {
     if (!ready) return;
     dataAPI.getAll()
-      .then(d => { setData(d); if (d.profile) setProfile(d.profile); setLoading(false); })
-      .catch(() => router.push("/"));
+      .then(d => { setData(d); setAcademicData(d); if (d.profile) setProfile(d.profile); setLoading(false); })
+      .catch(() => { if (!data) router.push("/"); });
   }, [ready]);
 
   const att = data?.attendance || [];

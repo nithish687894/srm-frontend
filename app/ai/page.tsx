@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
+import { useAuthStore } from "@/lib/store";
 import { Send, Bot, User } from "lucide-react";
 
 interface Message { role: "user" | "assistant"; content: string; }
@@ -21,12 +22,13 @@ function buildContext(data: any): string {
 }
 
 export default function AIPage() {
+  const { academicData, setAcademicData: setGlobalData } = useAuthStore();
   const [messages, setMessages] = useState<Message[]>([
     { role: "assistant", content: "Hi! I am your SRM AI assistant. Ask me anything about your attendance, marks, or timetable!" }
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [academicData, setAcademicData] = useState<any>(null);
+  const [localAcademicData, setLocalAcademicData] = useState<any>(academicData);
   const bottomRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -36,10 +38,9 @@ export default function AIPage() {
       dataAPI.getAll(),
       dataAPI.getMyTimetable()
     ]).then(([allData, myTT]) => {
-      setAcademicData({
-        ...allData,
-        timetable: myTT?.data || myTT || []
-      });
+      const merged = { ...allData, timetable: myTT?.data || myTT || [] };
+      setLocalAcademicData(merged);
+      setGlobalData(merged);
     }).catch(() => {});
   }, []);
 
@@ -59,7 +60,7 @@ export default function AIPage() {
     try {
       // Send message along with last 10 messages for context
       const historyLog = updatedMessages.slice(-11, -1);
-      const res = await dataAPI.aiChat(userMsg, historyLog, academicData);
+      const res = await dataAPI.aiChat(userMsg, historyLog, localAcademicData);
       
       setMessages(prev => [...prev, { role: "assistant", content: res.reply }]);
       if (res.remaining !== undefined) setRemaining(res.remaining);
