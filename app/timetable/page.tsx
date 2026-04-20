@@ -277,10 +277,10 @@ export default function TimetablePage() {
     retry: 1,
     staleTime: 2 * 60 * 1000,
   });
-  const { data: mytt, isLoading: loadingMy } = useQuery({
+  const { data: mytt, isLoading: loadingMy, isError: myttError, refetch: refetchMyTT } = useQuery({
     queryKey: ["myTT"],
     queryFn: () => dataAPI.getMyTimetable(),
-    retry: 1,
+    retry: 2,
     staleTime: 10 * 60 * 1000,
   });
   const { data: cal, isLoading: loadingCal } = useQuery({
@@ -305,7 +305,9 @@ export default function TimetablePage() {
 
   // keep existing scroll behaviour via ref focus on "active" card without effects
 
-  const slotMap = buildSlotToCourseMap(mytt?.data || myTT);
+  const myTTData = (mytt?.data && mytt.data.length > 0) ? mytt.data : myTT;
+  const hasMyTTError = myttError || (mytt && mytt.success === false);
+  const slotMap = buildSlotToCourseMap(myTTData);
   const ttRows = tt?.data?.rows || gridRows;
   const schedule = buildSchedule(ttRows, slotMap, att?.data || attendance);
   const classes = schedule[effectiveDay - 1]?.classes || [];
@@ -441,6 +443,33 @@ export default function TimetablePage() {
               <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.25)" }}>
                 No classes scheduled for this date.
               </div>
+            </div>
+          ) : hasMyTTError || (myTTData.length === 0 && !loadingMy) ? (
+            <div style={{ textAlign: "center", padding: "80px 0", animation: "fadeUp 0.5s ease" }}>
+              <div style={{ fontSize: "38px", marginBottom: "16px" }}>📋</div>
+              <div style={{ fontSize: "18px", fontWeight: 700, color: "rgba(255,255,255,0.55)", marginBottom: "8px" }}>
+                {hasMyTTError ? "Timetable Unavailable" : "No Timetable Data"}
+              </div>
+              <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.25)", marginBottom: "20px", maxWidth: "400px", margin: "0 auto 20px" }}>
+                {mytt?.error || "Your personal timetable could not be loaded. SRM may have updated their portal. Try refreshing."}
+              </div>
+              <button
+                onClick={() => refetchMyTT()}
+                style={{
+                  padding: "10px 28px",
+                  borderRadius: "12px",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  background: "linear-gradient(135deg, #00ff87, #00e676)",
+                  color: "#050505",
+                  border: "none",
+                  cursor: "pointer",
+                  transition: "all 0.2s ease",
+                  boxShadow: "0 4px 16px rgba(0,255,135,0.25)",
+                }}
+              >
+                Retry
+              </button>
             </div>
           ) : classes.length === 0 ? (
             <div style={{ textAlign: "center", padding: "80px 0", animation: "fadeUp 0.5s ease" }}>
