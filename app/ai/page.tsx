@@ -37,17 +37,31 @@ export default function AIPage() {
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
 
+  const [remaining, setRemaining] = useState<number | null>(null);
+
   async function send() {
     if (!input.trim() || loading) return;
     const userMsg = input.trim(); setInput("");
-    setMessages(prev => [...prev, { role: "user", content: userMsg }]);
+    
+    // Add user message to UI
+    const updatedMessages = [...messages, { role: "user" as const, content: userMsg }];
+    setMessages(updatedMessages);
     setLoading(true);
     
-    setMessages(prev => [...prev, { 
-      role: "assistant", 
-      content: "The AI feature is currently disabled because no Anthropic API key is configured. Please use the Attendance, Marks, and Timetable pages to view your academic data." 
-    }]);
-    setLoading(false);
+    try {
+      // Send message along with last 10 messages for context
+      const historyLog = updatedMessages.slice(-11, -1);
+      const res = await dataAPI.aiChat(userMsg, historyLog, academicData);
+      
+      setMessages(prev => [...prev, { role: "assistant", content: res.reply }]);
+      if (res.remaining !== undefined) setRemaining(res.remaining);
+    } catch (err: any) {
+      console.error(err);
+      const errorMsg = err.response?.data?.error || "Sorry, I couldn't connect to the server. Please try again.";
+      setMessages(prev => [...prev, { role: "assistant", content: `❌ ${errorMsg}` }]);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -62,12 +76,19 @@ export default function AIPage() {
             </div>
             <div>
               <h1 style={{ fontWeight: 600, fontSize: "15px", color: "#f0f0f0" }}>AI Assistant</h1>
-              <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.30)" }}>Powered by Claude</p>
+              <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.30)" }}>Powered by Groq Llama-3.3</p>
             </div>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#00ff87", animation: "pulse 2s infinite", boxShadow: "0 0 8px rgba(0,255,135,0.5)" }} />
-            <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.30)" }}>Online</span>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            {remaining !== null && (
+              <span style={{ fontSize: "12px", color: remaining <= 3 ? "#ff4444" : "rgba(255,255,255,0.50)", fontWeight: 500, marginRight: "8px", background: "rgba(255,255,255,0.05)", padding: "4px 8px", borderRadius: "8px" }}>
+                {remaining} messages left
+              </span>
+            )}
+            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#00ff87", animation: "pulse 2s infinite", boxShadow: "0 0 8px rgba(0,255,135,0.5)" }} />
+              <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.30)" }}>Online</span>
+            </div>
           </div>
         </div>
 
