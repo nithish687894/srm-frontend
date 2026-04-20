@@ -127,10 +127,12 @@ export default function Sidebar() {
 
         .srmx-logout-btn:hover { color: #ff4757; }
 
+        /* ── MOBILE BOTTOM NAV ── */
         .srmx-mobile-nav {
           display: none;
           position: fixed; bottom: 0; left: 0; right: 0;
-          height: 64px;
+          height: calc(64px + env(safe-area-inset-bottom));
+          padding-bottom: env(safe-area-inset-bottom);
           background: rgba(8,8,8,0.95);
           border-top: 1px solid rgba(255,255,255,0.06);
           backdrop-filter: blur(24px);
@@ -141,6 +143,7 @@ export default function Sidebar() {
           scrollbar-width: none; /* Firefox */
           padding: 0 10px;
           gap: 6px;
+          flex-wrap: nowrap;
         }
         .srmx-mobile-nav::-webkit-scrollbar {
           display: none; /* Safari and Chrome */
@@ -152,8 +155,12 @@ export default function Sidebar() {
           background: none; border: none; cursor: pointer;
           color: rgba(255,255,255,0.28);
           padding: 8px 12px;
-          transition: color 0.15s;
-          min-width: 52px;
+          transition: color 0.15s, transform 0.1s;
+          min-width: 58px;
+          flex-shrink: 0;
+        }
+        .srmx-mob-btn:active {
+          transform: scale(0.92);
         }
 
         .srmx-mob-btn.active { color: #00ff87; }
