@@ -46,7 +46,7 @@ export default function AIPage() {
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
 
-  const [remaining, setRemaining] = useState<number | null>(null);
+  const [remaining, setRemaining] = useState<number | string | null>(null);
 
   async function send() {
     if (!input.trim() || loading) return;
@@ -90,8 +90,8 @@ export default function AIPage() {
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             {remaining !== null && (
-              <span style={{ fontSize: "12px", color: remaining <= 3 ? "#ff4444" : "rgba(255,255,255,0.50)", fontWeight: 500, marginRight: "8px", background: "rgba(255,255,255,0.05)", padding: "4px 8px", borderRadius: "8px" }}>
-                {remaining} messages left
+              <span style={{ fontSize: "12px", color: typeof remaining === "number" && remaining <= 3 ? "#ff4444" : "rgba(255,255,255,0.50)", fontWeight: 500, marginRight: "8px", background: "rgba(255,255,255,0.05)", padding: "4px 8px", borderRadius: "8px" }}>
+                {remaining === "Unlimited" ? "Unlimited messages" : `${remaining} messages left`}
               </span>
             )}
             <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
