@@ -32,7 +32,15 @@ export default function AIPage() {
 
   useEffect(() => {
     if (!localStorage.getItem("srmx_token")) { router.push("/"); return; }
-    dataAPI.getAll().then(setAcademicData).catch(() => {});
+    Promise.all([
+      dataAPI.getAll(),
+      dataAPI.getMyTimetable()
+    ]).then(([allData, myTT]) => {
+      setAcademicData({
+        ...allData,
+        timetable: myTT?.data || myTT || []
+      });
+    }).catch(() => {});
   }, []);
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
