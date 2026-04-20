@@ -36,9 +36,21 @@ export default function AIPage() {
     if (!localStorage.getItem("srmx_token")) { router.push("/"); return; }
     Promise.all([
       dataAPI.getAll(),
-      dataAPI.getMyTimetable()
-    ]).then(([allData, myTT]) => {
-      const merged = { ...allData, timetable: myTT?.data || myTT || [] };
+      dataAPI.getMyTimetable(),
+      dataAPI.getCalendar()
+    ]).then(([allData, myTT, calData]) => {
+      
+      const calendarRows = calData?.data || [];
+      const todayIso = new Date().toISOString().split('T')[0];
+      const todayEvent = calendarRows.find((c: any) => c.date === todayIso);
+      const tomorrowIso = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+      const tomorrowEvent = calendarRows.find((c: any) => c.date === tomorrowIso);
+
+      let calendarStr = "";
+      if (todayEvent) calendarStr += `Today (${todayIso}): Day Order ${todayEvent.dayOrder || "N/A"} - ${todayEvent.event || "No event"}\n`;
+      if (tomorrowEvent) calendarStr += `Tomorrow (${tomorrowIso}): Day Order ${tomorrowEvent.dayOrder || "N/A"} - ${tomorrowEvent.event || "No event"}`;
+
+      const merged = { ...allData, timetable: myTT?.data || myTT || [], calendarStr };
       setLocalAcademicData(merged);
       setGlobalData(merged);
     }).catch(() => {});
@@ -46,7 +58,7 @@ export default function AIPage() {
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
 
-  const [remaining, setRemaining] = useState<number | string | null>(null);
+  const [remaining, setRemaining] = useState<number | null>(null);
 
   async function send() {
     if (!input.trim() || loading) return;
@@ -90,8 +102,8 @@ export default function AIPage() {
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             {remaining !== null && (
-              <span style={{ fontSize: "12px", color: typeof remaining === "number" && remaining <= 3 ? "#ff4444" : "rgba(255,255,255,0.50)", fontWeight: 500, marginRight: "8px", background: "rgba(255,255,255,0.05)", padding: "4px 8px", borderRadius: "8px" }}>
-                {remaining === "Unlimited" ? "Unlimited messages" : `${remaining} messages left`}
+              <span style={{ fontSize: "12px", color: remaining <= 3 ? "#ff4444" : "rgba(255,255,255,0.50)", fontWeight: 500, marginRight: "8px", background: "rgba(255,255,255,0.05)", padding: "4px 8px", borderRadius: "8px" }}>
+                {remaining} messages left
               </span>
             )}
             <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
@@ -142,9 +154,14 @@ export default function AIPage() {
         {/* Input */}
         <div style={{ padding: "16px 32px 24px", borderTop: "1px solid rgba(255,255,255,0.05)", flexShrink: 0 }}>
           <div style={{ display: "flex", gap: "12px", alignItems: "center", padding: "8px 8px 8px 16px", borderRadius: "16px", background: "rgba(10,10,10,0.65)", border: "1px solid rgba(255,255,255,0.06)", backdropFilter: "blur(12px)" }}>
-            <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === "Enter" && !e.shiftKey && send()}
+            <input 
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={e => e.key === "Enter" && send()}
               placeholder="Ask about your attendance, marks, or timetable..."
-              style={{ flex: 1, background: "transparent", border: "none", outline: "none", color: "#f0f0f0", fontSize: "14px", padding: "4px 0" }} />
+              style={{ flex: 1, background: "transparent", border: "none", color: "#f0f0f0", fontSize: "16px", outline: "none" }}
+              disabled={loading}
+            />
             <button onClick={send} disabled={loading || !input.trim()}
               style={{ width: "36px", height: "36px", borderRadius: "10px", border: "none", cursor: input.trim() && !loading ? "pointer" : "default", background: input.trim() && !loading ? "linear-gradient(135deg, #00ff87, #00e676)" : "rgba(255,255,255,0.04)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "all 0.2s" }}>
               <Send size={15} color={input.trim() && !loading ? "#050505" : "rgba(255,255,255,0.20)"} />
