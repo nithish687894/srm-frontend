@@ -127,7 +127,6 @@ export default function Sidebar() {
 
         .srmx-logout-btn:hover { color: #ff4757; }
 
-        /* ── MOBILE BOTTOM NAV ── */
         .srmx-mobile-nav {
           display: none;
           position: fixed; bottom: 0; left: 0; right: 0;
@@ -137,7 +136,14 @@ export default function Sidebar() {
           backdrop-filter: blur(24px);
           -webkit-backdrop-filter: blur(24px);
           z-index: 100;
-          align-items: center; justify-content: space-around;
+          align-items: center; justify-content: flex-start;
+          overflow-x: auto;
+          scrollbar-width: none; /* Firefox */
+          padding: 0 10px;
+          gap: 6px;
+        }
+        .srmx-mobile-nav::-webkit-scrollbar {
+          display: none; /* Safari and Chrome */
         }
 
         .srmx-mob-btn {
@@ -212,9 +218,8 @@ export default function Sidebar() {
         </div>
       </aside>
 
-      {/* ── MOBILE BOTTOM NAV ── */}
       <nav className="srmx-mobile-nav">
-        {NAV.filter(n => n.href !== "/ai").map(({ href, label, icon: Icon }) => {
+        {NAV.map(({ href, label, icon: Icon }) => {
           const active = path === href || (href !== "/dashboard" && path.startsWith(href));
           return (
             <button
