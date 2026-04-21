@@ -108,11 +108,17 @@ function insertBreaks(classes: ScheduleItem[]) {
 export default function TimetablePage() {
   const { academicData } = useAuthStore();
   const [dayOverride, setDayOverride] = useState<number>(1);
+  const [batch, setBatch] = useState<number>(1); // new batch state
   const router = useRouter();
 
   const calQ = useQuery({ queryKey: ["calendar"], queryFn: () => dataAPI.getCalendar(), staleTime: 600000 });
   const myTTQ = useQuery({ queryKey: ["myTT"], queryFn: () => dataAPI.getMyTimetable(), staleTime: 600000, initialData: academicData?.timetable ? { data: academicData.timetable } : undefined });
-  const ttQ = useQuery({ queryKey: ["tt"], queryFn: () => dataAPI.getTimetable(1), staleTime: 600000, initialData: academicData?.timetableBatch ? { data: { rows: academicData.timetableRows } } : undefined });
+  const ttQ = useQuery({
+    queryKey: ["tt", batch], // include batch in cache key
+    queryFn: () => dataAPI.getTimetable(batch), // dynamic batch
+    staleTime: 600000,
+    initialData: academicData?.timetableBatch && academicData?.timetableBatch === batch ? { data: { rows: academicData.timetableRows } } : undefined
+  });
 
   const schedule = useMemo(() => {
     if (!ttQ.data?.data?.rows || !myTTQ.data?.data) return [];
@@ -211,6 +217,7 @@ export default function TimetablePage() {
 
           {/* DO Switcher Bottom */}
           <div style={{ position: "fixed", bottom: "85px", left: "20px", right: "20px", display: "flex", justifyContent: "center", zIndex: 10 }}>
+            {/* Day Switcher */}
             <div style={{ background: "#1c1c1c", borderRadius: "99px", padding: "8px 16px", display: "flex", alignItems: "center", gap: "12px", border: "1px solid #2e2e2e" }}>
               <span style={{ fontSize: "12px", color: "#7700ff", fontWeight: 800, paddingRight: "4px" }}>DO</span>
               {[1, 2, 3, 4, 5].map(d => (
@@ -222,6 +229,20 @@ export default function TimetablePage() {
                     fontSize: "14px", fontWeight: "bold", border: "none", cursor: "pointer",
                     transition: "all 0.2s"
                   }}>{d}</button>
+              ))}
+            </div>
+            {/* Batch Switcher */}
+            <div style={{ background: "#1c1c1c", borderRadius: "99px", padding: "8px 16px", marginLeft: "12px", display: "flex", alignItems: "center", gap: "12px", border: "1px solid #2e2e2e" }}>
+              <span style={{ fontSize: "12px", color: "#7700ff", fontWeight: 800, paddingRight: "4px" }}>Batch</span>
+              {[1, 2].map(b => (
+                <button key={b} onClick={() => setBatch(b)}
+                  style={{
+                    width: "32px", height: "32px", borderRadius: "50%",
+                    background: batch === b ? "#ffffff" : "transparent",
+                    color: batch === b ? "#000000" : "#555555",
+                    fontSize: "14px", fontWeight: "bold", border: "none", cursor: "pointer",
+                    transition: "all 0.2s"
+                  }}>{b}</button>
               ))}
             </div>
           </div>
