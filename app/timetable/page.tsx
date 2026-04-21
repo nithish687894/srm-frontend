@@ -123,7 +123,16 @@ export default function TimetablePage() {
   const schedule = useMemo(() => {
     if (!ttQ.data?.data?.rows || !myTTQ.data?.data) return [];
     const slotMap = buildSlotToCourseMap(myTTQ.data.data);
-    return buildSchedule(ttQ.data.data.rows, slotMap);
+    const rawSchedule = buildSchedule(ttQ.data.data.rows, slotMap);
+    // Remove duplicate classes per day (same courseCode + slot)
+    return rawSchedule.map(day => {
+      const uniq = new Map();
+      day.classes.forEach(cls => {
+        const key = `${cls.courseCode}|${cls.slot}`;
+        if (!uniq.has(key)) uniq.set(key, cls);
+      });
+      return { ...day, classes: Array.from(uniq.values()) };
+    });
   }, [ttQ.data, myTTQ.data]);
 
   const classes = schedule[dayOverride - 1]?.classes || [];
@@ -137,6 +146,22 @@ export default function TimetablePage() {
     <div className="page-root">
       <Sidebar />
       <main className="page-main">
+          {/* Batch Selector (Top) */}
+          <div style={{ position: "fixed", top: "80px", left: "20px", right: "20px", display: "flex", justifyContent: "center", zIndex: 10 }}>
+            <div style={{ background: "#1c1c1c", borderRadius: "99px", padding: "8px 16px", marginLeft: "12px", display: "flex", alignItems: "center", gap: "12px", border: "1px solid #2e2e2e" }}>
+              <span style={{ fontSize: "12px", color: "#7700ff", fontWeight: 800, paddingRight: "4px" }}>Batch</span>
+              {[1, 2].map(b => (
+                <button key={b} onClick={() => setBatch(b)}
+                  style={{
+                    width: "32px", height: "32px", borderRadius: "50%",
+                    background: batch === b ? "#ffffff" : "transparent",
+                    color: batch === b ? "#000000" : "#555555",
+                    fontSize: "14px", fontWeight: "bold", border: "none", cursor: "pointer",
+                    transition: "all 0.2s"
+                  }}>{b}</button>
+              ))}
+            </div>
+          </div>
         <div className="page-content" style={{ paddingBottom: "140px" }}>
 
           {/* Heading */}
@@ -189,7 +214,7 @@ export default function TimetablePage() {
                       
                       <div style={{ background: isNso ? "#0d1a2a" : "#1e1e1e", borderRadius: "20px", padding: "20px" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "#aaaaaa", fontSize: "13px", marginBottom: "12px" }}>
-                          ⏱ {fmt12(item.startTime)} — {fmt12(item.endTime)}
+                          {fmt12(item.startTime) === fmt12(item.endTime) ? fmt12(item.startTime) : `${fmt12(item.startTime)} — ${fmt12(item.endTime)}`}
                         </div>
 
                         {isNso && <div style={{ fontSize: "10px", color: "#00aaff", textTransform: "uppercase", fontWeight: "bold", marginBottom: "4px" }}>TBA</div>}
