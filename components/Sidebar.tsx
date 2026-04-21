@@ -43,10 +43,11 @@ export default function Sidebar() {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 28px;
+          gap: 16px; /* Reduced base gap */
           z-index: 100;
           border-top: 1px solid var(--border);
           transition: all 0.4s ease;
+          overflow: hidden; /* Prevent any scrolling */
         }
 
         .theme-ghost .srmx-nav-bar {
@@ -61,17 +62,25 @@ export default function Sidebar() {
         }
 
         .srmx-nav-btn {
+          flex-shrink: 1; /* Allow standard buttons to shrink slightly if forced */
           background: transparent;
           border: none;
           cursor: pointer;
-          font-size: 11px;
+          font-size: 10px; /* Sightly smaller base size */
           letter-spacing: 0.1em;
           color: var(--text-muted);
           font-weight: 700;
           transition: all 0.2s;
-          padding: 8px 12px;
+          padding: 6px 8px; /* Reduced padding */
           text-transform: uppercase;
           border-radius: 99px;
+          white-space: nowrap;
+        }
+
+        .srmx-nav-settings-btn {
+          flex-shrink: 0 !important; /* Never shrink settings */
+          font-size: 16px;
+          padding-left: 4px;
         }
 
         .srmx-nav-btn.active {
@@ -88,6 +97,17 @@ export default function Sidebar() {
           text-shadow: 0 0 10px var(--accent);
         }
 
+        @media (max-width: 480px) {
+          .srmx-nav-bar {
+            gap: 4px; /* Minimum gap for tiny screens */
+          }
+          .srmx-nav-btn {
+            font-size: 9px;
+            padding: 6px 4px;
+            letter-spacing: 0.05em;
+          }
+        }
+
         @media (min-width: 769px) {
           .srmx-nav-bar {
             top: 24px; bottom: auto;
@@ -97,7 +117,7 @@ export default function Sidebar() {
             border-radius: 99px;
             border: 1px solid rgba(255, 255, 255, 0.05);
             height: 64px;
-            gap: 48px;
+            gap: 40px;
             background: rgba(10, 15, 30, 0.6);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
@@ -172,8 +192,7 @@ export default function Sidebar() {
         {/* Menu Toggle */}
         <button 
           onClick={() => setMenuOpen(!menuOpen)}
-          className="srmx-nav-btn"
-          style={{ fontSize: "16px", paddingLeft: "8px", color: menuOpen ? "#fff" : "#555" }}
+          className={`srmx-nav-btn srmx-nav-settings-btn${menuOpen ? " active" : ""}`}
         >
           ⚙️
         </button>
