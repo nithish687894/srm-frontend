@@ -70,7 +70,7 @@ export default function GPAPage() {
           {/* Header */}
           <div style={{ textAlign: "center", marginBottom: "40px" }}>
             <div style={{ fontSize: "12px", letterSpacing: "0.2em", color: "#666666", textTransform: "uppercase" }}>
-              estimated gpa
+              Estimated GPA
             </div>
             <div style={{ fontSize: "120px", fontWeight: 900, color: gpaColor, lineHeight: 1, letterSpacing: "-0.05em" }}>
               {gpa.toFixed(2)}
@@ -90,7 +90,7 @@ export default function GPAPage() {
             ))}
           </div>
 
-          <div style={{ fontSize: "11px", color: "#666666", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "16px" }}>simulate scores</div>
+          <div style={{ fontSize: "11px", color: "#666666", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "16px" }}>Simulate Scores</div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
             {rows.map((r, i) => (
@@ -134,7 +134,7 @@ export default function GPAPage() {
             ))}
           </div>
 
-          <div className="watermark">gpa calculator</div>
+          <div className="watermark">GPA Calculator</div>
         </div>
       </main>
     </div>

@@ -2,11 +2,11 @@
 import { usePathname, useRouter } from "next/navigation";
 
 const NAV = [
-  { href: "/marks",      label: "MARKS" },
-  { href: "/attendance", label: "ATTND" },
-  { href: "/dashboard",  label: "HOME" },
-  { href: "/timetable",  label: "TIME" },
-  { href: "/calendar",   label: "CAL" },
+  { href: "/marks",      label: "Marks" },
+  { href: "/attendance", label: "Attnd" },
+  { href: "/dashboard",  label: "Home" },
+  { href: "/timetable",  label: "Time" },
+  { href: "/calendar",   label: "Cal" },
 ];
 
 export default function Sidebar() {
@@ -33,9 +33,8 @@ export default function Sidebar() {
           background: transparent;
           border: none;
           cursor: pointer;
-          font-size: 10px;
-          text-transform: uppercase;
-          letter-spacing: 0.12em;
+          font-size: 11px;
+          letter-spacing: 0.05em;
           color: #555555;
           font-weight: 500;
           transition: color 0.2s, font-weight 0.2s;

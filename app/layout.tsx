@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
+import SwipeLayout from "@/components/SwipeLayout";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,7 +29,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={inter.variable}>
       <body style={{ margin: 0, padding: 0, fontFamily: "var(--font-inter), system-ui, sans-serif" }}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <SwipeLayout>{children}</SwipeLayout>
+        </Providers>
       </body>
     </html>
   );

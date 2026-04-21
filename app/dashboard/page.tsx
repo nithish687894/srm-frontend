@@ -3,25 +3,18 @@ import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
-import { useAuth } from "@/hooks/useAuth";
 import { useAuthStore } from "@/lib/store";
+import { useAuth } from "@/hooks/useAuth";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
 
-// ── Helpers ────────────────────────────────────────────────────────────────
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
 function parseStart(t: string) { const m = t.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
 function parseEnd(t: string) { const parts = t.split(/\s*[-–]\s*/); const last = parts[parts.length - 1] || ""; const m = last.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
+function isNowIn(st: string, en: string) { const now = new Date().getHours() * 60 + new Date().getMinutes(); return now >= parseStart(st) && now <= parseEnd(en); }
 function fmt12(t: string) { const m = t.match(/(\d+):(\d+)/); if (!m) return t; const h24 = to24(parseInt(m[1])); const suffix = h24 >= 12 ? "PM" : "AM"; const h12 = h24 > 12 ? h24 - 12 : h24 === 0 ? 12 : h24; return `${h12}:${m[2]} ${suffix}`; }
-function fmtTimeOnly(t: string) { const m = t.match(/(\d+):(\d+)/); if (!m) return t; return `${m[1]}:${m[2]}`; }
-function isNowIn(s: string, e: string) { const now = new Date().getHours() * 60 + new Date().getMinutes(); return now >= parseStart(s) && now <= parseEnd(e); }
+function fmtTimeOnly(t: string) { const m = t.match(/(\d+):(\d+)/); if (!m) return t; const h24 = to24(parseInt(m[1])); const suffix = h24 >= 12 ? "p" : "a"; const h12 = h24 > 12 ? h24 - 12 : h24 === 0 ? 12 : h24; return `${h12}:${m[2]}${suffix}`; }
 
-interface ScheduleItem {
-  slot: string; startTime: string; endTime: string;
-  courseTitle: string; courseCode: string; courseType: string;
-  facultyName: string; roomNo: string; category: string;
-  attn: number; hoursConducted: number; hoursAbsent: number;
-  type: "theory" | "lab" | "practical";
-}
+interface ScheduleItem { slot: string; startTime: string; endTime: string; courseTitle: string; courseCode: string; roomNo: string; facultyName: string; courseType: string; }
 
 function buildSlotToCourseMap(myTT: any[]) {
   const map: Record<string, any> = {};
@@ -29,16 +22,7 @@ function buildSlotToCourseMap(myTT: any[]) {
   return map;
 }
 
-function findAttendance(code: string, courseType: string, atts: any[]) {
-  return atts.find(a => {
-    const aCode = a["Course Code"] || "";
-    const aCat = (a["Category"] || "").toLowerCase();
-    const isLabType = courseType.toLowerCase().includes("practical") || courseType.toLowerCase().includes("lab");
-    return aCode === code && (isLabType ? aCat.includes("practical") : !aCat.includes("practical"));
-  }) || atts.find(a => a["Course Code"] === code);
-}
-
-function buildSchedule(gridRows: any[], slotMap: Record<string, any>, attendance: any[]): { day: string; classes: ScheduleItem[] }[] {
+function buildSchedule(gridRows: any[], slotMap: Record<string, any>, attendance: any[] = []): { day: string; classes: ScheduleItem[] }[] {
   const timeRow = gridRows.find((r: any) => r[0] === "FROM");
   const times: string[] = timeRow ? timeRow.slice(1).map((t: string) => t.replace(/\t/g, "").trim().replace(/\n+/g, " ")) : [];
   const dayRows = gridRows.filter((r: any) => typeof r[0] === "string" && r[0].startsWith("Day"));
@@ -61,18 +45,16 @@ function buildSchedule(gridRows: any[], slotMap: Record<string, any>, attendance
     for (let i = 0; i < labCells.length; i++) {
       const cell = labCells[i];
       const prev = i > 0 ? labCells[i - 1] : null;
-      const sameGroup = prev && prev.course.courseCode === cell.course.courseCode && prev.course.courseType === cell.course.courseType && cell.idx === prev.idx + 1;
-      if (sameGroup) labGroups[labGroups.length - 1].cells.push(cell);
-      else labGroups.push({ cells: [cell] });
+      if (prev && prev.course.courseCode === cell.course.courseCode && cell.idx === prev.idx + 1) {
+        labGroups[labGroups.length - 1].cells.push(cell);
+      } else {
+        labGroups.push({ cells: [cell] });
+      }
     }
 
     labGroups.forEach(group => {
       const course = group.cells[0].course;
-      const startTime = times[group.cells[0].idx] || "";
-      const endTime = times[group.cells[group.cells.length - 1].idx] || "";
-      const att = findAttendance(course.courseCode, course.courseType, attendance);
-      const attn = att ? parseFloat(att["Attn %"]) || 0 : 0;
-      classes.push({ slot: group.cells.map((c: any) => c.slot).join("-"), startTime, endTime, courseTitle: course.courseTitle, courseCode: course.courseCode, courseType: course.courseType, facultyName: course.facultyName, roomNo: course.roomNo, category: course.category, attn, hoursConducted: 0, hoursAbsent: 0, type: "practical" });
+      classes.push({ slot: group.cells.map(c => c.slot).join("-"), startTime: times[group.cells[0].idx] || "", endTime: times[group.cells[group.cells.length - 1].idx] || "", courseTitle: course.courseTitle, courseCode: course.courseCode, roomNo: course.roomNo, facultyName: course.facultyName, courseType: course.courseType });
     });
 
     cells.forEach((cell, ci) => {
@@ -80,19 +62,15 @@ function buildSchedule(gridRows: any[], slotMap: Record<string, any>, attendance
       if (!s || s === "-") return;
       const up = s.toUpperCase();
       if (/^[PL]\d+$/i.test(up)) return;
-      const parts = up.split("/").map((p: string) => p.trim());
-      for (const part of parts) {
-        const letter = part.replace(/[^A-Z]/g, "");
+      for (const part of up.split("/")) {
+        const letter = part.trim().replace(/[^A-Z]/g, "");
         if (!letter || letter === "X") continue;
         const course = slotMap[letter];
         if (!course) continue;
-        const key = `${course.courseCode}-theory-${ci}`;
+        const key = `${course.courseCode}-${ci}`;
         if (seenCourses.has(key)) continue;
         seenCourses.add(key);
-        const time = times[ci] || "";
-        const att = findAttendance(course.courseCode, course.courseType, attendance);
-        const attn = att ? parseFloat(att["Attn %"]) || 0 : 0;
-        classes.push({ slot: s, startTime: time, endTime: time, courseTitle: course.courseTitle, courseCode: course.courseCode, courseType: course.courseType, facultyName: course.facultyName, roomNo: course.roomNo, category: course.category, attn, hoursConducted: 0, hoursAbsent: 0, type: "theory" });
+        classes.push({ slot: s, startTime: times[ci] || "", endTime: times[ci] || "", courseTitle: course.courseTitle, courseCode: course.courseCode, roomNo: course.roomNo, facultyName: course.facultyName, courseType: course.courseType });
         break;
       }
     });
@@ -102,50 +80,25 @@ function buildSchedule(gridRows: any[], slotMap: Record<string, any>, attendance
   });
 }
 
-// ── Components ─────────────────────────────────────────────────────────────
 function MiniGridTile({ slot }: { slot: ScheduleItem | null }) {
-  if (!slot) {
-    return (
-      <div style={{
-        borderRadius: "20px",
-        border: "1.5px dashed #2a2a2a",
-        background: "transparent",
-        height: "100px",
-        display: "flex", flexDirection: "column",
-        alignItems: "center", justifyContent: "center"
-      }} />
-    );
-  }
-
+  if (!slot) return <div style={{ background: "#0a0a0a", borderRadius: "16px", height: "100px", border: "1px dashed #222" }} />;
+  const isActive = isNowIn(slot.startTime, slot.endTime);
   const isNso = slot.courseCode.includes("NSO") || slot.courseType.toLowerCase().includes("practical");
-  const bg = isNso ? "#0d1a2a" : "#1e1e1e";
-  const fg = isNso ? "#00aaff" : "#ffffff";
-
   return (
-    <div style={{
-      borderRadius: "20px",
-      background: bg,
-      padding: "16px",
-      display: "flex", flexDirection: "column",
-      justifyContent: "space-between",
-      height: "100px",
-      overflow: "hidden"
-    }}>
-      <div style={{ fontSize: "10px", color: isNso ? "#00aaff" : "#888888", textTransform: "uppercase" }}>
-        {isNso ? "TBA" : slot.roomNo || "TBA"}
+    <div style={{ background: isNso ? "#0d1a2a" : "#1c1c1c", borderRadius: "16px", height: "100px", padding: "12px", display: "flex", flexDirection: "column", justifyContent: "space-between", border: isActive ? "2px solid #a8c200" : "none" }}>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <span style={{ fontSize: "14px", fontWeight: "bold", color: "#ffffff" }}>{slot.courseCode}</span>
+        {isActive && <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#a8c200", animation: "pulse 1.5s infinite" }} />}
       </div>
-      <div style={{ fontSize: "18px", fontWeight: "bold", color: fg }}>
-        {slot.courseCode}
-      </div>
-      <div style={{ fontSize: "10px", color: isNso ? "#00aaff" : "#888888", opacity: isNso ? 0.7 : 1 }}>
-        {fmtTimeOnly(slot.startTime)} - {fmtTimeOnly(slot.endTime)}
+      <div>
+        <div style={{ fontSize: "10px", color: "#888888" }}>{slot.roomNo || "TBA"}</div>
+        <div style={{ fontSize: "10px", color: "#888888" }}>{fmtTimeOnly(slot.startTime)}</div>
       </div>
     </div>
   );
 }
 
-// ── Main Dashboard ─────────────────────────────────────────────────────────
-export default function Dashboard() {
+export default function DashboardPage() {
   const { ready } = useAuth();
   const router = useRouter();
   const { setProfile, academicData, setAcademicData } = useAuthStore();
@@ -178,10 +131,32 @@ export default function Dashboard() {
 
   const att = data?.attendance || [];
   const marks = data?.marks || [];
-  const avg = att.length ? (att.reduce((s: number, c: any) => s + parseFloat(c["Attn %"] || 0), 0) / att.length).toFixed(1) : "—";
-  const risk = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
   
-  const firstName = data?.profile?.["Name"]?.split(" ")[0] || "STUDENT";
+  // Calculate top stats
+  const totalCourses = att.length;
+  const avgAtt = att.length ? (att.reduce((s: number, c: any) => s + parseFloat(c["Attn %"] || 0), 0) / att.length).toFixed(1) : "—";
+  const riskCount = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
+  
+  // Calculate average marks
+  const totalScored = marks.reduce((s: number, m: any) => s + (m.tests?.reduce((a: number, t: any) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
+  const totalMax = marks.reduce((s: number, m: any) => s + (m.tests?.reduce((a: number, t: any) => { const [, mx] = t.test.split("/"); return a + (parseFloat(mx) || 0); }, 0) || 0), 0);
+  const avgMarks = totalMax > 0 ? ((totalScored / totalMax) * 100).toFixed(1) : "—";
+
+  // Recent 5 marks without 0 place holders
+  const recentMarksList: any[] = [];
+  marks.forEach((m: any) => {
+    m.tests?.forEach((t: any) => {
+      const sc = parseFloat(t.score);
+      const mx = parseFloat(t.test.split("/")[1] || "100");
+      if (!isNaN(sc) && sc > 0 && t.score !== "Abs") {
+        recentMarksList.push({ courseCode: m.courseCode, label: t.test.split("/")[0], score: sc, max: mx });
+      }
+    });
+  });
+  // Since timestamps are rarely given per-test, we just reverse to pseudo "latest"
+  const recentTop5 = recentMarksList.reverse().slice(0, 5);
+
+  const firstName = data?.profile?.["Name"]?.split(" ")[0] || "Student";
   const initials = firstName.slice(0, 2).toUpperCase();
 
   const { byDate } = useMemo(() => {
@@ -217,8 +192,10 @@ export default function Dashboard() {
   targetClasses.slice(0, 6).forEach((c, i) => gridSlots[i] = c);
 
   if (loading && !data) return (
-    <div style={{ display: "flex", height: "100vh", alignItems: "center", justifyContent: "center", background: "#000000" }}>
-      <div className="srmx-spinner" />
+    <div className="page-root" style={{ display: "flex", flexDirection: "column", padding: "32px", gap: "24px" }}>
+      <div style={{ height: "64px", background: "#1c1c1c", borderRadius: "16px", animation: "pulse 1.5s infinite" }} />
+      <div style={{ height: "160px", background: "#1c1c1c", borderRadius: "16px", animation: "pulse 1.5s infinite" }} />
+      <div style={{ height: "300px", background: "#1c1c1c", borderRadius: "16px", animation: "pulse 1.5s infinite" }} />
     </div>
   );
 
@@ -229,20 +206,35 @@ export default function Dashboard() {
         <div className="page-content" style={{ paddingBottom: "120px" }}>
           
           {/* Header */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "32px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "24px" }}>
             <div style={{ width: "48px", height: "48px", borderRadius: "12px", background: "#1c1c1c", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: "bold", fontSize: "16px" }}>
               {initials}
             </div>
-            <div style={{ textAlign: "right" }}>
-              <div style={{ fontSize: "12px", color: "#666666", marginBottom: "2px" }}>sup!</div>
-              <div style={{ fontSize: "24px", fontWeight: "bold", color: "#ffffff", letterSpacing: "-0.5px" }}>{firstName.toLowerCase()}</div>
+            <div style={{ textAlign: "right", display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+              <div style={{ fontSize: "12px", color: "#666666", marginBottom: "2px" }}>Welcome Back</div>
+              <div style={{ fontSize: "24px", fontWeight: "bold", color: "#ffffff", letterSpacing: "-0.5px" }}>{firstName}</div>
             </div>
+          </div>
+
+          {/* Top Stats Cards */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "8px", marginBottom: "32px" }}>
+            {[
+              { label: "Attendance", value: `${avgAtt}%`, color: "#a8c200" },
+              { label: "Avg Marks", value: `${avgMarks}%`, color: "#ffffff" },
+              { label: "At Risk", value: riskCount, color: riskCount > 0 ? "#ff3b3b" : "#888888" },
+              { label: "Courses", value: totalCourses, color: "#888888" },
+            ].map((stat, i) => (
+              <div key={i} style={{ background: "#1c1c1c", borderRadius: "16px", padding: "16px 12px", textAlign: "center" }}>
+                <div style={{ fontSize: "20px", fontWeight: "bold", color: stat.color, marginBottom: "4px" }}>{stat.value}</div>
+                <div style={{ fontSize: "9px", color: "#666666", textTransform: "uppercase", letterSpacing: "0.05em" }}>{stat.label}</div>
+              </div>
+            ))}
           </div>
 
           {/* Date / Day Order Selector */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
             <div style={{ fontSize: "12px", color: "#666666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 600 }}>
-              {isHoliday ? `HOLIDAY • ${dayOffset === 0 ? "TODAY" : "LATER"}` : `DAY ORDER ${dayOrder} • ${dayOffset === 0 ? "TODAY" : "LATER"}`}
+              {isHoliday ? `Holiday • ${dayOffset === 0 ? "Today" : "Later"}` : `Day Order ${dayOrder} • ${dayOffset === 0 ? "Today" : "Later"}`}
             </div>
             <div style={{ display: "flex", gap: "12px" }}>
               <button onClick={() => setDayOffset(o => o - 1)} style={{ background: "none", border: "none", color: "#ffffff", fontSize: "18px", cursor: "pointer" }}>‹</button>
@@ -250,92 +242,88 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Mini Grid */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px", marginBottom: "40px" }}>
-            {gridSlots.map((s, i) => (
-              <MiniGridTile key={i} slot={s} />
-            ))}
-          </div>
+          {/* Next Up / Today's Schedule */}
+          {targetClasses.length > 0 ? (
+            <>
+              {nextClass ? (
+                <div style={{ marginBottom: "24px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
+                    <span style={{ fontSize: "11px", color: "#666666", letterSpacing: "0.2em", textTransform: "uppercase" }}>Next Up</span>
+                    <span style={{ fontSize: "11px", color: "#888888" }}>{nextClass.roomNo || "TBA"}</span>
+                  </div>
+                  <div style={{ 
+                    fontSize: "48px", fontWeight: 900, color: "#ffffff", letterSpacing: "-0.04em", lineHeight: 1.1,
+                    display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden",
+                    wordBreak: "break-word"
+                  }}>
+                    {nextClass.courseCode}
+                  </div>
+                  <div style={{ fontSize: "16px", color: "#888888", fontWeight: 500, marginTop: "8px" }}>
+                    {fmt12(nextClass.startTime)} - {fmt12(nextClass.endTime)}
+                  </div>
+                </div>
+              ) : null}
 
-          {/* Next Up */}
-          {nextClass && (
-            <div style={{ marginBottom: "40px" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
-                <span style={{ fontSize: "11px", color: "#666666", letterSpacing: "0.2em", textTransform: "uppercase" }}>next up</span>
-                <span style={{ fontSize: "11px", color: "#888888" }}>{nextClass.roomNo || "TBA"}</span>
+              {/* Mini Grid */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px", marginBottom: "40px" }}>
+                {gridSlots.map((s, i) => (
+                  <MiniGridTile key={i} slot={s} />
+                ))}
               </div>
-              <div style={{ 
-                fontSize: "64px", fontWeight: 900, color: "#ffffff", letterSpacing: "-0.04em", lineHeight: 1.1,
-                display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden",
-                wordBreak: "break-word"
-              }}>
-                {nextClass.courseTitle.toLowerCase()}
-              </div>
-              <div style={{ fontSize: "20px", color: "#888888", fontWeight: 500, marginTop: "8px" }}>
-                {fmt12(nextClass.startTime)} - {fmt12(nextClass.endTime)}
-              </div>
-              <div style={{ marginTop: "16px", display: "inline-flex", alignItems: "center", gap: "8px", background: "#1e1e1e", padding: "8px 16px", borderRadius: "99px" }}>
-                <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#555555" }} />
-                <span style={{ fontSize: "13px", color: "#ffffff", fontWeight: 600 }}>STATUS • {nextClass.courseCode}</span>
-                <span style={{ fontSize: "13px", color: "#888888", marginLeft: "8px" }}>starts at {fmtTimeOnly(nextClass.startTime)}</span>
-              </div>
+            </>
+          ) : (
+            <div style={{ background: "#1c1c1c", borderRadius: "20px", padding: "40px", textAlign: "center", marginBottom: "40px" }}>
+              <div style={{ fontSize: "32px", color: "#333", marginBottom: "16px" }}>☕</div>
+              <div style={{ fontSize: "16px", fontWeight: "bold", color: "#ffffff" }}>No Classes Scheduled</div>
+              <div style={{ fontSize: "12px", color: "#888888", marginTop: "8px" }}>Enjoy your free time.</div>
             </div>
           )}
 
           {/* Action Cards */}
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
             
-            {/* Attendance */}
-            <div onClick={() => router.push("/attendance")} style={{ background: "#1a2600", borderRadius: "24px", padding: "24px", display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "#a8c200", display: "flex", alignItems: "center", justifyContent: "center", color: "#000", fontWeight: "bold" }}>%</div>
-                <div>
-                  <div style={{ fontSize: "16px", fontWeight: "bold", color: "#a8c200" }}>overall attendance</div>
-                  <div style={{ fontSize: "13px", color: "#a8c200", opacity: 0.8 }}>{avg}% average</div>
-                </div>
-              </div>
-              <div style={{ color: "#a8c200", fontSize: "24px" }}>›</div>
-            </div>
-
             {/* Alerts */}
-            {risk > 0 ? (
-              <div style={{ background: "#1a0000", border: "2px dashed #ff3b3b", borderRadius: "24px", padding: "24px", display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer" }}>
+            {riskCount > 0 && (
+              <div onClick={() => router.push("/attendance")} style={{ background: "#1a0000", border: "2px dashed #ff3b3b", borderRadius: "24px", padding: "24px", display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer" }}>
                 <div>
-                  <div style={{ fontSize: "11px", color: "#ff3b3b", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "8px" }}>academic emergency</div>
-                  <div style={{ fontSize: "32px", fontWeight: 900, color: "#ff3b3b", lineHeight: 1 }}>{risk} SUBJECTS ALERTS</div>
-                  <div style={{ fontSize: "12px", color: "#ff3b3b", fontStyle: "italic", marginTop: "8px" }}>aint nobody savin you</div>
+                  <div style={{ fontSize: "11px", color: "#ff3b3b", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "8px" }}>Academic Emergency</div>
+                  <div style={{ fontSize: "32px", fontWeight: 900, color: "#ff3b3b", lineHeight: 1 }}>{riskCount} Subjects At Risk</div>
+                  <div style={{ fontSize: "12px", color: "#ff3b3b", fontStyle: "italic", marginTop: "8px" }}>Tap to view details</div>
                 </div>
                 <div style={{ color: "#ff3b3b", fontSize: "24px" }}>›</div>
               </div>
-            ) : (
-              <div style={{ background: "#ffffff", borderRadius: "24px", padding: "24px", display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                  <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "#f0f0f0", display: "flex", alignItems: "center", justifyContent: "center", color: "#000", fontWeight: "bold" }}>!</div>
-                  <div>
-                    <div style={{ fontSize: "16px", fontWeight: "bold", color: "#000000" }}>no class alerts</div>
-                    <div style={{ fontSize: "13px", color: "#666666" }}>safe zone</div>
-                  </div>
-                </div>
-                <div style={{ color: "#000000", fontSize: "24px" }}>›</div>
-              </div>
             )}
 
-            {/* Recent Marks */}
-            <div onClick={() => router.push("/marks")} style={{ background: "#1c1c1c", borderRadius: "24px", padding: "24px", display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "#2a2a2a", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: "bold" }}>★</div>
-                <div>
-                  <div style={{ fontSize: "16px", fontWeight: "bold", color: "#ffffff" }}>recent marks</div>
-                  <div style={{ fontSize: "13px", color: "#888888" }}>{marks.length} assessments taken</div>
-                </div>
+            {/* Recent Marks Widget */}
+            <div onClick={() => router.push("/marks")} style={{ background: "#1c1c1c", borderRadius: "24px", padding: "24px", cursor: "pointer" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
+                <div style={{ fontSize: "16px", fontWeight: "bold", color: "#ffffff" }}>Recent Marks</div>
+                <div style={{ color: "#ffffff", fontSize: "24px" }}>›</div>
               </div>
-              <div style={{ color: "#ffffff", fontSize: "24px" }}>›</div>
+              
+              {recentTop5.length > 0 ? (
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                  {recentTop5.map((rm, i) => (
+                    <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <div>
+                        <div style={{ fontSize: "14px", fontWeight: "bold", color: "#ffffff" }}>{rm.courseCode}</div>
+                        <div style={{ fontSize: "11px", color: "#888888", textTransform: "uppercase" }}>{rm.label}</div>
+                      </div>
+                      <div style={{ fontWeight: "bold", fontSize: "16px", color: "#a8c200" }}>
+                        {rm.score}/{rm.max}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div style={{ fontSize: "13px", color: "#666666" }}>No recent assessments recorded.</div>
+              )}
             </div>
 
           </div>
 
           {/* Watermark */}
-          <div className="watermark">home</div>
+          <div className="watermark">Dashboard</div>
 
         </div>
       </main>

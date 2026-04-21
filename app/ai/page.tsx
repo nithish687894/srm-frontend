@@ -75,13 +75,13 @@ export default function AIPage() {
         {/* Header */}
         <div style={{ padding: "24px 32px", display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexShrink: 0 }}>
           <div>
-            <div style={{ fontSize: "11px", color: "#666666", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "4px" }}>powered by groq llama-3.3</div>
-            <div style={{ fontSize: "32px", fontWeight: 900, color: "#ffffff", lineHeight: 1, letterSpacing: "-0.02em" }}>AI ASSISTANT</div>
+            <div style={{ fontSize: "11px", color: "#666666", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "4px" }}>Powered by Groq Llama-3.3</div>
+            <div style={{ fontSize: "32px", fontWeight: 900, color: "#ffffff", lineHeight: 1, letterSpacing: "-0.02em" }}>AI Assistant</div>
           </div>
           <div style={{ textAlign: "right" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "8px", justifyContent: "flex-end", marginBottom: "4px" }}>
               <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#a8c200" }} />
-              <div style={{ fontSize: "12px", color: "#888888", letterSpacing: "0.1em", fontWeight: "bold" }}>ONLINE</div>
+              <div style={{ fontSize: "12px", color: "#888888", letterSpacing: "0.1em", fontWeight: "bold" }}>Online</div>
             </div>
             {remaining !== null && (
               <div style={{ fontSize: "11px", color: remaining <= 3 ? "#ff3b3b" : "#666666", letterSpacing: "0.1em" }}>
@@ -98,7 +98,7 @@ export default function AIPage() {
           {messages.map((m, i) => (
             <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: m.role === "user" ? "flex-end" : "flex-start" }}>
               <div style={{ fontSize: "10px", color: "#555555", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "8px", fontWeight: "bold" }}>
-                {m.role === "user" ? "YOU" : "ASSISTANT"}
+                {m.role === "user" ? "You" : "Assistant"}
               </div>
               <div style={{ 
                 maxWidth: "600px", padding: "20px 24px", fontSize: "15px", lineHeight: "1.6",
@@ -113,7 +113,7 @@ export default function AIPage() {
           {loading && (
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
               <div style={{ fontSize: "10px", color: "#555555", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "8px", fontWeight: "bold" }}>
-                ASSISTANT
+                Assistant
               </div>
               <div style={{ padding: "20px 24px", borderRadius: "20px", background: "#1c1c1c", display: "flex", gap: "8px" }}>
                 {[0,1,2].map(i => <div key={i} style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#a8c200", animation: `pulse 1s infinite ${i * 0.15}s` }} />)}
@@ -142,7 +142,7 @@ export default function AIPage() {
           </div>
         </div>
 
-        <div className="watermark" style={{ bottom: "140px" }}>ai assistant</div>
+        <div className="watermark" style={{ bottom: "140px" }}>AI Assistant</div>
 
       </main>
     </div>

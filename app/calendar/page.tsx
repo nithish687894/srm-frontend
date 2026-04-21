@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 export default function CalendarPage() {
   const [monthIdx, setMonthIdx] = useState(0);
   const [sem, setSem] = useState<Semester>("EVEN");
+  const [selectedHoliday, setSelectedHoliday] = useState<any | null>(null);
   const router = useRouter();
 
   const { data: cal, isLoading } = useQuery({
@@ -21,44 +22,42 @@ export default function CalendarPage() {
   const { months, byDate } = useMemo(() => buildCalendarIndex(cal), [cal]);
   const semMonths = months[sem] || [];
 
-  const current = semMonths[monthIdx];
   const today = new Date();
   const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
-  const todayInfo = byDate.get(todayIso);
+  
+  // Set month to current automatically
+  useEffect(() => {
+    if (semMonths.length > 0) {
+      const idx = semMonths.findIndex(m => m.days.some((d: any) => d.isoDate === todayIso));
+      if (idx !== -1) setMonthIdx(idx);
+    }
+  }, [semMonths, todayIso]);
 
+  const current = semMonths[monthIdx];
+  const todayInfo = byDate.get(todayIso);
   const isTodayHoliday = todayInfo?.isHoliday || [0, 6].includes(today.getDay());
 
-  // Week days for header
   const weekDays = ["M", "T", "W", "T", "F", "S", "S"];
 
-  // Calculate padding for grid
   const gridCells: any[] = [];
   if (current) {
     const firstDate = new Date(`1 ${current.name}`);
     let startDay = firstDate.getDay(); // 0(Sun) - 6(Sat)
     let offset = (startDay + 6) % 7; // Monday = 0
-    for (let i = 0; i < offset; i++) {
-      gridCells.push(null);
-    }
-    
-    // Add real days
+    for (let i = 0; i < offset; i++) gridCells.push(null);
     current.days.forEach((d: any) => gridCells.push(d));
-
-    // Pad end
-    while (gridCells.length % 7 !== 0) {
-      gridCells.push(null);
-    }
+    while (gridCells.length % 7 !== 0) gridCells.push(null);
   }
 
   const todayStr = new Intl.DateTimeFormat("en-US", { weekday: "short" }).format(today);
   const todayDateNum = today.getDate();
 
   return (
-    <div className="page-root">
+    <div className="page-root" onClick={() => setSelectedHoliday(null)}>
       <Sidebar />
 
       <main className="page-main">
-        <div className="page-content" style={{ paddingBottom: "140px" }}>
+        <div className="page-content" style={{ paddingBottom: "140px", position: "relative" }}>
 
           {/* Top Card */}
           <div style={{ background: "#1a2600", borderRadius: "24px", padding: "24px", marginBottom: "32px", display: "flex", flexDirection: "column", gap: "8px" }}>
@@ -67,7 +66,7 @@ export default function CalendarPage() {
                 {todayStr}
               </div>
               <div style={{ fontSize: "12px", color: "#a8c200", letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: "bold" }}>
-                day order
+                Day Order
               </div>
             </div>
             
@@ -80,12 +79,11 @@ export default function CalendarPage() {
               </div>
             </div>
             
-            <div style={{ textAlign: "right", fontSize: "13px", color: "#aaaaaa", marginTop: "8px" }}>
-              {isTodayHoliday ? "holiday" : todayInfo?.event || "regular classes"}
+            <div style={{ textAlign: "right", fontSize: "13px", color: "#aaaaaa", marginTop: "8px", textTransform: "capitalize" }}>
+              {isTodayHoliday ? "Holiday" : todayInfo?.event || "Regular Classes"}
             </div>
           </div>
 
-          {/* Controls */}
           <div style={{ display: "flex", justifyContent: "center", gap: "12px", marginBottom: "32px" }}>
             {(["ODD", "EVEN"] as Semester[]).map(s => (
               <button key={s} onClick={() => { setSem(s); setMonthIdx(0); }}
@@ -105,11 +103,10 @@ export default function CalendarPage() {
           {isLoading ? (
             <div style={{ display: "flex", justifyContent: "center", padding: "40px" }}><div className="srmx-spinner"/></div>
           ) : !current ? (
-            <div style={{ textAlign: "center", color: "#666", padding: "40px" }}>No calendar data</div>
+            <div style={{ textAlign: "center", color: "#666", padding: "40px" }}>No Calendar Data</div>
           ) : (
-            <div style={{ background: "#1a1a1a", borderRadius: "24px", padding: "24px" }}>
+            <div style={{ background: "#1a1a1a", borderRadius: "24px", padding: "24px", position: "relative" }}>
               
-              {/* Header */}
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
                 <div style={{ fontSize: "20px", fontWeight: "bold", color: "#ffffff", letterSpacing: "0.05em", textTransform: "uppercase" }}>
                   {current.name}
@@ -121,7 +118,6 @@ export default function CalendarPage() {
                 </div>
               </div>
 
-              {/* Grid headers */}
               <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "8px", marginBottom: "16px" }}>
                 {weekDays.map((d, i) => (
                   <div key={i} style={{ textAlign: "center", fontSize: "12px", fontWeight: "bold", color: "#666666" }}>
@@ -130,8 +126,7 @@ export default function CalendarPage() {
                 ))}
               </div>
 
-              {/* Grid cells */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "8px", rowGap: "12px" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "8px", rowGap: "12px", position: "relative" }}>
                 {gridCells.map((cell, i) => {
                   if (!cell) return <div key={i} />;
                   
@@ -139,14 +134,21 @@ export default function CalendarPage() {
                   const isPast = new Date(cell.isoDate) < new Date(todayIso);
                   
                   return (
-                    <div key={i} style={{ 
-                      position: "relative",
-                      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end",
-                      height: "48px",
-                      opacity: isPast && !isToday ? 0.3 : 1
-                    }}>
+                    <div key={i} 
+                      onClick={(e) => {
+                        if (cell.isHoliday) {
+                          e.stopPropagation();
+                          setSelectedHoliday(selectedHoliday?.isoDate === cell.isoDate ? null : cell);
+                        }
+                      }}
+                      style={{ 
+                        position: "relative",
+                        display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end",
+                        height: "48px", cursor: cell.isHoliday ? "pointer" : "default",
+                        opacity: isPast && !isToday ? 0.3 : 1
+                      }}>
                       <div style={{ fontSize: "10px", color: "#555555", fontWeight: "bold", marginBottom: "2px" }}>
-                      {!cell.isHoliday && cell.dayOrder ? `DO${cell.dayOrder}` : "\u00A0"}
+                        {!cell.isHoliday && cell.dayOrder ? `DO${cell.dayOrder}` : "\u00A0"}
                       </div>
 
                       {isToday ? (
@@ -162,6 +164,22 @@ export default function CalendarPage() {
                       {cell.isHoliday && (
                         <div style={{ position: "absolute", bottom: "-6px", width: "4px", height: "4px", borderRadius: "50%", background: "#ff3b3b" }} />
                       )}
+
+                      {selectedHoliday?.isoDate === cell.isoDate && (
+                        <div style={{
+                          position: "absolute", bottom: "100%", left: "50%", transform: "translateX(-50%)",
+                          background: "#2a2a2a", border: "1px solid #444", padding: "12px", borderRadius: "12px",
+                          width: "200px", zIndex: 50, marginBottom: "8px", boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
+                          cursor: "default"
+                        }} onClick={e => e.stopPropagation()}>
+                          <div style={{ fontSize: "11px", color: "#888888", marginBottom: "4px" }}>
+                            {new Date(cell.isoDate).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" })}
+                          </div>
+                          <div style={{ fontSize: "14px", color: "#ffffff", fontWeight: "bold" }}>
+                            {cell.event || "Holiday"}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   );
                 })}
@@ -170,7 +188,7 @@ export default function CalendarPage() {
             </div>
           )}
 
-          <div className="watermark">calendar</div>
+          <div className="watermark">Calendar</div>
         </div>
       </main>
     </div>

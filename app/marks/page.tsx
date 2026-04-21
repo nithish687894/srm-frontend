@@ -53,7 +53,7 @@ export default function MarksPage() {
           {/* Header */}
           <div style={{ textAlign: "center", marginBottom: "40px" }}>
             <div style={{ fontSize: "12px", letterSpacing: "0.2em", color: "#666666", textTransform: "uppercase" }}>
-              total marks
+              Total Marks
             </div>
             <div style={{ display: "flex", alignItems: "baseline", justifyContent: "center", gap: "8px" }}>
               <div style={{ fontSize: "72px", fontWeight: 900, color: "#ffffff", lineHeight: 1 }}>
@@ -68,14 +68,14 @@ export default function MarksPage() {
           <div style={{ display: "flex", justifyContent: "center", marginBottom: "40px" }}>
             <button className="action-btn">
               <div className="icon-l">↑</div>
-              <div className="text-c"><span>target</span><span>set score goals</span></div>
+              <div className="text-c"><span>Target</span><span>Set Score Goals</span></div>
               <div className="icon-r">›</div>
             </button>
           </div>
 
           {hasEmergency && (
             <div style={{ padding: "24px", background: "#1a0000", border: "2px dashed #ff3b3b", borderRadius: "20px", marginBottom: "32px", textAlign: "center" }}>
-              <div style={{ fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#ff3b3b", marginBottom: "8px" }}>academic emergency</div>
+              <div style={{ fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#ff3b3b", marginBottom: "8px" }}>Academic Emergency</div>
               <div style={{ fontSize: "24px", fontWeight: 900, color: "#ff3b3b", lineHeight: 1 }}>OVERALL SCORE &lt; 50%</div>
             </div>
           )}
@@ -150,7 +150,7 @@ export default function MarksPage() {
             })}
           </div>
 
-          <div className="watermark">marks</div>
+          <div className="watermark">Marks</div>
         </div>
       </main>
     </div>

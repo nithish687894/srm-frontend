@@ -23,7 +23,7 @@ API.interceptors.response.use(
     if (err.response?.status === 401 && typeof window !== "undefined") {
       localStorage.removeItem("srmx_token");
       useAuthStore.getState().clearSession();
-
+      window.location.href = "/";
     }
     return Promise.reject(err);
   }

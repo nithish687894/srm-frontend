@@ -134,27 +134,20 @@ export default function TimetablePage() {
         <div className="page-content" style={{ paddingBottom: "140px" }}>
 
           {/* Heading */}
+          {/* Heading */}
           <div style={{ textAlign: "center", marginBottom: "32px" }}>
             <div style={{ fontSize: "12px", letterSpacing: "0.2em", color: "#666666", textTransform: "uppercase" }}>
-              current day order
+              Current Day Order
             </div>
             <div style={{ fontSize: "120px", fontWeight: 900, color: "#ffffff", lineHeight: 1 }}>
               {dayOverride}
             </div>
           </div>
 
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: "40px" }}>
-            <button className="action-btn">
-              <div className="icon-l">◭</div>
-              <div className="text-c"><span>custom class</span><span>add temporary block</span></div>
-              <div className="icon-r">›</div>
-            </button>
-          </div>
-
           {totalClasses > 0 && (
             <div style={{ background: "#1a2600", borderRadius: "20px", padding: "24px", marginBottom: "32px" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                <div style={{ fontSize: "12px", letterSpacing: "0.15em", color: "#a8c200", textTransform: "uppercase", fontWeight: 600 }}>day overview</div>
+                <div style={{ fontSize: "12px", letterSpacing: "0.15em", color: "#a8c200", textTransform: "uppercase", fontWeight: 600 }}>Day Overview</div>
                 <div style={{ fontSize: "32px", fontWeight: 900, color: "#a8c200", lineHeight: 1 }}>{totalClasses}</div>
               </div>
               <div style={{ fontSize: "28px", fontWeight: "bold", color: "#a8c200", marginTop: "16px" }}>
@@ -233,7 +226,7 @@ export default function TimetablePage() {
             </div>
           </div>
 
-          <div className="watermark">timetable</div>
+          <div className="watermark">Timetable</div>
         </div>
       </main>
     </div>
