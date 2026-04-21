@@ -92,23 +92,23 @@ export default function AIPage() {
         {/* Header */}
         <div className="srmx-topbar" style={{ flexShrink: 0 }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <div style={{ width: "32px", height: "32px", borderRadius: "10px", background: "linear-gradient(135deg, #00ff87, #00e676)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <Bot size={16} color="#050505" />
+            <div style={{ width: "32px", height: "32px", borderRadius: "10px", background: "linear-gradient(135deg, #7ecba1, #5aaf85)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Bot size={16} color="#1a3028" />
             </div>
             <div>
-              <h1 style={{ fontWeight: 600, fontSize: "15px", color: "#f0f0f0" }}>AI Assistant</h1>
-              <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.30)" }}>Powered by Groq Llama-3.3</p>
+              <h1 style={{ fontWeight: 600, fontSize: "15px", color: "#e8f0f4" }}>AI Assistant</h1>
+              <p style={{ fontSize: "11px", color: "rgba(232,240,244,0.40)" }}>Powered by Groq Llama-3.3</p>
             </div>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             {remaining !== null && (
-              <span style={{ fontSize: "12px", color: remaining <= 3 ? "#ff4444" : "rgba(255,255,255,0.50)", fontWeight: 500, marginRight: "8px", background: "rgba(255,255,255,0.05)", padding: "4px 8px", borderRadius: "8px" }}>
+              <span style={{ fontSize: "12px", color: remaining <= 3 ? "#c47b7b" : "rgba(232,240,244,0.60)", fontWeight: 500, marginRight: "8px", background: "rgba(255,255,255,0.05)", padding: "4px 8px", borderRadius: "8px" }}>
                 {remaining} messages left
               </span>
             )}
             <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#00ff87", animation: "pulse 2s infinite", boxShadow: "0 0 8px rgba(0,255,135,0.5)" }} />
-              <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.30)" }}>Online</span>
+              <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#7ecba1", animation: "pulse 2s infinite" }} />
+              <span style={{ fontSize: "12px", color: "rgba(232,240,244,0.40)" }}>Online</span>
             </div>
           </div>
         </div>
@@ -118,16 +118,15 @@ export default function AIPage() {
           {messages.map((m, i) => (
             <div key={i} style={{ display: "flex", justifyContent: m.role === "user" ? "flex-end" : "flex-start", gap: "10px", alignItems: "flex-end" }}>
               {m.role === "assistant" && (
-                <div style={{ width: "28px", height: "28px", borderRadius: "50%", background: "linear-gradient(135deg, #00ff87, #00e676)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <Bot size={14} color="#050505" />
+                <div style={{ width: "28px", height: "28px", borderRadius: "50%", background: "linear-gradient(135deg, #7ecba1, #5aaf85)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <Bot size={14} color="#1a3028" />
                 </div>
               )}
               <div style={{ maxWidth: "560px", padding: "12px 16px", fontSize: "14px", lineHeight: "1.6",
                 borderRadius: m.role === "user" ? "18px 18px 4px 18px" : "18px 18px 18px 4px",
-                background: m.role === "user" ? "linear-gradient(135deg, #00ff87, #00e676)" : "rgba(10,10,10,0.65)",
-                border: m.role === "assistant" ? "1px solid rgba(255,255,255,0.06)" : "none",
-                color: m.role === "user" ? "#050505" : "#f0f0f0",
-                backdropFilter: m.role === "assistant" ? "blur(12px)" : "none",
+                background: m.role === "user" ? "linear-gradient(135deg, #7ecba1, #5aaf85)" : "#3a4f5c",
+                border: m.role === "assistant" ? "1px solid rgba(255,255,255,0.09)" : "none",
+                color: m.role === "user" ? "#1a3028" : "#e8f0f4",
               }}>
                 {m.content}
               </div>
@@ -140,11 +139,11 @@ export default function AIPage() {
           ))}
           {loading && (
             <div style={{ display: "flex", justifyContent: "flex-start", gap: "10px", alignItems: "flex-end" }}>
-              <div style={{ width: "28px", height: "28px", borderRadius: "50%", background: "linear-gradient(135deg, #00ff87, #00e676)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <Bot size={14} color="#050505" />
+              <div style={{ width: "28px", height: "28px", borderRadius: "50%", background: "linear-gradient(135deg, #7ecba1, #5aaf85)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Bot size={14} color="#1a3028" />
               </div>
-              <div style={{ padding: "12px 16px", borderRadius: "18px 18px 18px 4px", background: "rgba(10,10,10,0.65)", border: "1px solid rgba(255,255,255,0.06)", display: "flex", gap: "4px", alignItems: "center" }}>
-                {[0,1,2].map(i => <div key={i} style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#00ff87", animation: `bounce 1s infinite ${i * 0.15}s` }} />)}
+              <div style={{ padding: "12px 16px", borderRadius: "18px 18px 18px 4px", background: "#3a4f5c", border: "1px solid rgba(255,255,255,0.09)", display: "flex", gap: "4px", alignItems: "center" }}>
+                {[0,1,2].map(i => <div key={i} style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#7ecba1", animation: `bounce 1s infinite ${i * 0.15}s` }} />)}
               </div>
             </div>
           )}
@@ -153,18 +152,18 @@ export default function AIPage() {
 
         {/* Input */}
         <div style={{ padding: "16px 32px 24px", borderTop: "1px solid rgba(255,255,255,0.05)", flexShrink: 0 }}>
-          <div style={{ display: "flex", gap: "12px", alignItems: "center", padding: "8px 8px 8px 16px", borderRadius: "16px", background: "rgba(10,10,10,0.65)", border: "1px solid rgba(255,255,255,0.06)", backdropFilter: "blur(12px)" }}>
+          <div style={{ display: "flex", gap: "12px", alignItems: "center", padding: "8px 8px 8px 16px", borderRadius: "16px", background: "#3a4f5c", border: "1px solid rgba(255,255,255,0.09)" }}>
             <input 
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === "Enter" && send()}
               placeholder="Ask about your attendance, marks, or timetable..."
-              style={{ flex: 1, background: "transparent", border: "none", color: "#f0f0f0", fontSize: "16px", outline: "none" }}
+              style={{ flex: 1, background: "transparent", border: "none", color: "#e8f0f4", fontSize: "16px", outline: "none" }}
               disabled={loading}
             />
             <button onClick={send} disabled={loading || !input.trim()}
-              style={{ width: "36px", height: "36px", borderRadius: "10px", border: "none", cursor: input.trim() && !loading ? "pointer" : "default", background: input.trim() && !loading ? "linear-gradient(135deg, #00ff87, #00e676)" : "rgba(255,255,255,0.04)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "all 0.2s" }}>
-              <Send size={15} color={input.trim() && !loading ? "#050505" : "rgba(255,255,255,0.20)"} />
+              style={{ width: "36px", height: "36px", borderRadius: "10px", border: "none", cursor: input.trim() && !loading ? "pointer" : "default", background: input.trim() && !loading ? "linear-gradient(135deg, #7ecba1, #5aaf85)" : "rgba(255,255,255,0.04)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "all 0.2s" }}>
+              <Send size={15} color={input.trim() && !loading ? "#1a3028" : "rgba(232,240,244,0.30)"} />
             </button>
           </div>
         </div>

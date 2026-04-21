@@ -32,150 +32,148 @@ export default function Sidebar() {
         /* ── DESKTOP SIDEBAR ── */
         .srmx-sidebar {
           position: fixed; top: 0; left: 0;
-          width: 260px; height: 100vh;
-          background: rgba(8,8,8,0.92);
-          border-right: 1px solid rgba(255,255,255,0.06);
-          backdrop-filter: blur(24px);
-          -webkit-backdrop-filter: blur(24px);
+          width: 256px; height: 100vh;
+          background: #2e3a42;
+          border-right: 1px solid rgba(255,255,255,0.07);
           display: flex; flex-direction: column;
           z-index: 100;
+          overflow: hidden;
         }
 
         .srmx-logo-wrap {
-          padding: 24px 20px 20px;
-          border-bottom: 1px solid rgba(255,255,255,0.06);
+          padding: 20px 18px 18px;
+          border-bottom: 1px solid rgba(255,255,255,0.07);
+          flex-shrink: 0;
         }
 
         .srmx-logo-name {
-          font-size: 22px; font-weight: 800;
-          letter-spacing: -0.5px; color: #fff;
+          font-size: 20px; font-weight: 800;
+          letter-spacing: -0.3px; color: #e8f0f4;
         }
 
-        .srmx-logo-name span { color: #00ff87; }
+        .srmx-logo-name span { color: #7ecba1; }
 
         .srmx-logo-sub {
-          font-size: 9px; letter-spacing: 3px;
-          color: rgba(255,255,255,0.20);
-          text-transform: uppercase; margin-top: 3px;
+          font-size: 9px; letter-spacing: 2.5px;
+          color: rgba(232,240,244,0.30);
+          text-transform: uppercase; margin-top: 2px;
         }
 
-        .srmx-nav { flex: 1; padding: 12px 10px; overflow-y: auto; }
+        .srmx-nav { flex: 1; padding: 10px 10px; overflow-y: auto; }
+
+        .srmx-nav-section {
+          font-size: 9px; font-weight: 600;
+          letter-spacing: 1.8px; text-transform: uppercase;
+          color: rgba(232,240,244,0.28);
+          padding: 8px 10px 4px;
+          margin-top: 4px;
+        }
 
         .srmx-nav-btn {
           width: 100%; display: flex; align-items: center; gap: 10px;
-          padding: 10px 12px; border-radius: 10px; margin-bottom: 2px;
+          padding: 9px 12px; border-radius: 10px; margin-bottom: 2px;
           border: 1px solid transparent;
           cursor: pointer; text-align: left;
-          transition: all 0.15s;
+          transition: all 0.15s ease;
           font-size: 13px; font-weight: 400;
           background: transparent;
-          color: rgba(255,255,255,0.38);
+          color: rgba(232,240,244,0.50);
         }
 
         .srmx-nav-btn:hover {
-          background: rgba(255,255,255,0.04);
-          color: rgba(255,255,255,0.65);
+          background: rgba(255,255,255,0.05);
+          color: rgba(232,240,244,0.82);
         }
 
         .srmx-nav-btn.active {
-          background: rgba(0,255,135,0.08);
-          border-color: rgba(0,255,135,0.20);
-          color: #00ff87;
+          background: rgba(126,203,161,0.12);
+          border-color: rgba(126,203,161,0.22);
+          color: #7ecba1;
           font-weight: 600;
         }
 
         .srmx-nav-dot {
           margin-left: auto; width: 5px; height: 5px;
-          border-radius: 50%; background: #00ff87;
-          flex-shrink: 0;
-          box-shadow: 0 0 8px rgba(0,255,135,0.5);
+          border-radius: 50%; background: #7ecba1;
+          flex-shrink: 0; opacity: 0.8;
         }
 
         .srmx-profile-wrap {
-          padding: 12px 10px;
-          border-top: 1px solid rgba(255,255,255,0.06);
+          padding: 10px 10px 14px;
+          border-top: 1px solid rgba(255,255,255,0.07);
+          flex-shrink: 0;
         }
 
         .srmx-profile-inner {
           display: flex; align-items: center; gap: 10px;
           padding: 10px 12px; border-radius: 10px;
-          background: rgba(255,255,255,0.03);
+          background: rgba(255,255,255,0.04);
         }
 
         .srmx-avatar {
           width: 34px; height: 34px; border-radius: 10px;
-          background: linear-gradient(135deg, #00ff87, #00e676);
+          background: linear-gradient(135deg, #7ecba1, #5aaf85);
           display: flex; align-items: center; justify-content: center;
-          font-size: 12px; font-weight: 700; color: #050505;
+          font-size: 12px; font-weight: 700; color: #1a2e28;
           flex-shrink: 0;
         }
 
         .srmx-profile-name {
-          font-size: 12px; font-weight: 600; color: #f0f0f0;
+          font-size: 12px; font-weight: 600; color: #e8f0f4;
           overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
 
         .srmx-profile-sem {
-          font-size: 10px; color: rgba(255,255,255,0.28); margin-top: 1px;
+          font-size: 10px; color: rgba(232,240,244,0.35); margin-top: 1px;
         }
 
         .srmx-logout-btn {
           background: none; border: none; cursor: pointer;
-          color: rgba(255,255,255,0.25); padding: 4px;
-          border-radius: 6px; display: flex; transition: color 0.15s;
+          color: rgba(232,240,244,0.30); padding: 5px;
+          border-radius: 7px; display: flex; transition: all 0.15s;
+          flex-shrink: 0;
         }
-
-        .srmx-logout-btn:hover { color: #ff4757; }
+        .srmx-logout-btn:hover { color: #c47b7b; background: rgba(196,123,123,0.10); }
 
         /* ── MOBILE BOTTOM NAV ── */
         .srmx-mobile-nav {
           display: none;
           position: fixed; bottom: 0; left: 0; right: 0;
-          height: calc(64px + env(safe-area-inset-bottom));
+          height: calc(60px + env(safe-area-inset-bottom));
           padding-bottom: env(safe-area-inset-bottom);
-          background: rgba(8,8,8,0.95);
-          border-top: 1px solid rgba(255,255,255,0.06);
-          backdrop-filter: blur(24px);
-          -webkit-backdrop-filter: blur(24px);
+          background: #2e3a42;
+          border-top: 1px solid rgba(255,255,255,0.08);
           z-index: 100;
           align-items: center; justify-content: flex-start;
           overflow-x: auto;
-          scrollbar-width: none; /* Firefox */
-          padding: 0 10px;
-          gap: 6px;
-          flex-wrap: nowrap;
+          scrollbar-width: none;
+          padding-left: 6px;
+          padding-right: 6px;
+          gap: 2px;
         }
-        .srmx-mobile-nav::-webkit-scrollbar {
-          display: none; /* Safari and Chrome */
-        }
+        .srmx-mobile-nav::-webkit-scrollbar { display: none; }
 
         .srmx-mob-btn {
           display: flex; flex-direction: column;
-          align-items: center; gap: 4px;
+          align-items: center; gap: 3px;
           background: none; border: none; cursor: pointer;
-          color: rgba(255,255,255,0.28);
-          padding: 8px 12px;
+          color: rgba(232,240,244,0.38);
+          padding: 7px 10px;
           transition: color 0.15s, transform 0.1s;
-          min-width: 58px;
+          min-width: 52px; max-width: 70px;
           flex-shrink: 0;
+          border-radius: 10px;
         }
-        .srmx-mob-btn:active {
-          transform: scale(0.92);
+        .srmx-mob-btn:active { transform: scale(0.90); }
+        .srmx-mob-btn.active {
+          color: #7ecba1;
+          background: rgba(126,203,161,0.10);
         }
-
-        .srmx-mob-btn.active { color: #00ff87; }
-
         .srmx-mob-btn span {
-          font-size: 10px; font-weight: 500;
+          font-size: 9px; font-weight: 500;
+          white-space: nowrap;
         }
-
         .srmx-mob-btn.active span { font-weight: 700; }
-
-        .srmx-mob-indicator {
-          width: 4px; height: 4px; border-radius: 50%;
-          background: #00ff87; margin-top: 1px;
-          box-shadow: 0 0 6px rgba(0,255,135,0.5);
-        }
 
         /* ── RESPONSIVE ── */
         @media (max-width: 768px) {
@@ -194,6 +192,7 @@ export default function Sidebar() {
 
         {/* Nav */}
         <nav className="srmx-nav">
+          <div className="srmx-nav-section">Navigation</div>
           {NAV.map(({ href, label, icon: Icon }) => {
             const active = path === href || (href !== "/dashboard" && path.startsWith(href));
             return (
@@ -225,6 +224,7 @@ export default function Sidebar() {
         </div>
       </aside>
 
+      {/* ── MOBILE BOTTOM NAV ── */}
       <nav className="srmx-mobile-nav">
         {NAV.map(({ href, label, icon: Icon }) => {
           const active = path === href || (href !== "/dashboard" && path.startsWith(href));
@@ -236,7 +236,6 @@ export default function Sidebar() {
             >
               <Icon active={active} />
               <span>{label.split(" ")[0]}</span>
-              {active && <div className="srmx-mob-indicator" />}
             </button>
           );
         })}

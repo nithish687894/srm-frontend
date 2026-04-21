@@ -120,17 +120,17 @@ function fmtRange(s: string, e: string): string { const a = fmt12(s); const part
 function slotMins(s: string, e: string): number { return Math.max(0, parseEndTime(e) - parseStart(s)); }
 
 const TC = {
-  theory:    { accent: "#00e5ff", bg: "rgba(0,229,255,0.08)",   label: "Theory",    icon: "T" },
-  lab:       { accent: "#b388ff", bg: "rgba(179,136,255,0.08)", label: "Lab",       icon: "L" },
-  practical: { accent: "#00ff87", bg: "rgba(0,255,135,0.08)",   label: "Practical", icon: "P" },
+  theory:    { accent: "#7eb8c4", bg: "rgba(126,184,196,0.12)",   label: "Theory",    icon: "T" },
+  lab:       { accent: "#a98bc4", bg: "rgba(169,139,196,0.12)", label: "Lab",       icon: "L" },
+  practical: { accent: "#7ecba1", bg: "rgba(126,203,161,0.12)",   label: "Practical", icon: "P" },
 };
 
 function attnInfo(pct: number) {
   if (!pct) return { color: "#52525b", label: "No data" };
-  if (pct >= 85) return { color: "#00ff87", label: "Excellent" };
-  if (pct >= 75) return { color: "#00e676", label: "Safe" };
-  if (pct >= 65) return { color: "#ffb300", label: "At risk" };
-  return { color: "#ff4757", label: "Critical" };
+  if (pct >= 85) return { color: "#7ecba1", label: "Excellent" };
+  if (pct >= 75) return { color: "#5aaf85", label: "Safe" };
+  if (pct >= 65) return { color: "#c4a97b", label: "At risk" };
+  return { color: "#c47b7b", label: "Critical" };
 }
 
 function Ring({ pct }: { pct: number }) {
@@ -170,11 +170,9 @@ function ClassCard({ item, idx, active, cRef }: { item: ScheduleItem; idx: numbe
   return (
     <div ref={cRef}
       style={{
-        borderRadius: "16px", overflow: "hidden", position: "relative",
-        background: active ? "rgba(0,255,135,0.06)" : "rgba(10,10,10,0.55)",
-        border: active ? "1px solid rgba(0,255,135,0.30)" : "1px solid rgba(255,255,255,0.06)",
-        boxShadow: active ? "0 0 0 1px rgba(0,255,135,0.08), 0 8px 32px rgba(0,255,135,0.10)" : "none",
-        backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)",
+        borderRadius: "14px", overflow: "hidden", position: "relative",
+        background: active ? "rgba(126,203,161,0.07)" : "#3a4f5c",
+        border: active ? "1px solid rgba(126,203,161,0.28)" : "1px solid rgba(255,255,255,0.09)",
         animation: "cardIn 0.42s cubic-bezier(.22,1,.36,1) both",
         animationDelay: `${idx * 0.055}s`,
       }}
@@ -188,17 +186,17 @@ function ClassCard({ item, idx, active, cRef }: { item: ScheduleItem; idx: numbe
             <span style={{ width: "14px", height: "14px", borderRadius: "50%", background: `${cfg.accent}20`, border: `1px solid ${cfg.accent}40`, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: "8px", fontWeight: 800 }}>{cfg.icon}</span>
             {cfg.label}
           </span>
-          <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.25)", fontFamily: "monospace", background: "rgba(255,255,255,0.03)", padding: "1px 7px", borderRadius: "5px", border: "1px solid rgba(255,255,255,0.06)" }}>{item.slot}</span>
+          <span style={{ fontSize: "10px", color: "rgba(232,240,244,0.38)", fontFamily: "monospace", background: "rgba(255,255,255,0.05)", padding: "1px 7px", borderRadius: "5px", border: "1px solid rgba(255,255,255,0.08)" }}>{item.slot}</span>
           {active && (
-            <span style={{ display: "inline-flex", alignItems: "center", gap: "5px", padding: "2px 10px", borderRadius: "999px", background: "rgba(0,255,135,0.10)", border: "1px solid rgba(0,255,135,0.30)", fontSize: "10px", fontWeight: 700, color: "#00ff87", marginLeft: "auto" }}>
-              <span style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#00ff87", animation: "pulse 1.5s infinite" }} />
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "5px", padding: "2px 10px", borderRadius: "999px", background: "rgba(126,203,161,0.14)", border: "1px solid rgba(126,203,161,0.32)", fontSize: "10px", fontWeight: 700, color: "#7ecba1", marginLeft: "auto" }}>
+              <span style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#7ecba1", animation: "pulse 1.5s infinite" }} />
               NOW
             </span>
           )}
         </div>
 
-        <div style={{ fontSize: "13px", fontWeight: 600, color: "#f0f0f0", lineHeight: 1.4, marginBottom: "3px" }}>{item.courseTitle}</div>
-        <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.22)", fontFamily: "monospace", marginBottom: "9px" }}>{item.courseCode}</div>
+        <div style={{ fontSize: "13px", fontWeight: 600, color: "#e8f0f4", lineHeight: 1.4, marginBottom: "3px" }}>{item.courseTitle}</div>
+        <div style={{ fontSize: "10px", color: "rgba(232,240,244,0.35)", fontFamily: "monospace", marginBottom: "9px" }}>{item.courseCode}</div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "4px", marginBottom: "9px" }}>
           {[{ icon: "person", text: fac }, { icon: "room", text: `Room ${room}` }].map(({ icon, text }) => (
@@ -228,7 +226,7 @@ function ClassCard({ item, idx, active, cRef }: { item: ScheduleItem; idx: numbe
               <div style={{ fontSize: "9px", color: "rgba(255,255,255,0.20)", letterSpacing: "0.09em", textTransform: "uppercase", marginBottom: "2px" }}>Attendance</div>
               <div style={{ fontSize: "11px", fontWeight: 700, color: ac }}>{al}</div>
               <div style={{ fontSize: "10px", marginTop: "2px" }}>
-                {isRisk ? <span style={{ color: "#ff4757" }}>Need {need} more</span> : <span style={{ color: "#00ff87" }}>{skip} can skip</span>}
+                {isRisk ? <span style={{ color: "#c47b7b" }}>Need {need} more</span> : <span style={{ color: "#7ecba1" }}>{skip} can skip</span>}
               </div>
             </div>
             <Ring pct={attn} />
@@ -333,12 +331,12 @@ export default function TimetablePage() {
       <main className="page-main">
         <div className="srmx-topbar">
           <div style={{ display: "flex", alignItems: "center", gap: "14px", minWidth: 0, overflow: "hidden" }}>
-            <span style={{ fontSize: "16px", fontWeight: 700, color: "#fff", whiteSpace: "nowrap" }}>Timetable</span>
+            <span style={{ fontSize: "16px", fontWeight: 700, color: "#e8f0f4", whiteSpace: "nowrap" }}>Timetable</span>
             <div style={{ width: "1px", height: "14px", background: "rgba(255,255,255,0.08)", flexShrink: 0 }} />
-            <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.32)", whiteSpace: "nowrap" }}>{headerSub}</span>
+            <span style={{ fontSize: "12px", color: "rgba(232,240,244,0.40)", whiteSpace: "nowrap" }}>{headerSub}</span>
             {nowItem && !isHoliday && (
-              <span style={{ display: "inline-flex", alignItems: "center", gap: "5px", padding: "2px 10px", borderRadius: "999px", background: "rgba(0,255,135,0.10)", border: "1px solid rgba(0,255,135,0.25)", fontSize: "11px", color: "#00ff87", fontWeight: 600, whiteSpace: "nowrap" }}>
-                <span style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#00ff87", animation: "pulse 1.5s infinite" }} />
+              <span style={{ display: "inline-flex", alignItems: "center", gap: "5px", padding: "2px 10px", borderRadius: "999px", background: "rgba(126,203,161,0.14)", border: "1px solid rgba(126,203,161,0.32)", fontSize: "11px", color: "#7ecba1", fontWeight: 600, whiteSpace: "nowrap" }}>
+                <span style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#7ecba1", animation: "pulse 1.5s infinite" }} />
                 In class
               </span>
             )}
@@ -368,7 +366,7 @@ export default function TimetablePage() {
           <div style={{ display: "flex", padding: "3px", gap: "3px", background: "rgba(255,255,255,0.03)", borderRadius: "11px", border: "1px solid rgba(255,255,255,0.06)", flexShrink: 0 }}>
             {[1, 2].map(b => (
               <button key={b} onClick={() => setBatch(b)}
-                style={{ padding: "5px 16px", borderRadius: "8px", fontSize: "12px", fontWeight: 600, background: batch === b ? "#00ff87" : "transparent", color: batch === b ? "#050505" : "rgba(255,255,255,0.35)", border: "none", cursor: "pointer", transition: "all 0.18s" }}>
+                style={{ padding: "5px 16px", borderRadius: "8px", fontSize: "12px", fontWeight: 600, background: batch === b ? "#7ecba1" : "transparent", color: batch === b ? "#1a3028" : "rgba(232,240,244,0.45)", border: "none", cursor: "pointer", transition: "all 0.18s" }}>
                 Batch {b}
               </button>
             ))}
@@ -385,14 +383,13 @@ export default function TimetablePage() {
                 {[1, 2, 3, 4, 5].map(d => (
                   <button key={d} onClick={() => setDayOverride(d)}
                     style={{
-                      width: "46px", height: "46px", borderRadius: "13px", fontSize: "18px", fontWeight: 800,
-                      background: effectiveDay === d ? "linear-gradient(135deg,#00ff87,#00e676)" : "rgba(255,255,255,0.03)",
-                      color: effectiveDay === d ? "#050505" : "rgba(255,255,255,0.28)",
-                      border: effectiveDay === d ? "1px solid rgba(0,255,135,0.5)" : "1px solid rgba(255,255,255,0.06)",
+                      width: "46px", height: "46px", borderRadius: "12px", fontSize: "18px", fontWeight: 800,
+                      background: effectiveDay === d ? "linear-gradient(135deg,#7ecba1,#5aaf85)" : "#3a4f5c",
+                      color: effectiveDay === d ? "#1a3028" : "rgba(232,240,244,0.45)",
+                      border: effectiveDay === d ? "1px solid rgba(126,203,161,0.5)" : "1px solid rgba(255,255,255,0.09)",
                       cursor: "pointer", transition: "all 0.2s cubic-bezier(.22,1,.36,1)",
                       display: "flex", alignItems: "center", justifyContent: "center",
-                      boxShadow: effectiveDay === d ? "0 6px 24px rgba(0,255,135,0.3)" : "none",
-                      transform: effectiveDay === d ? "scale(1.08)" : "scale(1)",
+                      transform: effectiveDay === d ? "scale(1.05)" : "scale(1)",
                     }}>{d}</button>
                 ))}
               </div>
@@ -400,7 +397,7 @@ export default function TimetablePage() {
             <div style={{ display: "flex", gap: "5px", flexShrink: 0 }}>
               {[{ ic: "‹", fn: () => setDayOverride(d => (d ?? effectiveDay) > 1 ? (d ?? effectiveDay) - 1 : 5) }, { ic: "›", fn: () => setDayOverride(d => (d ?? effectiveDay) < 5 ? (d ?? effectiveDay) + 1 : 1) }].map(({ ic, fn }) => (
                 <button key={ic} onClick={fn}
-                  style={{ width: "36px", height: "36px", borderRadius: "10px", fontSize: "20px", display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.40)", cursor: "pointer" }}>{ic}</button>
+                  style={{ width: "36px", height: "36px", borderRadius: "10px", fontSize: "20px", display: "flex", alignItems: "center", justifyContent: "center", background: "#3a4f5c", border: "1px solid rgba(255,255,255,0.09)", color: "rgba(232,240,244,0.50)", cursor: "pointer" }}>{ic}</button>
               ))}
             </div>
           </div>
@@ -417,9 +414,9 @@ export default function TimetablePage() {
             </div>
             {!loading && classes.length > 0 && (
               <div style={{ display: "flex", gap: "20px", alignItems: "flex-end", flexShrink: 0 }}>
-                {thryCnt > 0 && <div style={{ textAlign: "right" }}><div style={{ fontSize: "9px", color: "rgba(255,255,255,0.20)", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "3px" }}>Theory</div><div style={{ fontSize: "26px", fontWeight: 800, lineHeight: 1, color: "#00e5ff" }}>{thryCnt}</div></div>}
-                {labCnt > 0 && <div style={{ textAlign: "right" }}><div style={{ fontSize: "9px", color: "rgba(255,255,255,0.20)", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "3px" }}>Labs</div><div style={{ fontSize: "26px", fontWeight: 800, lineHeight: 1, color: "#b388ff" }}>{labCnt}</div></div>}
-                {nxtItem && !nowItem && <div style={{ textAlign: "right" }}><div style={{ fontSize: "9px", color: "rgba(255,255,255,0.20)", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "3px" }}>Next at</div><div style={{ fontSize: "26px", fontWeight: 800, lineHeight: 1, color: "#00ff87" }}>{fmt12(nxtItem.startTime)}</div></div>}
+                {thryCnt > 0 && <div style={{ textAlign: "right" }}><div style={{ fontSize: "9px", color: "rgba(232,240,244,0.35)", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "3px" }}>Theory</div><div style={{ fontSize: "26px", fontWeight: 800, lineHeight: 1, color: "#7eb8c4" }}>{thryCnt}</div></div>}
+                {labCnt > 0 && <div style={{ textAlign: "right" }}><div style={{ fontSize: "9px", color: "rgba(232,240,244,0.35)", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "3px" }}>Labs</div><div style={{ fontSize: "26px", fontWeight: 800, lineHeight: 1, color: "#a98bc4" }}>{labCnt}</div></div>}
+                {nxtItem && !nowItem && <div style={{ textAlign: "right" }}><div style={{ fontSize: "9px", color: "rgba(232,240,244,0.35)", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "3px" }}>Next at</div><div style={{ fontSize: "26px", fontWeight: 800, lineHeight: 1, color: "#7ecba1" }}>{fmt12(nxtItem.startTime)}</div></div>}
               </div>
             )}
           </div>
@@ -463,15 +460,14 @@ export default function TimetablePage() {
                 onClick={() => refetchMyTT()}
                 style={{
                   padding: "10px 28px",
-                  borderRadius: "12px",
+                  borderRadius: "10px",
                   fontSize: "13px",
                   fontWeight: 600,
-                  background: "linear-gradient(135deg, #00ff87, #00e676)",
-                  color: "#050505",
+                  background: "linear-gradient(135deg, #7ecba1, #5aaf85)",
+                  color: "#1a3028",
                   border: "none",
                   cursor: "pointer",
                   transition: "all 0.2s ease",
-                  boxShadow: "0 4px 16px rgba(0,255,135,0.25)",
                 }}
               >
                 Retry

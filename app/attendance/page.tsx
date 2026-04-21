@@ -49,14 +49,14 @@ export default function AttendancePage() {
 
       <main className="page-main">
         <div className="srmx-topbar">
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <div style={{ width: "34px", height: "34px", borderRadius: "10px", background: "rgba(0,255,135,0.10)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <div style={{ width: "32px", height: "32px", borderRadius: "10px", background: "rgba(126,203,161,0.12)", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
-                <rect x="3" y="2" width="12" height="14" rx="2" stroke="#00ff87" strokeWidth="1.5"/>
-                <path d="M6 7h6M6 10h4" stroke="#00ff87" strokeWidth="1.5" strokeLinecap="round"/>
+                <rect x="3" y="2" width="12" height="14" rx="2" stroke="#7ecba1" strokeWidth="1.5"/>
+                <path d="M6 7h6M6 10h4" stroke="#7ecba1" strokeWidth="1.5" strokeLinecap="round"/>
               </svg>
             </div>
-            <span style={{ fontSize: "18px", fontWeight: 700, color: "#fff", letterSpacing: "-0.3px" }}>Attendance</span>
+            <span style={{ fontSize: "16px", fontWeight: 700, color: "#e8f0f4", letterSpacing: "-0.3px" }}>Attendance</span>
           </div>
 
           <div style={{ display: "flex", gap: "6px" }}>
@@ -66,14 +66,14 @@ export default function AttendancePage() {
                   padding: "6px 16px", borderRadius: "999px", fontSize: "12px", fontWeight: 500,
                   cursor: "pointer", display: "flex", alignItems: "center", gap: "7px",
                   transition: "all 0.2s", border: "none",
-                  background: filter === f.key ? "linear-gradient(135deg, #00ff87, #00e676)" : "rgba(255,255,255,0.04)",
-                  color: filter === f.key ? "#050505" : "rgba(255,255,255,0.42)",
+                  background: filter === f.key ? "linear-gradient(135deg, #7ecba1, #5aaf85)" : "rgba(255,255,255,0.05)",
+                  color: filter === f.key ? "#1a3028" : "rgba(232,240,244,0.45)",
                 }}>
                 {f.label}
                 <span style={{
                   padding: "1px 7px", borderRadius: "999px", fontSize: "10px", fontWeight: 600,
-                  background: filter === f.key ? "rgba(0,0,0,0.15)" : "rgba(255,255,255,0.06)",
-                  color: filter === f.key ? "#050505" : "rgba(255,255,255,0.30)",
+                  background: filter === f.key ? "rgba(0,0,0,0.15)" : "rgba(255,255,255,0.08)",
+                  color: filter === f.key ? "#1a3028" : "rgba(232,240,244,0.30)",
                 }}>{f.count}</span>
               </button>
             ))}
@@ -84,22 +84,22 @@ export default function AttendancePage() {
           {!loading && (
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "14px", marginBottom: "28px" }}>
               {[
-                { label: "Average", value: `${avgAtt}%`, sub: "Overall attendance", color: "#00ff87" },
-                { label: "Safe", value: safeCount, sub: "Subjects ≥ 75%", color: "#00e5ff" },
-                { label: "At Risk", value: riskCount, sub: "Subjects < 75%", color: "#ff4757" },
+                { label: "Average", value: `${avgAtt}%`, sub: "Overall attendance", color: "#7ecba1" },
+                { label: "Safe", value: safeCount, sub: "Subjects ≥ 75%", color: "#7eb8c4" },
+                { label: "At Risk", value: riskCount, sub: "Subjects < 75%", color: "#c47b7b" },
               ].map((s, i) => (
                 <div key={i} style={{
-                  background: "rgba(10,10,10,0.55)", border: "1px solid rgba(255,255,255,0.05)",
-                  borderRadius: "16px", padding: "20px 22px", position: "relative", overflow: "hidden",
-                  backdropFilter: "blur(16px)", transition: "border-color 0.2s",
+                  background: "#3a4f5c", border: "1px solid rgba(255,255,255,0.09)",
+                  borderRadius: "14px", padding: "18px 20px", position: "relative", overflow: "hidden",
+                  transition: "border-color 0.2s",
                 }}
-                onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(0,255,135,0.15)")}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.05)")}
+                onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.18)")}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)")}
                 >
-                  <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: `linear-gradient(90deg, ${s.color}, transparent)`, borderRadius: "16px 16px 0 0" }} />
-                  <div style={{ fontSize: "11px", fontWeight: 500, letterSpacing: "2px", textTransform: "uppercase", color: "rgba(255,255,255,0.28)", marginBottom: "10px" }}>{s.label}</div>
-                  <div style={{ fontSize: "36px", fontWeight: 800, lineHeight: 1, color: s.color }}>{s.value}</div>
-                  <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.25)", marginTop: "6px" }}>{s.sub}</div>
+                  <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: `linear-gradient(90deg, ${s.color}90, transparent)`, borderRadius: "14px 14px 0 0" }} />
+                  <div style={{ fontSize: "10px", fontWeight: 600, letterSpacing: "1.6px", textTransform: "uppercase", color: "rgba(232,240,244,0.35)", marginBottom: "10px" }}>{s.label}</div>
+                  <div style={{ fontSize: "32px", fontWeight: 800, lineHeight: 1, color: s.color }}>{s.value}</div>
+                  <div style={{ fontSize: "11px", color: "rgba(232,240,244,0.38)", marginTop: "6px" }}>{s.sub}</div>
                 </div>
               ))}
             </div>
@@ -108,13 +108,13 @@ export default function AttendancePage() {
           {loading ? (
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "100px 0", gap: "16px" }}>
               <div className="srmx-spinner" />
-              <span style={{ fontSize: "14px", color: "rgba(255,255,255,0.22)", letterSpacing: "0.3px" }}>Fetching attendance data…</span>
+              <span style={{ fontSize: "14px", color: "rgba(232,240,244,0.38)" }}>Fetching attendance data…</span>
             </div>
           ) : (
             <>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
-                <span style={{ fontSize: "13px", fontWeight: 600, color: "rgba(255,255,255,0.35)", letterSpacing: "1.5px", textTransform: "uppercase" }}>Subjects</span>
-                <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.18)" }}>{filtered.length} shown</span>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
+                <span style={{ fontSize: "11px", fontWeight: 600, color: "rgba(232,240,244,0.40)", letterSpacing: "1.2px", textTransform: "uppercase" }}>Subjects</span>
+                <span style={{ fontSize: "11px", color: "rgba(232,240,244,0.28)" }}>{filtered.length} shown</span>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(360px, 1fr))", gap: "14px" }}>
                 {filtered.map((c: any) => (

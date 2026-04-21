@@ -20,9 +20,9 @@ function fmtRange(s: string, e: string) { const a = fmt12(s); const parts = e.sp
 function isNowIn(s: string, e: string) { const now = new Date().getHours() * 60 + new Date().getMinutes(); return now >= parseStart(s) && now <= parseEnd(e); }
 
 const TC: Record<string, { accent: string; bg: string; label: string; icon: string }> = {
-  theory:    { accent: "#00e5ff", bg: "rgba(0,229,255,0.08)",   label: "Theory",    icon: "T" },
-  lab:       { accent: "#b388ff", bg: "rgba(179,136,255,0.08)", label: "Lab",       icon: "L" },
-  practical: { accent: "#00ff87", bg: "rgba(0,255,135,0.08)",   label: "Practical", icon: "P" },
+  theory:    { accent: "#7eb8c4", bg: "rgba(126,184,196,0.12)", label: "Theory",    icon: "T" },
+  lab:       { accent: "#a98bc4", bg: "rgba(169,139,196,0.12)", label: "Lab",       icon: "L" },
+  practical: { accent: "#7ecba1", bg: "rgba(126,203,161,0.12)", label: "Practical", icon: "P" },
 };
 
 interface ScheduleItem {
@@ -123,12 +123,12 @@ function StatCard({ title, value, subtitle, icon: Icon, variant, delay = 0, onCl
   useEffect(() => { const t = setTimeout(() => setVisible(true), delay); return () => clearTimeout(t); }, [delay]);
 
   const variants: any = {
-    green:  { bg: "rgba(0,255,135,0.06)",  iconBg: "rgba(0,255,135,0.12)",  text: "#00ff87", bar: "#00ff87" },
-    cyan:   { bg: "rgba(0,229,255,0.06)",  iconBg: "rgba(0,229,255,0.12)",  text: "#00e5ff", bar: "#00e5ff" },
-    red:    { bg: "rgba(255,71,87,0.06)",   iconBg: "rgba(255,71,87,0.12)",  text: "#ff4757", bar: "#ff4757" },
-    blue:   { bg: "rgba(77,142,255,0.06)", iconBg: "rgba(77,142,255,0.12)", text: "#4d8eff", bar: "#4d8eff" },
-    amber:  { bg: "rgba(255,179,0,0.06)",  iconBg: "rgba(255,179,0,0.12)",  text: "#ffb300", bar: "#ffb300" },
-    purple: { bg: "rgba(179,136,255,0.06)",iconBg: "rgba(179,136,255,0.12)",text: "#b388ff", bar: "#b388ff" },
+    green:  { bg: "#3d5a50",  iconBg: "rgba(126,203,161,0.14)", text: "#7ecba1", bar: "#7ecba1" },
+    cyan:   { bg: "#3a5260",  iconBg: "rgba(126,184,196,0.14)", text: "#7eb8c4", bar: "#7eb8c4" },
+    red:    { bg: "#553a3a",  iconBg: "rgba(196,123,123,0.14)", text: "#c47b7b", bar: "#c47b7b" },
+    blue:   { bg: "#3a4c60",  iconBg: "rgba(123,158,196,0.14)", text: "#7b9ec4", bar: "#7b9ec4" },
+    amber:  { bg: "#55493a",  iconBg: "rgba(196,169,123,0.14)", text: "#c4a97b", bar: "#c4a97b" },
+    purple: { bg: "#4a3d56",  iconBg: "rgba(169,139,196,0.14)", text: "#a98bc4", bar: "#a98bc4" },
   };
   const v = variants[variant] || variants.green;
 
@@ -136,28 +136,27 @@ function StatCard({ title, value, subtitle, icon: Icon, variant, delay = 0, onCl
     <div
       onClick={onClick}
       style={{
-        borderRadius: "16px", padding: "20px 22px",
+        borderRadius: "14px", padding: "18px 20px",
         background: v.bg,
-        border: "1px solid rgba(255,255,255,0.06)",
-        backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)",
-        transition: "opacity 0.5s ease, transform 0.5s ease, border-color 0.2s, box-shadow 0.2s",
+        border: "1px solid rgba(255,255,255,0.07)",
+        transition: "opacity 0.5s ease, transform 0.5s ease, border-color 0.2s",
         opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(16px)",
+        transform: visible ? "translateY(0)" : "translateY(14px)",
         position: "relative", overflow: "hidden",
         cursor: onClick ? "pointer" : "default",
       }}
-      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = `${v.bar}30`; (e.currentTarget as HTMLElement).style.boxShadow = `0 8px 30px ${v.bar}15`; }}
-      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.06)"; (e.currentTarget as HTMLElement).style.boxShadow = "none"; }}
+      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.14)"; }}
+      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.07)"; }}
     >
-      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: `linear-gradient(90deg, ${v.bar}, transparent)`, borderRadius: "16px 16px 0 0" }} />
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: `linear-gradient(90deg, ${v.bar}99, transparent)`, borderRadius: "14px 14px 0 0" }} />
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "12px" }}>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <p style={{ fontSize: "10px", fontWeight: 600, color: "rgba(255,255,255,0.28)", marginBottom: "10px", textTransform: "uppercase", letterSpacing: "1.8px" }}>{title}</p>
-          <p style={{ fontSize: "30px", fontWeight: 800, color: v.text, marginBottom: "5px", lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>{value}</p>
-          {subtitle && <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.22)" }}>{subtitle}</p>}
+          <p style={{ fontSize: "10px", fontWeight: 600, color: "rgba(232,240,244,0.40)", marginBottom: "10px", textTransform: "uppercase", letterSpacing: "1.6px" }}>{title}</p>
+          <p style={{ fontSize: "28px", fontWeight: 800, color: v.text, marginBottom: "4px", lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>{value}</p>
+          {subtitle && <p style={{ fontSize: "11px", color: "rgba(232,240,244,0.35)" }}>{subtitle}</p>}
         </div>
-        <div style={{ width: "42px", height: "42px", borderRadius: "12px", background: v.iconBg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-          <Icon size={18} color={v.text} />
+        <div style={{ width: "40px", height: "40px", borderRadius: "11px", background: v.iconBg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+          <Icon size={17} color={v.text} />
         </div>
       </div>
     </div>
@@ -174,13 +173,12 @@ function TodayClassCard({ item, idx, isNow }: { item: ScheduleItem; idx: number;
   return (
     <div style={{
       display: "flex", alignItems: "stretch", gap: "0",
-      borderRadius: "14px", overflow: "hidden",
-      background: isNow ? "rgba(0,255,135,0.07)" : "rgba(255,255,255,0.02)",
-      border: isNow ? "1px solid rgba(0,255,135,0.25)" : "1px solid rgba(255,255,255,0.05)",
-      boxShadow: isNow ? "0 0 24px rgba(0,255,135,0.08)" : "none",
+      borderRadius: "12px", overflow: "hidden",
+      background: isNow ? "rgba(126,203,161,0.07)" : "rgba(255,255,255,0.03)",
+      border: isNow ? "1px solid rgba(126,203,161,0.28)" : "1px solid rgba(255,255,255,0.08)",
       animation: "cardIn 0.4s cubic-bezier(.22,1,.36,1) both",
       animationDelay: `${idx * 0.06}s`,
-      transition: "border-color 0.2s, box-shadow 0.2s",
+      transition: "border-color 0.2s",
     }}>
       {/* Color accent bar */}
       <div style={{ width: "3px", background: cfg.accent, flexShrink: 0 }} />
@@ -188,10 +186,10 @@ function TodayClassCard({ item, idx, isNow }: { item: ScheduleItem; idx: number;
       <div style={{ flex: 1, padding: "12px 14px", display: "flex", alignItems: "center", gap: "12px", minWidth: 0 }}>
         {/* Time */}
         <div style={{ flexShrink: 0, textAlign: "center", minWidth: "64px" }}>
-          <div style={{ fontSize: "11px", fontWeight: 700, color: "rgba(255,255,255,0.55)", fontFamily: "monospace" }}>
+          <div style={{ fontSize: "11px", fontWeight: 700, color: "rgba(232,240,244,0.65)", fontFamily: "monospace" }}>
             {fmt12(item.startTime)}
           </div>
-          <div style={{ fontSize: "9px", color: "rgba(255,255,255,0.20)", marginTop: "2px" }}>
+          <div style={{ fontSize: "9px", color: "rgba(232,240,244,0.28)", marginTop: "2px" }}>
             {item.slot}
           </div>
         </div>
@@ -201,18 +199,18 @@ function TodayClassCard({ item, idx, isNow }: { item: ScheduleItem; idx: number;
         {/* Course info */}
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "3px" }}>
-            <span style={{ fontSize: "12px", fontWeight: 600, color: "#f0f0f0", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            <span style={{ fontSize: "12px", fontWeight: 600, color: "#e8f0f4", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
               {item.courseTitle.length > 32 ? item.courseTitle.slice(0, 32) + "…" : item.courseTitle}
             </span>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <span style={{ fontSize: "9px", color: cfg.accent, background: cfg.bg, border: `1px solid ${cfg.accent}30`, padding: "1px 6px", borderRadius: "5px", fontWeight: 700 }}>
+            <span style={{ fontSize: "9px", color: cfg.accent, background: cfg.bg, border: `1px solid ${cfg.accent}40`, padding: "1px 6px", borderRadius: "5px", fontWeight: 700 }}>
               {cfg.icon} {cfg.label}
             </span>
-            {fac && <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.25)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {fac && <span style={{ fontSize: "10px", color: "rgba(232,240,244,0.32)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
               {fac.split(" ").slice(-1)[0]}
             </span>}
-            {item.roomNo && <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.25)" }}>· {item.roomNo}</span>}
+            {item.roomNo && <span style={{ fontSize: "10px", color: "rgba(232,240,244,0.32)" }}>· {item.roomNo}</span>}
           </div>
         </div>
 
@@ -221,7 +219,7 @@ function TodayClassCard({ item, idx, isNow }: { item: ScheduleItem; idx: number;
           <div style={{
             flexShrink: 0, textAlign: "right",
             fontSize: "13px", fontWeight: 800,
-            color: isRisk ? "#ff4757" : attn >= 85 ? "#00ff87" : "#00e676",
+            color: isRisk ? "#c47b7b" : attn >= 85 ? "#7ecba1" : "#7ecba1",
           }}>
             {Math.round(attn)}%
           </div>
@@ -229,8 +227,8 @@ function TodayClassCard({ item, idx, isNow }: { item: ScheduleItem; idx: number;
 
         {/* NOW badge */}
         {isNow && (
-          <div style={{ flexShrink: 0, display: "flex", alignItems: "center", gap: "4px", padding: "3px 8px", borderRadius: "99px", background: "rgba(0,255,135,0.12)", border: "1px solid rgba(0,255,135,0.30)", fontSize: "9px", fontWeight: 700, color: "#00ff87" }}>
-            <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "#00ff87", animation: "pulse 1.5s infinite" }} />
+          <div style={{ flexShrink: 0, display: "flex", alignItems: "center", gap: "4px", padding: "3px 8px", borderRadius: "99px", background: "rgba(126,203,161,0.14)", border: "1px solid rgba(126,203,161,0.32)", fontSize: "9px", fontWeight: 700, color: "#7ecba1" }}>
+            <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "#7ecba1", animation: "pulse 1.5s infinite" }} />
             NOW
           </div>
         )}
@@ -244,19 +242,19 @@ function MarksRow({ mark, idx }: { mark: any; idx: number }) {
   const max = parseFloat(mark["Max"]) || 100;
   const scored = parseFloat(mark["Scored"]) || 0;
   const pct = Math.min(100, (scored / max) * 100);
-  const color = pct >= 75 ? "#00ff87" : pct >= 50 ? "#ffb300" : "#ff4757";
+  const color = pct >= 75 ? "#7ecba1" : pct >= 50 ? "#c4a97b" : "#c47b7b";
 
   return (
     <div style={{
       display: "flex", alignItems: "center", gap: "12px", padding: "10px 0",
-      borderBottom: "1px solid rgba(255,255,255,0.03)",
+      borderBottom: "1px solid rgba(255,255,255,0.05)",
       animation: "cardIn 0.4s both", animationDelay: `${idx * 0.05}s`,
     }}>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: "12px", fontWeight: 600, color: "#f0f0f0", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginBottom: "2px" }}>
+        <div style={{ fontSize: "12px", fontWeight: 600, color: "#e8f0f4", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginBottom: "2px" }}>
           {mark["Course Title"] || mark["Course Code"] || "—"}
         </div>
-        <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.25)" }}>
+        <div style={{ fontSize: "10px", color: "rgba(232,240,244,0.35)" }}>
           {mark["Test"]} · {mark["Course Code"]}
         </div>
       </div>
@@ -371,9 +369,9 @@ export default function Dashboard() {
   const dateStr = now.toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long" });
 
   if (loading && !data) return (
-    <div style={{ display: "flex", height: "100vh", alignItems: "center", justifyContent: "center", background: "#050505", flexDirection: "column", gap: "18px" }}>
+    <div style={{ display: "flex", height: "100vh", alignItems: "center", justifyContent: "center", background: "#36454F", flexDirection: "column", gap: "18px" }}>
       <div className="srmx-spinner" />
-      <p style={{ color: "rgba(255,255,255,0.22)", fontSize: "14px", letterSpacing: "0.3px" }}>Loading your portal…</p>
+      <p style={{ color: "rgba(232,240,244,0.38)", fontSize: "14px" }}>Loading your portal…</p>
     </div>
   );
 
@@ -388,18 +386,18 @@ export default function Dashboard() {
         {/* Topbar */}
         <div className="srmx-topbar">
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <div style={{ width: "34px", height: "34px", borderRadius: "10px", background: "rgba(0,255,135,0.10)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div style={{ width: "34px", height: "34px", borderRadius: "10px", background: "rgba(126,203,161,0.12)", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
-                <rect x="2" y="2" width="6" height="6" rx="1.5" stroke="#00ff87" strokeWidth="1.5"/>
-                <rect x="10" y="2" width="6" height="6" rx="1.5" stroke="#00ff87" strokeWidth="1.5"/>
-                <rect x="2" y="10" width="6" height="6" rx="1.5" stroke="#00ff87" strokeWidth="1.5"/>
-                <rect x="10" y="10" width="6" height="6" rx="1.5" stroke="#00ff87" strokeWidth="1.5"/>
+                <rect x="2" y="2" width="6" height="6" rx="1.5" stroke="#7ecba1" strokeWidth="1.5"/>
+                <rect x="10" y="2" width="6" height="6" rx="1.5" stroke="#7ecba1" strokeWidth="1.5"/>
+                <rect x="2" y="10" width="6" height="6" rx="1.5" stroke="#7ecba1" strokeWidth="1.5"/>
+                <rect x="10" y="10" width="6" height="6" rx="1.5" stroke="#7ecba1" strokeWidth="1.5"/>
               </svg>
             </div>
-            <span style={{ fontSize: "18px", fontWeight: 700, color: "#fff", letterSpacing: "-0.3px" }}>Dashboard</span>
+            <span style={{ fontSize: "18px", fontWeight: 700, color: "#e8f0f4", letterSpacing: "-0.3px" }}>Dashboard</span>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.30)", fontFamily: "monospace" }}>{timeStr}</span>
+            <span style={{ fontSize: "12px", color: "rgba(232,240,244,0.35)", fontFamily: "monospace" }}>{timeStr}</span>
             <span className="neon-badge">
               Sem {sem} · {spec}
             </span>
@@ -414,23 +412,23 @@ export default function Dashboard() {
             animation: "fadeUp 0.6s ease",
           }}>
             <div>
-              <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.30)", marginBottom: "6px", letterSpacing: "0.5px" }}>
+              <div style={{ fontSize: "12px", color: "rgba(232,240,244,0.38)", marginBottom: "6px", letterSpacing: "0.3px" }}>
                 {dateStr}
                 {dayOrder && !isHoliday && (
-                  <span style={{ marginLeft: "10px", padding: "2px 8px", borderRadius: "6px", background: "rgba(0,255,135,0.08)", color: "#00ff87", fontSize: "11px", fontWeight: 600 }}>
+                  <span style={{ marginLeft: "10px", padding: "2px 8px", borderRadius: "6px", background: "rgba(126,203,161,0.10)", color: "#7ecba1", fontSize: "11px", fontWeight: 600 }}>
                     Day Order {dayOrder}
                   </span>
                 )}
                 {isHoliday && (
-                  <span style={{ marginLeft: "10px", padding: "2px 8px", borderRadius: "6px", background: "rgba(255,179,0,0.08)", color: "#ffb300", fontSize: "11px", fontWeight: 600 }}>
+                  <span style={{ marginLeft: "10px", padding: "2px 8px", borderRadius: "6px", background: "rgba(196,169,123,0.12)", color: "#c4a97b", fontSize: "11px", fontWeight: 600 }}>
                     Holiday / Weekend
                   </span>
                 )}
               </div>
-              <h1 style={{ fontSize: "clamp(26px, 4vw, 36px)", fontWeight: 800, color: "#fff", letterSpacing: "-0.5px", lineHeight: 1.2, marginBottom: "6px" }}>
-                {greeting}, <span style={{ color: "#00ff87", fontStyle: "italic" }}>{firstName}</span> 👋
+              <h1 style={{ fontSize: "clamp(22px, 3.5vw, 32px)", fontWeight: 800, color: "#e8f0f4", letterSpacing: "-0.4px", lineHeight: 1.2, marginBottom: "6px" }}>
+                {greeting}, <span style={{ color: "#7ecba1" }}>{firstName}</span> 👋
               </h1>
-              <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.28)", lineHeight: 1.6 }}>
+              <p style={{ fontSize: "13px", color: "rgba(232,240,244,0.40)", lineHeight: 1.6 }}>
                 {nowClass
                   ? `You're currently in ${nowClass.courseTitle.split(" ").slice(0, 4).join(" ")}…`
                   : nextClass
@@ -445,30 +443,28 @@ export default function Dashboard() {
             {/* Profile Card */}
             <div style={{
               display: "flex", alignItems: "center", gap: "14px",
-              padding: "16px 20px", borderRadius: "16px",
-              background: "rgba(255,255,255,0.03)",
-              border: "1px solid rgba(255,255,255,0.07)",
-              backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)",
+              padding: "14px 18px", borderRadius: "14px",
+              background: "#3a4f5c",
+              border: "1px solid rgba(255,255,255,0.09)",
             }}>
               <div style={{
-                width: "48px", height: "48px", borderRadius: "14px",
-                background: "linear-gradient(135deg, #00ff87, #00b3ff)",
+                width: "44px", height: "44px", borderRadius: "12px",
+                background: "linear-gradient(135deg, #7ecba1, #5aaf85)",
                 display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: "16px", fontWeight: 800, color: "#050505", flexShrink: 0,
-                boxShadow: "0 4px 20px rgba(0,255,135,0.25)",
+                fontSize: "15px", fontWeight: 800, color: "#1a3028", flexShrink: 0,
               }}>
                 {initials}
               </div>
               <div>
-                <div style={{ fontSize: "13px", fontWeight: 700, color: "#f0f0f0", marginBottom: "2px" }}>
+                <div style={{ fontSize: "13px", fontWeight: 700, color: "#e8f0f4", marginBottom: "2px" }}>
                   {fullName}
                 </div>
                 {regNo && (
-                  <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.30)", fontFamily: "monospace", marginBottom: "2px" }}>
+                  <div style={{ fontSize: "10px", color: "rgba(232,240,244,0.38)", fontFamily: "monospace", marginBottom: "2px" }}>
                     {regNo}
                   </div>
                 )}
-                <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.25)" }}>
+                <div style={{ fontSize: "10px", color: "rgba(232,240,244,0.32)" }}>
                   Sem {sem} · {spec}
                 </div>
               </div>
@@ -476,7 +472,7 @@ export default function Dashboard() {
           </div>
 
           {/* ── Stats Grid ── */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "12px", marginBottom: "28px" }}>
+          <div id="dash-stats" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "12px", marginBottom: "24px" }}>
             <StatCard
               title="Avg Attendance"
               value={avg + "%"}
@@ -516,37 +512,36 @@ export default function Dashboard() {
           </div>
 
           {/* ── Two Column Layout: Today's Timetable + Quick Marks ── */}
-          <div style={{ display: "grid", gridTemplateColumns: "1.2fr 0.8fr", gap: "16px", marginBottom: "28px" }}>
+          <div id="dash-main-grid" style={{ display: "grid", gridTemplateColumns: "1.2fr 0.8fr", gap: "14px", marginBottom: "24px" }}>
 
             {/* Today's Timetable Widget */}
             <div style={{
-              borderRadius: "20px",
-              background: "rgba(8,8,8,0.7)",
-              border: "1px solid rgba(255,255,255,0.06)",
-              backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
+              borderRadius: "16px",
+              background: "#3a4f5c",
+              border: "1px solid rgba(255,255,255,0.09)",
               overflow: "hidden",
               animation: "fadeUp 0.7s ease 0.1s both",
             }}>
               {/* Header */}
               <div style={{
-                padding: "18px 20px 14px",
-                borderBottom: "1px solid rgba(255,255,255,0.05)",
+                padding: "16px 18px 12px",
+                borderBottom: "1px solid rgba(255,255,255,0.07)",
                 display: "flex", alignItems: "center", justifyContent: "space-between",
               }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                  <div style={{ width: "32px", height: "32px", borderRadius: "10px", background: "rgba(0,229,255,0.08)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <Calendar size={14} color="#00e5ff" />
+                  <div style={{ width: "30px", height: "30px", borderRadius: "9px", background: "rgba(126,184,196,0.14)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Calendar size={14} color="#7eb8c4" />
                   </div>
                   <div>
-                    <div style={{ fontSize: "14px", fontWeight: 700, color: "#fff" }}>Today&apos;s Schedule</div>
-                    <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.28)" }}>
+                    <div style={{ fontSize: "13px", fontWeight: 700, color: "#e8f0f4" }}>Today&apos;s Schedule</div>
+                    <div style={{ fontSize: "10px", color: "rgba(232,240,244,0.38)" }}>
                       {isHoliday ? "No classes today" : dayOrder ? `Day Order ${dayOrder} · ${todayClasses.length} classes` : "Loading…"}
                     </div>
                   </div>
                 </div>
                 <button
                   onClick={() => router.push("/timetable")}
-                  style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "11px", color: "#00e5ff", background: "rgba(0,229,255,0.08)", border: "1px solid rgba(0,229,255,0.20)", borderRadius: "8px", padding: "5px 10px", cursor: "pointer", fontWeight: 600 }}
+                  style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "11px", color: "#7eb8c4", background: "rgba(126,184,196,0.10)", border: "1px solid rgba(126,184,196,0.22)", borderRadius: "8px", padding: "5px 10px", cursor: "pointer", fontWeight: 600 }}
                 >
                   Full View <ChevronRight size={12} />
                 </button>
@@ -555,17 +550,17 @@ export default function Dashboard() {
               {/* Class list */}
               <div style={{ padding: "12px 16px", display: "flex", flexDirection: "column", gap: "6px", maxHeight: "380px", overflowY: "auto" }}>
                 {isHoliday ? (
-                  <div style={{ textAlign: "center", padding: "40px 0" }}>
-                    <div style={{ fontSize: "32px", marginBottom: "10px" }}>🎉</div>
-                    <div style={{ fontSize: "14px", fontWeight: 600, color: "rgba(255,255,255,0.40)" }}>Holiday / Weekend</div>
-                    <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.20)", marginTop: "4px" }}>Enjoy your free time!</div>
+                  <div style={{ textAlign: "center", padding: "36px 0" }}>
+                    <div style={{ fontSize: "30px", marginBottom: "10px" }}>🎉</div>
+                    <div style={{ fontSize: "14px", fontWeight: 600, color: "rgba(232,240,244,0.45)" }}>Holiday / Weekend</div>
+                    <div style={{ fontSize: "12px", color: "rgba(232,240,244,0.28)", marginTop: "4px" }}>Enjoy your free time!</div>
                   </div>
                 ) : todayClasses.length === 0 ? (
-                  <div style={{ textAlign: "center", padding: "40px 0" }}>
-                    <div style={{ fontSize: "32px", marginBottom: "10px" }}>📭</div>
-                    <div style={{ fontSize: "14px", fontWeight: 600, color: "rgba(255,255,255,0.40)" }}>No timetable data</div>
-                    <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.20)", marginTop: "4px" }}>
-                      <button onClick={() => router.push("/timetable")} style={{ color: "#00e5ff", background: "none", border: "none", cursor: "pointer", textDecoration: "underline", fontSize: "11px" }}>
+                  <div style={{ textAlign: "center", padding: "36px 0" }}>
+                    <div style={{ fontSize: "30px", marginBottom: "10px" }}>📭</div>
+                    <div style={{ fontSize: "14px", fontWeight: 600, color: "rgba(232,240,244,0.45)" }}>No timetable data</div>
+                    <div style={{ fontSize: "11px", color: "rgba(232,240,244,0.28)", marginTop: "4px" }}>
+                      <button onClick={() => router.push("/timetable")} style={{ color: "#7eb8c4", background: "none", border: "none", cursor: "pointer", textDecoration: "underline", fontSize: "11px" }}>
                         Visit Timetable page
                       </button>
                     </div>
@@ -582,37 +577,36 @@ export default function Dashboard() {
             <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
               {/* Marks Summary */}
               <div style={{
-                borderRadius: "20px", flex: 1,
-                background: "rgba(8,8,8,0.7)",
-                border: "1px solid rgba(255,255,255,0.06)",
-                backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
+                borderRadius: "16px", flex: 1,
+                background: "#3a4f5c",
+                border: "1px solid rgba(255,255,255,0.09)",
                 overflow: "hidden",
                 animation: "fadeUp 0.7s ease 0.15s both",
               }}>
                 <div style={{
-                  padding: "18px 20px 14px",
-                  borderBottom: "1px solid rgba(255,255,255,0.05)",
+                  padding: "16px 18px 12px",
+                  borderBottom: "1px solid rgba(255,255,255,0.07)",
                   display: "flex", alignItems: "center", justifyContent: "space-between",
                 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                    <div style={{ width: "32px", height: "32px", borderRadius: "10px", background: "rgba(77,142,255,0.08)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <Award size={14} color="#4d8eff" />
+                    <div style={{ width: "30px", height: "30px", borderRadius: "9px", background: "rgba(123,158,196,0.14)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <Award size={14} color="#7b9ec4" />
                     </div>
                     <div>
-                      <div style={{ fontSize: "14px", fontWeight: 700, color: "#fff" }}>Recent Marks</div>
-                      <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.28)" }}>{marks.length} test records</div>
+                      <div style={{ fontSize: "13px", fontWeight: 700, color: "#e8f0f4" }}>Recent Marks</div>
+                      <div style={{ fontSize: "10px", color: "rgba(232,240,244,0.38)" }}>{marks.length} test records</div>
                     </div>
                   </div>
                   <button
                     onClick={() => router.push("/marks")}
-                    style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "11px", color: "#4d8eff", background: "rgba(77,142,255,0.08)", border: "1px solid rgba(77,142,255,0.20)", borderRadius: "8px", padding: "5px 10px", cursor: "pointer", fontWeight: 600 }}
+                    style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "11px", color: "#7b9ec4", background: "rgba(123,158,196,0.10)", border: "1px solid rgba(123,158,196,0.22)", borderRadius: "8px", padding: "5px 10px", cursor: "pointer", fontWeight: 600 }}
                   >
                     All Marks <ChevronRight size={12} />
                   </button>
                 </div>
                 <div style={{ padding: "4px 16px 8px", maxHeight: "260px", overflowY: "auto" }}>
                   {marks.length === 0 ? (
-                    <div style={{ textAlign: "center", padding: "30px 0", fontSize: "13px", color: "rgba(255,255,255,0.25)" }}>No marks data</div>
+                    <div style={{ textAlign: "center", padding: "30px 0", fontSize: "13px", color: "rgba(232,240,244,0.30)" }}>No marks data</div>
                   ) : (
                     marks.slice(0, 6).map((m: any, i: number) => <MarksRow key={i} mark={m} idx={i} />)
                   )}
@@ -621,35 +615,34 @@ export default function Dashboard() {
 
               {/* Quick Actions */}
               <div style={{
-                borderRadius: "20px",
-                background: "rgba(8,8,8,0.7)",
-                border: "1px solid rgba(255,255,255,0.06)",
-                backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
-                padding: "16px",
+                borderRadius: "16px",
+                background: "#3a4f5c",
+                border: "1px solid rgba(255,255,255,0.09)",
+                padding: "14px",
                 animation: "fadeUp 0.7s ease 0.2s both",
               }}>
-                <div style={{ fontSize: "11px", fontWeight: 600, color: "rgba(255,255,255,0.25)", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "12px" }}>
+                <div style={{ fontSize: "10px", fontWeight: 600, color: "rgba(232,240,244,0.32)", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "10px" }}>
                   Quick Access
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "7px" }}>
                   {[
-                    { label: "Attendance", icon: Clock, color: "#00ff87", bg: "rgba(0,255,135,0.08)", href: "/attendance" },
-                    { label: "Timetable", icon: Calendar, color: "#00e5ff", bg: "rgba(0,229,255,0.08)", href: "/timetable" },
-                    { label: "GPA Calc", icon: Zap, color: "#b388ff", bg: "rgba(179,136,255,0.08)", href: "/gpa" },
-                    { label: "AI Assistant", icon: Award, color: "#ffb300", bg: "rgba(255,179,0,0.08)", href: "/ai" },
+                    { label: "Attendance", icon: Clock,    color: "#7ecba1", bg: "rgba(126,203,161,0.10)", href: "/attendance" },
+                    { label: "Timetable",  icon: Calendar, color: "#7eb8c4", bg: "rgba(126,184,196,0.10)", href: "/timetable" },
+                    { label: "GPA Calc",   icon: Zap,      color: "#a98bc4", bg: "rgba(169,139,196,0.10)", href: "/gpa" },
+                    { label: "AI Assist",  icon: Award,    color: "#c4a97b", bg: "rgba(196,169,123,0.10)", href: "/ai" },
                   ].map(({ label, icon: Icon, color, bg, href }) => (
                     <button
                       key={href}
                       onClick={() => router.push(href)}
                       style={{
-                        display: "flex", alignItems: "center", gap: "8px",
-                        padding: "10px 12px", borderRadius: "12px",
-                        background: bg, border: `1px solid ${color}20`,
+                        display: "flex", alignItems: "center", gap: "7px",
+                        padding: "9px 10px", borderRadius: "10px",
+                        background: bg, border: `1px solid ${color}28`,
                         cursor: "pointer", fontSize: "12px", fontWeight: 600, color,
-                        transition: "all 0.15s",
+                        transition: "border-color 0.15s",
                       }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = `${color}45`; }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = `${color}20`; }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = `${color}50`; }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = `${color}28`; }}
                     >
                       <Icon size={14} color={color} />
                       {label}
@@ -663,47 +656,46 @@ export default function Dashboard() {
           {/* ── At-Risk Subjects ── */}
           {risk > 0 && (
             <div style={{
-              borderRadius: "20px",
-              background: "rgba(255,71,87,0.04)",
-              border: "1px solid rgba(255,71,87,0.15)",
-              backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
+              borderRadius: "16px",
+              background: "#4a3535",
+              border: "1px solid rgba(196,123,123,0.18)",
               overflow: "hidden",
               animation: "fadeUp 0.7s ease 0.25s both",
             }}>
               <div style={{
-                padding: "16px 20px",
-                borderBottom: "1px solid rgba(255,71,87,0.08)",
+                padding: "14px 18px",
+                borderBottom: "1px solid rgba(196,123,123,0.10)",
                 display: "flex", alignItems: "center", justifyContent: "space-between",
               }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                  <div style={{ width: "32px", height: "32px", borderRadius: "10px", background: "rgba(255,71,87,0.12)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <AlertTriangle size={14} color="#ff4757" />
+                  <div style={{ width: "30px", height: "30px", borderRadius: "9px", background: "rgba(196,123,123,0.16)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <AlertTriangle size={14} color="#c47b7b" />
                   </div>
                   <div>
-                    <div style={{ fontSize: "14px", fontWeight: 700, color: "#ff4757" }}>Attendance Alert</div>
-                    <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.28)" }}>{risk} subject{risk > 1 ? "s" : ""} below 75%</div>
+                    <div style={{ fontSize: "13px", fontWeight: 700, color: "#c47b7b" }}>Attendance Alert</div>
+                    <div style={{ fontSize: "10px", color: "rgba(232,240,244,0.38)" }}>{risk} subject{risk > 1 ? "s" : ""} below 75%</div>
                   </div>
                 </div>
-                <button onClick={() => router.push("/attendance")} style={{ fontSize: "11px", color: "#ff4757", background: "rgba(255,71,87,0.08)", border: "1px solid rgba(255,71,87,0.20)", borderRadius: "8px", padding: "5px 10px", cursor: "pointer", fontWeight: 600 }}>
+                <button onClick={() => router.push("/attendance")} style={{ fontSize: "11px", color: "#c47b7b", background: "rgba(196,123,123,0.10)", border: "1px solid rgba(196,123,123,0.22)", borderRadius: "8px", padding: "5px 10px", cursor: "pointer", fontWeight: 600 }}>
                   View All
                 </button>
               </div>
-              <div style={{ padding: "12px 16px", display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "8px" }}>
+              <div style={{ padding: "10px 14px", display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: "8px" }}>
                 {att.filter((c: any) => parseFloat(c["Attn %"]) < 75).slice(0, 4).map((c: any) => {
                   const pct = parseFloat(c["Attn %"]) || 0;
                   const cond = parseInt(c["Hours Conducted"]) || 0;
                   const pres = parseInt(c["Hours Present"]) || (cond - (parseInt(c["Hours Absent"]) || 0));
                   const need = cond > 0 ? Math.max(0, Math.ceil((0.75 * cond - pres) / 0.25)) : 0;
                   return (
-                    <div key={c["Course Code"] + c["Category"]} style={{ display: "flex", alignItems: "center", gap: "12px", padding: "10px 12px", borderRadius: "12px", background: "rgba(255,71,87,0.04)", border: "1px solid rgba(255,71,87,0.08)" }}>
-                      <div style={{ width: "36px", height: "36px", borderRadius: "10px", background: pct >= 65 ? "rgba(255,179,0,0.12)" : "rgba(255,71,87,0.12)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                        <span style={{ fontSize: "11px", fontWeight: 800, color: pct >= 65 ? "#ffb300" : "#ff4757" }}>{Math.round(pct)}%</span>
+                    <div key={c["Course Code"] + c["Category"]} style={{ display: "flex", alignItems: "center", gap: "12px", padding: "10px 12px", borderRadius: "10px", background: "rgba(196,123,123,0.06)", border: "1px solid rgba(196,123,123,0.10)" }}>
+                      <div style={{ width: "36px", height: "36px", borderRadius: "10px", background: pct >= 65 ? "rgba(196,169,123,0.14)" : "rgba(196,123,123,0.14)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <span style={{ fontSize: "11px", fontWeight: 800, color: pct >= 65 ? "#c4a97b" : "#c47b7b" }}>{Math.round(pct)}%</span>
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: "12px", fontWeight: 600, color: "#f0f0f0", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                        <div style={{ fontSize: "12px", fontWeight: 600, color: "#e8f0f4", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                           {c["Course Title"] || c["Course Code"]}
                         </div>
-                        <div style={{ fontSize: "10px", color: "#ff4757", marginTop: "2px" }}>Need {need} more {need === 1 ? "class" : "classes"}</div>
+                        <div style={{ fontSize: "10px", color: "#c47b7b", marginTop: "2px" }}>Need {need} more {need === 1 ? "class" : "classes"}</div>
                       </div>
                     </div>
                   );
@@ -715,14 +707,19 @@ export default function Dashboard() {
       </main>
 
       <style>{`
-        @media (max-width: 1200px) {
-          .dash-stats { grid-template-columns: repeat(2, 1fr) !important; }
-          .dash-main-grid { grid-template-columns: 1fr !important; }
+        #dash-stats {
+          grid-template-columns: repeat(4, 1fr);
         }
-        @media (max-width: 768px) {
-          .dash-stats { grid-template-columns: repeat(2, 1fr) !important; }
-          .dash-main-grid { grid-template-columns: 1fr !important; }
-          .dash-hero { grid-template-columns: 1fr !important; }
+        #dash-main-grid {
+          grid-template-columns: 1.2fr 0.8fr;
+        }
+        @media (max-width: 1100px) {
+          #dash-stats { grid-template-columns: repeat(2, 1fr) !important; }
+          #dash-main-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 600px) {
+          #dash-stats { grid-template-columns: repeat(2, 1fr) !important; }
+          #dash-main-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </div>
