@@ -2,6 +2,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
+import DynamicGauge from "@/components/DynamicGauge";
 import { dataAPI } from "@/lib/api";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthStore } from "@/lib/store";
@@ -184,18 +185,18 @@ export default function AttendancePage() {
       <Sidebar />
 
       <main className="page-main">
-        <div className="page-content" style={{ paddingBottom: "140px" }}>
+        <div className="page-content" data-section="Attendance" style={{ paddingBottom: "140px" }}>
+
 
           {/* Header */}
-          <div style={{ textAlign: "center", marginBottom: "40px" }}>
-            <div style={{ fontSize: "12px", letterSpacing: "0.2em", color: "#666666", textTransform: "uppercase" }}>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "40px" }}>
+            <div style={{ fontSize: "12px", letterSpacing: "0.2em", color: "var(--text-secondary)", textTransform: "uppercase", marginBottom: "24px" }}>
               Overall Attendance
             </div>
-            <div style={{ fontSize: "96px", fontWeight: 900, color: "#ffffff", lineHeight: 1, marginBottom: "32px" }}>
-              {avgAtt}%
-            </div>
             
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px", maxWidth: "400px", margin: "0 auto" }}>
+            <DynamicGauge value={parseFloat(avgAtt)} size={200} strokeWidth={12} />
+            
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px", width: "100%", maxWidth: "400px", margin: "32px auto 0" }}>
               <div style={{ background: "#0a1f33", padding: "16px", borderRadius: "16px", border: "1px solid #1a334d" }}>
                 <div style={{ fontSize: "11px", color: "#66aaff", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: "bold", marginBottom: "4px" }}>Total</div>
                 <div style={{ fontSize: "24px", color: "#ffffff", fontWeight: 900 }}>{totalAgg}</div>
@@ -306,35 +307,35 @@ export default function AttendancePage() {
               const pres = cond - abs;
               
               return (
-                <div key={i} style={{ 
-                  background: isRisk ? "#1a0000" : "#1c1c1c", 
-                  border: isRisk ? "2px dashed #ff3b3b" : "none",
-                  borderRadius: "20px", 
-                  padding: "20px",
+                <div key={i} className="min-card" style={{ 
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "space-between"
+                  justifyContent: "space-between",
+                  background: isRisk ? "rgba(255,59,59,0.05)" : "var(--bg-surface)",
+                  borderLeft: isRisk ? "4px solid var(--accent-red)" : "1px solid var(--border)",
+                  borderColor: isRisk ? "var(--accent-red)" : "var(--border)",
+                  borderStyle: isRisk ? "dashed" : "solid"
                 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
                     <div style={{ width: "60px" }}>
-                      <div style={{ fontSize: "48px", fontWeight: 900, color: isRisk ? "#ff3b3b" : "#ffffff", lineHeight: 1 }}>
+                      <div className="font-heading" style={{ fontSize: "40px", fontWeight: 900, color: isRisk ? "var(--accent-red)" : "var(--text-primary)", lineHeight: 1 }}>
                         {pres}
                       </div>
-                      <div style={{ fontSize: "10px", color: "#666666", textTransform: "uppercase", marginTop: "4px", fontWeight: "bold" }}>
-                        /{cond} attended
+                      <div style={{ fontSize: "10px", color: "var(--text-secondary)", textTransform: "uppercase", marginTop: "4px", fontWeight: "bold" }}>
+                        /{cond} pres
                       </div>
                     </div>
                     <div style={{ flex: 1, minWidth: 0, paddingRight: "16px" }}>
-                      <div style={{ fontSize: "16px", fontWeight: "bold", color: "#ffffff", paddingBottom: "2px", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word", lineHeight: 1.2 }}>
+                      <div style={{ fontSize: "16px", fontWeight: "bold", color: "var(--text-primary)", paddingBottom: "2px", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word", lineHeight: 1.2 }}>
                         {c["Course Title"]}
                       </div>
-                      <div style={{ fontSize: "11px", color: "#888888", fontWeight: "bold", letterSpacing: "0.05em" }}>
+                      <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: "bold", letterSpacing: "0.05em" }}>
                         {c["Course Code"]}
                       </div>
                     </div>
                   </div>
 
-                  <div style={{ fontSize: "32px", fontWeight: 900, color: isRisk ? "#ff3b3b" : "#a8c200" }}>
+                  <div className="font-heading" style={{ fontSize: "32px", fontWeight: 900, color: isRisk ? "var(--accent-red)" : "var(--accent)" }}>
                     {attn}%
                   </div>
                 </div>

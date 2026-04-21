@@ -6,6 +6,7 @@ import { dataAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { useAuth } from "@/hooks/useAuth";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
+import { useThemeStore } from "@/lib/themeStore";
 
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
 function parseStart(t: string) { const m = t.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
@@ -229,7 +230,7 @@ export default function DashboardPage() {
     <div className="page-root">
       <Sidebar />
       <main className="page-main">
-        <div className="page-content" style={{ paddingBottom: "120px" }}>
+        <div className="page-content" data-section="Portal" style={{ paddingBottom: "120px" }}>
           
           {/* Header */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "24px" }}>
@@ -243,19 +244,66 @@ export default function DashboardPage() {
           </div>
 
           {/* Top Stats Cards */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "8px", marginBottom: "32px" }}>
-            {[
-              { label: "Attendance", value: `${avgAtt}%`, color: "#a8c200" },
-              { label: "Avg Marks", value: `${avgMarks}%`, color: "#ffffff" },
-              { label: "At Risk", value: riskCount, color: riskCount > 0 ? "#ff3b3b" : "#888888" },
-              { label: "Courses", value: totalCourses, color: "#888888" },
-            ].map((stat, i) => (
-              <div key={i} style={{ background: "#1c1c1c", borderRadius: "16px", padding: "16px 12px", textAlign: "center" }}>
-                <div style={{ fontSize: "20px", fontWeight: "bold", color: stat.color, marginBottom: "4px" }}>{stat.value}</div>
-                <div style={{ fontSize: "9px", color: "#666666", textTransform: "uppercase", letterSpacing: "0.05em" }}>{stat.label}</div>
+          {(() => {
+            const stats = [
+              { label: "Attendance", value: `${avgAtt}%`, color: "var(--accent)" },
+              { label: "Avg Marks", value: `${avgMarks}%`, color: "var(--text-primary)" },
+              { label: "At Risk", value: riskCount, color: riskCount > 0 ? "var(--accent-red)" : "var(--text-secondary)" },
+              { label: "Courses", value: totalCourses, color: "var(--text-secondary)" },
+            ];
+            const { theme } = useThemeStore.getState();
+
+            if (theme === "jarvis") {
+              return (
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "12px", marginBottom: "32px" }}>
+                  {stats.map((s, i) => (
+                    <div key={i} style={{ border: `1px solid var(--border)`, padding: "16px", background: "rgba(0,168,255,0.05)" }}>
+                      <div style={{ fontSize: "10px", color: "var(--accent)", textTransform: "uppercase", marginBottom: "4px", fontWeight: 800 }}>{s.label}</div>
+                      <div style={{ fontSize: "24px", fontWeight: 900, color: s.color, fontFamily: "var(--font-orbitron)" }}>{s.value}</div>
+                    </div>
+                  ))}
+                </div>
+              );
+            }
+
+            if (theme === "ghost") {
+              return (
+                <div style={{ borderTop: "1px solid var(--border)", marginBottom: "32px" }}>
+                  {stats.map((s, i) => (
+                    <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "12px 0", borderBottom: "1px solid var(--border)" }}>
+                      <span style={{ fontSize: "11px", fontWeight: 900, textTransform: "uppercase" }}>{s.label}</span>
+                      <span style={{ fontSize: "18px", fontWeight: 900, fontFamily: "var(--font-playfair)" }}>{s.value}</span>
+                    </div>
+                  ))}
+                </div>
+              );
+            }
+
+            if (theme === "ember") {
+              return (
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "16px", marginBottom: "32px" }}>
+                  {stats.map((s, i) => (
+                    <div key={i} style={{ borderLeft: "4px solid var(--accent)", padding: "12px 20px", background: "rgba(255,107,0,0.05)" }}>
+                      <div style={{ fontSize: "12px", fontWeight: 800, color: "var(--accent)", textTransform: "uppercase" }}>{s.label}</div>
+                      <div style={{ fontSize: "32px", fontWeight: 900, color: s.color, fontFamily: "var(--font-bebas)" }}>{s.value}</div>
+                    </div>
+                  ))}
+                </div>
+              );
+            }
+
+            // Matrix (Default)
+            return (
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "8px", marginBottom: "32px" }}>
+                {stats.map((s, i) => (
+                  <div key={i} className="min-card" style={{ padding: "16px 12px", textAlign: "center", border: "none" }}>
+                    <div style={{ fontSize: "20px", fontWeight: "bold", color: s.color, marginBottom: "4px" }}>{s.value}</div>
+                    <div style={{ fontSize: "9px", color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: "0.05em" }}>{s.label}</div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            );
+          })()}
 
           {/* Date / Day Order Selector */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
@@ -274,23 +322,23 @@ export default function DashboardPage() {
               {nextClass ? (
                 <div style={{ marginBottom: "32px", position: "relative" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px", position: "relative", zIndex: 10 }}>
-                    <span style={{ fontSize: "12px", color: "#666666", letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 800 }}>Next Up</span>
-                    <span style={{ fontSize: "12px", color: "#ffffff", fontWeight: 800, background: "#1c1c1c", padding: "4px 8px", borderRadius: "12px" }}>{nextClass.roomNo || "TBA"}</span>
+                    <span style={{ fontSize: "12px", color: "var(--text-secondary)", letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 800 }}>Next Up</span>
+                    <span style={{ fontSize: "12px", color: "var(--text-primary)", fontWeight: 800, background: "var(--bg-surface)", padding: "4px 12px", borderRadius: "12px", border: "1px solid var(--border)" }}>{nextClass.roomNo || "TBA"}</span>
                   </div>
-                  <div style={{ 
-                    fontSize: "clamp(48px, 10vw, 72px)", fontWeight: 900, color: "#ffffff", letterSpacing: "-0.06em", lineHeight: 0.85,
+                  <div className="font-heading" style={{ 
+                    fontSize: "clamp(32px, 8vw, 56px)", fontWeight: 900, color: "var(--text-primary)", letterSpacing: "-0.04em", lineHeight: 0.9,
                     display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden",
-                    wordBreak: "break-word", textTransform: "lowercase", marginBottom: "16px", marginTop: "8px"
+                    wordBreak: "break-word", textTransform: "uppercase", marginBottom: "20px", marginTop: "12px"
                   }}>
                     {nextClass.courseTitle}
                   </div>
-                  <div style={{ background: "#151515", border: "1px solid #222", borderRadius: "24px", padding: "16px 20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <div className="min-card" style={{ padding: "16px 20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                      <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#666" }} />
-                      <div style={{ fontSize: "14px", color: "#ffffff", fontWeight: 600 }}>status • <span style={{ fontWeight: 900 }}>{nextClass.courseCode.substring(0, 5)}</span></div>
+                      <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "var(--accent)", boxShadow: "0 0 10px var(--accent)" }} />
+                      <div style={{ fontSize: "14px", color: "var(--text-primary)", fontWeight: 600 }}>STATUS • <span style={{ fontWeight: 900 }}>{nextClass.courseCode.substring(0, 5)}</span></div>
                     </div>
-                    <div style={{ fontSize: "12px", color: "#666666", fontWeight: 600 }}>
-                      {fmtTimeOnly(nextClass.startTime) === fmtTimeOnly(nextClass.endTime) ? fmtTimeOnly(nextClass.startTime) : `${fmtTimeOnly(nextClass.startTime)} - ${fmtTimeOnly(nextClass.endTime)}`}
+                    <div style={{ fontSize: "12px", color: "var(--text-secondary)", fontWeight: 900 }}>
+                      {fmtTimeOnly(nextClass.startTime) === fmtTimeOnly(nextClass.endTime) ? fmtTimeOnly(nextClass.startTime) : `${fmtTimeOnly(nextClass.startTime)} — ${fmtTimeOnly(nextClass.endTime)}`}
                     </div>
                   </div>
                 </div>
@@ -327,10 +375,10 @@ export default function DashboardPage() {
             )}
 
             {/* Recent Marks Widget */}
-            <div onClick={() => router.push("/marks")} style={{ background: "#1c1c1c", borderRadius: "24px", padding: "24px", cursor: "pointer" }}>
+            <div onClick={() => router.push("/marks")} className="min-card" style={{ cursor: "pointer" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
-                <div style={{ fontSize: "16px", fontWeight: "bold", color: "#ffffff" }}>Recent Marks</div>
-                <div style={{ color: "#ffffff", fontSize: "24px" }}>›</div>
+                <div style={{ fontSize: "16px", fontWeight: "bold", color: "var(--text-primary)" }}>Recent Marks</div>
+                <div style={{ color: "var(--text-primary)", fontSize: "24px" }}>›</div>
               </div>
               
               {recentTop5.length > 0 ? (
@@ -338,17 +386,17 @@ export default function DashboardPage() {
                   {recentTop5.map((rm, i) => (
                     <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                       <div>
-                        <div style={{ fontSize: "14px", fontWeight: "bold", color: "#ffffff" }}>{rm.courseCode}</div>
-                        <div style={{ fontSize: "11px", color: "#888888", textTransform: "uppercase" }}>{rm.label}</div>
+                        <div style={{ fontSize: "14px", fontWeight: "bold", color: "var(--text-primary)" }}>{rm.courseCode}</div>
+                        <div style={{ fontSize: "11px", color: "var(--text-secondary)", textTransform: "uppercase" }}>{rm.label}</div>
                       </div>
-                      <div style={{ fontWeight: "bold", fontSize: "16px", color: "#a8c200" }}>
+                      <div style={{ fontWeight: "bold", fontSize: "16px", color: "var(--accent)" }}>
                         {rm.score}/{rm.max}
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div style={{ fontSize: "13px", color: "#666666" }}>No recent assessments recorded.</div>
+                <div style={{ fontSize: "13px", color: "var(--text-muted)" }}>No recent assessments recorded.</div>
               )}
             </div>
 

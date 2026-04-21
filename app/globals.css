@@ -5,85 +5,102 @@
    ═══════════════════════════════════════════════════════════════════ */
 
 :root {
-  /* ── Palette ── */
+  /* ── Palette Default (Matrix) ── */
   --bg-root:     #000000;
-  --bg-surface:  #1c1c1c;
-  --bg-elevated: #2a2a2a;
+  --bg-surface:  #161616;
+  --bg-elevated: #241c1c; /* Matrix uses slight red hints in artifacts sometimes, but user says black+green */
+  --bg-surface-rgb: 22, 22, 22;
   
   /* ── Accents ── */
-  --accent-lime: #a8c200;
-  --accent-cyan: #00aaff;
-  --accent-red:  #ff3b3b;
-  --accent-red-bg: #1a0000;
-  --accent-cyan-bg: #0d1a2a;
-  --accent-lime-bg: #1a2600;
+  --accent: #a8c200;
+  --accent-secondary: #00ff00;
+  --accent-bg: rgba(168, 194, 0, 0.1);
 
   /* ── Text ── */
   --text-primary:   #ffffff;
   --text-secondary: #888888;
-  --text-muted:     #666666;
-  --text-faint:     #333333;
+  --text-muted:     #444444;
 
-  /* ── Borders ── */
-  --border:        #2e2e2e;
-
-  /* ── Radii ── */
-  --radius-sm:   12px;
-  --radius-md:   16px;
-  --radius-lg:   20px;
-  --radius-xl:   24px;
-  --radius-full: 999px;
+  /* ── Structural ── */
+  --radius: 20px;
+  --border: #222;
+  --font-main: var(--font-inter), system-ui, sans-serif;
+  --font-heading: var(--font-inter), system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --card-clip: none;
+  --nav-blur: 20px;
+  --nav-bg: rgba(5, 5, 5, 0.8);
+  --section-bg-text: "";
 }
 
-/* ── Themes ── */
-body.theme-cyberpunk {
-  --bg-root:     #050014;
-  --bg-surface:  #140b2e;
-  --bg-elevated: #26164d;
-  --accent-lime: #ff00ff;
-  --accent-cyan: #00ffff;
-  --accent-red:  #ff003c;
-  --accent-lime-bg: #330033;
-  --accent-cyan-bg: #003333;
-  --border:      #3d2575;
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   THEME 1 — MATRIX (Locked)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+body.theme-matrix {
+  --bg-root: #000000;
+  --bg-surface: #121212;
+  --accent: #a8c200;
+  --font-heading: var(--font-mono);
+  --font-main: var(--font-mono);
+  --radius: 20px;
+  --border: #1c1c1c;
 }
 
-body.theme-arctic {
-  --bg-root:     #000a12;
-  --bg-surface:  #0b1622;
-  --bg-elevated: #152536;
-  --accent-lime: #00d4ff;
-  --accent-cyan: #80b3ff;
-  --accent-red:  #ff5c8a;
-  --accent-lime-bg: #002a33;
-  --accent-cyan-bg: #152236;
-  --border:      #1e344d;
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   THEME 2 — JARVIS
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+body.theme-jarvis {
+  --bg-root: #03060F;
+  --bg-surface: rgba(10, 17, 40, 0.6);
+  --accent: #00A8FF;
+  --accent-secondary: #00FFD1;
+  --text-primary: #E0F0FF;
+  --font-heading: var(--font-orbitron);
+  --font-main: var(--font-orbitron);
+  --radius: 0;
+  --card-clip: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+  --border: #1a3a5a;
+  --accent-bg: rgba(0, 168, 255, 0.05);
+  background-image: radial-gradient(circle at 2px 2px, #1a3a5a 1px, transparent 0);
+  background-size: 40px 40px;
 }
 
-body.theme-matcha {
-  --bg-root:     #020c04;
-  --bg-surface:  #091a0d;
-  --bg-elevated: #122b19;
-  --accent-lime: #90ee90;
-  --accent-cyan: #ffd700;
-  --accent-red:  #ff7f50;
-  --accent-lime-bg: #1c3321;
-  --accent-cyan-bg: #332b00;
-  --border:      #1c4025;
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   THEME 3 — GHOST
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+body.theme-ghost {
+  --bg-root: #FFFFFF;
+  --bg-surface: #F5F5F7;
+  --accent: #111111;
+  --accent-secondary: #E63946;
+  --text-primary: #111111;
+  --text-secondary: #444444;
+  --text-muted: #aaaaaa;
+  --font-heading: var(--font-playfair);
+  --font-main: var(--font-inter);
+  --radius: 0;
+  --border: #e0e0e0;
+  --accent-bg: #fff;
+  --nav-bg: rgba(255, 255, 255, 0.9);
 }
 
-body.theme-crimson {
-  --bg-root:     #120101;
-  --bg-surface:  #240606;
-  --bg-elevated: #3b0b0b;
-  --accent-lime: #ffcc00;
-  --accent-cyan: #ff7733;
-  --accent-red:  #ff1a1a;
-  --accent-lime-bg: #332900;
-  --accent-cyan-bg: #33170a;
-  --border:      #5e1111;
-  --text-primary: #ffeded;
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   THEME 4 — EMBER
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+body.theme-ember {
+  --bg-root: #0F0500;
+  --bg-surface: #1F0800;
+  --accent: #FF6B00;
+  --accent-secondary: #FFD700;
+  --text-primary: #FFF0E0;
+  --font-heading: var(--font-bebas);
+  --font-main: var(--font-inter);
+  --radius: 0;
+  --card-clip: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);
+  --border: #3d1400;
 }
+
+/* Themes removed for new structural ones */
 
 /* ═══ Reset ═══ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -93,7 +110,19 @@ body {
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: var(--font-main);
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: var(--font-heading) !important;
+}
+
+/* ═══ Shared Animations ═══ */
+@keyframes pulseGlow {
+  0% { filter: drop-shadow(0 0 5px var(--accent)); }
+  50% { filter: drop-shadow(0 0 15px var(--accent)); }
+  100% { filter: drop-shadow(0 0 5px var(--accent)); }
 }
 
 /* ═══ Scrollbar ═══ */
@@ -146,8 +175,24 @@ body {
   will-change: transform, opacity, filter;
 }
 .page-content {
-  padding: 20px 20px 100px; /* 20px horizontal margin + space for watermarks */
+  padding: 24px 20px 100px;
   position: relative;
+}
+
+/* ━━ Ghost Watermark ━━ */
+.theme-ghost .page-content::before {
+  content: attr(data-section);
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 25vw;
+  font-weight: 900;
+  color: #000;
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: -1;
+  text-transform: uppercase;
+  font-family: var(--font-inter);
 }
 
 /* Watermarks */
@@ -169,13 +214,25 @@ body {
   transform: translateY(-20px);
 }
 
-/* Base Card structure (No shadows, borders 2e2e2e or none) */
+/* Base Card structure */
 .min-card {
   background: var(--bg-surface);
-  border-radius: var(--radius-xl); /* 20-24px */
+  border-radius: var(--radius);
+  clip-path: var(--card-clip);
   padding: 24px;
   position: relative;
   overflow: hidden;
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.theme-ghost .min-card {
+  border: none;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.theme-jarvis .min-card {
+  backdrop-filter: blur(10px);
 }
 
 /* Action button outline */

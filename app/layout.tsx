@@ -3,6 +3,7 @@ import { Inter, Orbitron, Playfair_Display, Bebas_Neue } from "next/font/google"
 import "./globals.css";
 import Providers from "./providers";
 import SwipeLayout from "@/components/SwipeLayout";
+import ThemeWrapper from "@/components/ThemeWrapper";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -50,9 +51,11 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${orbitron.variable} ${playfair.variable} ${bebas.variable}`}>
-      <body style={{ margin: 0, padding: 0, fontFamily: "var(--font-inter), system-ui, sans-serif" }}>
+      <body style={{ margin: 0, padding: 0 }}>
         <Providers>
-          <SwipeLayout>{children}</SwipeLayout>
+          <ThemeWrapper>
+            <SwipeLayout>{children}</SwipeLayout>
+          </ThemeWrapper>
         </Providers>
       </body>
     </html>

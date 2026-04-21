@@ -13,31 +13,15 @@ const NAV = [
   { href: "/ai",         label: "✨ AI" },
 ];
 
-const THEMES = [
-  { id: "", label: "Midnight Void", color: "#000000" },
-  { id: "theme-cyberpunk", label: "Neon Cyberpunk", color: "#140b2e" },
-  { id: "theme-arctic", label: "Arctic Chill", color: "#0b1622" },
-  { id: "theme-matcha", label: "Matcha Zen", color: "#091a0d" },
-  { id: "theme-crimson", label: "Crimson Overdrive", color: "#240606" },
-];
+
 
 export default function Sidebar() {
   const path = usePathname();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeTheme, setActiveTheme] = useState("");
-
   useEffect(() => {
-    const t = localStorage.getItem("srmx-theme") || "";
-    document.body.className = t;
-    setActiveTheme(t);
+    // Simplified: Theme now managed by ThemeWrapper
   }, []);
-
-  const handleTheme = (t: string) => {
-    document.body.className = t;
-    localStorage.setItem("srmx-theme", t);
-    setActiveTheme(t);
-  };
 
   const handleLogout = async () => {
     try { await authAPI.logout(); } catch { }
@@ -53,15 +37,27 @@ export default function Sidebar() {
           bottom: 0; left: 0; right: 0;
           height: calc(72px + env(safe-area-inset-bottom));
           padding-bottom: env(safe-area-inset-bottom);
-          background: rgba(0, 0, 0, 0.7);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
+          background: var(--nav-bg);
+          backdrop-filter: blur(var(--nav-blur));
+          -webkit-backdrop-filter: blur(var(--nav-blur));
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 32px;
+          gap: 28px;
           z-index: 100;
-          border-top: 1px solid rgba(255, 255, 255, 0.05);
+          border-top: 1px solid var(--border);
+          transition: all 0.4s ease;
+        }
+
+        .theme-ghost .srmx-nav-bar {
+          background: #fff;
+          border-top: 1px solid #eee;
+          backdrop-filter: none;
+        }
+
+        .theme-ember .srmx-nav-bar {
+          background: #0f0500;
+          border-top: 2px solid #3d1400;
         }
 
         .srmx-nav-btn {
@@ -69,16 +65,27 @@ export default function Sidebar() {
           border: none;
           cursor: pointer;
           font-size: 11px;
-          letter-spacing: 0.05em;
-          color: #555555;
-          font-weight: 500;
-          transition: color 0.2s, font-weight 0.2s;
-          padding: 10px 0;
+          letter-spacing: 0.1em;
+          color: var(--text-muted);
+          font-weight: 700;
+          transition: all 0.2s;
+          padding: 8px 12px;
+          text-transform: uppercase;
+          border-radius: 99px;
         }
 
         .srmx-nav-btn.active {
-          color: #ffffff;
-          font-weight: 800;
+          color: var(--text-primary);
+        }
+
+        .theme-ember .srmx-nav-btn.active {
+          background: var(--accent);
+          color: #000;
+        }
+
+        .theme-jarvis .srmx-nav-btn.active {
+          color: var(--accent);
+          text-shadow: 0 0 10px var(--accent);
         }
 
         @media (min-width: 769px) {
@@ -115,24 +122,20 @@ export default function Sidebar() {
           }}>
             <div>
               <div style={{ fontSize: "12px", color: "#666", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 800, marginBottom: "16px" }}>
-                Select Theme
+                Settings
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                {THEMES.map(t => (
-                  <button 
-                    key={t.id} 
-                    onClick={() => handleTheme(t.id)}
-                    style={{
-                      background: activeTheme === t.id ? "#333" : "transparent",
-                      border: "none", color: "#fff", display: "flex", alignItems: "center", gap: "12px",
-                      padding: "12px 16px", borderRadius: "12px", cursor: "pointer", fontWeight: 600,
-                      textAlign: "left"
-                    }}
-                  >
-                    <div style={{ width: "20px", height: "20px", borderRadius: "50%", background: t.color, border: "2px solid #555" }} />
-                    {t.label}
-                  </button>
-                ))}
+                <button 
+                  onClick={() => { setMenuOpen(false); router.push("/settings/theme"); }}
+                  style={{
+                    background: "rgba(255,255,255,0.05)",
+                    border: "none", color: "#fff", display: "flex", alignItems: "center", gap: "12px",
+                    padding: "16px", borderRadius: "16px", cursor: "pointer", fontWeight: 700,
+                    textAlign: "left", fontSize: "14px"
+                  }}
+                >
+                  🎭 Personalize Interface
+                </button>
               </div>
             </div>
 
