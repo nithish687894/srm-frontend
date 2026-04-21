@@ -27,7 +27,10 @@ export const useAuthStore = create<AuthStore>()(
       },
       setProfile: (profile) => set({ profile }),
       setAcademicData: (data) => set({ academicData: data }),
-     logout: () => set({ profile: null, academicData: null }),
+      logout: () => {
+        localStorage.removeItem("srmx_token");
+        set({ token: null, profile: null, academicData: null });
+      },
       clearSession: () => {
         localStorage.removeItem("srmx_token");
         set({ token: null, profile: null, academicData: null });
@@ -36,7 +39,11 @@ export const useAuthStore = create<AuthStore>()(
     }),
     {
       name: "srmx-auth",
-      partialize: (state) => ({ token: state.token, profile: state.profile }),
+      partialize: (state) => ({
+        token: state.token,
+        profile: state.profile,
+        academicData: state.academicData,
+      }),
       onRehydrateStorage: () => (state) => {
         state?.setHasHydrated(true);
       },
