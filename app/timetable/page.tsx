@@ -26,8 +26,10 @@ function buildSlotToCourseMap(myTT: any[]) {
 }
 
 function buildSchedule(gridRows: any[], slotMap: Record<string, any>): { day: string; classes: ScheduleItem[] }[] {
-  const timeRow = gridRows.find((r: any) => r[0] === "FROM");
-  const times: string[] = timeRow ? timeRow.slice(1).map((t: string) => t.replace(/\t/g, "").trim().replace(/\n+/g, " ")) : [];
+  const fromRow = gridRows.find((r: any) => r[0] === "FROM");
+  const toRow = gridRows.find((r: any) => r[0] === "TO");
+  const fromTimes: string[] = fromRow ? fromRow.slice(1).map((t: string) => t.replace(/\t/g, "").trim().replace(/\n+/g, " ")) : [];
+  const toTimes: string[] = toRow ? toRow.slice(1).map((t: string) => t.replace(/\t/g, "").trim().replace(/\n+/g, " ")) : [];
   const dayRows = gridRows.filter((r: any) => typeof r[0] === "string" && r[0].startsWith("Day"));
 
   return dayRows.map((row: any) => {
@@ -55,8 +57,8 @@ function buildSchedule(gridRows: any[], slotMap: Record<string, any>): { day: st
 
     labGroups.forEach(group => {
       const course = group.cells[0].course;
-      const startTime = times[group.cells[0].idx] || "";
-      const endTime = times[group.cells[group.cells.length - 1].idx] || "";
+      const startTime = fromTimes[group.cells[0].idx] || "";
+      const endTime = toTimes[group.cells[group.cells.length - 1].idx] || "";
       classes.push({ slot: group.cells.map((c: any) => c.slot).join("-"), startTime, endTime, courseTitle: course.courseTitle, courseCode: course.courseCode, courseType: course.courseType, facultyName: course.facultyName, roomNo: course.roomNo });
     });
 
@@ -74,8 +76,9 @@ function buildSchedule(gridRows: any[], slotMap: Record<string, any>): { day: st
         const key = `${course.courseCode}-theory-${ci}`;
         if (seenCourses.has(key)) continue;
         seenCourses.add(key);
-        const time = times[ci] || "";
-        classes.push({ slot: s, startTime: time, endTime: time, courseTitle: course.courseTitle, courseCode: course.courseCode, courseType: course.courseType, facultyName: course.facultyName, roomNo: course.roomNo });
+        const startTime = fromTimes[ci] || "";
+        const endTime = toTimes[ci] || "";
+        classes.push({ slot: s, startTime, endTime, courseTitle: course.courseTitle, courseCode: course.courseCode, courseType: course.courseType, facultyName: course.facultyName, roomNo: course.roomNo });
         break;
       }
     });
@@ -124,14 +127,22 @@ export default function TimetablePage() {
     if (!ttQ.data?.data?.rows || !myTTQ.data?.data) return [];
     const slotMap = buildSlotToCourseMap(myTTQ.data.data);
     const rawSchedule = buildSchedule(ttQ.data.data.rows, slotMap);
-    // Remove duplicate classes per day (same courseCode + slot)
+    
+    // Merge consecutive identical classes and cleanup
     return rawSchedule.map(day => {
-      const uniq = new Map();
+      const merged: ScheduleItem[] = [];
       day.classes.forEach(cls => {
-        const key = `${cls.courseCode}|${cls.slot}`;
-        if (!uniq.has(key)) uniq.set(key, cls);
+        const prev = merged[merged.length - 1];
+        if (prev && prev.courseCode === cls.courseCode && prev.courseType === cls.courseType) {
+          // If consecutive, just extend the end time
+          prev.endTime = cls.endTime;
+          // Combine slots if they are different
+          if (!prev.slot.includes(cls.slot)) prev.slot = `${prev.slot}, ${cls.slot}`;
+        } else {
+          merged.push({ ...cls });
+        }
       });
-      return { ...day, classes: Array.from(uniq.values()) };
+      return { ...day, classes: merged };
     });
   }, [ttQ.data, myTTQ.data]);
 
@@ -147,22 +158,25 @@ export default function TimetablePage() {
       <Sidebar />
       <main className="page-main">
           {/* Batch Selector (Top) */}
-          <div style={{ position: "fixed", top: "80px", left: "20px", right: "20px", display: "flex", justifyContent: "center", zIndex: 10 }}>
-            <div style={{ background: "#1c1c1c", borderRadius: "99px", padding: "8px 16px", marginLeft: "12px", display: "flex", alignItems: "center", gap: "12px", border: "1px solid #2e2e2e" }}>
-              <span style={{ fontSize: "12px", color: "#7700ff", fontWeight: 800, paddingRight: "4px" }}>Batch</span>
-              {[1, 2].map(b => (
-                <button key={b} onClick={() => setBatch(b)}
-                  style={{
-                    width: "32px", height: "32px", borderRadius: "50%",
-                    background: batch === b ? "#ffffff" : "transparent",
-                    color: batch === b ? "#000000" : "#555555",
-                    fontSize: "14px", fontWeight: "bold", border: "none", cursor: "pointer",
-                    transition: "all 0.2s"
-                  }}>{b}</button>
-              ))}
-            </div>
+          <div style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(5,5,5,0.8)", backdropFilter: "blur(12px)", padding: "16px 20px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #1c1c1c" }}>
+          <div>
+            <div style={{ fontSize: "10px", letterSpacing: "0.15em", color: "#666", textTransform: "uppercase", fontWeight: 700 }}>Schedule</div>
+            <div style={{ fontSize: "18px", fontWeight: 900, color: "#fff" }}>Day {dayOverride} — Batch {batch}</div>
           </div>
-        <div className="page-content" style={{ paddingBottom: "140px" }}>
+          <div style={{ display: "flex", background: "#111", borderRadius: "12px", padding: "4px" }}>
+            {[1, 2].map(b => (
+              <button key={b} onClick={() => setBatch(b)}
+                style={{
+                  padding: "6px 16px", borderRadius: "8px", border: "none", fontSize: "12px", fontWeight: 800,
+                  background: batch === b ? "#7700ff" : "transparent",
+                  color: batch === b ? "#fff" : "#555",
+                  transition: "all 0.2s", cursor: "pointer"
+                }}>B{b}</button>
+            ))}
+          </div>
+        </div>
+
+        <div className="page-content" style={{ paddingBottom: "140px", paddingTop: "20px" }}>
 
           {/* Heading */}
           {/* Heading */}
@@ -240,10 +254,9 @@ export default function TimetablePage() {
             </div>
           )}
 
-          {/* DO Switcher Bottom */}
+          {/* Day Switcher Bottom */}
           <div style={{ position: "fixed", bottom: "85px", left: "20px", right: "20px", display: "flex", justifyContent: "center", zIndex: 10 }}>
-            {/* Day Switcher */}
-            <div style={{ background: "#1c1c1c", borderRadius: "99px", padding: "8px 16px", display: "flex", alignItems: "center", gap: "12px", border: "1px solid #2e2e2e" }}>
+            <div style={{ background: "#1c1c1c", borderRadius: "99px", padding: "8px 16px", display: "flex", alignItems: "center", gap: "12px", border: "1px solid #2e2e2e", boxShadow: "0 10px 30px rgba(0,0,0,0.5)" }}>
               <span style={{ fontSize: "12px", color: "#7700ff", fontWeight: 800, paddingRight: "4px" }}>DO</span>
               {[1, 2, 3, 4, 5].map(d => (
                 <button key={d} onClick={() => setDayOverride(d)}
@@ -254,20 +267,6 @@ export default function TimetablePage() {
                     fontSize: "14px", fontWeight: "bold", border: "none", cursor: "pointer",
                     transition: "all 0.2s"
                   }}>{d}</button>
-              ))}
-            </div>
-            {/* Batch Switcher */}
-            <div style={{ background: "#1c1c1c", borderRadius: "99px", padding: "8px 16px", marginLeft: "12px", display: "flex", alignItems: "center", gap: "12px", border: "1px solid #2e2e2e" }}>
-              <span style={{ fontSize: "12px", color: "#7700ff", fontWeight: 800, paddingRight: "4px" }}>Batch</span>
-              {[1, 2].map(b => (
-                <button key={b} onClick={() => setBatch(b)}
-                  style={{
-                    width: "32px", height: "32px", borderRadius: "50%",
-                    background: batch === b ? "#ffffff" : "transparent",
-                    color: batch === b ? "#000000" : "#555555",
-                    fontSize: "14px", fontWeight: "bold", border: "none", cursor: "pointer",
-                    transition: "all 0.2s"
-                  }}>{b}</button>
               ))}
             </div>
           </div>
