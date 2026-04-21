@@ -169,6 +169,10 @@ export default function AttendancePage() {
     ? (att.reduce((s, c) => s + parseFloat(c["Attn %"] || 0), 0) / att.length).toFixed(1)
     : "—";
 
+  const totalAgg = att.reduce((acc, c) => acc + parseInt(c["Hours Conducted"] || "0"), 0);
+  const absentAgg = att.reduce((acc, c) => acc + parseInt(c["Hours Absent"] || "0"), 0);
+  const presentAgg = totalAgg - absentAgg;
+
   if (loading && !att.length) return (
     <div className="page-root" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
       <div className="srmx-spinner" />
@@ -187,8 +191,28 @@ export default function AttendancePage() {
             <div style={{ fontSize: "12px", letterSpacing: "0.2em", color: "#666666", textTransform: "uppercase" }}>
               Overall Attendance
             </div>
-            <div style={{ fontSize: "96px", fontWeight: 900, color: "#ffffff", lineHeight: 1 }}>
+            <div style={{ fontSize: "96px", fontWeight: 900, color: "#ffffff", lineHeight: 1, marginBottom: "32px" }}>
               {avgAtt}%
+            </div>
+            
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px", maxWidth: "400px", margin: "0 auto" }}>
+              <div style={{ background: "#0a1f33", padding: "16px", borderRadius: "16px", border: "1px solid #1a334d" }}>
+                <div style={{ fontSize: "11px", color: "#66aaff", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: "bold", marginBottom: "4px" }}>Total</div>
+                <div style={{ fontSize: "24px", color: "#ffffff", fontWeight: 900 }}>{totalAgg}</div>
+              </div>
+              <div style={{ background: "#0d2a1a", padding: "16px", borderRadius: "16px", border: "1px solid #1a4d33" }}>
+                <div style={{ fontSize: "11px", color: "#33ff88", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: "bold", marginBottom: "4px" }}>Present</div>
+                <div style={{ fontSize: "24px", color: "#ffffff", fontWeight: 900 }}>{presentAgg}</div>
+              </div>
+              <div style={{ background: "#330a0a", padding: "16px", borderRadius: "16px", border: "1px solid #4d1a1a" }}>
+                <div style={{ fontSize: "11px", color: "#ff5555", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: "bold", marginBottom: "4px" }}>Absent</div>
+                <div style={{ fontSize: "24px", color: "#ffffff", fontWeight: 900 }}>{absentAgg}</div>
+              </div>
+            </div>
+
+            <div style={{ height: "4px", background: "#333", borderRadius: "2px", width: "100%", maxWidth: "400px", margin: "24px auto 0", overflow: "hidden", display: "flex" }}>
+              <div style={{ width: `${(presentAgg / (totalAgg || 1)) * 100}%`, background: "#33ff88", height: "100%" }} />
+              <div style={{ width: `${(absentAgg / (totalAgg || 1)) * 100}%`, background: "#ff5555", height: "100%" }} />
             </div>
           </div>
 

@@ -152,7 +152,7 @@ export default function CalendarPage() {
                       </div>
 
                       {isToday ? (
-                        <div style={{ width: "28px", height: "28px", borderRadius: "50%", background: "#a8c200", color: "#000000", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px", fontWeight: "bold" }}>
+                        <div style={{ width: "28px", height: "28px", borderRadius: "50%", background: "#6366f1", color: "#ffffff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px", fontWeight: "bold", boxShadow: "0 4px 12px rgba(99, 102, 241, 0.4)" }}>
                           {cell.dateNum}
                         </div>
                       ) : (

@@ -5,11 +5,12 @@ import { authAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 
 const NAV = [
+  { href: "/dashboard",  label: "Home" },
   { href: "/marks",      label: "Marks" },
   { href: "/attendance", label: "Attnd" },
-  { href: "/dashboard",  label: "Home" },
   { href: "/timetable",  label: "Time" },
   { href: "/calendar",   label: "Cal" },
+  { href: "/ai",         label: "✨ AI" },
 ];
 
 const THEMES = [
@@ -82,14 +83,17 @@ export default function Sidebar() {
 
         @media (min-width: 769px) {
           .srmx-nav-bar {
+            top: 24px; bottom: auto;
             width: max-content;
             margin: 0 auto;
-            bottom: 24px;
             padding: 0 48px;
             border-radius: 99px;
             border: 1px solid rgba(255, 255, 255, 0.05);
             height: 64px;
             gap: 48px;
+            background: rgba(10, 15, 30, 0.6);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
           }
         }
       `}</style>
