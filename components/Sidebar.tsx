@@ -1,5 +1,8 @@
 "use client";
+import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { authAPI } from "@/lib/api";
+import { useAuthStore } from "@/lib/store";
 
 const NAV = [
   { href: "/marks",      label: "Marks" },
@@ -9,9 +12,37 @@ const NAV = [
   { href: "/calendar",   label: "Cal" },
 ];
 
+const THEMES = [
+  { id: "", label: "Midnight Void", color: "#000000" },
+  { id: "theme-cyberpunk", label: "Neon Cyberpunk", color: "#140b2e" },
+  { id: "theme-arctic", label: "Arctic Chill", color: "#0b1622" },
+  { id: "theme-matcha", label: "Matcha Zen", color: "#091a0d" },
+  { id: "theme-crimson", label: "Crimson Overdrive", color: "#240606" },
+];
+
 export default function Sidebar() {
-  const path   = usePathname();
+  const path = usePathname();
   const router = useRouter();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeTheme, setActiveTheme] = useState("");
+
+  useEffect(() => {
+    const t = localStorage.getItem("srmx-theme") || "";
+    document.body.className = t;
+    setActiveTheme(t);
+  }, []);
+
+  const handleTheme = (t: string) => {
+    document.body.className = t;
+    localStorage.setItem("srmx-theme", t);
+    setActiveTheme(t);
+  };
+
+  const handleLogout = async () => {
+    try { await authAPI.logout(); } catch { }
+    useAuthStore.getState().logout();
+    router.push("/");
+  };
 
   return (
     <>
@@ -29,6 +60,7 @@ export default function Sidebar() {
           justify-content: center;
           gap: 32px;
           z-index: 100;
+          border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .srmx-nav-btn {
@@ -50,14 +82,72 @@ export default function Sidebar() {
 
         @media (min-width: 769px) {
           .srmx-nav-bar {
-            top: 0; bottom: auto;
-            height: 80px;
-            padding-bottom: 0;
-            justify-content: center;
+            width: max-content;
+            margin: 0 auto;
+            bottom: 24px;
+            padding: 0 48px;
+            border-radius: 99px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            height: 64px;
             gap: 48px;
           }
         }
       `}</style>
+
+      {/* Settings Overlay */}
+      {menuOpen && (
+        <div 
+          onClick={() => setMenuOpen(false)}
+          style={{
+            position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
+            background: "rgba(0,0,0,0.5)", backdropFilter: "blur(10px)",
+            zIndex: 99, display: "flex", flexDirection: "column",
+            justifyContent: "flex-end", alignItems: "center", paddingBottom: "120px"
+          }}
+        >
+          <div onClick={e => e.stopPropagation()} style={{
+            background: "#1c1c1c", padding: "24px", borderRadius: "24px",
+            width: "90%", maxWidth: "400px", display: "flex", flexDirection: "column", gap: "24px"
+          }}>
+            <div>
+              <div style={{ fontSize: "12px", color: "#666", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 800, marginBottom: "16px" }}>
+                Select Theme
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                {THEMES.map(t => (
+                  <button 
+                    key={t.id} 
+                    onClick={() => handleTheme(t.id)}
+                    style={{
+                      background: activeTheme === t.id ? "#333" : "transparent",
+                      border: "none", color: "#fff", display: "flex", alignItems: "center", gap: "12px",
+                      padding: "12px 16px", borderRadius: "12px", cursor: "pointer", fontWeight: 600,
+                      textAlign: "left"
+                    }}
+                  >
+                    <div style={{ width: "20px", height: "20px", borderRadius: "50%", background: t.color, border: "2px solid #555" }} />
+                    {t.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ height: "1px", background: "#333" }} />
+
+            <button 
+              onClick={handleLogout}
+              style={{
+                background: "#ff3b3b22", color: "#ff3b3b", border: "1px dashed #ff3b3b",
+                padding: "16px", borderRadius: "16px", fontSize: "14px", fontWeight: "bold",
+                cursor: "pointer", textTransform: "uppercase", letterSpacing: "0.1em"
+              }}
+            >
+              Log Out of SRMX
+            </button>
+          </div>
+        </div>
+      )}
+
       <nav className="srmx-nav-bar">
         {NAV.map(({ href, label }) => {
           const active = path === href || (href !== "/dashboard" && path.startsWith(href));
@@ -71,6 +161,15 @@ export default function Sidebar() {
             </button>
           );
         })}
+        
+        {/* Menu Toggle */}
+        <button 
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="srmx-nav-btn"
+          style={{ fontSize: "16px", paddingLeft: "8px", color: menuOpen ? "#fff" : "#555" }}
+        >
+          ⚙️
+        </button>
       </nav>
     </>
   );

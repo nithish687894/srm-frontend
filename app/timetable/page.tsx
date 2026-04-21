@@ -188,11 +188,11 @@ export default function TimetablePage() {
 
                         {isNso && <div style={{ fontSize: "10px", color: "#00aaff", textTransform: "uppercase", fontWeight: "bold", marginBottom: "4px" }}>TBA</div>}
                         
-                        <div style={{ fontSize: "28px", fontWeight: "bold", color: isNso ? "#00aaff" : "#ffffff", lineHeight: 1.1, marginBottom: "6px" }}>
-                          {item.courseCode}
+                        <div style={{ fontSize: "24px", fontWeight: "900", color: isNso ? "#00aaff" : "#ffffff", lineHeight: 1.1, marginBottom: "6px", textTransform: "capitalize" }}>
+                          {item.courseTitle.toLowerCase()}
                         </div>
-                        <div style={{ fontSize: "14px", color: "#888888", marginBottom: "16px" }}>
-                          {item.courseTitle}
+                        <div style={{ fontSize: "12px", color: "#888888", marginBottom: "16px", fontWeight: 700 }}>
+                          {item.courseCode}
                         </div>
 
                         <div style={{ height: "1px", background: "#333333", marginBottom: "16px" }} />

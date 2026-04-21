@@ -35,6 +35,56 @@
   --radius-full: 999px;
 }
 
+/* ── Themes ── */
+body.theme-cyberpunk {
+  --bg-root:     #050014;
+  --bg-surface:  #140b2e;
+  --bg-elevated: #26164d;
+  --accent-lime: #ff00ff;
+  --accent-cyan: #00ffff;
+  --accent-red:  #ff003c;
+  --accent-lime-bg: #330033;
+  --accent-cyan-bg: #003333;
+  --border:      #3d2575;
+}
+
+body.theme-arctic {
+  --bg-root:     #000a12;
+  --bg-surface:  #0b1622;
+  --bg-elevated: #152536;
+  --accent-lime: #00d4ff;
+  --accent-cyan: #80b3ff;
+  --accent-red:  #ff5c8a;
+  --accent-lime-bg: #002a33;
+  --accent-cyan-bg: #152236;
+  --border:      #1e344d;
+}
+
+body.theme-matcha {
+  --bg-root:     #020c04;
+  --bg-surface:  #091a0d;
+  --bg-elevated: #122b19;
+  --accent-lime: #90ee90;
+  --accent-cyan: #ffd700;
+  --accent-red:  #ff7f50;
+  --accent-lime-bg: #1c3321;
+  --accent-cyan-bg: #332b00;
+  --border:      #1c4025;
+}
+
+body.theme-crimson {
+  --bg-root:     #120101;
+  --bg-surface:  #240606;
+  --bg-elevated: #3b0b0b;
+  --accent-lime: #ffcc00;
+  --accent-cyan: #ff7733;
+  --accent-red:  #ff1a1a;
+  --accent-lime-bg: #332900;
+  --accent-cyan-bg: #33170a;
+  --border:      #5e1111;
+  --text-primary: #ffeded;
+}
+
 /* ═══ Reset ═══ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
