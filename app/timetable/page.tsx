@@ -8,6 +8,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuthStore } from "@/lib/store";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
+function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
+function parseStart(t: string) { const m = t.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
+function parseEnd(t: string) { const parts = t.split(/\s*[-–]\s*/); const last = parts[parts.length - 1] || ""; const m = last.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
 function parseTimeRange(t: string): { start: string, end: string } {
   const parts = t.split(/[-–]/).map(s => s.trim());
   if (parts.length >= 2) return { start: parts[0], end: parts[1] };
