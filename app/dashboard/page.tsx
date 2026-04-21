@@ -105,6 +105,7 @@ export default function DashboardPage() {
   const [data, setData] = useState<any>(academicData || null);
   const [loading, setLoading] = useState(!academicData);
   const [ttData, setTTData] = useState<any>(null);
+  const [myTTData, setMyTTData] = useState<any>(null);
   const [calData, setCalData] = useState<any>(null);
   const [dayOffset, setDayOffset] = useState(0);
 
@@ -127,6 +128,7 @@ export default function DashboardPage() {
     if (!ready) return;
     dataAPI.getTimetable(1).then(d => setTTData(d)).catch(() => {});
     dataAPI.getCalendar().then(d => setCalData(d)).catch(() => {});
+    dataAPI.getMyTimetable().then(d => setMyTTData(d)).catch(() => {});
   }, [ready]);
 
   const att = data?.attendance || [];
@@ -176,12 +178,12 @@ export default function DashboardPage() {
   const dayOrder = targetCalInfo?.dayOrder || null;
 
   const targetClasses = useMemo(() => {
-    if (!ttData?.data?.rows || !data?.timetable || isHoliday || !dayOrder) return [];
+    if (!ttData?.data?.rows || !myTTData?.data || isHoliday || !dayOrder) return [];
     const rows = ttData.data.rows;
-    const slotMap = buildSlotToCourseMap(data.timetable || []);
+    const slotMap = buildSlotToCourseMap(myTTData.data || []);
     const schedule = buildSchedule(rows, slotMap, att);
     return schedule[dayOrder - 1]?.classes || [];
-  }, [ttData, data, att, dayOrder, isHoliday]);
+  }, [ttData, myTTData, att, dayOrder, isHoliday]);
 
   const nowMin = new Date().getHours() * 60 + new Date().getMinutes();
   const nextClass = dayOffset === 0 
@@ -252,14 +254,14 @@ export default function DashboardPage() {
                     <span style={{ fontSize: "11px", color: "#888888" }}>{nextClass.roomNo || "TBA"}</span>
                   </div>
                   <div style={{ 
-                    fontSize: "48px", fontWeight: 900, color: "#ffffff", letterSpacing: "-0.04em", lineHeight: 1.1,
+                    fontSize: "32px", fontWeight: 900, color: "#ffffff", letterSpacing: "-0.04em", lineHeight: 1.1,
                     display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden",
-                    wordBreak: "break-word"
+                    wordBreak: "break-word", textTransform: "capitalize"
                   }}>
-                    {nextClass.courseCode}
+                    {nextClass.courseTitle}
                   </div>
-                  <div style={{ fontSize: "16px", color: "#888888", fontWeight: 500, marginTop: "8px" }}>
-                    {fmt12(nextClass.startTime)} - {fmt12(nextClass.endTime)}
+                  <div style={{ fontSize: "16px", color: "#888888", fontWeight: 700, marginTop: "8px" }}>
+                    {nextClass.courseCode} • {fmt12(nextClass.startTime)} - {fmt12(nextClass.endTime)}
                   </div>
                 </div>
               ) : null}

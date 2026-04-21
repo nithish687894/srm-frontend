@@ -21,7 +21,9 @@ export default function Sidebar() {
           bottom: 0; left: 0; right: 0;
           height: calc(72px + env(safe-area-inset-bottom));
           padding-bottom: env(safe-area-inset-bottom);
-          background: #000000;
+          background: rgba(0, 0, 0, 0.7);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
           display: flex;
           align-items: center;
           justify-content: center;

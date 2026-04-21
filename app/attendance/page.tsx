@@ -301,11 +301,11 @@ export default function AttendancePage() {
                       </div>
                     </div>
                     <div style={{ flex: 1, minWidth: 0, paddingRight: "16px" }}>
-                      <div style={{ fontSize: "20px", fontWeight: "bold", color: "#ffffff", paddingBottom: "4px" }}>
-                        {c["Course Code"]}
-                      </div>
-                      <div style={{ fontSize: "14px", color: "#888888", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word" }}>
+                      <div style={{ fontSize: "16px", fontWeight: "bold", color: "#ffffff", paddingBottom: "2px", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word", lineHeight: 1.2 }}>
                         {c["Course Title"]}
+                      </div>
+                      <div style={{ fontSize: "11px", color: "#888888", fontWeight: "bold", letterSpacing: "0.05em" }}>
+                        {c["Course Code"]}
                       </div>
                     </div>
                   </div>

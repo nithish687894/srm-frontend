@@ -106,8 +106,8 @@ export default function GPAPage() {
                 </div>
 
                 <div style={{ flex: 1, minWidth: "160px" }}>
-                  <div style={{ fontSize: "18px", fontWeight: "bold", color: "#ffffff", marginBottom: "4px" }}>{r.code}</div>
-                  <div style={{ fontSize: "12px", color: "#888888", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.title}</div>
+                  <div style={{ fontSize: "16px", fontWeight: "bold", color: "#ffffff", marginBottom: "4px", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word", lineHeight: 1.2 }}>{r.title}</div>
+                  <div style={{ fontSize: "11px", color: "#888888", fontWeight: "bold", letterSpacing: "0.05em" }}>{r.code}</div>
                 </div>
 
                 <div style={{ display: "flex", gap: "32px", alignItems: "center" }}>

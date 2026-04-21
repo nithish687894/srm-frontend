@@ -103,16 +103,16 @@ export default function MarksPage() {
                     </div>
                     
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "4px" }}>
-                        <div style={{ fontSize: "20px", fontWeight: "bold", color: "#ffffff" }}>
-                          {m.courseCode}
+                      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "4px" }}>
+                        <div style={{ fontSize: "16px", fontWeight: "bold", color: "#ffffff", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word", lineHeight: 1.2, paddingRight: "8px" }}>
+                          {title}
                         </div>
-                        <div style={{ background: "#333333", color: "#ffffff", fontSize: "10px", fontWeight: "bold", padding: "4px 8px", borderRadius: "99px", letterSpacing: "0.05em" }}>
+                        <div style={{ background: "#333333", color: "#ffffff", fontSize: "10px", fontWeight: "bold", padding: "4px 8px", borderRadius: "99px", letterSpacing: "0.05em", flexShrink: 0 }}>
                           {m.courseType.toUpperCase()}
                         </div>
                       </div>
-                      <div style={{ fontSize: "14px", color: "#888888", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                        {title}
+                      <div style={{ fontSize: "11px", color: "#888888", fontWeight: "bold", letterSpacing: "0.05em" }}>
+                        {m.courseCode}
                       </div>
                     </div>
                   </div>
