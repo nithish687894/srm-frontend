@@ -87,11 +87,11 @@ function MiniGridTile({ slot }: { slot: any }) {
   return (
     <div style={{ background: isNso ? "#0d1a2a" : "#1c1c1c", borderRadius: "16px", height: "88px", padding: "8px 10px", display: "flex", flexDirection: "column", justifyContent: "space-between", border: isActive ? "1.5px solid #a8c200" : "none" }}>
       <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
-        <div style={{ fontSize: "9px", color: "#888888", marginBottom: "2px" }}>{slot.roomNo?.split(",")[0]?.substring(0, 4) || "TBA"}</div>
-        <span style={{ fontSize: "14px", fontWeight: "900", color: isNso ? "#00aaff" : "#ffffff", textAlign: "center", lineHeight: 1 }}>{slot.courseCode.substring(0, 5)}</span>
+        <div style={{ fontSize: "8px", color: "#888888", marginBottom: "4px", fontWeight: "bold" }}>{slot.courseCode.substring(0, 5)} • {slot.roomNo?.split(",")[0]?.substring(0, 4) || "TBA"}</div>
+        <span style={{ fontSize: "11px", fontWeight: "900", color: isNso ? "#00aaff" : "#ffffff", textAlign: "center", lineHeight: 1.1, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", textTransform: "capitalize", wordBreak: "break-word" }}>{slot.courseTitle.toLowerCase()}</span>
       </div>
       <div style={{ fontSize: "9px", color: "#888888", textAlign: "center", fontWeight: "bold" }}>
-        {fmtTimeOnly(slot.startTime)} - {fmtTimeOnly(slot.endTime)}
+        {fmtTimeOnly(slot.startTime) === fmtTimeOnly(slot.endTime) ? fmtTimeOnly(slot.startTime) : `${fmtTimeOnly(slot.startTime)} - ${fmtTimeOnly(slot.endTime)}`}
       </div>
     </div>
   );
@@ -290,7 +290,7 @@ export default function DashboardPage() {
                       <div style={{ fontSize: "14px", color: "#ffffff", fontWeight: 600 }}>status • <span style={{ fontWeight: 900 }}>{nextClass.courseCode.substring(0, 5)}</span></div>
                     </div>
                     <div style={{ fontSize: "12px", color: "#666666", fontWeight: 600 }}>
-                      {fmtTimeOnly(nextClass.startTime)} - {fmtTimeOnly(nextClass.endTime)}
+                      {fmtTimeOnly(nextClass.startTime) === fmtTimeOnly(nextClass.endTime) ? fmtTimeOnly(nextClass.startTime) : `${fmtTimeOnly(nextClass.startTime)} - ${fmtTimeOnly(nextClass.endTime)}`}
                     </div>
                   </div>
                 </div>
