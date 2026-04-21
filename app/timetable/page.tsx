@@ -8,10 +8,20 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuthStore } from "@/lib/store";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
-function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
-function parseStart(t: string) { const m = t.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
-function parseEnd(t: string) { const parts = t.split(/\s*[-–]\s*/); const last = parts[parts.length - 1] || ""; const m = last.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
-function fmt12(t: string) { const m = t.match(/(\d+):(\d+)/); if (!m) return t; const h24 = to24(parseInt(m[1])); const suffix = h24 >= 12 ? "PM" : "AM"; const h12 = h24 > 12 ? h24 - 12 : h24 === 0 ? 12 : h24; return `${h12}:${m[2]} ${suffix}`; }
+function parseTimeRange(t: string): { start: string, end: string } {
+  const parts = t.split(/[-–]/).map(s => s.trim());
+  if (parts.length >= 2) return { start: parts[0], end: parts[1] };
+  return { start: t, end: t };
+}
+
+function fmt12(t: string) { 
+  const m = t.match(/(\d+):(\d+)/); 
+  if (!m) return t; 
+  const h24 = to24(parseInt(m[1])); 
+  const suffix = h24 >= 12 ? "PM" : "AM"; 
+  const h12 = h24 > 12 ? h24 - 12 : h24 === 0 ? 12 : h24; 
+  return `${h12}:${m[2]} ${suffix}`; 
+}
 
 interface ScheduleItem {
   slot: string; startTime: string; endTime: string;
@@ -26,10 +36,8 @@ function buildSlotToCourseMap(myTT: any[]) {
 }
 
 function buildSchedule(gridRows: any[], slotMap: Record<string, any>): { day: string; classes: ScheduleItem[] }[] {
-  const fromRow = gridRows.find((r: any) => r[0] === "FROM");
-  const toRow = gridRows.find((r: any) => r[0] === "TO");
-  const fromTimes: string[] = fromRow ? fromRow.slice(1).map((t: string) => t.replace(/\t/g, "").trim().replace(/\n+/g, " ")) : [];
-  const toTimes: string[] = toRow ? toRow.slice(1).map((t: string) => t.replace(/\t/g, "").trim().replace(/\n+/g, " ")) : [];
+  const timeRow = gridRows.find((r: any) => r[0] === "FROM");
+  const timeStrings: string[] = timeRow ? timeRow.slice(1).map((t: string) => t.replace(/\t/g, "").trim().replace(/\n+/g, " ")) : [];
   const dayRows = gridRows.filter((r: any) => typeof r[0] === "string" && r[0].startsWith("Day"));
 
   return dayRows.map((row: any) => {
@@ -57,9 +65,9 @@ function buildSchedule(gridRows: any[], slotMap: Record<string, any>): { day: st
 
     labGroups.forEach(group => {
       const course = group.cells[0].course;
-      const startTime = fromTimes[group.cells[0].idx] || "";
-      const endTime = toTimes[group.cells[group.cells.length - 1].idx] || "";
-      classes.push({ slot: group.cells.map((c: any) => c.slot).join("-"), startTime, endTime, courseTitle: course.courseTitle, courseCode: course.courseCode, courseType: course.courseType, facultyName: course.facultyName, roomNo: course.roomNo });
+      const startRange = parseTimeRange(timeStrings[group.cells[0].idx] || "");
+      const endRange = parseTimeRange(timeStrings[group.cells[group.cells.length - 1].idx] || "");
+      classes.push({ slot: group.cells.map((c: any) => c.slot).join("-"), startTime: startRange.start, endTime: endRange.end, courseTitle: course.courseTitle, courseCode: course.courseCode, courseType: course.courseType, facultyName: course.facultyName, roomNo: course.roomNo });
     });
 
     cells.forEach((cell, ci) => {
@@ -76,14 +84,20 @@ function buildSchedule(gridRows: any[], slotMap: Record<string, any>): { day: st
         const key = `${course.courseCode}-theory-${ci}`;
         if (seenCourses.has(key)) continue;
         seenCourses.add(key);
-        const startTime = fromTimes[ci] || "";
-        const endTime = toTimes[ci] || "";
-        classes.push({ slot: s, startTime, endTime, courseTitle: course.courseTitle, courseCode: course.courseCode, courseType: course.courseType, facultyName: course.facultyName, roomNo: course.roomNo });
+        const { start, end } = parseTimeRange(timeStrings[ci] || "");
+        classes.push({ slot: s, startTime: start, endTime: end, courseTitle: course.courseTitle, courseCode: course.courseCode, courseType: course.courseType, facultyName: course.facultyName, roomNo: course.roomNo });
         break;
       }
     });
 
-    classes.sort((a, b) => parseStart(a.startTime) - parseStart(b.startTime));
+    // Helper for sorting
+    const parseSortTime = (t: string) => {
+      const parts = t.split(':');
+      if (parts.length < 2) return 0;
+      return to24(parseInt(parts[0])) * 60 + parseInt(parts[1]);
+    };
+
+    classes.sort((a, b) => parseSortTime(a.startTime) - parseSortTime(b.startTime));
     return { day: row[0] as string, classes };
   });
 }
@@ -111,7 +125,12 @@ function insertBreaks(classes: ScheduleItem[]) {
 export default function TimetablePage() {
   const { academicData } = useAuthStore();
   const [dayOverride, setDayOverride] = useState<number>(1);
-  const [batch, setBatch] = useState<number>(1); // new batch state
+  const [batch, setBatch] = useState<number>(() => {
+    // Detect batch from profile "Combo / Batch" e.g. "2/1" -> 1
+    const raw = academicData?.profile?.["Combo / Batch"] || "";
+    const b = parseInt(raw.split("/")[1]);
+    return isNaN(b) ? 1 : b;
+  });
   const router = useRouter();
 
   const calQ = useQuery({ queryKey: ["calendar"], queryFn: () => dataAPI.getCalendar(), staleTime: 600000 });
@@ -158,25 +177,29 @@ export default function TimetablePage() {
       <Sidebar />
       <main className="page-main">
           {/* Batch Selector (Top) */}
-          <div style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(5,5,5,0.8)", backdropFilter: "blur(12px)", padding: "16px 20px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #1c1c1c" }}>
+          <div style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(5,5,5,0.85)", backdropFilter: "blur(20px)", padding: "16px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #1c1c1c" }}>
           <div>
-            <div style={{ fontSize: "10px", letterSpacing: "0.15em", color: "#666", textTransform: "uppercase", fontWeight: 700 }}>Schedule</div>
-            <div style={{ fontSize: "18px", fontWeight: 900, color: "#fff" }}>Day {dayOverride} — Batch {batch}</div>
+            <div style={{ fontSize: "10px", letterSpacing: "0.2em", color: "#666", textTransform: "uppercase", fontWeight: 800, marginBottom: "2px" }}>Semester Schedule</div>
+            <div style={{ fontSize: "20px", fontWeight: 900, color: "#fff", letterSpacing: "-0.01em" }}>Day {dayOverride} — Batch {batch}</div>
           </div>
-          <div style={{ display: "flex", background: "#111", borderRadius: "12px", padding: "4px" }}>
+          <div style={{ display: "flex", background: "#111", borderRadius: "14px", padding: "4px", border: "1px solid #222" }}>
             {[1, 2].map(b => (
               <button key={b} onClick={() => setBatch(b)}
                 style={{
-                  padding: "6px 16px", borderRadius: "8px", border: "none", fontSize: "12px", fontWeight: 800,
+                  padding: "8px 18px", borderRadius: "10px", border: "none", fontSize: "13px", fontWeight: 800,
                   background: batch === b ? "#7700ff" : "transparent",
-                  color: batch === b ? "#fff" : "#555",
-                  transition: "all 0.2s", cursor: "pointer"
+                  color: batch === b ? "#fff" : "#666",
+                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)", cursor: "pointer",
+                  boxShadow: batch === b ? "0 4px 12px rgba(119, 0, 255, 0.3)" : "none"
                 }}>B{b}</button>
             ))}
           </div>
         </div>
 
-        <div className="page-content" style={{ paddingBottom: "140px", paddingTop: "20px" }}>
+        <div className="page-content" style={{ paddingBottom: "140px", paddingTop: "24px" }}>
+          <div style={{ textAlign: "center", marginBottom: "32px", opacity: 0.5 }}>
+            <div style={{ fontSize: "11px", letterSpacing: "0.2em", color: "#888", textTransform: "uppercase", fontWeight: 600 }}>Grid Mode: {batch === 1 ? "B1 (Theory Morning)" : "B2 (Lab Morning)"}</div>
+          </div>
 
           {/* Heading */}
           {/* Heading */}
