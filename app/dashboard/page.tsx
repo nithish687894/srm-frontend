@@ -80,19 +80,18 @@ function buildSchedule(gridRows: any[], slotMap: Record<string, any>, attendance
   });
 }
 
-function MiniGridTile({ slot }: { slot: ScheduleItem | null }) {
-  if (!slot) return <div style={{ background: "#0a0a0a", borderRadius: "16px", height: "100px", border: "1px dashed #222" }} />;
+function MiniGridTile({ slot }: { slot: any }) {
+  if (!slot || slot.isEmpty) return <div style={{ background: "transparent", borderRadius: "16px", height: "88px", border: "1px dashed #333333" }} />;
   const isActive = isNowIn(slot.startTime, slot.endTime);
   const isNso = slot.courseCode.includes("NSO") || slot.courseType.toLowerCase().includes("practical");
   return (
-    <div style={{ background: isNso ? "#0d1a2a" : "#1c1c1c", borderRadius: "16px", height: "100px", padding: "12px", display: "flex", flexDirection: "column", justifyContent: "space-between", border: isActive ? "2px solid #a8c200" : "none" }}>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <span style={{ fontSize: "14px", fontWeight: "bold", color: "#ffffff" }}>{slot.courseCode}</span>
-        {isActive && <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#a8c200", animation: "pulse 1.5s infinite" }} />}
+    <div style={{ background: isNso ? "#0d1a2a" : "#1c1c1c", borderRadius: "16px", height: "88px", padding: "8px 10px", display: "flex", flexDirection: "column", justifyContent: "space-between", border: isActive ? "1.5px solid #a8c200" : "none" }}>
+      <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
+        <div style={{ fontSize: "9px", color: "#888888", marginBottom: "2px" }}>{slot.roomNo?.split(",")[0]?.substring(0, 4) || "TBA"}</div>
+        <span style={{ fontSize: "14px", fontWeight: "900", color: isNso ? "#00aaff" : "#ffffff", textAlign: "center", lineHeight: 1 }}>{slot.courseCode.substring(0, 5)}</span>
       </div>
-      <div>
-        <div style={{ fontSize: "10px", color: "#888888" }}>{slot.roomNo || "TBA"}</div>
-        <div style={{ fontSize: "10px", color: "#888888" }}>{fmtTimeOnly(slot.startTime)}</div>
+      <div style={{ fontSize: "9px", color: "#888888", textAlign: "center", fontWeight: "bold" }}>
+        {fmtTimeOnly(slot.startTime)} - {fmtTimeOnly(slot.endTime)}
       </div>
     </div>
   );
@@ -190,8 +189,33 @@ export default function DashboardPage() {
     ? targetClasses.find((c: ScheduleItem) => parseStart(c.startTime) > nowMin || isNowIn(c.startTime, c.endTime))
     : targetClasses[0];
 
-  const gridSlots = Array(6).fill(null);
-  targetClasses.slice(0, 6).forEach((c, i) => gridSlots[i] = c);
+  const gridSlots = useMemo(() => {
+    if (!ttData?.data?.rows || targetClasses.length === 0) return Array(10).fill(null);
+    const timeRow = ttData.data.rows.find((r: any) => r[0] === "FROM");
+    const timesList = timeRow ? timeRow.slice(1).map((t: string) => t.replace(/\t/g, "").trim().replace(/\n+/g, " ")) : [];
+    
+    // Create exactly 10 slots map
+    const slots = Array(10).fill({ isEmpty: true });
+    timesList.slice(0, 10).forEach((timeStr: string, i: number) => {
+      // Find class that falls in this time
+      const tStart = parseStart(timeStr);
+      const cls = targetClasses.find((c: ScheduleItem) => {
+        const cs = parseStart(c.startTime);
+        const ce = parseEnd(c.endTime);
+        // Add robust time overlapping check for labs
+        return (tStart >= cs && tStart < ce) || (Math.abs(tStart - cs) <= 5); // 5 min tolerance
+      });
+      if (cls) {
+        // Only insert if previous slot isn't exactly the same class (visual deduplication)
+        if (i > 0 && slots[i-1] && slots[i-1].courseCode === cls.courseCode) {
+          slots[i] = { isEmpty: true }; // Hide redundant extended class blocks visually in mini-grid
+        } else {
+          slots[i] = cls;
+        }
+      }
+    });
+    return slots;
+  }, [ttData, targetClasses]);
 
   if (loading && !data) return (
     <div className="page-root" style={{ display: "flex", flexDirection: "column", padding: "32px", gap: "24px" }}>
@@ -248,26 +272,32 @@ export default function DashboardPage() {
           {targetClasses.length > 0 ? (
             <>
               {nextClass ? (
-                <div style={{ marginBottom: "24px" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
-                    <span style={{ fontSize: "11px", color: "#666666", letterSpacing: "0.2em", textTransform: "uppercase" }}>Next Up</span>
-                    <span style={{ fontSize: "11px", color: "#888888" }}>{nextClass.roomNo || "TBA"}</span>
+                <div style={{ marginBottom: "32px", position: "relative" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px", position: "relative", zIndex: 10 }}>
+                    <span style={{ fontSize: "12px", color: "#666666", letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 800 }}>Next Up</span>
+                    <span style={{ fontSize: "12px", color: "#ffffff", fontWeight: 800, background: "#1c1c1c", padding: "4px 8px", borderRadius: "12px" }}>{nextClass.roomNo || "TBA"}</span>
                   </div>
                   <div style={{ 
-                    fontSize: "32px", fontWeight: 900, color: "#ffffff", letterSpacing: "-0.04em", lineHeight: 1.1,
+                    fontSize: "clamp(48px, 10vw, 72px)", fontWeight: 900, color: "#ffffff", letterSpacing: "-0.06em", lineHeight: 0.85,
                     display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden",
-                    wordBreak: "break-word", textTransform: "capitalize"
+                    wordBreak: "break-word", textTransform: "lowercase", marginBottom: "16px", marginTop: "8px"
                   }}>
                     {nextClass.courseTitle}
                   </div>
-                  <div style={{ fontSize: "16px", color: "#888888", fontWeight: 700, marginTop: "8px" }}>
-                    {nextClass.courseCode} • {fmt12(nextClass.startTime)} - {fmt12(nextClass.endTime)}
+                  <div style={{ background: "#151515", border: "1px solid #222", borderRadius: "24px", padding: "16px 20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                      <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#666" }} />
+                      <div style={{ fontSize: "14px", color: "#ffffff", fontWeight: 600 }}>status • <span style={{ fontWeight: 900 }}>{nextClass.courseCode.substring(0, 5)}</span></div>
+                    </div>
+                    <div style={{ fontSize: "12px", color: "#666666", fontWeight: 600 }}>
+                      {fmtTimeOnly(nextClass.startTime)} - {fmtTimeOnly(nextClass.endTime)}
+                    </div>
                   </div>
                 </div>
               ) : null}
 
               {/* Mini Grid */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px", marginBottom: "40px" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "8px", marginBottom: "40px" }}>
                 {gridSlots.map((s, i) => (
                   <MiniGridTile key={i} slot={s} />
                 ))}
