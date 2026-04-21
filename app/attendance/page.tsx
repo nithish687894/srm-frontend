@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
-import AttendanceCard from "@/components/AttendanceCard";
 import { dataAPI } from "@/lib/api";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthStore } from "@/lib/store";
@@ -14,7 +13,6 @@ export default function AttendancePage() {
   const [loading, setLoading] = useState(!academicData?.attendance);
 
   const router = useRouter();
-  const [filter, setFilter] = useState("all");
 
   useEffect(() => {
     if (!ready) return;
@@ -24,114 +22,98 @@ export default function AttendancePage() {
       .catch(() => { if (!att.length) router.push("/"); });
   }, [ready]);
 
-  const filtered = att.filter(c =>
-    filter === "all" ? true : filter === "safe" ? parseFloat(c["Attn %"]) >= 75 : parseFloat(c["Attn %"]) < 75
-  );
-
-  const safeCount = att.filter(c => parseFloat(c["Attn %"]) >= 75).length;
-  const riskCount = att.filter(c => parseFloat(c["Attn %"]) < 75).length;
+  const riskClasses = att.filter(c => parseFloat(c["Attn %"]) < 75);
   const avgAtt = att.length
     ? (att.reduce((s, c) => s + parseFloat(c["Attn %"] || 0), 0) / att.length).toFixed(1)
     : "—";
 
-  const filters = [
-    { key: "all",  label: "All",     count: att.length },
-    { key: "safe", label: "Safe",    count: safeCount },
-    { key: "risk", label: "At Risk", count: riskCount },
-  ];
+  if (loading && !att.length) return (
+    <div className="page-root" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div className="srmx-spinner" />
+    </div>
+  );
 
   return (
     <div className="page-root">
-      <div className="orb orb-green-1" />
-      <div className="orb orb-green-2" />
-      <div className="bg-grid" />
       <Sidebar />
 
       <main className="page-main">
-        <div className="srmx-topbar">
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <div style={{ width: "32px", height: "32px", borderRadius: "10px", background: "rgba(126,203,161,0.12)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
-                <rect x="3" y="2" width="12" height="14" rx="2" stroke="#7ecba1" strokeWidth="1.5"/>
-                <path d="M6 7h6M6 10h4" stroke="#7ecba1" strokeWidth="1.5" strokeLinecap="round"/>
-              </svg>
+        <div className="page-content" style={{ paddingBottom: "140px" }}>
+
+          {/* Header */}
+          <div style={{ textAlign: "center", marginBottom: "40px" }}>
+            <div style={{ fontSize: "12px", letterSpacing: "0.2em", color: "#666666", textTransform: "uppercase" }}>
+              overall attendance
             </div>
-            <span style={{ fontSize: "16px", fontWeight: 700, color: "#e8f0f4", letterSpacing: "-0.3px" }}>Attendance</span>
+            <div style={{ fontSize: "96px", fontWeight: 900, color: "#ffffff", lineHeight: 1 }}>
+              {avgAtt}%
+            </div>
           </div>
 
-          <div style={{ display: "flex", gap: "6px" }}>
-            {filters.map(f => (
-              <button key={f.key} onClick={() => setFilter(f.key)}
-                style={{
-                  padding: "6px 16px", borderRadius: "999px", fontSize: "12px", fontWeight: 500,
-                  cursor: "pointer", display: "flex", alignItems: "center", gap: "7px",
-                  transition: "all 0.2s", border: "none",
-                  background: filter === f.key ? "linear-gradient(135deg, #7ecba1, #5aaf85)" : "rgba(255,255,255,0.05)",
-                  color: filter === f.key ? "#1a3028" : "rgba(232,240,244,0.45)",
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: "40px" }}>
+            <button className="action-btn">
+              <div className="icon-l">?</div>
+              <div className="text-c"><span>predict</span><span>attendance calculator</span></div>
+              <div className="icon-r">›</div>
+            </button>
+          </div>
+
+          {riskClasses.length > 0 && (
+            <div style={{ padding: "24px", background: "#1a0000", border: "2px dashed #ff3b3b", borderRadius: "20px", marginBottom: "32px" }}>
+              <div style={{ fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#ff3b3b", marginBottom: "8px" }}>action required</div>
+              <div style={{ fontSize: "32px", fontWeight: 900, color: "#ff3b3b", lineHeight: 1 }}>{riskClasses.length} SUBJECTS AT RISK</div>
+              <div style={{ fontSize: "12px", color: "#ff3b3b", fontStyle: "italic", marginTop: "8px", textAlign: "center" }}>aint nobody savin you</div>
+            </div>
+          )}
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+            {att.map((c: any, i: number) => {
+              const attn = parseFloat(c["Attn %"]) || 0;
+              const isRisk = attn < 75;
+              const cond = parseInt(c["Hours Conducted"]) || 0;
+              const abs = parseInt(c["Hours Absent"]) || 0;
+              const pres = cond - abs;
+              
+              return (
+                <div key={i} style={{ 
+                  background: isRisk ? "#1a0000" : "#1c1c1c", 
+                  border: isRisk ? "2px dashed #ff3b3b" : "none",
+                  borderRadius: "20px", 
+                  padding: "20px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between"
                 }}>
-                {f.label}
-                <span style={{
-                  padding: "1px 7px", borderRadius: "999px", fontSize: "10px", fontWeight: 600,
-                  background: filter === f.key ? "rgba(0,0,0,0.15)" : "rgba(255,255,255,0.08)",
-                  color: filter === f.key ? "#1a3028" : "rgba(232,240,244,0.30)",
-                }}>{f.count}</span>
-              </button>
-            ))}
-          </div>
-        </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+                    <div style={{ width: "60px" }}>
+                      <div style={{ fontSize: "48px", fontWeight: 900, color: isRisk ? "#ff3b3b" : "#ffffff", lineHeight: 1 }}>
+                        {pres}
+                      </div>
+                      <div style={{ fontSize: "10px", color: "#666666", textTransform: "uppercase", marginTop: "4px" }}>
+                        /{cond} attended
+                      </div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: "20px", fontWeight: "bold", color: "#ffffff", paddingBottom: "4px" }}>
+                        {c["Course Code"]}
+                      </div>
+                      <div style={{ fontSize: "14px", color: "#888888", maxWidth: "200px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                        {c["Course Title"]}
+                      </div>
+                    </div>
+                  </div>
 
-        <div className="page-content">
-          {!loading && (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "14px", marginBottom: "28px" }}>
-              {[
-                { label: "Average", value: `${avgAtt}%`, sub: "Overall attendance", color: "#7ecba1" },
-                { label: "Safe", value: safeCount, sub: "Subjects ≥ 75%", color: "#7eb8c4" },
-                { label: "At Risk", value: riskCount, sub: "Subjects < 75%", color: "#c47b7b" },
-              ].map((s, i) => (
-                <div key={i} style={{
-                  background: "#3a4f5c", border: "1px solid rgba(255,255,255,0.09)",
-                  borderRadius: "14px", padding: "18px 20px", position: "relative", overflow: "hidden",
-                  transition: "border-color 0.2s",
-                }}
-                onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.18)")}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)")}
-                >
-                  <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: `linear-gradient(90deg, ${s.color}90, transparent)`, borderRadius: "14px 14px 0 0" }} />
-                  <div style={{ fontSize: "10px", fontWeight: 600, letterSpacing: "1.6px", textTransform: "uppercase", color: "rgba(232,240,244,0.35)", marginBottom: "10px" }}>{s.label}</div>
-                  <div style={{ fontSize: "32px", fontWeight: 800, lineHeight: 1, color: s.color }}>{s.value}</div>
-                  <div style={{ fontSize: "11px", color: "rgba(232,240,244,0.38)", marginTop: "6px" }}>{s.sub}</div>
+                  <div style={{ fontSize: "32px", fontWeight: 900, color: isRisk ? "#ff3b3b" : "#a8c200" }}>
+                    {attn}%
+                  </div>
                 </div>
-              ))}
-            </div>
-          )}
+              );
+            })}
+          </div>
 
-          {loading ? (
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "100px 0", gap: "16px" }}>
-              <div className="srmx-spinner" />
-              <span style={{ fontSize: "14px", color: "rgba(232,240,244,0.38)" }}>Fetching attendance data…</span>
-            </div>
-          ) : (
-            <>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
-                <span style={{ fontSize: "11px", fontWeight: 600, color: "rgba(232,240,244,0.40)", letterSpacing: "1.2px", textTransform: "uppercase" }}>Subjects</span>
-                <span style={{ fontSize: "11px", color: "rgba(232,240,244,0.28)" }}>{filtered.length} shown</span>
-              </div>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(360px, 1fr))", gap: "14px" }}>
-                {filtered.map((c: any) => (
-                  <AttendanceCard key={c["Course Code"] + c["Category"]} course={c} />
-                ))}
-              </div>
-            </>
-          )}
+          <div className="watermark">attendance</div>
         </div>
       </main>
-
-      <style>{`
-        @media (max-width: 768px) {
-          .page-content > div:first-child { grid-template-columns: 1fr !important; }
-          .page-content > div:last-child { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </div>
   );
 }
