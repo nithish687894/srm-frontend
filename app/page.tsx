@@ -7,7 +7,6 @@ import { useAuthStore } from "@/lib/store";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [dontRemember, setDontRemember] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
@@ -23,8 +22,7 @@ export default function LoginPage() {
     setLoading(true); setError("");
     try {
       const res = await authAPI.login(email, password);
-      // setToken's second param is 'rememberMe', so if dontRemember is true, rememberMe is false
-      setToken(res.token, !dontRemember);
+      setToken(res.token);
       router.push("/dashboard");
     } catch (e: any) {
       setError(e?.response?.data?.error || "LOGIN FAILED");
@@ -129,19 +127,6 @@ export default function LoginPage() {
               onKeyDown={e => e.key === "Enter" && handleLogin()}
               disabled={loading}
             />
-          </div>
-
-          <div style={{ marginBottom: "24px", display: "flex", alignItems: "center", gap: "10px", opacity: 0.6 }}>
-             <input 
-               type="checkbox" 
-               id="dont-remember" 
-               style={{ width: "18px", height: "18px", accentColor: "#ffffff" }}
-               checked={dontRemember}
-               onChange={(e) => setDontRemember(e.target.checked)}
-             />
-             <label htmlFor="dont-remember" style={{ fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.05em", cursor: "pointer", fontWeight: "bold" }}>
-               Don't remember me
-             </label>
           </div>
 
           <button className="login-btn" onClick={handleLogin} disabled={loading}>
