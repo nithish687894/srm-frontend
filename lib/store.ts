@@ -61,12 +61,13 @@ export const useAuthStore = create<AuthStore>()(
           sessionStorage.removeItem(name);
         },
       },
-      partialize: (state) => ({
-        token: state.token,
-        profile: state.profile,
-        academicData: state.academicData,
-        rememberMe: state.rememberMe,
-      }),
+      partialize: (state) =>
+        ({
+          token: state.token,
+          profile: state.profile,
+          academicData: state.academicData,
+          rememberMe: state.rememberMe,
+        }) as unknown as AuthStore,
       onRehydrateStorage: () => (state) => {
         state?.setHasHydrated(true);
       },
