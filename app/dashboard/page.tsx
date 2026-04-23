@@ -101,6 +101,7 @@ function MiniGridTile({ slot }: { slot: any }) {
 export default function DashboardPage() {
   const { ready } = useAuth();
   const router = useRouter();
+  const { theme } = useThemeStore();
   const { setProfile, academicData, setAcademicData } = useAuthStore();
   const [data, setData] = useState<any>(academicData || null);
   const [loading, setLoading] = useState(!academicData);
