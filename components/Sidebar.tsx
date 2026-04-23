@@ -50,35 +50,44 @@ export default function Sidebar() {
           overflow: hidden; /* Prevent any scrolling */
         }
 
-        .theme-ghost .srmx-nav-bar {
-          background: #fff;
-          border-top: 1px solid #eee;
-          backdrop-filter: none;
+        .theme-editorial .srmx-nav-bar {
+          background: rgba(245,242,235,0.97);
+          border-top: 1px solid #111111;
+          backdrop-filter: blur(20px);
         }
 
-        .theme-ember .srmx-nav-bar {
-          background: #0f0500;
-          border-top: 2px solid #3d1400;
+        .theme-editorial .srmx-nav-btn {
+          color: #999999;
+          font-family: 'DM Sans', sans-serif;
+          font-size: 9px;
+          letter-spacing: 0.15em;
+          border-radius: 0;
+        }
+
+        .theme-editorial .srmx-nav-btn.active {
+          color: #111111;
+          background: none;
+          border-bottom: 2px solid #111111;
         }
 
         .srmx-nav-btn {
-          flex-shrink: 1; /* Allow standard buttons to shrink slightly if forced */
+          flex-shrink: 1;
           background: transparent;
           border: none;
           cursor: pointer;
-          font-size: 10px; /* Sightly smaller base size */
+          font-size: 10px;
           letter-spacing: 0.1em;
           color: var(--text-muted);
           font-weight: 700;
           transition: all 0.2s;
-          padding: 6px 8px; /* Reduced padding */
+          padding: 6px 8px;
           text-transform: uppercase;
           border-radius: 99px;
           white-space: nowrap;
         }
 
         .srmx-nav-settings-btn {
-          flex-shrink: 0 !important; /* Never shrink settings */
+          flex-shrink: 0 !important;
           font-size: 16px;
           padding-left: 4px;
         }
@@ -87,19 +96,9 @@ export default function Sidebar() {
           color: var(--text-primary);
         }
 
-        .theme-ember .srmx-nav-btn.active {
-          background: var(--accent);
-          color: #000;
-        }
-
-        .theme-jarvis .srmx-nav-btn.active {
-          color: var(--accent);
-          text-shadow: 0 0 10px var(--accent);
-        }
-
         @media (max-width: 480px) {
           .srmx-nav-bar {
-            gap: 4px; /* Minimum gap for tiny screens */
+            gap: 4px;
           }
           .srmx-nav-btn {
             font-size: 9px;

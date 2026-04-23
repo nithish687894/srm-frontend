@@ -1,14 +1,23 @@
 "use client";
 import { ThemeType, useThemeStore } from "@/lib/themeStore";
 import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 
-const THEMES: { id: ThemeType; name: string; mood: string; color: string }[] = [
-  { id: "matrix", name: "Matrix", mood: "Hacker / Digital", color: "#a8c200" },
-  { id: "jarvis", name: "Jarvis", mood: "Iron Man / HUD", color: "#00A8FF" },
-  { id: "ghost", name: "Ghost", mood: "Editorial / Minimal", color: "#111111" },
-  { id: "ember", name: "Ember", mood: "Gaming / Underground", color: "#FF6B00" },
+const THEMES: { id: ThemeType; name: string; description: string; bg: string; accent: string }[] = [
+  { 
+    id: "matrix", 
+    name: "Matrix", 
+    description: "Dark. Minimal. Focused.", 
+    bg: "#0a0a0a", 
+    accent: "#a8c200" 
+  },
+  { 
+    id: "editorial", 
+    name: "Editorial", 
+    description: "Bold. Magazine. Premium.", 
+    bg: "#f5f2eb", 
+    accent: "#c0392b" 
+  },
 ];
 
 export default function ThemeSelector() {
@@ -22,99 +31,80 @@ export default function ThemeSelector() {
   };
 
   return (
-    <div className="page-root" style={{ background: "#000", color: "#fff", display: "flex", flexDirection: "column" }}>
-      <div style={{ padding: "40px 24px 20px" }}>
-        <h1 style={{ fontSize: "32px", fontWeight: 900, letterSpacing: "-0.03em" }}>YOUR INTERFACE</h1>
-        <p style={{ color: "#666", fontSize: "14px" }}>Choose how your app looks and feels</p>
+    <div className="page-root" style={{ background: "#f5f2eb", minHeight: "100vh", display: "flex", flexDirection: "column", fontFamily: "'DM Sans', sans-serif", color: "#111" }}>
+      <div style={{ padding: "60px 24px 40px", textAlign: "center" }}>
+        <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: "40px", fontWeight: 900, letterSpacing: "-0.02em" }}>Personalize</h1>
+        <p style={{ color: "#666", fontSize: "14px", fontWeight: 500 }}>Select your visual interface</p>
       </div>
 
       <div style={{ 
         flex: 1, 
-        display: "flex", 
-        overflowX: "auto", 
-        padding: "20px", 
+        display: "grid", 
+        gridTemplateColumns: "1fr 1fr", 
         gap: "20px",
-        scrollSnapType: "x mandatory",
-        WebkitOverflowScrolling: "touch"
+        padding: "0 20px"
       }}>
         {THEMES.map((t) => (
           <div 
             key={t.id}
             onClick={() => setSelected(t.id)}
             style={{
-              minWidth: "80%",
-              height: "70vh",
-              background: "#111",
-              borderRadius: "24px",
-              scrollSnapAlign: "center",
-              position: "relative",
-              border: selected === t.id ? `3px solid ${t.color}` : "1px solid #222",
-              padding: "4px",
-              transition: "all 0.3s ease",
+              display: "flex",
+              flexDirection: "column",
               cursor: "pointer",
-              boxShadow: selected === t.id ? `0 0 30px ${t.color}33` : "none"
+              transition: "all 0.3s ease",
             }}
           >
-            <div style={{ 
-              width: "100%", 
-              height: "100%", 
-              borderRadius: "20px", 
-              overflow: "hidden",
+            <div style={{
+              flex: 1,
+              background: t.bg,
+              border: selected === t.id ? "2px solid #111" : "1px solid rgba(0,0,0,0.1)",
               position: "relative",
-              background: t.id === "ghost" ? "#fff" : "#000"
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "20px"
             }}>
-              {/* Mock Dashboard Preview */}
-              <div style={{ padding: "24px" }}>
-                 <div style={{ 
-                   height: "120px", 
-                   width: "120px", 
-                   borderRadius: t.id === "ghost" ? "0" : "50%",
-                   border: `4px solid ${t.color}`,
-                   margin: "0 auto 20px",
-                   display: "flex", alignItems: "center", justifyContent: "center",
-                   color: t.id === "ghost" ? "#000" : "#fff",
-                   fontWeight: 900, fontSize: "24px"
-                 }}>85%</div>
-
-                 <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                   {[1, 2].map(i => (
-                     <div key={i} style={{
-                        height: "80px",
-                        background: t.id === "ghost" ? "#f5f5f7" : "#1a1a1a",
-                        borderRadius: t.id === "matrix" ? "16px" : "0",
-                        clipPath: t.id === "jarvis" ? "polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)" : t.id === "ember" ? "polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)" : "none",
-                        border: t.id === "jarvis" ? `1px solid ${t.color}` : "none",
-                        borderBottom: t.id === "ghost" ? "1px solid #ddd" : "none"
-                     }} />
-                   ))}
-                 </div>
-              </div>
+              {/* Mini Preview Dot */}
+              <div style={{ width: "12px", height: "12px", background: t.accent, borderRadius: "50%", marginBottom: "16px" }} />
+              
+              {/* Mock UI Elements */}
+              <div style={{ width: "100%", height: "2px", background: selected === t.id ? "#111" : "rgba(0,0,0,0.1)", marginBottom: "8px" }} />
+              <div style={{ width: "60%", height: "2px", background: selected === t.id ? "#111" : "rgba(0,0,0,0.1)", marginBottom: "8px" }} />
+              <div style={{ width: "80%", height: "2px", background: selected === t.id ? "#111" : "rgba(0,0,0,0.1)" }} />
+              
+              {selected === t.id && (
+                <div style={{ position: "absolute", top: "10px", right: "10px", fontSize: "12px" }}>✓</div>
+              )}
             </div>
-            <div style={{ marginTop: "16px", textAlign: "center" }}>
-              <div style={{ fontSize: "18px", fontWeight: 900, textTransform: "uppercase" }}>{t.name}</div>
-              <div style={{ fontSize: "12px", color: t.color, fontWeight: 700 }}>{t.mood}</div>
+            
+            <div style={{ marginTop: "16px" }}>
+              <div style={{ fontSize: "13px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>{t.name}</div>
+              <div style={{ fontSize: "11px", color: "#999", fontWeight: 500, marginTop: "2px" }}>{t.description}</div>
             </div>
           </div>
         ))}
       </div>
 
-      <div style={{ padding: "24px" }}>
+      <div style={{ padding: "40px 24px 60px" }}>
         <button 
           onClick={handleApply}
           style={{
             width: "100%",
             padding: "20px",
-            borderRadius: "16px",
-            background: THEMES.find(t => t.id === selected)?.color || "#fff",
-            color: selected === "ghost" ? "#fff" : "#000",
+            background: "#111",
+            color: "#fff",
             border: "none",
-            fontSize: "18px",
-            fontWeight: 900,
+            fontSize: "14px",
+            fontWeight: 700,
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
             cursor: "pointer",
             transition: "all 0.2s"
           }}
         >
-          APPLY THEME
+          Activate Interface
         </button>
       </div>
     </div>

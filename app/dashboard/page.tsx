@@ -226,6 +226,8 @@ export default function DashboardPage() {
     </div>
   );
 
+  if (theme === "editorial") return <EditorialDashboard data={data} ttData={ttData} myTTData={myTTData} targetClasses={targetClasses} nextClass={nextClass} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} recentTop5={recentTop5} initials={initials} />;
+
   return (
     <div className="page-root">
       <Sidebar />
@@ -251,47 +253,7 @@ export default function DashboardPage() {
               { label: "At Risk", value: riskCount, color: riskCount > 0 ? "var(--accent-red)" : "var(--text-secondary)" },
               { label: "Courses", value: totalCourses, color: "var(--text-secondary)" },
             ];
-            const { theme } = useThemeStore.getState();
-
-            if (theme === "jarvis") {
-              return (
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "12px", marginBottom: "32px" }}>
-                  {stats.map((s, i) => (
-                    <div key={i} style={{ border: `1px solid var(--border)`, padding: "16px", background: "rgba(0,168,255,0.05)" }}>
-                      <div style={{ fontSize: "10px", color: "var(--accent)", textTransform: "uppercase", marginBottom: "4px", fontWeight: 800 }}>{s.label}</div>
-                      <div style={{ fontSize: "24px", fontWeight: 900, color: s.color, fontFamily: "var(--font-orbitron)" }}>{s.value}</div>
-                    </div>
-                  ))}
-                </div>
-              );
-            }
-
-            if (theme === "ghost") {
-              return (
-                <div style={{ borderTop: "1px solid var(--border)", marginBottom: "32px" }}>
-                  {stats.map((s, i) => (
-                    <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "12px 0", borderBottom: "1px solid var(--border)" }}>
-                      <span style={{ fontSize: "11px", fontWeight: 900, textTransform: "uppercase" }}>{s.label}</span>
-                      <span style={{ fontSize: "18px", fontWeight: 900, fontFamily: "var(--font-playfair)" }}>{s.value}</span>
-                    </div>
-                  ))}
-                </div>
-              );
-            }
-
-            if (theme === "ember") {
-              return (
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "16px", marginBottom: "32px" }}>
-                  {stats.map((s, i) => (
-                    <div key={i} style={{ borderLeft: "4px solid var(--accent)", padding: "12px 20px", background: "rgba(255,107,0,0.05)" }}>
-                      <div style={{ fontSize: "12px", fontWeight: 800, color: "var(--accent)", textTransform: "uppercase" }}>{s.label}</div>
-                      <div style={{ fontSize: "32px", fontWeight: 900, color: s.color, fontFamily: "var(--font-bebas)" }}>{s.value}</div>
-                    </div>
-                  ))}
-                </div>
-              );
-            }
-
+            
             // Matrix (Default)
             return (
               <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "8px", marginBottom: "32px" }}>
@@ -406,6 +368,117 @@ export default function DashboardPage() {
           <div className="watermark">Dashboard</div>
 
         </div>
+      </main>
+    </div>
+  );
+}
+
+function EditorialDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, recentTop5, initials }: any) {
+  const router = useRouter();
+  const dateStr = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }).toUpperCase();
+
+  return (
+    <div style={{ background: "#f5f2eb", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'DM Sans', sans-serif" }}>
+      <Sidebar />
+      <main style={{ padding: "20px" }}>
+        
+        {/* Header Section */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "20px" }}>
+          <div style={{ fontSize: "10px", fontWeight: 600, letterSpacing: "0.1em" }}>{dateStr}</div>
+          <div style={{ position: "absolute", left: "50%", transform: "translateX(-50%)", fontSize: "10px", fontWeight: 600, letterSpacing: "0.3em" }}>SRMIST PORTAL</div>
+          <div style={{ width: "32px", height: "32px", border: "1px solid #111", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: 700 }}>{initials}</div>
+        </div>
+        <div style={{ height: "1px", background: "#111", width: "100%", margin: "16px 0 32px" }} />
+
+        {/* Hero Stat */}
+        <div style={{ marginBottom: "32px" }}>
+          <div style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(96px, 25vw, 180px)", fontWeight: 900, color: "#111", lineHeight: 0.85, letterSpacing: "-0.04em" }}>
+            {avgAtt}<span style={{ fontSize: "0.4em" }}>%</span>
+          </div>
+          <div style={{ fontSize: "10px", fontWeight: 600, letterSpacing: "0.3em", color: "#999", marginTop: "12px" }}>ATTENDANCE</div>
+        </div>
+        <div style={{ height: "1px", background: "#111", width: "100%", marginBottom: "24px" }} />
+
+        {/* Stats Row */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1px 1fr 1px 1fr", alignItems: "center", marginBottom: "24px" }}>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontFamily: "'Fraunces', serif", fontSize: "32px", fontWeight: 700 }}>{avgMarks}%</div>
+            <div style={{ fontSize: "10px", letterSpacing: "0.15em", color: "#999", fontWeight: 600 }}>AVG MARKS</div>
+          </div>
+          <div style={{ height: "40px", background: "#111", width: "1px" }} />
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontFamily: "'Fraunces', serif", fontSize: "32px", fontWeight: 700, color: riskCount > 0 ? "#c0392b" : "#111" }}>{riskCount}</div>
+            <div style={{ fontSize: "10px", letterSpacing: "0.15em", color: "#999", fontWeight: 600 }}>AT RISK</div>
+          </div>
+          <div style={{ height: "40px", background: "#111", width: "1px" }} />
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontFamily: "'Fraunces', serif", fontSize: "32px", fontWeight: 700 }}>{totalCourses}</div>
+            <div style={{ fontSize: "10px", letterSpacing: "0.15em", color: "#999", fontWeight: 600 }}>COURSES</div>
+          </div>
+        </div>
+        <div style={{ height: "1px", background: "#111", width: "100%", marginBottom: "40px" }} />
+
+        {/* Next Class Section */}
+        {nextClass && (
+          <div style={{ marginBottom: "40px" }}>
+            <div style={{ fontSize: "10px", fontWeight: 600, letterSpacing: "0.2em", color: "#999", marginBottom: "12px" }}>NEXT CLASS</div>
+            <div style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(28px, 7vw, 48px)", fontWeight: 300, fontStyle: "italic", color: "#111", lineHeight: 1.1, marginBottom: "8px" }}>
+              {nextClass.courseTitle.toLowerCase()}
+            </div>
+            <div style={{ fontSize: "12px", color: "#999", fontWeight: 500 }}>
+              {nextClass.roomNo} • {fmtTimeOnly(nextClass.startTime)} — {fmtTimeOnly(nextClass.endTime)}
+            </div>
+            <div style={{ height: "1px", background: "#111", width: "100%", marginTop: "32px" }} />
+          </div>
+        )}
+
+        {/* Schedule Section */}
+        <div style={{ marginBottom: "40px" }}>
+          <div style={{ fontSize: "10px", fontWeight: 600, letterSpacing: "0.2em", color: "#999", marginBottom: "20px" }}>TODAY</div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {targetClasses.map((cls: any, i: number) => {
+              const active = isNowIn(cls.startTime, cls.endTime);
+              return (
+                <div key={i} style={{ display: "flex", alignItems: "center", padding: "16px 0", borderBottom: "1px solid rgba(0,0,0,0.1)" }}>
+                  <div style={{ width: "12px" }}>{active && <div style={{ width: "6px", height: "6px", background: "#c0392b", borderRadius: "50%" }} />}</div>
+                  <div style={{ width: "80px", fontSize: "11px", fontFamily: "monospace", color: "#666" }}>{fmtTimeOnly(cls.startTime)}</div>
+                  <div style={{ flex: 1, fontSize: active ? "18px" : "14px", fontWeight: active ? 400 : 700, fontFamily: active ? "'Fraunces', serif" : "inherit", fontStyle: active ? "italic" : "normal", color: "#111" }}>{cls.courseTitle.toLowerCase()}</div>
+                  <div style={{ fontSize: "11px", color: "#999", textAlign: "right" }}>{cls.roomNo}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Marks Section */}
+        <div style={{ marginBottom: "40px" }}>
+          <div style={{ fontSize: "10px", fontWeight: 600, letterSpacing: "0.2em", color: "#999", marginBottom: "20px" }}>RECENT MARKS</div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {recentTop5.map((m: any, i: number) => {
+              const isLow = (m.score / m.max) < 0.5;
+              return (
+                <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 0", borderBottom: "1px solid rgba(0,0,0,0.1)" }}>
+                  <div style={{ fontSize: "13px", fontWeight: 500 }}>{m.courseCode}</div>
+                  <div style={{ fontFamily: "'Fraunces', serif", fontSize: "24px", fontWeight: 700, color: isLow ? "#c0392b" : "#111" }}>{m.score}<span style={{ fontSize: "0.5em", opacity: 0.5 }}>/{m.max}</span></div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* At Risk Banner */}
+        {riskCount > 0 && (
+          <div 
+            onClick={() => router.push("/attendance")}
+            style={{ position: "fixed", bottom: "72px", left: 0, right: 0, background: "#111", color: "#fff", padding: "16px 20px", display: "flex", alignItems: "center", cursor: "pointer", zIndex: 50 }}
+          >
+            <div style={{ fontSize: "13px", fontWeight: 500, letterSpacing: "0.02em" }}>
+              <span style={{ color: "#c0392b", marginRight: "8px" }}>●</span>
+              {riskCount} subjects below 75% attendance — tap to view
+            </div>
+          </div>
+        )}
+
       </main>
     </div>
   );

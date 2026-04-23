@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export type ThemeType = "matrix" | "jarvis" | "ghost" | "ember";
+export type ThemeType = "matrix" | "editorial";
 
 interface ThemeStore {
   theme: ThemeType;
