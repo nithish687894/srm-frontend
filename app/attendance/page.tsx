@@ -305,38 +305,75 @@ export default function AttendancePage() {
               const cond = parseInt(c["Hours Conducted"]) || 0;
               const abs = parseInt(c["Hours Absent"]) || 0;
               const pres = cond - abs;
+
+              let advice = "";
+              let adviceColor = "";
+
+              if (attn >= 75) {
+                const canSkip = Math.floor((4 * pres - 3 * cond) / 3);
+                advice = canSkip > 0 ? `Safe to skip ${canSkip} classes` : `On the edge: don't skip`;
+                adviceColor = canSkip > 0 ? "#a8c200" : "#888";
+              } else {
+                const mustAttend = Math.ceil(3 * cond - 4 * pres);
+                advice = `Attend ${mustAttend} classes to reach 75%`;
+                adviceColor = "#ff3b3b";
+              }
               
               return (
                 <div key={i} className="min-card" style={{ 
                   display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
+                  flexDirection: "column",
+                  gap: "16px",
                   background: isRisk ? "rgba(255,59,59,0.05)" : "var(--bg-surface)",
                   borderLeft: isRisk ? "4px solid var(--accent-red)" : "1px solid var(--border)",
                   borderColor: isRisk ? "var(--accent-red)" : "var(--border)",
                   borderStyle: isRisk ? "dashed" : "solid"
                 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-                    <div style={{ width: "60px" }}>
-                      <div className="font-heading" style={{ fontSize: "40px", fontWeight: 900, color: isRisk ? "var(--accent-red)" : "var(--text-primary)", lineHeight: 1 }}>
-                        {pres}
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+                      <div style={{ width: "60px" }}>
+                        <div className="font-heading" style={{ fontSize: "40px", fontWeight: 900, color: isRisk ? "var(--accent-red)" : "var(--text-primary)", lineHeight: 1 }}>
+                          {pres}
+                        </div>
+                        <div style={{ fontSize: "10px", color: "var(--text-secondary)", textTransform: "uppercase", marginTop: "4px", fontWeight: "bold" }}>
+                          /{cond} pres
+                        </div>
                       </div>
-                      <div style={{ fontSize: "10px", color: "var(--text-secondary)", textTransform: "uppercase", marginTop: "4px", fontWeight: "bold" }}>
-                        /{cond} pres
+                      <div style={{ flex: 1, minWidth: 0, paddingRight: "16px" }}>
+                        <div style={{ fontSize: "16px", fontWeight: "bold", color: "var(--text-primary)", paddingBottom: "2px", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word", lineHeight: 1.2 }}>
+                          {c["Course Title"]}
+                        </div>
+                        <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: "bold", letterSpacing: "0.05em" }}>
+                          {c["Course Code"]}
+                        </div>
                       </div>
                     </div>
-                    <div style={{ flex: 1, minWidth: 0, paddingRight: "16px" }}>
-                      <div style={{ fontSize: "16px", fontWeight: "bold", color: "var(--text-primary)", paddingBottom: "2px", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word", lineHeight: 1.2 }}>
-                        {c["Course Title"]}
-                      </div>
-                      <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: "bold", letterSpacing: "0.05em" }}>
-                        {c["Course Code"]}
-                      </div>
+
+                    <div className="font-heading" style={{ fontSize: "32px", fontWeight: 900, color: isRisk ? "var(--accent-red)" : "var(--accent)" }}>
+                      {attn}%
                     </div>
                   </div>
 
-                  <div className="font-heading" style={{ fontSize: "32px", fontWeight: 900, color: isRisk ? "var(--accent-red)" : "var(--accent)" }}>
-                    {attn}%
+                  <div style={{ 
+                    borderTop: "1px solid var(--border)", 
+                    paddingTop: "12px", 
+                    fontSize: "11px", 
+                    fontWeight: "900", 
+                    textTransform: "uppercase", 
+                    letterSpacing: "0.1em",
+                    color: adviceColor,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px"
+                  }}>
+                    <span style={{ 
+                      width: "6px", 
+                      height: "6px", 
+                      borderRadius: "50%", 
+                      background: adviceColor,
+                      boxShadow: `0 0 8px ${adviceColor}` 
+                    }} />
+                    {advice}
                   </div>
                 </div>
               );
