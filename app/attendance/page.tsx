@@ -7,6 +7,7 @@ import { dataAPI } from "@/lib/api";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthStore } from "@/lib/store";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
+import { useThemeStore } from "@/lib/themeStore";
 
 function buildSlotToCourseMap(myTT: any[]) {
   const map: Record<string, any> = {};

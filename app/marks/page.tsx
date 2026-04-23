@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
+import { useThemeStore } from "@/lib/themeStore";
 
 export default function MarksPage() {
   const { academicData, setAcademicData } = useAuthStore();
