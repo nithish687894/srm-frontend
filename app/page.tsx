@@ -3,10 +3,12 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { authAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
@@ -93,6 +95,14 @@ export default function LoginPage() {
 
         .login-btn:hover { opacity: 0.8; }
         .login-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .pass-wrapper { position: relative; display: flex; align-items: center; }
+        .pass-toggle {
+          position: absolute; right: 16px; background: none; border: none;
+          color: #666; cursor: pointer; display: flex; align-items: center;
+          transition: color 0.2s;
+        }
+        .pass-toggle:hover { color: #fff; }
       `}</style>
       <div className="login-root">
         <div className="login-card">
@@ -118,15 +128,25 @@ export default function LoginPage() {
           </div>
 
           <div className="login-field">
-            <input
-              type="password"
-              placeholder="PASSWORD"
-              className="login-input"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              onKeyDown={e => e.key === "Enter" && handleLogin()}
-              disabled={loading}
-            />
+            <div className="pass-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="PASSWORD"
+                className="login-input"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                onKeyDown={e => e.key === "Enter" && handleLogin()}
+                disabled={loading}
+              />
+              <button 
+                type="button" 
+                className="pass-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
           </div>
 
           <button className="login-btn" onClick={handleLogin} disabled={loading}>
