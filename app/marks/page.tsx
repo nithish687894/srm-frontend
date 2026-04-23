@@ -45,6 +45,7 @@ export default function MarksPage() {
   );
 
   const { theme } = useThemeStore();
+  if (theme === "cosmos") return <CosmosMarks marks={marks} titleMap={titleMap} />;
   if (theme === "editorial") return <EditorialMarks marks={marks} titleMap={titleMap} />;
 
   return (
@@ -155,6 +156,91 @@ export default function MarksPage() {
           </div>
 
           <div className="watermark">Marks</div>
+        </div>
+      </main>
+    </div>
+  );
+}
+
+function CosmosMarks({ marks, titleMap }: any) {
+  return (
+    <div style={{ background: "var(--bg)", minHeight: "100vh", paddingBottom: "100px", fontFamily: "var(--font-body)", color: "var(--text-primary)" }}>
+      <Sidebar />
+      <main style={{ padding: "20px" }}>
+        <h1 style={{ fontSize: "22px", fontWeight: 700, marginBottom: "24px" }}>Marks</h1>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          {marks.map((m: any, i: number) => {
+            const title = titleMap[m.courseCode] || m.courseCode;
+            return (
+              <div key={i} style={{ background: "var(--bg-card)", borderRadius: "16px", padding: "20px", border: "1px solid var(--border)" }}>
+                <div style={{ fontSize: "15px", fontWeight: 700, color: "#fff", marginBottom: "20px" }}>{title}</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                  {m.tests?.map((t: any, j: number) => {
+                    const [lbl, mxStr] = t.test.split("/");
+                    const mx = parseFloat(mxStr) || 100;
+                    const sc = t.score === "Abs" ? 0 : parseFloat(t.score) || 0;
+                    const pct = (sc / mx) * 100;
+                    const barColor = pct >= 60 ? "var(--accent-green)" : pct >= 40 ? "#fbbf24" : "var(--accent-red)";
+
+                    return (
+                      <div key={j}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                          <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 500 }}>{lbl}</div>
+                          <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--accent)" }}>{t.score === "Abs" ? "ABS" : t.score}<span style={{ color: "var(--text-muted)", fontSize: "11px", fontWeight: 500 }}> / {mx}</span></div>
+                        </div>
+                        <div style={{ height: "4px", background: "rgba(255,255,255,0.08)", borderRadius: "99px", overflow: "hidden" }}>
+                          <div style={{ height: "100%", background: barColor, width: `${pct}%`, borderRadius: "99px" }} />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </main>
+    </div>
+  );
+}
+
+function EditorialMarks({ marks, titleMap }: any) {
+  return (
+    <div style={{ background: "#f5f2eb", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'DM Sans', sans-serif" }}>
+      <Sidebar />
+      <main style={{ padding: "40px 20px" }}>
+        <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: "48px", fontWeight: 900, color: "#111", marginBottom: "48px" }}>MARKS</h1>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "64px" }}>
+          {marks.map((m: any, i: number) => {
+            const title = titleMap[m.courseCode] || m.courseCode;
+            return (
+              <div key={i}>
+                <div style={{ fontFamily: "'Fraunces', serif", fontSize: "24px", fontWeight: 700, color: "#111", marginBottom: "24px", borderBottom: "2px solid #111", paddingBottom: "8px" }}>
+                  {title.toLowerCase()}
+                </div>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  {m.tests?.map((t: any, j: number) => {
+                    const [lbl, mx] = t.test.split("/");
+                    const sc = t.score === "Abs" ? 0 : parseFloat(t.score) || 0;
+                    const isLow = (sc / parseFloat(mx)) < 0.5;
+                    return (
+                      <div key={j} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 0", borderBottom: "1px solid rgba(0,0,0,0.1)" }}>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: "12px", fontWeight: 600, color: "#999", textTransform: "uppercase", letterSpacing: "0.1em" }}>{lbl}</div>
+                        </div>
+                        <div style={{ fontFamily: "'Fraunces', serif", fontSize: "32px", fontWeight: 700, color: isLow ? "#c0392b" : "#111" }}>
+                          {t.score === "Abs" ? "ABS" : t.score}
+                          <span style={{ fontSize: "0.5em", opacity: 0.3, marginLeft: "4px" }}>/{mx}</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </main>
     </div>

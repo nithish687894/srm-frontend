@@ -50,6 +50,24 @@ export default function Sidebar() {
           overflow: hidden; /* Prevent any scrolling */
         }
 
+        .theme-cosmos .srmx-nav-bar {
+          background: rgba(15,15,19,0.97);
+          border-top: 1px solid rgba(255,255,255,0.07);
+          backdrop-filter: blur(20px);
+        }
+
+        .theme-cosmos .srmx-nav-btn {
+          color: #55556a;
+          font-family: 'Plus Jakarta Sans', sans-serif;
+          font-size: 9px;
+        }
+
+        .theme-cosmos .srmx-nav-btn.active {
+          color: #a78bfa;
+          background: rgba(124,58,237,0.12);
+          border-radius: 12px;
+        }
+
         .theme-editorial .srmx-nav-bar {
           background: rgba(245,242,235,0.97);
           border-top: 1px solid #111111;

@@ -227,6 +227,7 @@ export default function DashboardPage() {
     </div>
   );
 
+  if (theme === "cosmos") return <CosmosDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} />;
   if (theme === "editorial") return <EditorialDashboard data={data} ttData={ttData} myTTData={myTTData} targetClasses={targetClasses} nextClass={nextClass} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} recentTop5={recentTop5} initials={initials} />;
 
   return (
@@ -369,6 +370,262 @@ export default function DashboardPage() {
           <div className="watermark">Dashboard</div>
 
         </div>
+      </main>
+    </div>
+  );
+}
+
+function CosmosDashboard({ riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, recentTop5, initials, firstName }: any) {
+  const router = useRouter();
+  const attPct = parseFloat(avgAtt as string) || 0;
+
+  return (
+    <div style={{ background: "var(--bg)", minHeight: "100vh", paddingBottom: "100px", fontFamily: "var(--font-body)", color: "var(--text-primary)" }}>
+      <Sidebar />
+      <main style={{ padding: "20px" }}>
+        
+        {/* Header */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            <div style={{ width: "40px", height: "40px", borderRadius: "50%", background: "var(--accent)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: "14px", color: "#fff" }}>
+              {initials}
+            </div>
+            <div style={{ fontSize: "18px", fontWeight: 600 }}>Good morning, {firstName}</div>
+          </div>
+          <div style={{ width: "40px", height: "40px", borderRadius: "12px", background: "var(--bg-surface)", border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px" }}>
+            🔔
+          </div>
+        </div>
+
+        {/* Hero Card - Attendance */}
+        <div style={{ 
+          background: "linear-gradient(135deg, #3b1fa8 0%, #1e1035 100%)",
+          borderRadius: "20px", padding: "24px", marginBottom: "24px",
+          display: "flex", justifyContent: "space-between", alignItems: "center"
+        }}>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: "12px", textTransform: "uppercase", fontWeight: 800, color: "#a78bfa", letterSpacing: "0.1em", marginBottom: "8px" }}>Overall Attendance</div>
+            <div style={{ fontSize: "64px", fontWeight: 800, color: "#fff", lineHeight: 1, marginBottom: "16px" }}>{avgAtt}%</div>
+            <div style={{ height: "6px", background: "rgba(255,255,255,0.15)", borderRadius: "99px", overflow: "hidden" }}>
+              <div style={{ height: "100%", background: "#fff", width: `${attPct}%` }} />
+            </div>
+          </div>
+          <div style={{ width: "80px", height: "80px", position: "relative", marginLeft: "20px" }}>
+            <svg viewBox="0 0 36 36" style={{ transform: "rotate(-90deg)" }}>
+              <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="3" />
+              <circle cx="18" cy="18" r="16" fill="none" stroke="#fff" strokeWidth="3" 
+                strokeDasharray="100 100" strokeDashoffset={100 - attPct} strokeLinecap="round" />
+            </svg>
+            <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", fontWeight: 800, color: "#fff" }}>
+              {avgAtt}
+            </div>
+          </div>
+        </div>
+
+        {/* Stats Row */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px", marginBottom: "24px" }}>
+          <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "14px", padding: "16px 12px", position: "relative" }}>
+            <div style={{ fontSize: "10px", textTransform: "uppercase", color: "var(--text-secondary)", fontWeight: 800, letterSpacing: "0.05em", marginBottom: "4px" }}>Avg Marks</div>
+            <div style={{ fontSize: "24px", fontWeight: 700, color: "var(--accent)" }}>{avgMarks}%</div>
+            <div style={{ position: "absolute", top: "12px", right: "12px", fontSize: "12px" }}>📈</div>
+          </div>
+          <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "14px", padding: "16px 12px", position: "relative" }}>
+            <div style={{ fontSize: "10px", textTransform: "uppercase", color: "var(--text-secondary)", fontWeight: 800, letterSpacing: "0.05em", marginBottom: "4px" }}>At Risk</div>
+            <div style={{ fontSize: "24px", fontWeight: 700, color: riskCount > 0 ? "var(--accent-red)" : "var(--text-secondary)" }}>{riskCount}</div>
+            <div style={{ position: "absolute", top: "12px", right: "12px", fontSize: "12px" }}>⚠️</div>
+          </div>
+          <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "14px", padding: "16px 12px", position: "relative" }}>
+            <div style={{ fontSize: "10px", textTransform: "uppercase", color: "var(--text-secondary)", fontWeight: 800, letterSpacing: "0.05em", marginBottom: "4px" }}>Courses</div>
+            <div style={{ fontSize: "24px", fontWeight: 700, color: "var(--text-secondary)" }}>{totalCourses}</div>
+            <div style={{ position: "absolute", top: "12px", right: "12px", fontSize: "12px" }}>📚</div>
+          </div>
+        </div>
+
+        {/* Next Class */}
+        {nextClass && (
+          <div style={{ background: "var(--bg-card)", border: "1px solid var(--border-accent)", borderRadius: "16px", padding: "20px", marginBottom: "24px" }}>
+            <div style={{ display: "inline-block", background: "var(--accent-soft)", color: "#a78bfa", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em" }}>Next Up</div>
+            <div style={{ fontSize: "18px", fontWeight: 700, color: "#fff", margin: "8px 0" }}>{nextClass.courseTitle}</div>
+            <div style={{ display: "flex", gap: "8px" }}>
+              <div style={{ background: "rgba(0,0,0,0.2)", padding: "4px 10px", borderRadius: "99px", fontSize: "11px", color: "var(--text-secondary)" }}>📍 {nextClass.roomNo}</div>
+              <div style={{ background: "rgba(0,0,0,0.2)", padding: "4px 10px", borderRadius: "99px", fontSize: "11px", color: "var(--text-secondary)" }}>⏰ {fmtTimeOnly(nextClass.startTime)} — {fmtTimeOnly(nextClass.endTime)}</div>
+            </div>
+          </div>
+        )}
+
+        {/* Today's Schedule */}
+        <div style={{ marginBottom: "24px" }}>
+          <div style={{ fontSize: "14px", fontWeight: 600, color: "#fff", marginBottom: "12px" }}>Today&apos;s Schedule</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+            {targetClasses.map((cls: any, i: number) => {
+              const active = isNowIn(cls.startTime, cls.endTime);
+              const past = parseEnd(cls.endTime) < (new Date().getHours() * 60 + new Date().getMinutes());
+              const indicatorColor = active ? "var(--accent-green)" : past ? "var(--text-muted)" : "var(--accent)";
+
+              return (
+                <div key={i} style={{ 
+                  background: active ? "rgba(124,58,237,0.08)" : "var(--bg-card)",
+                  border: active ? "1px solid var(--border-accent)" : "1px solid var(--border)",
+                  borderRadius: "12px", padding: "12px", display: "flex", gap: "12px", alignItems: "center"
+                }}>
+                  <div style={{ width: "3px", height: "32px", borderRadius: "99px", background: indicatorColor }} />
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: "13px", fontWeight: 600, color: "#fff" }}>{cls.courseTitle}</div>
+                    <div style={{ fontSize: "11px", color: "var(--text-muted)" }}>{cls.roomNo} • {cls.facultyName}</div>
+                  </div>
+                  <div style={{ fontSize: "11px", color: "var(--text-muted)", textAlign: "right" }}>
+                    {fmtTimeOnly(cls.startTime)}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Recent Marks */}
+        <div style={{ marginBottom: "24px" }}>
+          <div style={{ fontSize: "14px", fontWeight: 600, color: "#fff", marginBottom: "12px" }}>Recent Marks</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px", background: "var(--bg-card)", padding: "20px", borderRadius: "16px", border: "1px solid var(--border)" }}>
+            {recentTop5.map((rm: any, i: number) => {
+              const scorePct = (rm.score / rm.max) * 100;
+              return (
+                <div key={i}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px" }}>
+                    <div style={{ fontSize: "12px", fontWeight: 600, color: "var(--text-secondary)" }}>{rm.courseCode}</div>
+                    <div style={{ fontSize: "12px", fontWeight: 800, color: "var(--accent)" }}>{rm.score}/{rm.max}</div>
+                  </div>
+                  <div style={{ height: "4px", background: "rgba(255,255,255,0.08)", borderRadius: "99px", overflow: "hidden" }}>
+                    <div style={{ height: "100%", background: "var(--accent)", width: `${scorePct}%` }} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* At Risk Banner */}
+        {riskCount > 0 && (
+          <div onClick={() => router.push("/attendance")} style={{ 
+            background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)", borderRadius: "14px", 
+            padding: "16px 20px", display: "flex", alignItems: "center", gap: "12px", cursor: "pointer"
+          }}>
+            <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "var(--accent-red)", boxShadow: "0 0 10px var(--accent-red)" }} />
+            <div style={{ fontSize: "13px", fontWeight: 600, color: "var(--accent-red)" }}>{riskCount} subjects need attention</div>
+            <div style={{ marginLeft: "auto", fontSize: "18px" }}>›</div>
+          </div>
+        )}
+
+      </main>
+    </div>
+  );
+}
+
+function EditorialDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, recentTop5, initials, firstName }: any) {
+  const router = useRouter();
+  const dateStr = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }).toUpperCase();
+
+  return (
+    <div style={{ background: "#f5f2eb", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'DM Sans', sans-serif" }}>
+      <Sidebar />
+      <main style={{ padding: "20px" }}>
+        
+        {/* Header Section */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "20px" }}>
+          <div style={{ fontSize: "10px", fontWeight: 600, letterSpacing: "0.1em" }}>{dateStr}</div>
+          <div style={{ position: "absolute", left: "50%", transform: "translateX(-50%)", fontSize: "10px", fontWeight: 600, letterSpacing: "0.3em" }}>SRMIST PORTAL</div>
+          <div style={{ width: "32px", height: "32px", border: "1px solid #111", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: 700 }}>{initials}</div>
+        </div>
+        <div style={{ height: "1px", background: "#111", width: "100%", margin: "16px 0 32px" }} />
+
+        {/* Hero Stat */}
+        <div style={{ marginBottom: "32px" }}>
+          <div style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(96px, 25vw, 180px)", fontWeight: 900, color: "#111", lineHeight: 0.85, letterSpacing: "-0.04em" }}>
+            {avgAtt}<span style={{ fontSize: "0.4em" }}>%</span>
+          </div>
+          <div style={{ fontSize: "10px", fontWeight: 600, letterSpacing: "0.3em", color: "#999", marginTop: "12px" }}>ATTENDANCE</div>
+        </div>
+        <div style={{ height: "1px", background: "#111", width: "100%", marginBottom: "24px" }} />
+
+        {/* Stats Row */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1px 1fr 1px 1fr", alignItems: "center", marginBottom: "24px" }}>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontFamily: "'Fraunces', serif", fontSize: "32px", fontWeight: 700 }}>{avgMarks}%</div>
+            <div style={{ fontSize: "10px", letterSpacing: "0.15em", color: "#999", fontWeight: 600 }}>AVG MARKS</div>
+          </div>
+          <div style={{ height: "40px", background: "#111", width: "1px" }} />
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontFamily: "'Fraunces', serif", fontSize: "32px", fontWeight: 700, color: riskCount > 0 ? "#c0392b" : "#111" }}>{riskCount}</div>
+            <div style={{ fontSize: "10px", letterSpacing: "0.15em", color: "#999", fontWeight: 600 }}>AT RISK</div>
+          </div>
+          <div style={{ height: "40px", background: "#111", width: "1px" }} />
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontFamily: "'Fraunces', serif", fontSize: "32px", fontWeight: 700 }}>{totalCourses}</div>
+            <div style={{ fontSize: "10px", letterSpacing: "0.15em", color: "#999", fontWeight: 600 }}>COURSES</div>
+          </div>
+        </div>
+        <div style={{ height: "1px", background: "#111", width: "100%", marginBottom: "40px" }} />
+
+        {/* Next Class Section */}
+        {nextClass && (
+          <div style={{ marginBottom: "40px" }}>
+            <div style={{ fontSize: "10px", fontWeight: 600, letterSpacing: "0.2em", color: "#999", marginBottom: "12px" }}>NEXT CLASS</div>
+            <div style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(28px, 7vw, 48px)", fontWeight: 300, fontStyle: "italic", color: "#111", lineHeight: 1.1, marginBottom: "8px" }}>
+              {nextClass.courseTitle.toLowerCase()}
+            </div>
+            <div style={{ fontSize: "12px", color: "#999", fontWeight: 500 }}>
+              {nextClass.roomNo} • {fmtTimeOnly(nextClass.startTime)} — {fmtTimeOnly(nextClass.endTime)}
+            </div>
+            <div style={{ height: "1px", background: "#111", width: "100%", marginTop: "32px" }} />
+          </div>
+        )}
+
+        {/* Schedule Section */}
+        <div style={{ marginBottom: "40px" }}>
+          <div style={{ fontSize: "10px", fontWeight: 600, letterSpacing: "0.2em", color: "#999", marginBottom: "20px" }}>TODAY</div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {targetClasses.map((cls: any, i: number) => {
+              const active = isNowIn(cls.startTime, cls.endTime);
+              return (
+                <div key={i} style={{ display: "flex", alignItems: "center", padding: "16px 0", borderBottom: "1px solid rgba(0,0,0,0.1)" }}>
+                  <div style={{ width: "12px" }}>{active && <div style={{ width: "6px", height: "6px", background: "#c0392b", borderRadius: "50%" }} />}</div>
+                  <div style={{ width: "80px", fontSize: "11px", fontFamily: "monospace", color: "#666" }}>{fmtTimeOnly(cls.startTime)}</div>
+                  <div style={{ flex: 1, fontSize: active ? "18px" : "14px", fontWeight: active ? 400 : 700, fontFamily: active ? "'Fraunces', serif" : "inherit", fontStyle: active ? "italic" : "normal", color: "#111" }}>{cls.courseTitle.toLowerCase()}</div>
+                  <div style={{ fontSize: "11px", color: "#999", textAlign: "right" }}>{cls.roomNo}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Marks Section */}
+        <div style={{ marginBottom: "40px" }}>
+          <div style={{ fontSize: "10px", fontWeight: 600, letterSpacing: "0.2em", color: "#999", marginBottom: "20px" }}>RECENT MARKS</div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {recentTop5.map((m: any, i: number) => {
+              const isLow = (m.score / m.max) < 0.5;
+              return (
+                <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 0", borderBottom: "1px solid rgba(0,0,0,0.1)" }}>
+                  <div style={{ fontSize: "13px", fontWeight: 500 }}>{m.courseCode}</div>
+                  <div style={{ fontFamily: "'Fraunces', serif", fontSize: "24px", fontWeight: 700, color: isLow ? "#c0392b" : "#111" }}>{m.score}<span style={{ fontSize: "0.5em", opacity: 0.5 }}>/{m.max}</span></div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* At Risk Banner */}
+        {riskCount > 0 && (
+          <div 
+            onClick={() => router.push("/attendance")}
+            style={{ position: "fixed", bottom: "72px", left: 0, right: 0, background: "#111", color: "#fff", padding: "16px 20px", display: "flex", alignItems: "center", cursor: "pointer", zIndex: 50 }}
+          >
+            <div style={{ fontSize: "13px", fontWeight: 500, letterSpacing: "0.02em" }}>
+              <span style={{ color: "#c0392b", marginRight: "8px" }}>●</span>
+              {riskCount} subjects below 75% attendance — tap to view
+            </div>
+          </div>
+        )}
+
       </main>
     </div>
   );

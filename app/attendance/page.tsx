@@ -182,6 +182,7 @@ export default function AttendancePage() {
   );
 
   const { theme } = useThemeStore();
+  if (theme === "cosmos") return <CosmosAttendance att={att} avgAtt={avgAtt} totalAgg={totalAgg} presentAgg={presentAgg} absentAgg={absentAgg} />;
   if (theme === "editorial") return <EditorialAttendance att={att} avgAtt={avgAtt} totalAgg={totalAgg} presentAgg={presentAgg} absentAgg={absentAgg} />;
 
   return (
@@ -393,6 +394,108 @@ export default function AttendancePage() {
           to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
+    </div>
+  );
+}
+
+function CosmosAttendance({ att, avgAtt, totalAgg, presentAgg, absentAgg }: any) {
+  const attPct = parseFloat(avgAtt as string) || 0;
+
+  return (
+    <div style={{ background: "var(--bg)", minHeight: "100vh", paddingBottom: "100px", fontFamily: "var(--font-body)", color: "var(--text-primary)" }}>
+      <Sidebar />
+      <main style={{ padding: "20px" }}>
+        
+        <h1 style={{ fontSize: "22px", fontWeight: 700, marginBottom: "24px" }}>Attendance</h1>
+
+        {/* Hero Card */}
+        <div style={{ 
+          background: "linear-gradient(135deg, #3b1fa8 0%, #1e1035 100%)",
+          borderRadius: "20px", padding: "24px", marginBottom: "32px",
+          display: "flex", justifyContent: "space-between", alignItems: "center"
+        }}>
+          <div>
+            <div style={{ fontSize: "12px", textTransform: "uppercase", fontWeight: 800, color: "#a78bfa", letterSpacing: "0.1em", marginBottom: "8px" }}>Overall</div>
+            <div style={{ fontSize: "64px", fontWeight: 800, color: "#fff", lineHeight: 1, marginBottom: "16px" }}>{avgAtt}%</div>
+            <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.6)" }}>{presentAgg} / {totalAgg} classes</div>
+          </div>
+          <div style={{ width: "80px", height: "80px", position: "relative" }}>
+            <svg viewBox="0 0 36 36" style={{ transform: "rotate(-90deg)" }}>
+              <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="3" />
+              <circle cx="18" cy="18" r="16" fill="none" stroke="#fff" strokeWidth="3" 
+                strokeDasharray="100 100" strokeDashoffset={100 - attPct} strokeLinecap="round" />
+            </svg>
+            <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", fontWeight: 800 }}>
+              {avgAtt}
+            </div>
+          </div>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+          {att.map((c: any, i: number) => {
+            const attn = parseFloat(c["Attn %"]) || 0;
+            const isRisk = attn < 75;
+            const barColor = isRisk ? "var(--accent-red)" : "var(--accent-green)";
+
+            return (
+              <div key={i} style={{ background: "var(--bg-card)", borderRadius: "14px", padding: "16px", border: "1px solid var(--border)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "12px" }}>
+                  <div style={{ flex: 1, paddingRight: "16px" }}>
+                    <div style={{ fontSize: "13px", fontWeight: 600, color: "#fff", lineHeight: 1.2 }}>{c["Course Title"]}</div>
+                    <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "4px" }}>{c["Course Code"]}</div>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <div style={{ fontSize: "16px", fontWeight: 700, color: barColor }}>{attn}%</div>
+                    <div style={{ fontSize: "10px", color: "var(--text-muted)" }}>{c["Hours Conducted"]}h</div>
+                  </div>
+                </div>
+                <div style={{ height: "5px", background: "rgba(255,255,255,0.07)", borderRadius: "99px", overflow: "hidden" }}>
+                  <div style={{ height: "100%", background: barColor, width: `${attn}%` }} />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+      </main>
+    </div>
+  );
+}
+
+function EditorialAttendance({ att, avgAtt, totalAgg, presentAgg, absentAgg }: any) {
+  return (
+    <div style={{ background: "#f5f2eb", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'DM Sans', sans-serif" }}>
+      <Sidebar />
+      <main style={{ padding: "40px 20px" }}>
+        
+        <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: "48px", fontWeight: 900, color: "#111", marginBottom: "8px" }}>ATTENDANCE</h1>
+        <div style={{ fontFamily: "'Fraunces', serif", fontSize: "96px", fontWeight: 900, color: "#111", lineHeight: 0.9, marginBottom: "40px" }}>
+          {avgAtt}<span style={{ fontSize: "0.4em" }}>%</span>
+        </div>
+
+        <div style={{ height: "2px", background: "#111", width: "100%", marginBottom: "32px" }} />
+
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          {att.map((c: any, i: number) => {
+            const attn = parseFloat(c["Attn %"]) || 0;
+            const isRisk = attn < 75;
+            return (
+              <div key={i} style={{ padding: "24px 0", borderBottom: "1px solid rgba(0,0,0,0.1)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "12px" }}>
+                  <div style={{ flex: 1, paddingRight: "20px" }}>
+                    <div style={{ fontSize: "14px", fontWeight: 700, color: "#111", lineHeight: 1.3 }}>{c["Course Title"].toLowerCase()}</div>
+                    <div style={{ fontSize: "10px", color: "#999", fontWeight: 600, letterSpacing: "0.1em", marginTop: "4px" }}>{c["Course Code"]}</div>
+                  </div>
+                  <div style={{ fontFamily: "'Fraunces', serif", fontSize: "24px", fontWeight: 700, color: isRisk ? "#c0392b" : "#111" }}>{attn}%</div>
+                </div>
+                <div style={{ height: "4px", background: "rgba(0,0,0,0.05)", width: "100%", position: "relative" }}>
+                  <div style={{ height: "100%", background: isRisk ? "#c0392b" : "#27ae60", width: `${attn}%` }} />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </main>
     </div>
   );
 }

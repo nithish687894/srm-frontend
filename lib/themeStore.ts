@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export type ThemeType = "matrix" | "editorial";
+export type ThemeType = "matrix" | "cosmos";
 
 interface ThemeStore {
   theme: ThemeType;

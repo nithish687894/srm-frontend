@@ -6,6 +6,7 @@ import { dataAPI } from "@/lib/api";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
 import { useQuery } from "@tanstack/react-query";
 import { useAuthStore } from "@/lib/store";
+import { useThemeStore } from "@/lib/themeStore";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
@@ -175,6 +176,9 @@ export default function TimetablePage() {
   const firstStart = classes[0] ? fmt12(classes[0].startTime) : "";
   const lastEnd = classes[classes.length - 1] ? fmt12(classes[classes.length - 1].endTime) : "";
 
+  const { theme } = useThemeStore();
+  if (theme === "cosmos") return <CosmosTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} />;
+
   return (
     <div className="page-root">
       <Sidebar />
@@ -303,3 +307,65 @@ export default function TimetablePage() {
     </div>
   );
 }
+
+function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes }: any) {
+  return (
+    <div style={{ background: "var(--bg)", minHeight: "100vh", paddingBottom: "100px", fontFamily: "var(--font-body)", color: "var(--text-primary)" }}>
+      <Sidebar />
+      <main style={{ padding: "20px" }}>
+        
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px" }}>
+          <h1 style={{ fontSize: "22px", fontWeight: 700 }}>Timetable</h1>
+          <div style={{ display: "flex", background: "var(--bg-surface)", borderRadius: "12px", padding: "4px", border: "1px solid var(--border)" }}>
+            {[1, 2].map(b => (
+              <button key={b} onClick={() => setBatch(b)} style={{
+                padding: "6px 14px", borderRadius: "8px", border: "none", fontSize: "12px", fontWeight: 700,
+                background: batch === b ? "var(--accent)" : "transparent",
+                color: batch === b ? "#fff" : "var(--text-muted)", transition: "all 0.2s"
+              }}>B{b}</button>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ display: "flex", overflowX: "auto", gap: "12px", paddingBottom: "24px", scrollbarWidth: "none" }}>
+          {[1, 2, 3, 4, 5].map(d => (
+            <button key={d} onClick={() => setDayOverride(d)} style={{
+              flexShrink: 0, width: "40px", height: "40px", borderRadius: "50%", border: "none",
+              background: dayOverride === d ? "var(--accent)" : "var(--bg-card)",
+              color: dayOverride === d ? "#fff" : "var(--text-muted)",
+              fontSize: "14px", fontWeight: 700, transition: "all 0.2s"
+            }}>{d}</button>
+          ))}
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          {classes.length === 0 ? (
+            <div style={{ textAlign: "center", padding: "40px", color: "var(--text-muted)" }}>No classes today.</div>
+          ) : classes.map((cls: any, i: number) => {
+            const active = (typeof isNowIn === 'function') ? isNowIn(cls.startTime, cls.endTime) : false;
+            return (
+              <div key={i} style={{ 
+                background: active ? "rgba(34,197,94,0.05)" : "var(--bg-card)",
+                borderLeft: `3px solid ${active ? "#22c55e" : "var(--accent)"}`,
+                borderRadius: "12px", padding: "16px", position: "relative"
+              }}>
+                <div style={{ position: "absolute", top: "12px", right: "12px", background: "var(--accent-soft)", color: "#a78bfa", padding: "4px 10px", borderRadius: "8px", fontSize: "11px", fontWeight: 700 }}>
+                  {fmtTimeOnly(cls.startTime)}
+                </div>
+                <div style={{ fontSize: "15px", fontWeight: 700, color: "#fff", marginBottom: "12px", paddingRight: "70px" }}>{cls.courseTitle}</div>
+                <div style={{ display: "flex", gap: "12px" }}>
+                  <div style={{ fontSize: "11px", color: "var(--text-muted)" }}>📍 {cls.roomNo}</div>
+                  <div style={{ fontSize: "11px", color: "var(--text-muted)" }}>👤 {cls.facultyName}</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </main>
+    </div>
+  );
+}
+
+// Function check to prevent crash if not defined in this scope
+function fmtTimeOnly(t: string) { const m = t.match(/(\d+):(\d+)/); if (!m) return t; const h24 = to24(parseInt(m[1])); const suffix = h24 >= 12 ? "p" : "a"; const h12 = h24 > 12 ? h24 - 12 : h24 === 0 ? 12 : h24; return `${h12}:${m[2]}${suffix}`; }
+function isNowIn(st: string, en: string) { const now = new Date().getHours() * 60 + new Date().getMinutes(); return now >= parseStart(st) && now <= parseEnd(en); }

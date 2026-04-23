@@ -3,110 +3,79 @@ import { ThemeType, useThemeStore } from "@/lib/themeStore";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const THEMES: { id: ThemeType; name: string; description: string; bg: string; accent: string }[] = [
+const THEMES: { id: ThemeType; name: string; sub: string; bg: string; accent: string; hasGlow?: boolean }[] = [
   { 
     id: "matrix", 
     name: "Matrix", 
-    description: "Dark. Minimal. Focused.", 
+    sub: "Dark. Minimal. Focused.", 
     bg: "#0a0a0a", 
     accent: "#a8c200" 
   },
   { 
-    id: "editorial", 
-    name: "Editorial", 
-    description: "Bold. Magazine. Premium.", 
-    bg: "#f5f2eb", 
-    accent: "#c0392b" 
-  },
+    id: "cosmos", 
+    name: "Cosmos", 
+    sub: "Rich. Bold. Premium.", 
+    bg: "#0f0f13", 
+    accent: "#7c3aed",
+    hasGlow: true
+  }
 ];
 
-export default function ThemeSelector() {
+export default function ThemeSettingsPage() {
   const { theme, setTheme } = useThemeStore();
-  const [selected, setSelected] = useState<ThemeType>(theme);
   const router = useRouter();
+  const [selected, setSelected] = useState<ThemeType>(theme);
 
   const handleApply = () => {
     setTheme(selected);
-    router.push("/dashboard");
+    router.back();
   };
 
   return (
-    <div className="page-root" style={{ background: "#f5f2eb", minHeight: "100vh", display: "flex", flexDirection: "column", fontFamily: "'DM Sans', sans-serif", color: "#111" }}>
-      <div style={{ padding: "60px 24px 40px", textAlign: "center" }}>
-        <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: "40px", fontWeight: 900, letterSpacing: "-0.02em" }}>Personalize</h1>
-        <p style={{ color: "#666", fontSize: "14px", fontWeight: 500 }}>Select your visual interface</p>
+    <div style={{ background: "var(--bg)", minHeight: "100vh", padding: "24px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "40px" }}>
+        <button onClick={() => router.back()} style={{ background: "none", border: "none", color: "var(--text-primary)", fontSize: "24px", cursor: "pointer" }}>←</button>
+        <h1 style={{ fontSize: "24px", fontWeight: 800, color: "var(--text-primary)" }}>Select Theme</h1>
       </div>
 
-      <div style={{ 
-        flex: 1, 
-        display: "grid", 
-        gridTemplateColumns: "1fr 1fr", 
-        gap: "20px",
-        padding: "0 20px"
-      }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "40px" }}>
         {THEMES.map((t) => (
-          <div 
-            key={t.id}
-            onClick={() => setSelected(t.id)}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              cursor: "pointer",
-              transition: "all 0.3s ease",
-            }}
-          >
-            <div style={{
-              flex: 1,
-              background: t.bg,
-              border: selected === t.id ? "2px solid #111" : "1px solid rgba(0,0,0,0.1)",
-              position: "relative",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "20px"
+          <div key={t.id} onClick={() => setSelected(t.id)} style={{ cursor: "pointer" }}>
+            <div style={{ 
+              height: "160px", background: t.bg, borderRadius: "20px", padding: "20px", position: "relative", overflow: "hidden",
+              border: selected === t.id ? `2px solid ${t.accent}` : "1px solid var(--border)",
+              transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+              transform: selected === t.id ? "scale(1.02)" : "scale(1)"
             }}>
-              {/* Mini Preview Dot */}
-              <div style={{ width: "12px", height: "12px", background: t.accent, borderRadius: "50%", marginBottom: "16px" }} />
-              
-              {/* Mock UI Elements */}
-              <div style={{ width: "100%", height: "2px", background: selected === t.id ? "#111" : "rgba(0,0,0,0.1)", marginBottom: "8px" }} />
-              <div style={{ width: "60%", height: "2px", background: selected === t.id ? "#111" : "rgba(0,0,0,0.1)", marginBottom: "8px" }} />
-              <div style={{ width: "80%", height: "2px", background: selected === t.id ? "#111" : "rgba(0,0,0,0.1)" }} />
-              
-              {selected === t.id && (
-                <div style={{ position: "absolute", top: "10px", right: "10px", fontSize: "12px" }}>✓</div>
+              {t.hasGlow && (
+                <div style={{ position: "absolute", top: "-20px", right: "-20px", width: "100px", height: "100px", background: t.accent, filter: "blur(40px)", opacity: 0.3 }} />
               )}
+              <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: t.accent, boxShadow: `0 0 10px ${t.accent}` }} />
+              <div style={{ position: "absolute", bottom: "20px", left: "20px" }}>
+                <div style={{ fontSize: "16px", fontWeight: 800, color: "#fff" }}>{t.name}</div>
+              </div>
             </div>
-            
-            <div style={{ marginTop: "16px" }}>
-              <div style={{ fontSize: "13px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>{t.name}</div>
-              <div style={{ fontSize: "11px", color: "#999", fontWeight: 500, marginTop: "2px" }}>{t.description}</div>
+            <div style={{ marginTop: "12px", textAlign: "center" }}>
+              <div style={{ fontSize: "14px", fontWeight: 600, color: selected === t.id ? "var(--text-primary)" : "var(--text-muted)" }}>{t.name}</div>
+              <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "2px" }}>{t.sub}</div>
             </div>
           </div>
         ))}
       </div>
 
-      <div style={{ padding: "40px 24px 60px" }}>
-        <button 
-          onClick={handleApply}
-          style={{
-            width: "100%",
-            padding: "20px",
-            background: "#111",
-            color: "#fff",
-            border: "none",
-            fontSize: "14px",
-            fontWeight: 700,
-            letterSpacing: "0.1em",
-            textTransform: "uppercase",
-            cursor: "pointer",
-            transition: "all 0.2s"
-          }}
-        >
-          Activate Interface
-        </button>
-      </div>
+      <button 
+        onClick={handleApply}
+        style={{ 
+          width: "100%", padding: "18px", borderRadius: "16px", border: "none",
+          background: selected === "matrix" ? "#a8c200" : "#7c3aed",
+          color: selected === "matrix" ? "#000" : "#fff",
+          fontSize: "14px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em",
+          cursor: "pointer", transition: "all 0.3s",
+          boxShadow: `0 10px 30px ${selected === "matrix" ? "rgba(168,194,0,0.2)" : "rgba(124,58,237,0.3)"}`
+        }}
+      >
+        Apply Selection
+      </button>
     </div>
   );
 }
