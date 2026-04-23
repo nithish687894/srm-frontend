@@ -183,7 +183,7 @@ export default function AttendancePage() {
 
   const { theme } = useThemeStore();
   if (theme === "cosmos") return <CosmosAttendance att={att} avgAtt={avgAtt} totalAgg={totalAgg} presentAgg={presentAgg} absentAgg={absentAgg} />;
-  if (theme === "editorial") return <EditorialAttendance att={att} avgAtt={avgAtt} totalAgg={totalAgg} presentAgg={presentAgg} absentAgg={absentAgg} />;
+
 
   return (
     <div className="page-root">
@@ -462,41 +462,5 @@ function CosmosAttendance({ att, avgAtt, totalAgg, presentAgg, absentAgg }: any)
   );
 }
 
-function EditorialAttendance({ att, avgAtt, totalAgg, presentAgg, absentAgg }: any) {
-  return (
-    <div style={{ background: "#f5f2eb", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'DM Sans', sans-serif" }}>
-      <Sidebar />
-      <main style={{ padding: "40px 20px" }}>
-        
-        <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: "48px", fontWeight: 900, color: "#111", marginBottom: "8px" }}>ATTENDANCE</h1>
-        <div style={{ fontFamily: "'Fraunces', serif", fontSize: "96px", fontWeight: 900, color: "#111", lineHeight: 0.9, marginBottom: "40px" }}>
-          {avgAtt}<span style={{ fontSize: "0.4em" }}>%</span>
-        </div>
 
-        <div style={{ height: "2px", background: "#111", width: "100%", marginBottom: "32px" }} />
-
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          {att.map((c: any, i: number) => {
-            const attn = parseFloat(c["Attn %"]) || 0;
-            const isRisk = attn < 75;
-            return (
-              <div key={i} style={{ padding: "24px 0", borderBottom: "1px solid rgba(0,0,0,0.1)" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "12px" }}>
-                  <div style={{ flex: 1, paddingRight: "20px" }}>
-                    <div style={{ fontSize: "14px", fontWeight: 700, color: "#111", lineHeight: 1.3 }}>{c["Course Title"].toLowerCase()}</div>
-                    <div style={{ fontSize: "10px", color: "#999", fontWeight: 600, letterSpacing: "0.1em", marginTop: "4px" }}>{c["Course Code"]}</div>
-                  </div>
-                  <div style={{ fontFamily: "'Fraunces', serif", fontSize: "24px", fontWeight: 700, color: isRisk ? "#c0392b" : "#111" }}>{attn}%</div>
-                </div>
-                <div style={{ height: "4px", background: "rgba(0,0,0,0.05)", width: "100%", position: "relative" }}>
-                  <div style={{ height: "100%", background: isRisk ? "#c0392b" : "#27ae60", width: `${attn}%` }} />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </main>
-    </div>
-  );
-}
 
