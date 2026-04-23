@@ -311,11 +311,11 @@ export default function AttendancePage() {
 
               if (attn >= 75) {
                 const canSkip = Math.floor((4 * pres - 3 * cond) / 3);
-                advice = canSkip > 0 ? `Skip ${canSkip} classes` : `Don't skip`;
+                advice = canSkip > 0 ? `${canSkip} can skip` : `Don't skip`;
                 adviceColor = canSkip > 0 ? "#a8c200" : "#888";
               } else {
                 const mustAttend = Math.ceil(3 * cond - 4 * pres);
-                advice = `Need ${mustAttend} more classes`;
+                advice = `${mustAttend} more needed`;
                 adviceColor = "#ff3b3b";
               }
               
