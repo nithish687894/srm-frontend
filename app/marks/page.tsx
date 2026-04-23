@@ -13,7 +13,7 @@ export default function MarksPage() {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window !== "undefined" && !localStorage.getItem("srmx_token")) {
+    if (typeof window !== "undefined" && !localStorage.getItem("authToken")) {
       router.push("/"); return;
     }
     if (academicData?.marks && academicData?.attendance) setLoading(false);

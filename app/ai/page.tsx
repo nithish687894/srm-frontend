@@ -20,7 +20,7 @@ export default function AIPage() {
   const [remaining, setRemaining] = useState<number | null>(null);
 
   useEffect(() => {
-    if (!localStorage.getItem("srmx_token")) { router.push("/"); return; }
+    if (!localStorage.getItem("authToken")) { router.push("/"); return; }
     Promise.all([
       dataAPI.getAll(),
       dataAPI.getMyTimetable(),

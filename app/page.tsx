@@ -10,20 +10,20 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
-  const { setToken, token, _hasHydrated } = useAuthStore();
-
-  useEffect(() => {
-    if (!_hasHydrated) return;
-    if (token) router.replace("/dashboard");
-  }, [_hasHydrated, token, router]);
-
-  async function handleLogin() {
-    if (!email || !password) return setError("PROVIDE CREDENTIALS");
-    setLoading(true); setError("");
-    try {
-      const res = await authAPI.login(email, password);
-      setToken(res.token);
-      router.push("/dashboard");
+  const { setAuthData, authToken, _hasHydrated } = useAuthStore();
+ 
+   useEffect(() => {
+     if (!_hasHydrated) return;
+     if (authToken) router.replace("/dashboard");
+   }, [_hasHydrated, authToken, router]);
+ 
+   async function handleLogin() {
+     if (!email || !password) return setError("PROVIDE CREDENTIALS");
+     setLoading(true); setError("");
+     try {
+       const res = await authAPI.login(email, password);
+       setAuthData(res.token, res.refreshToken);
+       router.push("/dashboard");
     } catch (e: any) {
       setError(e?.response?.data?.error || "LOGIN FAILED");
     } finally { setLoading(false); }

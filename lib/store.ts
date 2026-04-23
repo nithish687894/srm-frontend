@@ -2,11 +2,13 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface AuthStore {
-  token: string | null;
+  authToken: string | null;
+  refreshToken: string | null;
   profile: any;
   academicData: any;
   _hasHydrated: boolean;
-  setToken: (token: string) => void;
+  setAuthData: (authToken: string, refreshToken: string) => void;
+  setAuthToken: (token: string) => void;
   setProfile: (profile: any) => void;
   setAcademicData: (data: any) => void;
   logout: () => void;
@@ -17,23 +19,31 @@ interface AuthStore {
 export const useAuthStore = create<AuthStore>()(
   persist(
     (set) => ({
-      token: null,
+      authToken: null,
+      refreshToken: null,
       profile: null,
       academicData: null,
       _hasHydrated: false,
-      setToken: (token) => {
-        localStorage.setItem("srmx_token", token);
-        set({ token });
+      setAuthData: (authToken, refreshToken) => {
+        localStorage.setItem("authToken", authToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        set({ authToken, refreshToken });
+      },
+      setAuthToken: (authToken) => {
+        localStorage.setItem("authToken", authToken);
+        set({ authToken });
       },
       setProfile: (profile) => set({ profile }),
       setAcademicData: (data) => set({ academicData: data }),
       logout: () => {
-        localStorage.removeItem("srmx_token");
-        set({ token: null, profile: null, academicData: null });
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("refreshToken");
+        set({ authToken: null, refreshToken: null, profile: null, academicData: null });
       },
       clearSession: () => {
-        localStorage.removeItem("srmx_token");
-        set({ token: null, profile: null, academicData: null });
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("refreshToken");
+        set({ authToken: null, refreshToken: null, profile: null, academicData: null });
       },
       setHasHydrated: (val) => set({ _hasHydrated: val }),
     }),
@@ -41,7 +51,8 @@ export const useAuthStore = create<AuthStore>()(
       name: "srmx-auth",
       partialize: (state) =>
         ({
-          token: state.token,
+          authToken: state.authToken,
+          refreshToken: state.refreshToken,
           profile: state.profile,
           academicData: state.academicData,
         }) as unknown as AuthStore,

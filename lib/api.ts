@@ -11,7 +11,7 @@ const API = axios.create({
 
 API.interceptors.request.use((config) => {
   if (typeof window !== "undefined") {
-    const token = localStorage.getItem("srmx_token");
+    const token = localStorage.getItem("authToken");
     if (token) config.headers["x-session-token"] = token;
   }
   return config;
@@ -19,11 +19,32 @@ API.interceptors.request.use((config) => {
 
 API.interceptors.response.use(
   (res) => res,
-  (err) => {
-    if (err.response?.status === 401 && typeof window !== "undefined") {
-      localStorage.removeItem("srmx_token");
-      useAuthStore.getState().clearSession();
-      window.location.href = "/";
+  async (err) => {
+    const originalRequest = err.config;
+    if (err.response?.status === 401 && !originalRequest._retry && typeof window !== "undefined") {
+      originalRequest._retry = true;
+      const refreshToken = localStorage.getItem("refreshToken");
+      
+      if (refreshToken) {
+        try {
+          // Use a fresh axios instance for the refresh call to avoid interceptor loops
+          const res = await axios.post(`${API.defaults.baseURL}/api/refresh-token`, { refreshToken });
+          const newToken = res.data.token;
+          
+          localStorage.setItem("authToken", newToken);
+          useAuthStore.getState().setAuthToken(newToken);
+          
+          originalRequest.headers["x-session-token"] = newToken;
+          return API(originalRequest);
+        } catch (refreshErr) {
+          useAuthStore.getState().logout();
+          window.location.href = "/";
+          return Promise.reject(refreshErr);
+        }
+      } else {
+        useAuthStore.getState().logout();
+        window.location.href = "/";
+      }
     }
     return Promise.reject(err);
   }
@@ -33,6 +54,8 @@ export const authAPI = {
   login: (email: string, password: string) =>
     API.post("/api/login", { email, password }).then((r) => r.data),
   logout: () => API.post("/api/logout").then((r) => r.data),
+  refreshToken: (refreshToken: string) =>
+    axios.post(`${API.defaults.baseURL}/api/refresh-token`, { refreshToken }).then((r) => r.data),
 };
 
 export const dataAPI = {
