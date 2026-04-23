@@ -19,11 +19,11 @@ export default function MarksPage() {
     }
     if (academicData?.marks && academicData?.attendance) setLoading(false);
     Promise.all([dataAPI.getMarks(), dataAPI.getAttendance()])
-      .then(([m, a]) => { 
-        setMarks(m.data || []); 
-        setAttendance(a.data || []); 
+      .then(([m, a]) => {
+        setMarks(m.data || []);
+        setAttendance(a.data || []);
         setAcademicData({ ...academicData, marks: m.data || [], attendance: a.data || [] });
-        setLoading(false); 
+        setLoading(false);
       })
       .catch(() => { if (!marks.length) router.push("/"); });
   }, []);
@@ -35,7 +35,7 @@ export default function MarksPage() {
     s + (m.tests?.reduce((a: number, t: any) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
   const totalMax = marks.reduce((s, m) =>
     s + (m.tests?.reduce((a: number, t: any) => { const [, mx] = t.test.split("/"); return a + (parseFloat(mx) || 0); }, 0) || 0), 0);
-  
+
   const hasEmergency = totalMax > 0 && (totalScored / totalMax) < 0.5;
 
   if (loading && !marks.length) return (
@@ -92,9 +92,9 @@ export default function MarksPage() {
               const maxTotal = m.tests?.reduce((s: number, t: any) => { const [, mx] = t.test.split("/"); return s + (parseFloat(mx) || 0); }, 0) || 0;
 
               return (
-                <div key={i} style={{ 
-                  background: "#1c1c1c", 
-                  borderRadius: "20px", 
+                <div key={i} style={{
+                  background: "#1c1c1c",
+                  borderRadius: "20px",
                   padding: "24px",
                 }}>
                   <div style={{ display: "flex", alignItems: "flex-start", gap: "20px", marginBottom: "20px" }}>
@@ -106,7 +106,7 @@ export default function MarksPage() {
                         /{maxTotal.toFixed(0)} TOTAL
                       </div>
                     </div>
-                    
+
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "4px" }}>
                         <div style={{ fontSize: "16px", fontWeight: "bold", color: "#ffffff", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word", lineHeight: 1.2, paddingRight: "8px" }}>
@@ -130,9 +130,9 @@ export default function MarksPage() {
                         const mx = parseFloat(parts[1]) || 100;
                         const sc = t.score === "Abs" ? 0 : parseFloat(t.score) || 0;
                         const failed = sc < (mx * 0.5) || t.score === "Abs";
-                        
+
                         return (
-                          <div key={j} style={{ 
+                          <div key={j} style={{
                             background: failed ? "#3d0000" : "#2a3d00",
                             borderRadius: "12px",
                             padding: "8px 12px",

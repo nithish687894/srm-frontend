@@ -127,19 +127,19 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (!ready) return;
-    dataAPI.getTimetable(1).then(d => setTTData(d)).catch(() => {});
-    dataAPI.getCalendar().then(d => setCalData(d)).catch(() => {});
-    dataAPI.getMyTimetable().then(d => setMyTTData(d)).catch(() => {});
+    dataAPI.getTimetable(1).then(d => setTTData(d)).catch(() => { });
+    dataAPI.getCalendar().then(d => setCalData(d)).catch(() => { });
+    dataAPI.getMyTimetable().then(d => setMyTTData(d)).catch(() => { });
   }, [ready]);
 
   const att = data?.attendance || [];
   const marks = data?.marks || [];
-  
+
   // Calculate top stats
   const totalCourses = att.length;
   const avgAtt = att.length ? (att.reduce((s: number, c: any) => s + parseFloat(c["Attn %"] || 0), 0) / att.length).toFixed(1) : "—";
   const riskCount = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
-  
+
   // Calculate average marks
   const totalScored = marks.reduce((s: number, m: any) => s + (m.tests?.reduce((a: number, t: any) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
   const totalMax = marks.reduce((s: number, m: any) => s + (m.tests?.reduce((a: number, t: any) => { const [, mx] = t.test.split("/"); return a + (parseFloat(mx) || 0); }, 0) || 0), 0);
@@ -187,7 +187,7 @@ export default function DashboardPage() {
   }, [ttData, myTTData, att, dayOrder, isHoliday]);
 
   const nowMin = new Date().getHours() * 60 + new Date().getMinutes();
-  const nextClass = dayOffset === 0 
+  const nextClass = dayOffset === 0
     ? targetClasses.find((c: ScheduleItem) => parseStart(c.startTime) > nowMin || isNowIn(c.startTime, c.endTime))
     : targetClasses[0];
 
@@ -195,7 +195,7 @@ export default function DashboardPage() {
     if (!ttData?.data?.rows || targetClasses.length === 0) return Array(10).fill(null);
     const timeRow = ttData.data.rows.find((r: any) => r[0] === "FROM");
     const timesList = timeRow ? timeRow.slice(1).map((t: string) => t.replace(/\t/g, "").trim().replace(/\n+/g, " ")) : [];
-    
+
     // Create exactly 10 slots map
     const slots = Array(10).fill({ isEmpty: true });
     timesList.slice(0, 10).forEach((timeStr: string, i: number) => {
@@ -209,7 +209,7 @@ export default function DashboardPage() {
       });
       if (cls) {
         // Only insert if previous slot isn't exactly the same class (visual deduplication)
-        if (i > 0 && slots[i-1] && slots[i-1].courseCode === cls.courseCode) {
+        if (i > 0 && slots[i - 1] && slots[i - 1].courseCode === cls.courseCode) {
           slots[i] = { isEmpty: true }; // Hide redundant extended class blocks visually in mini-grid
         } else {
           slots[i] = cls;
@@ -235,7 +235,7 @@ export default function DashboardPage() {
       <Sidebar />
       <main className="page-main">
         <div className="page-content" data-section="Portal" style={{ paddingBottom: "120px" }}>
-          
+
           {/* Header */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "24px" }}>
             <div style={{ width: "48px", height: "48px", borderRadius: "12px", background: "#1c1c1c", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: "bold", fontSize: "16px" }}>
@@ -255,7 +255,7 @@ export default function DashboardPage() {
               { label: "At Risk", value: riskCount, color: riskCount > 0 ? "var(--accent-red)" : "var(--text-secondary)" },
               { label: "Courses", value: totalCourses, color: "var(--text-secondary)" },
             ];
-            
+
             // Matrix (Default)
             return (
               <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "8px", marginBottom: "32px" }}>
@@ -289,7 +289,7 @@ export default function DashboardPage() {
                     <span style={{ fontSize: "12px", color: "var(--text-secondary)", letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 800 }}>Next Up</span>
                     <span style={{ fontSize: "12px", color: "var(--text-primary)", fontWeight: 800, background: "var(--bg-surface)", padding: "4px 12px", borderRadius: "12px", border: "1px solid var(--border)" }}>{nextClass.roomNo || "TBA"}</span>
                   </div>
-                  <div className="font-heading" style={{ 
+                  <div className="font-heading" style={{
                     fontSize: "clamp(32px, 8vw, 56px)", fontWeight: 900, color: "var(--text-primary)", letterSpacing: "-0.04em", lineHeight: 0.9,
                     display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden",
                     wordBreak: "break-word", textTransform: "uppercase", marginBottom: "20px", marginTop: "12px"
@@ -325,7 +325,7 @@ export default function DashboardPage() {
 
           {/* Action Cards */}
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-            
+
             {/* Alerts */}
             {riskCount > 0 && (
               <div onClick={() => router.push("/attendance")} style={{ background: "#1a0000", border: "2px dashed #ff3b3b", borderRadius: "24px", padding: "24px", display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer" }}>
@@ -344,7 +344,7 @@ export default function DashboardPage() {
                 <div style={{ fontSize: "16px", fontWeight: "bold", color: "var(--text-primary)" }}>Recent Marks</div>
                 <div style={{ color: "var(--text-primary)", fontSize: "24px" }}>›</div>
               </div>
-              
+
               {recentTop5.length > 0 ? (
                 <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                   {recentTop5.map((rm, i) => (
@@ -383,7 +383,7 @@ function CosmosDashboard({ riskCount, avgAtt, avgMarks, totalCourses, targetClas
     <div style={{ background: "var(--bg)", minHeight: "100vh", paddingBottom: "100px", fontFamily: "var(--font-body)", color: "var(--text-primary)" }}>
       <Sidebar />
       <main style={{ padding: "20px" }}>
-        
+
         {/* Header */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
@@ -398,7 +398,7 @@ function CosmosDashboard({ riskCount, avgAtt, avgMarks, totalCourses, targetClas
         </div>
 
         {/* Hero Card - Attendance */}
-        <div style={{ 
+        <div style={{
           background: "linear-gradient(135deg, #3b1fa8 0%, #1e1035 100%)",
           borderRadius: "20px", padding: "24px", marginBottom: "24px",
           display: "flex", justifyContent: "space-between", alignItems: "center"
@@ -413,7 +413,7 @@ function CosmosDashboard({ riskCount, avgAtt, avgMarks, totalCourses, targetClas
           <div style={{ width: "80px", height: "80px", position: "relative", marginLeft: "20px" }}>
             <svg viewBox="0 0 36 36" style={{ transform: "rotate(-90deg)" }}>
               <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="3" />
-              <circle cx="18" cy="18" r="16" fill="none" stroke="#fff" strokeWidth="3" 
+              <circle cx="18" cy="18" r="16" fill="none" stroke="#fff" strokeWidth="3"
                 strokeDasharray="100 100" strokeDashoffset={100 - attPct} strokeLinecap="round" />
             </svg>
             <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", fontWeight: 800, color: "#fff" }}>
@@ -463,7 +463,7 @@ function CosmosDashboard({ riskCount, avgAtt, avgMarks, totalCourses, targetClas
               const indicatorColor = active ? "var(--accent-green)" : past ? "var(--text-muted)" : "var(--accent)";
 
               return (
-                <div key={i} style={{ 
+                <div key={i} style={{
                   background: active ? "rgba(124,58,237,0.08)" : "var(--bg-card)",
                   border: active ? "1px solid var(--border-accent)" : "1px solid var(--border)",
                   borderRadius: "12px", padding: "12px", display: "flex", gap: "12px", alignItems: "center"
@@ -505,8 +505,8 @@ function CosmosDashboard({ riskCount, avgAtt, avgMarks, totalCourses, targetClas
 
         {/* At Risk Banner */}
         {riskCount > 0 && (
-          <div onClick={() => router.push("/attendance")} style={{ 
-            background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)", borderRadius: "14px", 
+          <div onClick={() => router.push("/attendance")} style={{
+            background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)", borderRadius: "14px",
             padding: "16px 20px", display: "flex", alignItems: "center", gap: "12px", cursor: "pointer"
           }}>
             <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "var(--accent-red)", boxShadow: "0 0 10px var(--accent-red)" }} />
@@ -528,7 +528,7 @@ function EditorialDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, t
     <div style={{ background: "#f5f2eb", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'DM Sans', sans-serif" }}>
       <Sidebar />
       <main style={{ padding: "20px" }}>
-        
+
         {/* Header Section */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "20px" }}>
           <div style={{ fontSize: "10px", fontWeight: 600, letterSpacing: "0.1em" }}>{dateStr}</div>
@@ -615,7 +615,7 @@ function EditorialDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, t
 
         {/* At Risk Banner */}
         {riskCount > 0 && (
-          <div 
+          <div
             onClick={() => router.push("/attendance")}
             style={{ position: "fixed", bottom: "72px", left: 0, right: 0, background: "#111", color: "#fff", padding: "16px 20px", display: "flex", alignItems: "center", cursor: "pointer", zIndex: 50 }}
           >
@@ -639,7 +639,7 @@ function EditorialDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, t
     <div style={{ background: "#f5f2eb", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'DM Sans', sans-serif" }}>
       <Sidebar />
       <main style={{ padding: "20px" }}>
-        
+
         {/* Header Section */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "20px" }}>
           <div style={{ fontSize: "10px", fontWeight: 600, letterSpacing: "0.1em" }}>{dateStr}</div>
@@ -726,7 +726,7 @@ function EditorialDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, t
 
         {/* At Risk Banner */}
         {riskCount > 0 && (
-          <div 
+          <div
             onClick={() => router.push("/attendance")}
             style={{ position: "fixed", bottom: "72px", left: 0, right: 0, background: "#111", color: "#fff", padding: "16px 20px", display: "flex", alignItems: "center", cursor: "pointer", zIndex: 50 }}
           >
