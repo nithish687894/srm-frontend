@@ -15,6 +15,12 @@ function isNowIn(st: string, en: string) { const now = new Date().getHours() * 6
 function fmt12(t: string) { const m = t.match(/(\d+):(\d+)/); if (!m) return t; const h24 = to24(parseInt(m[1])); const suffix = h24 >= 12 ? "PM" : "AM"; const h12 = h24 > 12 ? h24 - 12 : h24 === 0 ? 12 : h24; return `${h12}:${m[2]} ${suffix}`; }
 function fmtTimeOnly(t: string) { const m = t.match(/(\d+):(\d+)/); if (!m) return t; const h24 = to24(parseInt(m[1])); const suffix = h24 >= 12 ? "p" : "a"; const h12 = h24 > 12 ? h24 - 12 : h24 === 0 ? 12 : h24; return `${h12}:${m[2]}${suffix}`; }
 
+function parseTimeRange(t: string): { start: string, end: string } {
+  const parts = t.split(/[-–]/).map(s => s.trim());
+  if (parts.length >= 2) return { start: parts[0], end: parts[1] };
+  return { start: t, end: t };
+}
+
 interface ScheduleItem { slot: string; startTime: string; endTime: string; courseTitle: string; courseCode: string; roomNo: string; facultyName: string; courseType: string; }
 
 function buildSlotToCourseMap(myTT: any[]) {
@@ -55,7 +61,9 @@ function buildSchedule(gridRows: any[], slotMap: Record<string, any>, attendance
 
     labGroups.forEach(group => {
       const course = group.cells[0].course;
-      classes.push({ slot: group.cells.map(c => c.slot).join("-"), startTime: times[group.cells[0].idx] || "", endTime: times[group.cells[group.cells.length - 1].idx] || "", courseTitle: course.courseTitle, courseCode: course.courseCode, roomNo: course.roomNo, facultyName: course.facultyName, courseType: course.courseType });
+      const startRange = parseTimeRange(times[group.cells[0].idx] || "");
+      const endRange = parseTimeRange(times[group.cells[group.cells.length - 1].idx] || "");
+      classes.push({ slot: group.cells.map(c => c.slot).join("-"), startTime: startRange.start, endTime: endRange.end, courseTitle: course.courseTitle, courseCode: course.courseCode, roomNo: course.roomNo, facultyName: course.facultyName, courseType: course.courseType });
     });
 
     cells.forEach((cell, ci) => {
@@ -71,7 +79,8 @@ function buildSchedule(gridRows: any[], slotMap: Record<string, any>, attendance
         const key = `${course.courseCode}-${ci}`;
         if (seenCourses.has(key)) continue;
         seenCourses.add(key);
-        classes.push({ slot: s, startTime: times[ci] || "", endTime: times[ci] || "", courseTitle: course.courseTitle, courseCode: course.courseCode, roomNo: course.roomNo, facultyName: course.facultyName, courseType: course.courseType });
+        const { start, end } = parseTimeRange(times[ci] || "");
+        classes.push({ slot: s, startTime: start, endTime: end, courseTitle: course.courseTitle, courseCode: course.courseCode, roomNo: course.roomNo, facultyName: course.facultyName, courseType: course.courseType });
         break;
       }
     });
