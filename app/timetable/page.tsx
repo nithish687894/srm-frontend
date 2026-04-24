@@ -128,6 +128,7 @@ function insertBreaks(classes: ScheduleItem[]) {
 
 export default function TimetablePage() {
   const { academicData } = useAuthStore();
+  const { theme } = useThemeStore();
   const [dayOverride, setDayOverride] = useState<number>(1);
   const [batch, setBatch] = useState<number>(() => {
     // Detect batch from profile "Combo / Batch" e.g. "2/1" -> 1
