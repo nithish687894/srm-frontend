@@ -182,7 +182,24 @@ export default function AttendancePage() {
     </div>
   );
 
-  if (theme === "cosmos") return <CosmosAttendance att={att} avgAtt={avgAtt} totalAgg={totalAgg} presentAgg={presentAgg} absentAgg={absentAgg} />;
+  if (theme === "cosmos") return (
+    <CosmosAttendance 
+      att={att} 
+      avgAtt={avgAtt} 
+      totalAgg={totalAgg} 
+      presentAgg={presentAgg} 
+      absentAgg={absentAgg} 
+      showPredictor={showPredictor}
+      setShowPredictor={setShowPredictor}
+      next30Days={next30Days}
+      selectedDates={selectedDates}
+      toggleDate={toggleDate}
+      calculatePredictions={calculatePredictions}
+      predictions={predictions}
+      setSelectedDates={setSelectedDates}
+      setPredictions={setPredictions}
+    />
+  );
 
 
   return (
@@ -398,7 +415,11 @@ export default function AttendancePage() {
   );
 }
 
-function CosmosAttendance({ att, avgAtt, totalAgg, presentAgg, absentAgg }: any) {
+function CosmosAttendance({ 
+  att, avgAtt, totalAgg, presentAgg, absentAgg, 
+  showPredictor, setShowPredictor, next30Days, selectedDates, toggleDate, 
+  calculatePredictions, predictions, setSelectedDates, setPredictions 
+}: any) {
   const attPct = parseFloat(avgAtt as string) || 0;
   const riskCount = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
 
@@ -489,9 +510,73 @@ function CosmosAttendance({ att, avgAtt, totalAgg, presentAgg, absentAgg }: any)
           })}
         </div>
 
+        {showPredictor && (
+          <div className="min-card" style={{ padding: "24px", marginBottom: "32px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", animation: "slideDown 0.3s ease-out forwards" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+              <div>
+                <div style={{ fontSize: "16px", fontWeight: 700, color: "#fff" }}>Predictor</div>
+                <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>Select dates you plan to skip</div>
+              </div>
+              {predictions && (
+                <button onClick={() => { setSelectedDates(new Set()); setPredictions(null); }} style={{ background: "none", border: "none", color: "var(--accent)", fontSize: "11px", fontWeight: 700, textTransform: "uppercase", cursor: "pointer" }}>Reset</button>
+              )}
+            </div>
+
+            <div style={{ display: "flex", overflowX: "auto", gap: "10px", paddingBottom: "16px", scrollbarWidth: "none" }}>
+              {next30Days.map((d: any) => {
+                const sel = selectedDates.has(d.iso);
+                const isWknd = [0, 6].includes(d.date.getDay());
+                return (
+                  <div key={d.iso} onClick={() => !isWknd && toggleDate(d.iso)}
+                    style={{ 
+                      flexShrink: 0, width: "50px", height: "66px", borderRadius: "14px", 
+                      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                      background: sel ? "var(--accent-red)" : "rgba(255,255,255,0.05)", 
+                      cursor: isWknd ? "not-allowed" : "pointer",
+                      opacity: isWknd ? 0.3 : 1, transition: "all 0.2s"
+                    }}>
+                    <div style={{ fontSize: "10px", color: sel ? "#fff" : "var(--text-muted)", fontWeight: 800, textTransform: "uppercase" }}>{d.dayStr}</div>
+                    <div style={{ fontSize: "18px", color: "#fff", fontWeight: 900 }}>{d.dateNum}</div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <button onClick={calculatePredictions} style={{ width: "100%", padding: "16px", background: "var(--accent)", borderRadius: "14px", color: "#fff", fontSize: "13px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em", border: "none", cursor: "pointer" }}>
+              Run Prediction
+            </button>
+
+            {predictions && (
+              <div style={{ marginTop: "24px", display: "flex", flexDirection: "column", gap: "12px" }}>
+                {predictions.length === 0 ? (
+                  <div style={{ fontSize: "13px", color: "var(--text-muted)", textAlign: "center" }}>No classes missed on selected dates.</div>
+                ) : predictions.map((p: any, i: number) => (
+                  <div key={i} style={{ background: "rgba(0,0,0,0.2)", borderRadius: "16px", padding: "16px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
+                      <div style={{ fontSize: "14px", fontWeight: 700, color: "#fff" }}>{p.code}</div>
+                      <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                        <span style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-muted)" }}>{p.currentPct.toFixed(1)}%</span>
+                        <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.2)" }}>→</span>
+                        <span style={{ fontSize: "14px", fontWeight: 700, color: p.projPct >= 75 ? "var(--accent-secondary)" : "var(--accent-red)" }}>{p.projPct.toFixed(1)}%</span>
+                      </div>
+                    </div>
+                    <div style={{ fontSize: "11px", color: p.marginSafe ? "var(--accent-secondary)" : "var(--accent-red)", fontWeight: 700, textTransform: "uppercase" }}>
+                      {p.marginLabel}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         <div style={{ display: "flex", justifyContent: "center", marginTop: "32px" }}>
-          <button className="theme-cosmos action-btn" style={{ padding: "14px 32px", borderRadius: "14px", fontSize: "13px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#fff", border: "none" }}>
-            🔮 Predict Attendance
+          <button 
+            className="theme-cosmos action-btn" 
+            onClick={() => setShowPredictor(!showPredictor)}
+            style={{ padding: "14px 32px", borderRadius: "14px", fontSize: "13px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#fff", border: "none" }}
+          >
+            🔮 {showPredictor ? "Close Predictor" : "Predict Attendance"}
           </button>
         </div>
 
