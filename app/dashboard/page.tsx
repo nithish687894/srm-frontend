@@ -436,7 +436,10 @@ function CosmosDashboard({ riskCount, avgAtt, avgMarks, totalCourses, targetClas
         </div>
 
         {/* Attendance Highlight (Badge style) */}
-        <div className="min-card" style={{ padding: "28px 20px", marginBottom: "16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div 
+          onClick={() => router.push("/attendance")}
+          className="min-card" style={{ cursor: "pointer", padding: "28px 20px", marginBottom: "16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}
+        >
           <div style={{ position: "relative", width: "90px", height: "90px" }}>
             <div style={{ 
               position: "absolute", inset: "-4px", borderRadius: "50%", 
@@ -462,7 +465,10 @@ function CosmosDashboard({ riskCount, avgAtt, avgMarks, totalCourses, targetClas
 
         {/* Standings Grid */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "32px" }}>
-          <div className="min-card" style={{ padding: "20px 12px", textAlign: "center", background: "rgba(26, 117, 255, 0.03)" }}>
+          <div 
+            onClick={() => router.push("/marks")}
+            className="min-card" style={{ cursor: "pointer", padding: "20px 12px", textAlign: "center", background: "rgba(26, 117, 255, 0.03)" }}
+          >
             <div style={{ fontSize: "18px", marginBottom: "8px" }}>📋</div>
             <div style={{ fontSize: "22px", fontWeight: 900, color: "#fff" }}>{avgMarks}%</div>
             <div style={{ fontSize: "10px", color: "var(--text-secondary)", marginTop: "6px", fontWeight: 700, textTransform: "uppercase" }}>Avg Marks</div>
@@ -481,7 +487,10 @@ function CosmosDashboard({ riskCount, avgAtt, avgMarks, totalCourses, targetClas
         </div>
 
         {nextClass ? (
-          <div className="min-card" style={{ padding: "20px", marginBottom: "16px", border: "1px solid var(--accent-bg)" }}>
+          <div 
+            onClick={() => router.push("/timetable")}
+            className="min-card" style={{ cursor: "pointer", padding: "20px", marginBottom: "16px", border: "1px solid var(--accent-bg)" }}
+          >
             <div style={{ display: "inline-block", background: "var(--accent-bg)", color: "var(--accent)", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em" }}>Up Next</div>
             <div style={{ fontSize: "18px", fontWeight: 700, color: "#fff", margin: "12px 0 8px" }}>{nextClass.courseTitle}</div>
             <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
