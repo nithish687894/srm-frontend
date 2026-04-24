@@ -238,6 +238,7 @@ export default function DashboardPage() {
 
   if (theme === "cosmos") return <CosmosDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} />;
 
+  if (theme === "matrix") return <MatrixDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} dayOffset={dayOffset} setDayOffset={setDayOffset} />;
 
   return (
     <div className="page-root">
@@ -265,7 +266,6 @@ export default function DashboardPage() {
               { label: "Courses", value: totalCourses, color: "var(--text-secondary)" },
             ];
 
-            // Matrix (Default)
             return (
               <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "8px", marginBottom: "32px" }}>
                 {stats.map((s, i) => (
@@ -334,8 +334,6 @@ export default function DashboardPage() {
 
           {/* Action Cards */}
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-
-            {/* Alerts */}
             {riskCount > 0 && (
               <div onClick={() => router.push("/attendance")} style={{ background: "#1a0000", border: "2px dashed #ff3b3b", borderRadius: "24px", padding: "24px", display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer" }}>
                 <div>
@@ -347,13 +345,11 @@ export default function DashboardPage() {
               </div>
             )}
 
-            {/* Recent Marks Widget */}
             <div onClick={() => router.push("/marks")} className="min-card" style={{ cursor: "pointer" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
                 <div style={{ fontSize: "16px", fontWeight: "bold", color: "var(--text-primary)" }}>Recent Marks</div>
                 <div style={{ color: "var(--text-primary)", fontSize: "24px" }}>›</div>
               </div>
-
               {recentTop5.length > 0 ? (
                 <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                   {recentTop5.map((rm, i) => (
@@ -372,13 +368,235 @@ export default function DashboardPage() {
                 <div style={{ fontSize: "13px", color: "var(--text-muted)" }}>No recent assessments recorded.</div>
               )}
             </div>
-
           </div>
 
-          {/* Watermark */}
           <div className="watermark">Dashboard</div>
-
         </div>
+      </main>
+    </div>
+  );
+}
+
+function MatrixDashboard({ riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, initials, firstName, dayOrder, isHoliday, dayOffset, setDayOffset }: any) {
+  const router = useRouter();
+  
+  const firstStart = targetClasses[0] ? fmtTimeOnly(targetClasses[0].startTime) : "";
+  const lastEnd = targetClasses[targetClasses.length - 1] ? fmtTimeOnly(targetClasses[targetClasses.length - 1].endTime) : "";
+
+  return (
+    <div style={{ background: "#000000", minHeight: "100vh", paddingBottom: "120px", color: "#ffffff", fontFamily: "'Inter', sans-serif" }}>
+      <Sidebar />
+      <main style={{ padding: "20px" }}>
+        
+        {/* Date Selector / Header */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px", marginTop: "20px" }}>
+           <div style={{ display: "flex", gap: "16px" }}>
+              <button onClick={() => setDayOffset((o: any) => o - 1)} style={{ background: "none", border: "none", color: "#fff", fontSize: "24px", cursor: "pointer" }}>‹</button>
+              <button onClick={() => setDayOffset((o: any) => o + 1)} style={{ background: "none", border: "none", color: "#fff", fontSize: "24px", cursor: "pointer" }}>›</button>
+           </div>
+           <div style={{ textAlign: "right" }}>
+              <div style={{ fontSize: "10px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800 }}>{dayOffset === 0 ? "TODAY" : "SCHEDULE"}</div>
+              <div style={{ fontSize: "14px", fontWeight: 700 }}>{new Date(new Date().setDate(new Date().getDate() + dayOffset)).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}</div>
+           </div>
+        </div>
+
+        {/* Day Order Big Number */}
+        <div style={{ textAlign: "center", marginBottom: "40px" }}>
+          <div style={{ fontSize: "12px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800, marginBottom: "8px" }}>Current Day Order</div>
+          <div style={{ fontSize: "160px", fontWeight: 900, lineHeight: 0.8, letterSpacing: "-0.05em" }}>{dayOrder || "—"}</div>
+        </div>
+
+        {/* Day Overview Card */}
+        {!isHoliday && targetClasses.length > 0 && (
+          <div style={{ background: "#a8c200", borderRadius: "28px", padding: "28px", marginBottom: "40px", color: "#000" }}>
+             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "24px" }}>
+                <div style={{ fontSize: "12px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em" }}>Day Overview</div>
+                <div style={{ fontSize: "48px", fontWeight: 900, lineHeight: 1 }}>{targetClasses.length}</div>
+             </div>
+             <div style={{ fontSize: "36px", fontWeight: 900, letterSpacing: "-0.03em" }}>
+                {firstStart} - {lastEnd}
+             </div>
+          </div>
+        )}
+
+        {/* Timeline Classes */}
+        <div style={{ position: "relative", paddingLeft: "12px" }}>
+           {/* Timeline Line */}
+           <div style={{ position: "absolute", left: "0", top: "10px", bottom: "10px", width: "1px", background: "#333" }} />
+
+           <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+              {targetClasses.length === 0 ? (
+                <div style={{ padding: "40px 0", color: "#444", fontWeight: 700, textAlign: "center" }}>No classes scheduled</div>
+              ) : targetClasses.map((cls: any, i: number) => {
+                const isActive = isNowIn(cls.startTime, cls.endTime);
+                return (
+                  <div key={i} style={{ position: "relative", paddingLeft: "28px" }}>
+                    {/* Timeline Dot */}
+                    <div style={{ 
+                      position: "absolute", left: "-4px", top: "14px", width: "9px", height: "9px", borderRadius: "50%", 
+                      background: isActive ? "#a8c200" : "#fff",
+                      boxShadow: isActive ? "0 0 15px #a8c200" : "none"
+                    }} />
+
+                    <div onClick={() => router.push("/timetable")} style={{ 
+                      background: "#1c1c1c", borderRadius: "28px", padding: "24px", cursor: "pointer",
+                      border: isActive ? "1px solid #a8c200" : "1px solid transparent",
+                      transition: "all 0.3s ease"
+                    }}>
+                       <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#666", fontSize: "12px", fontWeight: 800, marginBottom: "16px" }}>
+                          <span style={{ fontSize: "14px" }}>⏱</span> {fmtTimeOnly(cls.startTime)} — {fmtTimeOnly(cls.endTime)}
+                       </div>
+                       
+                       <div style={{ fontSize: "28px", fontWeight: 900, lineHeight: 1.1, marginBottom: "8px", textTransform: "capitalize" }}>
+                          {cls.courseTitle.toLowerCase()}
+                       </div>
+                       <div style={{ fontSize: "12px", color: "#666", fontWeight: 700, marginBottom: "20px" }}>
+                          {cls.courseCode}
+                       </div>
+
+                       <div style={{ height: "1px", background: "#2a2a2a", marginBottom: "20px" }} />
+
+                       <div style={{ display: "flex", gap: "24px" }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "13px", fontWeight: 700, color: "#888" }}>
+                             <span style={{ color: "#ff3b3b" }}>📍</span> {cls.roomNo || "TBA"}
+                          </div>
+                          <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "13px", fontWeight: 700, color: "#888" }}>
+                             <span style={{ color: "#007aff" }}>👤</span> {(cls.facultyName || "TBA").split(" ")[0]}
+                          </div>
+                       </div>
+                    </div>
+                  </div>
+                );
+              })}
+           </div>
+        </div>
+
+        <div style={{ height: "40px" }} />
+      </main>
+    </div>
+  );
+}
+
+function CosmosDashboard({ riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, recentTop5, initials, firstName }: any) {
+  const router = useRouter();
+  const attPct = parseFloat(avgAtt as string) || 0;
+
+  return (
+    <div style={{ background: "transparent", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>
+      <Sidebar />
+      <main style={{ padding: "16px" }}>
+
+        {/* Header with SRMX Branding */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "24px 0 32px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <div style={{ 
+              width: "36px", height: "36px", borderRadius: "10px", 
+              background: "linear-gradient(135deg, #1A75FF, #6B33FF)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              boxShadow: "0 0 15px rgba(26, 117, 255, 0.3)"
+            }}>
+              <span style={{ fontSize: "16px", fontWeight: 900, color: "#fff" }}>X</span>
+            </div>
+            <h1 style={{ fontSize: "24px", fontWeight: 900, letterSpacing: "-0.8px", margin: 0 }}>
+              SRMX
+            </h1>
+          </div>
+          <div style={{ width: "40px", height: "40px", borderRadius: "12px", background: "rgba(255,255,255,0.05)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px", border: "1px solid rgba(255,255,255,0.1)" }}>
+            🔔
+          </div>
+        </div>
+
+        {/* Profile Section */}
+        <div className="min-card" style={{ padding: "20px", marginBottom: "32px", display: "flex", alignItems: "center", gap: "16px" }}>
+          <div style={{ 
+            width: "52px", height: "52px", borderRadius: "12px", 
+            background: "linear-gradient(135deg, #1A75FF, #00C6FF)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: "18px", fontWeight: 800, color: "#fff"
+          }}>
+            {initials}
+          </div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: "16px", fontWeight: 700 }}>Welcome back, {firstName}</div>
+            <div style={{ fontSize: "11px", color: "var(--text-secondary)", marginTop: "2px" }}>Student Portal Access Granted</div>
+          </div>
+        </div>
+
+        {/* Overview & High-Fidelity Stats */}
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
+          <div style={{ fontSize: "18px" }}>🚀</div>
+          <h2 style={{ fontSize: "18px", fontWeight: 800, margin: 0, textTransform: "uppercase", letterSpacing: "0.05em" }}>Performance</h2>
+        </div>
+
+        {/* Attendance Highlight (Badge style) */}
+        <div 
+          onClick={() => router.push("/attendance")}
+          className="min-card" style={{ cursor: "pointer", padding: "28px 20px", marginBottom: "16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}
+        >
+          <div style={{ position: "relative", width: "90px", height: "90px" }}>
+            <div style={{ 
+              position: "absolute", inset: "-4px", borderRadius: "50%", 
+              border: "2px dashed var(--accent-secondary)", opacity: 0.4,
+              animation: "spin 12s linear infinite"
+            }} />
+            <div style={{ 
+              position: "absolute", inset: 0, borderRadius: "50%", 
+              background: "rgba(0, 255, 136, 0.04)",
+              border: "3px solid var(--accent-secondary)",
+              display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+              boxShadow: "0 0 20px rgba(0, 255, 136, 0.15)"
+            }}>
+              <div style={{ fontSize: "24px", fontWeight: 900, color: "#fff", lineHeight: 1 }}>{avgAtt}%</div>
+              <div style={{ fontSize: "9px", color: "var(--accent-secondary)", fontWeight: 800, marginTop: "2px", textTransform: "uppercase" }}>Overall</div>
+            </div>
+          </div>
+          <div style={{ flex: 1, paddingLeft: "24px" }}>
+            <div style={{ fontSize: "12px", fontWeight: 800, color: "var(--accent)", textTransform: "uppercase", letterSpacing: "0.05em" }}>Attendance Status</div>
+            <div style={{ fontSize: "14px", color: "var(--text-secondary)", marginTop: "4px" }}>Tap to view subject-wise breakdown</div>
+          </div>
+        </div>
+
+        {/* Standings Grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "32px" }}>
+          <div 
+            onClick={() => router.push("/marks")}
+            className="min-card" style={{ cursor: "pointer", padding: "20px 12px", textAlign: "center", background: "rgba(26, 117, 255, 0.03)" }}
+          >
+            <div style={{ fontSize: "18px", marginBottom: "8px" }}>📋</div>
+            <div style={{ fontSize: "22px", fontWeight: 900, color: "#fff" }}>{avgMarks}%</div>
+            <div style={{ fontSize: "10px", color: "var(--text-secondary)", marginTop: "6px", fontWeight: 700, textTransform: "uppercase" }}>Avg Marks</div>
+          </div>
+          <div className="min-card" style={{ padding: "20px 12px", textAlign: "center", background: "rgba(239, 68, 68, 0.03)" }}>
+            <div style={{ fontSize: "18px", marginBottom: "8px" }}>⚠️</div>
+            <div style={{ fontSize: "22px", fontWeight: 900, color: riskCount > 0 ? "var(--accent-red)" : "#fff" }}>{riskCount}</div>
+            <div style={{ fontSize: "10px", color: "var(--text-secondary)", marginTop: "6px", fontWeight: 700, textTransform: "uppercase" }}>At Risk</div>
+          </div>
+        </div>
+
+        {/* Next Class / Today's Schedule */}
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
+          <div style={{ fontSize: "18px" }}>📅</div>
+          <h2 style={{ fontSize: "18px", fontWeight: 800, margin: 0, textTransform: "uppercase", letterSpacing: "0.05em" }}>Schedule</h2>
+        </div>
+
+        {nextClass ? (
+          <div 
+            onClick={() => router.push("/timetable")}
+            className="min-card" style={{ cursor: "pointer", padding: "20px", marginBottom: "16px", border: "1px solid var(--accent-bg)" }}
+          >
+            <div style={{ display: "inline-block", background: "var(--accent-bg)", color: "var(--accent)", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em" }}>Up Next</div>
+            <div style={{ fontSize: "18px", fontWeight: 700, color: "#fff", margin: "12px 0 8px" }}>{nextClass.courseTitle}</div>
+            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+              <div style={{ background: "rgba(255,255,255,0.05)", padding: "4px 10px", borderRadius: "99px", fontSize: "11px", color: "var(--text-secondary)", border: "1px solid rgba(255,255,255,0.05)" }}>📍 {nextClass.roomNo}</div>
+              <div style={{ background: "rgba(255,255,255,0.05)", padding: "4px 10px", borderRadius: "99px", fontSize: "11px", color: "var(--text-secondary)", border: "1px solid rgba(255,255,255,0.05)" }}>⏰ {fmtTimeOnly(nextClass.startTime)} — {fmtTimeOnly(nextClass.endTime)}</div>
+            </div>
+          </div>
+        ) : (
+          <div className="min-card" style={{ padding: "32px", textAlign: "center", color: "var(--text-muted)", fontSize: "14px" }}>
+            No more classes for today. Relax!
+          </div>
+        )}
+
       </main>
     </div>
   );

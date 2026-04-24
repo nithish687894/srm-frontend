@@ -39,11 +39,27 @@
 body.theme-matrix {
   --bg-root: #000000;
   --bg-surface: #121212;
-  --accent: #a8c200;
-  --font-heading: var(--font-mono);
-  --font-main: var(--font-mono);
-  --radius: 20px;
+  --bg-elevated: #1a1a1a;
+  --accent: #a8c200; /* The yellow-green from the screenshot */
+  --accent-secondary: #00ff00;
+  --text-primary: #ffffff;
+  --text-secondary: #888888;
+  --text-muted: #444444;
+  --font-heading: 'Inter', 'Outfit', system-ui, -apple-system, sans-serif;
+  --font-main: 'Inter', 'Outfit', system-ui, -apple-system, sans-serif;
+  --radius: 28px; /* More rounded as seen in screenshot */
   --border: #1c1c1c;
+}
+
+.theme-matrix .min-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.theme-matrix .font-bold-heavy {
+  font-weight: 900;
+  letter-spacing: -0.02em;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

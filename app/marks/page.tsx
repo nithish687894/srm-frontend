@@ -48,6 +48,8 @@ export default function MarksPage() {
 
   if (theme === "cosmos") return <CosmosMarks marks={marks} titleMap={titleMap} />;
 
+  if (theme === "matrix") return <MatrixMarks marks={marks} titleMap={titleMap} totalScored={totalScored} totalMax={totalMax} hasEmergency={hasEmergency} />;
+
 
   return (
     <div className="page-root">
@@ -82,7 +84,7 @@ export default function MarksPage() {
           {hasEmergency && (
             <div style={{ padding: "24px", background: "#1a0000", border: "2px dashed #ff3b3b", borderRadius: "20px", marginBottom: "32px", textAlign: "center" }}>
               <div style={{ fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#ff3b3b", marginBottom: "8px" }}>Academic Emergency</div>
-              <div style={{ fontSize: "24px", fontWeight: 900, color: "#ff3b3b", lineHeight: 1 }}>OVERALL SCORE &lt; 50%</div>
+              <div style={{ fontSize: "24px", fontWeight: 900, color: "#ff3b3b", lineHeight: 1 }}>OVERALL SCORE < 50%</div>
             </div>
           )}
 
@@ -157,6 +159,125 @@ export default function MarksPage() {
           </div>
 
           <div className="watermark">Marks</div>
+        </div>
+      </main>
+    </div>
+  );
+}
+
+function MatrixMarks({ marks, titleMap, totalScored, totalMax, hasEmergency }: any) {
+  return (
+    <div style={{ background: "#000000", minHeight: "100vh", paddingBottom: "120px", color: "#ffffff", fontFamily: "'Inter', sans-serif" }}>
+      <Sidebar />
+      <main style={{ padding: "20px" }}>
+        
+        {/* Header */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "40px", marginTop: "20px" }}>
+           <div>
+              <div style={{ fontSize: "10px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800 }}>ASSESSMENT</div>
+              <div style={{ fontSize: "14px", fontWeight: 700 }}>Internal Marks</div>
+           </div>
+           <div style={{ background: "#1c1c1c", padding: "8px 16px", borderRadius: "14px", fontSize: "12px", fontWeight: 900, color: "#a8c200" }}>
+              {marks.length} SUBJECTS
+           </div>
+        </div>
+
+        {/* Big Total Marks Card */}
+        <div style={{ textAlign: "center", marginBottom: "48px" }}>
+           <div style={{ fontSize: "12px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800, marginBottom: "8px" }}>Total Points</div>
+           <div style={{ display: "flex", alignItems: "baseline", justifyContent: "center", gap: "12px" }}>
+              <div style={{ fontSize: "120px", fontWeight: 900, lineHeight: 0.8, letterSpacing: "-0.05em" }}>{totalScored.toFixed(1)}</div>
+              <div style={{ fontSize: "32px", fontWeight: 700, color: "#333" }}>/{totalMax.toFixed(0)}</div>
+           </div>
+        </div>
+
+        {hasEmergency && (
+          <div style={{ background: "#ff3b3b", borderRadius: "28px", padding: "24px", marginBottom: "40px", color: "#000", textAlign: "center" }}>
+             <div style={{ fontSize: "11px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em" }}>Academic Alert</div>
+             <div style={{ fontSize: "24px", fontWeight: 900 }}>CRITICAL SCORE STATUS</div>
+          </div>
+        )}
+
+        {/* Subjects List */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+           {marks.map((m: any, i: number) => {
+              const title = titleMap[m.courseCode] || m.courseCode;
+              const scored = m.tests?.reduce((s: number, t: any) => s + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0;
+              const maxTotal = m.tests?.reduce((s: number, t: any) => { const [, mx] = t.test.split("/"); return s + (parseFloat(mx) || 0); }, 0) || 0;
+              const pct = (scored / (maxTotal || 1)) * 100;
+
+              return (
+                <div key={i} style={{ background: "#1c1c1c", borderRadius: "28px", padding: "24px" }}>
+                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "24px" }}>
+                      <div style={{ flex: 1, paddingRight: "16px" }}>
+                         <div style={{ fontSize: "18px", fontWeight: 900, color: "#fff", lineHeight: 1.2, textTransform: "capitalize" }}>{title.toLowerCase()}</div>
+                         <div style={{ fontSize: "11px", color: "#666", fontWeight: 800, marginTop: "4px" }}>{m.courseCode}</div>
+                      </div>
+                      <div style={{ textAlign: "right" }}>
+                         <div style={{ fontSize: "32px", fontWeight: 900, color: "#a8c200" }}>{scored.toFixed(0)}</div>
+                         <div style={{ fontSize: "11px", color: "#666", fontWeight: 800 }}>/{maxTotal.toFixed(0)}</div>
+                      </div>
+                   </div>
+
+                   {/* Test Breakdown */}
+                   <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+                      {m.tests?.map((t: any, j: number) => {
+                         const [lbl] = t.test.split("/");
+                         const sc = t.score === "Abs" ? "ABS" : t.score;
+                         return (
+                           <div key={j} style={{ background: "#000", padding: "10px 16px", borderRadius: "16px", border: "1px solid #333", minWidth: "80px" }}>
+                              <div style={{ fontSize: "9px", color: "#666", textTransform: "uppercase", fontWeight: 900, marginBottom: "2px" }}>{lbl}</div>
+                              <div style={{ fontSize: "16px", fontWeight: 900, color: sc === "ABS" ? "#ff3b3b" : "#fff" }}>{sc}</div>
+                           </div>
+                         );
+                      })}
+                   </div>
+                </div>
+              );
+           })}
+        </div>
+      </main>
+    </div>
+  );
+}
+
+function CosmosMarks({ marks, titleMap }: any) {
+  return (
+    <div style={{ background: "var(--bg)", minHeight: "100vh", paddingBottom: "100px", fontFamily: "var(--font-body)", color: "var(--text-primary)" }}>
+      <Sidebar />
+      <main style={{ padding: "20px" }}>
+        <h1 style={{ fontSize: "22px", fontWeight: 700, marginBottom: "24px" }}>Marks</h1>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          {marks.map((m: any, i: number) => {
+            const title = titleMap[m.courseCode] || m.courseCode;
+            return (
+              <div key={i} style={{ background: "var(--bg-card)", borderRadius: "16px", padding: "20px", border: "1px solid var(--border)" }}>
+                <div style={{ fontSize: "15px", fontWeight: 700, color: "#fff", marginBottom: "20px" }}>{title}</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                  {m.tests?.map((t: any, j: number) => {
+                    const [lbl, mxStr] = t.test.split("/");
+                    const mx = parseFloat(mxStr) || 100;
+                    const sc = t.score === "Abs" ? 0 : parseFloat(t.score) || 0;
+                    const pct = (sc / mx) * 100;
+                    const barColor = pct >= 60 ? "var(--accent-green)" : pct >= 40 ? "#fbbf24" : "var(--accent-red)";
+
+                    return (
+                      <div key={j}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                          <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 500 }}>{lbl}</div>
+                          <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--accent)" }}>{t.score === "Abs" ? "ABS" : t.score}<span style={{ color: "var(--text-muted)", fontSize: "11px", fontWeight: 500 }}> / {mx}</span></div>
+                        </div>
+                        <div style={{ height: "4px", background: "rgba(255,255,255,0.08)", borderRadius: "99px", overflow: "hidden" }}>
+                          <div style={{ height: "100%", background: barColor, width: `${pct}%`, borderRadius: "99px" }} />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </main>
     </div>

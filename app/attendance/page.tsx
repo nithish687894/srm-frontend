@@ -201,23 +201,37 @@ export default function AttendancePage() {
     />
   );
 
+  if (theme === "matrix") return (
+    <MatrixAttendance 
+      att={att} 
+      avgAtt={avgAtt} 
+      totalAgg={totalAgg} 
+      presentAgg={presentAgg} 
+      absentAgg={absentAgg} 
+      showPredictor={showPredictor}
+      setShowPredictor={setShowPredictor}
+      next30Days={next30Days}
+      selectedDates={selectedDates}
+      toggleDate={toggleDate}
+      calculatePredictions={calculatePredictions}
+      predictions={predictions}
+      setSelectedDates={setSelectedDates}
+      setPredictions={setPredictions}
+    />
+  );
 
   return (
     <div className="page-root">
       <Sidebar />
-
       <main className="page-main">
         <div className="page-content" data-section="Attendance" style={{ paddingBottom: "140px" }}>
-
 
           {/* Header */}
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "40px" }}>
             <div style={{ fontSize: "12px", letterSpacing: "0.2em", color: "var(--text-secondary)", textTransform: "uppercase", marginBottom: "24px" }}>
               Overall Attendance
             </div>
-            
             <DynamicGauge value={parseFloat(avgAtt)} size={200} strokeWidth={12} />
-            
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px", width: "100%", maxWidth: "400px", margin: "32px auto 0" }}>
               <div style={{ background: "#0a1f33", padding: "16px", borderRadius: "16px", border: "1px solid #1a334d" }}>
                 <div style={{ fontSize: "11px", color: "#66aaff", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: "bold", marginBottom: "4px" }}>Total</div>
@@ -231,11 +245,6 @@ export default function AttendancePage() {
                 <div style={{ fontSize: "11px", color: "#ff5555", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: "bold", marginBottom: "4px" }}>Absent</div>
                 <div style={{ fontSize: "24px", color: "#ffffff", fontWeight: 900 }}>{absentAgg}</div>
               </div>
-            </div>
-
-            <div style={{ height: "4px", background: "#333", borderRadius: "2px", width: "100%", maxWidth: "400px", margin: "24px auto 0", overflow: "hidden", display: "flex" }}>
-              <div style={{ width: `${(presentAgg / (totalAgg || 1)) * 100}%`, background: "#33ff88", height: "100%" }} />
-              <div style={{ width: `${(absentAgg / (totalAgg || 1)) * 100}%`, background: "#ff5555", height: "100%" }} />
             </div>
           </div>
 
@@ -258,7 +267,6 @@ export default function AttendancePage() {
                   <button onClick={() => { setSelectedDates(new Set()); setPredictions(null); }} style={{ background: "none", border: "none", color: "#666666", fontSize: "12px", textTransform: "uppercase", fontWeight: "bold", letterSpacing: "0.1em", cursor: "pointer" }}>Reset</button>
                 )}
               </div>
-
               <div style={{ display: "flex", overflowX: "auto", gap: "8px", paddingBottom: "16px", scrollbarWidth: "none" }}>
                 {next30Days.map(d => {
                   const sel = selectedDates.has(d.iso);
@@ -278,45 +286,7 @@ export default function AttendancePage() {
                   );
                 })}
               </div>
-
-              <div style={{ fontSize: "13px", fontWeight: "bold", color: "#a8c200", marginBottom: "16px" }}>
-                {selectedDates.size} dates selected
-              </div>
-
-              <button onClick={calculatePredictions} style={{ width: "100%", padding: "16px", background: "#a8c200", borderRadius: "99px", color: "#000000", fontSize: "14px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em", border: "none", cursor: "pointer" }}>
-                Calculate
-              </button>
-
-              {predictions && (
-                <div style={{ marginTop: "24px", display: "flex", flexDirection: "column", gap: "12px", maxHeight: "300px", overflowY: "auto" }}>
-                  {predictions.length === 0 ? (
-                    <div style={{ fontSize: "13px", color: "#888888", textAlign: "center" }}>No classes missed on selected dates.</div>
-                  ) : predictions.map((p, i) => (
-                    <div key={i} style={{ background: "#000000", borderRadius: "16px", padding: "16px", border: "1px solid #333" }}>
-                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
-                        <div style={{ fontSize: "16px", fontWeight: "bold", color: "#ffffff" }}>{p.code}</div>
-                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                          <span style={{ fontSize: "16px", fontWeight: "bold", color: "#666" }}>{p.currentPct.toFixed(1)}%</span>
-                          <span style={{ fontSize: "12px", color: "#444" }}>›</span>
-                          <span style={{ fontSize: "16px", fontWeight: "bold", color: p.projPct >= 75 ? "#a8c200" : "#ff3b3b" }}>{p.projPct.toFixed(1)}%</span>
-                        </div>
-                      </div>
-                      <div style={{ fontSize: "12px", color: "#888888", marginBottom: "8px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.title}</div>
-                      <div style={{ fontSize: "11px", fontWeight: "bold", color: p.marginSafe ? "#a8c200" : "#ff3b3b", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-                        {p.marginLabel}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
-          {riskClasses.length > 0 && (
-            <div style={{ padding: "24px", background: "#1a0000", border: "2px dashed #ff3b3b", borderRadius: "20px", marginBottom: "32px" }}>
-              <div style={{ fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#ff3b3b", marginBottom: "8px" }}>Action Required</div>
-              <div style={{ fontSize: "32px", fontWeight: 900, color: "#ff3b3b", lineHeight: 1 }}>{riskClasses.length} SUBJECTS AT RISK</div>
-              <div style={{ fontSize: "12px", color: "#ff3b3b", fontStyle: "italic", marginTop: "8px" }}>aint nobody savin you</div>
+              <button onClick={calculatePredictions} style={{ width: "100%", padding: "16px", background: "#a8c200", borderRadius: "99px", color: "#000000", fontSize: "14px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em", border: "none", cursor: "pointer" }}>Calculate</button>
             </div>
           )}
 
@@ -328,89 +298,329 @@ export default function AttendancePage() {
               const abs = parseInt(c["Hours Absent"]) || 0;
               const pres = cond - abs;
 
-              let advice = "";
-              let adviceColor = "";
-
-              if (attn >= 75) {
-                const canSkip = Math.floor((4 * pres - 3 * cond) / 3);
-                advice = canSkip > 0 ? `${canSkip} can skip` : `Don't skip`;
-                adviceColor = canSkip > 0 ? "#a8c200" : "#888";
-              } else {
-                const mustAttend = Math.ceil(3 * cond - 4 * pres);
-                advice = `${mustAttend} more needed`;
-                adviceColor = "#ff3b3b";
-              }
-              
               return (
-                <div key={i} className="min-card" style={{ 
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "16px",
-                  background: isRisk ? "rgba(255,59,59,0.05)" : "var(--bg-surface)",
-                  borderLeft: isRisk ? "4px solid var(--accent-red)" : "1px solid var(--border)",
-                  borderColor: isRisk ? "var(--accent-red)" : "var(--border)",
-                  borderStyle: isRisk ? "dashed" : "solid"
-                }}>
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-                      <div style={{ width: "60px" }}>
-                        <div className="font-heading" style={{ fontSize: "40px", fontWeight: 900, color: isRisk ? "var(--accent-red)" : "var(--text-primary)", lineHeight: 1 }}>
-                          {pres}
-                        </div>
-                        <div style={{ fontSize: "10px", color: "var(--text-secondary)", textTransform: "uppercase", marginTop: "4px", fontWeight: "bold" }}>
-                          /{cond} pres
-                        </div>
-                      </div>
-                      <div style={{ flex: 1, minWidth: 0, paddingRight: "16px" }}>
-                        <div style={{ fontSize: "16px", fontWeight: "bold", color: "var(--text-primary)", paddingBottom: "2px", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word", lineHeight: 1.2 }}>
-                          {c["Course Title"]}
-                        </div>
-                        <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: "bold", letterSpacing: "0.05em" }}>
-                          {c["Course Code"]}
-                        </div>
-                      </div>
+                <div key={i} className="min-card" style={{ background: isRisk ? "rgba(255,59,59,0.05)" : "var(--bg-surface)" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                    <div style={{ flex: 1, paddingRight: "16px" }}>
+                      <div style={{ fontSize: "16px", fontWeight: "bold", color: "var(--text-primary)" }}>{c["Course Title"]}</div>
+                      <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: "bold" }}>{c["Course Code"]}</div>
                     </div>
-
-                    <div className="font-heading" style={{ fontSize: "32px", fontWeight: 900, color: isRisk ? "var(--accent-red)" : "var(--accent)" }}>
-                      {attn}%
-                    </div>
-                  </div>
-
-                  <div style={{ 
-                    borderTop: "1px solid var(--border)", 
-                    paddingTop: "12px", 
-                    fontSize: "11px", 
-                    fontWeight: "900", 
-                    textTransform: "uppercase", 
-                    letterSpacing: "0.1em",
-                    color: adviceColor,
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px"
-                  }}>
-                    <span style={{ 
-                      width: "6px", 
-                      height: "6px", 
-                      borderRadius: "50%", 
-                      background: adviceColor,
-                      boxShadow: `0 0 8px ${adviceColor}` 
-                    }} />
-                    {advice}
+                    <div style={{ fontSize: "24px", fontWeight: 900, color: isRisk ? "#ff3b3b" : "#a8c200" }}>{attn}%</div>
                   </div>
                 </div>
               );
             })}
           </div>
-
           <div className="watermark">Attendance</div>
         </div>
       </main>
-      <style>{`
-        @keyframes slideDown {
-          from { opacity: 0; transform: translateY(-10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
+    </div>
+  );
+}
+
+function MatrixAttendance({ 
+  att, avgAtt, totalAgg, presentAgg, absentAgg, 
+  showPredictor, setShowPredictor, next30Days, selectedDates, toggleDate, 
+  calculatePredictions, predictions, setSelectedDates, setPredictions 
+}: any) {
+  const router = useRouter();
+  const riskCount = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
+
+  return (
+    <div style={{ background: "#000000", minHeight: "100vh", paddingBottom: "120px", color: "#ffffff", fontFamily: "'Inter', sans-serif" }}>
+      <Sidebar />
+      <main style={{ padding: "20px" }}>
+        
+        {/* Header */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "40px", marginTop: "20px" }}>
+           <div>
+              <div style={{ fontSize: "10px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800 }}>ACADEMIC</div>
+              <div style={{ fontSize: "14px", fontWeight: 700 }}>Attendance Tracker</div>
+           </div>
+           <div style={{ display: "flex", alignItems: "center", gap: "10px", background: "#1c1c1c", padding: "8px 16px", borderRadius: "14px" }}>
+              <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: riskCount > 0 ? "#ff3b3b" : "#a8c200" }} />
+              <div style={{ fontSize: "12px", fontWeight: 900 }}>{riskCount > 0 ? "AT RISK" : "STABLE"}</div>
+           </div>
+        </div>
+
+        {/* Big Overall Number */}
+        <div style={{ textAlign: "center", marginBottom: "48px" }}>
+           <div style={{ fontSize: "12px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800, marginBottom: "8px" }}>Overall Percentage</div>
+           <div style={{ fontSize: "120px", fontWeight: 900, lineHeight: 0.8, letterSpacing: "-0.05em", color: parseFloat(avgAtt) < 75 ? "#ff3b3b" : "#fff" }}>{avgAtt}%</div>
+        </div>
+
+        {/* Stats Grid Card */}
+        <div style={{ background: "#a8c200", borderRadius: "28px", padding: "28px", marginBottom: "40px", color: "#000", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px" }}>
+           <div>
+              <div style={{ fontSize: "10px", fontWeight: 900, textTransform: "uppercase", opacity: 0.6 }}>Total</div>
+              <div style={{ fontSize: "28px", fontWeight: 900 }}>{totalAgg}</div>
+           </div>
+           <div>
+              <div style={{ fontSize: "10px", fontWeight: 900, textTransform: "uppercase", opacity: 0.6 }}>Present</div>
+              <div style={{ fontSize: "28px", fontWeight: 900 }}>{presentAgg}</div>
+           </div>
+           <div>
+              <div style={{ fontSize: "10px", fontWeight: 900, textTransform: "uppercase", opacity: 0.6 }}>Absent</div>
+              <div style={{ fontSize: "28px", fontWeight: 900 }}>{absentAgg}</div>
+           </div>
+        </div>
+
+        {/* Predictor Toggle */}
+        <div style={{ marginBottom: "32px" }}>
+           <button onClick={() => setShowPredictor(!showPredictor)} style={{ width: "100%", background: "#1c1c1c", border: "1px solid #333", borderRadius: "20px", padding: "20px", display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer", color: "#fff" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                 <span style={{ fontSize: "20px" }}>🔮</span>
+                 <div style={{ textAlign: "left" }}>
+                    <div style={{ fontSize: "14px", fontWeight: 900 }}>Attendance Predictor</div>
+                    <div style={{ fontSize: "11px", color: "#666" }}>Simulate upcoming skip days</div>
+                 </div>
+              </div>
+              <span style={{ color: "#a8c200", fontWeight: 900 }}>{showPredictor ? "CLOSE" : "OPEN"}</span>
+           </button>
+        </div>
+
+        {showPredictor && (
+          <div style={{ background: "#1c1c1c", borderRadius: "28px", padding: "24px", marginBottom: "40px", border: "1px solid #333" }}>
+            <div style={{ display: "flex", overflowX: "auto", gap: "10px", paddingBottom: "20px", scrollbarWidth: "none" }}>
+              {next30Days.map((d: any) => {
+                const sel = selectedDates.has(d.iso);
+                const isWknd = [0, 6].includes(d.date.getDay());
+                return (
+                  <div key={d.iso} onClick={() => !isWknd && toggleDate(d.iso)}
+                    style={{ 
+                      flexShrink: 0, width: "50px", height: "66px", borderRadius: "16px", 
+                      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                      background: sel ? "#ff3b3b" : "#2a2a2a", 
+                      cursor: isWknd ? "not-allowed" : "pointer",
+                      opacity: isWknd ? 0.3 : 1, transition: "all 0.2s"
+                    }}>
+                    <div style={{ fontSize: "10px", color: sel ? "#fff" : "#666", fontWeight: 800 }}>{d.dayStr}</div>
+                    <div style={{ fontSize: "18px", color: "#fff", fontWeight: 900 }}>{d.dateNum}</div>
+                  </div>
+                );
+              })}
+            </div>
+            <button onClick={calculatePredictions} style={{ width: "100%", padding: "18px", background: "#a8c200", borderRadius: "20px", color: "#000", fontSize: "14px", fontWeight: 900, textTransform: "uppercase", border: "none", cursor: "pointer" }}>Run Simulation</button>
+            
+            {predictions && (
+              <div style={{ marginTop: "24px", display: "flex", flexDirection: "column", gap: "12px" }}>
+                {predictions.map((p: any, i: number) => (
+                  <div key={i} style={{ background: "#000", borderRadius: "20px", padding: "16px", border: "1px solid #333" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px" }}>
+                       <div style={{ fontSize: "14px", fontWeight: 800 }}>{p.code}</div>
+                       <div style={{ fontWeight: 900, color: p.projPct >= 75 ? "#a8c200" : "#ff3b3b" }}>{p.projPct.toFixed(1)}%</div>
+                    </div>
+                    <div style={{ fontSize: "11px", color: "#666" }}>{p.marginLabel}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Subjects List */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+           <div style={{ fontSize: "12px", color: "#666", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 800 }}>Subject Breakdown</div>
+           {att.map((c: any, i: number) => {
+              const attn = parseFloat(c["Attn %"]) || 0;
+              const isRisk = attn < 75;
+              const cond = parseInt(c["Hours Conducted"]) || 0;
+              const abs = parseInt(c["Hours Absent"]) || 0;
+              const pres = cond - abs;
+
+              return (
+                <div key={i} style={{ background: "#1c1c1c", borderRadius: "28px", padding: "24px", border: isRisk ? "1px solid #ff3b3b" : "1px solid transparent" }}>
+                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "20px" }}>
+                      <div style={{ flex: 1, paddingRight: "16px" }}>
+                         <div style={{ fontSize: "18px", fontWeight: 900, color: "#fff", lineHeight: 1.2, textTransform: "capitalize" }}>{c["Course Title"].toLowerCase()}</div>
+                         <div style={{ fontSize: "11px", color: "#666", fontWeight: 800, marginTop: "4px" }}>{c["Course Code"]}</div>
+                      </div>
+                      <div style={{ fontSize: "28px", fontWeight: 900, color: isRisk ? "#ff3b3b" : "#a8c200" }}>{attn}%</div>
+                   </div>
+                   
+                   <div style={{ display: "flex", gap: "12px", marginBottom: "20px" }}>
+                      <div style={{ background: "rgba(255,255,255,0.05)", padding: "6px 12px", borderRadius: "12px", fontSize: "11px", fontWeight: 800 }}>{pres}/{cond} PRES</div>
+                      <div style={{ background: isRisk ? "rgba(255,59,59,0.1)" : "rgba(255,255,255,0.05)", color: isRisk ? "#ff3b3b" : "#888", padding: "6px 12px", borderRadius: "12px", fontSize: "11px", fontWeight: 800 }}>{abs} ABS</div>
+                   </div>
+
+                   <div style={{ height: "6px", background: "#000", borderRadius: "99px", overflow: "hidden" }}>
+                      <div style={{ height: "100%", background: isRisk ? "#ff3b3b" : "#a8c200", width: `${attn}%` }} />
+                   </div>
+                </div>
+              );
+           })}
+        </div>
+      </main>
+    </div>
+  );
+}
+
+function CosmosAttendance({ 
+  att, avgAtt, totalAgg, presentAgg, absentAgg, 
+  showPredictor, setShowPredictor, next30Days, selectedDates, toggleDate, 
+  calculatePredictions, predictions, setSelectedDates, setPredictions 
+}: any) {
+  const attPct = parseFloat(avgAtt as string) || 0;
+  const riskCount = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
+
+  return (
+    <div style={{ background: "transparent", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>
+      <Sidebar />
+      <main style={{ padding: "16px" }}>
+        
+        {/* Header */}
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", margin: "24px 0 32px" }}>
+          <h1 style={{ fontSize: "24px", fontWeight: 900, letterSpacing: "-0.5px", margin: 0 }}>Attendance</h1>
+          <div style={{ marginLeft: "auto", display: "flex", gap: "12px" }}>
+            <div style={{ fontSize: "20px" }}>🔔</div>
+            <div style={{ 
+              width: "48px", height: "24px", borderRadius: "12px", background: "rgba(26, 117, 255, 0.4)", position: "relative",
+              border: "1px solid rgba(255,255,255,0.1)"
+            }}>
+              <div style={{ position: "absolute", top: "2px", right: "2px", width: "18px", height: "18px", borderRadius: "50%", background: "#fff", boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }} />
+            </div>
+          </div>
+        </div>
+
+        {/* Summary Row */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px", marginBottom: "32px" }}>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontSize: "22px", fontWeight: 900, color: "var(--accent-secondary)" }}>{avgAtt}%</div>
+            <div style={{ fontSize: "10px", color: "var(--text-secondary)", marginTop: "4px", fontWeight: 700, textTransform: "uppercase" }}>Overall</div>
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontSize: "22px", fontWeight: 900, color: "#fff" }}>{att.length}</div>
+            <div style={{ fontSize: "10px", color: "var(--text-secondary)", marginTop: "4px", fontWeight: 700, textTransform: "uppercase" }}>Subjects</div>
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontSize: "22px", fontWeight: 900, color: riskCount > 0 ? "var(--accent-red)" : "#fff" }}>{riskCount}</div>
+            <div style={{ fontSize: "10px", color: "var(--text-secondary)", marginTop: "4px", fontWeight: 700, textTransform: "uppercase" }}>Below 75%</div>
+          </div>
+        </div>
+
+        {/* Subject Cards */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          {att.map((c: any, i: number) => {
+            const attn = parseFloat(c["Attn %"]) || 0;
+            const cond = parseInt(c["Hours Conducted"]) || 0;
+            const abs = parseInt(c["Hours Absent"]) || 0;
+            const pres = cond - abs;
+            const isRisk = attn < 75;
+            
+            // Calculate margin (classes safe to skip or needed to recover)
+            let margin = 0;
+            if (attn >= 75) {
+              margin = Math.floor((pres / 0.75) - cond);
+            } else {
+              margin = Math.ceil(3 * cond - 4 * pres);
+            }
+
+            return (
+              <div key={i} className="min-card" style={{ padding: "20px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
+                  <div style={{ flex: 1, paddingRight: "16px" }}>
+                    <div style={{ fontSize: "15px", fontWeight: 700, color: "#fff", lineHeight: 1.3 }}>{c["Course Title"]}</div>
+                    <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "4px", fontWeight: 600 }}>{c["Course Code"]} • Theory</div>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <div style={{ fontSize: "18px", fontWeight: 900, color: isRisk ? "var(--accent-red)" : "var(--accent-secondary)" }}>{margin}</div>
+                    <div style={{ fontSize: "9px", color: "var(--text-muted)", fontWeight: 800, textTransform: "uppercase" }}>Margin</div>
+                  </div>
+                </div>
+
+                <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "12px" }}>
+                  <div style={{ display: "flex", gap: "4px" }}>
+                    <div style={{ background: "rgba(0, 255, 136, 0.1)", color: "var(--accent-secondary)", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: 800 }}>P {pres}</div>
+                    <div style={{ background: "rgba(239, 68, 68, 0.1)", color: "var(--accent-red)", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: 800 }}>A {abs}</div>
+                    <div style={{ background: "rgba(26, 117, 255, 0.1)", color: "var(--accent)", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: 800 }}>T {cond}</div>
+                  </div>
+                  <div style={{ marginLeft: "auto", fontSize: "14px", fontWeight: 900, color: isRisk ? "var(--accent-red)" : "var(--accent)" }}>{attn}%</div>
+                </div>
+
+                <div style={{ height: "6px", background: "rgba(255,255,255,0.06)", borderRadius: "99px", overflow: "hidden", position: "relative" }}>
+                  <div style={{ 
+                    height: "100%", 
+                    background: `linear-gradient(90deg, var(--accent), var(--accent-secondary))`, 
+                    width: `${attn}%`,
+                    boxShadow: "0 0 10px rgba(26, 117, 255, 0.3)"
+                  }} />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {showPredictor && (
+          <div className="min-card" style={{ padding: "24px", marginBottom: "32px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", animation: "slideDown 0.3s ease-out forwards" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+              <div>
+                <div style={{ fontSize: "16px", fontWeight: 700, color: "#fff" }}>Predictor</div>
+                <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>Select dates you plan to skip</div>
+              </div>
+              {predictions && (
+                <button onClick={() => { setSelectedDates(new Set()); setPredictions(null); }} style={{ background: "none", border: "none", color: "var(--accent)", fontSize: "11px", fontWeight: 700, textTransform: "uppercase", cursor: "pointer" }}>Reset</button>
+              )}
+            </div>
+
+            <div style={{ display: "flex", overflowX: "auto", gap: "10px", paddingBottom: "16px", scrollbarWidth: "none" }}>
+              {next30Days.map((d: any) => {
+                const sel = selectedDates.has(d.iso);
+                const isWknd = [0, 6].includes(d.date.getDay());
+                return (
+                  <div key={d.iso} onClick={() => !isWknd && toggleDate(d.iso)}
+                    style={{ 
+                      flexShrink: 0, width: "50px", height: "66px", borderRadius: "14px", 
+                      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                      background: sel ? "var(--accent-red)" : "rgba(255,255,255,0.05)", 
+                      cursor: isWknd ? "not-allowed" : "pointer",
+                      opacity: isWknd ? 0.3 : 1, transition: "all 0.2s"
+                    }}>
+                    <div style={{ fontSize: "10px", color: sel ? "#fff" : "var(--text-muted)", fontWeight: 800, textTransform: "uppercase" }}>{d.dayStr}</div>
+                    <div style={{ fontSize: "18px", color: "#fff", fontWeight: 900 }}>{d.dateNum}</div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <button onClick={calculatePredictions} style={{ width: "100%", padding: "16px", background: "var(--accent)", borderRadius: "14px", color: "#fff", fontSize: "13px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em", border: "none", cursor: "pointer" }}>
+              Run Prediction
+            </button>
+
+            {predictions && (
+              <div style={{ marginTop: "24px", display: "flex", flexDirection: "column", gap: "12px" }}>
+                {predictions.length === 0 ? (
+                  <div style={{ fontSize: "13px", color: "var(--text-muted)", textAlign: "center" }}>No classes missed on selected dates.</div>
+                ) : predictions.map((p: any, i: number) => (
+                  <div key={i} style={{ background: "rgba(0,0,0,0.2)", borderRadius: "16px", padding: "16px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
+                      <div style={{ fontSize: "14px", fontWeight: 700, color: "#fff" }}>{p.code}</div>
+                      <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                        <span style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-muted)" }}>{p.currentPct.toFixed(1)}%</span>
+                        <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.2)" }}>→</span>
+                        <span style={{ fontSize: "14px", fontWeight: 700, color: p.projPct >= 75 ? "var(--accent-secondary)" : "var(--accent-red)" }}>{p.projPct.toFixed(1)}%</span>
+                      </div>
+                    </div>
+                    <div style={{ fontSize: "11px", color: p.marginSafe ? "var(--accent-secondary)" : "var(--accent-red)", fontWeight: 700, textTransform: "uppercase" }}>
+                      {p.marginLabel}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        <div style={{ display: "flex", justifyContent: "center", marginTop: "32px" }}>
+          <button 
+            className="theme-cosmos action-btn" 
+            onClick={() => setShowPredictor(!showPredictor)}
+            style={{ padding: "14px 32px", borderRadius: "14px", fontSize: "13px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#fff", border: "none" }}
+          >
+            🔮 {showPredictor ? "Close Predictor" : "Predict Attendance"}
+          </button>
+        </div>
+
+      </main>
     </div>
   );
 }

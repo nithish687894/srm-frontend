@@ -90,6 +90,48 @@ export default function Sidebar() {
           border-bottom: 2px solid #111111;
         }
 
+        .theme-matrix .srmx-nav-bar {
+          background: rgba(10, 10, 10, 0.95);
+          border-top: 1px solid var(--accent);
+          box-shadow: 0 -4px 20px rgba(168, 194, 0, 0.15);
+        }
+
+        .theme-matrix .srmx-nav-btn {
+          color: #666;
+          font-weight: 800;
+        }
+
+        .theme-matrix .srmx-nav-btn.active {
+          color: var(--accent);
+          text-shadow: 0 0 10px rgba(168, 194, 0, 0.8);
+          background: rgba(168, 194, 0, 0.15);
+          border-radius: 12px;
+          box-shadow: inset 0 0 10px rgba(168, 194, 0, 0.1);
+        }
+
+        .theme-matrix .srmx-nav-btn:hover {
+          color: #fff;
+          text-shadow: 0 0 8px var(--accent);
+        }
+
+        /* Scanline Effect for Matrix Sidebar */
+        .theme-matrix .srmx-nav-bar::after {
+          content: "";
+          position: absolute;
+          top: 0; left: 0; right: 0; height: 1px;
+          background: var(--accent);
+          opacity: 0.5;
+          box-shadow: 0 0 10px var(--accent);
+          animation: matrix-scan 3s linear infinite;
+        }
+
+        @keyframes matrix-scan {
+          0% { transform: translateY(0); opacity: 0; }
+          10% { opacity: 0.5; }
+          90% { opacity: 0.5; }
+          100% { transform: translateY(72px); opacity: 0; }
+        }
+
         .srmx-nav-btn {
           flex-shrink: 1;
           background: transparent;
@@ -141,6 +183,10 @@ export default function Sidebar() {
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
           }
+          .theme-matrix .srmx-nav-bar {
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 20px rgba(168, 194, 0, 0.2);
+          }
         }
       `}</style>
 
@@ -156,39 +202,49 @@ export default function Sidebar() {
           }}
         >
           <div onClick={e => e.stopPropagation()} style={{
-            background: "#1c1c1c", padding: "24px", borderRadius: "24px",
-            width: "90%", maxWidth: "400px", display: "flex", flexDirection: "column", gap: "24px"
+            background: "var(--bg-surface)", 
+            padding: "24px", 
+            borderRadius: "28px",
+            width: "90%", 
+            maxWidth: "400px", 
+            display: "flex", 
+            flexDirection: "column", 
+            gap: "24px",
+            border: "1px solid var(--border)",
+            boxShadow: "0 20px 40px rgba(0,0,0,0.5)"
           }}>
             <div>
-              <div style={{ fontSize: "12px", color: "#666", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 800, marginBottom: "16px" }}>
-                Settings
+              <div style={{ fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800, marginBottom: "20px" }}>
+                Control Center
               </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                 <button 
                   onClick={() => { setMenuOpen(false); router.push("/settings/theme"); }}
                   style={{
-                    background: "rgba(255,255,255,0.05)",
-                    border: "none", color: "#fff", display: "flex", alignItems: "center", gap: "12px",
-                    padding: "16px", borderRadius: "16px", cursor: "pointer", fontWeight: 700,
-                    textAlign: "left", fontSize: "14px"
+                    background: "rgba(255,255,255,0.03)",
+                    border: "1px solid var(--border)", color: "var(--text-primary)", display: "flex", alignItems: "center", gap: "12px",
+                    padding: "18px", borderRadius: "20px", cursor: "pointer", fontWeight: 800,
+                    textAlign: "left", fontSize: "14px", transition: "all 0.2s"
                   }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.06)"}
+                  onMouseLeave={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.03)"}
                 >
                   🎭 Personalize Interface
                 </button>
               </div>
             </div>
 
-            <div style={{ height: "1px", background: "#333" }} />
+            <div style={{ height: "1px", background: "var(--border)" }} />
 
             <button 
               onClick={handleLogout}
               style={{
-                background: "#ff3b3b22", color: "#ff3b3b", border: "1px dashed #ff3b3b",
-                padding: "16px", borderRadius: "16px", fontSize: "14px", fontWeight: "bold",
-                cursor: "pointer", textTransform: "uppercase", letterSpacing: "0.1em"
+                background: "rgba(255, 59, 59, 0.1)", color: "#ff3b3b", border: "1px solid #ff3b3b",
+                padding: "18px", borderRadius: "20px", fontSize: "13px", fontWeight: 900,
+                cursor: "pointer", textTransform: "uppercase", letterSpacing: "0.15em"
               }}
             >
-              Log Out of SRMX
+              Terminate Session
             </button>
           </div>
         </div>
