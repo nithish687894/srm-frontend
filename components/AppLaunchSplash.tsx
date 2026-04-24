@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 
-const SPLASH_TOTAL_MS = 1800;
-const SPLASH_EXIT_MS = 520;
+const SPLASH_TOTAL_MS = 1550;
+const SPLASH_EXIT_MS = 420;
 
 export default function AppLaunchSplash({ children }: { children: React.ReactNode }) {
   const [phase, setPhase] = useState<"show" | "exit" | "done">("show");

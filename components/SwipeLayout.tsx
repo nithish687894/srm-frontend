@@ -73,12 +73,11 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
   // The visual transition
   const winWidth = typeof window !== "undefined" ? window.innerWidth : 375;
   const style = {
-    transform: `translateX(${offset}px)`,
+    transform: `translate3d(${offset}px, 0, 0)`,
     transition: touchStart ? "none" : "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
     opacity: 1 - Math.min(Math.abs(offset) / winWidth, 0.5),
-    filter: offset !== 0 ? `blur(${Math.min(Math.abs(offset) / 50, 8)}px)` : "none",
     width: "100%",
-    willChange: "transform, opacity, filter"
+    willChange: "transform, opacity"
   };
 
   return (

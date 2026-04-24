@@ -50,6 +50,7 @@ export default function Sidebar() {
           border-top: 1px solid var(--border);
           transition: all 0.4s ease;
           overflow: hidden; /* Prevent any scrolling */
+          box-shadow: 0 -10px 28px rgba(0, 0, 0, 0.35);
         }
 
         .theme-cosmos .srmx-nav-bar {
@@ -130,6 +131,57 @@ export default function Sidebar() {
           text-transform: uppercase;
           border-radius: 99px;
           white-space: nowrap;
+          position: relative;
+          overflow: hidden;
+          transform: translateZ(0);
+          -webkit-tap-highlight-color: transparent;
+          touch-action: manipulation;
+          isolation: isolate;
+          transition:
+            color 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+            transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+            background-color 220ms ease,
+            box-shadow 220ms ease;
+        }
+
+        .srmx-nav-btn:hover {
+          color: var(--text-primary);
+          background: rgba(255, 255, 255, 0.04);
+        }
+
+        .srmx-nav-btn::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 65%);
+          transform: scale(0.35);
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        .srmx-nav-btn::after {
+          content: "";
+          position: absolute;
+          left: 8%;
+          right: 8%;
+          bottom: 2px;
+          height: 2px;
+          border-radius: 99px;
+          background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.9) 50%, transparent 100%);
+          opacity: 0;
+          transform: scaleX(0.45);
+          transform-origin: center;
+          pointer-events: none;
+          transition: opacity 240ms ease, transform 260ms cubic-bezier(0.2, 0.9, 0.2, 1);
+        }
+
+        .srmx-nav-btn:active {
+          transform: scale(0.92) translateY(1px);
+        }
+
+        .srmx-nav-btn:active::before {
+          animation: navTapRipple 360ms ease-out;
         }
 
         .srmx-nav-settings-btn {
@@ -140,6 +192,36 @@ export default function Sidebar() {
 
         .srmx-nav-btn.active {
           color: var(--text-primary);
+          animation: navActivePop 340ms cubic-bezier(0.2, 0.9, 0.2, 1);
+          background: rgba(255, 255, 255, 0.06);
+          box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1), 0 6px 16px rgba(0, 0, 0, 0.25);
+        }
+
+        .srmx-nav-btn.active .nav-label {
+          text-shadow: 0 0 10px rgba(255, 255, 255, 0.16);
+        }
+
+        .srmx-nav-btn.active::after {
+          opacity: 0.92;
+          transform: scaleX(1);
+          animation: navShimmer 900ms ease-out 1;
+        }
+
+        @keyframes navTapRipple {
+          0% { opacity: 0.45; transform: scale(0.35); }
+          100% { opacity: 0; transform: scale(1.75); }
+        }
+
+        @keyframes navActivePop {
+          0% { transform: scale(0.92); }
+          70% { transform: scale(1.04); }
+          100% { transform: scale(1); }
+        }
+
+        @keyframes navShimmer {
+          0% { opacity: 0.6; transform: scaleX(0.6); }
+          50% { opacity: 1; transform: scaleX(1); }
+          100% { opacity: 0.82; transform: scaleX(1); }
         }
 
         @media (max-width: 480px) {
@@ -150,6 +232,16 @@ export default function Sidebar() {
             font-size: 9px;
             padding: 6px 4px;
             letter-spacing: 0.05em;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .srmx-nav-btn,
+          .srmx-nav-btn::before,
+          .srmx-nav-btn::after,
+          .srmx-nav-btn.active {
+            animation: none !important;
+            transition: none !important;
           }
         }
 
@@ -243,7 +335,7 @@ export default function Sidebar() {
               onClick={() => router.push(href)}
               className={`srmx-nav-btn${active ? " active" : ""}`}
             >
-              {label}
+              <span className="nav-label">{label}</span>
             </button>
           );
         })}
