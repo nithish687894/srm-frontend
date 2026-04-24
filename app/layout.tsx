@@ -4,6 +4,7 @@ import "./globals.css";
 import Providers from "./providers";
 import SwipeLayout from "@/components/SwipeLayout";
 import ThemeWrapper from "@/components/ThemeWrapper";
+import AppLaunchSplash from "@/components/AppLaunchSplash";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -54,7 +55,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body style={{ margin: 0, padding: 0 }}>
         <Providers>
           <ThemeWrapper>
-            <SwipeLayout>{children}</SwipeLayout>
+            <AppLaunchSplash>
+              <SwipeLayout>{children}</SwipeLayout>
+            </AppLaunchSplash>
           </ThemeWrapper>
         </Providers>
       </body>
