@@ -185,6 +185,17 @@ h1, h2, h3, h4, .font-heading {
   font-family: var(--font-heading) !important;
 }
 
+h1, h2, h3, h4 {
+  letter-spacing: -0.018em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+h1 { font-weight: 850; }
+h2 { font-weight: 820; }
+h3 { font-weight: 780; }
+h4 { font-weight: 740; }
+
 /* ═══ Shared Animations ═══ */
 @keyframes pulseGlow {
   0% { filter: drop-shadow(0 0 5px var(--accent)); }
@@ -280,6 +291,21 @@ h1, h2, h3, h4, .font-heading {
   overflow: hidden;
   line-height: 1;
   transform: translateY(-20px);
+}
+
+/* Premium micro-typography for labels */
+.watermark,
+.action-btn .text-c span:first-child,
+.launch-splash-subtitle {
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-kerning: normal;
+  font-feature-settings: "kern" 1, "liga" 1;
+}
+
+.action-btn .text-c span:last-child {
+  letter-spacing: 0.05em;
+  line-height: 1.25;
 }
 
 /* Base Card structure */

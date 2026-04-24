@@ -144,6 +144,14 @@ export default function Sidebar() {
             box-shadow 220ms ease;
         }
 
+        .nav-label {
+          letter-spacing: 0.09em;
+          font-weight: 760;
+          line-height: 1;
+          text-rendering: geometricPrecision;
+          font-feature-settings: "kern" 1, "liga" 1;
+        }
+
         .srmx-nav-btn:hover {
           color: var(--text-primary);
           background: rgba(255, 255, 255, 0.04);
