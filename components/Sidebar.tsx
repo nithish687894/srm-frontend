@@ -114,23 +114,7 @@ export default function Sidebar() {
           text-shadow: 0 0 8px var(--accent);
         }
 
-        /* Scanline Effect for Matrix Sidebar */
-        .theme-matrix .srmx-nav-bar::after {
-          content: "";
-          position: absolute;
-          top: 0; left: 0; right: 0; height: 1px;
-          background: var(--accent);
-          opacity: 0.5;
-          box-shadow: 0 0 10px var(--accent);
-          animation: matrix-scan 3s linear infinite;
-        }
-
-        @keyframes matrix-scan {
-          0% { transform: translateY(0); opacity: 0; }
-          10% { opacity: 0.5; }
-          90% { opacity: 0.5; }
-          100% { transform: translateY(72px); opacity: 0; }
-        }
+      
 
         .srmx-nav-btn {
           flex-shrink: 1;
