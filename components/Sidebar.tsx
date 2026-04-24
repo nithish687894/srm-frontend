@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { usePathname, useRouter } from "next/navigation";
 import { authAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
@@ -19,8 +20,9 @@ export default function Sidebar() {
   const path = usePathname();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   useEffect(() => {
-    // Simplified: Theme now managed by ThemeWrapper
+    setMounted(true);
   }, []);
 
   const handleLogout = async () => {
@@ -29,7 +31,7 @@ export default function Sidebar() {
     router.push("/");
   };
 
-  return (
+  const navContent = (
     <>
       <style>{`
         .srmx-nav-bar {
@@ -216,4 +218,7 @@ export default function Sidebar() {
       </nav>
     </>
   );
+
+  if (!mounted) return null;
+  return createPortal(navContent, document.body);
 }

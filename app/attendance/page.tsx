@@ -400,61 +400,99 @@ export default function AttendancePage() {
 
 function CosmosAttendance({ att, avgAtt, totalAgg, presentAgg, absentAgg }: any) {
   const attPct = parseFloat(avgAtt as string) || 0;
+  const riskCount = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
 
   return (
-    <div style={{ background: "var(--bg)", minHeight: "100vh", paddingBottom: "100px", fontFamily: "var(--font-body)", color: "var(--text-primary)" }}>
+    <div style={{ background: "transparent", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>
       <Sidebar />
-      <main style={{ padding: "20px" }}>
+      <main style={{ padding: "16px" }}>
         
-        <h1 style={{ fontSize: "22px", fontWeight: 700, marginBottom: "24px" }}>Attendance</h1>
-
-        {/* Hero Card */}
-        <div style={{ 
-          background: "linear-gradient(135deg, #3b1fa8 0%, #1e1035 100%)",
-          borderRadius: "20px", padding: "24px", marginBottom: "32px",
-          display: "flex", justifyContent: "space-between", alignItems: "center"
-        }}>
-          <div>
-            <div style={{ fontSize: "12px", textTransform: "uppercase", fontWeight: 800, color: "#a78bfa", letterSpacing: "0.1em", marginBottom: "8px" }}>Overall</div>
-            <div style={{ fontSize: "64px", fontWeight: 800, color: "#fff", lineHeight: 1, marginBottom: "16px" }}>{avgAtt}%</div>
-            <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.6)" }}>{presentAgg} / {totalAgg} classes</div>
-          </div>
-          <div style={{ width: "80px", height: "80px", position: "relative" }}>
-            <svg viewBox="0 0 36 36" style={{ transform: "rotate(-90deg)" }}>
-              <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="3" />
-              <circle cx="18" cy="18" r="16" fill="none" stroke="#fff" strokeWidth="3" 
-                strokeDasharray="100 100" strokeDashoffset={100 - attPct} strokeLinecap="round" />
-            </svg>
-            <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", fontWeight: 800 }}>
-              {avgAtt}
+        {/* Header */}
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", margin: "24px 0 32px" }}>
+          <h1 style={{ fontSize: "24px", fontWeight: 900, letterSpacing: "-0.5px", margin: 0 }}>Attendance</h1>
+          <div style={{ marginLeft: "auto", display: "flex", gap: "12px" }}>
+            <div style={{ fontSize: "20px" }}>🔔</div>
+            <div style={{ 
+              width: "48px", height: "24px", borderRadius: "12px", background: "rgba(26, 117, 255, 0.4)", position: "relative",
+              border: "1px solid rgba(255,255,255,0.1)"
+            }}>
+              <div style={{ position: "absolute", top: "2px", right: "2px", width: "18px", height: "18px", borderRadius: "50%", background: "#fff", boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }} />
             </div>
           </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+        {/* Summary Row */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px", marginBottom: "32px" }}>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontSize: "22px", fontWeight: 900, color: "var(--accent-secondary)" }}>{avgAtt}%</div>
+            <div style={{ fontSize: "10px", color: "var(--text-secondary)", marginTop: "4px", fontWeight: 700, textTransform: "uppercase" }}>Overall</div>
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontSize: "22px", fontWeight: 900, color: "#fff" }}>{att.length}</div>
+            <div style={{ fontSize: "10px", color: "var(--text-secondary)", marginTop: "4px", fontWeight: 700, textTransform: "uppercase" }}>Subjects</div>
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontSize: "22px", fontWeight: 900, color: riskCount > 0 ? "var(--accent-red)" : "#fff" }}>{riskCount}</div>
+            <div style={{ fontSize: "10px", color: "var(--text-secondary)", marginTop: "4px", fontWeight: 700, textTransform: "uppercase" }}>Below 75%</div>
+          </div>
+        </div>
+
+        {/* Subject Cards */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           {att.map((c: any, i: number) => {
             const attn = parseFloat(c["Attn %"]) || 0;
+            const cond = parseInt(c["Hours Conducted"]) || 0;
+            const abs = parseInt(c["Hours Absent"]) || 0;
+            const pres = cond - abs;
             const isRisk = attn < 75;
-            const barColor = isRisk ? "var(--accent-red)" : "var(--accent-green)";
+            
+            // Calculate margin (classes safe to skip or needed to recover)
+            let margin = 0;
+            if (attn >= 75) {
+              margin = Math.floor((pres / 0.75) - cond);
+            } else {
+              margin = Math.ceil(3 * cond - 4 * pres);
+            }
 
             return (
-              <div key={i} style={{ background: "var(--bg-card)", borderRadius: "14px", padding: "16px", border: "1px solid var(--border)" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "12px" }}>
+              <div key={i} className="min-card" style={{ padding: "20px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
                   <div style={{ flex: 1, paddingRight: "16px" }}>
-                    <div style={{ fontSize: "13px", fontWeight: 600, color: "#fff", lineHeight: 1.2 }}>{c["Course Title"]}</div>
-                    <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "4px" }}>{c["Course Code"]}</div>
+                    <div style={{ fontSize: "15px", fontWeight: 700, color: "#fff", lineHeight: 1.3 }}>{c["Course Title"]}</div>
+                    <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "4px", fontWeight: 600 }}>{c["Course Code"]} • Theory</div>
                   </div>
                   <div style={{ textAlign: "right" }}>
-                    <div style={{ fontSize: "16px", fontWeight: 700, color: barColor }}>{attn}%</div>
-                    <div style={{ fontSize: "10px", color: "var(--text-muted)" }}>{c["Hours Conducted"]}h</div>
+                    <div style={{ fontSize: "18px", fontWeight: 900, color: isRisk ? "var(--accent-red)" : "var(--accent-secondary)" }}>{margin}</div>
+                    <div style={{ fontSize: "9px", color: "var(--text-muted)", fontWeight: 800, textTransform: "uppercase" }}>Margin</div>
                   </div>
                 </div>
-                <div style={{ height: "5px", background: "rgba(255,255,255,0.07)", borderRadius: "99px", overflow: "hidden" }}>
-                  <div style={{ height: "100%", background: barColor, width: `${attn}%` }} />
+
+                <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "12px" }}>
+                  <div style={{ display: "flex", gap: "4px" }}>
+                    <div style={{ background: "rgba(0, 255, 136, 0.1)", color: "var(--accent-secondary)", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: 800 }}>P {pres}</div>
+                    <div style={{ background: "rgba(239, 68, 68, 0.1)", color: "var(--accent-red)", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: 800 }}>A {abs}</div>
+                    <div style={{ background: "rgba(26, 117, 255, 0.1)", color: "var(--accent)", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: 800 }}>T {cond}</div>
+                  </div>
+                  <div style={{ marginLeft: "auto", fontSize: "14px", fontWeight: 900, color: isRisk ? "var(--accent-red)" : "var(--accent)" }}>{attn}%</div>
+                </div>
+
+                <div style={{ height: "6px", background: "rgba(255,255,255,0.06)", borderRadius: "99px", overflow: "hidden", position: "relative" }}>
+                  <div style={{ 
+                    height: "100%", 
+                    background: `linear-gradient(90deg, var(--accent), var(--accent-secondary))`, 
+                    width: `${attn}%`,
+                    boxShadow: "0 0 10px rgba(26, 117, 255, 0.3)"
+                  }} />
                 </div>
               </div>
             );
           })}
+        </div>
+
+        <div style={{ display: "flex", justifyContent: "center", marginTop: "32px" }}>
+          <button className="theme-cosmos action-btn" style={{ padding: "14px 32px", borderRadius: "14px", fontSize: "13px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#fff", border: "none" }}>
+            🔮 Predict Attendance
+          </button>
         </div>
 
       </main>

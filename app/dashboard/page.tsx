@@ -380,138 +380,109 @@ function CosmosDashboard({ riskCount, avgAtt, avgMarks, totalCourses, targetClas
   const attPct = parseFloat(avgAtt as string) || 0;
 
   return (
-    <div style={{ background: "var(--bg)", minHeight: "100vh", paddingBottom: "100px", fontFamily: "var(--font-body)", color: "var(--text-primary)" }}>
+    <div style={{ background: "transparent", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>
       <Sidebar />
-      <main style={{ padding: "20px" }}>
+      <main style={{ padding: "16px" }}>
 
-        {/* Header */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <div style={{ width: "40px", height: "40px", borderRadius: "50%", background: "var(--accent)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: "14px", color: "#fff" }}>
-              {initials}
+        {/* Header with SRMX Branding */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "24px 0 32px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <div style={{ 
+              width: "36px", height: "36px", borderRadius: "10px", 
+              background: "linear-gradient(135deg, #1A75FF, #6B33FF)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              boxShadow: "0 0 15px rgba(26, 117, 255, 0.3)"
+            }}>
+              <span style={{ fontSize: "16px", fontWeight: 900, color: "#fff" }}>X</span>
             </div>
-            <div style={{ fontSize: "18px", fontWeight: 600 }}>Good morning, {firstName}</div>
+            <h1 style={{ fontSize: "24px", fontWeight: 900, letterSpacing: "-0.8px", margin: 0 }}>
+              SRMX
+            </h1>
           </div>
-          <div style={{ width: "40px", height: "40px", borderRadius: "12px", background: "var(--bg-surface)", border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px" }}>
+          <div style={{ width: "40px", height: "40px", borderRadius: "12px", background: "rgba(255,255,255,0.05)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px", border: "1px solid rgba(255,255,255,0.1)" }}>
             🔔
           </div>
         </div>
 
-        {/* Hero Card - Attendance */}
-        <div style={{
-          background: "linear-gradient(135deg, #3b1fa8 0%, #1e1035 100%)",
-          borderRadius: "20px", padding: "24px", marginBottom: "24px",
-          display: "flex", justifyContent: "space-between", alignItems: "center"
-        }}>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontSize: "12px", textTransform: "uppercase", fontWeight: 800, color: "#a78bfa", letterSpacing: "0.1em", marginBottom: "8px" }}>Overall Attendance</div>
-            <div style={{ fontSize: "64px", fontWeight: 800, color: "#fff", lineHeight: 1, marginBottom: "16px" }}>{avgAtt}%</div>
-            <div style={{ height: "6px", background: "rgba(255,255,255,0.15)", borderRadius: "99px", overflow: "hidden" }}>
-              <div style={{ height: "100%", background: "#fff", width: `${attPct}%` }} />
-            </div>
-          </div>
-          <div style={{ width: "80px", height: "80px", position: "relative", marginLeft: "20px" }}>
-            <svg viewBox="0 0 36 36" style={{ transform: "rotate(-90deg)" }}>
-              <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="3" />
-              <circle cx="18" cy="18" r="16" fill="none" stroke="#fff" strokeWidth="3"
-                strokeDasharray="100 100" strokeDashoffset={100 - attPct} strokeLinecap="round" />
-            </svg>
-            <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", fontWeight: 800, color: "#fff" }}>
-              {avgAtt}
-            </div>
-          </div>
-        </div>
-
-        {/* Stats Row */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px", marginBottom: "24px" }}>
-          <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "14px", padding: "16px 12px", position: "relative" }}>
-            <div style={{ fontSize: "10px", textTransform: "uppercase", color: "var(--text-secondary)", fontWeight: 800, letterSpacing: "0.05em", marginBottom: "4px" }}>Avg Marks</div>
-            <div style={{ fontSize: "24px", fontWeight: 700, color: "var(--accent)" }}>{avgMarks}%</div>
-            <div style={{ position: "absolute", top: "12px", right: "12px", fontSize: "12px" }}>📈</div>
-          </div>
-          <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "14px", padding: "16px 12px", position: "relative" }}>
-            <div style={{ fontSize: "10px", textTransform: "uppercase", color: "var(--text-secondary)", fontWeight: 800, letterSpacing: "0.05em", marginBottom: "4px" }}>At Risk</div>
-            <div style={{ fontSize: "24px", fontWeight: 700, color: riskCount > 0 ? "var(--accent-red)" : "var(--text-secondary)" }}>{riskCount}</div>
-            <div style={{ position: "absolute", top: "12px", right: "12px", fontSize: "12px" }}>⚠️</div>
-          </div>
-          <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "14px", padding: "16px 12px", position: "relative" }}>
-            <div style={{ fontSize: "10px", textTransform: "uppercase", color: "var(--text-secondary)", fontWeight: 800, letterSpacing: "0.05em", marginBottom: "4px" }}>Courses</div>
-            <div style={{ fontSize: "24px", fontWeight: 700, color: "var(--text-secondary)" }}>{totalCourses}</div>
-            <div style={{ position: "absolute", top: "12px", right: "12px", fontSize: "12px" }}>📚</div>
-          </div>
-        </div>
-
-        {/* Next Class */}
-        {nextClass && (
-          <div style={{ background: "var(--bg-card)", border: "1px solid var(--border-accent)", borderRadius: "16px", padding: "20px", marginBottom: "24px" }}>
-            <div style={{ display: "inline-block", background: "var(--accent-soft)", color: "#a78bfa", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em" }}>Next Up</div>
-            <div style={{ fontSize: "18px", fontWeight: 700, color: "#fff", margin: "8px 0" }}>{nextClass.courseTitle}</div>
-            <div style={{ display: "flex", gap: "8px" }}>
-              <div style={{ background: "rgba(0,0,0,0.2)", padding: "4px 10px", borderRadius: "99px", fontSize: "11px", color: "var(--text-secondary)" }}>📍 {nextClass.roomNo}</div>
-              <div style={{ background: "rgba(0,0,0,0.2)", padding: "4px 10px", borderRadius: "99px", fontSize: "11px", color: "var(--text-secondary)" }}>⏰ {fmtTimeOnly(nextClass.startTime)} — {fmtTimeOnly(nextClass.endTime)}</div>
-            </div>
-          </div>
-        )}
-
-        {/* Today's Schedule */}
-        <div style={{ marginBottom: "24px" }}>
-          <div style={{ fontSize: "14px", fontWeight: 600, color: "#fff", marginBottom: "12px" }}>Today&apos;s Schedule</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            {targetClasses.map((cls: any, i: number) => {
-              const active = isNowIn(cls.startTime, cls.endTime);
-              const past = parseEnd(cls.endTime) < (new Date().getHours() * 60 + new Date().getMinutes());
-              const indicatorColor = active ? "var(--accent-green)" : past ? "var(--text-muted)" : "var(--accent)";
-
-              return (
-                <div key={i} style={{
-                  background: active ? "rgba(124,58,237,0.08)" : "var(--bg-card)",
-                  border: active ? "1px solid var(--border-accent)" : "1px solid var(--border)",
-                  borderRadius: "12px", padding: "12px", display: "flex", gap: "12px", alignItems: "center"
-                }}>
-                  <div style={{ width: "3px", height: "32px", borderRadius: "99px", background: indicatorColor }} />
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: "13px", fontWeight: 600, color: "#fff" }}>{cls.courseTitle}</div>
-                    <div style={{ fontSize: "11px", color: "var(--text-muted)" }}>{cls.roomNo} • {cls.facultyName}</div>
-                  </div>
-                  <div style={{ fontSize: "11px", color: "var(--text-muted)", textAlign: "right" }}>
-                    {fmtTimeOnly(cls.startTime)}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Recent Marks */}
-        <div style={{ marginBottom: "24px" }}>
-          <div style={{ fontSize: "14px", fontWeight: 600, color: "#fff", marginBottom: "12px" }}>Recent Marks</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: "16px", background: "var(--bg-card)", padding: "20px", borderRadius: "16px", border: "1px solid var(--border)" }}>
-            {recentTop5.map((rm: any, i: number) => {
-              const scorePct = (rm.score / rm.max) * 100;
-              return (
-                <div key={i}>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px" }}>
-                    <div style={{ fontSize: "12px", fontWeight: 600, color: "var(--text-secondary)" }}>{rm.courseCode}</div>
-                    <div style={{ fontSize: "12px", fontWeight: 800, color: "var(--accent)" }}>{rm.score}/{rm.max}</div>
-                  </div>
-                  <div style={{ height: "4px", background: "rgba(255,255,255,0.08)", borderRadius: "99px", overflow: "hidden" }}>
-                    <div style={{ height: "100%", background: "var(--accent)", width: `${scorePct}%` }} />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* At Risk Banner */}
-        {riskCount > 0 && (
-          <div onClick={() => router.push("/attendance")} style={{
-            background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)", borderRadius: "14px",
-            padding: "16px 20px", display: "flex", alignItems: "center", gap: "12px", cursor: "pointer"
+        {/* Profile Section */}
+        <div className="min-card" style={{ padding: "20px", marginBottom: "32px", display: "flex", alignItems: "center", gap: "16px" }}>
+          <div style={{ 
+            width: "52px", height: "52px", borderRadius: "12px", 
+            background: "linear-gradient(135deg, #1A75FF, #00C6FF)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: "18px", fontWeight: 800, color: "#fff"
           }}>
-            <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "var(--accent-red)", boxShadow: "0 0 10px var(--accent-red)" }} />
-            <div style={{ fontSize: "13px", fontWeight: 600, color: "var(--accent-red)" }}>{riskCount} subjects need attention</div>
-            <div style={{ marginLeft: "auto", fontSize: "18px" }}>›</div>
+            {initials}
+          </div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: "16px", fontWeight: 700 }}>Welcome back, {firstName}</div>
+            <div style={{ fontSize: "11px", color: "var(--text-secondary)", marginTop: "2px" }}>Student Portal Access Granted</div>
+          </div>
+        </div>
+
+        {/* Overview & High-Fidelity Stats */}
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
+          <div style={{ fontSize: "18px" }}>🚀</div>
+          <h2 style={{ fontSize: "18px", fontWeight: 800, margin: 0, textTransform: "uppercase", letterSpacing: "0.05em" }}>Performance</h2>
+        </div>
+
+        {/* Attendance Highlight (Badge style) */}
+        <div className="min-card" style={{ padding: "28px 20px", marginBottom: "16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ position: "relative", width: "90px", height: "90px" }}>
+            <div style={{ 
+              position: "absolute", inset: "-4px", borderRadius: "50%", 
+              border: "2px dashed var(--accent-secondary)", opacity: 0.4,
+              animation: "spin 12s linear infinite"
+            }} />
+            <div style={{ 
+              position: "absolute", inset: 0, borderRadius: "50%", 
+              background: "rgba(0, 255, 136, 0.04)",
+              border: "3px solid var(--accent-secondary)",
+              display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+              boxShadow: "0 0 20px rgba(0, 255, 136, 0.15)"
+            }}>
+              <div style={{ fontSize: "24px", fontWeight: 900, color: "#fff", lineHeight: 1 }}>{avgAtt}%</div>
+              <div style={{ fontSize: "9px", color: "var(--accent-secondary)", fontWeight: 800, marginTop: "2px", textTransform: "uppercase" }}>Overall</div>
+            </div>
+          </div>
+          <div style={{ flex: 1, paddingLeft: "24px" }}>
+            <div style={{ fontSize: "12px", fontWeight: 800, color: "var(--accent)", textTransform: "uppercase", letterSpacing: "0.05em" }}>Attendance Status</div>
+            <div style={{ fontSize: "14px", color: "var(--text-secondary)", marginTop: "4px" }}>Tap to view subject-wise breakdown</div>
+          </div>
+        </div>
+
+        {/* Standings Grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "32px" }}>
+          <div className="min-card" style={{ padding: "20px 12px", textAlign: "center", background: "rgba(26, 117, 255, 0.03)" }}>
+            <div style={{ fontSize: "18px", marginBottom: "8px" }}>📋</div>
+            <div style={{ fontSize: "22px", fontWeight: 900, color: "#fff" }}>{avgMarks}%</div>
+            <div style={{ fontSize: "10px", color: "var(--text-secondary)", marginTop: "6px", fontWeight: 700, textTransform: "uppercase" }}>Avg Marks</div>
+          </div>
+          <div className="min-card" style={{ padding: "20px 12px", textAlign: "center", background: "rgba(239, 68, 68, 0.03)" }}>
+            <div style={{ fontSize: "18px", marginBottom: "8px" }}>⚠️</div>
+            <div style={{ fontSize: "22px", fontWeight: 900, color: riskCount > 0 ? "var(--accent-red)" : "#fff" }}>{riskCount}</div>
+            <div style={{ fontSize: "10px", color: "var(--text-secondary)", marginTop: "6px", fontWeight: 700, textTransform: "uppercase" }}>At Risk</div>
+          </div>
+        </div>
+
+        {/* Next Class / Today's Schedule */}
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
+          <div style={{ fontSize: "18px" }}>📅</div>
+          <h2 style={{ fontSize: "18px", fontWeight: 800, margin: 0, textTransform: "uppercase", letterSpacing: "0.05em" }}>Schedule</h2>
+        </div>
+
+        {nextClass ? (
+          <div className="min-card" style={{ padding: "20px", marginBottom: "16px", border: "1px solid var(--accent-bg)" }}>
+            <div style={{ display: "inline-block", background: "var(--accent-bg)", color: "var(--accent)", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em" }}>Up Next</div>
+            <div style={{ fontSize: "18px", fontWeight: 700, color: "#fff", margin: "12px 0 8px" }}>{nextClass.courseTitle}</div>
+            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+              <div style={{ background: "rgba(255,255,255,0.05)", padding: "4px 10px", borderRadius: "99px", fontSize: "11px", color: "var(--text-secondary)", border: "1px solid rgba(255,255,255,0.05)" }}>📍 {nextClass.roomNo}</div>
+              <div style={{ background: "rgba(255,255,255,0.05)", padding: "4px 10px", borderRadius: "99px", fontSize: "11px", color: "var(--text-secondary)", border: "1px solid rgba(255,255,255,0.05)" }}>⏰ {fmtTimeOnly(nextClass.startTime)} — {fmtTimeOnly(nextClass.endTime)}</div>
+            </div>
+          </div>
+        ) : (
+          <div className="min-card" style={{ padding: "32px", textAlign: "center", color: "var(--text-muted)", fontSize: "14px" }}>
+            No more classes for today. Relax!
           </div>
         )}
 

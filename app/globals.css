@@ -47,22 +47,73 @@ body.theme-matrix {
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   THEME 2 — JARVIS
+   THEME 2 — COSMOS (Vibrant Campus Web)
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-body.theme-jarvis {
-  --bg-root: #03060F;
-  --bg-surface: rgba(10, 17, 40, 0.6);
-  --accent: #00A8FF;
-  --accent-secondary: #00FFD1;
-  --text-primary: #E0F0FF;
-  --font-heading: var(--font-orbitron);
-  --font-main: var(--font-orbitron);
-  --radius: 0;
-  --card-clip: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
-  --border: #1a3a5a;
-  --accent-bg: rgba(0, 168, 255, 0.05);
-  background-image: radial-gradient(circle at 2px 2px, #1a3a5a 1px, transparent 0);
-  background-size: 40px 40px;
+body.theme-cosmos {
+  --bg-root: #0A061F;
+  --bg-surface: rgba(22, 24, 60, 0.4);
+  --accent: #1A75FF;
+  --accent-secondary: #00FF88;
+  --text-primary: #FFFFFF;
+  --text-secondary: #8E92B2;
+  --text-muted: #535787;
+  --font-heading: 'Plus Jakarta Sans', sans-serif;
+  --font-main: 'Plus Jakarta Sans', sans-serif;
+  --radius: 20px;
+  --card-clip: none;
+  --border: rgba(255, 255, 255, 0.06);
+  --accent-bg: rgba(26, 117, 255, 0.15);
+  --nav-bg: rgba(8, 6, 25, 0.85);
+  --nav-blur: 24px;
+  
+  background: #0A061F radial-gradient(circle at 50% -20%, #2A1B7A 0%, #0A061F 70%);
+  background-attachment: fixed;
+}
+
+.theme-cosmos .min-card {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: linear-gradient(180deg, rgba(35, 38, 80, 0.4) 0%, rgba(15, 16, 40, 0.4) 100%);
+  border-radius: var(--radius);
+}
+
+.theme-cosmos .action-btn {
+  background: linear-gradient(90deg, #1A75FF, #6B33FF);
+  border: none;
+  box-shadow: 0 4px 15px rgba(26, 117, 255, 0.4);
+}
+.theme-cosmos .action-btn .icon-l, .theme-cosmos .action-btn .icon-r {
+  background: rgba(0,0,0,0.2);
+}
+
+.theme-cosmos .srmx-nav-bar {
+  background: var(--nav-bg);
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+  margin-bottom: 8px;
+  width: calc(100% - 16px);
+  left: 8px;
+  border-radius: 24px;
+  bottom: 8px;
+}
+
+.theme-cosmos .srmx-nav-btn {
+  color: var(--text-secondary);
+  font-family: var(--font-main);
+  text-transform: capitalize;
+  font-weight: 600;
+  letter-spacing: 0;
+  font-size: 11px;
+}
+
+.theme-cosmos .srmx-nav-btn.active {
+  color: #fff;
+  background: var(--accent);
+  border-radius: 99px;
+  padding: 8px 16px;
+  box-shadow: 0 4px 15px rgba(26, 117, 255, 0.4);
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -169,13 +220,14 @@ h1, h2, h3, h4, .font-heading {
 }
 .page-main {
   padding-top: 80px; /* Top nav height */
+  padding-bottom: calc(72px + env(safe-area-inset-bottom));
   position: relative;
   z-index: 1;
   animation: pageEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   will-change: transform, opacity, filter;
 }
 .page-content {
-  padding: 24px 20px 100px;
+  padding: 24px 20px calc(120px + env(safe-area-inset-bottom));
   position: relative;
 }
 
@@ -229,10 +281,6 @@ h1, h2, h3, h4, .font-heading {
 .theme-ghost .min-card {
   border: none;
   border-bottom: 1px solid #e0e0e0;
-}
-
-.theme-jarvis .min-card {
-  backdrop-filter: blur(10px);
 }
 
 /* Action button outline */
