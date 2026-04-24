@@ -406,13 +406,6 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
                  {initials}
               </div>
            </div>
-           
-           {/* Terminal Intro Text */}
-           <div style={{ background: "#111", padding: "16px", borderRadius: "20px", border: "1px solid #222", fontSize: "12px", color: "#a8c200", fontFamily: "monospace", opacity: 0.8 }}>
-              &gt; FETCHING ACADEMIC DATA... DONE<br/>
-              &gt; ANALYZING PERFORMANCE... STABLE<br/>
-              &gt; STATUS: PORTAL ACCESS GRANTED
-           </div>
         </div>
 
         {/* Hero Performance Metrics */}

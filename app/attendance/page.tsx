@@ -428,6 +428,13 @@ function MatrixAttendance({
               const abs = parseInt(c["Hours Absent"]) || 0;
               const pres = cond - abs;
 
+              let margin = 0;
+              if (attn >= 75) {
+                margin = Math.floor((pres / 0.75) - cond);
+              } else {
+                margin = Math.ceil(3 * cond - 4 * pres);
+              }
+
               return (
                 <div key={i} style={{ background: "#1c1c1c", borderRadius: "28px", padding: "24px", border: isRisk ? "1px solid #ff3b3b" : "1px solid transparent" }}>
                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "20px" }}>
@@ -435,7 +442,12 @@ function MatrixAttendance({
                          <div style={{ fontSize: "18px", fontWeight: 900, color: "#fff", lineHeight: 1.2, textTransform: "capitalize" }}>{c["Course Title"].toLowerCase()}</div>
                          <div style={{ fontSize: "11px", color: "#666", fontWeight: 800, marginTop: "4px" }}>{c["Course Code"]}</div>
                       </div>
-                      <div style={{ fontSize: "28px", fontWeight: 900, color: isRisk ? "#ff3b3b" : "#a8c200" }}>{attn}%</div>
+                      <div style={{ textAlign: "right" }}>
+                         <div style={{ fontSize: "28px", fontWeight: 900, color: isRisk ? "#ff3b3b" : "#a8c200" }}>{attn}%</div>
+                         <div style={{ fontSize: "10px", fontWeight: 900, color: isRisk ? "#ff3b3b" : "#a8c200", textTransform: "uppercase" }}>
+                            {isRisk ? `ATTEND ${margin}` : `SKIP ${margin}`}
+                         </div>
+                      </div>
                    </div>
                    
                    <div style={{ display: "flex", gap: "12px", marginBottom: "20px" }}>
