@@ -35,7 +35,11 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
           aria-label="Opening SRMX"
         >
           <div className="launch-splash-brand">
+            <span className="launch-splash-mark" aria-hidden="true">
+              <span className="launch-splash-mark-inner">S</span>
+            </span>
             <span className="launch-splash-logo">SRMX</span>
+            <span className="launch-splash-subtitle">student portal</span>
             <span className="launch-splash-glow" />
           </div>
         </div>
