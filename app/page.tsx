@@ -12,12 +12,15 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
-  const { setAuthData, authToken, _hasHydrated } = useAuthStore();
+  const { setAuthData, authToken, _hasHydrated, hasChosenTheme } = useAuthStore();
  
    useEffect(() => {
      if (!_hasHydrated) return;
-     if (authToken) router.replace("/dashboard");
-   }, [_hasHydrated, authToken, router]);
+     if (authToken) {
+       if (hasChosenTheme) router.replace("/dashboard");
+       else router.replace("/setup/theme");
+     }
+   }, [_hasHydrated, authToken, hasChosenTheme, router]);
  
    async function handleLogin() {
      if (!email || !password) return setError("PROVIDE CREDENTIALS");
@@ -25,7 +28,8 @@ export default function LoginPage() {
      try {
        const res = await authAPI.login(email, password);
        setAuthData(res.token, res.refreshToken);
-       router.push("/dashboard");
+       if (hasChosenTheme) router.push("/dashboard");
+       else router.push("/setup/theme");
     } catch (e: any) {
       setError(e?.response?.data?.error || "LOGIN FAILED");
     } finally { setLoading(false); }

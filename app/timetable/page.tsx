@@ -309,58 +309,117 @@ export default function TimetablePage() {
 }
 
 function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes }: any) {
+  const currentMin = new Date().getHours() * 60 + new Date().getMinutes();
+
   return (
-    <div style={{ background: "var(--bg)", minHeight: "100vh", paddingBottom: "100px", fontFamily: "var(--font-body)", color: "var(--text-primary)" }}>
+    <div style={{ background: "transparent", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>
       <Sidebar />
-      <main style={{ padding: "20px" }}>
+      <main style={{ padding: "16px" }}>
         
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px" }}>
-          <h1 style={{ fontSize: "22px", fontWeight: 700 }}>Timetable</h1>
-          <div style={{ display: "flex", background: "var(--bg-surface)", borderRadius: "12px", padding: "4px", border: "1px solid var(--border)" }}>
+        {/* Header */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "24px 0 32px" }}>
+          <div>
+            <h1 style={{ fontSize: "24px", fontWeight: 900, letterSpacing: "-0.5px", margin: 0 }}>Timetable</h1>
+            <div style={{ fontSize: "11px", color: "var(--text-secondary)", marginTop: "4px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Current Batch: {batch}</div>
+          </div>
+          <div style={{ display: "flex", background: "rgba(255,255,255,0.05)", borderRadius: "14px", padding: "4px", border: "1px solid rgba(255,255,255,0.1)" }}>
             {[1, 2].map(b => (
               <button key={b} onClick={() => setBatch(b)} style={{
-                padding: "6px 14px", borderRadius: "8px", border: "none", fontSize: "12px", fontWeight: 700,
+                padding: "8px 16px", borderRadius: "10px", border: "none", fontSize: "12px", fontWeight: 800,
                 background: batch === b ? "var(--accent)" : "transparent",
-                color: batch === b ? "#fff" : "var(--text-muted)", transition: "all 0.2s"
+                color: batch === b ? "#fff" : "var(--text-muted)", transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)", cursor: "pointer"
               }}>B{b}</button>
             ))}
           </div>
         </div>
 
-        <div style={{ display: "flex", overflowX: "auto", gap: "12px", paddingBottom: "24px", scrollbarWidth: "none" }}>
+        {/* Day Switcher */}
+        <div style={{ display: "flex", gap: "10px", marginBottom: "40px", overflowX: "auto", paddingBottom: "8px", scrollbarWidth: "none" }}>
           {[1, 2, 3, 4, 5].map(d => (
             <button key={d} onClick={() => setDayOverride(d)} style={{
-              flexShrink: 0, width: "40px", height: "40px", borderRadius: "50%", border: "none",
-              background: dayOverride === d ? "var(--accent)" : "var(--bg-card)",
-              color: dayOverride === d ? "#fff" : "var(--text-muted)",
-              fontSize: "14px", fontWeight: 700, transition: "all 0.2s"
-            }}>{d}</button>
+              flexShrink: 0, width: "56px", height: "56px", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.05)",
+              background: dayOverride === d ? "var(--accent)" : "rgba(255,255,255,0.03)",
+              color: dayOverride === d ? "#fff" : "var(--text-secondary)",
+              display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+              transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)", cursor: "pointer",
+              boxShadow: dayOverride === d ? "0 8px 20px rgba(26, 117, 255, 0.3)" : "none"
+            }}>
+              <div style={{ fontSize: "10px", fontWeight: 800, opacity: 0.6, textTransform: "uppercase" }}>Day</div>
+              <div style={{ fontSize: "18px", fontWeight: 900 }}>{d}</div>
+            </button>
           ))}
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          {classes.length === 0 ? (
-            <div style={{ textAlign: "center", padding: "40px", color: "var(--text-muted)" }}>No classes today.</div>
-          ) : classes.map((cls: any, i: number) => {
-            const active = (typeof isNowIn === 'function') ? isNowIn(cls.startTime, cls.endTime) : false;
-            return (
-              <div key={i} style={{ 
-                background: active ? "rgba(34,197,94,0.05)" : "var(--bg-card)",
-                borderLeft: `3px solid ${active ? "#22c55e" : "var(--accent)"}`,
-                borderRadius: "12px", padding: "16px", position: "relative"
-              }}>
-                <div style={{ position: "absolute", top: "12px", right: "12px", background: "var(--accent-soft)", color: "#a78bfa", padding: "4px 10px", borderRadius: "8px", fontSize: "11px", fontWeight: 700 }}>
-                  {fmtTimeOnly(cls.startTime)}
-                </div>
-                <div style={{ fontSize: "15px", fontWeight: 700, color: "#fff", marginBottom: "12px", paddingRight: "70px" }}>{cls.courseTitle}</div>
-                <div style={{ display: "flex", gap: "12px" }}>
-                  <div style={{ fontSize: "11px", color: "var(--text-muted)" }}>📍 {cls.roomNo}</div>
-                  <div style={{ fontSize: "11px", color: "var(--text-muted)" }}>👤 {cls.facultyName}</div>
-                </div>
+        {/* Timeline View */}
+        <div style={{ position: "relative", paddingLeft: "24px" }}>
+          {/* Vertical Timeline Line */}
+          <div style={{ 
+            position: "absolute", left: "4px", top: "8px", bottom: "8px", width: "2px", 
+            background: "linear-gradient(180deg, var(--accent) 0%, var(--accent-secondary) 100%)",
+            opacity: 0.2, borderRadius: "2px"
+          }} />
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+            {classes.length === 0 ? (
+              <div className="min-card" style={{ padding: "40px", textAlign: "center", borderStyle: "dashed" }}>
+                <div style={{ fontSize: "32px", marginBottom: "16px" }}>☕</div>
+                <div style={{ fontSize: "16px", fontWeight: 700, color: "var(--text-secondary)" }}>No classes scheduled for Day {dayOverride}</div>
+                <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "8px" }}>Time to catch up or relax.</div>
               </div>
-            );
-          })}
+            ) : classes.map((cls: any, i: number) => {
+              const startVal = parseStart(cls.startTime);
+              const endVal = parseEnd(cls.endTime);
+              const active = currentMin >= startVal && currentMin <= endVal;
+              const past = currentMin > endVal;
+              
+              return (
+                <div key={i} style={{ position: "relative" }}>
+                  {/* Timeline Dot */}
+                  <div style={{ 
+                    position: "absolute", left: "-24px", top: "12px", width: "10px", height: "10px", borderRadius: "50%",
+                    background: active ? "var(--accent-secondary)" : past ? "var(--text-muted)" : "var(--accent)",
+                    boxShadow: active ? "0 0 15px var(--accent-secondary)" : "none",
+                    border: "2px solid var(--bg-root)", zIndex: 2
+                  }} />
+
+                  <div className="min-card" style={{ 
+                    padding: "20px", 
+                    borderLeft: active ? "4px solid var(--accent-secondary)" : "1px solid rgba(255,255,255,0.05)",
+                    opacity: past ? 0.6 : 1,
+                    transition: "all 0.3s ease"
+                  }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: "11px", color: active ? "var(--accent-secondary)" : "var(--text-secondary)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                          {fmtTimeOnly(cls.startTime)} — {fmtTimeOnly(cls.endTime)}
+                        </div>
+                        <div style={{ fontSize: "18px", fontWeight: 800, color: "#fff", marginTop: "8px", lineHeight: 1.2 }}>{cls.courseTitle}</div>
+                      </div>
+                      {active && (
+                        <div style={{ background: "rgba(0, 255, 136, 0.1)", color: "var(--accent-secondary)", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: 800, textTransform: "uppercase", animation: "pulse 2s infinite" }}>
+                          Happening Now
+                        </div>
+                      )}
+                    </div>
+
+                    <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+                      <div style={{ background: "rgba(255,255,255,0.05)", padding: "6px 12px", borderRadius: "10px", fontSize: "11px", color: "var(--text-secondary)", display: "flex", alignItems: "center", gap: "6px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                        <span style={{ opacity: 0.6 }}>📍</span> {cls.roomNo}
+                      </div>
+                      <div style={{ background: "rgba(255,255,255,0.05)", padding: "6px 12px", borderRadius: "10px", fontSize: "11px", color: "var(--text-secondary)", display: "flex", alignItems: "center", gap: "6px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                        <span style={{ opacity: 0.6 }}>👤</span> {cls.facultyName}
+                      </div>
+                      <div style={{ background: "rgba(26, 117, 255, 0.1)", padding: "6px 12px", borderRadius: "10px", fontSize: "11px", color: "var(--accent)", fontWeight: 700, textTransform: "uppercase" }}>
+                        {cls.courseCode}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
+
       </main>
     </div>
   );
