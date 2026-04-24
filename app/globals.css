@@ -226,8 +226,8 @@ h4 { font-weight: 740; }
   to   { opacity: 1; transform: translateY(0);    }
 }
 @keyframes pageEnter {
-  from { opacity: 0; transform: scale(0.98); filter: blur(4px); }
-  to   { opacity: 1; transform: scale(1); filter: blur(0); }
+  from { opacity: 0; transform: translate3d(0, 8px, 0) scale(0.995); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
 }
 
 /* ═══ Utilities ═══ */
@@ -250,8 +250,8 @@ h4 { font-weight: 740; }
   padding-bottom: calc(72px + env(safe-area-inset-bottom));
   position: relative;
   z-index: 1;
-  animation: pageEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  will-change: transform, opacity, filter;
+  animation: pageEnter 0.34s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
 }
 .page-content {
   padding: 24px 20px calc(120px + env(safe-area-inset-bottom));
@@ -337,6 +337,10 @@ h4 { font-weight: 740; }
   border-color: rgba(255, 255, 255, 0.12);
 }
 
+.min-card:active {
+  transform: translateY(-1px) scale(0.995);
+}
+
 .theme-ghost .min-card {
   border: none;
   border-bottom: 1px solid #e0e0e0;
@@ -375,6 +379,12 @@ h4 { font-weight: 740; }
 }
 .action-btn .text-c span:first-child { font-weight: 800; text-transform: uppercase; font-size: 13px; }
 .action-btn .text-c span:last-child { font-size: 11px; color: var(--text-secondary); }
+
+/* Small global polish for readable, premium interactions */
+::selection {
+  background: rgba(168, 194, 0, 0.35);
+  color: #ffffff;
+}
 
 /* ═══ Responsive ═══ */
 @media (max-width: 768px) {

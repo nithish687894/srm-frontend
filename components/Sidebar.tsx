@@ -53,6 +53,18 @@ export default function Sidebar() {
           box-shadow: 0 -10px 28px rgba(0, 0, 0, 0.35);
         }
 
+        .srmx-nav-bar::before {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+          height: 1px;
+          background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.24) 50%, transparent 100%);
+          opacity: 0.55;
+          pointer-events: none;
+        }
+
         .theme-cosmos .srmx-nav-bar {
           background: rgba(15,15,19,0.97);
           border-top: 1px solid rgba(255,255,255,0.07);
@@ -207,6 +219,10 @@ export default function Sidebar() {
 
         .srmx-nav-btn.active .nav-label {
           text-shadow: 0 0 10px rgba(255, 255, 255, 0.16);
+        }
+
+        .theme-matrix .srmx-nav-btn.active {
+          box-shadow: inset 0 0 0 1px rgba(168, 194, 0, 0.22), 0 8px 18px rgba(0, 0, 0, 0.3);
         }
 
         .srmx-nav-btn.active::after {
