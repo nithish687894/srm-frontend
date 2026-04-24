@@ -377,61 +377,98 @@ export default function DashboardPage() {
   );
 }
 
-function MatrixDashboard({ riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, initials, firstName, dayOrder, isHoliday, dayOffset, setDayOffset }: any) {
+function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, initials, firstName, dayOrder, isHoliday, dayOffset, setDayOffset }: any) {
   const router = useRouter();
+  const profile = data?.profile || {};
+  const regNo = profile["Registration Number"] || "UNKNOWN";
+  const batch = profile["Combo / Batch"] || "N/A";
   
   const firstStart = targetClasses[0] ? fmtTimeOnly(targetClasses[0].startTime) : "";
   const lastEnd = targetClasses[targetClasses.length - 1] ? fmtTimeOnly(targetClasses[targetClasses.length - 1].endTime) : "";
+
+  // Find best attendance
+  const bestAtt = data?.attendance?.length ? [...data.attendance].sort((a: any, b: any) => parseFloat(b["Attn %"]) - parseFloat(a["Attn %"]))[0] : null;
 
   return (
     <div style={{ background: "#000000", minHeight: "100vh", paddingBottom: "120px", color: "#ffffff", fontFamily: "'Inter', sans-serif" }}>
       <Sidebar />
       <main style={{ padding: "20px" }}>
         
-        {/* Date Selector / Header */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px", marginTop: "20px" }}>
-           <div style={{ display: "flex", gap: "16px" }}>
-              <button onClick={() => setDayOffset((o: any) => o - 1)} style={{ background: "none", border: "none", color: "#fff", fontSize: "24px", cursor: "pointer" }}>‹</button>
-              <button onClick={() => setDayOffset((o: any) => o + 1)} style={{ background: "none", border: "none", color: "#fff", fontSize: "24px", cursor: "pointer" }}>›</button>
+        {/* System Status / Profile Intro */}
+        <div style={{ marginTop: "20px", marginBottom: "48px" }}>
+           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "24px" }}>
+              <div>
+                 <div style={{ fontSize: "10px", color: "#a8c200", letterSpacing: "0.2em", fontWeight: 900, marginBottom: "4px" }}>SYSTEM INITIALIZED</div>
+                 <div style={{ fontSize: "36px", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 1 }}>{firstName.toUpperCase()}</div>
+                 <div style={{ fontSize: "11px", color: "#666", fontWeight: 800, marginTop: "6px" }}>ID: {regNo} • {batch}</div>
+              </div>
+              <div style={{ width: "48px", height: "48px", borderRadius: "14px", background: "#1c1c1c", border: "1px solid #333", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px", fontWeight: 900 }}>
+                 {initials}
+              </div>
            </div>
-           <div style={{ textAlign: "right" }}>
-              <div style={{ fontSize: "10px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800 }}>{dayOffset === 0 ? "TODAY" : "SCHEDULE"}</div>
-              <div style={{ fontSize: "14px", fontWeight: 700 }}>{new Date(new Date().setDate(new Date().getDate() + dayOffset)).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}</div>
+           
+           {/* Terminal Intro Text */}
+           <div style={{ background: "#111", padding: "16px", borderRadius: "20px", border: "1px solid #222", fontSize: "12px", color: "#a8c200", fontFamily: "monospace", opacity: 0.8 }}>
+              &gt; FETCHING ACADEMIC DATA... DONE<br/>
+              &gt; ANALYZING PERFORMANCE... STABLE<br/>
+              &gt; STATUS: PORTAL ACCESS GRANTED
            </div>
         </div>
 
-        {/* Day Order Big Number */}
-        <div style={{ textAlign: "center", marginBottom: "40px" }}>
-          <div style={{ fontSize: "12px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800, marginBottom: "8px" }}>Current Day Order</div>
-          <div style={{ fontSize: "160px", fontWeight: 900, lineHeight: 0.8, letterSpacing: "-0.05em" }}>{dayOrder || "—"}</div>
+        {/* Hero Performance Metrics */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "12px", marginBottom: "40px" }}>
+           <div onClick={() => router.push("/attendance")} style={{ background: "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", cursor: "pointer" }}>
+              <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Attnd</div>
+              <div style={{ fontSize: "24px", fontWeight: 900, color: "#a8c200" }}>{avgAtt}%</div>
+           </div>
+           <div onClick={() => router.push("/marks")} style={{ background: "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", cursor: "pointer" }}>
+              <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Marks</div>
+              <div style={{ fontSize: "24px", fontWeight: 900 }}>{avgMarks}%</div>
+           </div>
+           <div style={{ background: riskCount > 0 ? "#221111" : "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", border: riskCount > 0 ? "1px solid #ff3b3b" : "none" }}>
+              <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Risk</div>
+              <div style={{ fontSize: "24px", fontWeight: 900, color: riskCount > 0 ? "#ff3b3b" : "#fff" }}>{riskCount}</div>
+           </div>
         </div>
 
-        {/* Day Overview Card */}
-        {!isHoliday && targetClasses.length > 0 && (
-          <div style={{ background: "#a8c200", borderRadius: "28px", padding: "28px", marginBottom: "40px", color: "#000" }}>
-             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "24px" }}>
-                <div style={{ fontSize: "12px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em" }}>Day Overview</div>
-                <div style={{ fontSize: "48px", fontWeight: 900, lineHeight: 1 }}>{targetClasses.length}</div>
+        {/* Highlights / Best Section */}
+        {bestAtt && (
+          <div style={{ background: "#1c1c1c", borderRadius: "28px", padding: "24px", marginBottom: "40px", border: "1px solid #333" }}>
+             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+                <div style={{ fontSize: "10px", color: "#a8c200", letterSpacing: "0.15em", fontWeight: 900 }}>ACADEMIC PEAK</div>
+                <div style={{ background: "#a8c200", color: "#000", fontSize: "10px", fontWeight: 900, padding: "4px 10px", borderRadius: "8px" }}>TOP TIER</div>
              </div>
-             <div style={{ fontSize: "36px", fontWeight: 900, letterSpacing: "-0.03em" }}>
-                {firstStart} - {lastEnd}
+             <div style={{ fontSize: "22px", fontWeight: 900, lineHeight: 1.2, marginBottom: "8px" }}>{bestAtt["Course Title"]}</div>
+             <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
+                <div style={{ fontSize: "32px", fontWeight: 900, color: "#a8c200" }}>{bestAtt["Attn %"]}%</div>
+                <div style={{ fontSize: "12px", color: "#666", fontWeight: 800 }}>ATTENDANCE RECORD</div>
              </div>
           </div>
         )}
 
+        {/* Date Selector / Schedule Header */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px" }}>
+           <div style={{ display: "flex", gap: "16px" }}>
+              <button onClick={() => setDayOffset((o: any) => o - 1)} style={{ background: "#1c1c1c", border: "1px solid #333", color: "#fff", width: "44px", height: "44px", borderRadius: "14px", fontSize: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>‹</button>
+              <button onClick={() => setDayOffset((o: any) => o + 1)} style={{ background: "#1c1c1c", border: "1px solid #333", color: "#fff", width: "44px", height: "44px", borderRadius: "14px", fontSize: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>›</button>
+           </div>
+           <div style={{ textAlign: "right" }}>
+              <div style={{ fontSize: "10px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800 }}>{dayOffset === 0 ? "TODAY" : "SCHEDULE"}</div>
+              <div style={{ fontSize: "14px", fontWeight: 700 }}>Day Order {dayOrder || "—"}</div>
+           </div>
+        </div>
+
         {/* Timeline Classes */}
         <div style={{ position: "relative", paddingLeft: "12px" }}>
-           {/* Timeline Line */}
            <div style={{ position: "absolute", left: "0", top: "10px", bottom: "10px", width: "1px", background: "#333" }} />
 
            <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
               {targetClasses.length === 0 ? (
-                <div style={{ padding: "40px 0", color: "#444", fontWeight: 700, textAlign: "center" }}>No classes scheduled</div>
+                <div style={{ padding: "40px 0", color: "#444", fontWeight: 700, textAlign: "center" }}>No classes scheduled for this period</div>
               ) : targetClasses.map((cls: any, i: number) => {
                 const isActive = isNowIn(cls.startTime, cls.endTime);
                 return (
                   <div key={i} style={{ position: "relative", paddingLeft: "28px" }}>
-                    {/* Timeline Dot */}
                     <div style={{ 
                       position: "absolute", left: "-4px", top: "14px", width: "9px", height: "9px", borderRadius: "50%", 
                       background: isActive ? "#a8c200" : "#fff",
@@ -441,27 +478,24 @@ function MatrixDashboard({ riskCount, avgAtt, avgMarks, totalCourses, targetClas
                     <div onClick={() => router.push("/timetable")} style={{ 
                       background: "#1c1c1c", borderRadius: "28px", padding: "24px", cursor: "pointer",
                       border: isActive ? "1px solid #a8c200" : "1px solid transparent",
-                      transition: "all 0.3s ease"
                     }}>
-                       <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#666", fontSize: "12px", fontWeight: 800, marginBottom: "16px" }}>
-                          <span style={{ fontSize: "14px" }}>⏱</span> {fmtTimeOnly(cls.startTime)} — {fmtTimeOnly(cls.endTime)}
+                       <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#666", fontSize: "11px", fontWeight: 900, marginBottom: "16px", textTransform: "uppercase" }}>
+                          {fmtTimeOnly(cls.startTime)} — {fmtTimeOnly(cls.endTime)}
                        </div>
                        
-                       <div style={{ fontSize: "28px", fontWeight: 900, lineHeight: 1.1, marginBottom: "8px", textTransform: "capitalize" }}>
+                       <div style={{ fontSize: "24px", fontWeight: 900, lineHeight: 1.1, marginBottom: "4px", textTransform: "capitalize" }}>
                           {cls.courseTitle.toLowerCase()}
                        </div>
-                       <div style={{ fontSize: "12px", color: "#666", fontWeight: 700, marginBottom: "20px" }}>
+                       <div style={{ fontSize: "11px", color: "#666", fontWeight: 800, marginBottom: "20px" }}>
                           {cls.courseCode}
                        </div>
 
-                       <div style={{ height: "1px", background: "#2a2a2a", marginBottom: "20px" }} />
-
-                       <div style={{ display: "flex", gap: "24px" }}>
-                          <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "13px", fontWeight: 700, color: "#888" }}>
+                       <div style={{ display: "flex", gap: "20px" }}>
+                          <div style={{ fontSize: "12px", fontWeight: 800, color: "#888" }}>
                              <span style={{ color: "#ff3b3b" }}>📍</span> {cls.roomNo || "TBA"}
                           </div>
-                          <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "13px", fontWeight: 700, color: "#888" }}>
-                             <span style={{ color: "#007aff" }}>👤</span> {(cls.facultyName || "TBA").split(" ")[0]}
+                          <div style={{ fontSize: "12px", fontWeight: 800, color: "#888" }}>
+                             <span style={{ color: "#007aff" }}>👤</span> {cls.facultyName?.split(" ")[0] || "TBA"}
                           </div>
                        </div>
                     </div>
@@ -471,15 +505,22 @@ function MatrixDashboard({ riskCount, avgAtt, avgMarks, totalCourses, targetClas
            </div>
         </div>
 
+        <div className="watermark" style={{ bottom: "140px" }}>Dashboard</div>
         <div style={{ height: "40px" }} />
       </main>
     </div>
   );
 }
 
-function CosmosDashboard({ riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, recentTop5, initials, firstName }: any) {
+function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, recentTop5, initials, firstName }: any) {
   const router = useRouter();
   const attPct = parseFloat(avgAtt as string) || 0;
+  const profile = data?.profile || {};
+  const regNo = profile["Registration Number"] || "";
+  const batch = profile["Combo / Batch"] || "";
+
+  // Find best attendance
+  const bestAtt = data?.attendance?.length ? [...data.attendance].sort((a: any, b: any) => parseFloat(b["Attn %"]) - parseFloat(a["Attn %"]))[0] : null;
 
   return (
     <div style={{ background: "transparent", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>
@@ -517,15 +558,29 @@ function CosmosDashboard({ riskCount, avgAtt, avgMarks, totalCourses, targetClas
             {initials}
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: "16px", fontWeight: 700 }}>Welcome back, {firstName}</div>
-            <div style={{ fontSize: "11px", color: "var(--text-secondary)", marginTop: "2px" }}>Student Portal Access Granted</div>
+            <div style={{ fontSize: "16px", fontWeight: 700 }}>{firstName}</div>
+            <div style={{ fontSize: "10px", color: "var(--text-secondary)", marginTop: "2px", fontWeight: 600 }}>{regNo} • {batch}</div>
           </div>
         </div>
+
+        {/* Best Performance Highlight */}
+        {bestAtt && (
+          <div className="min-card" style={{ padding: "24px", marginBottom: "32px", background: "rgba(0, 255, 136, 0.05)", border: "1px solid rgba(0, 255, 136, 0.1)" }}>
+             <div style={{ fontSize: "10px", color: "var(--accent-secondary)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "12px" }}>Top Performance</div>
+             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <div style={{ flex: 1, paddingRight: "16px" }}>
+                   <div style={{ fontSize: "15px", fontWeight: 700, color: "#fff" }}>{bestAtt["Course Title"]}</div>
+                   <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "4px" }}>Highest Attendance Record</div>
+                </div>
+                <div style={{ fontSize: "24px", fontWeight: 900, color: "var(--accent-secondary)" }}>{bestAtt["Attn %"]}%</div>
+             </div>
+          </div>
+        )}
 
         {/* Overview & High-Fidelity Stats */}
         <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
           <div style={{ fontSize: "18px" }}>🚀</div>
-          <h2 style={{ fontSize: "18px", fontWeight: 800, margin: 0, textTransform: "uppercase", letterSpacing: "0.05em" }}>Performance</h2>
+          <h2 style={{ fontSize: "18px", fontWeight: 800, margin: 0, textTransform: "uppercase", letterSpacing: "0.05em" }}>Analysis</h2>
         </div>
 
         {/* Attendance Highlight (Badge style) */}
@@ -601,6 +656,3 @@ function CosmosDashboard({ riskCount, avgAtt, avgMarks, totalCourses, targetClas
     </div>
   );
 }
-
-
-
