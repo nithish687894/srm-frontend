@@ -146,6 +146,21 @@ export default function TimetablePage() {
     initialData: academicData?.timetableBatch && academicData?.timetableBatch === batch ? { data: { rows: academicData.timetableRows } } : undefined
   });
 
+  // Auto-select today's Day Order
+  useEffect(() => {
+    if (calQ.data) {
+      const today = new Date();
+      // Adjust to local date string to avoid timezone shifts
+      const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+      const { byDate } = buildCalendarIndex(calQ.data);
+      const info = byDate.get(todayIso);
+      if (info?.dayOrder) {
+        const d = parseInt(info.dayOrder);
+        if (!isNaN(d) && d >= 1 && d <= 5) setDayOverride(d);
+      }
+    }
+  }, [calQ.data]);
+
   const schedule = useMemo(() => {
     if (!ttQ.data?.data?.rows || !myTTQ.data?.data) return [];
     const slotMap = buildSlotToCourseMap(myTTQ.data.data);
