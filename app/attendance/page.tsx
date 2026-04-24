@@ -17,6 +17,7 @@ function buildSlotToCourseMap(myTT: any[]) {
 
 export default function AttendancePage() {
   const { ready } = useAuth();
+  const { theme } = useThemeStore();
   const { academicData, setAcademicData } = useAuthStore();
   const [att, setAtt] = useState<any[]>(academicData?.attendance || []);
   const [loading, setLoading] = useState(!academicData?.attendance);
@@ -181,7 +182,6 @@ export default function AttendancePage() {
     </div>
   );
 
-  const { theme } = useThemeStore();
   if (theme === "cosmos") return <CosmosAttendance att={att} avgAtt={avgAtt} totalAgg={totalAgg} presentAgg={presentAgg} absentAgg={absentAgg} />;
 
 

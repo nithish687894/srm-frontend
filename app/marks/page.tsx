@@ -38,13 +38,14 @@ export default function MarksPage() {
 
   const hasEmergency = totalMax > 0 && (totalScored / totalMax) < 0.5;
 
+  const { theme } = useThemeStore();
+
   if (loading && !marks.length) return (
     <div className="page-root" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
       <div className="srmx-spinner" />
     </div>
   );
 
-  const { theme } = useThemeStore();
   if (theme === "cosmos") return <CosmosMarks marks={marks} titleMap={titleMap} />;
 
 
