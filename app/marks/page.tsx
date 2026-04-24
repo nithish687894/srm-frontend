@@ -84,7 +84,7 @@ export default function MarksPage() {
           {hasEmergency && (
             <div style={{ padding: "24px", background: "#1a0000", border: "2px dashed #ff3b3b", borderRadius: "20px", marginBottom: "32px", textAlign: "center" }}>
               <div style={{ fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#ff3b3b", marginBottom: "8px" }}>Academic Emergency</div>
-              <div style={{ fontSize: "24px", fontWeight: 900, color: "#ff3b3b", lineHeight: 1 }}>OVERALL SCORE < 50%</div>
+              <div style={{ fontSize: "24px", fontWeight: 900, color: "#ff3b3b", lineHeight: 1 }}>OVERALL SCORE &lt; 50%</div>
             </div>
           )}
 
@@ -235,49 +235,6 @@ function MatrixMarks({ marks, titleMap, totalScored, totalMax, hasEmergency }: a
                 </div>
               );
            })}
-        </div>
-      </main>
-    </div>
-  );
-}
-
-function CosmosMarks({ marks, titleMap }: any) {
-  return (
-    <div style={{ background: "var(--bg)", minHeight: "100vh", paddingBottom: "100px", fontFamily: "var(--font-body)", color: "var(--text-primary)" }}>
-      <Sidebar />
-      <main style={{ padding: "20px" }}>
-        <h1 style={{ fontSize: "22px", fontWeight: 700, marginBottom: "24px" }}>Marks</h1>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          {marks.map((m: any, i: number) => {
-            const title = titleMap[m.courseCode] || m.courseCode;
-            return (
-              <div key={i} style={{ background: "var(--bg-card)", borderRadius: "16px", padding: "20px", border: "1px solid var(--border)" }}>
-                <div style={{ fontSize: "15px", fontWeight: 700, color: "#fff", marginBottom: "20px" }}>{title}</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                  {m.tests?.map((t: any, j: number) => {
-                    const [lbl, mxStr] = t.test.split("/");
-                    const mx = parseFloat(mxStr) || 100;
-                    const sc = t.score === "Abs" ? 0 : parseFloat(t.score) || 0;
-                    const pct = (sc / mx) * 100;
-                    const barColor = pct >= 60 ? "var(--accent-green)" : pct >= 40 ? "#fbbf24" : "var(--accent-red)";
-
-                    return (
-                      <div key={j}>
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
-                          <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 500 }}>{lbl}</div>
-                          <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--accent)" }}>{t.score === "Abs" ? "ABS" : t.score}<span style={{ color: "var(--text-muted)", fontSize: "11px", fontWeight: 500 }}> / {mx}</span></div>
-                        </div>
-                        <div style={{ height: "4px", background: "rgba(255,255,255,0.08)", borderRadius: "99px", overflow: "hidden" }}>
-                          <div style={{ height: "100%", background: barColor, width: `${pct}%`, borderRadius: "99px" }} />
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })}
         </div>
       </main>
     </div>
