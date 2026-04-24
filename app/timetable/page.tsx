@@ -327,10 +327,10 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
   return (
     <div style={{ background: "#000000", minHeight: "100vh", paddingBottom: "120px", color: "#ffffff", fontFamily: "'Inter', sans-serif" }}>
       <Sidebar />
-      <main style={{ padding: "20px" }}>
+      <main style={{ padding: "16px 20px 20px" }}>
         
         {/* Header with Batch Selector */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px", marginTop: "20px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "26px", marginTop: "12px" }}>
            <div>
               <div style={{ fontSize: "10px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800 }}>SEMESTER</div>
               <div style={{ fontSize: "14px", fontWeight: 700 }}>Schedule Planner</div>
@@ -395,7 +395,7 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
                           <span style={{ fontSize: "14px" }}>⏱</span> {fmtTimeOnly(cls.startTime)} — {fmtTimeOnly(cls.endTime)}
                        </div>
                        
-                       <div style={{ fontSize: "28px", fontWeight: 900, lineHeight: 1.1, marginBottom: "8px", textTransform: "capitalize" }}>
+                       <div style={{ fontSize: "clamp(22px, 7vw, 28px)", fontWeight: 900, lineHeight: 1.2, marginBottom: "10px", textTransform: "capitalize", letterSpacing: "-0.01em" }}>
                           {cls.courseTitle.toLowerCase()}
                        </div>
                        <div style={{ fontSize: "12px", color: "#666", fontWeight: 700, marginBottom: "20px" }}>

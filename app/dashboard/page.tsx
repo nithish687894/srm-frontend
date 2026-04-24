@@ -392,11 +392,11 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
   return (
     <div style={{ background: "#000000", minHeight: "100vh", paddingBottom: "120px", color: "#ffffff", fontFamily: "'Inter', sans-serif" }}>
       <Sidebar />
-      <main style={{ padding: "20px" }}>
+      <main style={{ padding: "16px 20px 20px" }}>
         
         {/* System Status / Profile Intro */}
-        <div style={{ marginTop: "20px", marginBottom: "48px" }}>
-           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "24px" }}>
+        <div style={{ marginTop: "12px", marginBottom: "36px" }}>
+           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "18px" }}>
               <div>
                  <div style={{ fontSize: "10px", color: "#a8c200", letterSpacing: "0.2em", fontWeight: 900, marginBottom: "4px" }}>SYSTEM INITIALIZED</div>
                  <div style={{ fontSize: "36px", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 1 }}>{firstName.toUpperCase()}</div>
@@ -409,7 +409,7 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
         </div>
 
         {/* Hero Performance Metrics */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "12px", marginBottom: "40px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "12px", marginBottom: "32px" }}>
            <div onClick={() => router.push("/attendance")} style={{ background: "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", cursor: "pointer" }}>
               <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Attnd</div>
               <div style={{ fontSize: "24px", fontWeight: 900, color: "#a8c200" }}>{avgAtt}%</div>
@@ -440,7 +440,7 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
         )}
 
         {/* Date Selector / Schedule Header */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "26px" }}>
            <div style={{ display: "flex", gap: "16px" }}>
               <button onClick={() => setDayOffset((o: any) => o - 1)} style={{ background: "#1c1c1c", border: "1px solid #333", color: "#fff", width: "44px", height: "44px", borderRadius: "14px", fontSize: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>‹</button>
               <button onClick={() => setDayOffset((o: any) => o + 1)} style={{ background: "#1c1c1c", border: "1px solid #333", color: "#fff", width: "44px", height: "44px", borderRadius: "14px", fontSize: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>›</button>
@@ -476,7 +476,7 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
                           {fmtTimeOnly(cls.startTime)} — {fmtTimeOnly(cls.endTime)}
                        </div>
                        
-                       <div style={{ fontSize: "24px", fontWeight: 900, lineHeight: 1.1, marginBottom: "4px", textTransform: "capitalize" }}>
+                       <div style={{ fontSize: "clamp(20px, 6.2vw, 24px)", fontWeight: 900, lineHeight: 1.2, marginBottom: "6px", textTransform: "capitalize", letterSpacing: "-0.01em" }}>
                           {cls.courseTitle.toLowerCase()}
                        </div>
                        <div style={{ fontSize: "11px", color: "#666", fontWeight: 800, marginBottom: "20px" }}>
