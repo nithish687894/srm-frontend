@@ -624,7 +624,6 @@ function CosmosAttendance({
     </div>
   );
 }
-}
 
 
 
