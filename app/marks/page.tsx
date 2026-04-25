@@ -242,8 +242,19 @@ function MatrixMarks({ marks, titleMap, totalScored, totalMax, hasEmergency }: a
 }
 
 function CosmosMarks({ marks, titleMap }: any) {
+  const ringSize = 84;
+  const strokeWidth = 8;
+  const radius = (ringSize - strokeWidth) / 2;
+  const circumference = 2 * Math.PI * radius;
+
+  const getRingColor = (pct: number) => {
+    if (pct >= 75) return "#00E676";
+    if (pct >= 50) return "#FBBF24";
+    return "#EF4444";
+  };
+
   return (
-    <div style={{ background: "var(--bg)", minHeight: "100vh", paddingBottom: "100px", fontFamily: "var(--font-body)", color: "var(--text-primary)" }}>
+    <div style={{ background: "#0A0F1E", minHeight: "100vh", paddingBottom: "100px", fontFamily: "var(--font-body)", color: "var(--text-primary)" }}>
       <Sidebar />
       <main style={{ padding: "20px" }}>
         <h1 style={{ fontSize: "22px", fontWeight: 700, marginBottom: "24px" }}>Marks</h1>
@@ -252,24 +263,83 @@ function CosmosMarks({ marks, titleMap }: any) {
           {marks.map((m: any, i: number) => {
             const title = titleMap[m.courseCode] || m.courseCode;
             return (
-              <div key={i} style={{ background: "var(--bg-card)", borderRadius: "16px", padding: "20px", border: "1px solid var(--border)" }}>
-                <div style={{ fontSize: "15px", fontWeight: 700, color: "#fff", marginBottom: "20px" }}>{title}</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+              <div
+                key={i}
+                style={{
+                  background: "#0F1C2E",
+                  borderRadius: "16px",
+                  padding: "20px",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                }}
+              >
+                <div style={{ fontSize: "16px", fontWeight: 700, color: "#fff", marginBottom: "16px" }}>{title}</div>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(88px, 1fr))",
+                    gap: "14px",
+                    alignItems: "start",
+                  }}
+                >
                   {m.tests?.map((t: any, j: number) => {
                     const [lbl, mxStr] = t.test.split("/");
                     const mx = parseFloat(mxStr) || 100;
                     const sc = t.score === "Abs" ? 0 : parseFloat(t.score) || 0;
-                    const pct = (sc / mx) * 100;
-                    const barColor = pct >= 60 ? "var(--accent-green)" : pct >= 40 ? "#fbbf24" : "var(--accent-red)";
+                    const pct = Math.max(0, Math.min(100, (sc / mx) * 100));
+                    const strokeDashoffset = circumference - (pct / 100) * circumference;
+                    const ringColor = getRingColor(pct);
+                    const scoreText = t.score === "Abs" ? "ABS" : sc.toFixed(2);
 
                     return (
-                      <div key={j}>
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
-                          <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 500 }}>{lbl}</div>
-                          <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--accent)" }}>{t.score === "Abs" ? "ABS" : t.score}<span style={{ color: "var(--text-muted)", fontSize: "11px", fontWeight: 500 }}> / {mx}</span></div>
+                      <div
+                        key={j}
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          gap: "8px",
+                        }}
+                      >
+                        <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase" }}>
+                          {lbl}
                         </div>
-                        <div style={{ height: "4px", background: "rgba(255,255,255,0.08)", borderRadius: "99px", overflow: "hidden" }}>
-                          <div style={{ height: "100%", background: barColor, width: `${pct}%`, borderRadius: "99px" }} />
+                        <div style={{ position: "relative", width: `${ringSize}px`, height: `${ringSize}px` }}>
+                          <svg width={ringSize} height={ringSize} viewBox={`0 0 ${ringSize} ${ringSize}`} aria-label={`${lbl} score ring`}>
+                            <circle
+                              cx={ringSize / 2}
+                              cy={ringSize / 2}
+                              r={radius}
+                              stroke="#1E2A3A"
+                              strokeWidth={strokeWidth}
+                              fill="none"
+                            />
+                            <circle
+                              cx={ringSize / 2}
+                              cy={ringSize / 2}
+                              r={radius}
+                              stroke={ringColor}
+                              strokeWidth={strokeWidth}
+                              fill="none"
+                              strokeLinecap="round"
+                              strokeDasharray={circumference}
+                              strokeDashoffset={strokeDashoffset}
+                              transform={`rotate(-90 ${ringSize / 2} ${ringSize / 2})`}
+                            />
+                          </svg>
+                          <div
+                            style={{
+                              position: "absolute",
+                              inset: 0,
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              lineHeight: 1.1,
+                            }}
+                          >
+                            <span style={{ fontSize: "12px", fontWeight: 700, color: "#ffffff" }}>{scoreText}</span>
+                            <span style={{ fontSize: "10px", color: "var(--text-muted)", fontWeight: 500 }}>/ {mx}</span>
+                          </div>
                         </div>
                       </div>
                     );
