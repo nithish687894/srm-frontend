@@ -5,7 +5,6 @@ import Providers from "./providers";
 import SwipeLayout from "@/components/SwipeLayout";
 import ThemeWrapper from "@/components/ThemeWrapper";
 import AppLaunchSplash from "@/components/AppLaunchSplash";
-import ThemeSwitcher from "@/components/ThemeSwitcher";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -54,15 +53,12 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-theme="midnight" className={`${inter.variable} ${orbitron.variable} ${playfair.variable} ${bebas.variable}`}>
+    <html lang="en" className={`${inter.variable} ${orbitron.variable} ${playfair.variable} ${bebas.variable}`}>
       <body style={{ margin: 0, padding: 0 }}>
         <Providers>
           <ThemeWrapper>
             <AppLaunchSplash>
-              <SwipeLayout>
-                {children}
-                <ThemeSwitcher />
-              </SwipeLayout>
+              <SwipeLayout>{children}</SwipeLayout>
             </AppLaunchSplash>
           </ThemeWrapper>
         </Providers>
