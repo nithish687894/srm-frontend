@@ -52,6 +52,36 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
           color: var(--text-primary);
         }
 
+        body.theme-neo-minimal {
+          font-family: 'DM Sans', sans-serif;
+          background: #ffffff;
+          margin: 0;
+          color: #111111;
+        }
+
+        .theme-neo-minimal {
+          --bg: #ffffff;
+          --bg-surface: #f8f8fb;
+          --bg-elevated: #f1f1f6;
+          --bg-card: #ffffff;
+          --text-primary: #0f0f12;
+          --text-secondary: #5f5f74;
+          --text-muted: #87879c;
+          --accent: #6d28d9;
+          --accent-soft: rgba(109,40,217,0.1);
+          --accent-glow: rgba(109,40,217,0.24);
+          --accent-red: #dc2626;
+          --accent-green: #16a34a;
+          --border: rgba(0,0,0,0.08);
+          --border-accent: rgba(109,40,217,0.32);
+          --nav-bg: rgba(255,255,255,0.95);
+          --nav-blur: 20px;
+          --font-body: 'DM Sans', sans-serif;
+          --radius: 16px;
+          background: var(--bg);
+          color: var(--text-primary);
+        }
+
         body.theme-editorial {
           font-family: 'DM Sans', sans-serif;
           background: #f5f2eb;
