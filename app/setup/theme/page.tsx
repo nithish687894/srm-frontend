@@ -212,13 +212,13 @@ export default function ThemeOnboarding() {
           </div>
 
           <div className="theme-card" onClick={() => handleSelect("cosmos")}>
-            <div className="theme-name">Cosmos</div>
-            <p className="theme-desc">Next-gen glassmorphism. Vibrant gradients and smooth animations. A premium visual experience.</p>
+            <div className="theme-name">EduVerse</div>
+            <p className="theme-desc">Campus dashboard style interface with dark blue cards and productivity-first layout.</p>
             <div className="preview-box cosmos-preview">
               <div className="cosmos-circle" />
             </div>
             <div style={{ marginTop: "32px" }}>
-              <button className="select-btn" style={{ background: "linear-gradient(90deg, #1A75FF, #6B33FF)", color: "#fff" }}>Initialize Cosmos</button>
+              <button className="select-btn" style={{ background: "linear-gradient(90deg, #2f63f2, #4d7dff)", color: "#fff" }}>Initialize EduVerse</button>
             </div>
           </div>
 

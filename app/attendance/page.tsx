@@ -476,13 +476,13 @@ function CosmosAttendance({
   const riskCount = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
 
   return (
-    <div style={{ background: "transparent", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>
+    <div style={{ background: "transparent", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#eef2ff" }}>
       <Sidebar />
-      <main style={{ padding: "16px" }}>
+      <main style={{ padding: "20px" }}>
         
         {/* Header */}
-        <div style={{ display: "flex", alignItems: "center", gap: "10px", margin: "24px 0 32px" }}>
-          <h1 style={{ fontSize: "24px", fontWeight: 900, letterSpacing: "-0.5px", margin: 0 }}>Attendance</h1>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", margin: "8px 0 20px" }}>
+          <h1 style={{ fontSize: "34px", fontWeight: 800, letterSpacing: "-0.03em", margin: 0 }}>Attendance</h1>
           <div style={{ marginLeft: "auto", display: "flex", gap: "12px" }}>
             <div style={{ fontSize: "20px" }}>🔔</div>
             <div style={{ 
@@ -495,7 +495,7 @@ function CosmosAttendance({
         </div>
 
         {/* Summary Row */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px", marginBottom: "32px" }}>
+        <div className="min-card" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px", marginBottom: "22px", padding: "14px", borderRadius: "14px" }}>
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: "22px", fontWeight: 900, color: "var(--accent-secondary)" }}>{avgAtt}%</div>
             <div style={{ fontSize: "10px", color: "var(--text-secondary)", marginTop: "4px", fontWeight: 700, textTransform: "uppercase" }}>Overall</div>
@@ -511,7 +511,7 @@ function CosmosAttendance({
         </div>
 
         {/* Subject Cards */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
           {att.map((c: any, i: number) => {
             const attn = parseFloat(c["Attn %"]) || 0;
             const cond = parseInt(c["Hours Conducted"]) || 0;
@@ -528,10 +528,10 @@ function CosmosAttendance({
             }
 
             return (
-              <div key={i} className="min-card" style={{ padding: "20px" }}>
+              <div key={i} className="min-card" style={{ padding: "16px", borderRadius: "14px" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
                   <div style={{ flex: 1, paddingRight: "16px" }}>
-                    <div style={{ fontSize: "15px", fontWeight: 700, color: "#fff", lineHeight: 1.3 }}>{c["Course Title"]}</div>
+                    <div style={{ fontSize: "16px", fontWeight: 700, color: "#eef2ff", lineHeight: 1.3 }}>{c["Course Title"]}</div>
                     <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "4px", fontWeight: 600 }}>{c["Course Code"]} • Theory</div>
                   </div>
                   <div style={{ textAlign: "right" }}>

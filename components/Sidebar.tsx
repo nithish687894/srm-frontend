@@ -6,12 +6,12 @@ import { authAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 
 const NAV = [
-  { href: "/dashboard",  label: "Home" },
-  { href: "/marks",      label: "Marks" },
-  { href: "/attendance", label: "Attnd" },
-  { href: "/timetable",  label: "Time" },
-  { href: "/calendar",   label: "Cal" },
-  { href: "/ai",         label: "✨ AI" },
+  { href: "/dashboard",  label: "Dashboard" },
+  { href: "/marks",      label: "Grades" },
+  { href: "/attendance", label: "Attendance" },
+  { href: "/timetable",  label: "Schedule" },
+  { href: "/calendar",   label: "Calendar" },
+  { href: "/ai",         label: "AI Tutor" },
 ];
 
 
@@ -81,6 +81,10 @@ export default function Sidebar() {
           color: #a78bfa;
           background: rgba(124,58,237,0.12);
           border-radius: 12px;
+        }
+
+        .srmx-brand {
+          display: none;
         }
 
         .theme-editorial .srmx-nav-bar {
@@ -288,6 +292,92 @@ export default function Sidebar() {
             box-shadow: 0 0 20px rgba(168, 194, 0, 0.2);
           }
         }
+
+        @media (min-width: 1024px) {
+          .theme-cosmos .srmx-nav-bar {
+            top: 22px;
+            bottom: 22px;
+            left: 22px;
+            right: auto;
+            width: 240px;
+            height: auto;
+            padding: 14px 12px;
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+            gap: 8px;
+            background: linear-gradient(180deg, #101735 0%, #0c1128 100%);
+            border: 1px solid rgba(125, 146, 255, 0.18);
+            box-shadow: 0 18px 45px rgba(5, 8, 20, 0.56);
+            overflow: hidden;
+          }
+
+          .theme-cosmos .srmx-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          }
+
+          .theme-cosmos .srmx-brand-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #60a5fa 0%, #7c3aed 100%);
+            box-shadow: 0 0 14px rgba(96, 165, 250, 0.45);
+          }
+
+          .theme-cosmos .srmx-brand-text {
+            color: #e9edff;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+          }
+
+          .theme-cosmos .srmx-nav-btn {
+            width: 100%;
+            min-height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            text-transform: none;
+            letter-spacing: 0;
+            font-size: 13px;
+            font-weight: 700;
+            color: #9aa4cf;
+            border-radius: 12px;
+            padding: 0 12px;
+          }
+
+          .theme-cosmos .srmx-nav-btn:hover {
+            color: #eef2ff;
+            background: rgba(73, 96, 194, 0.22);
+          }
+
+          .theme-cosmos .srmx-nav-btn.active {
+            color: #eef2ff;
+            background: linear-gradient(90deg, rgba(49, 90, 255, 0.34), rgba(109, 40, 217, 0.28));
+            box-shadow: inset 0 0 0 1px rgba(118, 143, 255, 0.45);
+          }
+
+          .theme-cosmos .srmx-nav-btn::after {
+            display: none;
+          }
+
+          .theme-cosmos .srmx-nav-settings-btn {
+            margin-top: auto;
+            justify-content: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-size: 20px;
+          }
+        }
       `}</style>
 
       {/* Settings Overlay */}
@@ -351,6 +441,10 @@ export default function Sidebar() {
       )}
 
       <nav className="srmx-nav-bar">
+        <div className="srmx-brand">
+          <div className="srmx-brand-dot" />
+          <div className="srmx-brand-text">EduVerse</div>
+        </div>
         {NAV.map(({ href, label }) => {
           const active = path === href || (href !== "/dashboard" && path.startsWith(href));
           return (

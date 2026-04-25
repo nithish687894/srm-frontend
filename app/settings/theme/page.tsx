@@ -13,8 +13,8 @@ const THEMES: { id: ThemeType; name: string; sub: string; bg: string; accent: st
   },
   { 
     id: "cosmos", 
-    name: "Cosmos", 
-    sub: "Rich. Bold. Premium.", 
+    name: "EduVerse", 
+    sub: "Dark blue campus workspace UI.", 
     bg: "#0f0f13", 
     accent: "#7c3aed",
     hasGlow: true
