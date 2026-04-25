@@ -5,6 +5,7 @@ import Providers from "./providers";
 import SwipeLayout from "@/components/SwipeLayout";
 import ThemeWrapper from "@/components/ThemeWrapper";
 import AppLaunchSplash from "@/components/AppLaunchSplash";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -51,9 +52,16 @@ export const viewport: Viewport = {
   maximumScale: 1,
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en" className={`${inter.variable} ${orbitron.variable} ${playfair.variable} ${bebas.variable}`}>
+    <html
+      lang="en"
+      className={`${inter.variable} ${orbitron.variable} ${playfair.variable} ${bebas.variable}`}
+    >
       <body style={{ margin: 0, padding: 0 }}>
         <Providers>
           <ThemeWrapper>
@@ -62,6 +70,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </AppLaunchSplash>
           </ThemeWrapper>
         </Providers>
+
+        {/* ✅ VERCEL ANALYTICS */}
+        <Analytics />
       </body>
     </html>
   );
