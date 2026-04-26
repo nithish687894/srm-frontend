@@ -46,7 +46,7 @@ export default function MarksPage() {
     </div>
   );
 
-  if (theme === "cosmos") return <CosmosMarks marks={marks} titleMap={titleMap} />;
+  if (theme === "cosmos") return <CosmosMarks marks={marks} titleMap={titleMap} totalScored={totalScored} totalMax={totalMax} hasEmergency={hasEmergency} />;
 
   if (theme === "matrix") return <MatrixMarks marks={marks} titleMap={titleMap} totalScored={totalScored} totalMax={totalMax} hasEmergency={hasEmergency} />;
 
@@ -241,7 +241,7 @@ function MatrixMarks({ marks, titleMap, totalScored, totalMax, hasEmergency }: a
   );
 }
 
-function CosmosMarks({ marks, titleMap }: any) {
+function CosmosMarks({ marks, titleMap, totalScored, totalMax, hasEmergency }: any) {
   const ringSize = 84;
   const strokeWidth = 8;
   const radius = (ringSize - strokeWidth) / 2;
@@ -254,25 +254,75 @@ function CosmosMarks({ marks, titleMap }: any) {
   };
 
   return (
-    <div style={{ background: "#0A0F1E", minHeight: "100vh", paddingBottom: "100px", fontFamily: "var(--font-body)", color: "var(--text-primary)" }}>
+    <div style={{ background: "transparent", minHeight: "100vh", paddingBottom: "100px", fontFamily: "var(--font-body)", color: "var(--text-primary)" }}>
       <Sidebar />
       <main style={{ padding: "20px" }}>
-        <h1 style={{ fontSize: "22px", fontWeight: 700, marginBottom: "24px" }}>Marks</h1>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "18px" }}>
+          <div>
+            <h1 style={{ fontSize: "34px", fontWeight: 800, letterSpacing: "-0.03em", marginBottom: "4px" }}>Marks</h1>
+            <div style={{ fontSize: "13px", color: "var(--text-secondary)" }}>Track subject-wise internal scores</div>
+          </div>
+          <button
+            onClick={() => {}}
+            style={{
+              background: "linear-gradient(90deg, #325df8, #5b43ea)",
+              border: "none",
+              color: "#eef2ff",
+              padding: "8px 12px",
+              borderRadius: "10px",
+              fontSize: "12px",
+              fontWeight: 700
+            }}
+          >
+            Analysis
+          </button>
+        </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        {hasEmergency && (
+          <div style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)", borderRadius: "14px", padding: "16px", marginBottom: "14px", display: "flex", alignItems: "center", gap: "12px" }}>
+            <div style={{ width: "32px", height: "32px", borderRadius: "8px", background: "rgba(239,68,68,0.2)", color: "#ef4444", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold" }}>!</div>
+            <div>
+              <div style={{ fontSize: "13px", fontWeight: "bold", color: "#ef4444" }}>Academic Emergency</div>
+              <div style={{ fontSize: "11px", color: "var(--text-secondary)", marginTop: "2px" }}>Overall score is below 50%. Focus on upcoming assessments.</div>
+            </div>
+          </div>
+        )}
+
+        <div className="min-card" style={{ borderRadius: "14px", padding: "14px", marginBottom: "14px" }}>
+          <div style={{ fontSize: "12px", color: "var(--text-secondary)", marginBottom: "8px" }}>Performance Snapshot</div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "10px" }}>
+            {[
+              { label: "Total Points", value: `${totalScored.toFixed(1)} / ${totalMax.toFixed(0)}` },
+              { label: "Subjects", value: marks.length },
+              { label: "Recorded Tests", value: marks.reduce((n: any, m: any) => n + (m.tests?.length || 0), 0) }
+            ].map((s, i) => (
+              <div key={i} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", borderRadius: "10px", padding: "10px 12px" }}>
+                <div style={{ fontSize: "11px", color: "var(--text-secondary)" }}>{s.label}</div>
+                <div style={{ fontSize: "26px", fontWeight: 800, marginTop: "4px" }}>{s.value}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
           {marks.map((m: any, i: number) => {
             const title = titleMap[m.courseCode] || m.courseCode;
             return (
               <div
                 key={i}
                 style={{
-                  background: "#0F1C2E",
-                  borderRadius: "16px",
-                  padding: "20px",
-                  border: "1px solid rgba(255,255,255,0.08)",
+                  background: "linear-gradient(180deg, rgba(22,34,73,0.82), rgba(13,22,52,0.84))",
+                  borderRadius: "14px",
+                  padding: "16px",
+                  border: "1px solid rgba(132,157,255,0.22)",
                 }}
               >
-                <div style={{ fontSize: "16px", fontWeight: 700, color: "#fff", marginBottom: "16px" }}>{title}</div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px", gap: "10px" }}>
+                  <div style={{ fontSize: "16px", fontWeight: 700, color: "#eef2ff" }}>{title}</div>
+                  <div style={{ fontSize: "11px", padding: "4px 8px", borderRadius: "999px", background: "rgba(59,130,246,0.2)", color: "#93c5fd", border: "1px solid rgba(147,197,253,0.3)" }}>
+                    {m.courseCode}
+                  </div>
+                </div>
                 <div
                   style={{
                     display: "grid",
