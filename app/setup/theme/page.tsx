@@ -146,29 +146,7 @@ export default function ThemeOnboarding() {
           animation: spin 10s linear infinite;
         }
 
-        .neo-preview {
-          background: linear-gradient(155deg, #ffffff 0%, #f2f2f8 100%);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .neo-core {
-          width: 64px;
-          height: 64px;
-          border-radius: 18px;
-          border: 2px solid #6d28d9;
-          background: #ffffff;
-          box-shadow: 0 10px 24px rgba(109, 40, 217, 0.2);
-          position: relative;
-        }
-        .neo-core::after {
-          content: "";
-          position: absolute;
-          inset: 14px;
-          border-radius: 10px;
-          background: #6d28d9;
-          opacity: 0.22;
-        }
+
 
         @keyframes spin {
           from { transform: rotate(0deg); }
@@ -222,16 +200,6 @@ export default function ThemeOnboarding() {
             </div>
           </div>
 
-          <div className="theme-card" onClick={() => handleSelect("neo-minimal")} style={{ background: "#ffffff", border: "1px solid #ececec", color: "#111" }}>
-            <div className="theme-name" style={{ color: "#111" }}>Neo Minimal</div>
-            <p className="theme-desc" style={{ color: "#555" }}>Pure white and black with violet focus accents. Clean interface with subtle depth.</p>
-            <div className="preview-box neo-preview" style={{ border: "1px solid rgba(109, 40, 217, 0.18)" }}>
-              <div className="neo-core" />
-            </div>
-            <div style={{ marginTop: "32px" }}>
-              <button className="select-btn" style={{ background: "#6d28d9", color: "#fff" }}>Initialize Neo Minimal</button>
-            </div>
-          </div>
         </div>
 
         <p style={{ fontSize: "11px", color: "#444", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em" }}>

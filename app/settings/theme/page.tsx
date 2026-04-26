@@ -18,14 +18,6 @@ const THEMES: { id: ThemeType; name: string; sub: string; bg: string; accent: st
     bg: "#0f0f13", 
     accent: "#7c3aed",
     hasGlow: true
-  },
-  {
-    id: "neo-minimal",
-    name: "Neo Minimal",
-    sub: "Pure. Contrast. Violet focus.",
-    bg: "linear-gradient(155deg, #ffffff 0%, #f4f3fb 100%)",
-    accent: "#6d28d9"
-  }
 ];
 
 export default function ThemeSettingsPage() {
@@ -74,11 +66,11 @@ export default function ThemeSettingsPage() {
         onClick={handleApply}
         style={{ 
           width: "100%", padding: "18px", borderRadius: "16px", border: "none",
-          background: selected === "matrix" ? "#a8c200" : selected === "cosmos" ? "#7c3aed" : "#6d28d9",
+          background: selected === "matrix" ? "#a8c200" : "#7c3aed",
           color: selected === "matrix" ? "#000" : "#fff",
           fontSize: "14px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em",
           cursor: "pointer", transition: "all 0.3s",
-          boxShadow: `0 10px 30px ${selected === "matrix" ? "rgba(168,194,0,0.2)" : selected === "cosmos" ? "rgba(124,58,237,0.3)" : "rgba(109,40,217,0.3)"}`
+          boxShadow: `0 10px 30px ${selected === "matrix" ? "rgba(168,194,0,0.2)" : "rgba(124,58,237,0.3)"}`
         }}
       >
         Apply Selection
