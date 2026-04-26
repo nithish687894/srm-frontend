@@ -242,25 +242,122 @@ function MatrixMarks({ marks, titleMap, totalScored, totalMax, hasEmergency }: a
 }
 
 function CosmosMarks({ marks, titleMap }: any) {
+  const getRingColor = (pct: number) => {
+    if (pct >= 75) return "#00FF88";
+    if (pct >= 50) return "#60A5FA";
+    if (pct >= 35) return "#FBBF24";
+    return "#EF4444";
+  };
+
+  const courseTotals = marks.map((m: any) => {
+    const scored = m.tests?.reduce((s: number, t: any) => s + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0;
+    const maxTotal = m.tests?.reduce((s: number, t: any) => {
+      const [, mx] = t.test.split("/");
+      return s + (parseFloat(mx) || 0);
+    }, 0) || 0;
+    const pct = maxTotal > 0 ? (scored / maxTotal) * 100 : 0;
+    return { scored, maxTotal, pct };
+  });
+
+  const totalScored = courseTotals.reduce((s: number, c: any) => s + c.scored, 0);
+  const totalMax = courseTotals.reduce((s: number, c: any) => s + c.maxTotal, 0);
+  const overallPct = totalMax > 0 ? (totalScored / totalMax) * 100 : 0;
+  const overallCircumference = 2 * Math.PI * 52;
+  const overallOffset = overallCircumference * (1 - overallPct / 100);
+
   return (
     <div style={{ background: "var(--bg)", minHeight: "100vh", paddingBottom: "100px", fontFamily: "var(--font-body)", color: "var(--text-primary)" }}>
       <Sidebar />
       <main style={{ padding: "20px" }}>
-        <h1 style={{ fontSize: "22px", fontWeight: 700, marginBottom: "24px" }}>Marks</h1>
+        <div
+          className="min-card"
+          style={{
+            marginBottom: "20px",
+            padding: "20px",
+            display: "flex",
+            alignItems: "center",
+            gap: "18px",
+            background: "linear-gradient(135deg, rgba(26,117,255,0.20) 0%, rgba(107,51,255,0.14) 45%, rgba(0,255,136,0.08) 100%)",
+            border: "1px solid rgba(120,140,255,0.28)",
+          }}
+        >
+          <svg width="124" height="124" viewBox="0 0 124 124" style={{ flexShrink: 0 }}>
+            <circle cx="62" cy="62" r="52" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="10" />
+            <circle
+              cx="62"
+              cy="62"
+              r="52"
+              fill="none"
+              stroke={getRingColor(overallPct)}
+              strokeWidth="10"
+              strokeLinecap="round"
+              strokeDasharray={overallCircumference}
+              strokeDashoffset={overallOffset}
+              transform="rotate(-90 62 62)"
+              style={{ transition: "stroke-dashoffset 0.45s ease" }}
+            />
+            <text x="62" y="58" textAnchor="middle" fill="#fff" fontSize="24" fontWeight="800">
+              {overallPct.toFixed(0)}%
+            </text>
+            <text x="62" y="76" textAnchor="middle" fill="var(--text-secondary)" fontSize="10" fontWeight="700">
+              OVERALL
+            </text>
+          </svg>
+
+          <div style={{ flex: 1 }}>
+            <h1 style={{ fontSize: "22px", fontWeight: 800, marginBottom: "8px", color: "#fff" }}>Marks Analytics</h1>
+            <div style={{ fontSize: "13px", color: "var(--text-secondary)", marginBottom: "10px" }}>
+              Circular performance overview across all internal assessments.
+            </div>
+            <div style={{ display: "inline-flex", gap: "6px", alignItems: "baseline", padding: "6px 10px", borderRadius: "10px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)" }}>
+              <span style={{ fontSize: "16px", fontWeight: 800, color: "#fff" }}>{totalScored.toFixed(1)}</span>
+              <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>/ {totalMax.toFixed(0)}</span>
+            </div>
+          </div>
+        </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           {marks.map((m: any, i: number) => {
             const title = titleMap[m.courseCode] || m.courseCode;
+            const scored = m.tests?.reduce((s: number, t: any) => s + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0;
+            const maxTotal = m.tests?.reduce((s: number, t: any) => { const [, mx] = t.test.split("/"); return s + (parseFloat(mx) || 0); }, 0) || 0;
+            const pct = maxTotal > 0 ? (scored / maxTotal) * 100 : 0;
+            const ringColor = getRingColor(pct);
+            const ringCirc = 2 * Math.PI * 28;
+            const ringOffset = ringCirc * (1 - pct / 100);
             return (
-              <div key={i} style={{ background: "var(--bg-card)", borderRadius: "16px", padding: "20px", border: "1px solid var(--border)" }}>
-                <div style={{ fontSize: "15px", fontWeight: 700, color: "#fff", marginBottom: "20px" }}>{title}</div>
+              <div key={i} className="min-card" style={{ borderRadius: "18px", padding: "18px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "18px" }}>
+                  <svg width="68" height="68" viewBox="0 0 68 68" style={{ flexShrink: 0 }}>
+                    <circle cx="34" cy="34" r="28" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="6" />
+                    <circle
+                      cx="34"
+                      cy="34"
+                      r="28"
+                      fill="none"
+                      stroke={ringColor}
+                      strokeWidth="6"
+                      strokeLinecap="round"
+                      strokeDasharray={ringCirc}
+                      strokeDashoffset={ringOffset}
+                      transform="rotate(-90 34 34)"
+                    />
+                    <text x="34" y="38" textAnchor="middle" fill="#fff" fontSize="12" fontWeight="800">
+                      {pct.toFixed(0)}%
+                    </text>
+                  </svg>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontSize: "15px", fontWeight: 700, color: "#fff", marginBottom: "4px" }}>{title}</div>
+                    <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 600 }}>{m.courseCode}</div>
+                  </div>
+                </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                   {m.tests?.map((t: any, j: number) => {
                     const [lbl, mxStr] = t.test.split("/");
                     const mx = parseFloat(mxStr) || 100;
                     const sc = t.score === "Abs" ? 0 : parseFloat(t.score) || 0;
                     const pct = (sc / mx) * 100;
-                    const barColor = pct >= 60 ? "var(--accent-green)" : pct >= 40 ? "#fbbf24" : "var(--accent-red)";
+                    const barColor = pct >= 60 ? "var(--accent-secondary)" : pct >= 40 ? "#fbbf24" : "var(--accent-red)";
 
                     return (
                       <div key={j}>

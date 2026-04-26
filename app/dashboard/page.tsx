@@ -508,6 +508,7 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
 function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, recentTop5, initials, firstName }: any) {
   const router = useRouter();
   const attPct = parseFloat(avgAtt as string) || 0;
+  const marksPct = parseFloat(avgMarks as string) || 0;
   const profile = data?.profile || {};
   const regNo = profile["Registration Number"] || "";
   const batch = profile["Combo / Batch"] || "";
@@ -604,21 +605,48 @@ function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
           </div>
         </div>
 
-        {/* Standings Grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "32px" }}>
-          <div 
-            onClick={() => router.push("/marks")}
-            className="min-card" style={{ cursor: "pointer", padding: "20px 12px", textAlign: "center", background: "rgba(26, 117, 255, 0.03)" }}
-          >
-            <div style={{ fontSize: "18px", marginBottom: "8px" }}>📋</div>
-            <div style={{ fontSize: "22px", fontWeight: 900, color: "#fff" }}>{avgMarks}%</div>
-            <div style={{ fontSize: "10px", color: "var(--text-secondary)", marginTop: "6px", fontWeight: 700, textTransform: "uppercase" }}>Avg Marks</div>
-          </div>
-          <div className="min-card" style={{ padding: "20px 12px", textAlign: "center", background: "rgba(239, 68, 68, 0.03)" }}>
-            <div style={{ fontSize: "18px", marginBottom: "8px" }}>⚠️</div>
-            <div style={{ fontSize: "22px", fontWeight: 900, color: riskCount > 0 ? "var(--accent-red)" : "#fff" }}>{riskCount}</div>
-            <div style={{ fontSize: "10px", color: "var(--text-secondary)", marginTop: "6px", fontWeight: 700, textTransform: "uppercase" }}>At Risk</div>
-          </div>
+        {/* Circular Snapshot Stats */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px", marginBottom: "32px" }}>
+          {[
+            { key: "marks", label: "Marks", value: `${avgMarks}%`, pct: marksPct, color: "#60A5FA", onClick: () => router.push("/marks") },
+            { key: "risk", label: "At Risk", value: `${riskCount}`, pct: Math.min((riskCount / Math.max(totalCourses || 1, 1)) * 100, 100), color: "#EF4444" },
+            { key: "courses", label: "Courses", value: `${totalCourses}`, pct: 100, color: "#8B5CF6" },
+          ].map((s) => {
+            const r = 22;
+            const c = 2 * Math.PI * r;
+            const offset = c * (1 - s.pct / 100);
+            return (
+              <div
+                key={s.key}
+                onClick={s.onClick}
+                className="min-card"
+                style={{
+                  padding: "14px 10px",
+                  textAlign: "center",
+                  cursor: s.onClick ? "pointer" : "default",
+                  background: "rgba(255,255,255,0.03)",
+                }}
+              >
+                <svg width="62" height="62" viewBox="0 0 62 62" style={{ marginBottom: "8px" }}>
+                  <circle cx="31" cy="31" r={r} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="5" />
+                  <circle
+                    cx="31"
+                    cy="31"
+                    r={r}
+                    fill="none"
+                    stroke={s.color}
+                    strokeWidth="5"
+                    strokeLinecap="round"
+                    strokeDasharray={c}
+                    strokeDashoffset={offset}
+                    transform="rotate(-90 31 31)"
+                  />
+                </svg>
+                <div style={{ fontSize: "15px", fontWeight: 800, color: "#fff" }}>{s.value}</div>
+                <div style={{ fontSize: "10px", color: "var(--text-secondary)", marginTop: "4px", fontWeight: 700, textTransform: "uppercase" }}>{s.label}</div>
+              </div>
+            );
+          })}
         </div>
 
         {/* Next Class / Today's Schedule */}
