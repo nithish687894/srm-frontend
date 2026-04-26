@@ -37,15 +37,13 @@ API.interceptors.response.use(
           originalRequest.headers["x-session-token"] = newToken;
           return API(originalRequest);
         } catch (refreshErr) {
-          console.warn("Refresh token failed. Keeping user logged in with cached data.", refreshErr);
-          // useAuthStore.getState().logout();
-          // window.location.href = "/";
+          useAuthStore.getState().logout();
+          window.location.href = "/";
           return Promise.reject(refreshErr);
         }
       } else {
-        console.warn("No refresh token available. Keeping user logged in with cached data.");
-        // useAuthStore.getState().logout();
-        // window.location.href = "/";
+        useAuthStore.getState().logout();
+        window.location.href = "/";
       }
     }
     return Promise.reject(err);

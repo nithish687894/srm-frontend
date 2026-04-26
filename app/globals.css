@@ -63,115 +63,56 @@ body.theme-matrix {
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   THEME 2 — COSMOS (Deep Space Glassmorphism)
+   THEME 2 — COSMOS (Vibrant Campus Web)
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-@keyframes cosmosBreathe {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes floatGlow {
-  0% { box-shadow: 0 12px 30px rgba(4, 10, 27, 0.5), inset 0 1px 0 rgba(165, 189, 255, 0.15), 0 0 0px rgba(124, 58, 237, 0); }
-  50% { box-shadow: 0 16px 40px rgba(4, 10, 27, 0.6), inset 0 1px 0 rgba(165, 189, 255, 0.25), 0 0 20px rgba(124, 58, 237, 0.15); }
-  100% { box-shadow: 0 12px 30px rgba(4, 10, 27, 0.5), inset 0 1px 0 rgba(165, 189, 255, 0.15), 0 0 0px rgba(124, 58, 237, 0); }
-}
-
 body.theme-cosmos {
-  --bg-root: #040814;
-  --bg-surface: rgba(13, 20, 46, 0.55);
-  --accent: #3b82f6;
-  --accent-secondary: #00f0ff; /* Cyber Cyan */
-  --accent-tertiary: #d946ef; /* Neon Pink */
-  --text-primary: #ffffff;
-  --text-secondary: #b4c5ff;
-  --text-muted: #6b7dbe;
+  --bg-root: #0A061F;
+  --bg-surface: rgba(22, 24, 60, 0.4);
+  --accent: #1A75FF;
+  --accent-secondary: #00FF88;
+  --text-primary: #FFFFFF;
+  --text-secondary: #8E92B2;
+  --text-muted: #535787;
   --font-heading: 'Plus Jakarta Sans', sans-serif;
   --font-main: 'Plus Jakarta Sans', sans-serif;
   --radius: 20px;
   --card-clip: none;
-  --border: rgba(144, 167, 255, 0.12);
-  --accent-bg: rgba(59, 130, 246, 0.15);
-  --nav-bg: rgba(6, 10, 26, 0.75);
-  --nav-blur: 30px;
+  --border: rgba(255, 255, 255, 0.06);
+  --accent-bg: rgba(26, 117, 255, 0.15);
+  --nav-bg: rgba(8, 6, 25, 0.85);
+  --nav-blur: 24px;
   
-  background: linear-gradient(135deg, #050a1f 0%, #0c153b 25%, #050a1f 50%, #150a21 75%, #050a1f 100%);
-  background-size: 400% 400%;
+  background: #0A061F radial-gradient(circle at 50% -20%, #2A1B7A 0%, #0A061F 70%);
   background-attachment: fixed;
-  animation: cosmosBreathe 20s ease infinite;
-}
-
-body.theme-cosmos::before {
-  content: "";
-  position: fixed;
-  top: -20%; left: -10%;
-  width: 50vw; height: 50vw;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 60%);
-  filter: blur(80px);
-  z-index: -1;
-  pointer-events: none;
-}
-
-body.theme-cosmos::after {
-  content: "";
-  position: fixed;
-  bottom: -20%; right: -10%;
-  width: 60vw; height: 60vw;
-  background: radial-gradient(circle, rgba(124, 58, 237, 0.12) 0%, transparent 60%);
-  filter: blur(100px);
-  z-index: -1;
-  pointer-events: none;
 }
 
 .theme-cosmos .min-card {
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  box-shadow: 0 12px 30px rgba(4, 10, 27, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.05);
-  background: linear-gradient(145deg, rgba(28, 42, 87, 0.4) 0%, rgba(14, 22, 48, 0.6) 100%);
+  background: linear-gradient(180deg, rgba(35, 38, 80, 0.4) 0%, rgba(15, 16, 40, 0.4) 100%);
   border-radius: var(--radius);
-  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.theme-cosmos .min-card:hover {
-  transform: translateY(-4px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  animation: floatGlow 3s ease-in-out infinite;
 }
 
 .theme-cosmos .action-btn {
-  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #d946ef);
-  background-size: 200% auto;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4), inset 0 1px 0 rgba(255,255,255,0.3);
-  color: #fff;
-  transition: all 0.3s ease;
+  background: linear-gradient(90deg, #1A75FF, #6B33FF);
+  border: none;
+  box-shadow: 0 4px 15px rgba(26, 117, 255, 0.4);
 }
-
-.theme-cosmos .action-btn:hover {
-  background-position: right center;
-  box-shadow: 0 12px 30px rgba(217, 70, 239, 0.6), inset 0 1px 0 rgba(255,255,255,0.4);
-  transform: scale(1.02) translateY(-2px);
-}
-
 .theme-cosmos .action-btn .icon-l, .theme-cosmos .action-btn .icon-r {
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(4px);
+  background: rgba(0,0,0,0.2);
 }
 
 .theme-cosmos .srmx-nav-bar {
   background: var(--nav-bg);
-  backdrop-filter: blur(var(--nav-blur));
-  -webkit-backdrop-filter: blur(var(--nav-blur));
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  border-left: 1px solid rgba(255, 255, 255, 0.03);
-  border-right: 1px solid rgba(255, 255, 255, 0.03);
-  box-shadow: 0 -10px 40px rgba(0,0,0,0.6), 0 0 20px rgba(59, 130, 246, 0.1);
-  margin-bottom: 12px;
-  width: calc(100% - 24px);
-  left: 12px;
-  border-radius: 28px;
-  bottom: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+  margin-bottom: 8px;
+  width: calc(100% - 16px);
+  left: 8px;
+  border-radius: 24px;
+  bottom: 8px;
 }
 
 .theme-cosmos .srmx-nav-btn {
@@ -179,43 +120,20 @@ body.theme-cosmos::after {
   font-family: var(--font-main);
   text-transform: capitalize;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
   font-size: 11px;
-  transition: all 0.3s ease;
 }
 
 .theme-cosmos .srmx-nav-btn.active {
   color: #fff;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(124, 58, 237, 0.8));
+  background: var(--accent);
   border-radius: 99px;
   padding: 8px 16px;
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.5), inset 0 1px 0 rgba(255,255,255,0.2);
-  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 15px rgba(26, 117, 255, 0.4);
 }
-
-.cosmos-text-glow {
-  background: linear-gradient(90deg, #eef2ff 0%, #a5b4fc 50%, #fbcfe8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: 0 0 20px rgba(165, 180, 252, 0.3);
-}
-
-@media (min-width: 1024px) {
-  .theme-cosmos .page-main {
-    padding-left: 282px !important;
-    padding-top: 32px !important;
-  }
-
-  .theme-cosmos .page-content {
-    padding-top: 8px !important;
-    padding-right: 24px !important;
-  }
-}
-
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   THEME 4 — GHOST
+   THEME 3 — GHOST
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 body.theme-ghost {
   --bg-root: #FFFFFF;
@@ -234,7 +152,7 @@ body.theme-ghost {
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   THEME 5 — EMBER
+   THEME 4 — EMBER
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 body.theme-ember {
   --bg-root: #0F0500;

@@ -166,13 +166,9 @@ export default function TimetablePage() {
   }, [calQ.data]);
 
   const schedule = useMemo(() => {
-    const rawRows = ttQ.data?.data?.rows || ttQ.data?.rows || (ttQ.data?.data && Array.isArray(ttQ.data.data) ? ttQ.data.data : null);
-    const rawMyTT = myTTQ.data?.data || myTTQ.data;
-    
-    if (!rawRows || !Array.isArray(rawRows) || !rawMyTT || !Array.isArray(rawMyTT)) return [];
-    
-    const slotMap = buildSlotToCourseMap(rawMyTT);
-    const rawSchedule = buildSchedule(rawRows, slotMap);
+    if (!ttQ.data?.data?.rows || !myTTQ.data?.data) return [];
+    const slotMap = buildSlotToCourseMap(myTTQ.data.data);
+    const rawSchedule = buildSchedule(ttQ.data.data.rows, slotMap);
     
     // Merge consecutive identical classes and cleanup
     return rawSchedule.map(day => {
@@ -445,14 +441,14 @@ function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
   const currentMin = new Date().getHours() * 60 + new Date().getMinutes();
 
   return (
-    <div style={{ background: "transparent", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#eef2ff" }}>
+    <div style={{ background: "transparent", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>
       <Sidebar />
-      <main style={{ padding: "20px" }}>
+      <main style={{ padding: "16px" }}>
         
         {/* Header */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "8px 0 22px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "24px 0 32px" }}>
           <div>
-            <h1 style={{ fontSize: "34px", fontWeight: 800, letterSpacing: "-0.03em", margin: 0 }}>Timetable</h1>
+            <h1 style={{ fontSize: "24px", fontWeight: 900, letterSpacing: "-0.5px", margin: 0 }}>Timetable</h1>
             <div style={{ fontSize: "11px", color: "var(--text-secondary)", marginTop: "4px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Current Batch: {batch}</div>
           </div>
           <div style={{ display: "flex", background: "rgba(255,255,255,0.05)", borderRadius: "14px", padding: "4px", border: "1px solid rgba(255,255,255,0.1)" }}>
@@ -467,7 +463,7 @@ function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
         </div>
 
         {/* Day Switcher */}
-        <div style={{ display: "flex", gap: "10px", marginBottom: "24px", overflowX: "auto", paddingBottom: "8px", scrollbarWidth: "none" }}>
+        <div style={{ display: "flex", gap: "10px", marginBottom: "40px", overflowX: "auto", paddingBottom: "8px", scrollbarWidth: "none" }}>
           {[1, 2, 3, 4, 5].map(d => (
             <button key={d} onClick={() => setDayOverride(d)} style={{
               flexShrink: 0, width: "56px", height: "56px", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.05)",
@@ -516,11 +512,10 @@ function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
                   }} />
 
                   <div className="min-card" style={{ 
-                    padding: "16px", 
+                    padding: "20px", 
                     borderLeft: active ? "4px solid var(--accent-secondary)" : "1px solid rgba(255,255,255,0.05)",
                     opacity: past ? 0.6 : 1,
-                    transition: "all 0.3s ease",
-                    borderRadius: "14px"
+                    transition: "all 0.3s ease"
                   }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
                       <div style={{ flex: 1 }}>

@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
 import { useAuth } from "@/hooks/useAuth";
-import { useThemeStore } from "@/lib/themeStore";
 
 const GRADE_TABLE = [
   { min: 91, grade: "O",  points: 10, color: "#a8c200" },
@@ -20,8 +19,6 @@ function getGrade(pct: number) {
 }
 
 export default function GPAPage() {
-  const { theme } = useThemeStore();
-  const isEduverse = theme === "cosmos";
   const [attendance, setAttendance] = useState<any[]>([]);
   const [marks, setMarks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -71,19 +68,19 @@ export default function GPAPage() {
         <div className="page-content" style={{ paddingBottom: "140px" }}>
 
           {/* Header */}
-          <div style={{ textAlign: "center", marginBottom: "26px" }}>
-            <div style={{ fontSize: "12px", letterSpacing: "0.2em", color: isEduverse ? "var(--text-secondary)" : "#666666", textTransform: "uppercase" }}>
+          <div style={{ textAlign: "center", marginBottom: "40px" }}>
+            <div style={{ fontSize: "12px", letterSpacing: "0.2em", color: "#666666", textTransform: "uppercase" }}>
               Estimated GPA
             </div>
-            <div style={{ fontSize: "120px", fontWeight: 900, color: isEduverse ? "#eef2ff" : gpaColor, lineHeight: 1, letterSpacing: "-0.05em" }}>
+            <div style={{ fontSize: "120px", fontWeight: 900, color: gpaColor, lineHeight: 1, letterSpacing: "-0.05em" }}>
               {gpa.toFixed(2)}
             </div>
-            <div style={{ fontSize: "16px", color: isEduverse ? "#8ab4ff" : gpaColor, fontWeight: "bold", letterSpacing: "0.1em" }}>
+            <div style={{ fontSize: "16px", color: gpaColor, fontWeight: "bold", letterSpacing: "0.1em" }}>
               {gpaStatus}
             </div>
           </div>
 
-          <div className="min-card" style={{ padding: "18px", borderRadius: "14px", marginBottom: "20px", display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: "16px" }}>
+          <div style={{ padding: "24px", background: "#1c1c1c", borderRadius: "20px", marginBottom: "32px", display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: "16px" }}>
             {GRADE_TABLE.map(g => (
               <div key={g.grade} style={{ display: "flex", flexDirection: "column", alignItems: "center", opacity: rows.some(r => r.grade.grade === g.grade) ? 1 : 0.3 }}>
                 <span style={{ fontSize: "24px", fontWeight: 900, color: g.color }}>{g.grade}</span>
@@ -93,14 +90,13 @@ export default function GPAPage() {
             ))}
           </div>
 
-          <div style={{ fontSize: "11px", color: isEduverse ? "var(--text-secondary)" : "#666666", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "16px" }}>Simulate Scores</div>
+          <div style={{ fontSize: "11px", color: "#666666", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "16px" }}>Simulate Scores</div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
             {rows.map((r, i) => (
               <div key={r.code} style={{
-                borderRadius: "14px", padding: "18px",
-                background: isEduverse ? "linear-gradient(180deg, rgba(22,34,73,0.82), rgba(13,22,52,0.84))" : "#1c1c1c",
-                border: isEduverse ? "1px solid rgba(132,157,255,0.22)" : "none",
+                borderRadius: "20px", padding: "24px",
+                background: "#1c1c1c",
                 display: "flex", alignItems: "center", gap: "24px",
                 flexWrap: "wrap"
               }}>
@@ -110,7 +106,7 @@ export default function GPAPage() {
                 </div>
 
                 <div style={{ flex: 1, minWidth: "160px" }}>
-                    <div style={{ fontSize: "16px", fontWeight: "bold", color: isEduverse ? "#eef2ff" : "#ffffff", marginBottom: "4px", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word", lineHeight: 1.2 }}>{r.title}</div>
+                  <div style={{ fontSize: "16px", fontWeight: "bold", color: "#ffffff", marginBottom: "4px", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word", lineHeight: 1.2 }}>{r.title}</div>
                   <div style={{ fontSize: "11px", color: "#888888", fontWeight: "bold", letterSpacing: "0.05em" }}>{r.code}</div>
                 </div>
 
@@ -119,14 +115,14 @@ export default function GPAPage() {
                     <div style={{ fontSize: "10px", color: "#666666", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" }}>Internal ({r.intMark})</div>
                     <input type="range" min={0} max={50} value={r.intMark}
                       onChange={e => setInternals(p => ({ ...p, [r.code]: parseInt(e.target.value) }))}
-                      style={{ width: "100px", accentColor: isEduverse ? "#3b82f6" : "#ffffff" }} />
+                      style={{ width: "100px", accentColor: "#ffffff" }} />
                   </div>
 
                   <div style={{ textAlign: "center" }}>
                     <div style={{ fontSize: "10px", color: "#666666", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" }}>External ({r.extMark})</div>
                     <input type="range" min={0} max={50} value={r.extMark}
                       onChange={e => setExternals(p => ({ ...p, [r.code]: parseInt(e.target.value) }))}
-                      style={{ width: "100px", accentColor: isEduverse ? "#7c3aed" : "#888888" }} />
+                      style={{ width: "100px", accentColor: "#888888" }} />
                   </div>
 
                   <div style={{ textAlign: "right", minWidth: "60px" }}>
