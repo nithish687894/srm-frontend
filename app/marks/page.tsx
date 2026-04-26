@@ -128,95 +128,102 @@ function MatrixMarks({ marks, titleMap, totalScored, totalMax, hasEmergency }: a
 }
 
 function CosmosMarks({ marks, titleMap, totalScored, totalMax, hasEmergency }: any) {
-  const ringSize = 84;
-  const strokeWidth = 8;
+  const ringSize = 72;
+  const strokeWidth = 6;
   const radius = (ringSize - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
 
   const getRingColor = (pct: number) => {
-    if (pct >= 75) return "#00E676";
-    if (pct >= 50) return "#FBBF24";
-    return "#EF4444";
+    if (pct >= 85) return "#00f0ff"; // Cyber Cyan
+    if (pct >= 70) return "#3b82f6"; // Blue
+    if (pct >= 50) return "#d946ef"; // Pink
+    return "#ef4444"; // Red
   };
 
   return (
-    <div style={{ background: "transparent", minHeight: "100vh", paddingBottom: "100px", fontFamily: "var(--font-body)", color: "var(--text-primary)" }}>
+    <div className="page-root theme-cosmos" style={{ minHeight: "100vh", position: "relative", zIndex: 1 }}>
       <Sidebar />
-      <main style={{ padding: "20px" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "18px" }}>
+      <main className="page-main" style={{ padding: "24px 20px" }}>
+        
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "32px", position: "relative", zIndex: 1 }}>
           <div>
-            <h1 style={{ fontSize: "34px", fontWeight: 800, letterSpacing: "-0.03em", marginBottom: "4px" }}>Marks</h1>
-            <div style={{ fontSize: "13px", color: "var(--text-secondary)" }}>Track subject-wise internal scores</div>
+            <div style={{ fontSize: "12px", color: "var(--accent-secondary)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>Assessment</div>
+            <h1 className="cosmos-text-glow" style={{ fontSize: "40px", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 1 }}>Performance</h1>
           </div>
-          <button
-            onClick={() => {}}
-            style={{
-              background: "linear-gradient(90deg, #325df8, #5b43ea)",
-              border: "none",
-              color: "#eef2ff",
-              padding: "8px 12px",
-              borderRadius: "10px",
-              fontSize: "12px",
-              fontWeight: 700
-            }}
-          >
-            Analysis
+          <button className="action-btn">
+             <span className="text-c">
+               <span>Analytics</span>
+             </span>
+             <div className="icon-r">→</div>
           </button>
         </div>
 
         {hasEmergency && (
-          <div style={{ background: "rgba(239,68,68,0.15)", border: "1px solid rgba(239,68,68,0.4)", borderRadius: "14px", padding: "16px", marginBottom: "14px", display: "flex", alignItems: "center", gap: "12px", boxShadow: "0 0 20px rgba(239,68,68,0.2)" }}>
-            <div style={{ width: "32px", height: "32px", borderRadius: "8px", background: "rgba(239,68,68,0.2)", color: "#ef4444", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", textShadow: "0 0 10px rgba(239,68,68,0.8)" }}>!</div>
+          <div className="min-card" style={{ background: "rgba(239, 68, 68, 0.1)", borderColor: "rgba(239, 68, 68, 0.3)", padding: "16px 20px", marginBottom: "24px", display: "flex", alignItems: "center", gap: "16px" }}>
+            <div style={{ width: "42px", height: "42px", borderRadius: "12px", background: "rgba(239, 68, 68, 0.2)", display: "flex", alignItems: "center", justifyContent: "center", color: "#ef4444", fontWeight: 900, fontSize: "20px", boxShadow: "0 0 20px rgba(239, 68, 68, 0.4)" }}>!</div>
             <div>
-              <div style={{ fontSize: "13px", fontWeight: "bold", color: "#ef4444", textShadow: "0 0 10px rgba(239,68,68,0.4)" }}>Academic Emergency</div>
-              <div style={{ fontSize: "11px", color: "var(--text-secondary)", marginTop: "2px" }}>Overall score is below 50%. Focus on upcoming assessments.</div>
+              <div style={{ fontSize: "14px", fontWeight: 800, color: "#ef4444", textTransform: "uppercase", letterSpacing: "0.1em" }}>Academic Alert</div>
+              <div style={{ fontSize: "12px", color: "rgba(255, 255, 255, 0.7)", marginTop: "4px" }}>Overall score is below 50%. Immediate attention required for upcoming assessments.</div>
             </div>
           </div>
         )}
 
-        <div className="min-card" style={{ borderRadius: "14px", padding: "14px", marginBottom: "14px" }}>
-          <div style={{ fontSize: "12px", color: "var(--text-secondary)", marginBottom: "8px" }}>Performance Snapshot</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "10px" }}>
-            {[
-              { label: "Total Points", value: `${totalScored.toFixed(1)} / ${totalMax.toFixed(0)}` },
-              { label: "Subjects", value: marks.length },
-              { label: "Recorded Tests", value: marks.reduce((n: any, m: any) => n + (m.tests?.length || 0), 0) }
-            ].map((s, i) => (
-              <div key={i} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", borderRadius: "10px", padding: "10px 12px" }}>
-                <div style={{ fontSize: "11px", color: "var(--text-secondary)" }}>{s.label}</div>
-                <div className={i === 0 ? "cosmos-text-glow" : ""} style={{ fontSize: "26px", fontWeight: 800, marginTop: "4px" }}>{s.value}</div>
-              </div>
-            ))}
+        <div className="min-card" style={{ marginBottom: "32px", padding: "24px" }}>
+          <div style={{ fontSize: "11px", color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: "0.15em", fontWeight: 800, marginBottom: "20px" }}>Global Overview</div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "24px", justifyContent: "space-between", alignItems: "flex-end" }}>
+            
+            <div style={{ flex: "1 1 200px" }}>
+               <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 600, marginBottom: "8px" }}>Total Points Scored</div>
+               <div style={{ display: "flex", alignItems: "baseline", gap: "12px" }}>
+                 <div className="cosmos-text-glow" style={{ fontSize: "56px", fontWeight: 900, lineHeight: 0.9 }}>{totalScored.toFixed(1)}</div>
+                 <div style={{ fontSize: "20px", color: "var(--text-secondary)", fontWeight: 700 }}>/ {totalMax.toFixed(0)}</div>
+               </div>
+            </div>
+
+            <div style={{ display: "flex", gap: "16px", flex: "1 1 200px" }}>
+               <div style={{ flex: 1, padding: "16px", background: "rgba(255,255,255,0.03)", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.05)", textAlign: "center", backdropFilter: "blur(10px)" }}>
+                  <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Subjects</div>
+                  <div style={{ fontSize: "28px", fontWeight: 800, color: "#fff", marginTop: "4px" }}>{marks.length}</div>
+               </div>
+
+               <div style={{ flex: 1, padding: "16px", background: "rgba(255,255,255,0.03)", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.05)", textAlign: "center", backdropFilter: "blur(10px)" }}>
+                  <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Assessments</div>
+                  <div style={{ fontSize: "28px", fontWeight: 800, color: "#fff", marginTop: "4px" }}>{marks.reduce((n: any, m: any) => n + (m.tests?.length || 0), 0)}</div>
+               </div>
+            </div>
+
           </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: "24px", paddingBottom: "100px" }}>
           {marks.map((m: any, i: number) => {
             const title = titleMap[m.courseCode] || m.courseCode;
+            const mScored = m.tests?.reduce((s: number, t: any) => s + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0;
+            const mMax = m.tests?.reduce((s: number, t: any) => { const [, mx] = t.test.split("/"); return s + (parseFloat(mx) || 0); }, 0) || 0;
+            const mPct = mMax > 0 ? (mScored / mMax) * 100 : 0;
+            const subjectColor = getRingColor(mPct);
+
             return (
-              <div
-                key={i}
-                style={{
-                  background: "linear-gradient(180deg, rgba(22,34,73,0.82), rgba(13,22,52,0.84))",
-                  borderRadius: "14px",
-                  padding: "16px",
-                  border: "1px solid rgba(132,157,255,0.22)",
-                }}
-              >
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px", gap: "10px" }}>
-                  <div style={{ fontSize: "16px", fontWeight: 700, color: "#eef2ff" }}>{title}</div>
-                  <div style={{ fontSize: "11px", padding: "4px 8px", borderRadius: "999px", background: "rgba(59,130,246,0.2)", color: "#93c5fd", border: "1px solid rgba(147,197,253,0.3)" }}>
-                    {m.courseCode}
+              <div key={i} className="min-card" style={{ padding: "24px", display: "flex", flexDirection: "column", gap: "24px" }}>
+                
+                <div style={{ position: "absolute", top: "-30px", right: "-30px", width: "120px", height: "120px", background: subjectColor, opacity: 0.15, filter: "blur(50px)", borderRadius: "50%", pointerEvents: "none" }} />
+
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "16px" }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: "18px", fontWeight: 800, color: "#fff", lineHeight: 1.3, marginBottom: "8px" }}>{title}</div>
+                    <div style={{ display: "inline-block", padding: "4px 10px", background: "rgba(255,255,255,0.05)", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.1)" }}>
+                       <span style={{ fontSize: "11px", fontWeight: 800, color: "var(--accent-secondary)", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                         {m.courseCode}
+                       </span>
+                    </div>
+                  </div>
+                  <div style={{ textAlign: "right", background: "rgba(0,0,0,0.2)", padding: "12px", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                    <div style={{ fontSize: "24px", fontWeight: 900, color: subjectColor, textShadow: `0 0 15px ${subjectColor}40`, lineHeight: 1 }}>{mScored.toFixed(1)}</div>
+                    <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 700, marginTop: "4px" }}>/ {mMax.toFixed(0)}</div>
                   </div>
                 </div>
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fit, minmax(88px, 1fr))",
-                    gap: "14px",
-                    alignItems: "start",
-                  }}
-                >
+
+                <div style={{ display: "flex", overflowX: "auto", gap: "16px", paddingBottom: "8px", scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}>
                   {m.tests?.map((t: any, j: number) => {
                     const [lbl, mxStr] = t.test.split("/");
                     const mx = parseFloat(mxStr) || 100;
@@ -224,60 +231,21 @@ function CosmosMarks({ marks, titleMap, totalScored, totalMax, hasEmergency }: a
                     const pct = Math.max(0, Math.min(100, (sc / mx) * 100));
                     const strokeDashoffset = circumference - (pct / 100) * circumference;
                     const ringColor = getRingColor(pct);
-                    const scoreText = t.score === "Abs" ? "ABS" : sc.toFixed(2);
+                    const isAbs = t.score === "Abs";
 
                     return (
-                      <div
-                        key={j}
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          gap: "8px",
-                        }}
-                      >
-                        <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase" }}>
-                          {lbl}
-                        </div>
+                      <div key={j} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", flexShrink: 0 }}>
                         <div style={{ position: "relative", width: `${ringSize}px`, height: `${ringSize}px` }}>
-                          <svg width={ringSize} height={ringSize} viewBox={`0 0 ${ringSize} ${ringSize}`} aria-label={`${lbl} score ring`}>
-                            <circle
-                              cx={ringSize / 2}
-                              cy={ringSize / 2}
-                              r={radius}
-                              stroke="#1E2A3A"
-                              strokeWidth={strokeWidth}
-                              fill="none"
-                            />
-                            <circle
-                              cx={ringSize / 2}
-                              cy={ringSize / 2}
-                              r={radius}
-                              stroke={ringColor}
-                              strokeWidth={strokeWidth}
-                              fill="none"
-                              strokeLinecap="round"
-                              strokeDasharray={circumference}
-                              strokeDashoffset={strokeDashoffset}
-                              transform={`rotate(-90 ${ringSize / 2} ${ringSize / 2})`}
-                              style={{ filter: `drop-shadow(0 0 6px ${ringColor})` }}
-                            />
+                          <svg width={ringSize} height={ringSize} viewBox={`0 0 ${ringSize} ${ringSize}`} style={{ transform: "rotate(-90deg)" }}>
+                            <circle cx={ringSize / 2} cy={ringSize / 2} r={radius} stroke="rgba(255,255,255,0.05)" strokeWidth={strokeWidth} fill="none" />
+                            <circle cx={ringSize / 2} cy={ringSize / 2} r={radius} stroke={ringColor} strokeWidth={strokeWidth} fill="none" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={strokeDashoffset} style={{ filter: `drop-shadow(0 0 8px ${ringColor}80)`, transition: "stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1)" }} />
                           </svg>
-                          <div
-                            style={{
-                              position: "absolute",
-                              inset: 0,
-                              display: "flex",
-                              flexDirection: "column",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              lineHeight: 1.1,
-                            }}
-                          >
-                            <span style={{ fontSize: "12px", fontWeight: 700, color: "#ffffff" }}>{scoreText}</span>
-                            <span style={{ fontSize: "10px", color: "var(--text-muted)", fontWeight: 500 }}>/ {mx}</span>
+                          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                            <span style={{ fontSize: isAbs ? "12px" : "16px", fontWeight: 900, color: isAbs ? "#ef4444" : "#fff", letterSpacing: "-0.02em" }}>{isAbs ? "ABS" : sc}</span>
+                            {!isAbs && <span style={{ fontSize: "10px", color: "var(--text-muted)", fontWeight: 700 }}>/ {mx}</span>}
                           </div>
                         </div>
+                        <div style={{ fontSize: "11px", color: "var(--text-secondary)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em" }}>{lbl}</div>
                       </div>
                     );
                   })}
@@ -286,6 +254,7 @@ function CosmosMarks({ marks, titleMap, totalScored, totalMax, hasEmergency }: a
             );
           })}
         </div>
+
       </main>
     </div>
   );
