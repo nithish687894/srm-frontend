@@ -52,6 +52,7 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
           color: var(--text-primary);
         }
 
+
         body.theme-editorial {
           font-family: 'DM Sans', sans-serif;
           background: #f5f2eb;

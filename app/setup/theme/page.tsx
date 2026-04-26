@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useThemeStore } from "@/lib/themeStore";
+import { ThemeType, useThemeStore } from "@/lib/themeStore";
 import { useAuthStore } from "@/lib/store";
 import { useEffect, useState } from "react";
 
@@ -20,7 +20,7 @@ export default function ThemeOnboarding() {
     }
   }, [_hasHydrated, authToken, router]);
 
-  const handleSelect = (t: "matrix" | "cosmos") => {
+  const handleSelect = (t: ThemeType) => {
     setTheme(t);
     setHasChosenTheme(true);
     router.push("/dashboard");
@@ -146,6 +146,8 @@ export default function ThemeOnboarding() {
           animation: spin 10s linear infinite;
         }
 
+
+
         @keyframes spin {
           from { transform: rotate(0deg); }
           to { transform: rotate(360deg); }
@@ -188,15 +190,16 @@ export default function ThemeOnboarding() {
           </div>
 
           <div className="theme-card" onClick={() => handleSelect("cosmos")}>
-            <div className="theme-name">Cosmos</div>
-            <p className="theme-desc">Next-gen glassmorphism. Vibrant gradients and smooth animations. A premium visual experience.</p>
+            <div className="theme-name">EduVerse</div>
+            <p className="theme-desc">Campus dashboard style interface with dark blue cards and productivity-first layout.</p>
             <div className="preview-box cosmos-preview">
               <div className="cosmos-circle" />
             </div>
             <div style={{ marginTop: "32px" }}>
-              <button className="select-btn" style={{ background: "linear-gradient(90deg, #1A75FF, #6B33FF)", color: "#fff" }}>Initialize Cosmos</button>
+              <button className="select-btn" style={{ background: "linear-gradient(90deg, #2f63f2, #4d7dff)", color: "#fff" }}>Initialize EduVerse</button>
             </div>
           </div>
+
         </div>
 
         <p style={{ fontSize: "11px", color: "#444", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em" }}>
