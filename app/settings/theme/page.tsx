@@ -18,6 +18,7 @@ const THEMES: { id: ThemeType; name: string; sub: string; bg: string; accent: st
     bg: "#0f0f13", 
     accent: "#7c3aed",
     hasGlow: true
+  }
 ];
 
 export default function ThemeSettingsPage() {
