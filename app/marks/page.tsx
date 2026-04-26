@@ -165,10 +165,10 @@ function CosmosMarks({ marks, titleMap, totalScored, totalMax, hasEmergency }: a
         </div>
 
         {hasEmergency && (
-          <div style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)", borderRadius: "14px", padding: "16px", marginBottom: "14px", display: "flex", alignItems: "center", gap: "12px" }}>
-            <div style={{ width: "32px", height: "32px", borderRadius: "8px", background: "rgba(239,68,68,0.2)", color: "#ef4444", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold" }}>!</div>
+          <div style={{ background: "rgba(239,68,68,0.15)", border: "1px solid rgba(239,68,68,0.4)", borderRadius: "14px", padding: "16px", marginBottom: "14px", display: "flex", alignItems: "center", gap: "12px", boxShadow: "0 0 20px rgba(239,68,68,0.2)" }}>
+            <div style={{ width: "32px", height: "32px", borderRadius: "8px", background: "rgba(239,68,68,0.2)", color: "#ef4444", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", textShadow: "0 0 10px rgba(239,68,68,0.8)" }}>!</div>
             <div>
-              <div style={{ fontSize: "13px", fontWeight: "bold", color: "#ef4444" }}>Academic Emergency</div>
+              <div style={{ fontSize: "13px", fontWeight: "bold", color: "#ef4444", textShadow: "0 0 10px rgba(239,68,68,0.4)" }}>Academic Emergency</div>
               <div style={{ fontSize: "11px", color: "var(--text-secondary)", marginTop: "2px" }}>Overall score is below 50%. Focus on upcoming assessments.</div>
             </div>
           </div>
@@ -184,7 +184,7 @@ function CosmosMarks({ marks, titleMap, totalScored, totalMax, hasEmergency }: a
             ].map((s, i) => (
               <div key={i} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", borderRadius: "10px", padding: "10px 12px" }}>
                 <div style={{ fontSize: "11px", color: "var(--text-secondary)" }}>{s.label}</div>
-                <div style={{ fontSize: "26px", fontWeight: 800, marginTop: "4px" }}>{s.value}</div>
+                <div className={i === 0 ? "cosmos-text-glow" : ""} style={{ fontSize: "26px", fontWeight: 800, marginTop: "4px" }}>{s.value}</div>
               </div>
             ))}
           </div>
@@ -260,6 +260,7 @@ function CosmosMarks({ marks, titleMap, totalScored, totalMax, hasEmergency }: a
                               strokeDasharray={circumference}
                               strokeDashoffset={strokeDashoffset}
                               transform={`rotate(-90 ${ringSize / 2} ${ringSize / 2})`}
+                              style={{ filter: `drop-shadow(0 0 6px ${ringColor})` }}
                             />
                           </svg>
                           <div
