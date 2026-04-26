@@ -515,73 +515,73 @@ function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
       <main style={{ padding: "20px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "22px", gap: "14px" }}>
           <div>
-            <div style={{ fontSize: "34px", fontWeight: 800, lineHeight: 1.05, letterSpacing: "-0.02em" }}>
+            <div className="cosmos-text-glow" style={{ fontSize: "28px", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.02em" }}>
               Welcome back, {firstName}
             </div>
-            <div style={{ fontSize: "14px", color: "var(--text-secondary)", marginTop: "6px" }}>
+            <div style={{ fontSize: "13px", color: "var(--text-secondary)", marginTop: "4px" }}>
               Let's continue where you left off
             </div>
           </div>
-          <div style={{ width: "46px", height: "46px", borderRadius: "14px", background: "linear-gradient(135deg, #3055d7, #4f46e5)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, border: "1px solid rgba(136, 164, 255, 0.55)" }}>
+          <div style={{ width: "42px", height: "42px", borderRadius: "12px", background: "linear-gradient(135deg, #3055d7, #d946ef)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, border: "1px solid rgba(255, 255, 255, 0.2)", boxShadow: "0 4px 15px rgba(217, 70, 239, 0.3)" }}>
             {initials}
           </div>
         </div>
 
-        <div className="min-card" style={{ padding: "12px 14px", marginBottom: "18px", display: "flex", alignItems: "center", gap: "12px", borderRadius: "14px" }}>
-          <div style={{ flex: 1, display: "flex", alignItems: "center", gap: "8px", color: "var(--text-secondary)", fontSize: "13px" }}>
+        <div className="min-card" style={{ padding: "10px 14px", marginBottom: "24px", display: "flex", alignItems: "center", gap: "12px", borderRadius: "99px", background: "rgba(13, 20, 46, 0.6)" }}>
+          <div style={{ flex: 1, display: "flex", alignItems: "center", gap: "8px", color: "var(--text-secondary)", fontSize: "12px" }}>
             <span style={{ opacity: 0.8 }}>🔎</span>
             Search courses, assignments...
           </div>
-          <div style={{ background: "linear-gradient(90deg, #325df8, #5b43ea)", borderRadius: "10px", padding: "8px 12px", fontSize: "12px", fontWeight: 700 }}>
+          <div style={{ background: "linear-gradient(90deg, #3b82f6, #8b5cf6)", borderRadius: "99px", padding: "6px 14px", fontSize: "11px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em", color: "#fff", boxShadow: "0 2px 10px rgba(139, 92, 246, 0.4)" }}>
             AI Tutor
           </div>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))", gap: "12px", marginBottom: "20px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "12px", marginBottom: "24px" }}>
           {[
-            { label: "Enrolled Courses", value: totalCourses, sub: "this semester", tone: "#3b82f6" },
-            { label: "Study Health", value: `${avgAtt}%`, sub: "attendance", tone: "#f59e0b" },
-            { label: "Current Avg", value: `${avgMarks}%`, sub: "academics", tone: "#22c55e" },
-            { label: "Risk Subjects", value: riskCount, sub: "need focus", tone: "#a855f7" },
+            { label: "Enrolled", value: totalCourses, sub: "Courses", tone: "#00f0ff", shadow: "rgba(0, 240, 255, 0.2)" },
+            { label: "Attendance", value: `${avgAtt}%`, sub: "Health", tone: "#f59e0b", shadow: "rgba(245, 158, 11, 0.2)" },
+            { label: "Academics", value: `${avgMarks}%`, sub: "Average", tone: "#00E676", shadow: "rgba(0, 230, 118, 0.2)" },
+            { label: "At Risk", value: riskCount, sub: "Focus required", tone: "#d946ef", shadow: "rgba(217, 70, 239, 0.2)" },
           ].map((card, i) => (
-            <div key={i} className="min-card" style={{ padding: "16px", borderRadius: "14px" }}>
-              <div style={{ fontSize: "12px", color: "var(--text-secondary)", marginBottom: "10px" }}>{card.label}</div>
-              <div style={{ fontSize: "34px", fontWeight: 800, lineHeight: 1.05 }}>{card.value}</div>
-              <div style={{ fontSize: "12px", color: card.tone, marginTop: "8px", fontWeight: 700 }}>{card.sub}</div>
+            <div key={i} className="min-card" style={{ padding: "14px", borderRadius: "16px", borderTop: `1px solid ${card.tone}`, boxShadow: `0 8px 20px ${card.shadow}` }}>
+              <div style={{ fontSize: "11px", color: "var(--text-secondary)", marginBottom: "6px", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600 }}>{card.label}</div>
+              <div style={{ fontSize: "28px", fontWeight: 800, lineHeight: 1.1, color: "#fff", textShadow: `0 0 15px ${card.shadow}` }}>{card.value}</div>
+              <div style={{ fontSize: "10px", color: card.tone, marginTop: "6px", fontWeight: 700 }}>{card.sub}</div>
             </div>
           ))}
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "14px" }}>
-          <div className="min-card" style={{ padding: "20px", borderRadius: "16px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
-              <div style={{ fontSize: "28px", fontWeight: 800, lineHeight: 1.08 }}>Continue Learning</div>
-              <button onClick={() => router.push("/marks")} style={{ background: "none", border: "none", color: "#8ab4ff", cursor: "pointer", fontWeight: 700 }}>View All</button>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "16px" }}>
+          <div className="min-card" style={{ padding: "20px", borderRadius: "20px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "16px" }}>
+              <div style={{ fontSize: "22px", fontWeight: 800, lineHeight: 1.1 }}>Continue Learning</div>
+              <button onClick={() => router.push("/marks")} style={{ background: "none", border: "none", color: "#00f0ff", cursor: "pointer", fontWeight: 800, fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.05em" }}>View All</button>
             </div>
-            <div style={{ background: "linear-gradient(180deg, rgba(51,93,255,0.22), rgba(51,93,255,0.1))", border: "1px solid rgba(119, 149, 255, 0.35)", borderRadius: "14px", padding: "16px" }}>
-              <div style={{ fontSize: "20px", fontWeight: 700, marginBottom: "8px" }}>{nextClass?.courseTitle || "No upcoming class"}</div>
-              <div style={{ fontSize: "13px", color: "var(--text-secondary)" }}>{nextClass?.courseCode || "Schedule is clear for now"}</div>
-              <div style={{ marginTop: "14px", height: "8px", borderRadius: "99px", background: "rgba(255,255,255,0.1)", overflow: "hidden" }}>
-                <div style={{ width: "72%", height: "100%", borderRadius: "99px", background: "linear-gradient(90deg, #50a3ff, #7c3aed)" }} />
+            <div style={{ background: "linear-gradient(145deg, rgba(59, 130, 246, 0.15), rgba(124, 58, 237, 0.1))", border: "1px solid rgba(255, 255, 255, 0.1)", borderRadius: "16px", padding: "18px" }}>
+              <div style={{ fontSize: "18px", fontWeight: 800, marginBottom: "6px", color: "#fff" }}>{nextClass?.courseTitle || "No upcoming class"}</div>
+              <div style={{ fontSize: "12px", color: "var(--text-secondary)", fontWeight: 600 }}>{nextClass?.courseCode || "Schedule is clear for now"}</div>
+              <div style={{ marginTop: "16px", height: "6px", borderRadius: "99px", background: "rgba(255,255,255,0.1)", overflow: "hidden", boxShadow: "inset 0 1px 2px rgba(0,0,0,0.5)" }}>
+                <div style={{ width: "72%", height: "100%", borderRadius: "99px", background: "linear-gradient(90deg, #00f0ff, #d946ef)", boxShadow: "0 0 10px rgba(217, 70, 239, 0.5)" }} />
               </div>
             </div>
           </div>
 
-          <div className="min-card" style={{ padding: "20px", borderRadius: "16px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
-              <div style={{ fontSize: "26px", fontWeight: 800, lineHeight: 1.08 }}>Today's Schedule</div>
-              <button onClick={() => router.push("/timetable")} style={{ background: "none", border: "none", color: "#8ab4ff", cursor: "pointer", fontWeight: 700 }}>Full Calendar</button>
+          <div className="min-card" style={{ padding: "20px", borderRadius: "20px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "16px" }}>
+              <div style={{ fontSize: "22px", fontWeight: 800, lineHeight: 1.1 }}>Today's Schedule</div>
+              <button onClick={() => router.push("/timetable")} style={{ background: "none", border: "none", color: "#00f0ff", cursor: "pointer", fontWeight: 800, fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Full Calendar</button>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
               {todayClasses.length === 0 && (
                 <div style={{ fontSize: "13px", color: "var(--text-secondary)" }}>No classes planned.</div>
               )}
               {todayClasses.map((cls: any, i: number) => (
-                <div key={i} style={{ display: "grid", gridTemplateColumns: "70px 1fr", gap: "12px", background: "rgba(13, 24, 56, 0.85)", border: "1px solid rgba(118, 147, 255, 0.2)", borderRadius: "12px", padding: "10px 12px" }}>
-                  <div style={{ fontSize: "12px", color: "var(--text-secondary)", fontWeight: 700 }}>{fmt12(cls.startTime).replace(" ", "\n")}</div>
+                <div key={i} style={{ display: "grid", gridTemplateColumns: "60px 1fr", gap: "12px", background: "rgba(13, 20, 46, 0.6)", border: "1px solid rgba(255, 255, 255, 0.05)", borderRadius: "14px", padding: "12px 14px", alignItems: "center" }}>
+                  <div style={{ fontSize: "11px", color: "var(--accent-secondary)", fontWeight: 800, lineHeight: 1.2 }}>{fmt12(cls.startTime).replace(" ", "\n")}</div>
                   <div>
-                    <div style={{ fontSize: "14px", fontWeight: 700, color: "#e6edff" }}>{cls.courseTitle}</div>
-                    <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "2px" }}>{cls.roomNo || "TBA"}</div>
+                    <div style={{ fontSize: "13px", fontWeight: 700, color: "#fff", lineHeight: 1.2 }}>{cls.courseTitle}</div>
+                    <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "4px", fontWeight: 600 }}>{cls.roomNo || "TBA"}</div>
                   </div>
                 </div>
               ))}
