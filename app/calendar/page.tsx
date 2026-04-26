@@ -22,6 +22,16 @@ export default function CalendarPage() {
   });
 
   const { months, byDate } = useMemo(() => buildCalendarIndex(cal), [cal]);
+  
+  useEffect(() => {
+    if (months[sem]?.length === 0) {
+      const otherSem = sem === "EVEN" ? "ODD" : "EVEN";
+      if (months[otherSem]?.length > 0) {
+        setSem(otherSem);
+      }
+    }
+  }, [months, sem]);
+
   const semMonths = months[sem] || [];
 
   const today = new Date();

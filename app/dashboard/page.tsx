@@ -188,10 +188,12 @@ export default function DashboardPage() {
   const dayOrder = targetCalInfo?.dayOrder || null;
 
   const targetClasses = useMemo(() => {
-    if (!ttData?.data?.rows || !myTTData?.data || isHoliday || !dayOrder) return [];
-    const rows = ttData.data.rows;
-    const slotMap = buildSlotToCourseMap(myTTData.data || []);
-    const schedule = buildSchedule(rows, slotMap, att);
+    const rawRows = ttData?.data?.rows || ttData?.rows;
+    const rawMyTT = myTTData?.data || myTTData;
+    if (!rawRows || !Array.isArray(rawRows) || !rawMyTT || !Array.isArray(rawMyTT) || isHoliday || !dayOrder) return [];
+    
+    const slotMap = buildSlotToCourseMap(rawMyTT);
+    const schedule = buildSchedule(rawRows, slotMap, att);
     return schedule[dayOrder - 1]?.classes || [];
   }, [ttData, myTTData, att, dayOrder, isHoliday]);
 
@@ -201,8 +203,9 @@ export default function DashboardPage() {
     : targetClasses[0];
 
   const gridSlots = useMemo(() => {
-    if (!ttData?.data?.rows || targetClasses.length === 0) return Array(10).fill(null);
-    const timeRow = ttData.data.rows.find((r: any) => r[0] === "FROM");
+    const rawRows = ttData?.data?.rows || ttData?.rows;
+    if (!rawRows || !Array.isArray(rawRows) || targetClasses.length === 0) return Array(10).fill({ isEmpty: true });
+    const timeRow = rawRows.find((r: any) => r[0] === "FROM");
     const timesList = timeRow ? timeRow.slice(1).map((t: string) => t.replace(/\t/g, "").trim().replace(/\n+/g, " ")) : [];
 
     // Create exactly 10 slots map

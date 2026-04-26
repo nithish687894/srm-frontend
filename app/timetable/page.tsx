@@ -166,9 +166,13 @@ export default function TimetablePage() {
   }, [calQ.data]);
 
   const schedule = useMemo(() => {
-    if (!ttQ.data?.data?.rows || !myTTQ.data?.data) return [];
-    const slotMap = buildSlotToCourseMap(myTTQ.data.data);
-    const rawSchedule = buildSchedule(ttQ.data.data.rows, slotMap);
+    const rawRows = ttQ.data?.data?.rows || ttQ.data?.rows || (ttQ.data?.data && Array.isArray(ttQ.data.data) ? ttQ.data.data : null);
+    const rawMyTT = myTTQ.data?.data || myTTQ.data;
+    
+    if (!rawRows || !Array.isArray(rawRows) || !rawMyTT || !Array.isArray(rawMyTT)) return [];
+    
+    const slotMap = buildSlotToCourseMap(rawMyTT);
+    const rawSchedule = buildSchedule(rawRows, slotMap);
     
     // Merge consecutive identical classes and cleanup
     return rawSchedule.map(day => {
