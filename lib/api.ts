@@ -24,16 +24,16 @@ API.interceptors.response.use(
     if (err.response?.status === 401 && !originalRequest._retry && typeof window !== "undefined") {
       originalRequest._retry = true;
       const refreshToken = localStorage.getItem("refreshToken");
-      
+
       if (refreshToken) {
         try {
           // Use a fresh axios instance for the refresh call to avoid interceptor loops
           const res = await axios.post(`${API.defaults.baseURL}/api/refresh-token`, { refreshToken });
           const newToken = res.data.token;
-          
+
           localStorage.setItem("authToken", newToken);
           useAuthStore.getState().setAuthToken(newToken);
-          
+
           originalRequest.headers["x-session-token"] = newToken;
           return API(originalRequest);
         } catch (refreshErr) {
@@ -67,6 +67,7 @@ export const dataAPI = {
   getCalendar: () => API.get("/api/calendar").then((r) => r.data),
   getMyTimetable: () => API.get("/api/my-timetable").then((r) => r.data),
   getAdminLogs: () => API.get("/api/admin/login-logs").then((r) => r.data),
-  aiChat: (message: string, historyData: any[], academicData: any) => 
+  clearAdminLogs: () => API.delete("/api/admin/login-logs").then((r) => r.data),
+  aiChat: (message: string, historyData: any[], academicData: any) =>
     API.post("/api/ai/chat", { message, historyData, academicData }).then((r) => r.data)
 };

