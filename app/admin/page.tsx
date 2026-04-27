@@ -20,7 +20,8 @@ export default function AdminPage() {
     if (!ready) return;
     
     // Strict client-side check
-    if (profile?.Email !== ADMIN_EMAIL && profile?.["Email"] !== ADMIN_EMAIL) {
+    const userEmail = (profile?.Email || profile?.["Email"] || "").toLowerCase();
+    if (userEmail !== ADMIN_EMAIL.toLowerCase()) {
       router.push("/dashboard");
       return;
     }

@@ -17,7 +17,8 @@ export default function Sidebar() {
   const [mounted, setMounted] = useState(false);
   
   const ADMIN_EMAIL = "ns4770@srmist.edu.in";
-  const isAdmin = profile?.Email === ADMIN_EMAIL || profile?.["Email"] === ADMIN_EMAIL;
+  const userEmail = (profile?.Email || profile?.["Email"] || "").toLowerCase();
+  const isAdmin = userEmail === ADMIN_EMAIL.toLowerCase();
 
   const NAV = [
     { href: "/dashboard",  label: "Home" },
