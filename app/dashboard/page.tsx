@@ -586,7 +586,12 @@ function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
           <div className="min-card" style={{ padding: "18px", borderRadius: "20px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "14px" }}>
               <div style={{ fontSize: "18px", fontWeight: 800, lineHeight: 1.1 }}>Today&apos;s Schedule</div>
-              <button onClick={() => router.push("/timetable")} style={{ background: "none", border: "none", color: "#00f0ff", cursor: "pointer", fontWeight: 800, fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Full Calendar</button>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <span style={{ fontSize: "10px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--text-secondary)" }}>
+                  {isHoliday ? "Holiday" : `Day ${dayOrder || "—"}`}
+                </span>
+                <button onClick={() => router.push("/timetable")} style={{ background: "none", border: "none", color: "#00f0ff", cursor: "pointer", fontWeight: 800, fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Full Calendar</button>
+              </div>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
               {targetClasses.length === 0 && (
