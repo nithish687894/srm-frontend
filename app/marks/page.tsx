@@ -262,6 +262,7 @@ function CosmosMarks({ marks, titleMap }: any) {
   const totalScored = courseTotals.reduce((s: number, c: any) => s + c.scored, 0);
   const totalMax = courseTotals.reduce((s: number, c: any) => s + c.maxTotal, 0);
   const totalTests = marks.reduce((sum: number, m: any) => sum + (m.tests?.length || 0), 0);
+  const formatTotal = (value: number) => value.toFixed(value % 1 === 0 ? 0 : 1);
 
   return (
     <div style={{ background: "var(--bg)", minHeight: "100vh", paddingBottom: "100px", fontFamily: "var(--font-body)", color: "var(--text-primary)" }}>
@@ -309,10 +310,20 @@ function CosmosMarks({ marks, titleMap }: any) {
         <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
           {marks.map((m: any, i: number) => {
             const title = titleMap[m.courseCode] || m.courseCode;
+            const scored = m.tests?.reduce((s: number, t: any) => s + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0;
+            const maxTotal = m.tests?.reduce((s: number, t: any) => {
+              const [, mx] = t.test.split("/");
+              return s + (parseFloat(mx) || 0);
+            }, 0) || 0;
             return (
               <div key={i} className="min-card" style={{ borderRadius: "20px", padding: "18px", background: "rgba(16, 25, 57, 0.7)", border: "1px solid rgba(255, 255, 255, 0.03)", transition: "all 0.3s ease" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "12px", marginBottom: "20px" }}>
-                  <div style={{ fontSize: "16px", lineHeight: 1.3, fontWeight: 800, color: "#eef2ff", flex: 1 }}>{title}</div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: "16px", lineHeight: 1.3, fontWeight: 800, color: "#eef2ff" }}>{title}</div>
+                    <div style={{ marginTop: "8px", fontSize: "11px", fontWeight: 800, color: "#00FF88", letterSpacing: "0.04em" }}>
+                      TOTAL: {formatTotal(scored)}/{maxTotal.toFixed(0)}
+                    </div>
+                  </div>
                   <div style={{ padding: "4px 10px", borderRadius: "8px", background: "rgba(59, 130, 246, 0.1)", border: "1px solid rgba(59, 130, 246, 0.2)", color: "#8ab4ff", fontSize: "10px", fontWeight: 800, letterSpacing: "0.05em", whiteSpace: "nowrap" }}>
                     {m.courseCode}
                   </div>
