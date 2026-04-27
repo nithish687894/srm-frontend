@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState, useMemo } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import DynamicGauge from "@/components/DynamicGauge";
 import { dataAPI } from "@/lib/api";
@@ -28,9 +28,9 @@ export default function AttendancePage() {
   const [showPredictor, setShowPredictor] = useState(false);
   const [selectedDates, setSelectedDates] = useState<Set<string>>(new Set());
   const [predictions, setPredictions] = useState<any[] | null>(null);
+  const [showRiskOnly, setShowRiskOnly] = useState(false);
 
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     if (!ready) return;
@@ -44,6 +44,12 @@ export default function AttendancePage() {
       setTTData({ rows: tt?.data?.rows || [], myTT: myTT?.data || [] });
     }).catch(() => {});
   }, [ready]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    setShowRiskOnly(params.get("risk") === "1");
+  }, []);
 
   const calIndex = useMemo(() => {
     if (!calData) return null;
@@ -169,7 +175,6 @@ export default function AttendancePage() {
   };
 
   const riskClasses = att.filter(c => parseFloat(c["Attn %"]) < 75);
-  const showRiskOnly = searchParams.get("risk") === "1";
   const displayAtt = showRiskOnly ? riskClasses : att;
   const avgAtt = att.length
     ? (att.reduce((s, c) => s + parseFloat(c["Attn %"] || 0), 0) / att.length).toFixed(1)
