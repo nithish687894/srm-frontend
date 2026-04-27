@@ -9,7 +9,7 @@ interface AuthStore {
   email: string | null;
   hasChosenTheme: boolean;
   _hasHydrated: boolean;
-  setAuthData: (authToken: string, refreshToken: string) => void;
+  setAuthData: (authToken: string, refreshToken: string, email: string) => void;
   setAuthToken: (token: string) => void;
   setProfile: (profile: any) => void;
   setAcademicData: (data: any) => void;
