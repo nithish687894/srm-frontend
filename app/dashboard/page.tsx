@@ -262,7 +262,7 @@ export default function DashboardPage() {
             const stats = [
               { label: "Attendance", value: `${avgAtt}%`, color: "var(--accent)", href: "/attendance" },
               { label: "Avg Marks", value: `${avgMarks}%`, color: "var(--text-primary)", href: "/marks" },
-              { label: "At Risk", value: riskCount, color: riskCount > 0 ? "var(--accent-red)" : "var(--text-secondary)" },
+              { label: "At Risk", value: riskCount, color: riskCount > 0 ? "var(--accent-red)" : "var(--text-secondary)", href: "/attendance?risk=1" },
               { label: "Courses", value: totalCourses, color: "var(--text-secondary)" },
             ];
 
@@ -418,7 +418,7 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
               <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Marks</div>
               <div style={{ fontSize: "24px", fontWeight: 900 }}>{avgMarks}%</div>
            </div>
-           <div style={{ background: riskCount > 0 ? "#221111" : "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", border: riskCount > 0 ? "1px solid #ff3b3b" : "none" }}>
+           <div onClick={() => router.push("/attendance?risk=1")} style={{ background: riskCount > 0 ? "#221111" : "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", border: riskCount > 0 ? "1px solid #ff3b3b" : "none", cursor: "pointer" }}>
               <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Risk</div>
               <div style={{ fontSize: "24px", fontWeight: 900, color: riskCount > 0 ? "#ff3b3b" : "#fff" }}>{riskCount}</div>
            </div>
@@ -558,7 +558,7 @@ function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
             { label: "Enrolled", value: totalCourses, sub: "Courses", tone: "#00f0ff", shadow: "rgba(0, 240, 255, 0.16)" },
             { label: "Attendance", value: `${avgAtt}%`, sub: "Health", tone: "#f59e0b", shadow: "rgba(245, 158, 11, 0.16)", href: "/attendance" },
             { label: "Academics", value: `${avgMarks}%`, sub: "Average", tone: "#00E676", shadow: "rgba(0, 230, 118, 0.16)", href: "/marks" },
-            { label: "At Risk", value: riskCount, sub: "Focus", tone: "#d946ef", shadow: "rgba(217, 70, 239, 0.18)" },
+            { label: "At Risk", value: riskCount, sub: "Focus", tone: "#d946ef", shadow: "rgba(217, 70, 239, 0.18)", href: "/attendance?risk=1" },
           ].map((card, i) => (
             <div key={i} className="min-card" onClick={card.href ? () => router.push(card.href) : undefined} style={{ padding: "12px", borderRadius: "16px", borderTop: `1px solid ${card.tone}`, boxShadow: `0 8px 18px ${card.shadow}`, cursor: card.href ? "pointer" : "default" }}>
               <div style={{ fontSize: "10px", color: "var(--text-secondary)", marginBottom: "6px", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700 }}>{card.label}</div>
@@ -613,7 +613,7 @@ function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
           {[
             { key: "marks", label: "Marks", value: `${avgMarks}%`, pct: marksPct, color: "#60A5FA", onClick: () => router.push("/marks") },
-            { key: "risk", label: "Risk", value: `${riskCount}`, pct: Math.min((riskCount / Math.max(totalCourses || 1, 1)) * 100, 100), color: "#EF4444" },
+            { key: "risk", label: "Risk", value: `${riskCount}`, pct: Math.min((riskCount / Math.max(totalCourses || 1, 1)) * 100, 100), color: "#EF4444", onClick: () => router.push("/attendance?risk=1") },
             { key: "Recent", label: "Recent", value: `${recentTop5.length}`, pct: Math.min((recentTop5.length / 5) * 100, 100), color: "#8B5CF6" },
           ].map((s) => {
             const r = 18;
