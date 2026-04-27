@@ -24,10 +24,16 @@ export default function LoginPage() {
  
    async function handleLogin() {
      if (!email || !password) return setError("PROVIDE CREDENTIALS");
+     
+     let finalEmail = email.trim();
+     if (!finalEmail.includes("@")) {
+       finalEmail += "@srmist.edu.in";
+     }
+
      setLoading(true); setError("");
      try {
-       const res = await authAPI.login(email, password);
-       setAuthData(res.token, res.refreshToken, email);
+       const res = await authAPI.login(finalEmail, password);
+       setAuthData(res.token, res.refreshToken, finalEmail);
        if (hasChosenTheme) router.push("/dashboard");
        else router.push("/setup/theme");
     } catch (e: any) {
