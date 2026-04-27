@@ -28,6 +28,7 @@ export default function AttendancePage() {
   const [showPredictor, setShowPredictor] = useState(false);
   const [selectedDates, setSelectedDates] = useState<Set<string>>(new Set());
   const [predictions, setPredictions] = useState<any[] | null>(null);
+  const [showRiskOnly, setShowRiskOnly] = useState(false);
 
   const router = useRouter();
 
@@ -43,6 +44,12 @@ export default function AttendancePage() {
       setTTData({ rows: tt?.data?.rows || [], myTT: myTT?.data || [] });
     }).catch(() => {});
   }, [ready]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    setShowRiskOnly(params.get("risk") === "1");
+  }, []);
 
   const calIndex = useMemo(() => {
     if (!calData) return null;
@@ -168,6 +175,7 @@ export default function AttendancePage() {
   };
 
   const riskClasses = att.filter(c => parseFloat(c["Attn %"]) < 75);
+  const displayAtt = showRiskOnly ? riskClasses : att;
   const avgAtt = att.length
     ? (att.reduce((s, c) => s + parseFloat(c["Attn %"] || 0), 0) / att.length).toFixed(1)
     : "—";
@@ -198,6 +206,7 @@ export default function AttendancePage() {
       predictions={predictions}
       setSelectedDates={setSelectedDates}
       setPredictions={setPredictions}
+      showRiskOnly={showRiskOnly}
     />
   );
 
@@ -217,6 +226,7 @@ export default function AttendancePage() {
       predictions={predictions}
       setSelectedDates={setSelectedDates}
       setPredictions={setPredictions}
+      showRiskOnly={showRiskOnly}
     />
   );
 
@@ -291,7 +301,7 @@ export default function AttendancePage() {
           )}
 
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-            {att.map((c: any, i: number) => {
+            {displayAtt.map((c: any, i: number) => {
               const attn = parseFloat(c["Attn %"]) || 0;
               const isRisk = attn < 75;
               const cond = parseInt(c["Hours Conducted"]) || 0;
@@ -311,6 +321,11 @@ export default function AttendancePage() {
               );
             })}
           </div>
+          {showRiskOnly && (
+            <div style={{ marginBottom: "16px", fontSize: "11px", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--accent-red)", fontWeight: 700 }}>
+              Showing only at-risk subjects
+            </div>
+          )}
           <div className="watermark">Attendance</div>
         </div>
       </main>
@@ -321,7 +336,7 @@ export default function AttendancePage() {
 function MatrixAttendance({ 
   att, avgAtt, totalAgg, presentAgg, absentAgg, 
   showPredictor, setShowPredictor, next30Days, selectedDates, toggleDate, 
-  calculatePredictions, predictions, setSelectedDates, setPredictions 
+  calculatePredictions, predictions, setSelectedDates, setPredictions, showRiskOnly
 }: any) {
   const router = useRouter();
   const riskCount = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
@@ -421,7 +436,7 @@ function MatrixAttendance({
         {/* Subjects List */}
         <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
            <div style={{ fontSize: "12px", color: "#666", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 800 }}>Subject Breakdown</div>
-           {att.map((c: any, i: number) => {
+           {(showRiskOnly ? att.filter((c: any) => parseFloat(c["Attn %"]) < 75) : att).map((c: any, i: number) => {
               const attn = parseFloat(c["Attn %"]) || 0;
               const isRisk = attn < 75;
               const cond = parseInt(c["Hours Conducted"]) || 0;
@@ -470,7 +485,7 @@ function MatrixAttendance({
 function CosmosAttendance({ 
   att, avgAtt, totalAgg, presentAgg, absentAgg, 
   showPredictor, setShowPredictor, next30Days, selectedDates, toggleDate, 
-  calculatePredictions, predictions, setSelectedDates, setPredictions 
+  calculatePredictions, predictions, setSelectedDates, setPredictions, showRiskOnly
 }: any) {
   const attPct = parseFloat(avgAtt as string) || 0;
   const riskCount = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
@@ -512,7 +527,7 @@ function CosmosAttendance({
 
         {/* Subject Cards */}
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          {att.map((c: any, i: number) => {
+          {(showRiskOnly ? att.filter((c: any) => parseFloat(c["Attn %"]) < 75) : att).map((c: any, i: number) => {
             const attn = parseFloat(c["Attn %"]) || 0;
             const cond = parseInt(c["Hours Conducted"]) || 0;
             const abs = parseInt(c["Hours Absent"]) || 0;

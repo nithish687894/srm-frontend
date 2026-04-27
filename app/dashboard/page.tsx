@@ -236,7 +236,7 @@ export default function DashboardPage() {
     </div>
   );
 
-  if (theme === "cosmos") return <CosmosDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} />;
+  if (theme === "cosmos") return <CosmosDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} />;
 
   if (theme === "matrix") return <MatrixDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} dayOffset={dayOffset} setDayOffset={setDayOffset} />;
 
@@ -260,16 +260,16 @@ export default function DashboardPage() {
           {/* Top Stats Cards */}
           {(() => {
             const stats = [
-              { label: "Attendance", value: `${avgAtt}%`, color: "var(--accent)" },
-              { label: "Avg Marks", value: `${avgMarks}%`, color: "var(--text-primary)" },
-              { label: "At Risk", value: riskCount, color: riskCount > 0 ? "var(--accent-red)" : "var(--text-secondary)" },
+              { label: "Attendance", value: `${avgAtt}%`, color: "var(--accent)", href: "/attendance" },
+              { label: "Avg Marks", value: `${avgMarks}%`, color: "var(--text-primary)", href: "/marks" },
+              { label: "At Risk", value: riskCount, color: riskCount > 0 ? "var(--accent-red)" : "var(--text-secondary)", href: "/attendance?risk=1" },
               { label: "Courses", value: totalCourses, color: "var(--text-secondary)" },
             ];
 
             return (
               <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "8px", marginBottom: "32px" }}>
                 {stats.map((s, i) => (
-                  <div key={i} className="min-card" style={{ padding: "16px 12px", textAlign: "center", border: "none" }}>
+                  <div key={i} className="min-card" onClick={s.href ? () => router.push(s.href) : undefined} style={{ padding: "16px 12px", textAlign: "center", border: "none", cursor: s.href ? "pointer" : "default" }}>
                     <div style={{ fontSize: "20px", fontWeight: "bold", color: s.color, marginBottom: "4px" }}>{s.value}</div>
                     <div style={{ fontSize: "9px", color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: "0.05em" }}>{s.label}</div>
                   </div>
@@ -418,7 +418,7 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
               <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Marks</div>
               <div style={{ fontSize: "24px", fontWeight: 900 }}>{avgMarks}%</div>
            </div>
-           <div style={{ background: riskCount > 0 ? "#221111" : "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", border: riskCount > 0 ? "1px solid #ff3b3b" : "none" }}>
+           <div onClick={() => router.push("/attendance?risk=1")} style={{ background: riskCount > 0 ? "#221111" : "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", border: riskCount > 0 ? "1px solid #ff3b3b" : "none", cursor: "pointer" }}>
               <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Risk</div>
               <div style={{ fontSize: "24px", fontWeight: 900, color: riskCount > 0 ? "#ff3b3b" : "#fff" }}>{riskCount}</div>
            </div>
@@ -505,7 +505,7 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
   );
 }
 
-function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, recentTop5, initials, firstName }: any) {
+function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, recentTop5, initials, firstName, dayOrder, isHoliday }: any) {
   const router = useRouter();
   const marksPct = parseFloat(avgMarks as string) || 0;
   const profile = data?.profile || {};
@@ -534,6 +534,9 @@ function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
             <div style={{ fontSize: "12px", color: "var(--text-secondary)", marginTop: "4px" }}>
               Let&apos;s continue where you left off
             </div>
+            <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "6px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+              {isHoliday ? "Today: Holiday" : `Today: Day Order ${dayOrder || "—"}`}
+            </div>
           </div>
           <div style={{ width: "40px", height: "40px", borderRadius: "12px", background: "linear-gradient(135deg, #3055d7, #d946ef)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, border: "1px solid rgba(255,255,255,0.2)", boxShadow: "0 4px 15px rgba(217, 70, 239, 0.28)" }}>
             {initials}
@@ -553,11 +556,11 @@ function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(132px, 1fr))", gap: "10px", marginBottom: "20px" }}>
           {[
             { label: "Enrolled", value: totalCourses, sub: "Courses", tone: "#00f0ff", shadow: "rgba(0, 240, 255, 0.16)" },
-            { label: "Attendance", value: `${avgAtt}%`, sub: "Health", tone: "#f59e0b", shadow: "rgba(245, 158, 11, 0.16)" },
-            { label: "Academics", value: `${avgMarks}%`, sub: "Average", tone: "#00E676", shadow: "rgba(0, 230, 118, 0.16)" },
-            { label: "At Risk", value: riskCount, sub: "Focus", tone: "#d946ef", shadow: "rgba(217, 70, 239, 0.18)" },
+            { label: "Attendance", value: `${avgAtt}%`, sub: "Health", tone: "#f59e0b", shadow: "rgba(245, 158, 11, 0.16)", href: "/attendance" },
+            { label: "Academics", value: `${avgMarks}%`, sub: "Average", tone: "#00E676", shadow: "rgba(0, 230, 118, 0.16)", href: "/marks" },
+            { label: "At Risk", value: riskCount, sub: "Focus", tone: "#d946ef", shadow: "rgba(217, 70, 239, 0.18)", href: "/attendance?risk=1" },
           ].map((card, i) => (
-            <div key={i} className="min-card" style={{ padding: "12px", borderRadius: "16px", borderTop: `1px solid ${card.tone}`, boxShadow: `0 8px 18px ${card.shadow}` }}>
+            <div key={i} className="min-card" onClick={card.href ? () => router.push(card.href) : undefined} style={{ padding: "12px", borderRadius: "16px", borderTop: `1px solid ${card.tone}`, boxShadow: `0 8px 18px ${card.shadow}`, cursor: card.href ? "pointer" : "default" }}>
               <div style={{ fontSize: "10px", color: "var(--text-secondary)", marginBottom: "6px", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700 }}>{card.label}</div>
               <div style={{ fontSize: "24px", fontWeight: 800, lineHeight: 1.1, color: "#fff" }}>{card.value}</div>
               <div style={{ fontSize: "10px", color: card.tone, marginTop: "6px", fontWeight: 700 }}>{card.sub}</div>
@@ -583,7 +586,12 @@ function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
           <div className="min-card" style={{ padding: "18px", borderRadius: "20px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "14px" }}>
               <div style={{ fontSize: "18px", fontWeight: 800, lineHeight: 1.1 }}>Today&apos;s Schedule</div>
-              <button onClick={() => router.push("/timetable")} style={{ background: "none", border: "none", color: "#00f0ff", cursor: "pointer", fontWeight: 800, fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Full Calendar</button>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <span style={{ fontSize: "10px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--text-secondary)" }}>
+                  {isHoliday ? "Holiday" : `Day ${dayOrder || "—"}`}
+                </span>
+                <button onClick={() => router.push("/timetable")} style={{ background: "none", border: "none", color: "#00f0ff", cursor: "pointer", fontWeight: 800, fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Full Calendar</button>
+              </div>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
               {targetClasses.length === 0 && (
@@ -605,7 +613,7 @@ function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
           {[
             { key: "marks", label: "Marks", value: `${avgMarks}%`, pct: marksPct, color: "#60A5FA", onClick: () => router.push("/marks") },
-            { key: "risk", label: "Risk", value: `${riskCount}`, pct: Math.min((riskCount / Math.max(totalCourses || 1, 1)) * 100, 100), color: "#EF4444" },
+            { key: "risk", label: "Risk", value: `${riskCount}`, pct: Math.min((riskCount / Math.max(totalCourses || 1, 1)) * 100, 100), color: "#EF4444", onClick: () => router.push("/attendance?risk=1") },
             { key: "Recent", label: "Recent", value: `${recentTop5.length}`, pct: Math.min((recentTop5.length / 5) * 100, 100), color: "#8B5CF6" },
           ].map((s) => {
             const r = 18;
