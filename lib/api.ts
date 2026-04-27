@@ -66,6 +66,7 @@ export const dataAPI = {
     API.get(`/api/timetable?batch=${batch}`).then((r) => r.data),
   getCalendar: () => API.get("/api/calendar").then((r) => r.data),
   getMyTimetable: () => API.get("/api/my-timetable").then((r) => r.data),
+  getAdminLogs: () => API.get("/api/admin/login-logs").then((r) => r.data),
   aiChat: (message: string, historyData: any[], academicData: any) => 
     API.post("/api/ai/chat", { message, historyData, academicData }).then((r) => r.data)
 };

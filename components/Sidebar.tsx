@@ -5,14 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { authAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 
-const NAV = [
-  { href: "/dashboard",  label: "Home" },
-  { href: "/marks",      label: "Marks" },
-  { href: "/attendance", label: "Attnd" },
-  { href: "/timetable",  label: "Time" },
-  { href: "/calendar",   label: "Cal" },
-  { href: "/ai",         label: "✨ AI" },
-];
+
 
 
 
@@ -20,7 +13,22 @@ export default function Sidebar() {
   const path = usePathname();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { profile } = useAuthStore();
   const [mounted, setMounted] = useState(false);
+  
+  const ADMIN_EMAIL = "ns4770@srmist.edu.in";
+  const isAdmin = profile?.Email === ADMIN_EMAIL || profile?.["Email"] === ADMIN_EMAIL;
+
+  const NAV = [
+    { href: "/dashboard",  label: "Home" },
+    { href: "/marks",      label: "Marks" },
+    { href: "/attendance", label: "Attnd" },
+    { href: "/timetable",  label: "Time" },
+    { href: "/calendar",   label: "Cal" },
+    { href: "/ai",         label: "✨ AI" },
+    ...(isAdmin ? [{ href: "/admin", label: "Admin" }] : []),
+  ];
+
   useEffect(() => {
     setMounted(true);
   }, []);
