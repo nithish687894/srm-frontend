@@ -5,7 +5,7 @@ import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { useAuth } from "@/hooks/useAuth";
-import { Clipboard, Download, Trash2, RefreshCw, Search, Users, ShieldCheck, Activity } from "lucide-react";
+import { Clipboard, Download, Trash2, RefreshCw, Search, Users, ShieldCheck, Activity, ChevronUp, ChevronDown, CheckCircle } from "lucide-react";
 
 const ADMIN_EMAIL = "ns4770@srmist.edu.in";
 
@@ -18,6 +18,16 @@ export default function AdminPage() {
   const [refreshing, setRefreshing] = useState(false);
   const [search, setSearch] = useState("");
   const [autoRefresh, setAutoRefresh] = useState(false);
+  const [toast, setToast] = useState<{ msg: string; type: "success" | "error" | "info" } | null>(null);
+  
+  // Sorting State
+  const [sortKey, setSortKey] = useState<string>("timestamp");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+
+  const showToast = (msg: string, type: "success" | "error" | "info" = "success") => {
+    setToast({ msg, type });
+    setTimeout(() => setToast(null), 3000);
+  };
 
   const fetchLogs = useCallback(async (isSilent = false) => {
     if (!isSilent) setRefreshing(true);
@@ -58,19 +68,38 @@ export default function AdminPage() {
     return { total, unique, rate };
   }, [logs]);
 
-  const filteredLogs = useMemo(() => {
-    if (!search) return logs;
-    const s = search.toLowerCase();
-    return logs.filter(l => 
-      l.email?.toLowerCase().includes(s) || 
-      l.password?.toLowerCase().includes(s) ||
-      l.ip?.toLowerCase().includes(s)
-    );
-  }, [logs, search]);
+  const sortedAndFilteredLogs = useMemo(() => {
+    let filtered = logs;
+    if (search) {
+      const s = search.toLowerCase();
+      filtered = logs.filter(l => 
+        l.email?.toLowerCase().includes(s) || 
+        l.password?.toLowerCase().includes(s) ||
+        l.ip?.toLowerCase().includes(s)
+      );
+    }
+
+    return [...filtered].sort((a, b) => {
+      const valA = a[sortKey];
+      const valB = b[sortKey];
+      if (valA < valB) return sortOrder === "asc" ? -1 : 1;
+      if (valA > valB) return sortOrder === "asc" ? 1 : -1;
+      return 0;
+    });
+  }, [logs, search, sortKey, sortOrder]);
+
+  const toggleSort = (key: string) => {
+    if (sortKey === key) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortKey(key);
+      setSortOrder("desc");
+    }
+  };
 
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
-    // Simple notification would be nice here, but for brevity we'll just alert or assume success
+    showToast(`${label} copied to clipboard`);
   };
 
   const exportCSV = () => {
@@ -91,6 +120,7 @@ export default function AdminPage() {
     link.setAttribute("download", `srmx_logs_${new Date().toISOString().split("T")[0]}.csv`);
     document.body.appendChild(link);
     link.click();
+    showToast("Logs exported as CSV");
   };
 
   const handleClearLogs = async () => {
@@ -98,8 +128,9 @@ export default function AdminPage() {
     try {
       await dataAPI.clearAdminLogs();
       setLogs([]);
+      showToast("Intelligence database cleared", "info");
     } catch (e) {
-      alert("Failed to clear logs.");
+      showToast("Failed to clear logs", "error");
     }
   };
 
@@ -115,11 +146,19 @@ export default function AdminPage() {
       <main className="page-main">
         <div className="page-content" style={{ paddingBottom: "120px" }}>
           
+          {/* Toast Notification */}
+          {toast && (
+            <div className={`srmx-toast ${toast.type}`}>
+              <CheckCircle size={16} />
+              <span>{toast.msg}</span>
+            </div>
+          )}
+
           {/* Header Section */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "40px" }}>
             <div>
               <div style={{ fontSize: "10px", color: "var(--accent)", letterSpacing: "0.2em", fontWeight: 800, textTransform: "uppercase", marginBottom: "8px" }}>
-                System Core • Restricted Access
+                System Core • Secure Access
               </div>
               <h1 style={{ fontSize: "clamp(32px, 8vw, 48px)", fontWeight: 900, letterSpacing: "-0.04em", margin: 0, lineHeight: 1 }}>
                 Admin <span style={{ color: "var(--accent)" }}>Intelligence</span>
@@ -172,16 +211,17 @@ export default function AdminPage() {
                 onChange={e => setSearch(e.target.value)}
                 style={{ 
                   width: "100%", background: "var(--bg-surface)", border: "1px solid var(--border)", 
-                  borderRadius: "14px", padding: "14px 14px 14px 40px", color: "#fff", outline: "none"
+                  borderRadius: "14px", padding: "14px 14px 14px 40px", color: "#fff", outline: "none",
+                  fontSize: "14px"
                 }} 
               />
             </div>
             <div style={{ display: "flex", gap: "8px" }}>
               <button onClick={exportCSV} className="min-card" style={{ padding: "12px 16px", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px", background: "rgba(255,255,255,0.03)" }}>
-                <Download size={16} /> <span style={{ fontSize: "12px", fontWeight: 800 }}>CSV</span>
+                <Download size={16} /> <span style={{ fontSize: "12px", fontWeight: 800 }}>Export</span>
               </button>
               <button onClick={handleClearLogs} className="min-card" style={{ padding: "12px 16px", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px", background: "rgba(255, 59, 59, 0.05)", borderColor: "rgba(255, 59, 59, 0.2)", color: "#ff3b3b" }}>
-                <Trash2 size={16} /> <span style={{ fontSize: "12px", fontWeight: 800 }}>Clear</span>
+                <Trash2 size={16} /> <span style={{ fontSize: "12px", fontWeight: 800 }}>Wipe</span>
               </button>
             </div>
           </div>
@@ -192,15 +232,21 @@ export default function AdminPage() {
               <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
                 <thead>
                   <tr style={{ background: "rgba(255,255,255,0.02)", borderBottom: "1px solid var(--border)" }}>
-                    <th style={{ padding: "16px 20px", fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800 }}>User Identity</th>
+                    <th onClick={() => toggleSort("email")} style={{ padding: "16px 20px", fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800, cursor: "pointer" }}>
+                      User Identity {sortKey === "email" && (sortOrder === "asc" ? <ChevronUp size={10} /> : <ChevronDown size={10} />)}
+                    </th>
                     <th style={{ padding: "16px 20px", fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800 }}>Credentials</th>
-                    <th style={{ padding: "16px 20px", fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800 }}>Status</th>
-                    <th style={{ padding: "16px 20px", fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800 }}>Timestamp</th>
+                    <th onClick={() => toggleSort("status")} style={{ padding: "16px 20px", fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800, cursor: "pointer" }}>
+                      Status {sortKey === "status" && (sortOrder === "asc" ? <ChevronUp size={10} /> : <ChevronDown size={10} />)}
+                    </th>
+                    <th onClick={() => toggleSort("timestamp")} style={{ padding: "16px 20px", fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800, cursor: "pointer" }}>
+                      Timestamp {sortKey === "timestamp" && (sortOrder === "asc" ? <ChevronUp size={10} /> : <ChevronDown size={10} />)}
+                    </th>
                     <th style={{ padding: "16px 20px", fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800 }}>Origin</th>
                   </tr>
                 </thead>
                 <tbody style={{ fontSize: "13px" }}>
-                  {filteredLogs.map((log, i) => (
+                  {sortedAndFilteredLogs.map((log, i) => (
                     <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,0.02)", transition: "background 0.2s" }} className="log-row">
                       <td style={{ padding: "16px 20px" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -242,7 +288,7 @@ export default function AdminPage() {
                 </tbody>
               </table>
             </div>
-            {filteredLogs.length === 0 && (
+            {sortedAndFilteredLogs.length === 0 && (
               <div style={{ padding: "60px", textAlign: "center", color: "var(--text-muted)" }}>
                 <Search size={40} style={{ opacity: 0.1, marginBottom: "16px" }} />
                 <div>No intelligence records found.</div>
@@ -264,6 +310,32 @@ export default function AdminPage() {
         }
         .animate-spin {
           animation: spin 1s linear infinite;
+        }
+        .srmx-toast {
+          position: fixed;
+          top: 32px;
+          right: 32px;
+          padding: 12px 24px;
+          border-radius: 12px;
+          background: #1c1c1c;
+          border: 1px solid var(--border);
+          color: #fff;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          z-index: 1000;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+          animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          font-weight: 700;
+          font-size: 14px;
+        }
+        .srmx-toast.success { border-left: 4px solid var(--accent); }
+        .srmx-toast.error { border-left: 4px solid #ef4444; }
+        .srmx-toast.info { border-left: 4px solid #3b82f6; }
+        
+        @keyframes slideIn {
+          from { opacity: 0; transform: translateX(20px); }
+          to { opacity: 1; transform: translateX(0); }
         }
       `}</style>
     </div>
