@@ -68,6 +68,8 @@ export const dataAPI = {
   getMyTimetable: () => API.get("/api/my-timetable").then((r) => r.data),
   getAdminLogs: () => API.get("/api/admin/login-logs").then((r) => r.data),
   clearAdminLogs: () => API.delete("/api/admin/login-logs").then((r) => r.data),
+  getBroadcast: () => API.get("/api/admin/broadcast").then((r) => r.data),
+  updateBroadcast: (data: any) => API.post("/api/admin/broadcast", data).then((r) => r.data),
   aiChat: (message: string, historyData: any[], academicData: any) =>
     API.post("/api/ai/chat", { message, historyData, academicData }).then((r) => r.data)
 };

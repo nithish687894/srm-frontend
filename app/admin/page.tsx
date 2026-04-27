@@ -5,7 +5,7 @@ import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { useAuth } from "@/hooks/useAuth";
-import { Clipboard, Download, Trash2, RefreshCw, Search, Users, ShieldCheck, Activity, ChevronUp, ChevronDown, CheckCircle } from "lucide-react";
+import { Clipboard, Download, Trash2, RefreshCw, Search, Users, ShieldCheck, Activity, ChevronUp, ChevronDown, CheckCircle, Megaphone, Send, ToggleLeft, ToggleRight } from "lucide-react";
 
 const ADMIN_EMAIL = "ns4770@srmist.edu.in";
 
@@ -20,6 +20,12 @@ export default function AdminPage() {
   const [autoRefresh, setAutoRefresh] = useState(false);
   const [toast, setToast] = useState<{ msg: string; type: "success" | "error" | "info" } | null>(null);
   
+  // Broadcast State
+  const [bcMsg, setBcMsg] = useState("");
+  const [bcType, setBcType] = useState<"info" | "success" | "warning">("info");
+  const [bcActive, setBcActive] = useState(false);
+  const [bcLoading, setBcLoading] = useState(false);
+
   // Sorting State
   const [sortKey, setSortKey] = useState<string>("timestamp");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
@@ -42,6 +48,15 @@ export default function AdminPage() {
     }
   }, []);
 
+  const fetchBroadcast = useCallback(async () => {
+    try {
+      const res = await dataAPI.getBroadcast();
+      setBcMsg(res.message || "");
+      setBcType(res.type || "info");
+      setBcActive(res.active || false);
+    } catch (e) {}
+  }, []);
+
   useEffect(() => {
     if (!ready) return;
     const userEmail = (storeEmail || profile?.Email || profile?.["Email"] || "").toLowerCase();
@@ -50,7 +65,8 @@ export default function AdminPage() {
       return;
     }
     fetchLogs();
-  }, [ready, profile, storeEmail, router, fetchLogs]);
+    fetchBroadcast();
+  }, [ready, profile, storeEmail, router, fetchLogs, fetchBroadcast]);
 
   useEffect(() => {
     let interval: any;
@@ -94,6 +110,18 @@ export default function AdminPage() {
     } else {
       setSortKey(key);
       setSortOrder("desc");
+    }
+  };
+
+  const handleBroadcastUpdate = async () => {
+    setBcLoading(true);
+    try {
+      await dataAPI.updateBroadcast({ message: bcMsg, type: bcType, active: bcActive });
+      showToast("System broadcast updated!");
+    } catch (e) {
+      showToast("Update failed", "error");
+    } finally {
+      setBcLoading(false);
     }
   };
 
@@ -158,26 +186,11 @@ export default function AdminPage() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "40px" }}>
             <div>
               <div style={{ fontSize: "10px", color: "var(--accent)", letterSpacing: "0.2em", fontWeight: 800, textTransform: "uppercase", marginBottom: "8px" }}>
-                System Core • Secure Access
+                System Core • Master Access
               </div>
               <h1 style={{ fontSize: "clamp(32px, 8vw, 48px)", fontWeight: 900, letterSpacing: "-0.04em", margin: 0, lineHeight: 1 }}>
-                Admin <span style={{ color: "var(--accent)" }}>Intelligence</span>
+                Command <span style={{ color: "var(--accent)" }}>Center</span>
               </h1>
-            </div>
-            <div style={{ display: "flex", gap: "10px" }}>
-              <button 
-                onClick={() => setAutoRefresh(!autoRefresh)}
-                style={{ 
-                  background: autoRefresh ? "rgba(168, 194, 0, 0.15)" : "rgba(255,255,255,0.03)", 
-                  border: `1px solid ${autoRefresh ? "var(--accent)" : "var(--border)"}`,
-                  color: autoRefresh ? "var(--accent)" : "var(--text-secondary)",
-                  padding: "10px 16px", borderRadius: "12px", fontSize: "12px", fontWeight: 700,
-                  display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", transition: "all 0.2s"
-                }}
-              >
-                <RefreshCw size={14} className={autoRefresh ? "animate-spin" : ""} />
-                {autoRefresh ? "Live Feed" : "Static View"}
-              </button>
             </div>
           </div>
 
@@ -200,7 +213,51 @@ export default function AdminPage() {
             </div>
           </div>
 
-          {/* Control Bar */}
+          {/* Broadcast Console */}
+          <div className="min-card" style={{ padding: "24px", marginBottom: "32px", border: "1px solid var(--accent)", background: "rgba(168, 194, 0, 0.02)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
+              <Megaphone size={20} style={{ color: "var(--accent)" }} />
+              <h2 style={{ fontSize: "18px", fontWeight: 900, margin: 0 }}>System Broadcast</h2>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+              <div style={{ display: "flex", gap: "12px" }}>
+                <input 
+                  type="text" 
+                  placeholder="Enter message for all users..."
+                  value={bcMsg}
+                  onChange={e => setBcMsg(e.target.value)}
+                  style={{ flex: 1, background: "var(--bg-root)", border: "1px solid var(--border)", borderRadius: "12px", padding: "14px", color: "#fff", outline: "none", fontSize: "14px" }}
+                />
+                <select 
+                  value={bcType}
+                  onChange={e => setBcType(e.target.value as any)}
+                  style={{ background: "var(--bg-root)", border: "1px solid var(--border)", borderRadius: "12px", padding: "0 14px", color: "#fff", outline: "none", cursor: "pointer" }}
+                >
+                  <option value="info">Info (Default)</option>
+                  <option value="success">Success (Green)</option>
+                  <option value="warning">Warning (Red)</option>
+                </select>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <button 
+                  onClick={() => setBcActive(!bcActive)}
+                  style={{ background: "none", border: "none", color: bcActive ? "var(--accent)" : "var(--text-muted)", display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontWeight: 800, fontSize: "12px", textTransform: "uppercase" }}
+                >
+                  {bcActive ? <ToggleRight size={32} /> : <ToggleLeft size={32} />}
+                  {bcActive ? "Broadcast Active" : "Broadcast Offline"}
+                </button>
+                <button 
+                  onClick={handleBroadcastUpdate}
+                  disabled={bcLoading}
+                  style={{ background: "var(--accent)", color: "#000", border: "none", borderRadius: "12px", padding: "12px 24px", fontWeight: 900, cursor: "pointer", display: "flex", alignItems: "center", gap: "8px", transition: "all 0.2s" }}
+                >
+                  <Send size={16} /> {bcLoading ? "TRANSMITTING..." : "TRANSMIT"}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Database Control Bar */}
           <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", marginBottom: "24px", alignItems: "center" }}>
             <div style={{ flex: 1, minWidth: "200px", position: "relative" }}>
               <Search style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)" }} size={16} />
@@ -217,11 +274,18 @@ export default function AdminPage() {
               />
             </div>
             <div style={{ display: "flex", gap: "8px" }}>
+              <button 
+                onClick={() => setAutoRefresh(!autoRefresh)}
+                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)", color: autoRefresh ? "var(--accent)" : "var(--text-secondary)", padding: "0 16px", borderRadius: "14px", display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }}
+              >
+                <RefreshCw size={14} className={autoRefresh ? "animate-spin" : ""} />
+                <span style={{ fontSize: "11px", fontWeight: 800 }}>{autoRefresh ? "LIVE" : "STATIC"}</span>
+              </button>
               <button onClick={exportCSV} className="min-card" style={{ padding: "12px 16px", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px", background: "rgba(255,255,255,0.03)" }}>
-                <Download size={16} /> <span style={{ fontSize: "12px", fontWeight: 800 }}>Export</span>
+                <Download size={16} /> <span style={{ fontSize: "11px", fontWeight: 800 }}>EXPORT</span>
               </button>
               <button onClick={handleClearLogs} className="min-card" style={{ padding: "12px 16px", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px", background: "rgba(255, 59, 59, 0.05)", borderColor: "rgba(255, 59, 59, 0.2)", color: "#ff3b3b" }}>
-                <Trash2 size={16} /> <span style={{ fontSize: "12px", fontWeight: 800 }}>Wipe</span>
+                <Trash2 size={16} /> <span style={{ fontSize: "11px", fontWeight: 800 }}>WIPE</span>
               </button>
             </div>
           </div>
