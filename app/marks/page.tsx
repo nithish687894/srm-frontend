@@ -315,6 +315,11 @@ function CosmosMarks({ marks, titleMap }: any) {
               const [, mx] = t.test.split("/");
               return s + (parseFloat(mx) || 0);
             }, 0) || 0;
+            const totalPct = maxTotal > 0 ? (scored / maxTotal) * 100 : 0;
+            const totalRingColor = getRingColor(totalPct);
+            const totalR = 22;
+            const totalC = 2 * Math.PI * totalR;
+            const totalOffset = totalC * (1 - Math.min(totalPct, 100) / 100);
             return (
               <div key={i} className="min-card" style={{ borderRadius: "20px", padding: "18px", background: "rgba(16, 25, 57, 0.7)", border: "1px solid rgba(255, 255, 255, 0.03)", transition: "all 0.3s ease" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "12px", marginBottom: "20px" }}>
@@ -323,9 +328,30 @@ function CosmosMarks({ marks, titleMap }: any) {
                     <div style={{ marginTop: "8px", fontSize: "11px", fontWeight: 800, color: "#00FF88", letterSpacing: "0.04em" }}>
                       TOTAL: {formatTotal(scored)}/{maxTotal.toFixed(0)}
                     </div>
+                    <div style={{ marginTop: "4px", fontSize: "10px", color: "var(--text-muted)", fontWeight: 700, letterSpacing: "0.05em" }}>
+                      {m.courseCode}
+                    </div>
                   </div>
-                  <div style={{ padding: "4px 10px", borderRadius: "8px", background: "rgba(59, 130, 246, 0.1)", border: "1px solid rgba(59, 130, 246, 0.2)", color: "#8ab4ff", fontSize: "10px", fontWeight: 800, letterSpacing: "0.05em", whiteSpace: "nowrap" }}>
-                    {m.courseCode}
+                  <div style={{ position: "relative", width: "56px", height: "56px", flexShrink: 0 }}>
+                    <svg width="56" height="56" viewBox="0 0 56 56">
+                      <circle cx="28" cy="28" r={totalR} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="4" />
+                      <circle
+                        cx="28"
+                        cy="28"
+                        r={totalR}
+                        fill="none"
+                        stroke={totalRingColor}
+                        strokeWidth="4"
+                        strokeLinecap="round"
+                        strokeDasharray={totalC}
+                        strokeDashoffset={totalOffset}
+                        transform="rotate(-90 28 28)"
+                        style={{ transition: "stroke-dashoffset 1s ease-out" }}
+                      />
+                    </svg>
+                    <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", fontWeight: 900, color: "#fff" }}>
+                      {Math.round(totalPct)}%
+                    </div>
                   </div>
                 </div>
 
