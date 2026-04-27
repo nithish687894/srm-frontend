@@ -6,6 +6,7 @@ interface AuthStore {
   refreshToken: string | null;
   profile: any;
   academicData: any;
+  email: string | null;
   hasChosenTheme: boolean;
   _hasHydrated: boolean;
   setAuthData: (authToken: string, refreshToken: string) => void;
@@ -25,12 +26,14 @@ export const useAuthStore = create<AuthStore>()(
       refreshToken: null,
       profile: null,
       academicData: null,
+      email: null,
       hasChosenTheme: false,
       _hasHydrated: false,
-      setAuthData: (authToken, refreshToken) => {
+      setAuthData: (authToken, refreshToken, email) => {
         localStorage.setItem("authToken", authToken);
         localStorage.setItem("refreshToken", refreshToken);
-        set({ authToken, refreshToken });
+        if (email) localStorage.setItem("userEmail", email);
+        set({ authToken, refreshToken, email });
       },
       setAuthToken: (authToken) => {
         localStorage.setItem("authToken", authToken);
@@ -42,7 +45,8 @@ export const useAuthStore = create<AuthStore>()(
       logout: () => {
         localStorage.removeItem("authToken");
         localStorage.removeItem("refreshToken");
-        set({ authToken: null, refreshToken: null, profile: null, academicData: null, hasChosenTheme: false });
+        localStorage.removeItem("userEmail");
+        set({ authToken: null, refreshToken: null, email: null, profile: null, academicData: null, hasChosenTheme: false });
       },
       clearSession: () => {
         localStorage.removeItem("authToken");
@@ -57,6 +61,7 @@ export const useAuthStore = create<AuthStore>()(
         ({
           authToken: state.authToken,
           refreshToken: state.refreshToken,
+          email: state.email,
           profile: state.profile,
           academicData: state.academicData,
           hasChosenTheme: state.hasChosenTheme,

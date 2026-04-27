@@ -27,7 +27,7 @@ export default function LoginPage() {
      setLoading(true); setError("");
      try {
        const res = await authAPI.login(email, password);
-       setAuthData(res.token, res.refreshToken);
+       setAuthData(res.token, res.refreshToken, email);
        if (hasChosenTheme) router.push("/dashboard");
        else router.push("/setup/theme");
     } catch (e: any) {

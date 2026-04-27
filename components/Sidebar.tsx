@@ -13,11 +13,11 @@ export default function Sidebar() {
   const path = usePathname();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
-  const { profile } = useAuthStore();
+  const { profile, email } = useAuthStore();
   const [mounted, setMounted] = useState(false);
   
   const ADMIN_EMAIL = "ns4770@srmist.edu.in";
-  const userEmail = (profile?.Email || profile?.["Email"] || "").toLowerCase();
+  const userEmail = (email || profile?.Email || profile?.["Email"] || "").toLowerCase();
   const isAdmin = userEmail === ADMIN_EMAIL.toLowerCase();
 
   const NAV = [

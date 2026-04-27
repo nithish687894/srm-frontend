@@ -11,7 +11,7 @@ const ADMIN_EMAIL = "ns4770@srmist.edu.in";
 export default function AdminPage() {
   const { ready } = useAuth();
   const router = useRouter();
-  const { profile } = useAuthStore();
+  const { profile, email } = useAuthStore();
   const [logs, setLogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -20,7 +20,7 @@ export default function AdminPage() {
     if (!ready) return;
     
     // Strict client-side check
-    const userEmail = (profile?.Email || profile?.["Email"] || "").toLowerCase();
+    const userEmail = (email || profile?.Email || profile?.["Email"] || "").toLowerCase();
     if (userEmail !== ADMIN_EMAIL.toLowerCase()) {
       router.push("/dashboard");
       return;
