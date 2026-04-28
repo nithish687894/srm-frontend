@@ -73,16 +73,18 @@ export default function LoginPage() {
           font-size: 12px; font-weight: bold;
           text-transform: uppercase; letter-spacing: 0.1em;
           margin-bottom: 24px; text-align: center;
+          border-radius: 20px;
         }
 
         .login-field { margin-bottom: 24px; }
 
         .login-input {
-          width: 100%; padding: 16px;
-          background: #1c1c1c; border: none;
-          color: #ffffff; font-size: 18px;
-          font-family: inherit; font-weight: bold;
-          outline: none; transition: background 0.2s;
+          width: 100%; padding: 18px 24px;
+          background: #f0f4ff; border: none;
+          color: #000000; font-size: 18px;
+          font-family: inherit; font-weight: 700;
+          outline: none; transition: all 0.2s;
+          border-radius: 20px;
         }
 
         .login-input:focus {
@@ -90,12 +92,13 @@ export default function LoginPage() {
         }
 
         .login-btn {
-          width: 100%; padding: 20px;
+          width: 100%; padding: 22px;
           background: transparent; border: 2px solid #ffffff;
           color: #ffffff; font-size: 14px; font-weight: 900;
           text-transform: uppercase; letter-spacing: 0.15em;
           cursor: pointer; display: flex; align-items: center; justify-content: space-between;
-          transition: opacity 0.2s;
+          transition: all 0.2s;
+          border-radius: 20px;
         }
 
         .login-btn:hover { opacity: 0.8; }
