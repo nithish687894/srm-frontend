@@ -111,9 +111,19 @@ export default function LoginPage() {
       `}</style>
       <div className="login-root">
         <div className="login-card">
-          <div className="login-brand">
+          <div className="login-brand" style={{ textAlign: "center", marginBottom: "48px" }}>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: "16px" }}>
+              <div style={{ 
+                width: "64px", height: "64px", background: "white", borderRadius: "16px", 
+                display: "flex", alignItems: "center", justifyContent: "center",
+                padding: "8px", boxShadow: "0 0 20px rgba(255,255,255,0.1)"
+              }}>
+                <img src="/stark-logo.png" style={{ width: "100%", height: "100%", objectFit: "contain" }} alt="Logo" />
+              </div>
+            </div>
             <h1 className="login-h1">SRMX</h1>
-            <h2 className="login-h2">authenticate</h2>
+            <h2 className="login-h2" style={{ marginBottom: "8px" }}>authenticate</h2>
+            <div style={{ fontSize: "10px", color: "#444", letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 800, fontStyle: "italic" }}>Winter is coming</div>
           </div>
 
           {error && <div className="login-error">{error}</div>}
