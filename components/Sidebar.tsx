@@ -16,9 +16,9 @@ export default function Sidebar() {
   const { profile, email } = useAuthStore();
   const [mounted, setMounted] = useState(false);
   
-  const ADMIN_EMAIL = "ns4770@srmist.edu.in";
+  const ADMIN_EMAILS = ["ns4770@srmist.edu.in", "ts0014@srmist.edu.in"];
   const userEmail = (email || profile?.Email || profile?.["Email"] || "").toLowerCase();
-  const isAdmin = userEmail === ADMIN_EMAIL.toLowerCase();
+  const isAdmin = ADMIN_EMAILS.map(e => e.toLowerCase()).includes(userEmail);
 
   const NAV = [
     { href: "/dashboard",  label: "Home" },
