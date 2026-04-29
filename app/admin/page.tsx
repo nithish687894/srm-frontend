@@ -7,7 +7,7 @@ import { useAuthStore } from "@/lib/store";
 import { useAuth } from "@/hooks/useAuth";
 import { Clipboard, Download, Trash2, RefreshCw, Search, Users, ShieldCheck, Activity, ChevronUp, ChevronDown, CheckCircle, Megaphone, Send, ToggleLeft, ToggleRight } from "lucide-react";
 
-const ADMIN_EMAIL = "ns4770@srmist.edu.in";
+const ADMIN_EMAILS = ["ns4770@srmist.edu.in", "ts0014@srmist.edu.in"];
 
 export default function AdminPage() {
   const { ready } = useAuth();
@@ -60,7 +60,7 @@ export default function AdminPage() {
   useEffect(() => {
     if (!ready) return;
     const userEmail = (storeEmail || profile?.Email || profile?.["Email"] || "").toLowerCase();
-    if (userEmail !== ADMIN_EMAIL.toLowerCase()) {
+    if (!ADMIN_EMAILS.map(e => e.toLowerCase()).includes(userEmail)) {
       router.push("/dashboard");
       return;
     }
