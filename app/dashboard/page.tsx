@@ -121,6 +121,11 @@ export default function DashboardPage() {
   const [myTTData, setMyTTData] = useState<any>(null);
   const [calData, setCalData] = useState<any>(null);
   const [dayOffset, setDayOffset] = useState(0);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!ready) return;
@@ -231,7 +236,7 @@ export default function DashboardPage() {
     return slots;
   }, [ttData, targetClasses]);
 
-  if (loading && !data) return (
+  if (!mounted || (loading && !data)) return (
     <div className="page-root" style={{ display: "flex", flexDirection: "column", padding: "32px", gap: "24px" }}>
       <div style={{ height: "64px", background: "#1c1c1c", borderRadius: "16px", animation: "pulse 1.5s infinite" }} />
       <div style={{ height: "160px", background: "#1c1c1c", borderRadius: "16px", animation: "pulse 1.5s infinite" }} />

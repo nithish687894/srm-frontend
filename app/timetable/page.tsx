@@ -138,13 +138,34 @@ export default function TimetablePage() {
   });
   const router = useRouter();
   const shareRef = useRef<HTMLDivElement>(null);
+  const fullShareRef = useRef<HTMLDivElement>(null);
   const [sharing, setSharing] = useState(false);
+  const [fullSharing, setFullSharing] = useState(false);
 
   const handleShare = async () => {
     if (!shareRef.current) return;
     setSharing(true);
     try {
       const dataUrl = await toPng(shareRef.current, { quality: 0.95, cacheBust: true });
+      
+      // Try Web Share API for direct social sharing (WhatsApp/Insta)
+      if (navigator.share && navigator.canShare) {
+        const response = await fetch(dataUrl);
+        const blob = await response.blob();
+        const file = new File([blob], `srm-nexus-day-${dayOverride}.png`, { type: 'image/png' });
+        
+        if (navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            title: `My Schedule - Day ${dayOverride}`,
+            text: 'Check my schedule on SRM Nexus!',
+          });
+          setSharing(false);
+          return;
+        }
+      }
+
+      // Fallback to Download
       const link = document.createElement("a");
       link.download = `srm-nexus-day-${dayOverride}.png`;
       link.href = dataUrl;
@@ -153,6 +174,39 @@ export default function TimetablePage() {
       console.error("Share failed", err);
     } finally {
       setSharing(false);
+    }
+  };
+
+  const handleFullShare = async () => {
+    if (!fullShareRef.current) return;
+    setFullSharing(true);
+    try {
+      const dataUrl = await toPng(fullShareRef.current, { quality: 0.95, cacheBust: true });
+      
+      if (navigator.share && navigator.canShare) {
+        const response = await fetch(dataUrl);
+        const blob = await response.blob();
+        const file = new File([blob], `srm-nexus-full-timetable.png`, { type: 'image/png' });
+        
+        if (navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            title: 'My Full Timetable',
+            text: 'My complete SRM semester schedule via SRM Nexus!',
+          });
+          setFullSharing(false);
+          return;
+        }
+      }
+
+      const link = document.createElement("a");
+      link.download = `srm-nexus-full-timetable.png`;
+      link.href = dataUrl;
+      link.click();
+    } catch (err) {
+      console.error("Full share failed", err);
+    } finally {
+      setFullSharing(false);
     }
   };
 
@@ -209,9 +263,9 @@ export default function TimetablePage() {
   const firstStart = classes[0] ? fmt12(classes[0].startTime) : "";
   const lastEnd = classes[classes.length - 1] ? fmt12(classes[classes.length - 1].endTime) : "";
 
-  if (theme === "cosmos") return <CosmosTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} handleShare={handleShare} sharing={sharing} shareRef={shareRef} />;
+  if (theme === "cosmos") return <CosmosTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} handleShare={handleShare} sharing={sharing} shareRef={shareRef} fullShareRef={fullShareRef} fullSharing={fullSharing} handleFullShare={handleFullShare} schedule={schedule} />;
 
-  if (theme === "matrix") return <MatrixTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} handleShare={handleShare} sharing={sharing} shareRef={shareRef} />;
+  if (theme === "matrix") return <MatrixTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} handleShare={handleShare} sharing={sharing} shareRef={shareRef} fullShareRef={fullShareRef} fullSharing={fullSharing} handleFullShare={handleFullShare} schedule={schedule} />;
 
   return (
     <div className="page-root">
@@ -349,19 +403,26 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
               <div style={{ fontSize: "10px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800 }}>SEMESTER</div>
               <div style={{ fontSize: "14px", fontWeight: 700 }}>Schedule Planner</div>
            </div>
-           <div style={{ display: "flex", gap: "10px" }}>
+           <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
              <button 
               onClick={handleShare}
               disabled={sharing}
-              style={{ background: "#1c1c1c", border: "1px solid #333", color: "#fff", padding: "8px 14px", borderRadius: "12px", fontSize: "12px", fontWeight: 800, cursor: "pointer", display: "flex", alignItems: "center", gap: "6px" }}
+              style={{ background: "#1c1c1c", border: "1px solid #333", color: "#fff", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 800, cursor: "pointer", display: "flex", alignItems: "center", gap: "6px" }}
              >
-               {sharing ? "..." : "📸 SHARE"}
+               {sharing ? "..." : "📸 DAY"}
+             </button>
+             <button 
+              onClick={handleFullShare}
+              disabled={fullSharing}
+              style={{ background: "#a8c200", border: "none", color: "#000", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 900, cursor: "pointer" }}
+             >
+               {fullSharing ? "..." : "📸 ALL"}
              </button>
              <div style={{ display: "flex", background: "#111", borderRadius: "14px", padding: "4px", border: "1px solid #222" }}>
               {[1, 2].map(b => (
                 <button key={b} onClick={() => setBatch(b)}
                   style={{
-                    padding: "8px 16px", borderRadius: "10px", border: "none", fontSize: "12px", fontWeight: 800,
+                    padding: "8px 14px", borderRadius: "10px", border: "none", fontSize: "11px", fontWeight: 800,
                     background: batch === b ? "#a8c200" : "transparent",
                     color: batch === b ? "#000" : "#666",
                     transition: "all 0.2s", cursor: "pointer"
@@ -450,8 +511,8 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
               
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px" }}>
                  <div>
-                    <div style={{ fontSize: "10px", color: "#a8c200", fontWeight: 900, letterSpacing: "0.2em", marginBottom: "4px" }}>SRM NEXUS</div>
-                    <div style={{ fontSize: "24px", fontWeight: 900, color: "#fff" }}>Day {dayOverride} Plan</div>
+                    <div style={{ fontSize: "10px", color: "#a8c200", fontWeight: 900, letterSpacing: "0.2em", marginBottom: "4px" }}>SRM NEXUS • SRMNEXUS.APP</div>
+                    <div style={{ fontSize: "24px", fontWeight: 900, color: "#fff" }}>Day {dayOverride} Schedule</div>
                  </div>
                  <img src="/nexus-logo.png" style={{ width: "40px", height: "40px" }} />
               </div>
@@ -469,6 +530,41 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
               <div style={{ marginTop: "40px", borderTop: "1px solid #111", paddingTop: "20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                  <div style={{ fontSize: "10px", color: "#444", fontWeight: 700 }}>GENERATED VIA SRMNEXUS.APP</div>
                  <div style={{ fontSize: "10px", color: "#444", fontWeight: 700 }}>© 2026 NEXUS CORE</div>
+              </div>
+           </div>
+        </div>
+
+        {/* Hidden Full Schedule Card */}
+        <div style={{ position: "absolute", left: "-9999px", top: 0 }}>
+           <div ref={fullShareRef} style={{ width: "1000px", background: "#050505", padding: "60px", position: "relative" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "48px" }}>
+                 <div>
+                    <div style={{ fontSize: "14px", color: "#a8c200", fontWeight: 900, letterSpacing: "0.2em", marginBottom: "8px" }}>SRM NEXUS PORTAL</div>
+                    <div style={{ fontSize: "42px", fontWeight: 900, color: "#fff", letterSpacing: "-1px" }}>Complete Semester Timetable</div>
+                    <div style={{ fontSize: "16px", color: "#666", fontWeight: 700 }}>Secure access via srmnexus.app</div>
+                 </div>
+                 <img src="/nexus-logo.png" style={{ width: "80px", height: "80px" }} />
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "20px" }}>
+                 {[1, 2, 3, 4, 5].map(d => (
+                    <div key={d} style={{ background: "rgba(255,255,255,0.02)", borderRadius: "24px", padding: "24px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                       <div style={{ fontSize: "12px", color: "#a8c200", fontWeight: 900, marginBottom: "20px", textTransform: "uppercase", letterSpacing: "0.1em" }}>Day Order {d}</div>
+                       <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                          {(schedule[d - 1]?.classes || []).map((c: any, ci: number) => (
+                             <div key={ci} style={{ borderLeft: "2px solid #222", paddingLeft: "12px" }}>
+                                <div style={{ fontSize: "9px", color: "#444", fontWeight: 800 }}>{fmtTimeOnly(c.startTime)}</div>
+                                <div style={{ fontSize: "13px", fontWeight: 900, color: "#ddd", lineHeight: 1.2 }}>{c.courseTitle.split(" ")[0]}</div>
+                                <div style={{ fontSize: "9px", color: "#666", fontWeight: 700 }}>{c.roomNo || "TBA"}</div>
+                             </div>
+                          ))}
+                       </div>
+                    </div>
+                 ))}
+              </div>
+
+              <div style={{ marginTop: "60px", borderTop: "1px solid #111", paddingTop: "32px", textAlign: "center" }}>
+                 <div style={{ fontSize: "12px", color: "#333", fontWeight: 800, letterSpacing: "0.1em" }}>GENERATED EXCLUSIVELY AT SRMNEXUS.APP • THE NEXT GENERATION STUDENT EXPERIENCE</div>
               </div>
            </div>
         </div>
@@ -505,14 +601,17 @@ function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
             <h1 style={{ fontSize: "24px", fontWeight: 900, letterSpacing: "-0.5px", margin: 0 }}>Timetable</h1>
             <div style={{ fontSize: "11px", color: "var(--text-secondary)", marginTop: "4px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Current Batch: {batch}</div>
           </div>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <button onClick={handleShare} disabled={sharing} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", padding: "8px 16px", borderRadius: "12px", fontSize: "11px", fontWeight: 800, cursor: "pointer" }}>
-              {sharing ? "..." : "SHARE"}
+          <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+            <button onClick={handleShare} disabled={sharing} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 800, cursor: "pointer" }}>
+              {sharing ? "..." : "DAY"}
+            </button>
+            <button onClick={handleFullShare} disabled={fullSharing} style={{ background: "var(--accent)", border: "none", color: "#fff", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 800, cursor: "pointer" }}>
+              {fullSharing ? "..." : "ALL"}
             </button>
             <div style={{ display: "flex", background: "rgba(255,255,255,0.05)", borderRadius: "14px", padding: "4px", border: "1px solid rgba(255,255,255,0.1)" }}>
               {[1, 2].map(b => (
                 <button key={b} onClick={() => setBatch(b)} style={{
-                  padding: "8px 16px", borderRadius: "10px", border: "none", fontSize: "12px", fontWeight: 800,
+                  padding: "8px 12px", borderRadius: "10px", border: "none", fontSize: "11px", fontWeight: 800,
                   background: batch === b ? "var(--accent)" : "transparent",
                   color: batch === b ? "#fff" : "var(--text-muted)", transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)", cursor: "pointer"
                 }}>B{b}</button>

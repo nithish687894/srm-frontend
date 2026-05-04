@@ -340,6 +340,29 @@ export default function Sidebar() {
                 >
                   🎭 Personalize Interface
                 </button>
+
+                <button 
+                  onClick={async () => {
+                    const shareData = {
+                      title: 'SRM Nexus',
+                      text: 'Check out SRM Nexus - The Ultimate Student Portal for SRM Students!',
+                      url: 'https://srmnexus.app',
+                    };
+                    if (navigator.share) {
+                      try { await navigator.share(shareData); } catch (err) { console.log(err); }
+                    } else {
+                      window.open(`https://wa.me/?text=${encodeURIComponent(shareData.text + " " + shareData.url)}`, '_blank');
+                    }
+                  }}
+                  style={{
+                    background: "rgba(168, 194, 0, 0.1)",
+                    border: "1px solid rgba(168, 194, 0, 0.3)", color: "var(--accent)", display: "flex", alignItems: "center", gap: "12px",
+                    padding: "18px", borderRadius: "20px", cursor: "pointer", fontWeight: 800,
+                    textAlign: "left", fontSize: "14px", transition: "all 0.2s"
+                  }}
+                >
+                  🚀 Share Nexus Portal
+                </button>
               </div>
             </div>
 
