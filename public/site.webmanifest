@@ -3,17 +3,17 @@
   "short_name": "SRMX",
   "icons": [
     {
-      "src": "/srmx-icon-192.png",
+      "src": "/nexus-logo.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/srmx-icon-512.png",
+      "src": "/nexus-logo.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "/srmx-icon-maskable-512.png",
+      "src": "/nexus-logo.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable any"
@@ -23,5 +23,19 @@
   "background_color": "#050505",
   "display": "standalone",
   "start_url": "/",
-  "scope": "/"
+  "scope": "/",
+  "shortcuts": [
+    {
+      "name": "Attendance Status",
+      "short_name": "Attendance",
+      "url": "/attendance",
+      "icons": [{ "src": "/nexus-logo.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "View Marks",
+      "short_name": "Marks",
+      "url": "/marks",
+      "icons": [{ "src": "/nexus-logo.png", "sizes": "192x192" }]
+    }
+  ]
 }

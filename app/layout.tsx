@@ -8,6 +8,7 @@ import AppLaunchSplash from "@/components/AppLaunchSplash";
 import BroadcastBanner from "@/components/BroadcastBanner";
 import JsonLd from "@/components/seo/JsonLd";
 import InstallPWA from "@/components/InstallPWA";
+import AttendanceBadge from "@/components/AttendanceBadge";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -57,8 +58,8 @@ export const metadata: Metadata = {
   },
   manifest: "/site.webmanifest",
   icons: {
-    icon: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
+    icon: "/nexus-logo.png",
+    apple: "/nexus-logo.png",
   },
   alternates: {
     canonical: "https://srmnexus.app",
@@ -82,6 +83,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <AppLaunchSplash>
               <BroadcastBanner />
               <InstallPWA />
+              <AttendanceBadge />
               <SwipeLayout>{children}</SwipeLayout>
             </AppLaunchSplash>
           </ThemeWrapper>

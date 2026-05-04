@@ -58,9 +58,9 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
 
             {/* Logo Core */}
             <motion.div
-              initial={{ opacity: 0, scale: 1.1, filter: "brightness(0)" }}
-              animate={{ opacity: 1, scale: 1, filter: "brightness(1)" }}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               style={{ position: "relative", zIndex: 3 }}
             >
               <img 
