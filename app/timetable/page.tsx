@@ -7,6 +7,7 @@ import { buildCalendarIndex } from "@/lib/calendarIndex";
 import { useQuery } from "@tanstack/react-query";
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
+import { toPng } from "html-to-image";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
@@ -131,24 +132,40 @@ export default function TimetablePage() {
   const { theme } = useThemeStore();
   const [dayOverride, setDayOverride] = useState<number>(1);
   const [batch, setBatch] = useState<number>(() => {
-    // Detect batch from profile "Combo / Batch" e.g. "2/1" -> 1
     const raw = academicData?.profile?.["Combo / Batch"] || "";
     const b = parseInt(raw.split("/")[1]);
     return isNaN(b) ? 1 : b;
   });
   const router = useRouter();
+  const shareRef = useRef<HTMLDivElement>(null);
+  const [sharing, setSharing] = useState(false);
+
+  const handleShare = async () => {
+    if (!shareRef.current) return;
+    setSharing(true);
+    try {
+      const dataUrl = await toPng(shareRef.current, { quality: 0.95, cacheBust: true });
+      const link = document.createElement("a");
+      link.download = `srm-nexus-day-${dayOverride}.png`;
+      link.href = dataUrl;
+      link.click();
+    } catch (err) {
+      console.error("Share failed", err);
+    } finally {
+      setSharing(false);
+    }
+  };
 
   const calQ = useQuery({ queryKey: ["calendar"], queryFn: () => dataAPI.getCalendar(), staleTime: 600000 });
   const myTTQ = useQuery({ queryKey: ["myTT"], queryFn: () => dataAPI.getMyTimetable(), staleTime: 600000, initialData: academicData?.timetable ? { data: academicData.timetable } : undefined });
   const ttQ = useQuery({
-    queryKey: ["tt", batch], // include batch in cache key
-    queryFn: () => dataAPI.getTimetable(batch), // dynamic batch
+    queryKey: ["tt", batch], 
+    queryFn: () => dataAPI.getTimetable(batch),
     staleTime: 600000,
     initialData: academicData?.timetableBatch && academicData?.timetableBatch === batch ? { data: { rows: academicData.timetableRows } } : undefined
   });
 
   const autoSelected = useRef(false);
-  // Auto-select today's Day Order
   useEffect(() => {
     if (calQ.data && !autoSelected.current) {
       const today = new Date();
@@ -170,15 +187,12 @@ export default function TimetablePage() {
     const slotMap = buildSlotToCourseMap(myTTQ.data.data);
     const rawSchedule = buildSchedule(ttQ.data.data.rows, slotMap);
     
-    // Merge consecutive identical classes and cleanup
     return rawSchedule.map(day => {
       const merged: ScheduleItem[] = [];
       day.classes.forEach(cls => {
         const prev = merged[merged.length - 1];
         if (prev && prev.courseCode === cls.courseCode && prev.courseType === cls.courseType) {
-          // If consecutive, just extend the end time
           prev.endTime = cls.endTime;
-          // Combine slots if they are different
           if (!prev.slot.includes(cls.slot)) prev.slot = `${prev.slot}, ${cls.slot}`;
         } else {
           merged.push({ ...cls });
@@ -195,9 +209,9 @@ export default function TimetablePage() {
   const firstStart = classes[0] ? fmt12(classes[0].startTime) : "";
   const lastEnd = classes[classes.length - 1] ? fmt12(classes[classes.length - 1].endTime) : "";
 
-  if (theme === "cosmos") return <CosmosTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} />;
+  if (theme === "cosmos") return <CosmosTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} handleShare={handleShare} sharing={sharing} shareRef={shareRef} />;
 
-  if (theme === "matrix") return <MatrixTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} />;
+  if (theme === "matrix") return <MatrixTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} handleShare={handleShare} sharing={sharing} shareRef={shareRef} />;
 
   return (
     <div className="page-root">
@@ -335,17 +349,26 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
               <div style={{ fontSize: "10px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800 }}>SEMESTER</div>
               <div style={{ fontSize: "14px", fontWeight: 700 }}>Schedule Planner</div>
            </div>
-           <div style={{ display: "flex", background: "#111", borderRadius: "14px", padding: "4px", border: "1px solid #222" }}>
-            {[1, 2].map(b => (
-              <button key={b} onClick={() => setBatch(b)}
-                style={{
-                  padding: "8px 16px", borderRadius: "10px", border: "none", fontSize: "12px", fontWeight: 800,
-                  background: batch === b ? "#a8c200" : "transparent",
-                  color: batch === b ? "#000" : "#666",
-                  transition: "all 0.2s", cursor: "pointer"
-                }}>B{b}</button>
-            ))}
-          </div>
+           <div style={{ display: "flex", gap: "10px" }}>
+             <button 
+              onClick={handleShare}
+              disabled={sharing}
+              style={{ background: "#1c1c1c", border: "1px solid #333", color: "#fff", padding: "8px 14px", borderRadius: "12px", fontSize: "12px", fontWeight: 800, cursor: "pointer", display: "flex", alignItems: "center", gap: "6px" }}
+             >
+               {sharing ? "..." : "📸 SHARE"}
+             </button>
+             <div style={{ display: "flex", background: "#111", borderRadius: "14px", padding: "4px", border: "1px solid #222" }}>
+              {[1, 2].map(b => (
+                <button key={b} onClick={() => setBatch(b)}
+                  style={{
+                    padding: "8px 16px", borderRadius: "10px", border: "none", fontSize: "12px", fontWeight: 800,
+                    background: batch === b ? "#a8c200" : "transparent",
+                    color: batch === b ? "#000" : "#666",
+                    transition: "all 0.2s", cursor: "pointer"
+                  }}>B{b}</button>
+              ))}
+            </div>
+           </div>
         </div>
 
         {/* Day Order Big Number */}
@@ -419,6 +442,37 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
            </div>
         </div>
 
+        {/* Hidden Share Card */}
+        <div style={{ position: "absolute", left: "-9999px", top: 0 }}>
+           <div ref={shareRef} style={{ width: "450px", background: "#050505", padding: "40px", position: "relative", overflow: "hidden" }}>
+              <div style={{ position: "absolute", right: "-50px", top: "-50px", width: "200px", height: "200px", background: "#a8c200", filter: "blur(120px)", opacity: 0.15 }} />
+              <div style={{ position: "absolute", left: "-50px", bottom: "-50px", width: "200px", height: "200px", background: "#7700ff", filter: "blur(120px)", opacity: 0.1 }} />
+              
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px" }}>
+                 <div>
+                    <div style={{ fontSize: "10px", color: "#a8c200", fontWeight: 900, letterSpacing: "0.2em", marginBottom: "4px" }}>SRM NEXUS</div>
+                    <div style={{ fontSize: "24px", fontWeight: 900, color: "#fff" }}>Day {dayOverride} Plan</div>
+                 </div>
+                 <img src="/nexus-logo.png" style={{ width: "40px", height: "40px" }} />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                 {classes.map((c: any, idx: number) => (
+                    <div key={idx} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", borderRadius: "16px", padding: "16px" }}>
+                       <div style={{ fontSize: "9px", color: "#666", fontWeight: 800, marginBottom: "8px" }}>{fmtTimeOnly(c.startTime)} — {fmtTimeOnly(c.endTime)}</div>
+                       <div style={{ fontSize: "16px", fontWeight: 900, color: "#fff", lineHeight: 1.1, marginBottom: "4px" }}>{c.courseTitle}</div>
+                       <div style={{ fontSize: "10px", color: "#888", fontWeight: 700 }}>{c.roomNo || "TBA"} • {c.courseCode}</div>
+                    </div>
+                 ))}
+              </div>
+
+              <div style={{ marginTop: "40px", borderTop: "1px solid #111", paddingTop: "20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                 <div style={{ fontSize: "10px", color: "#444", fontWeight: 700 }}>GENERATED VIA SRMNEXUS.APP</div>
+                 <div style={{ fontSize: "10px", color: "#444", fontWeight: 700 }}>© 2026 NEXUS CORE</div>
+              </div>
+           </div>
+        </div>
+
         {/* Day Switcher Bottom Overlay */}
         <div style={{ position: "fixed", bottom: "100px", left: "20px", right: "20px", display: "flex", justifyContent: "center", zIndex: 100 }}>
            <div style={{ background: "rgba(20,20,20,0.8)", backdropFilter: "blur(20px)", borderRadius: "99px", padding: "8px", display: "flex", gap: "8px", border: "1px solid #333" }}>
@@ -451,14 +505,19 @@ function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
             <h1 style={{ fontSize: "24px", fontWeight: 900, letterSpacing: "-0.5px", margin: 0 }}>Timetable</h1>
             <div style={{ fontSize: "11px", color: "var(--text-secondary)", marginTop: "4px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Current Batch: {batch}</div>
           </div>
-          <div style={{ display: "flex", background: "rgba(255,255,255,0.05)", borderRadius: "14px", padding: "4px", border: "1px solid rgba(255,255,255,0.1)" }}>
-            {[1, 2].map(b => (
-              <button key={b} onClick={() => setBatch(b)} style={{
-                padding: "8px 16px", borderRadius: "10px", border: "none", fontSize: "12px", fontWeight: 800,
-                background: batch === b ? "var(--accent)" : "transparent",
-                color: batch === b ? "#fff" : "var(--text-muted)", transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)", cursor: "pointer"
-              }}>B{b}</button>
-            ))}
+          <div style={{ display: "flex", gap: "10px" }}>
+            <button onClick={handleShare} disabled={sharing} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", padding: "8px 16px", borderRadius: "12px", fontSize: "11px", fontWeight: 800, cursor: "pointer" }}>
+              {sharing ? "..." : "SHARE"}
+            </button>
+            <div style={{ display: "flex", background: "rgba(255,255,255,0.05)", borderRadius: "14px", padding: "4px", border: "1px solid rgba(255,255,255,0.1)" }}>
+              {[1, 2].map(b => (
+                <button key={b} onClick={() => setBatch(b)} style={{
+                  padding: "8px 16px", borderRadius: "10px", border: "none", fontSize: "12px", fontWeight: 800,
+                  background: batch === b ? "var(--accent)" : "transparent",
+                  color: batch === b ? "#fff" : "var(--text-muted)", transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)", cursor: "pointer"
+                }}>B{b}</button>
+              ))}
+            </div>
           </div>
         </div>
 

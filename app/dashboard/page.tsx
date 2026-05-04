@@ -260,52 +260,29 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Premium Widget Hub */}
+          {/* Top Stats Cards */}
           {(() => {
             const stats = [
-              { label: "Attendance", value: `${avgAtt}%`, color: "#a8c200", icon: "📊", href: "/attendance" },
-              { label: "At Risk", value: riskCount, color: riskCount > 0 ? "#ff3b3b" : "#666", icon: "⚠️", href: "/attendance?risk=1" },
-              { label: "Academic Avg", value: `${avgMarks}%`, color: "#fff", icon: "🎯", href: "/marks" },
-              { label: "Courses", value: totalCourses, color: "#888", icon: "📚" },
+              { label: "Attendance", value: `${avgAtt}%`, color: "var(--accent)", href: "/attendance" },
+              { label: "Avg Marks", value: `${avgMarks}%`, color: "var(--text-primary)", href: "/marks" },
+              { label: "At Risk", value: riskCount, color: riskCount > 0 ? "var(--accent-red)" : "var(--text-secondary)", href: "/attendance?risk=1" },
+              { label: "Courses", value: totalCourses, color: "var(--text-secondary)" },
             ];
 
             return (
-              <div style={{ marginBottom: "40px" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-                  <span style={{ fontSize: "10px", color: "#666", fontWeight: 900, letterSpacing: "0.2em", textTransform: "uppercase" }}>Widget Hub</span>
-                  <span style={{ fontSize: "10px", color: "#a8c200", fontWeight: 800 }}>LIVE SYNC 🟢</span>
-                </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
-                  {stats.map((s, i) => (
-                    <motion.div 
-                      key={i} 
-                      whileTap={s.href ? { scale: 0.96 } : {}}
-                      onClick={s.href ? () => router.push(s.href) : undefined} 
-                      style={{ 
-                        padding: "20px", 
-                        background: "rgba(28, 28, 28, 0.6)", 
-                        backdropFilter: "blur(10px)",
-                        borderRadius: "24px", 
-                        border: "1px solid rgba(255,255,255,0.05)",
-                        cursor: s.href ? "pointer" : "default",
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "space-between",
-                        minHeight: "110px",
-                        boxShadow: "0 10px 30px rgba(0,0,0,0.2)"
-                      }}
-                    >
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                        <span style={{ fontSize: "18px" }}>{s.icon}</span>
-                        <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: s.color, boxShadow: `0 0 8px ${s.color}` }} />
-                      </div>
-                      <div>
-                        <div style={{ fontSize: "24px", fontWeight: 900, color: s.color, lineHeight: 1 }}>{s.value}</div>
-                        <div style={{ fontSize: "10px", color: "#666", fontWeight: 800, textTransform: "uppercase", marginTop: "4px" }}>{s.label}</div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "8px", marginBottom: "32px" }}>
+                {stats.map((s, i) => (
+                  <motion.div 
+                    key={i} 
+                    whileTap={s.href ? { scale: 0.94 } : {}}
+                    className="min-card" 
+                    onClick={s.href ? () => router.push(s.href) : undefined} 
+                    style={{ padding: "16px 12px", textAlign: "center", border: "none", cursor: s.href ? "pointer" : "default" }}
+                  >
+                    <div style={{ fontSize: "20px", fontWeight: "bold", color: s.color, marginBottom: "4px" }}>{s.value}</div>
+                    <div style={{ fontSize: "9px", color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: "0.05em" }}>{s.label}</div>
+                  </motion.div>
+                ))}
               </div>
             );
           })()}
@@ -400,17 +377,6 @@ export default function DashboardPage() {
                 <div style={{ fontSize: "13px", color: "var(--text-muted)" }}>No recent assessments recorded.</div>
               )}
             </div>
-
-            <div onClick={() => router.push("/widget")} style={{ background: "linear-gradient(135deg, #0d1a10, #050505)", border: "1px solid #1a331a", borderRadius: "24px", padding: "20px", cursor: "pointer" }}>
-               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                  <div>
-                     <div style={{ fontSize: "10px", color: "#a8c200", fontWeight: 900, letterSpacing: "0.1em", marginBottom: "8px" }}>NEW FEATURE</div>
-                     <div style={{ fontSize: "18px", fontWeight: 900, color: "#fff" }}>Enable Home Screen Widget</div>
-                     <div style={{ fontSize: "12px", color: "#888", marginTop: "4px" }}>Long-press the app icon to see quick stats!</div>
-                  </div>
-                  <div style={{ background: "#a8c200", color: "#000", padding: "6px 12px", borderRadius: "10px", fontSize: "10px", fontWeight: 900 }}>PRO</div>
-               </div>
-            </div>
           </div>
 
           <div className="watermark">Dashboard</div>
@@ -481,17 +447,6 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
              </div>
           </div>
         )}
-
-        <div onClick={() => router.push("/widget")} style={{ background: "linear-gradient(135deg, #0d1a10, #050505)", border: "1px solid #1a331a", borderRadius: "28px", padding: "24px", marginBottom: "40px", cursor: "pointer" }}>
-           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-              <div>
-                 <div style={{ fontSize: "10px", color: "#a8c200", fontWeight: 900, letterSpacing: "0.1em", marginBottom: "8px" }}>WIDGET PRO</div>
-                 <div style={{ fontSize: "20px", fontWeight: 900, color: "#fff" }}>Add Live Tracker Widget</div>
-                 <div style={{ fontSize: "12px", color: "#888", marginTop: "4px" }}>Hold the app icon or tap to preview your widget.</div>
-              </div>
-              <div style={{ background: "#a8c200", color: "#000", padding: "6px 14px", borderRadius: "12px", fontSize: "11px", fontWeight: 900 }}>NEW</div>
-           </div>
-        </div>
 
         {/* Date Selector / Schedule Header */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "26px" }}>
