@@ -333,7 +333,7 @@ export default function TimetablePage() {
   );
 }
 
-function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes }: any) {
+function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, handleShare, sharing, shareRef }: any) {
   const currentMin = new Date().getHours() * 60 + new Date().getMinutes();
   const firstStart = classes[0] ? fmtTimeOnly(classes[0].startTime) : "";
   const lastEnd = classes[classes.length - 1] ? fmtTimeOnly(classes[classes.length - 1].endTime) : "";
@@ -491,7 +491,7 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
   );
 }
 
-function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes }: any) {
+function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, handleShare, sharing, shareRef }: any) {
   const currentMin = new Date().getHours() * 60 + new Date().getMinutes();
 
   return (
