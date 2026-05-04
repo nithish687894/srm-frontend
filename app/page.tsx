@@ -206,15 +206,33 @@ export default function LoginPage() {
       <div className="lp-root">
         {/* Hero Section */}
         <section className="hero-section">
-          <h1 className="hero-h1">SRM NEXUS</h1>
-          <p className="hero-sub">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="hero-h1"
+          >
+            SRM NEXUS
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            className="hero-sub"
+          >
             The definitive student intelligence portal for SRM University. 
             Engineered for precision, speed, and academic dominance.
-          </p>
+          </motion.p>
 
           <div className="demo-widgets">
             {/* Attendance Demo */}
-            <div className="widget-demo">
+            <motion.div 
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="widget-demo"
+            >
               <span className="widget-label">Live Attendance</span>
               <div className="attn-row">
                 <span style={{ fontSize: '12px', fontWeight: 600 }}>Data Science</span>
@@ -227,10 +245,16 @@ export default function LoginPage() {
                 <span style={{ fontSize: '12px', fontWeight: 900, color: '#ff3b3b' }}>74%</span>
               </div>
               <div style={{ marginTop: '8px', fontSize: '10px', color: '#ff3b3b', fontWeight: 800 }}>⚠️ AT RISK: ATTEND NEXT 2 CLASSES</div>
-            </div>
+            </motion.div>
 
             {/* Marks Demo */}
-            <div className="widget-demo">
+            <motion.div 
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="widget-demo"
+            >
               <span className="widget-label">Internal Analytics</span>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -247,14 +271,19 @@ export default function LoginPage() {
                   <span style={{ fontSize: '16px', fontWeight: 900, color: '#ffffff' }}>O (Outstanding)</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
           
-          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', marginTop: '60px' }}>
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+            style={{ display: 'flex', gap: '16px', justifyContent: 'center', marginTop: '60px' }}
+          >
              <a href="#login" className="login-btn" style={{ textDecoration: 'none', textAlign: 'center', width: 'auto', padding: '18px 40px' }}>
                 Access Portal
              </a>
-          </div>
+          </motion.div>
         </section>
 
         {/* Feature Grid */}
