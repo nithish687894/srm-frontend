@@ -6,8 +6,18 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
+    // Check if splash has already been shown in this session
+    const hasSplashed = sessionStorage.getItem("srmx_splashed");
+    if (hasSplashed) {
+      setIsLoaded(true);
+      return;
+    }
+
     // Pro timing: 2.8s for full sequence
-    const timer = setTimeout(() => setIsLoaded(true), 2800);
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+      sessionStorage.setItem("srmx_splashed", "true");
+    }, 2800);
     return () => clearTimeout(timer);
   }, []);
 
