@@ -7,6 +7,7 @@ import ThemeWrapper from "@/components/ThemeWrapper";
 import AppLaunchSplash from "@/components/AppLaunchSplash";
 import BroadcastBanner from "@/components/BroadcastBanner";
 import JsonLd from "@/components/seo/JsonLd";
+import InstallPWA from "@/components/InstallPWA";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -80,6 +81,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ThemeWrapper>
             <AppLaunchSplash>
               <BroadcastBanner />
+              <InstallPWA />
               <SwipeLayout>{children}</SwipeLayout>
             </AppLaunchSplash>
           </ThemeWrapper>
