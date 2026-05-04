@@ -306,42 +306,58 @@ export default function LoginPage() {
 
         {/* Login Section */}
         <section id="login" className="login-container">
-          <h2 style={{ textAlign: 'center', marginBottom: '32px', fontSize: '24px' }}>Secure Login</h2>
+          <h2 style={{ textAlign: 'center', marginBottom: '8px', fontSize: '24px' }}>Secure Login</h2>
+          <p style={{ textAlign: 'center', color: '#444', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '32px' }}>
+            Use your SRM NETID credentials
+          </p>
           
-          {error && <div className="login-error">{error}</div>}
+          <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
+            {error && <div className="login-error">{error}</div>}
 
-          <input
-            type="text"
-            placeholder="NETID (e.g. ab1234)"
-            className="login-input"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            onKeyDown={e => e.key === "Enter" && handleLogin()}
-            disabled={loading}
-          />
+            <div style={{ marginBottom: '16px' }}>
+              <input
+                type="text"
+                name="username"
+                autoComplete="username"
+                placeholder="NETID (e.g. ab1234)"
+                className="login-input"
+                style={{ marginBottom: 0 }}
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                disabled={loading}
+              />
+            </div>
 
-          <div style={{ position: 'relative' }}>
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="PASSWORD"
-              className="login-input"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              onKeyDown={e => e.key === "Enter" && handleLogin()}
-              disabled={loading}
-            />
-            <button 
-              type="button" 
-              style={{ position: 'absolute', right: '16px', top: '18px', background: 'none', border: 'none', color: '#444', cursor: 'pointer' }}
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            <div style={{ position: 'relative', marginBottom: '24px' }}>
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                autoComplete="current-password"
+                placeholder="PASSWORD"
+                className="login-input"
+                style={{ marginBottom: 0 }}
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                disabled={loading}
+              />
+              <button 
+                type="button" 
+                style={{ position: 'absolute', right: '16px', top: '18px', background: 'none', border: 'none', color: '#444', cursor: 'pointer' }}
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px', padding: '0 8px' }}>
+              <input type="checkbox" id="remember" style={{ accentColor: '#fff' }} defaultChecked />
+              <label htmlFor="remember" style={{ fontSize: '12px', color: '#666', cursor: 'pointer' }}>Remember this device</label>
+            </div>
+
+            <button type="submit" className="login-btn" disabled={loading}>
+              {loading ? "INITIALIZING..." : "ENTER PORTAL"}
             </button>
-          </div>
-
-          <button className="login-btn" onClick={handleLogin} disabled={loading}>
-            {loading ? "INITIALIZING..." : "ENTER PORTAL"}
-          </button>
+          </form>
           
           <div style={{ marginTop: '24px', textAlign: 'center', fontSize: '10px', color: '#444', textTransform: 'uppercase', letterSpacing: '0.2em' }}>
             Encrypted End-to-End Tunnel

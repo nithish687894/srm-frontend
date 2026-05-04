@@ -6,6 +6,7 @@ import SwipeLayout from "@/components/SwipeLayout";
 import ThemeWrapper from "@/components/ThemeWrapper";
 import AppLaunchSplash from "@/components/AppLaunchSplash";
 import BroadcastBanner from "@/components/BroadcastBanner";
+import JsonLd from "@/components/seo/JsonLd";
 
 const inter = Inter({
   subsets: ["latin"],
