@@ -126,8 +126,8 @@ export default function LoginPage() {
             </div>
             <h1 className="login-h1">SRM NEXUS</h1>
             <h2 className="login-h2" style={{ marginBottom: "8px" }}>authenticate</h2>
-            <div style={{ fontSize: "10px", color: "#666", letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 800, textAlign: "center", maxWidth: "300px", margin: "0 auto", marginTop: "12px", lineHeight: "1.6" }}>
-              The premium student portal for SRM University. Check your attendance, internal marks, and timetable with speed and elegance.
+            <div style={{ fontSize: "10px", color: "#888", letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 800, textAlign: "center", maxWidth: "300px", margin: "0 auto", marginTop: "12px", opacity: 0.8 }}>
+              Precision Academic Intelligence
             </div>
           </div>
 

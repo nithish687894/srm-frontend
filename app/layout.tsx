@@ -36,8 +36,8 @@ const bebas = Bebas_Neue({
 });
 
 export const metadata: Metadata = {
-  title: "SRM Nexus – Student Portal | Attendance, Marks, SGPA",
-  description: "Fast SRM student portal for attendance, marks, timetable and SGPA tracking.",
+  title: "SRM NEXUS – Precision Academic Intelligence",
+  description: "The most advanced, high-performance interface for SRM students. Engineered for speed and clarity.",
   manifest: "/site.webmanifest",
   icons: {
     icon: "/favicon.ico",
