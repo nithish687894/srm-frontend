@@ -7,6 +7,7 @@ import { useAuthStore } from "@/lib/store";
 import { useAuth } from "@/hooks/useAuth";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
 import { useThemeStore } from "@/lib/themeStore";
+import { motion } from "framer-motion";
 
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
 function parseStart(t: string) { const m = t.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
@@ -95,7 +96,9 @@ function MiniGridTile({ slot }: { slot: any }) {
   const isActive = isNowIn(slot.startTime, slot.endTime);
   const isNso = slot.courseCode.includes("NSO") || slot.courseType.toLowerCase().includes("practical");
   return (
-    <div style={{ background: isNso ? "#0d1a2a" : "#1c1c1c", borderRadius: "16px", height: "88px", padding: "8px 10px", display: "flex", flexDirection: "column", justifyContent: "space-between", border: isActive ? "1.5px solid #a8c200" : "none" }}>
+    <motion.div 
+      whileTap={{ scale: 0.96 }}
+      style={{ background: isNso ? "#0d1a2a" : "#1c1c1c", borderRadius: "16px", height: "88px", padding: "8px 10px", display: "flex", flexDirection: "column", justifyContent: "space-between", border: isActive ? "1.5px solid #a8c200" : "none", cursor: 'pointer' }}>
       <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
         <div style={{ fontSize: "8px", color: "#888888", marginBottom: "4px", fontWeight: "bold" }}>{slot.courseCode.substring(0, 5)} • {slot.roomNo?.split(",")[0]?.substring(0, 4) || "TBA"}</div>
         <span style={{ fontSize: "11px", fontWeight: "900", color: isNso ? "#00aaff" : "#ffffff", textAlign: "center", lineHeight: 1.1, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", textTransform: "capitalize", wordBreak: "break-word" }}>{slot.courseTitle.toLowerCase()}</span>
@@ -103,7 +106,7 @@ function MiniGridTile({ slot }: { slot: any }) {
       <div style={{ fontSize: "9px", color: "#888888", textAlign: "center", fontWeight: "bold" }}>
         {fmtTimeOnly(slot.startTime) === fmtTimeOnly(slot.endTime) ? fmtTimeOnly(slot.startTime) : `${fmtTimeOnly(slot.startTime)} - ${fmtTimeOnly(slot.endTime)}`}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -269,10 +272,16 @@ export default function DashboardPage() {
             return (
               <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "8px", marginBottom: "32px" }}>
                 {stats.map((s, i) => (
-                  <div key={i} className="min-card" onClick={s.href ? () => router.push(s.href) : undefined} style={{ padding: "16px 12px", textAlign: "center", border: "none", cursor: s.href ? "pointer" : "default" }}>
+                  <motion.div 
+                    key={i} 
+                    whileTap={s.href ? { scale: 0.94 } : {}}
+                    className="min-card" 
+                    onClick={s.href ? () => router.push(s.href) : undefined} 
+                    style={{ padding: "16px 12px", textAlign: "center", border: "none", cursor: s.href ? "pointer" : "default" }}
+                  >
                     <div style={{ fontSize: "20px", fontWeight: "bold", color: s.color, marginBottom: "4px" }}>{s.value}</div>
                     <div style={{ fontSize: "9px", color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: "0.05em" }}>{s.label}</div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             );
@@ -410,18 +419,18 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
 
         {/* Hero Performance Metrics */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "12px", marginBottom: "32px" }}>
-           <div onClick={() => router.push("/attendance")} style={{ background: "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", cursor: "pointer" }}>
+           <motion.div whileTap={{ scale: 0.94 }} onClick={() => router.push("/attendance")} style={{ background: "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", cursor: "pointer" }}>
               <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Attnd</div>
               <div style={{ fontSize: "24px", fontWeight: 900, color: "#a8c200" }}>{avgAtt}%</div>
-           </div>
-           <div onClick={() => router.push("/marks")} style={{ background: "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", cursor: "pointer" }}>
+           </motion.div>
+           <motion.div whileTap={{ scale: 0.94 }} onClick={() => router.push("/marks")} style={{ background: "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", cursor: "pointer" }}>
               <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Marks</div>
               <div style={{ fontSize: "24px", fontWeight: 900 }}>{avgMarks}%</div>
-           </div>
-           <div onClick={() => router.push("/attendance?risk=1")} style={{ background: riskCount > 0 ? "#221111" : "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", border: riskCount > 0 ? "1px solid #ff3b3b" : "none", cursor: "pointer" }}>
+           </motion.div>
+           <motion.div whileTap={{ scale: 0.94 }} onClick={() => router.push("/attendance?risk=1")} style={{ background: riskCount > 0 ? "#221111" : "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", border: riskCount > 0 ? "1px solid #ff3b3b" : "none", cursor: "pointer" }}>
               <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Risk</div>
               <div style={{ fontSize: "24px", fontWeight: 900, color: riskCount > 0 ? "#ff3b3b" : "#fff" }}>{riskCount}</div>
-           </div>
+           </motion.div>
         </div>
 
         {/* Highlights / Best Section */}
