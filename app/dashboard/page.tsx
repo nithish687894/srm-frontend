@@ -377,6 +377,17 @@ export default function DashboardPage() {
                 <div style={{ fontSize: "13px", color: "var(--text-muted)" }}>No recent assessments recorded.</div>
               )}
             </div>
+
+            <div onClick={() => router.push("/widget")} style={{ background: "linear-gradient(135deg, #0d1a10, #050505)", border: "1px solid #1a331a", borderRadius: "24px", padding: "20px", cursor: "pointer" }}>
+               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                  <div>
+                     <div style={{ fontSize: "10px", color: "#a8c200", fontWeight: 900, letterSpacing: "0.1em", marginBottom: "8px" }}>NEW FEATURE</div>
+                     <div style={{ fontSize: "18px", fontWeight: 900, color: "#fff" }}>Enable Home Screen Widget</div>
+                     <div style={{ fontSize: "12px", color: "#888", marginTop: "4px" }}>Long-press the app icon to see quick stats!</div>
+                  </div>
+                  <div style={{ background: "#a8c200", color: "#000", padding: "6px 12px", borderRadius: "10px", fontSize: "10px", fontWeight: 900 }}>PRO</div>
+               </div>
+            </div>
           </div>
 
           <div className="watermark">Dashboard</div>
@@ -447,6 +458,17 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
              </div>
           </div>
         )}
+
+        <div onClick={() => router.push("/widget")} style={{ background: "linear-gradient(135deg, #0d1a10, #050505)", border: "1px solid #1a331a", borderRadius: "28px", padding: "24px", marginBottom: "40px", cursor: "pointer" }}>
+           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+              <div>
+                 <div style={{ fontSize: "10px", color: "#a8c200", fontWeight: 900, letterSpacing: "0.1em", marginBottom: "8px" }}>WIDGET PRO</div>
+                 <div style={{ fontSize: "20px", fontWeight: 900, color: "#fff" }}>Add Live Tracker Widget</div>
+                 <div style={{ fontSize: "12px", color: "#888", marginTop: "4px" }}>Hold the app icon or tap to preview your widget.</div>
+              </div>
+              <div style={{ background: "#a8c200", color: "#000", padding: "6px 14px", borderRadius: "12px", fontSize: "11px", fontWeight: 900 }}>NEW</div>
+           </div>
+        </div>
 
         {/* Date Selector / Schedule Header */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "26px" }}>
