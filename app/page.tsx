@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { authAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { Eye, EyeOff } from "lucide-react";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -397,9 +399,9 @@ export default function LoginPage() {
         <footer style={{ padding: '60px 24px', textAlign: 'center', color: '#222', fontSize: '12px' }}>
           <p>© 2026 SRM NEXUS. Not affiliated with SRMIST. Built for students by students.</p>
           <div style={{ marginTop: '12px', display: 'flex', justifyContent: 'center', gap: '16px' }}>
-            <a href="/srm-attendance" style={{ color: 'inherit' }}>Attendance Tracker</a>
-            <a href="/srm-sgpa-calculator" style={{ color: 'inherit' }}>SGPA Calculator</a>
-            <a href="/srm-timetable" style={{ color: 'inherit' }}>Personal Timetable</a>
+            <Link href="/srm-attendance" style={{ color: 'inherit' }}>Attendance Tracker</Link>
+            <Link href="/srm-sgpa-calculator" style={{ color: 'inherit' }}>SGPA Calculator</Link>
+            <Link href="/srm-timetable" style={{ color: 'inherit' }}>Personal Timetable</Link>
           </div>
         </footer>
       </div>
