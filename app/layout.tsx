@@ -36,8 +36,8 @@ const bebas = Bebas_Neue({
 });
 
 export const metadata: Metadata = {
-  title: "SRMX — Student Portal",
-  description: "Modern SRM University student portal — Attendance, Marks, Timetable & more",
+  title: "SRM Nexus – Student Portal | Attendance, Marks, SGPA",
+  description: "Fast SRM student portal for attendance, marks, timetable and SGPA tracking.",
   manifest: "/site.webmanifest",
   icons: {
     icon: "/favicon.ico",
