@@ -36,12 +36,30 @@ const bebas = Bebas_Neue({
 });
 
 export const metadata: Metadata = {
-  title: "SRM NEXUS – Precision Academic Intelligence",
-  description: "The most advanced, high-performance interface for SRM students. Engineered for speed and clarity.",
+  title: "SRM NEXUS – Precision Academic Intelligence | SRM Student Portal",
+  description: "The most advanced, high-performance interface for SRM students. Track attendance, internal marks, timetable, and SGPA with precision. Built for SRM University.",
+  keywords: ["srmnexus", "srm nexus", "srm student portal", "srm attendance tracker", "srm sgpa calculator", "srm academia", "srmist portal"],
+  authors: [{ name: "SRM Nexus Team" }],
+  openGraph: {
+    title: "SRM NEXUS – Precision Academic Intelligence",
+    description: "The definitive student portal for SRM University. Fast, elegant, and intelligent.",
+    url: "https://srmnexus.app",
+    siteName: "SRM Nexus",
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SRM NEXUS – Precision Academic Intelligence",
+    description: "The definitive student portal for SRM University. Fast, elegant, and intelligent.",
+  },
   manifest: "/site.webmanifest",
   icons: {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
+  },
+  alternates: {
+    canonical: "https://srmnexus.app",
   },
 };
 
@@ -56,6 +74,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${inter.variable} ${orbitron.variable} ${playfair.variable} ${bebas.variable}`}>
       <body style={{ margin: 0, padding: 0 }}>
+        <JsonLd />
         <Providers>
           <ThemeWrapper>
             <AppLaunchSplash>

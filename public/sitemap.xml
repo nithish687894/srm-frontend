@@ -2,4 +2,13 @@
   <url>
     <loc>https://srmnexus.app/</loc>
   </url>
+  <url>
+    <loc>https://srmnexus.app/srm-attendance</loc>
+  </url>
+  <url>
+    <loc>https://srmnexus.app/srm-sgpa-calculator</loc>
+  </url>
+  <url>
+    <loc>https://srmnexus.app/srm-timetable</loc>
+  </url>
 </urlset>
