@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     title: "SRM NEXUS – Precision Academic Intelligence",
     description: "The definitive student portal for SRM University. Fast, elegant, and intelligent.",
   },
-  manifest: "/site.webmanifest",
+  manifest: "/site.webmanifest?v=2",
   icons: {
     icon: "/nexus-logo.png",
     apple: "/nexus-logo.png",

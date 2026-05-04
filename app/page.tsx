@@ -208,6 +208,14 @@ export default function LoginPage() {
       <div className="lp-root">
         {/* Hero Section */}
         <section className="hero-section">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            style={{ marginBottom: "32px", display: "flex", justifyContent: "center" }}
+          >
+            <img src="/nexus-logo.png" alt="Logo" style={{ width: "100px", height: "100px", filter: "drop-shadow(0 0 20px rgba(168, 194, 0, 0.3))" }} />
+          </motion.div>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

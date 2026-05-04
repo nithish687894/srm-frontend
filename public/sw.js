@@ -1,8 +1,9 @@
 const CACHE_NAME = 'srmx-v1';
 const ASSETS = [
   '/',
-  '/manifest.json',
-  '/favicon.ico'
+  '/site.webmanifest?v=2',
+  '/favicon.ico',
+  '/nexus-logo.png'
 ];
 
 self.addEventListener('install', (event) => {
