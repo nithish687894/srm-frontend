@@ -100,6 +100,40 @@ export default function LoginPage() {
         .feature-title { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
         .feature-desc { color: #666666; font-size: 14px; line-height: 1.6; }
 
+        .demo-widgets {
+          display: flex;
+          gap: 20px;
+          justify-content: center;
+          margin-top: 60px;
+          flex-wrap: wrap;
+        }
+
+        .widget-demo {
+          background: #0a0a0a;
+          border: 1px solid #1a1a1a;
+          border-radius: 24px;
+          padding: 24px;
+          text-align: left;
+          width: 280px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+          animation: float 6s ease-in-out infinite;
+        }
+
+        .widget-demo:nth-child(2) { animation-delay: -3s; }
+
+        @keyframes float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-10px); }
+        }
+
+        .widget-label { font-size: 10px; color: #444; font-weight: 900; text-transform: uppercase; margin-bottom: 16px; display: block; letter-spacing: 0.1em; }
+        
+        .attn-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+        .attn-bar { height: 4px; background: #111; border-radius: 2px; flex: 1; margin: 0 12px; overflow: hidden; }
+        .attn-fill { height: 100%; background: #ffffff; border-radius: 2px; }
+
+        .mark-pill { background: #111; padding: 4px 8px; border-radius: 8px; font-size: 12px; font-weight: 700; color: #888; }
+
         .compare-section {
           background: #050505;
           padding: 80px 24px;
@@ -177,7 +211,46 @@ export default function LoginPage() {
             The definitive student intelligence portal for SRM University. 
             Engineered for precision, speed, and academic dominance.
           </p>
-          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
+
+          <div className="demo-widgets">
+            {/* Attendance Demo */}
+            <div className="widget-demo">
+              <span className="widget-label">Live Attendance</span>
+              <div className="attn-row">
+                <span style={{ fontSize: '12px', fontWeight: 600 }}>Data Science</span>
+                <div className="attn-bar"><div className="attn-fill" style={{ width: '88%' }}></div></div>
+                <span style={{ fontSize: '12px', fontWeight: 900 }}>88%</span>
+              </div>
+              <div className="attn-row">
+                <span style={{ fontSize: '12px', fontWeight: 600 }}>AI & ML</span>
+                <div className="attn-bar"><div className="attn-fill" style={{ width: '74%' }}></div></div>
+                <span style={{ fontSize: '12px', fontWeight: 900, color: '#ff3b3b' }}>74%</span>
+              </div>
+              <div style={{ marginTop: '8px', fontSize: '10px', color: '#ff3b3b', fontWeight: 800 }}>⚠️ AT RISK: ATTEND NEXT 2 CLASSES</div>
+            </div>
+
+            {/* Marks Demo */}
+            <div className="widget-demo">
+              <span className="widget-label">Internal Analytics</span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '12px', color: '#888' }}>CT-1 Score</span>
+                  <span className="mark-pill">48 / 50</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '12px', color: '#888' }}>Model Exam</span>
+                  <span className="mark-pill">92 / 100</span>
+                </div>
+                <div style={{ marginTop: '4px', height: '1px', background: '#1a1a1a' }}></div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '12px', fontWeight: 700 }}>Predicted Grade</span>
+                  <span style={{ fontSize: '16px', fontWeight: 900, color: '#ffffff' }}>O (Outstanding)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', marginTop: '60px' }}>
              <a href="#login" className="login-btn" style={{ textDecoration: 'none', textAlign: 'center', width: 'auto', padding: '18px 40px' }}>
                 Access Portal
              </a>
