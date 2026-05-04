@@ -10,6 +10,19 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
   const [touchStart, setTouchStart] = useState<{ x: number, y: number } | null>(null);
   const [pullDist, setPullDist] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [offset, setOffset] = useState(0);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setOffset(0);
+    setPullDist(0);
+    setTouchStart(null);
+  }, [pathname]);
+
+  const minSwipeDistance = 60;
+  const currentIndex = TAB_ORDER.findIndex(p => pathname.startsWith(p));
+  const isTabPage = currentIndex !== -1;
+  const winWidth = typeof window !== "undefined" ? window.innerWidth : 375;
 
   const onTouchStart = (e: TouchEvent) => {
     if (!isTabPage) return;

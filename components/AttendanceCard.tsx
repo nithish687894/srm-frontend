@@ -124,6 +124,6 @@ export default function AttendanceCard({ course }: { course: any }) {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
