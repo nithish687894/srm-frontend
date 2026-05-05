@@ -5,11 +5,11 @@ export default function JsonLd() {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "SRM Nexus",
-    "alternateName": "srmnexus",
+    "alternateName": ["Nexus Academia", "SRM Academia Portal", "srmnexus", "SRMX"],
     "url": "https://srmnexus.app",
     "applicationCategory": "EducationalApplication",
     "operatingSystem": "All",
-    "description": "The most advanced student portal for SRM University. Track attendance, marks, and SGPA with precision.",
+    "description": "SRM Nexus is the ultimate SRM Academia student portal. Track attendance, internal marks, timetable, and SGPA with precision using the definitive Nexus Academia interface.",
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -20,6 +20,7 @@ export default function JsonLd() {
       "Internal Marks Analysis",
       "SGPA & CGPA Calculator",
       "AI Academic Assistant",
+      "Nexus Academia Integration",
       "Personalized Timetable"
     ],
     "author": {
@@ -33,6 +34,7 @@ export default function JsonLd() {
     "@type": "WebSite",
     "url": "https://srmnexus.app",
     "name": "SRM Nexus",
+    "alternateName": ["SRMNexus", "Nexus Academia", "SRM Academia Portal"],
     "potentialAction": {
       "@type": "SearchAction",
       "target": "https://srmnexus.app/search?q={search_term_string}",

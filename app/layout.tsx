@@ -39,13 +39,14 @@ const bebas = Bebas_Neue({
 });
 
 export const metadata: Metadata = {
-  title: "SRM NEXUS – Precision Academic Intelligence | SRM Student Portal",
-  description: "The most advanced, high-performance interface for SRM students. Track attendance, internal marks, timetable, and SGPA with precision. Built for SRM University.",
-  keywords: ["srmnexus", "srm nexus", "srm student portal", "srm attendance tracker", "srm sgpa calculator", "srm academia", "srmist portal"],
+  title: "SRM Nexus — The Ultimate SRM Academia Student Portal",
+  description: "Experience SRM Nexus, the definitive SRM Academia student portal. Track attendance, internal marks, timetable, and SGPA with precision. The ultimate Nexus Academia interface for SRM University students.",
+  applicationName: "SRM Nexus",
+  keywords: ["nexus academia", "srm nexus", "srm academia", "srm student portal", "srm attendance tracker", "srm timetable", "srm internal marks", "srmist portal"],
   authors: [{ name: "SRM Nexus Team" }],
   openGraph: {
-    title: "SRM NEXUS – Precision Academic Intelligence",
-    description: "The definitive student portal for SRM University. Fast, elegant, and intelligent.",
+    title: "SRM Nexus — The Ultimate SRM Academia Student Portal",
+    description: "The definitive student portal for SRM University. Fast, elegant, and intelligent. Track attendance, marks, and timetable on SRM Nexus.",
     url: "https://srmnexus.app",
     siteName: "SRM Nexus",
     locale: "en_IN",
@@ -53,10 +54,18 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "SRM NEXUS – Precision Academic Intelligence",
-    description: "The definitive student portal for SRM University. Fast, elegant, and intelligent.",
+    title: "SRM Nexus — The Ultimate SRM Academia Student Portal",
+    description: "The definitive student portal for SRM University. Track attendance, marks, and timetable with SRM Nexus.",
   },
   manifest: "/site.webmanifest?v=2",
+  appleWebApp: {
+    capable: true,
+    title: "SRM Nexus",
+    statusBarStyle: "black-translucent",
+  },
+  other: {
+    "apple-mobile-web-app-title": "SRM Nexus",
+  },
   icons: {
     icon: "/nexus-logo.png",
     apple: "/nexus-logo.png",

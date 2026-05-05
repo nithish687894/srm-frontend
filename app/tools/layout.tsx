@@ -3,8 +3,8 @@ import Link from "next/link";
 import { Sparkles, ArrowRight } from "lucide-react";
 
 export const metadata = {
-  title: "SRM Student Tools & Calculators | SRM Nexus",
-  description: "Free, instant calculators and tools for SRM Institute of Science and Technology students. Calculate attendance, CGPA, and internal marks.",
+  title: "SRM Nexus Tools — Attendance & CGPA Calculators for SRM Academia",
+  description: "Calculate your attendance, CGPA, and internal marks with precision using SRM Nexus Tools. The ultimate Nexus Academia companion for SRM University students.",
 };
 
 export default function ToolsLayout({ children }: { children: React.ReactNode }) {
