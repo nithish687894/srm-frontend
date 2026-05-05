@@ -8,6 +8,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
 import { useThemeStore } from "@/lib/themeStore";
 import { motion } from "framer-motion";
+import { extractBatch } from "@/lib/utils";
 
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
 function parseStart(t: string) { const m = t.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
@@ -124,6 +125,10 @@ export default function DashboardPage() {
   const [mounted, setMounted] = useState(false);
   const [showStudentInfo, setShowStudentInfo] = useState(false);
   const [broadcast, setBroadcast] = useState<any>(null);
+  const [batch, setBatch] = useState<number>(() => {
+    const raw = academicData?.profile?.["Combo / Batch"] || "";
+    return extractBatch(raw);
+  });
 
   useEffect(() => {
     setMounted(true);
@@ -135,7 +140,11 @@ export default function DashboardPage() {
       .then(d => {
         setData(d);
         setAcademicData(d);
-        if (d.profile) setProfile(d.profile);
+        if (d.profile) {
+          setProfile(d.profile);
+          const b = extractBatch(d.profile["Combo / Batch"] || "");
+          setBatch(b);
+        }
         setLoading(false);
       })
       .catch(() => {
@@ -146,11 +155,11 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (!ready) return;
-    dataAPI.getTimetable(1).then(d => setTTData(d)).catch(() => { });
+    dataAPI.getTimetable(batch).then(d => setTTData(d)).catch(() => { });
     dataAPI.getCalendar().then(d => setCalData(d)).catch(() => { });
     dataAPI.getMyTimetable().then(d => setMyTTData(d)).catch(() => { });
     dataAPI.getBroadcast().then(d => setBroadcast(d)).catch(() => { });
-  }, [ready]);
+  }, [ready, batch]);
 
   const att = data?.attendance || [];
   const marks = data?.marks || [];

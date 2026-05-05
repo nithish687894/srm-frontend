@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import { toPng } from "html-to-image";
+import { extractBatch } from "@/lib/utils";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
@@ -133,8 +134,7 @@ export default function TimetablePage() {
   const [dayOverride, setDayOverride] = useState<number>(1);
   const [batch, setBatch] = useState<number>(() => {
     const raw = academicData?.profile?.["Combo / Batch"] || "";
-    const b = parseInt(raw.split("/")[1]);
-    return isNaN(b) ? 1 : b;
+    return extractBatch(raw);
   });
   const router = useRouter();
   const shareRef = useRef<HTMLDivElement>(null);
@@ -270,8 +270,8 @@ export default function TimetablePage() {
   // Auto-set batch from studentInfo if available
   useEffect(() => {
     if (studentInfo && studentInfo["Combo / Batch"]) {
-      const b = parseInt(studentInfo["Combo / Batch"].split("/")[1]);
-      if (!isNaN(b) && b !== batch) {
+      const b = extractBatch(studentInfo["Combo / Batch"]);
+      if (b !== batch) {
         setBatch(b);
       }
     }
