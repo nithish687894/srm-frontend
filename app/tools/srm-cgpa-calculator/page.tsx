@@ -1,49 +1,128 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
-import { ArrowLeft, Share2, Plus, Trash2 } from "lucide-react";
+import { ArrowLeft, Share2, Plus, Trash2, AlertTriangle, CheckCircle2 } from "lucide-react";
 
 const GRADE_POINTS: Record<string, number> = {
-  "O": 10, "A+": 9, "A": 8, "B+": 7, "B": 6, "C": 5, "W": 0, "F": 0, "Ab": 0, "I": 0
+  "O": 10, "A+": 9, "A": 8, "B+": 7, "B": 6, "C": 5, "F": 0, "W": 0, "Ab": 0, "I": 0
+};
+
+type Subject = {
+  id: string;
+  name: string;
+  credits: number;
+  grade: string;
+  isClearedArrear?: boolean;
+};
+
+type Semester = {
+  id: string;
+  name: string;
+  subjects: Subject[];
 };
 
 export default function CGPACalculator() {
-  const [subjects, setSubjects] = useState<{ id: number, credits: number, grade: string }[]>([
-    { id: 1, credits: 4, grade: "A" },
-    { id: 2, credits: 3, grade: "A+" },
-    { id: 3, credits: 3, grade: "B+" },
-    { id: 4, credits: 2, grade: "O" },
+  const [semesters, setSemesters] = useState<Semester[]>([
+    {
+      id: "sem-1",
+      name: "Semester 1",
+      subjects: [
+        { id: "sub-1", name: "Mathematics", credits: 4, grade: "A+" },
+        { id: "sub-2", name: "Physics", credits: 3, grade: "A" },
+        { id: "sub-3", name: "Programming", credits: 3, grade: "B+" },
+      ],
+    }
   ]);
 
-  const addSubject = () => {
-    setSubjects([...subjects, { id: Date.now(), credits: 3, grade: "A" }]);
+  const addSemester = () => {
+    const newSemNum = semesters.length + 1;
+    setSemesters([...semesters, {
+      id: `sem-${Date.now()}`,
+      name: `Semester ${newSemNum}`,
+      subjects: [
+        { id: `sub-${Date.now()}-1`, name: "New Subject", credits: 3, grade: "A" }
+      ]
+    }]);
   };
 
-  const removeSubject = (id: number) => {
-    if (subjects.length > 1) {
-      setSubjects(subjects.filter(s => s.id !== id));
-    }
+  const removeSemester = (semId: string) => {
+    setSemesters(semesters.filter(sem => sem.id !== semId));
   };
 
-  const updateSubject = (id: number, field: "credits" | "grade", value: any) => {
-    setSubjects(subjects.map(s => s.id === id ? { ...s, [field]: value } : s));
+  const addSubject = (semId: string) => {
+    setSemesters(semesters.map(sem => {
+      if (sem.id === semId) {
+        return {
+          ...sem,
+          subjects: [...sem.subjects, { id: `sub-${Date.now()}`, name: "New Subject", credits: 3, grade: "A" }]
+        };
+      }
+      return sem;
+    }));
   };
 
-  const totalCredits = subjects.reduce((sum, s) => sum + (Number(s.credits) || 0), 0);
-  const totalPoints = subjects.reduce((sum, s) => {
-    const credits = Number(s.credits) || 0;
-    const points = GRADE_POINTS[s.grade] || 0;
-    return sum + (credits * points);
-  }, 0);
+  const removeSubject = (semId: string, subId: string) => {
+    setSemesters(semesters.map(sem => {
+      if (sem.id === semId) {
+        return { ...sem, subjects: sem.subjects.filter(s => s.id !== subId) };
+      }
+      return sem;
+    }));
+  };
 
-  const sgpa = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : "0.00";
+  const updateSubject = (semId: string, subId: string, field: keyof Subject, value: any) => {
+    setSemesters(semesters.map(sem => {
+      if (sem.id === semId) {
+        return {
+          ...sem,
+          subjects: sem.subjects.map(sub => sub.id === subId ? { ...sub, [field]: value } : sub)
+        };
+      }
+      return sem;
+    }));
+  };
+
+  // -- Calculations --
+  const getSGPA = (subjects: Subject[]) => {
+    const totalCredits = subjects.reduce((sum, s) => sum + (Number(s.credits) || 0), 0);
+    const totalPoints = subjects.reduce((sum, s) => {
+      const credits = Number(s.credits) || 0;
+      const points = GRADE_POINTS[s.grade] || 0;
+      return sum + (credits * points);
+    }, 0);
+    return totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : "0.00";
+  };
+
+  const cgpaData = useMemo(() => {
+    const allSubjects = semesters.flatMap(sem => sem.subjects);
+    const totalCredits = allSubjects.reduce((sum, s) => sum + (Number(s.credits) || 0), 0);
+    const totalPoints = allSubjects.reduce((sum, s) => {
+      const credits = Number(s.credits) || 0;
+      const points = GRADE_POINTS[s.grade] || 0;
+      return sum + (credits * points);
+    }, 0);
+    const cgpa = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : "0.00";
+    return { cgpa, totalCredits, totalPoints };
+  }, [semesters]);
+
+  const arrears = useMemo(() => {
+    const arr: { semId: string; semName: string; subject: Subject }[] = [];
+    semesters.forEach(sem => {
+      sem.subjects.forEach(sub => {
+        if (sub.grade === "F") {
+          arr.push({ semId: sem.id, semName: sem.name, subject: sub });
+        }
+      });
+    });
+    return arr;
+  }, [semesters]);
 
   const handleShare = async () => {
     if (navigator.share) {
       try {
         await navigator.share({
           title: "SRM CGPA Calculator",
-          text: `I just calculated my GPA: ${sgpa}! Use SRM Nexus to calculate yours instantly.`,
+          text: `I just calculated my CGPA: ${cgpaData.cgpa}! Use SRM Nexus to calculate yours instantly.`,
           url: "https://srmnexus.app/tools/srm-cgpa-calculator",
         });
       } catch (err) {
@@ -52,209 +131,195 @@ export default function CGPACalculator() {
     }
   };
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "SRM CGPA Calculator",
-    "url": "https://srmnexus.app/tools/srm-cgpa-calculator",
-    "applicationCategory": "EducationApplication",
-    "operatingSystem": "Any",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "INR"
-    },
-    "description": "Calculate SRM University CGPA and SGPA instantly. Supports 2018 and 2021 regulations for all branches.",
-    "provider": {
-      "@type": "Organization",
-      "name": "SRM Nexus",
-      "url": "https://srmnexus.app"
-    }
-  };
-
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How is CGPA calculated in SRM?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "CGPA is calculated by dividing the sum of (Course Credits × Grade Points) for all courses by the total number of credits attempted."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What is the grade point for O grade in SRM?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "An 'O' (Outstanding) grade carries 10 grade points. A+ carries 9 points, A carries 8 points, B+ carries 7 points, B carries 6 points, and C carries 5 points."
-        }
-      }
-    ]
-  };
-
   return (
-    <div>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+    <div style={{ background: "#0a0a0a", minHeight: "100vh", color: "#fff", fontFamily: "'Inter', sans-serif" }}>
+      <div style={{ maxWidth: "1000px", margin: "0 auto", padding: "40px 20px" }}>
+        
+        <Link href="/tools" style={{ display: "flex", alignItems: "center", gap: "8px", color: "#888", textDecoration: "none", fontSize: "14px", fontWeight: 700, marginBottom: "32px", width: "max-content" }}>
+          <ArrowLeft size={16} /> Back to Tools
+        </Link>
 
-      <Link href="/tools" style={{ display: "flex", alignItems: "center", gap: "8px", color: "var(--text-muted, #888)", textDecoration: "none", fontSize: "14px", fontWeight: 700, marginBottom: "32px" }}>
-        <ArrowLeft size={16} /> Back to Tools
-      </Link>
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: "24px", marginBottom: "40px" }}>
+          <div>
+            <h1 style={{ fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 900, letterSpacing: "-0.04em", margin: "0 0 12px 0", lineHeight: 1.1 }}>
+              SRM CGPA Calculator
+            </h1>
+            <p style={{ fontSize: "16px", color: "#888", lineHeight: 1.6, maxWidth: "600px" }}>
+              Multi-semester absolute grading calculator. Add semesters, track SGPAs, and manage arrears dynamically.
+            </p>
+          </div>
+          <button 
+            onClick={addSemester}
+            style={{ background: "#3b82f6", color: "#fff", border: "none", padding: "14px 24px", borderRadius: "12px", fontSize: "14px", fontWeight: 800, cursor: "pointer", display: "flex", alignItems: "center", gap: "8px", transition: "all 0.2s" }}
+          >
+            <Plus size={18} /> Add Semester
+          </button>
+        </div>
 
-      <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-        <h1 style={{ fontSize: "clamp(32px, 6vw, 48px)", fontWeight: 900, letterSpacing: "-0.04em", margin: "0 0 16px 0", lineHeight: 1.1 }}>
-          SRM SGPA/CGPA Calculator
-        </h1>
-        <p style={{ fontSize: "18px", color: "var(--text-secondary, #aaa)", lineHeight: 1.6, marginBottom: "40px" }}>
-          Calculate your semester grade point average accurately. Pre-configured for SRM University's 10-point absolute grading scale.
-        </p>
-
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "32px", marginBottom: "48px" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "32px" }}>
           
-          {/* Calculator Form */}
-          <div style={{ flex: "1 1 400px", background: "linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)", border: "1px solid rgba(255,255,255,0.05)", borderRadius: "24px", padding: "32px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
-              <h2 style={{ fontSize: "20px", fontWeight: 800 }}>Semester Courses</h2>
-              <button onClick={addSubject} style={{ background: "rgba(255,255,255,0.1)", border: "none", color: "#fff", padding: "8px 12px", borderRadius: "10px", fontSize: "12px", fontWeight: 800, cursor: "pointer", display: "flex", alignItems: "center", gap: "4px" }}>
-                <Plus size={14} /> Add Subject
-              </button>
-            </div>
+          {/* Main Semesters Area */}
+          <div style={{ flex: "1 1 500px", display: "flex", flexDirection: "column", gap: "32px" }}>
+            {semesters.length === 0 && (
+               <div style={{ textAlign: "center", padding: "60px", background: "rgba(255,255,255,0.02)", borderRadius: "24px", border: "1px dashed rgba(255,255,255,0.1)" }}>
+                 <p style={{ color: "#666", fontSize: "16px", fontWeight: 700, marginBottom: "16px" }}>No semesters added yet.</p>
+                 <button onClick={addSemester} style={{ background: "rgba(255,255,255,0.1)", border: "none", color: "#fff", padding: "10px 20px", borderRadius: "8px", fontWeight: 800, cursor: "pointer" }}>Start Calculating</button>
+               </div>
+            )}
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-              {subjects.map((sub, i) => (
-                <div key={sub.id} style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-                  <div style={{ width: "32px", height: "32px", background: "rgba(255,255,255,0.05)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", fontWeight: 800, color: "var(--text-muted, #888)" }}>
-                    {i + 1}
+            {semesters.map((sem, sIndex) => {
+              const sgpa = getSGPA(sem.subjects);
+              return (
+                <div key={sem.id} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", borderRadius: "24px", overflow: "hidden" }}>
+                  <div style={{ padding: "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.05)", display: "flex", justifyContent: "space-between", alignItems: "center", background: "rgba(0,0,0,0.2)" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                      <div style={{ width: "32px", height: "32px", background: "#3b82f6", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: "14px" }}>
+                        {sIndex + 1}
+                      </div>
+                      <input 
+                        type="text" 
+                        value={sem.name}
+                        onChange={(e) => setSemesters(semesters.map(s => s.id === sem.id ? { ...s, name: e.target.value } : s))}
+                        style={{ background: "transparent", border: "none", color: "#fff", fontSize: "18px", fontWeight: 800, outline: "none", width: "150px" }}
+                      />
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                      <div style={{ background: "rgba(59, 130, 246, 0.1)", color: "#60a5fa", padding: "6px 12px", borderRadius: "8px", fontWeight: 900, fontSize: "14px" }}>
+                        SGPA: {sgpa}
+                      </div>
+                      <button onClick={() => removeSemester(sem.id)} style={{ background: "none", border: "none", color: "#ef4444", cursor: "pointer", padding: "4px" }}>
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
                   </div>
                   
-                  <div style={{ flex: 1 }}>
-                    <select 
-                      value={sub.credits} 
-                      onChange={e => updateSubject(sub.id, "credits", Number(e.target.value))}
-                      style={{ width: "100%", background: "rgba(0,0,0,0.5)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "10px", padding: "12px", color: "#fff", outline: "none", appearance: "none" }}
-                    >
-                      {[1, 2, 3, 4, 5, 6].map(c => <option key={c} value={c}>{c} Credits</option>)}
-                    </select>
-                  </div>
+                  <div style={{ padding: "24px" }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "20px" }}>
+                      {sem.subjects.map((sub, i) => {
+                        const isF = sub.grade === "F";
+                        return (
+                          <div key={sub.id} style={{ display: "flex", flexWrap: "wrap", gap: "12px", alignItems: "center", background: isF ? "rgba(239, 68, 68, 0.05)" : "rgba(0,0,0,0.3)", padding: "12px", borderRadius: "12px", border: isF ? "1px solid rgba(239, 68, 68, 0.2)" : "1px solid transparent" }}>
+                            <div style={{ flex: "1 1 200px" }}>
+                              <input 
+                                type="text"
+                                placeholder="Subject Name"
+                                value={sub.name}
+                                onChange={e => updateSubject(sem.id, sub.id, "name", e.target.value)}
+                                style={{ width: "100%", background: "transparent", border: "none", color: "#fff", fontSize: "14px", fontWeight: 700, outline: "none" }}
+                              />
+                            </div>
+                            
+                            <select 
+                              value={sub.credits} 
+                              onChange={e => updateSubject(sem.id, sub.id, "credits", Number(e.target.value))}
+                              style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", padding: "10px", color: "#fff", outline: "none", appearance: "none", width: "100px", fontSize: "14px", fontWeight: 700 }}
+                            >
+                              {[1, 2, 3, 4, 5, 6].map(c => <option key={c} value={c}>{c} Credits</option>)}
+                            </select>
 
-                  <div style={{ flex: 1 }}>
-                    <select 
-                      value={sub.grade} 
-                      onChange={e => updateSubject(sub.id, "grade", e.target.value)}
-                      style={{ width: "100%", background: "rgba(0,0,0,0.5)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "10px", padding: "12px", outline: "none", appearance: "none", fontWeight: 800, color: sub.grade === 'F' ? '#ef4444' : '#fff' }}
-                    >
-                      {Object.keys(GRADE_POINTS).map(g => <option key={g} value={g}>Grade {g}</option>)}
-                    </select>
-                  </div>
+                            <select 
+                              value={sub.grade} 
+                              onChange={e => updateSubject(sem.id, sub.id, "grade", e.target.value)}
+                              style={{ background: isF ? "rgba(239, 68, 68, 0.2)" : "rgba(255,255,255,0.05)", border: isF ? "1px solid rgba(239, 68, 68, 0.4)" : "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", padding: "10px", color: isF ? "#fca5a5" : "#fff", outline: "none", appearance: "none", width: "100px", fontSize: "14px", fontWeight: 900 }}
+                            >
+                              {Object.keys(GRADE_POINTS).map(g => <option key={g} value={g}>Grade {g}</option>)}
+                            </select>
 
-                  <button 
-                    onClick={() => removeSubject(sub.id)} 
-                    disabled={subjects.length <= 1}
-                    style={{ background: "none", border: "none", color: subjects.length <= 1 ? "rgba(255,255,255,0.1)" : "#ef4444", cursor: subjects.length <= 1 ? "not-allowed" : "pointer", padding: "8px" }}
-                  >
-                    <Trash2 size={18} />
-                  </button>
+                            <button onClick={() => removeSubject(sem.id, sub.id)} style={{ background: "none", border: "none", color: "#666", cursor: "pointer", padding: "8px", transition: "color 0.2s" }} onMouseOver={e => e.currentTarget.style.color = "#ef4444"} onMouseOut={e => e.currentTarget.style.color = "#666"}>
+                              <Trash2 size={16} />
+                            </button>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    
+                    <button onClick={() => addSubject(sem.id)} style={{ background: "rgba(255,255,255,0.05)", border: "1px dashed rgba(255,255,255,0.2)", color: "#aaa", padding: "12px", borderRadius: "12px", fontSize: "12px", fontWeight: 800, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", width: "100%", transition: "all 0.2s" }} onMouseOver={e => { e.currentTarget.style.background = "rgba(255,255,255,0.1)"; e.currentTarget.style.color = "#fff"; }} onMouseOut={e => { e.currentTarget.style.background = "rgba(255,255,255,0.05)"; e.currentTarget.style.color = "#aaa"; }}>
+                      <Plus size={14} /> Add Subject
+                    </button>
+                  </div>
                 </div>
-              ))}
-            </div>
+              );
+            })}
           </div>
 
-          {/* Result Card */}
+          {/* Sticky Sidebar / CGPA Output */}
           <div style={{ flex: "1 1 300px" }}>
-            <div style={{ 
-              position: "sticky", top: "100px",
-              background: "linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1))", 
-              border: "1px solid rgba(59, 130, 246, 0.2)", 
-              borderRadius: "24px", padding: "40px", textAlign: "center"
-            }}>
-              <div style={{ fontSize: "14px", fontWeight: 800, color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" }}>
-                Estimated SGPA
-              </div>
-              <div style={{ fontSize: "80px", fontWeight: 900, lineHeight: 1, marginBottom: "24px", background: "linear-gradient(to right, #60a5fa, #c084fc)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-                {sgpa}
+            <div style={{ position: "sticky", top: "40px", display: "flex", flexDirection: "column", gap: "24px" }}>
+              
+              <div style={{ background: "linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1))", border: "1px solid rgba(59, 130, 246, 0.2)", borderRadius: "24px", padding: "40px", textAlign: "center" }}>
+                <div style={{ fontSize: "14px", fontWeight: 800, color: "#888", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" }}>
+                  Cumulative GPA
+                </div>
+                <div style={{ fontSize: "80px", fontWeight: 900, lineHeight: 1, marginBottom: "24px", background: "linear-gradient(to right, #60a5fa, #c084fc)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                  {cgpaData.cgpa}
+                </div>
+
+                <div style={{ display: "flex", justifyContent: "space-between", background: "rgba(0,0,0,0.3)", padding: "16px", borderRadius: "16px", marginBottom: "32px" }}>
+                  <div>
+                    <div style={{ fontSize: "11px", color: "#888", textTransform: "uppercase", fontWeight: 800, marginBottom: "4px" }}>Total Credits</div>
+                    <div style={{ fontSize: "20px", fontWeight: 800 }}>{cgpaData.totalCredits}</div>
+                  </div>
+                  <div style={{ width: "1px", background: "rgba(255,255,255,0.1)" }} />
+                  <div>
+                    <div style={{ fontSize: "11px", color: "#888", textTransform: "uppercase", fontWeight: 800, marginBottom: "4px" }}>Grade Points</div>
+                    <div style={{ fontSize: "20px", fontWeight: 800 }}>{cgpaData.totalPoints}</div>
+                  </div>
+                </div>
+
+                <button 
+                  onClick={handleShare}
+                  style={{ width: "100%", background: "#3b82f6", color: "#fff", border: "none", padding: "16px", borderRadius: "14px", fontSize: "16px", fontWeight: 900, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", transition: "all 0.2s" }}
+                >
+                  <Share2 size={18} /> Share Result
+                </button>
               </div>
 
-              <div style={{ display: "flex", justifyContent: "space-between", background: "rgba(0,0,0,0.3)", padding: "16px", borderRadius: "16px", marginBottom: "32px" }}>
-                <div>
-                  <div style={{ fontSize: "11px", color: "var(--text-muted, #888)", textTransform: "uppercase", fontWeight: 800, marginBottom: "4px" }}>Total Credits</div>
-                  <div style={{ fontSize: "20px", fontWeight: 800 }}>{totalCredits}</div>
+              {/* Arrear Tracker Block */}
+              {arrears.length > 0 && (
+                <div style={{ background: "rgba(239, 68, 68, 0.05)", border: "1px solid rgba(239, 68, 68, 0.3)", borderRadius: "24px", padding: "24px" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#ef4444", marginBottom: "16px" }}>
+                    <AlertTriangle size={18} />
+                    <h3 style={{ margin: 0, fontSize: "16px", fontWeight: 800 }}>Arrear Tracker</h3>
+                  </div>
+                  <p style={{ fontSize: "13px", color: "#aaa", marginBottom: "20px", lineHeight: 1.5 }}>
+                    Clear arrears by assigning a new passing grade. The CGPA will automatically recalculate.
+                  </p>
+                  
+                  <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                    {arrears.map((arr, i) => (
+                      <div key={i} style={{ background: "rgba(0,0,0,0.3)", borderRadius: "12px", padding: "12px", display: "flex", flexDirection: "column", gap: "10px" }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                          <div>
+                            <div style={{ fontSize: "14px", fontWeight: 800, color: "#fff" }}>{arr.subject.name}</div>
+                            <div style={{ fontSize: "11px", color: "#666", fontWeight: 700, marginTop: "2px" }}>{arr.semName} • {arr.subject.credits} CR</div>
+                          </div>
+                          <div style={{ background: "rgba(239, 68, 68, 0.2)", color: "#fca5a5", fontSize: "12px", fontWeight: 900, padding: "4px 8px", borderRadius: "6px" }}>F</div>
+                        </div>
+                        
+                        <div style={{ display: "flex", gap: "8px" }}>
+                          <select 
+                            value="F"
+                            onChange={e => updateSubject(arr.semId, arr.subject.id, "grade", e.target.value)}
+                            style={{ flex: 1, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", padding: "8px", color: "#a8c200", outline: "none", fontSize: "12px", fontWeight: 800 }}
+                          >
+                            <option value="F" disabled>Clear this arrear...</option>
+                            <option value="O">Cleared with O</option>
+                            <option value="A+">Cleared with A+</option>
+                            <option value="A">Cleared with A</option>
+                            <option value="B+">Cleared with B+</option>
+                            <option value="B">Cleared with B</option>
+                            <option value="C">Cleared with C</option>
+                          </select>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div style={{ width: "1px", background: "rgba(255,255,255,0.1)" }} />
-                <div>
-                  <div style={{ fontSize: "11px", color: "var(--text-muted, #888)", textTransform: "uppercase", fontWeight: 800, marginBottom: "4px" }}>Grade Points</div>
-                  <div style={{ fontSize: "20px", fontWeight: 800 }}>{totalPoints}</div>
-                </div>
-              </div>
+              )}
 
-              <button 
-                onClick={handleShare}
-                style={{ width: "100%", background: "#3b82f6", color: "#fff", border: "none", padding: "16px", borderRadius: "14px", fontSize: "16px", fontWeight: 900, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", transition: "all 0.2s" }}
-              >
-                <Share2 size={18} /> Share Result
-              </button>
             </div>
           </div>
         </div>
-
-        {/* SEO Content Section */}
-        <section style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: "48px", marginTop: "48px" }}>
-          <h2 style={{ fontSize: "28px", fontWeight: 800, marginBottom: "24px" }}>SRM Grading System Explained</h2>
-          
-          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-            <div>
-              <h3 style={{ fontSize: "18px", fontWeight: 700, marginBottom: "12px", color: "var(--accent, #a8c200)" }}>The 10-Point Absolute Grading Scale</h3>
-              <p style={{ color: "var(--text-secondary, #aaa)", lineHeight: 1.6 }}>
-                SRM IST utilizes a 10-point absolute grading system for all recent regulations (2018, 2021). The grades are awarded based on your final combined score (Internal marks + End Semester Evaluation).
-              </p>
-              
-              <div style={{ marginTop: "16px", overflowX: "auto" }}>
-                <table style={{ width: "100%", textAlign: "left", borderCollapse: "collapse", fontSize: "14px" }}>
-                  <thead>
-                    <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
-                      <th style={{ padding: "12px", color: "var(--text-muted, #888)" }}>Marks Range</th>
-                      <th style={{ padding: "12px", color: "var(--text-muted, #888)" }}>Grade</th>
-                      <th style={{ padding: "12px", color: "var(--text-muted, #888)" }}>Grade Points</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-                      <td style={{ padding: "12px" }}>91 - 100</td><td style={{ padding: "12px", fontWeight: 800, color: "#a8c200" }}>O (Outstanding)</td><td style={{ padding: "12px", fontWeight: 800 }}>10</td>
-                    </tr>
-                    <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-                      <td style={{ padding: "12px" }}>81 - 90</td><td style={{ padding: "12px", fontWeight: 800 }}>A+ (Excellent)</td><td style={{ padding: "12px", fontWeight: 800 }}>9</td>
-                    </tr>
-                    <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-                      <td style={{ padding: "12px" }}>71 - 80</td><td style={{ padding: "12px", fontWeight: 800 }}>A (Very Good)</td><td style={{ padding: "12px", fontWeight: 800 }}>8</td>
-                    </tr>
-                    <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-                      <td style={{ padding: "12px" }}>61 - 70</td><td style={{ padding: "12px", fontWeight: 800 }}>B+ (Good)</td><td style={{ padding: "12px", fontWeight: 800 }}>7</td>
-                    </tr>
-                    <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-                      <td style={{ padding: "12px" }}>56 - 60</td><td style={{ padding: "12px", fontWeight: 800 }}>B (Above Average)</td><td style={{ padding: "12px", fontWeight: 800 }}>6</td>
-                    </tr>
-                    <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-                      <td style={{ padding: "12px" }}>50 - 55</td><td style={{ padding: "12px", fontWeight: 800 }}>C (Average)</td><td style={{ padding: "12px", fontWeight: 800 }}>5</td>
-                    </tr>
-                    <tr>
-                      <td style={{ padding: "12px" }}>&lt; 50</td><td style={{ padding: "12px", fontWeight: 800, color: "#ef4444" }}>F (Fail)</td><td style={{ padding: "12px", fontWeight: 800 }}>0</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <div>
-              <h3 style={{ fontSize: "18px", fontWeight: 700, marginBottom: "12px", color: "var(--accent, #a8c200)" }}>Automatic Tracking</h3>
-              <p style={{ color: "var(--text-secondary, #aaa)", lineHeight: 1.6 }}>
-                Instead of estimating your grades manually, sign in to <strong>SRM Nexus</strong>. We automatically fetch your internal marks, calculate the minimum required external marks for every grade, and track your historical SGPA curve across semesters.
-              </p>
-            </div>
-          </div>
-        </section>
-
       </div>
     </div>
   );

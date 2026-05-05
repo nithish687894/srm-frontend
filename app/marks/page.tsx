@@ -101,12 +101,10 @@ export default function MarksPage() {
                   padding: "24px",
                 }}>
                   <div style={{ display: "flex", alignItems: "flex-start", gap: "20px", marginBottom: "20px" }}>
-                    <div style={{ width: "80px", flexShrink: 0 }}>
-                      <div style={{ fontSize: "40px", fontWeight: 900, color: "#ffffff", lineHeight: 1 }}>
-                        {scored.toFixed(0)}
-                      </div>
-                      <div style={{ fontSize: "12px", color: "#666666", fontWeight: "bold", marginTop: "4px" }}>
-                        /{maxTotal.toFixed(0)} TOTAL
+                    <div style={{ flexShrink: 0, textAlign: "right" }}>
+                      <div style={{ display: "flex", alignItems: "baseline", gap: "2px" }}>
+                        <span style={{ fontSize: "36px", fontWeight: 900, color: "#ffffff", lineHeight: 1 }}>{scored.toFixed(0)}</span>
+                        <span style={{ fontSize: "18px", color: "#666666", fontWeight: "bold" }}>/{maxTotal.toFixed(0)}</span>
                       </div>
                     </div>
 
@@ -213,9 +211,9 @@ function MatrixMarks({ marks, titleMap, totalScored, totalMax, hasEmergency }: a
                          <div style={{ fontSize: "18px", fontWeight: 900, color: "#fff", lineHeight: 1.2, textTransform: "capitalize" }}>{title.toLowerCase()}</div>
                          <div style={{ fontSize: "11px", color: "#666", fontWeight: 800, marginTop: "4px" }}>{m.courseCode}</div>
                       </div>
-                      <div style={{ textAlign: "right" }}>
+                      <div style={{ textAlign: "right", display: "flex", alignItems: "baseline", justifyContent: "flex-end", gap: "2px" }}>
                          <div style={{ fontSize: "32px", fontWeight: 900, color: "#a8c200" }}>{scored.toFixed(0)}</div>
-                         <div style={{ fontSize: "11px", color: "#666", fontWeight: 800 }}>/{maxTotal.toFixed(0)}</div>
+                         <div style={{ fontSize: "16px", color: "#666", fontWeight: 800 }}>/{maxTotal.toFixed(0)}</div>
                       </div>
                    </div>
 
@@ -349,8 +347,9 @@ function CosmosMarks({ marks, titleMap }: any) {
                         style={{ transition: "stroke-dashoffset 1s ease-out" }}
                       />
                     </svg>
-                    <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", fontWeight: 900, color: "#fff" }}>
-                      {Math.round(totalPct)}%
+                    <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", lineHeight: 1 }}>
+                      <div style={{ fontSize: "12px", fontWeight: 900, color: "#fff" }}>{formatTotal(scored)}</div>
+                      <div style={{ fontSize: "8px", color: "var(--text-muted)", marginTop: "2px", fontWeight: 700 }}>/{maxTotal.toFixed(0)}</div>
                     </div>
                   </div>
                 </div>

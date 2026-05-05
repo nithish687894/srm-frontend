@@ -40,7 +40,7 @@ export const useAuthStore = create<AuthStore>()(
         set({ authToken });
       },
       setProfile: (profile) => set({ profile }),
-      setAcademicData: (data) => set({ academicData: data }),
+      setAcademicData: (data) => set({ academicData: data ? { ...data, lastFetchedAt: Date.now() } : null }),
       setHasChosenTheme: (hasChosenTheme) => set({ hasChosenTheme }),
       logout: () => {
         localStorage.removeItem("authToken");

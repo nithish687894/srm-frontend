@@ -30,6 +30,23 @@ export default function AttendancePage() {
   const [predictions, setPredictions] = useState<any[] | null>(null);
   const [showRiskOnly, setShowRiskOnly] = useState(false);
 
+  const [now, setNow] = useState(Date.now());
+  useEffect(() => {
+    const int = setInterval(() => setNow(Date.now()), 60000);
+    return () => clearInterval(int);
+  }, []);
+
+  const lastFetchedAt = academicData?.lastFetchedAt;
+  const timeAgoStr = useMemo(() => {
+    if (!lastFetchedAt) return "";
+    const diff = Math.floor((now - lastFetchedAt) / 60000);
+    if (diff < 1) return "Updated just now";
+    if (diff === 1) return "Updated 1 min ago";
+    if (diff < 60) return `Updated ${diff} mins ago`;
+    const hours = Math.floor(diff / 60);
+    return `Updated ${hours} hr${hours > 1 ? 's' : ''} ago`;
+  }, [now, lastFetchedAt]);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -208,6 +225,7 @@ export default function AttendancePage() {
       setSelectedDates={setSelectedDates}
       setPredictions={setPredictions}
       showRiskOnly={showRiskOnly}
+      timeAgoStr={timeAgoStr}
     />
   );
 
@@ -228,6 +246,7 @@ export default function AttendancePage() {
       setSelectedDates={setSelectedDates}
       setPredictions={setPredictions}
       showRiskOnly={showRiskOnly}
+      timeAgoStr={timeAgoStr}
     />
   );
 
@@ -239,9 +258,14 @@ export default function AttendancePage() {
 
           {/* Header */}
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "40px" }}>
-            <div style={{ fontSize: "12px", letterSpacing: "0.2em", color: "var(--text-secondary)", textTransform: "uppercase", marginBottom: "24px" }}>
+            <div style={{ fontSize: "12px", letterSpacing: "0.2em", color: "var(--text-secondary)", textTransform: "uppercase", marginBottom: "4px" }}>
               Overall Attendance
             </div>
+            {timeAgoStr && (
+              <div style={{ fontSize: "11px", color: "var(--text-muted)", marginBottom: "20px", fontWeight: "bold" }}>
+                {timeAgoStr}
+              </div>
+            )}
             <DynamicGauge value={parseFloat(avgAtt)} size={200} strokeWidth={12} />
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px", width: "100%", maxWidth: "400px", margin: "32px auto 0" }}>
               <div style={{ background: "#0a1f33", padding: "16px", borderRadius: "16px", border: "1px solid #1a334d" }}>
@@ -337,7 +361,7 @@ export default function AttendancePage() {
 function MatrixAttendance({ 
   att, avgAtt, totalAgg, presentAgg, absentAgg, 
   showPredictor, setShowPredictor, next30Days, selectedDates, toggleDate, 
-  calculatePredictions, predictions, setSelectedDates, setPredictions, showRiskOnly
+  calculatePredictions, predictions, setSelectedDates, setPredictions, showRiskOnly, timeAgoStr
 }: any) {
   const router = useRouter();
   const riskCount = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
@@ -352,6 +376,7 @@ function MatrixAttendance({
            <div>
               <div style={{ fontSize: "10px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800 }}>ACADEMIC</div>
               <div style={{ fontSize: "14px", fontWeight: 700 }}>Attendance Tracker</div>
+              {timeAgoStr && <div style={{ fontSize: "10px", color: "#444", fontWeight: 800, marginTop: "2px" }}>{timeAgoStr.toUpperCase()}</div>}
            </div>
            <div style={{ display: "flex", alignItems: "center", gap: "10px", background: "#1c1c1c", padding: "8px 16px", borderRadius: "14px" }}>
               <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: riskCount > 0 ? "#ff3b3b" : "#a8c200" }} />
@@ -486,7 +511,7 @@ function MatrixAttendance({
 function CosmosAttendance({ 
   att, avgAtt, totalAgg, presentAgg, absentAgg, 
   showPredictor, setShowPredictor, next30Days, selectedDates, toggleDate, 
-  calculatePredictions, predictions, setSelectedDates, setPredictions, showRiskOnly
+  calculatePredictions, predictions, setSelectedDates, setPredictions, showRiskOnly, timeAgoStr
 }: any) {
   const attPct = parseFloat(avgAtt as string) || 0;
   const riskCount = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
@@ -498,7 +523,10 @@ function CosmosAttendance({
         
         {/* Header */}
         <div style={{ display: "flex", alignItems: "center", gap: "10px", margin: "24px 0 32px" }}>
-          <h1 style={{ fontSize: "24px", fontWeight: 900, letterSpacing: "-0.5px", margin: 0 }}>Attendance</h1>
+          <div>
+            <h1 style={{ fontSize: "24px", fontWeight: 900, letterSpacing: "-0.5px", margin: 0 }}>Attendance</h1>
+            {timeAgoStr && <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 700, marginTop: "2px" }}>{timeAgoStr}</div>}
+          </div>
           <div style={{ marginLeft: "auto", display: "flex", gap: "12px" }}>
             <div style={{ fontSize: "20px" }}>🔔</div>
             <div style={{ 
