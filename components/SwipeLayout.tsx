@@ -2,7 +2,15 @@
 import { useState, TouchEvent, ReactNode, useEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
-const TAB_ORDER = ["/marks", "/attendance", "/dashboard", "/timetable", "/calendar"];
+const TAB_ORDER = [
+  "/dashboard",
+  "/marks",
+  "/attendance",
+  "/timetable",
+  "/calendar",
+  "/tools/srm-cgpa-calculator",
+  "/ai"
+];
 
 export default function SwipeLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
