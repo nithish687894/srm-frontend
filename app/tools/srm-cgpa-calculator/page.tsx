@@ -239,7 +239,7 @@ export default function CGPACalculator() {
                       <td style={{ padding: "12px" }}>50 - 55</td><td style={{ padding: "12px", fontWeight: 800 }}>C (Average)</td><td style={{ padding: "12px", fontWeight: 800 }}>5</td>
                     </tr>
                     <tr>
-                      <td style={{ padding: "12px" }}>< 50</td><td style={{ padding: "12px", fontWeight: 800, color: "#ef4444" }}>F (Fail)</td><td style={{ padding: "12px", fontWeight: 800 }}>0</td>
+                      <td style={{ padding: "12px" }}>&lt; 50</td><td style={{ padding: "12px", fontWeight: 800, color: "#ef4444" }}>F (Fail)</td><td style={{ padding: "12px", fontWeight: 800 }}>0</td>
                     </tr>
                   </tbody>
                 </table>
