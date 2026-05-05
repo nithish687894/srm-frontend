@@ -564,7 +564,7 @@ function BroadcastBanner({ broadcast }: any) {
   );
 }
 
-function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, initials, firstName, dayOrder, isHoliday, dayOffset, setDayOffset, onShowStudentInfo, broadcast }: any) {
+function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, initials, firstName, dayOrder, isHoliday, dayOffset, setDayOffset, onShowStudentInfo, broadcast, syncStatus }: any) {
   const router = useRouter();
   const profile = data?.profile || {};
   const regNo = profile["Registration Number"] || "UNKNOWN";
