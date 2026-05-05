@@ -407,9 +407,9 @@ export default function LoginPage() {
         <footer style={{ padding: '60px 24px', textAlign: 'center', color: '#222', fontSize: '12px' }}>
           <p>© 2026 SRM NEXUS. Not affiliated with SRMIST. Built for students by students.</p>
           <div style={{ marginTop: '12px', display: 'flex', justifyContent: 'center', gap: '16px' }}>
-            <Link href="/srm-attendance" style={{ color: 'inherit' }}>Attendance Tracker</Link>
-            <Link href="/srm-sgpa-calculator" style={{ color: 'inherit' }}>SGPA Calculator</Link>
-            <Link href="/srm-timetable" style={{ color: 'inherit' }}>Personal Timetable</Link>
+            <Link href="/tools/srm-attendance-calculator" style={{ color: 'inherit' }}>Attendance Tracker</Link>
+            <Link href="/tools/srm-cgpa-calculator" style={{ color: 'inherit' }}>SGPA Calculator</Link>
+            <Link href="/tools" style={{ color: 'inherit' }}>All Public Tools</Link>
           </div>
         </footer>
       </div>
