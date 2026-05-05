@@ -331,8 +331,6 @@ export default function DashboardPage() {
       <main className="page-main">
         <div className="page-content" data-section="Portal" style={{ paddingBottom: "120px" }}>
 
-          <BroadcastBanner broadcast={broadcast} />
-
           {/* Header */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "24px" }}>
             <div 
@@ -516,7 +514,6 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
 
         {/* System Status / Profile Intro */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "32px", position: "relative", zIndex: 10 }}>
-          <BroadcastBanner broadcast={broadcast} />
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%" }}>
             <div>
               <div style={{ fontSize: "10px", color: "#a8c200", letterSpacing: "0.2em", fontWeight: 900, marginBottom: "4px" }}>SYSTEM INITIALIZED</div>
