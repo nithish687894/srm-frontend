@@ -13,6 +13,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loginPhase, setLoginPhase] = useState<"idle" | "auth" | "success">("idle");
   const [error, setError] = useState("");
   const router = useRouter();
   const { setAuthData, authToken, _hasHydrated, hasChosenTheme } = useAuthStore();
@@ -25,19 +26,28 @@ export default function LoginPage() {
      }
    }, [_hasHydrated, authToken, hasChosenTheme, router]);
  
-   async function handleLogin() {
-     if (!email || !password) return setError("PROVIDE CREDENTIALS");
-     setLoading(true); setError("");
-     const finalEmail = email.includes("@") ? email : `${email.trim()}@srmist.edu.in`;
-     try {
-       const res = await authAPI.login(finalEmail, password);
-       setAuthData(res.token, res.refreshToken, finalEmail);
-       if (hasChosenTheme) router.push("/dashboard");
-       else router.push("/setup/theme");
-    } catch (e: any) {
-      setError(e?.response?.data?.error || "LOGIN FAILED");
-    } finally { setLoading(false); }
-  }
+    async function handleLogin() {
+      if (!email || !password) return setError("PROVIDE CREDENTIALS");
+      setLoading(true); 
+      setLoginPhase("auth");
+      setError("");
+      const finalEmail = email.includes("@") ? email : `${email.trim()}@srmist.edu.in`;
+      try {
+        const res = await authAPI.login(finalEmail, password);
+        setAuthData(res.token, res.refreshToken, finalEmail);
+        setLoginPhase("success");
+        
+        // Brief delay for success animation before redirect
+        setTimeout(() => {
+          if (hasChosenTheme) router.push("/dashboard");
+          else router.push("/setup/theme");
+        }, 800);
+     } catch (e: any) {
+       setLoading(false);
+       setLoginPhase("idle");
+       setError(e?.response?.data?.error || "LOGIN FAILED");
+     }
+   }
 
   return (
     <>
@@ -51,13 +61,14 @@ export default function LoginPage() {
         }
 
         .hero-section {
-          padding: 80px 24px 60px;
+          padding: 40px 24px;
           display: flex;
           flex-direction: column;
           align-items: center;
           max-width: 1200px;
           margin: 0 auto;
           text-align: center;
+          gap: 32px;
         }
 
         .hero-content {
@@ -95,6 +106,10 @@ export default function LoginPage() {
           }
           .hero-content {
             text-align: left;
+            order: 1 !important;
+          }
+          .hero-login {
+            order: 2 !important;
           }
           .hero-sub {
             margin: 0 0 40px 0;
@@ -252,20 +267,26 @@ export default function LoginPage() {
                 backdropFilter: "blur(10px)"
               }}
             >
-              <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                style={{ position: "relative", marginBottom: "40px" }}
-              >
-                <div style={{
-                  width: "80px", height: "80px", borderRadius: "20px",
-                  background: "linear-gradient(135deg, #3b82f6, #8b5cf6)",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  boxShadow: "0 0 40px rgba(59, 130, 246, 0.4)"
-                }}>
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              style={{ position: "relative", marginBottom: "40px" }}
+            >
+              <div style={{
+                width: "80px", height: "80px", borderRadius: "20px",
+                background: loginPhase === "success" ? "#00E676" : "linear-gradient(135deg, #3b82f6, #8b5cf6)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                boxShadow: loginPhase === "success" ? "0 0 40px rgba(0, 230, 118, 0.4)" : "0 0 40px rgba(59, 130, 246, 0.4)",
+                transition: "all 0.5s ease"
+              }}>
+                {loginPhase === "success" ? (
+                  <motion.svg initial={{ scale: 0 }} animate={{ scale: 1 }} width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></motion.svg>
+                ) : (
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                </div>
+                )}
+              </div>
+              {loginPhase !== "success" && (
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
@@ -276,82 +297,38 @@ export default function LoginPage() {
                     borderRadius: "50%"
                   }}
                 />
-              </motion.div>
-              
-              <div style={{ textAlign: "center" }}>
-                 <motion.div
-                    animate={{ opacity: [0.4, 1, 0.4] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                    style={{ fontSize: "14px", fontWeight: 900, letterSpacing: "0.4em", color: "#fff", textTransform: "uppercase", marginBottom: "8px" }}
-                 >
-                    Authenticating
-                 </motion.div>
-                 <div style={{ fontSize: "10px", fontFamily: "monospace", color: "rgba(255,255,255,0.4)", letterSpacing: "0.2em" }}>
-                    ESTABLISHING SECURE HANDSHAKE...
-                 </div>
-              </div>
+              )}
+            </motion.div>
+            
+            <div style={{ textAlign: "center" }}>
+               <motion.div
+                  animate={{ opacity: [0.4, 1, 0.4] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                  style={{ fontSize: "14px", fontWeight: 900, letterSpacing: "0.4em", color: "#fff", textTransform: "uppercase", marginBottom: "8px" }}
+               >
+                  {loginPhase === "success" ? "Access Granted" : "Authenticating"}
+               </motion.div>
+               <div style={{ fontSize: "10px", fontFamily: "monospace", color: "rgba(255,255,255,0.4)", letterSpacing: "0.2em" }}>
+                  {loginPhase === "success" ? "DIVERTING TO SECURE DASHBOARD..." : "ESTABLISHING SECURE HANDSHAKE..."}
+               </div>
+            </div>
             </motion.div>
           )}
         </AnimatePresence>
 
         {/* Hero Section */}
         <section className="hero-section">
-          <div className="hero-content">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              style={{ marginBottom: "32px", display: "flex", justifyContent: "flex-start" }}
-            >
-              <img src="/nexus-logo.png" alt="SRM Nexus Academia Portal Logo" style={{ width: "80px", height: "80px", filter: "drop-shadow(0 0 20px rgba(168, 194, 0, 0.3))" }} />
-            </motion.div>
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="hero-h1"
-            >
-              SRM NEXUS — SRM ACADEMIA PORTAL
-            </motion.h1>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-              className="hero-sub"
-            >
-              The definitive student intelligence portal for SRM University. 
-              Engineered for precision, speed, and academic dominance.
-            </motion.p>
-
-            <div className="demo-widgets" style={{ marginTop: '0', justifyContent: 'flex-start' }}>
-              {/* Attendance Demo */}
-              <motion.div 
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                className="widget-demo"
-                style={{ width: '240px', padding: '16px' }}
-              >
-                <span className="widget-label">Live Attendance</span>
-                <div className="attn-row">
-                  <span style={{ fontSize: '10px', fontWeight: 600 }}>Data Science</span>
-                  <div className="attn-bar"><div className="attn-fill" style={{ width: '88%' }}></div></div>
-                  <span style={{ fontSize: '10px', fontWeight: 900 }}>88%</span>
-                </div>
-                <div style={{ marginTop: '8px', fontSize: '10px', color: '#ff3b3b', fontWeight: 800 }}>⚠️ AT RISK: 74% IN AI&ML</div>
-              </motion.div>
-            </div>
-          </div>
-
           <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
             className="hero-login"
-            style={{ width: '100%', maxWidth: '400px' }}
+            style={{ width: '100%', maxWidth: '400px', order: 1 }}
           >
             <div id="login" className="login-container">
+              <div style={{ marginBottom: "20px", display: "flex", justifyContent: "center" }}>
+                <img src="/nexus-logo.png" alt="Logo" style={{ width: "64px", height: "64px", filter: "drop-shadow(0 0 15px rgba(59, 130, 246, 0.3))" }} />
+              </div>
               <h2 style={{ textAlign: 'center', marginBottom: '8px', fontSize: '24px' }}>Secure Login</h2>
               <p style={{ textAlign: 'center', color: '#444', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '32px' }}>
                 Use your SRM NETID credentials
@@ -402,15 +379,33 @@ export default function LoginPage() {
                 </div>
 
                 <button type="submit" className="login-btn" disabled={loading}>
-                  {loading ? "INITIALIZING..." : "ENTER PORTAL"}
+                  {loginPhase === "success" ? "ACCESS GRANTED" : (loading ? "INITIALIZING..." : "ENTER PORTAL")}
                 </button>
               </form>
-              
-              <div style={{ marginTop: '24px', textAlign: 'center', fontSize: '10px', color: '#444', textTransform: 'uppercase', letterSpacing: '0.2em' }}>
-                Encrypted End-to-End Tunnel
-              </div>
             </div>
           </motion.div>
+
+          <div className="hero-content" style={{ order: 2 }}>
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="hero-h1"
+              style={{ fontSize: "clamp(24px, 5vw, 48px)" }}
+            >
+              SRM NEXUS — SRM ACADEMIA PORTAL
+            </motion.h1>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+              className="hero-sub"
+              style={{ fontSize: "14px", marginBottom: "20px" }}
+            >
+              The definitive student intelligence portal for SRM University. 
+              Engineered for precision, speed, and dominance.
+            </motion.p>
+          </div>
         </section>
 
         {/* Feature Grid */}
