@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
 import { authAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 
@@ -26,6 +27,7 @@ export default function Sidebar() {
     { href: "/attendance", label: "Attnd" },
     { href: "/timetable",  label: "Time" },
     { href: "/calendar",   label: "Cal" },
+    { href: "/tools/srm-cgpa-calculator", label: "CGPA" },
     { href: "/ai",         label: "✨ AI" },
     ...(isAdmin ? [{ href: "/admin", label: "Admin" }] : []),
   ];
@@ -83,7 +85,7 @@ export default function Sidebar() {
         .theme-cosmos .srmx-nav-btn {
           color: #55556a;
           font-family: 'Plus Jakarta Sans', sans-serif;
-          font-size: 9px;
+          font-size: 11px;
         }
 
         .theme-cosmos .srmx-nav-btn.active {
@@ -101,7 +103,7 @@ export default function Sidebar() {
         .theme-editorial .srmx-nav-btn {
           color: #999999;
           font-family: 'DM Sans', sans-serif;
-          font-size: 9px;
+          font-size: 11px;
           letter-spacing: 0.15em;
           border-radius: 0;
         }
@@ -143,7 +145,7 @@ export default function Sidebar() {
           background: transparent;
           border: none;
           cursor: pointer;
-          font-size: 10px;
+          font-size: 12px;
           letter-spacing: 0.1em;
           color: var(--text-muted);
           font-weight: 700;
@@ -215,7 +217,7 @@ export default function Sidebar() {
 
         .srmx-nav-settings-btn {
           flex-shrink: 0 !important;
-          font-size: 16px;
+          font-size: 18px;
           padding-left: 4px;
         }
 
@@ -262,7 +264,7 @@ export default function Sidebar() {
             gap: 4px;
           }
           .srmx-nav-btn {
-            font-size: 9px;
+            font-size: 10px;
             padding: 6px 4px;
             letter-spacing: 0.05em;
           }
@@ -400,13 +402,14 @@ export default function Sidebar() {
         {NAV.map(({ href, label }) => {
           const active = path === href || (href !== "/dashboard" && path.startsWith(href));
           return (
-            <button
+            <Link
               key={href}
-              onClick={() => router.push(href)}
+              href={href}
               className={`srmx-nav-btn${active ? " active" : ""}`}
+              style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
               <span className="nav-label">{label}</span>
-            </button>
+            </Link>
           );
         })}
         
