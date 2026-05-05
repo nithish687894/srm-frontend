@@ -122,6 +122,7 @@ export default function DashboardPage() {
   const [calData, setCalData] = useState<any>(null);
   const [dayOffset, setDayOffset] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const [showStudentInfo, setShowStudentInfo] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -237,6 +238,68 @@ export default function DashboardPage() {
     return slots;
   }, [ttData, targetClasses]);
 
+  const studentInfo = myTTData?.data?.studentInfo || null;
+
+  const renderStudentInfoModal = () => {
+    if (!showStudentInfo || !studentInfo) return null;
+    return (
+      <div 
+        onClick={() => setShowStudentInfo(false)}
+        style={{
+          position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
+          background: "rgba(0,0,0,0.6)", backdropFilter: "blur(10px)",
+          zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px"
+        }}
+      >
+        <div onClick={e => e.stopPropagation()} style={{
+          background: "var(--bg-surface)", padding: "24px", borderRadius: "24px",
+          width: "100%", maxWidth: "450px", border: "1px solid var(--border)",
+          boxShadow: "0 20px 40px rgba(0,0,0,0.5)", maxHeight: "80vh", overflowY: "auto"
+        }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+            <div style={{ fontSize: "16px", fontWeight: 800, color: "var(--text-primary)" }}>Student Details</div>
+            <button onClick={() => setShowStudentInfo(false)} style={{ background: "transparent", border: "none", color: "var(--text-muted)", fontSize: "20px", cursor: "pointer" }}>×</button>
+          </div>
+          
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "24px" }}>
+            {["Registration Number", "Name", "Combo / Batch", "Program", "Department", "Semester", "Class Room"].map(key => {
+              if (!studentInfo[key]) return null;
+              return (
+                <div key={key} style={{ background: "rgba(255,255,255,0.03)", padding: "12px", borderRadius: "12px" }}>
+                  <div style={{ fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800, marginBottom: "4px" }}>{key}</div>
+                  <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--text-primary)" }}>{studentInfo[key]}</div>
+                </div>
+              );
+            })}
+          </div>
+
+          {studentInfo.advisors && (
+            <div>
+              <div style={{ fontSize: "12px", fontWeight: 800, color: "var(--accent)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>Advisors</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                {Object.entries(studentInfo.advisors).map(([key, lines]: any) => {
+                  if (!lines || lines.length === 0) return null;
+                  return (
+                    <div key={key} style={{ background: "rgba(255,255,255,0.03)", padding: "16px", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                      {lines.map((line: string, i: number) => (
+                        <div key={i} style={{ 
+                          fontSize: i === 0 ? "14px" : "12px", 
+                          fontWeight: i === 0 ? 800 : 600, 
+                          color: i === 0 ? "var(--text-primary)" : "var(--text-secondary)",
+                          marginBottom: i === 0 ? "4px" : "2px" 
+                        }}>{line}</div>
+                      ))}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
   if (!mounted || (loading && !data)) return (
     <div className="page-root" style={{ display: "flex", flexDirection: "column", padding: "32px", gap: "24px" }}>
       <div style={{ height: "64px", background: "#1c1c1c", borderRadius: "16px", animation: "pulse 1.5s infinite" }} />
@@ -245,19 +308,32 @@ export default function DashboardPage() {
     </div>
   );
 
-  if (theme === "cosmos") return <CosmosDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} />;
+  if (theme === "cosmos") return (
+    <>
+      <CosmosDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} onShowStudentInfo={() => setShowStudentInfo(true)} />
+      {renderStudentInfoModal()}
+    </>
+  );
 
-  if (theme === "matrix") return <MatrixDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} dayOffset={dayOffset} setDayOffset={setDayOffset} />;
+  if (theme === "matrix") return (
+    <>
+      <MatrixDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} dayOffset={dayOffset} setDayOffset={setDayOffset} onShowStudentInfo={() => setShowStudentInfo(true)} />
+      {renderStudentInfoModal()}
+    </>
+  );
 
   return (
     <div className="page-root">
       <Sidebar />
+      {renderStudentInfoModal()}
       <main className="page-main">
         <div className="page-content" data-section="Portal" style={{ paddingBottom: "120px" }}>
 
           {/* Header */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "24px" }}>
-            <div style={{ width: "48px", height: "48px", borderRadius: "12px", background: "#1c1c1c", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: "bold", fontSize: "16px" }}>
+            <div 
+              onClick={() => setShowStudentInfo(true)}
+              style={{ width: "48px", height: "48px", borderRadius: "12px", background: "#1c1c1c", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: "bold", fontSize: "16px", cursor: "pointer" }}>
               {initials}
             </div>
             <div style={{ textAlign: "right", display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
@@ -392,7 +468,7 @@ export default function DashboardPage() {
   );
 }
 
-function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, initials, firstName, dayOrder, isHoliday, dayOffset, setDayOffset }: any) {
+function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, initials, firstName, dayOrder, isHoliday, dayOffset, setDayOffset, onShowStudentInfo }: any) {
   const router = useRouter();
   const profile = data?.profile || {};
   const regNo = profile["Registration Number"] || "UNKNOWN";
@@ -417,9 +493,11 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
               <div style={{ fontSize: "36px", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 1 }}>{firstName.toUpperCase()}</div>
               <div style={{ fontSize: "11px", color: "#666", fontWeight: 800, marginTop: "6px" }}>ID: {regNo} • {batch}</div>
             </div>
-            <div style={{ width: "48px", height: "48px", borderRadius: "14px", background: "#1c1c1c", border: "1px solid #333", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px", fontWeight: 900 }}>
-              {initials}
-            </div>
+              <div 
+                onClick={onShowStudentInfo}
+                style={{ width: "48px", height: "48px", borderRadius: "14px", background: "#1c1c1c", border: "1px solid #333", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px", fontWeight: 900, cursor: "pointer" }}>
+                 {initials}
+              </div>
           </div>
         </div>
 
@@ -520,7 +598,7 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
   );
 }
 
-function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, recentTop5, initials, firstName, dayOrder, isHoliday }: any) {
+function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, recentTop5, initials, firstName, dayOrder, isHoliday, onShowStudentInfo }: any) {
   const router = useRouter();
   const marksPct = parseFloat(avgMarks as string) || 0;
   const profile = data?.profile || {};
@@ -553,7 +631,9 @@ function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
               {isHoliday ? "Today: Holiday" : `Today: Day Order ${dayOrder || "—"}`}
             </div>
           </div>
-          <div style={{ width: "40px", height: "40px", borderRadius: "12px", background: "linear-gradient(135deg, #3055d7, #d946ef)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, border: "1px solid rgba(255,255,255,0.2)", boxShadow: "0 4px 15px rgba(217, 70, 239, 0.28)" }}>
+          <div 
+            onClick={onShowStudentInfo}
+            style={{ width: "40px", height: "40px", borderRadius: "12px", background: "linear-gradient(135deg, #3055d7, #d946ef)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, border: "1px solid rgba(255,255,255,0.2)", boxShadow: "0 4px 15px rgba(217, 70, 239, 0.28)", cursor: "pointer" }}>
             {initials}
           </div>
         </div>
