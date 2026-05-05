@@ -8,6 +8,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
 import { useThemeStore } from "@/lib/themeStore";
 import { motion } from "framer-motion";
+import { calculateRecovery } from "@/lib/recovery";
 
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
 function parseStart(t: string) { const m = t.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
@@ -123,6 +124,7 @@ export default function DashboardPage() {
   const [dayOffset, setDayOffset] = useState(0);
   const [mounted, setMounted] = useState(false);
   const [showStudentInfo, setShowStudentInfo] = useState(false);
+  const [command, setCommand] = useState("");
   const [isSyncing, setIsSyncing] = useState(false);
   const [broadcast, setBroadcast] = useState<any>(null);
   const [now, setNow] = useState(Date.now());
@@ -200,6 +202,24 @@ export default function DashboardPage() {
     const hrs = Math.floor(diff / 60);
     return { text: `${hrs}h ago`, icon: "✓", color: "var(--text-muted)" };
   }, [isSyncing, lastFetchedAt, now]);
+
+  const handleCommand = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && command.trim()) {
+      const c = command.toLowerCase().trim();
+      if (c === "/att" || c === "attendance") router.push("/attendance");
+      else if (c === "/marks" || c === "marks") router.push("/marks");
+      else if (c === "/tt" || c === "timetable") router.push("/timetable");
+      else router.push(`/ai?q=${encodeURIComponent(command)}`);
+      setCommand("");
+    }
+  };
+
+  const recoveryInfo = useMemo(() => {
+    return att.map((c: any) => {
+      const rec = calculateRecovery(parseInt(c["Hours Attended"] || 0), parseInt(c["Hours Conducted"] || 0));
+      return { ...c, recovery: rec };
+    });
+  }, [att]);
 
   const { byDate } = useMemo(() => {
     if (!calData) return { byDate: new Map() };
@@ -331,7 +351,26 @@ export default function DashboardPage() {
 
   if (theme === "cosmos") return (
     <>
-      <CosmosDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} onShowStudentInfo={() => setShowStudentInfo(true)} broadcast={broadcast} syncStatus={syncStatus} />
+      <CosmosDashboard 
+        data={data} 
+        riskCount={riskCount} 
+        avgAtt={avgAtt} 
+        avgMarks={avgMarks} 
+        totalCourses={totalCourses} 
+        targetClasses={targetClasses} 
+        nextClass={nextClass} 
+        recentTop5={recentTop5} 
+        initials={initials} 
+        firstName={firstName} 
+        dayOrder={dayOrder} 
+        isHoliday={isHoliday} 
+        onShowStudentInfo={() => setShowStudentInfo(true)} 
+        broadcast={broadcast} 
+        syncStatus={syncStatus} 
+        command={command}
+        setCommand={setCommand}
+        handleCommand={handleCommand}
+      />
       {renderStudentInfoModal()}
     </>
   );
@@ -660,7 +699,7 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
   );
 }
 
-function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, recentTop5, initials, firstName, dayOrder, isHoliday, onShowStudentInfo, broadcast, syncStatus }: any) {
+function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, recentTop5, initials, firstName, dayOrder, isHoliday, onShowStudentInfo, broadcast, syncStatus, command, setCommand, handleCommand }: any) {
   const router = useRouter();
   const marksPct = parseFloat(avgMarks as string) || 0;
   const profile = data?.profile || {};
@@ -701,12 +740,21 @@ function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
           </div>
         </div>
 
-        <div className="min-card" style={{ padding: "10px 14px", marginBottom: "20px", display: "flex", alignItems: "center", gap: "12px", borderRadius: "999px", background: "rgba(13, 20, 46, 0.6)" }}>
+        <div className="min-card" style={{ padding: "4px 14px", marginBottom: "20px", display: "flex", alignItems: "center", gap: "12px", borderRadius: "999px", background: "rgba(13, 20, 46, 0.6)", border: "1px solid rgba(255,255,255,0.05)" }}>
           <div style={{ flex: 1, display: "flex", alignItems: "center", gap: "8px", color: "var(--text-secondary)", fontSize: "12px" }}>
             <span style={{ opacity: 0.8 }}>🔎</span>
-            Search courses, assessments...
+            <input 
+              type="text" 
+              placeholder="Search or ask AI (e.g. /att, /marks)..." 
+              value={command}
+              onChange={(e) => setCommand(e.target.value)}
+              onKeyDown={handleCommand}
+              style={{ background: "transparent", border: "none", color: "#fff", outline: "none", width: "100%", fontSize: "13px", padding: "10px 0" }}
+            />
           </div>
-          <div style={{ background: "linear-gradient(90deg, #3b82f6, #8b5cf6)", borderRadius: "999px", padding: "6px 14px", fontSize: "10px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.06em", color: "#fff", boxShadow: "0 2px 10px rgba(139, 92, 246, 0.35)" }}>
+          <div 
+            onClick={() => router.push("/ai")}
+            style={{ background: "linear-gradient(90deg, #3b82f6, #8b5cf6)", borderRadius: "999px", padding: "6px 14px", fontSize: "10px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.06em", color: "#fff", boxShadow: "0 2px 10px rgba(139, 92, 246, 0.35)", cursor: "pointer" }}>
             AI Tutor
           </div>
         </div>
@@ -736,7 +784,7 @@ function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
               <div style={{ fontSize: "16px", fontWeight: 800, marginBottom: "6px", color: "#fff" }}>{nextClass?.courseTitle || "No upcoming class"}</div>
               <div style={{ fontSize: "11px", color: "var(--text-secondary)", fontWeight: 600 }}>{nextClass?.courseCode || "Schedule is clear for now"}</div>
               <div style={{ marginTop: "14px", height: "6px", borderRadius: "999px", background: "rgba(255,255,255,0.1)", overflow: "hidden", boxShadow: "inset 0 1px 2px rgba(0,0,0,0.5)" }}>
-                <div style={{ width: "72%", height: "100%", borderRadius: "999px", background: "linear-gradient(90deg, #00f0ff, #d946ef)", boxShadow: "0 0 10px rgba(217, 70, 239, 0.4)" }} />
+                <div style={{ width: `${avgAtt}%`, height: "100%", borderRadius: "999px", background: "linear-gradient(90deg, #00f0ff, #d946ef)", boxShadow: "0 0 10px rgba(217, 70, 239, 0.4)" }} />
               </div>
             </div>
           </div>

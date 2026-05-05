@@ -8,6 +8,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAuthStore } from "@/lib/store";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
 import { useThemeStore } from "@/lib/themeStore";
+import { calculateRecovery } from "@/lib/recovery";
 
 function buildSlotToCourseMap(myTT: any[]) {
   const map: Record<string, any> = {};
@@ -197,13 +198,20 @@ export default function AttendancePage() {
         marginSafe,
         futureMissing
       };
-    }).filter(r => r.futureMissing > 0 || r.currentPct < 75); // Only show affected or at-risk subjects
+    }).filter(r => r.futureMissing > 0 || r.currentPct < 75);
 
     setPredictions(results);
   };
 
-  const riskClasses = att.filter(c => parseFloat(c["Attn %"]) < 75);
-  const displayAtt = showRiskOnly ? riskClasses : att;
+  const filteredAtt = useMemo(() => {
+    const list = att.map((c: any) => {
+      const rec = calculateRecovery(parseInt(c["Hours Attended"] || 0), parseInt(c["Hours Conducted"] || 0));
+      return { ...c, recovery: rec };
+    });
+    if (showRiskOnly) return list.filter(c => parseFloat(c["Attn %"]) < 75);
+    return list;
+  }, [att, showRiskOnly]);
+
   const avgAtt = att.length
     ? (att.reduce((s, c) => s + parseFloat(c["Attn %"] || 0), 0) / att.length).toFixed(1)
     : "—";
@@ -230,29 +238,18 @@ export default function AttendancePage() {
 
   if (theme === "cosmos") return (
     <CosmosAttendance 
-      att={att} 
-      avgAtt={avgAtt} 
-      totalAgg={totalAgg} 
-      presentAgg={presentAgg} 
-      absentAgg={absentAgg} 
-      showPredictor={showPredictor}
-      setShowPredictor={setShowPredictor}
-      next30Days={next30Days}
-      selectedDates={selectedDates}
-      toggleDate={toggleDate}
-      calculatePredictions={calculatePredictions}
-      predictions={predictions}
-      setSelectedDates={setSelectedDates}
-      setPredictions={setPredictions}
+      att={filteredAtt} 
+      timeAgoStr={timeAgoStr} 
+      isSyncing={isSyncing} 
+      onPredict={() => setShowPredictor(!showPredictor)}
       showRiskOnly={showRiskOnly}
-      timeAgoStr={timeAgoStr}
-      syncStatus={syncStatus}
+      setShowRiskOnly={setShowRiskOnly}
     />
   );
 
   if (theme === "matrix") return (
     <MatrixAttendance 
-      att={att} 
+      att={filteredAtt} 
       avgAtt={avgAtt} 
       totalAgg={totalAgg} 
       presentAgg={presentAgg} 
@@ -278,7 +275,6 @@ export default function AttendancePage() {
       <main className="page-main">
         <div className="page-content" data-section="Attendance" style={{ paddingBottom: "140px" }}>
 
-          {/* Header */}
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "40px" }}>
             <div style={{ fontSize: "12px", letterSpacing: "0.2em", color: "var(--text-secondary)", textTransform: "uppercase", marginBottom: "4px" }}>
               Overall Attendance
@@ -350,12 +346,10 @@ export default function AttendancePage() {
           )}
 
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-            {displayAtt.map((c: any, i: number) => {
+            {filteredAtt.map((c: any, i: number) => {
               const attn = parseFloat(c["Attn %"]) || 0;
               const isRisk = attn < 75;
-              const cond = parseInt(c["Hours Conducted"]) || 0;
-              const abs = parseInt(c["Hours Absent"]) || 0;
-              const pres = cond - abs;
+              const recovery = c.recovery;
 
               return (
                 <div key={i} className="min-card" style={{ background: isRisk ? "rgba(255,59,59,0.05)" : "var(--bg-surface)" }}>
@@ -366,12 +360,17 @@ export default function AttendancePage() {
                     </div>
                     <div style={{ fontSize: "24px", fontWeight: 900, color: isRisk ? "#ff3b3b" : "#a8c200" }}>{attn}%</div>
                   </div>
+                  {recovery && (
+                    <div style={{ marginTop: "12px", fontSize: "11px", color: recovery.status === "safe" ? "#a8c200" : "#ff3b3b", fontWeight: 700 }}>
+                      {recovery.status === "safe" ? `Safe! You can miss ${recovery.safeToMiss} more.` : `At Risk! Need ${recovery.needed} more to recover.`}
+                    </div>
+                  )}
                 </div>
               );
             })}
           </div>
           {showRiskOnly && (
-            <div style={{ marginBottom: "16px", fontSize: "11px", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--accent-red)", fontWeight: 700 }}>
+            <div style={{ marginTop: "16px", fontSize: "11px", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--accent-red)", fontWeight: 700 }}>
               Showing only at-risk subjects
             </div>
           )}
@@ -395,7 +394,6 @@ function MatrixAttendance({
       <Sidebar />
       <main style={{ padding: "20px" }}>
         
-        {/* Header */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "40px", marginTop: "20px" }}>
            <div>
               <div style={{ fontSize: "10px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800 }}>ACADEMIC</div>
@@ -410,13 +408,11 @@ function MatrixAttendance({
            </div>
         </div>
 
-        {/* Big Overall Number */}
         <div style={{ textAlign: "center", marginBottom: "48px" }}>
            <div style={{ fontSize: "12px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800, marginBottom: "8px" }}>Overall Percentage</div>
            <div style={{ fontSize: "120px", fontWeight: 900, lineHeight: 0.8, letterSpacing: "-0.05em", color: parseFloat(avgAtt) < 75 ? "#ff3b3b" : "#fff" }}>{avgAtt}%</div>
         </div>
 
-        {/* Stats Grid Card */}
         <div style={{ background: "#a8c200", borderRadius: "28px", padding: "28px", marginBottom: "40px", color: "#000", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px" }}>
            <div>
               <div style={{ fontSize: "10px", fontWeight: 900, textTransform: "uppercase", opacity: 0.6 }}>Total</div>
@@ -432,7 +428,6 @@ function MatrixAttendance({
            </div>
         </div>
 
-        {/* Predictor Toggle */}
         <div style={{ marginBottom: "32px" }}>
            <button onClick={() => setShowPredictor(!showPredictor)} style={{ width: "100%", background: "#1c1c1c", border: "1px solid #333", borderRadius: "20px", padding: "20px", display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer", color: "#fff" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
@@ -485,22 +480,15 @@ function MatrixAttendance({
           </div>
         )}
 
-        {/* Subjects List */}
         <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
            <div style={{ fontSize: "12px", color: "#666", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 800 }}>Subject Breakdown</div>
-           {(showRiskOnly ? att.filter((c: any) => parseFloat(c["Attn %"]) < 75) : att).map((c: any, i: number) => {
+           {att.map((c: any, i: number) => {
               const attn = parseFloat(c["Attn %"]) || 0;
               const isRisk = attn < 75;
               const cond = parseInt(c["Hours Conducted"]) || 0;
               const abs = parseInt(c["Hours Absent"]) || 0;
               const pres = cond - abs;
-
-              let margin = 0;
-              if (attn >= 75) {
-                margin = Math.floor((pres / 0.75) - cond);
-              } else {
-                margin = Math.ceil(3 * cond - 4 * pres);
-              }
+              const recovery = c.recovery;
 
               return (
                 <div key={i} style={{ background: "#1c1c1c", borderRadius: "28px", padding: "24px", border: isRisk ? "1px solid #ff3b3b" : "1px solid transparent" }}>
@@ -511,9 +499,6 @@ function MatrixAttendance({
                       </div>
                       <div style={{ textAlign: "right" }}>
                          <div style={{ fontSize: "28px", fontWeight: 900, color: isRisk ? "#ff3b3b" : "#a8c200" }}>{attn}%</div>
-                         <div style={{ fontSize: "10px", fontWeight: 900, color: isRisk ? "#ff3b3b" : "#a8c200", textTransform: "uppercase" }}>
-                            {isRisk ? `ATTEND ${margin}` : `SKIP ${margin}`}
-                         </div>
                       </div>
                    </div>
                    
@@ -522,7 +507,12 @@ function MatrixAttendance({
                       <div style={{ background: isRisk ? "rgba(255,59,59,0.1)" : "rgba(255,255,255,0.05)", color: isRisk ? "#ff3b3b" : "#888", padding: "6px 12px", borderRadius: "12px", fontSize: "11px", fontWeight: 800 }}>{abs} ABS</div>
                    </div>
 
-                   <div style={{ height: "6px", background: "#000", borderRadius: "99px", overflow: "hidden" }}>
+                   {recovery && (
+                     <div style={{ marginTop: "12px", fontSize: "11px", color: recovery.status === "safe" ? "#a8c200" : "#ff3b3b", fontWeight: 700 }}>
+                       {recovery.status === "safe" ? `Safe! You can miss ${recovery.safeToMiss} more.` : `At Risk! Need ${recovery.needed} more to recover.`}
+                     </div>
+                   )}
+                   <div style={{ height: "6px", background: "#000", borderRadius: "99px", overflow: "hidden", marginTop: "12px" }}>
                       <div style={{ height: "100%", background: isRisk ? "#ff3b3b" : "#a8c200", width: `${attn}%` }} />
                    </div>
                 </div>
@@ -534,87 +524,58 @@ function MatrixAttendance({
   );
 }
 
-function CosmosAttendance({ 
-  att, avgAtt, totalAgg, presentAgg, absentAgg, 
-  showPredictor, setShowPredictor, next30Days, selectedDates, toggleDate, 
-  calculatePredictions, predictions, setSelectedDates, setPredictions, showRiskOnly, timeAgoStr, syncStatus
-}: any) {
-  const attPct = parseFloat(avgAtt as string) || 0;
-  const riskCount = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
+function CosmosAttendance({ att, timeAgoStr, isSyncing, onPredict, showRiskOnly, setShowRiskOnly }: any) {
+  const summary = useMemo(() => {
+    const total = att.length;
+    const avg = total ? (att.reduce((s: number, c: any) => s + parseFloat(c["Attn %"]), 0) / total).toFixed(1) : "0";
+    const risky = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
+    return { avg, risky, total };
+  }, [att]);
 
   return (
-    <div style={{ background: "transparent", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>
+    <div style={{ background: "transparent", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <Sidebar />
       <main style={{ padding: "16px" }}>
-        
-        {/* Header */}
-        <div style={{ display: "flex", alignItems: "center", gap: "10px", margin: "24px 0 32px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "32px", gap: "12px" }}>
           <div>
-            <h1 style={{ fontSize: "24px", fontWeight: 900, letterSpacing: "-0.5px", margin: 0 }}>Attendance</h1>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "2px" }}>
-              <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 700 }}>{timeAgoStr}</div>
-              <div style={{ fontSize: "10px", color: syncStatus.color, fontWeight: 900 }}>● {syncStatus.text}</div>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
+               <div style={{ fontSize: "10px", color: "var(--accent)", letterSpacing: "0.2em", fontWeight: 800, textTransform: "uppercase" }}>Performance</div>
+               {isSyncing && <div style={{ fontSize: "10px", color: "var(--accent)", fontWeight: 800 }}>• SYNCING...</div>}
             </div>
+            <h1 style={{ fontSize: "32px", fontWeight: 900, margin: 0, letterSpacing: "-0.04em", color: "#fff" }}>Attendance</h1>
+            <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "4px", fontWeight: 700 }}>{timeAgoStr}</div>
           </div>
-          <div style={{ marginLeft: "auto", display: "flex", gap: "12px" }}>
-            <div style={{ fontSize: "20px" }}>🔔</div>
-            <div style={{ 
-              width: "48px", height: "24px", borderRadius: "12px", background: "rgba(26, 117, 255, 0.4)", position: "relative",
-              border: "1px solid rgba(255,255,255,0.1)"
-            }}>
-              <div style={{ position: "absolute", top: "2px", right: "2px", width: "18px", height: "18px", borderRadius: "50%", background: "#fff", boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }} />
-            </div>
+          <button 
+            onClick={onPredict}
+            style={{ background: "rgba(255,255,255,0.05)", border: "1px solid var(--border)", borderRadius: "14px", padding: "10px 16px", color: "#fff", fontSize: "12px", fontWeight: 800, cursor: "pointer" }}>
+            🪄 Predictor
+          </button>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginBottom: "24px" }}>
+          <div className="min-card" style={{ padding: "20px", borderRadius: "24px", borderTop: "2px solid var(--accent)" }}>
+            <div style={{ fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800, marginBottom: "8px" }}>Average</div>
+            <div style={{ fontSize: "28px", fontWeight: 900, color: "#fff" }}>{summary.avg}%</div>
+          </div>
+          <div className="min-card" onClick={() => setShowRiskOnly(!showRiskOnly)} style={{ padding: "20px", borderRadius: "24px", borderTop: `2px solid ${showRiskOnly ? "var(--accent)" : "var(--accent-red)"}`, cursor: "pointer" }}>
+            <div style={{ fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800, marginBottom: "8px" }}>{showRiskOnly ? "Showing Risk" : "At Risk"}</div>
+            <div style={{ fontSize: "28px", fontWeight: 900, color: summary.risky > 0 ? "var(--accent-red)" : "#fff" }}>{summary.risky}</div>
           </div>
         </div>
 
-        {/* Summary Row */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px", marginBottom: "32px" }}>
-          <div style={{ textAlign: "center" }}>
-            <div style={{ fontSize: "22px", fontWeight: 900, color: "var(--accent-secondary)" }}>{avgAtt}%</div>
-            <div style={{ fontSize: "10px", color: "var(--text-secondary)", marginTop: "4px", fontWeight: 700, textTransform: "uppercase" }}>Overall</div>
-          </div>
-          <div style={{ textAlign: "center" }}>
-            <div style={{ fontSize: "22px", fontWeight: 900, color: "#fff" }}>{att.length}</div>
-            <div style={{ fontSize: "10px", color: "var(--text-secondary)", marginTop: "4px", fontWeight: 700, textTransform: "uppercase" }}>Subjects</div>
-          </div>
-          <div style={{ textAlign: "center" }}>
-            <div style={{ fontSize: "22px", fontWeight: 900, color: riskCount > 0 ? "var(--accent-red)" : "#fff" }}>{riskCount}</div>
-            <div style={{ fontSize: "10px", color: "var(--text-secondary)", marginTop: "4px", fontWeight: 700, textTransform: "uppercase" }}>Below 75%</div>
-          </div>
-        </div>
-
-        {/* Subject Cards */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          {(showRiskOnly ? att.filter((c: any) => parseFloat(c["Attn %"]) < 75) : att).map((c: any, i: number) => {
-            const attn = parseFloat(c["Attn %"]) || 0;
-            const cond = parseInt(c["Hours Conducted"]) || 0;
-            const abs = parseInt(c["Hours Absent"]) || 0;
-            const pres = cond - abs;
-            const isRisk = attn < 75;
+        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+          {att.map((c: any, i: number) => {
+            const isAtRisk = parseFloat(c["Attn %"]) < 75;
+            const recovery = c.recovery;
             
-            // Calculate margin (classes safe to skip or needed to recover)
-            let margin = 0;
-            if (attn >= 75) {
-              margin = Math.floor((pres / 0.75) - cond);
-            } else {
-              margin = Math.ceil(3 * cond - 4 * pres);
-            }
-
             return (
-              <div key={i} className="min-card" style={{ padding: "20px" }}>
+              <div key={i} className="min-card" style={{ padding: "20px", borderRadius: "24px", borderLeft: isAtRisk ? "4px solid var(--accent-red)" : "1px solid rgba(255,255,255,0.05)" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
-                  <div style={{ flex: 1, paddingRight: "16px" }}>
-                    <div style={{ fontSize: "15px", fontWeight: 700, color: "#fff", lineHeight: 1.3 }}>{c["Course Title"]}</div>
-                    <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "4px", fontWeight: 600 }}>{c["Course Code"]} • Theory</div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: "16px", fontWeight: 800, color: "#fff", marginBottom: "4px", lineHeight: 1.2 }}>{c["Course Title"]}</div>
+                    <div style={{ fontSize: "11px", color: "var(--text-secondary)", fontWeight: 700 }}>{c["Course Code"]} • {c["Course Type"]}</div>
                   </div>
                   <div style={{ textAlign: "right" }}>
-                    <div style={{ fontSize: "18px", fontWeight: 900, color: isRisk ? "var(--accent-red)" : "var(--accent-secondary)" }}>{margin}</div>
-                    <div style={{ fontSize: "9px", color: "var(--text-muted)", fontWeight: 800, textTransform: "uppercase" }}>Margin</div>
-                  </div>
-                </div>
-
-                <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "12px" }}>
-                  <div style={{ display: "flex", gap: "4px" }}>
                     <div style={{ background: "rgba(0, 255, 136, 0.1)", color: "var(--accent-secondary)", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: 800 }}>P {pres}</div>
                     <div style={{ background: "rgba(239, 68, 68, 0.1)", color: "var(--accent-red)", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: 800 }}>A {abs}</div>
                     <div style={{ background: "rgba(26, 117, 255, 0.1)", color: "var(--accent)", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: 800 }}>T {cond}</div>
