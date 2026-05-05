@@ -220,12 +220,16 @@ function MatrixMarks({ marks, titleMap, totalScored, totalMax, hasEmergency }: a
                    {/* Test Breakdown */}
                    <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
                       {m.tests?.map((t: any, j: number) => {
-                         const [lbl] = t.test.split("/");
-                         const sc = t.score === "Abs" ? "ABS" : t.score;
+                         const [lbl, mxStr] = t.test.split("/");
+                         const mx = parseFloat(mxStr) || 100;
+                         const sc = t.score === "Abs" ? "ABS" : parseFloat(t.score) || 0;
                          return (
                            <div key={j} style={{ background: "#000", padding: "10px 16px", borderRadius: "16px", border: "1px solid #333", minWidth: "80px" }}>
                               <div style={{ fontSize: "9px", color: "#666", textTransform: "uppercase", fontWeight: 900, marginBottom: "2px" }}>{lbl}</div>
-                              <div style={{ fontSize: "16px", fontWeight: 900, color: sc === "ABS" ? "#ff3b3b" : "#fff" }}>{sc}</div>
+                              <div style={{ display: "flex", alignItems: "baseline", gap: "2px" }}>
+                                <span style={{ fontSize: "16px", fontWeight: 900, color: sc === "ABS" ? "#ff3b3b" : "#fff" }}>{sc === "ABS" ? "ABS" : sc.toFixed(1)}</span>
+                                <span style={{ fontSize: "10px", color: "#666", fontWeight: 800 }}>/{mx}</span>
+                              </div>
                            </div>
                          );
                       })}
