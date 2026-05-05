@@ -567,6 +567,10 @@ function CosmosAttendance({ att, timeAgoStr, isSyncing, onPredict, showRiskOnly,
           {att.map((c: any, i: number) => {
             const isAtRisk = parseFloat(c["Attn %"]) < 75;
             const recovery = c.recovery;
+            const attn = parseFloat(c["Attn %"]) || 0;
+            const cond = parseInt(c["Hours Conducted"]) || 0;
+            const abs = parseInt(c["Hours Absent"]) || 0;
+            const pres = cond - abs;
             
             return (
               <div key={i} className="min-card" style={{ padding: "20px", borderRadius: "24px", borderLeft: isAtRisk ? "4px solid var(--accent-red)" : "1px solid rgba(255,255,255,0.05)" }}>
@@ -580,7 +584,7 @@ function CosmosAttendance({ att, timeAgoStr, isSyncing, onPredict, showRiskOnly,
                     <div style={{ background: "rgba(239, 68, 68, 0.1)", color: "var(--accent-red)", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: 800 }}>A {abs}</div>
                     <div style={{ background: "rgba(26, 117, 255, 0.1)", color: "var(--accent)", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: 800 }}>T {cond}</div>
                   </div>
-                  <div style={{ marginLeft: "auto", fontSize: "14px", fontWeight: 900, color: isRisk ? "var(--accent-red)" : "var(--accent)" }}>{attn}%</div>
+                  <div style={{ marginLeft: "auto", fontSize: "14px", fontWeight: 900, color: isAtRisk ? "var(--accent-red)" : "var(--accent)" }}>{attn}%</div>
                 </div>
 
                 <div style={{ height: "6px", background: "rgba(255,255,255,0.06)", borderRadius: "99px", overflow: "hidden", position: "relative" }}>
