@@ -138,12 +138,14 @@ export default function DashboardPage() {
     if (!ready) return;
     dataAPI.getAll()
       .then(d => {
-        setData(d);
-        setAcademicData(d);
-        if (d.profile) {
-          setProfile(d.profile);
-          const b = extractBatch(d.profile["Combo / Batch"] || "");
-          setBatch(b);
+        if (d && d.success) {
+          setData(d);
+          setAcademicData(d);
+          if (d.profile) {
+            setProfile(d.profile);
+            const b = extractBatch(d.profile["Combo / Batch"] || "");
+            setBatch(b);
+          }
         }
         setLoading(false);
       })
