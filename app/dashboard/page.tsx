@@ -123,24 +123,31 @@ export default function DashboardPage() {
   const [dayOffset, setDayOffset] = useState(0);
   const [mounted, setMounted] = useState(false);
   const [showStudentInfo, setShowStudentInfo] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
   const [broadcast, setBroadcast] = useState<any>(null);
+  const [now, setNow] = useState(Date.now());
 
   useEffect(() => {
     setMounted(true);
+    const int = setInterval(() => setNow(Date.now()), 60000);
+    return () => clearInterval(int);
   }, []);
 
   useEffect(() => {
     if (!ready) return;
+    setIsSyncing(true);
     dataAPI.getAll()
       .then(d => {
         setData(d);
         setAcademicData(d);
         if (d.profile) setProfile(d.profile);
         setLoading(false);
+        setIsSyncing(false);
       })
       .catch(() => {
         if (!data) router.push("/");
         else setLoading(false);
+        setIsSyncing(false);
       });
   }, [ready]);
 
@@ -181,6 +188,18 @@ export default function DashboardPage() {
 
   const firstName = data?.profile?.["Name"]?.split(" ")[0] || "Student";
   const initials = firstName.slice(0, 2).toUpperCase();
+
+  const lastFetchedAt = academicData?.lastFetchedAt;
+  const syncStatus = useMemo(() => {
+    if (isSyncing) return { text: "Syncing...", icon: "⏳", color: "var(--accent)" };
+    if (!lastFetchedAt) return { text: "Not Synced", icon: "⚠️", color: "var(--accent-red)" };
+    
+    const diff = Math.floor((now - lastFetchedAt) / 60000);
+    if (diff < 1) return { text: "Synced", icon: "✓", color: "#a8c200" };
+    if (diff < 60) return { text: `${diff}m ago`, icon: "✓", color: "rgba(168, 194, 0, 0.7)" };
+    const hrs = Math.floor(diff / 60);
+    return { text: `${hrs}h ago`, icon: "✓", color: "var(--text-muted)" };
+  }, [isSyncing, lastFetchedAt, now]);
 
   const { byDate } = useMemo(() => {
     if (!calData) return { byDate: new Map() };
@@ -312,14 +331,14 @@ export default function DashboardPage() {
 
   if (theme === "cosmos") return (
     <>
-      <CosmosDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} onShowStudentInfo={() => setShowStudentInfo(true)} broadcast={broadcast} />
+      <CosmosDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} onShowStudentInfo={() => setShowStudentInfo(true)} broadcast={broadcast} syncStatus={syncStatus} />
       {renderStudentInfoModal()}
     </>
   );
 
   if (theme === "matrix") return (
     <>
-      <MatrixDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} dayOffset={dayOffset} setDayOffset={setDayOffset} onShowStudentInfo={() => setShowStudentInfo(true)} broadcast={broadcast} />
+      <MatrixDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} dayOffset={dayOffset} setDayOffset={setDayOffset} onShowStudentInfo={() => setShowStudentInfo(true)} broadcast={broadcast} syncStatus={syncStatus} />
       {renderStudentInfoModal()}
     </>
   );
@@ -335,10 +354,19 @@ export default function DashboardPage() {
 
           {/* Header */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "24px" }}>
-            <div 
-              onClick={() => setShowStudentInfo(true)}
-              style={{ width: "48px", height: "48px", borderRadius: "12px", background: "#1c1c1c", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: "bold", fontSize: "16px", cursor: "pointer" }}>
-              {initials}
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <div 
+                onClick={() => setShowStudentInfo(true)}
+                style={{ width: "48px", height: "48px", borderRadius: "12px", background: "#1c1c1c", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: "bold", fontSize: "16px", cursor: "pointer", border: "1px solid var(--border)" }}>
+                {initials}
+              </div>
+              <div style={{ 
+                display: "flex", alignItems: "center", gap: "6px", background: "rgba(255,255,255,0.03)", 
+                padding: "6px 12px", borderRadius: "12px", border: "1px solid var(--border)" 
+              }}>
+                <span style={{ fontSize: "10px", color: syncStatus.color }}>{syncStatus.icon}</span>
+                <span style={{ fontSize: "10px", fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.05em" }}>{syncStatus.text}</span>
+              </div>
             </div>
             <div style={{ textAlign: "right", display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
               <div style={{ fontSize: "12px", color: "#666666", marginBottom: "2px" }}>Welcome Back</div>
@@ -519,7 +547,10 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
           <BroadcastBanner broadcast={broadcast} />
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%" }}>
             <div>
-              <div style={{ fontSize: "10px", color: "#a8c200", letterSpacing: "0.2em", fontWeight: 900, marginBottom: "4px" }}>SYSTEM INITIALIZED</div>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
+                <div style={{ fontSize: "10px", color: "#a8c200", letterSpacing: "0.2em", fontWeight: 900 }}>SYSTEM INITIALIZED</div>
+                <div style={{ fontSize: "10px", color: syncStatus.color, fontWeight: 900 }}>[{syncStatus.icon} {syncStatus.text}]</div>
+              </div>
               <div style={{ fontSize: "36px", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 1 }}>{firstName.toUpperCase()}</div>
               <div style={{ fontSize: "11px", color: "#666", fontWeight: 800, marginTop: "6px" }}>ID: {regNo} • {batch}</div>
             </div>
@@ -629,7 +660,7 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
   );
 }
 
-function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, recentTop5, initials, firstName, dayOrder, isHoliday, onShowStudentInfo, broadcast }: any) {
+function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, recentTop5, initials, firstName, dayOrder, isHoliday, onShowStudentInfo, broadcast, syncStatus }: any) {
   const router = useRouter();
   const marksPct = parseFloat(avgMarks as string) || 0;
   const profile = data?.profile || {};
@@ -658,8 +689,9 @@ function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
             <div style={{ fontSize: "12px", color: "var(--text-secondary)", marginTop: "4px" }}>
               Let&apos;s continue where you left off
             </div>
-            <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "6px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>
-              {isHoliday ? "Today: Holiday" : `Today: Day Order ${dayOrder || "—"}`}
+            <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "6px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", display: "flex", alignItems: "center", gap: "8px" }}>
+              <span>{isHoliday ? "Today: Holiday" : `Today: Day Order ${dayOrder || "—"}`}</span>
+              <span style={{ color: syncStatus.color, fontSize: "9px" }}>● {syncStatus.text}</span>
             </div>
           </div>
           <div 

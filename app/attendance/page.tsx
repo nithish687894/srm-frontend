@@ -27,6 +27,7 @@ export default function AttendancePage() {
   
   const [showPredictor, setShowPredictor] = useState(false);
   const [selectedDates, setSelectedDates] = useState<Set<string>>(new Set());
+  const [isSyncing, setIsSyncing] = useState(false);
   const [predictions, setPredictions] = useState<any[] | null>(null);
   const [showRiskOnly, setShowRiskOnly] = useState(false);
 
@@ -52,9 +53,18 @@ export default function AttendancePage() {
   useEffect(() => {
     if (!ready) return;
     if (academicData?.attendance) setLoading(false);
+    setIsSyncing(true);
     dataAPI.getAttendance()
-      .then(d => { setAtt(d.data || []); setAcademicData({ ...academicData, attendance: d.data || [] }); setLoading(false); })
-      .catch(() => { if (!att.length) router.push("/"); });
+      .then(d => { 
+        setAtt(d.data || []); 
+        setAcademicData({ ...academicData, attendance: d.data || [] }); 
+        setLoading(false); 
+        setIsSyncing(false);
+      })
+      .catch(() => { 
+        if (!att.length) router.push("/"); 
+        setIsSyncing(false);
+      });
 
     dataAPI.getCalendar().then(d => setCalData(d)).catch(() => {});
     Promise.all([dataAPI.getTimetable(1), dataAPI.getMyTimetable()]).then(([tt, myTT]) => {
@@ -198,6 +208,16 @@ export default function AttendancePage() {
     ? (att.reduce((s, c) => s + parseFloat(c["Attn %"] || 0), 0) / att.length).toFixed(1)
     : "—";
 
+  const syncStatus = useMemo(() => {
+    if (isSyncing) return { text: "Syncing...", icon: "⏳", color: "var(--accent)" };
+    const last = academicData?.lastFetchedAt;
+    if (!last) return { text: "Not Synced", icon: "⚠️", color: "var(--accent-red)" };
+    const diff = Math.floor((now - last) / 60000);
+    if (diff < 1) return { text: "Synced", icon: "✓", color: "#a8c200" };
+    if (diff < 60) return { text: `${diff}m ago`, icon: "✓", color: "rgba(168, 194, 0, 0.7)" };
+    return { text: `${Math.floor(diff/60)}h ago`, icon: "✓", color: "var(--text-muted)" };
+  }, [isSyncing, academicData?.lastFetchedAt, now]);
+
   const totalAgg = att.reduce((acc, c) => acc + parseInt(c["Hours Conducted"] || "0"), 0);
   const absentAgg = att.reduce((acc, c) => acc + parseInt(c["Hours Absent"] || "0"), 0);
   const presentAgg = totalAgg - absentAgg;
@@ -226,6 +246,7 @@ export default function AttendancePage() {
       setPredictions={setPredictions}
       showRiskOnly={showRiskOnly}
       timeAgoStr={timeAgoStr}
+      syncStatus={syncStatus}
     />
   );
 
@@ -247,6 +268,7 @@ export default function AttendancePage() {
       setPredictions={setPredictions}
       showRiskOnly={showRiskOnly}
       timeAgoStr={timeAgoStr}
+      syncStatus={syncStatus}
     />
   );
 
@@ -261,11 +283,13 @@ export default function AttendancePage() {
             <div style={{ fontSize: "12px", letterSpacing: "0.2em", color: "var(--text-secondary)", textTransform: "uppercase", marginBottom: "4px" }}>
               Overall Attendance
             </div>
-            {timeAgoStr && (
-              <div style={{ fontSize: "11px", color: "var(--text-muted)", marginBottom: "20px", fontWeight: "bold" }}>
-                {timeAgoStr}
-              </div>
-            )}
+            <div style={{ 
+              display: "flex", alignItems: "center", gap: "6px", background: "rgba(255,255,255,0.03)", 
+              padding: "4px 12px", borderRadius: "12px", border: "1px solid var(--border)", marginBottom: "20px"
+            }}>
+              <span style={{ fontSize: "10px", color: syncStatus.color }}>{syncStatus.icon}</span>
+              <span style={{ fontSize: "10px", fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.05em" }}>{syncStatus.text}</span>
+            </div>
             <DynamicGauge value={parseFloat(avgAtt)} size={200} strokeWidth={12} />
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px", width: "100%", maxWidth: "400px", margin: "32px auto 0" }}>
               <div style={{ background: "#0a1f33", padding: "16px", borderRadius: "16px", border: "1px solid #1a334d" }}>
@@ -361,7 +385,7 @@ export default function AttendancePage() {
 function MatrixAttendance({ 
   att, avgAtt, totalAgg, presentAgg, absentAgg, 
   showPredictor, setShowPredictor, next30Days, selectedDates, toggleDate, 
-  calculatePredictions, predictions, setSelectedDates, setPredictions, showRiskOnly, timeAgoStr
+  calculatePredictions, predictions, setSelectedDates, setPredictions, showRiskOnly, timeAgoStr, syncStatus
 }: any) {
   const router = useRouter();
   const riskCount = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
@@ -375,8 +399,10 @@ function MatrixAttendance({
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "40px", marginTop: "20px" }}>
            <div>
               <div style={{ fontSize: "10px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800 }}>ACADEMIC</div>
-              <div style={{ fontSize: "14px", fontWeight: 700 }}>Attendance Tracker</div>
-              {timeAgoStr && <div style={{ fontSize: "10px", color: "#444", fontWeight: 800, marginTop: "2px" }}>{timeAgoStr.toUpperCase()}</div>}
+              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <div style={{ fontSize: "14px", fontWeight: 700 }}>Attendance Tracker</div>
+                <div style={{ fontSize: "10px", color: syncStatus.color, fontWeight: 800 }}>[{syncStatus.icon} {syncStatus.text}]</div>
+              </div>
            </div>
            <div style={{ display: "flex", alignItems: "center", gap: "10px", background: "#1c1c1c", padding: "8px 16px", borderRadius: "14px" }}>
               <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: riskCount > 0 ? "#ff3b3b" : "#a8c200" }} />
@@ -511,7 +537,7 @@ function MatrixAttendance({
 function CosmosAttendance({ 
   att, avgAtt, totalAgg, presentAgg, absentAgg, 
   showPredictor, setShowPredictor, next30Days, selectedDates, toggleDate, 
-  calculatePredictions, predictions, setSelectedDates, setPredictions, showRiskOnly, timeAgoStr
+  calculatePredictions, predictions, setSelectedDates, setPredictions, showRiskOnly, timeAgoStr, syncStatus
 }: any) {
   const attPct = parseFloat(avgAtt as string) || 0;
   const riskCount = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
@@ -525,7 +551,10 @@ function CosmosAttendance({
         <div style={{ display: "flex", alignItems: "center", gap: "10px", margin: "24px 0 32px" }}>
           <div>
             <h1 style={{ fontSize: "24px", fontWeight: 900, letterSpacing: "-0.5px", margin: 0 }}>Attendance</h1>
-            {timeAgoStr && <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 700, marginTop: "2px" }}>{timeAgoStr}</div>}
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "2px" }}>
+              <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 700 }}>{timeAgoStr}</div>
+              <div style={{ fontSize: "10px", color: syncStatus.color, fontWeight: 900 }}>● {syncStatus.text}</div>
+            </div>
           </div>
           <div style={{ marginLeft: "auto", display: "flex", gap: "12px" }}>
             <div style={{ fontSize: "20px" }}>🔔</div>
