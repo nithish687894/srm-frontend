@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { authAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { Eye, EyeOff } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
 export default function LoginPage() {
@@ -233,6 +233,67 @@ export default function LoginPage() {
       `}</style>
 
       <div className="lp-root">
+        {/* Auth Transition Overlay */}
+        <AnimatePresence>
+          {loading && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              style={{
+                position: "fixed",
+                inset: 0,
+                zIndex: 10000,
+                background: "rgba(0,0,0,0.95)",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                backdropFilter: "blur(10px)"
+              }}
+            >
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                style={{ position: "relative", marginBottom: "40px" }}
+              >
+                <div style={{
+                  width: "80px", height: "80px", borderRadius: "20px",
+                  background: "linear-gradient(135deg, #3b82f6, #8b5cf6)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  boxShadow: "0 0 40px rgba(59, 130, 246, 0.4)"
+                }}>
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                  style={{
+                    position: "absolute", inset: "-15px",
+                    border: "2px solid rgba(255,255,255,0.1)",
+                    borderTopColor: "#3b82f6",
+                    borderRadius: "50%"
+                  }}
+                />
+              </motion.div>
+              
+              <div style={{ textAlign: "center" }}>
+                 <motion.div
+                    animate={{ opacity: [0.4, 1, 0.4] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                    style={{ fontSize: "14px", fontWeight: 900, letterSpacing: "0.4em", color: "#fff", textTransform: "uppercase", marginBottom: "8px" }}
+                 >
+                    Authenticating
+                 </motion.div>
+                 <div style={{ fontSize: "10px", fontFamily: "monospace", color: "rgba(255,255,255,0.4)", letterSpacing: "0.2em" }}>
+                    ESTABLISHING SECURE HANDSHAKE...
+                 </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Hero Section */}
         <section className="hero-section">
           <div className="hero-content">
