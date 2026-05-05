@@ -51,18 +51,25 @@ export default function LoginPage() {
         }
 
         .hero-section {
-          padding: 120px 24px 60px;
-          text-align: center;
-          max-width: 900px;
+          padding: 80px 24px 60px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          max-width: 1200px;
           margin: 0 auto;
+          text-align: center;
+        }
+
+        .hero-content {
+          flex: 1;
         }
 
         .hero-h1 {
           font-family: var(--font-orbitron), sans-serif;
-          font-size: clamp(40px, 8vw, 80px);
+          font-size: clamp(32px, 6vw, 64px);
           font-weight: 900;
           letter-spacing: -0.05em;
-          line-height: 1;
+          line-height: 1.1;
           margin-bottom: 24px;
           background: linear-gradient(to right, #ffffff, #888888);
           -webkit-background-clip: text;
@@ -70,11 +77,28 @@ export default function LoginPage() {
         }
 
         .hero-sub {
-          font-size: 18px;
+          font-size: 16px;
           color: #888888;
-          max-width: 600px;
-          margin: 0 auto 48px;
+          max-width: 500px;
+          margin: 0 auto 40px;
           line-height: 1.6;
+        }
+
+        @media (min-width: 1024px) {
+          .hero-section {
+            flex-direction: row;
+            text-align: left;
+            justify-content: space-between;
+            align-items: center;
+            padding: 120px 24px;
+            gap: 60px;
+          }
+          .hero-content {
+            text-align: left;
+          }
+          .hero-sub {
+            margin: 0 0 40px 0;
+          }
         }
 
         .feature-grid {
@@ -169,11 +193,13 @@ export default function LoginPage() {
 
         .login-container {
           max-width: 400px;
-          margin: 80px auto;
+          width: 100%;
           padding: 40px 24px;
-          background: #0a0a0a;
+          background: rgba(10, 10, 10, 0.8);
+          backdrop-filter: blur(20px);
           border-radius: 32px;
-          border: 1px solid #1a1a1a;
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
         .login-input {
@@ -209,91 +235,120 @@ export default function LoginPage() {
       <div className="lp-root">
         {/* Hero Section */}
         <section className="hero-section">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            style={{ marginBottom: "32px", display: "flex", justifyContent: "center" }}
-          >
-            <img src="/nexus-logo.png" alt="SRM Nexus Academia Portal Logo" style={{ width: "100px", height: "100px", filter: "drop-shadow(0 0 20px rgba(168, 194, 0, 0.3))" }} />
-          </motion.div>
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="hero-h1"
-          >
-            SRM NEXUS — SRM ACADEMIA PORTAL
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="hero-sub"
-          >
-            The definitive student intelligence portal for SRM University. 
-            Engineered for precision, speed, and academic dominance.
-          </motion.p>
-
-          <div className="demo-widgets">
-            {/* Attendance Demo */}
-            <motion.div 
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="widget-demo"
+          <div className="hero-content">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              style={{ marginBottom: "32px", display: "flex", justifyContent: "flex-start" }}
             >
-              <span className="widget-label">Live Attendance</span>
-              <div className="attn-row">
-                <span style={{ fontSize: '12px', fontWeight: 600 }}>Data Science</span>
-                <div className="attn-bar"><div className="attn-fill" style={{ width: '88%' }}></div></div>
-                <span style={{ fontSize: '12px', fontWeight: 900 }}>88%</span>
-              </div>
-              <div className="attn-row">
-                <span style={{ fontSize: '12px', fontWeight: 600 }}>AI & ML</span>
-                <div className="attn-bar"><div className="attn-fill" style={{ width: '74%' }}></div></div>
-                <span style={{ fontSize: '12px', fontWeight: 900, color: '#ff3b3b' }}>74%</span>
-              </div>
-              <div style={{ marginTop: '8px', fontSize: '10px', color: '#ff3b3b', fontWeight: 800 }}>⚠️ AT RISK: ATTEND NEXT 2 CLASSES</div>
+              <img src="/nexus-logo.png" alt="SRM Nexus Academia Portal Logo" style={{ width: "80px", height: "80px", filter: "drop-shadow(0 0 20px rgba(168, 194, 0, 0.3))" }} />
             </motion.div>
-
-            {/* Marks Demo */}
-            <motion.div 
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="widget-demo"
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="hero-h1"
             >
-              <span className="widget-label">Internal Analytics</span>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '12px', color: '#888' }}>CT-1 Score</span>
-                  <span className="mark-pill">48 / 50</span>
+              SRM NEXUS — SRM ACADEMIA PORTAL
+            </motion.h1>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+              className="hero-sub"
+            >
+              The definitive student intelligence portal for SRM University. 
+              Engineered for precision, speed, and academic dominance.
+            </motion.p>
+
+            <div className="demo-widgets" style={{ marginTop: '0', justifyContent: 'flex-start' }}>
+              {/* Attendance Demo */}
+              <motion.div 
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="widget-demo"
+                style={{ width: '240px', padding: '16px' }}
+              >
+                <span className="widget-label">Live Attendance</span>
+                <div className="attn-row">
+                  <span style={{ fontSize: '10px', fontWeight: 600 }}>Data Science</span>
+                  <div className="attn-bar"><div className="attn-fill" style={{ width: '88%' }}></div></div>
+                  <span style={{ fontSize: '10px', fontWeight: 900 }}>88%</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '12px', color: '#888' }}>Model Exam</span>
-                  <span className="mark-pill">92 / 100</span>
-                </div>
-                <div style={{ marginTop: '4px', height: '1px', background: '#1a1a1a' }}></div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '12px', fontWeight: 700 }}>Predicted Grade</span>
-                  <span style={{ fontSize: '16px', fontWeight: 900, color: '#ffffff' }}>O (Outstanding)</span>
-                </div>
-              </div>
-            </motion.div>
+                <div style={{ marginTop: '8px', fontSize: '10px', color: '#ff3b3b', fontWeight: 800 }}>⚠️ AT RISK: 74% IN AI&ML</div>
+              </motion.div>
+            </div>
           </div>
-          
+
           <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-            style={{ display: 'flex', gap: '16px', justifyContent: 'center', marginTop: '60px' }}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="hero-login"
+            style={{ width: '100%', maxWidth: '400px' }}
           >
-             <a href="#login" className="login-btn" style={{ textDecoration: 'none', textAlign: 'center', width: 'auto', padding: '18px 40px' }}>
-                Access Portal
-             </a>
+            <div id="login" className="login-container">
+              <h2 style={{ textAlign: 'center', marginBottom: '8px', fontSize: '24px' }}>Secure Login</h2>
+              <p style={{ textAlign: 'center', color: '#444', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '32px' }}>
+                Use your SRM NETID credentials
+              </p>
+              
+              <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
+                {error && <div className="login-error">{error}</div>}
+
+                <div style={{ marginBottom: '16px' }}>
+                  <input
+                    type="text"
+                    name="username"
+                    autoComplete="username"
+                    placeholder="NETID (e.g. ab1234)"
+                    className="login-input"
+                    style={{ marginBottom: 0 }}
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    disabled={loading}
+                    maxLength={6}
+                  />
+                </div>
+
+                <div style={{ position: 'relative', marginBottom: '24px' }}>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    autoComplete="current-password"
+                    placeholder="PASSWORD"
+                    className="login-input"
+                    style={{ marginBottom: 0 }}
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    disabled={loading}
+                  />
+                  <button 
+                    type="button" 
+                    style={{ position: 'absolute', right: '16px', top: '18px', background: 'none', border: 'none', color: '#444', cursor: 'pointer' }}
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px', padding: '0 8px' }}>
+                  <input type="checkbox" id="remember" style={{ accentColor: '#fff' }} defaultChecked />
+                  <label htmlFor="remember" style={{ fontSize: '12px', color: '#666', cursor: 'pointer' }}>Remember this device</label>
+                </div>
+
+                <button type="submit" className="login-btn" disabled={loading}>
+                  {loading ? "INITIALIZING..." : "ENTER PORTAL"}
+                </button>
+              </form>
+              
+              <div style={{ marginTop: '24px', textAlign: 'center', fontSize: '10px', color: '#444', textTransform: 'uppercase', letterSpacing: '0.2em' }}>
+                Encrypted End-to-End Tunnel
+              </div>
+            </div>
           </motion.div>
         </section>
 
@@ -342,66 +397,6 @@ export default function LoginPage() {
               </tr>
             </tbody>
           </table>
-        </section>
-
-        {/* Login Section */}
-        <section id="login" className="login-container">
-          <h2 style={{ textAlign: 'center', marginBottom: '8px', fontSize: '24px' }}>Secure Login</h2>
-          <p style={{ textAlign: 'center', color: '#444', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '32px' }}>
-            Use your SRM NETID credentials
-          </p>
-          
-          <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
-            {error && <div className="login-error">{error}</div>}
-
-            <div style={{ marginBottom: '16px' }}>
-              <input
-                type="text"
-                name="username"
-                autoComplete="username"
-                placeholder="NETID (e.g. ab1234)"
-                className="login-input"
-                style={{ marginBottom: 0 }}
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                disabled={loading}
-              />
-            </div>
-
-            <div style={{ position: 'relative', marginBottom: '24px' }}>
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                autoComplete="current-password"
-                placeholder="PASSWORD"
-                className="login-input"
-                style={{ marginBottom: 0 }}
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                disabled={loading}
-              />
-              <button 
-                type="button" 
-                style={{ position: 'absolute', right: '16px', top: '18px', background: 'none', border: 'none', color: '#444', cursor: 'pointer' }}
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </button>
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px', padding: '0 8px' }}>
-              <input type="checkbox" id="remember" style={{ accentColor: '#fff' }} defaultChecked />
-              <label htmlFor="remember" style={{ fontSize: '12px', color: '#666', cursor: 'pointer' }}>Remember this device</label>
-            </div>
-
-            <button type="submit" className="login-btn" disabled={loading}>
-              {loading ? "INITIALIZING..." : "ENTER PORTAL"}
-            </button>
-          </form>
-          
-          <div style={{ marginTop: '24px', textAlign: 'center', fontSize: '10px', color: '#444', textTransform: 'uppercase', letterSpacing: '0.2em' }}>
-            Encrypted End-to-End Tunnel
-          </div>
         </section>
 
         {/* Footer SEO Text */}
