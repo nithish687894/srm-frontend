@@ -214,7 +214,7 @@ export default function LoginPage() {
             transition={{ duration: 1, ease: "easeOut" }}
             style={{ marginBottom: "32px", display: "flex", justifyContent: "center" }}
           >
-            <img src="/nexus-logo.png" alt="Logo" style={{ width: "100px", height: "100px", filter: "drop-shadow(0 0 20px rgba(168, 194, 0, 0.3))" }} />
+            <img src="/nexus-logo.png" alt="SRM Nexus Academia Portal Logo" style={{ width: "100px", height: "100px", filter: "drop-shadow(0 0 20px rgba(168, 194, 0, 0.3))" }} />
           </motion.div>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -222,7 +222,7 @@ export default function LoginPage() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="hero-h1"
           >
-            SRM NEXUS
+            SRM NEXUS — SRM ACADEMIA PORTAL
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -314,7 +314,7 @@ export default function LoginPage() {
 
         {/* Comparison Section */}
         <section className="compare-section">
-          <h2 style={{ fontSize: '32px', fontFamily: 'var(--font-orbitron)' }}>Better Than Academia</h2>
+          <h2 style={{ fontSize: '32px', fontFamily: 'var(--font-orbitron)' }}>Nexus Academia — Better Than the Official Portal</h2>
           <table className="compare-table">
             <thead>
               <tr>
