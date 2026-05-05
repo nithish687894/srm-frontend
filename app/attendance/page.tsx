@@ -241,7 +241,15 @@ export default function AttendancePage() {
       att={filteredAtt} 
       timeAgoStr={timeAgoStr} 
       isSyncing={isSyncing} 
-      onPredict={() => setShowPredictor(!showPredictor)}
+      showPredictor={showPredictor}
+      setShowPredictor={setShowPredictor}
+      next30Days={next30Days}
+      selectedDates={selectedDates}
+      toggleDate={toggleDate}
+      predictions={predictions}
+      setPredictions={setPredictions}
+      setSelectedDates={setSelectedDates}
+      calculatePredictions={calculatePredictions}
       showRiskOnly={showRiskOnly}
       setShowRiskOnly={setShowRiskOnly}
     />
@@ -524,7 +532,7 @@ function MatrixAttendance({
   );
 }
 
-function CosmosAttendance({ att, timeAgoStr, isSyncing, onPredict, showRiskOnly, setShowRiskOnly }: any) {
+function CosmosAttendance({ att, timeAgoStr, isSyncing, showPredictor, setShowPredictor, next30Days, selectedDates, toggleDate, predictions, setPredictions, setSelectedDates, calculatePredictions, showRiskOnly, setShowRiskOnly }: any) {
   const summary = useMemo(() => {
     const total = att.length;
     const avg = total ? (att.reduce((s: number, c: any) => s + parseFloat(c["Attn %"]), 0) / total).toFixed(1) : "0";
@@ -546,7 +554,7 @@ function CosmosAttendance({ att, timeAgoStr, isSyncing, onPredict, showRiskOnly,
             <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "4px", fontWeight: 700 }}>{timeAgoStr}</div>
           </div>
           <button 
-            onClick={onPredict}
+            onClick={() => setShowPredictor(!showPredictor)}
             style={{ background: "rgba(255,255,255,0.05)", border: "1px solid var(--border)", borderRadius: "14px", padding: "10px 16px", color: "#fff", fontSize: "12px", fontWeight: 800, cursor: "pointer" }}>
             🪄 Predictor
           </button>
