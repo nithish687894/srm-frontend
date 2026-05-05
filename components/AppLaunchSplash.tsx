@@ -1,24 +1,41 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function AppLaunchSplash({ children }: { children: React.ReactNode }) {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [logIndex, setLogIndex] = useState(0);
+
+  const statusLogs = [
+    "INITIALIZING NEURAL CORE",
+    "ESTABLISHING SECURE TUNNEL",
+    "SYNCING ACADEMIC RECORDS",
+    "OPTIMIZING INTERFACE",
+    "ESTABLISHING CONNECTION",
+    "AUTHENTICATING SESSION",
+    "READY"
+  ];
 
   useEffect(() => {
-    // Check if splash has already been shown in this session
     const hasSplashed = sessionStorage.getItem("srmx_splashed");
     if (hasSplashed) {
       setIsLoaded(true);
       return;
     }
 
-    // Pro timing: 2.8s for full sequence
     const timer = setTimeout(() => {
       setIsLoaded(true);
       sessionStorage.setItem("srmx_splashed", "true");
-    }, 2800);
-    return () => clearTimeout(timer);
+    }, 3200);
+
+    const logInterval = setInterval(() => {
+      setLogIndex(prev => (prev < statusLogs.length - 1 ? prev + 1 : prev));
+    }, 450);
+
+    return () => {
+      clearTimeout(timer);
+      clearInterval(logInterval);
+    };
   }, []);
 
   const brandingText = "SRM NEXUS";
@@ -31,13 +48,15 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
             initial={{ opacity: 1 }}
             exit={{ 
               opacity: 0,
-              transition: { duration: 0.6, ease: [0.43, 0.13, 0.23, 0.96] } 
+              filter: "blur(20px)",
+              scale: 1.1,
+              transition: { duration: 0.8, ease: [0.4, 0, 0.2, 1] } 
             }}
             style={{
               position: "fixed",
               inset: 0,
               zIndex: 9999,
-              background: "#050505",
+              background: "#000000",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -45,120 +64,148 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
               overflow: "hidden"
             }}
           >
-            {/* Ultra-subtle scanline texture */}
-            <div style={{
-              position: "absolute",
-              inset: 0,
-              background: "linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06))",
-              backgroundSize: "100% 2px, 3px 100%",
-              pointerEvents: "none",
-              zIndex: 2,
-              opacity: 0.3
-            }} />
-
-            {/* Logo Core */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              style={{ position: "relative", zIndex: 3 }}
-            >
-              <img 
-                src="/nexus-logo.png" 
-                alt="SRM NEXUS" 
-                style={{ width: "120px", height: "120px", userSelect: "none" }} 
-              />
-              
-              {/* Subtle light sweep */}
-              <motion.div 
-                animate={{ left: ["-100%", "200%"] }}
-                transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  bottom: 0,
-                  width: "40px",
-                  background: "linear-gradient(90deg, transparent, rgba(168, 194, 0, 0.2), transparent)",
-                  transform: "skewX(-20deg)",
-                  zIndex: 4
-                }}
-              />
-            </motion.div>
-
-            {/* Staggered Branding Reveal */}
-            <div style={{ textAlign: "center", marginTop: "32px", zIndex: 3 }}>
-              <motion.div
-                initial="hidden"
-                animate="visible"
-                style={{ display: "flex", justifyContent: "center", overflow: "hidden" }}
-              >
-                {brandingText.split("").map((char, i) => (
-                  <motion.span
-                    key={i}
-                    variants={{
-                      hidden: { y: "100%", opacity: 0 },
-                      visible: { y: 0, opacity: 1 }
-                    }}
-                    transition={{ 
-                      duration: 0.8, 
-                      delay: 0.4 + (i * 0.05),
-                      ease: [0.22, 1, 0.36, 1]
-                    }}
-                    style={{ 
-                      fontFamily: "var(--font-orbitron)", 
-                      fontSize: "28px", 
-                      fontWeight: 900, 
-                      letterSpacing: char === " " ? "0.6em" : "0.2em", 
-                      color: "#fff",
-                      display: "inline-block"
-                    }}
-                  >
-                    {char === " " ? "\u00A0" : char}
-                  </motion.span>
-                ))}
-              </motion.div>
-
-              {/* Slogan with letter-spacing animation */}
-              <motion.p
-                initial={{ opacity: 0, letterSpacing: "1.2em" }}
-                animate={{ opacity: 1, letterSpacing: "0.6em" }}
-                transition={{ delay: 1.2, duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-                style={{ 
-                  fontSize: "9px", 
-                  color: "rgba(255,255,255,0.4)", 
-                  textTransform: "uppercase", 
-                  marginTop: "16px",
-                  fontWeight: 800,
-                  textIndent: "0.6em"
-                }}
-              >
-                Precision Academic Intelligence
-              </motion.p>
+            {/* HUD Overlay Elements */}
+            <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 1, opacity: 0.4 }}>
+              <div style={{ position: "absolute", top: "10%", left: "10%", width: "40px", height: "40px", borderTop: "2px solid rgba(255,255,255,0.1)", borderLeft: "2px solid rgba(255,255,255,0.1)" }} />
+              <div style={{ position: "absolute", top: "10%", right: "10%", width: "40px", height: "40px", borderTop: "2px solid rgba(255,255,255,0.1)", borderRight: "2px solid rgba(255,255,255,0.1)" }} />
+              <div style={{ position: "absolute", bottom: "10%", left: "10%", width: "40px", height: "40px", borderBottom: "2px solid rgba(255,255,255,0.1)", borderLeft: "2px solid rgba(255,255,255,0.1)" }} />
+              <div style={{ position: "absolute", bottom: "10%", right: "10%", width: "40px", height: "40px", borderBottom: "2px solid rgba(255,255,255,0.1)", borderRight: "2px solid rgba(255,255,255,0.1)" }} />
             </div>
 
-            {/* Bottom Progress Indicator (Subtle) */}
+            {/* Ambient Background Glow */}
             <motion.div 
-              initial={{ width: 0 }}
-              animate={{ width: "120px" }}
-              transition={{ duration: 2.2, ease: "easeInOut" }}
+              animate={{ 
+                scale: [1, 1.2, 1],
+                opacity: [0.1, 0.2, 0.1]
+              }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               style={{
                 position: "absolute",
-                bottom: "15%",
-                height: "1px",
-                background: "linear-gradient(90deg, transparent, #a8c200, transparent)",
-                boxShadow: "0 0 8px rgba(168, 194, 0, 0.5)"
+                width: "800px",
+                height: "800px",
+                borderRadius: "50%",
+                background: "radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%)",
+                filter: "blur(60px)",
+                zIndex: 0
               }}
             />
+
+            {/* Central Animated HUD Ring */}
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+              style={{
+                position: "absolute",
+                width: "320px",
+                height: "320px",
+                borderRadius: "50%",
+                border: "1px dashed rgba(255,255,255,0.05)",
+                zIndex: 1
+              }}
+            />
+
+            <motion.div
+              animate={{ rotate: -360 }}
+              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+              style={{
+                position: "absolute",
+                width: "380px",
+                height: "380px",
+                borderRadius: "50%",
+                border: "1px solid rgba(255,255,255,0.03)",
+                borderTopColor: "rgba(59, 130, 246, 0.1)",
+                zIndex: 1
+              }}
+            />
+
+            {/* Logo and Main Content */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              style={{ position: "relative", zIndex: 5, display: "flex", flexDirection: "column", alignItems: "center" }}
+            >
+              <div style={{ position: "relative" }}>
+                 <img 
+                    src="/nexus-logo.png" 
+                    alt="SRM NEXUS" 
+                    style={{ width: "140px", height: "140px", userSelect: "none", filter: "drop-shadow(0 0 20px rgba(59, 130, 246, 0.3))" }} 
+                 />
+                 <motion.div 
+                    animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    style={{ position: "absolute", inset: "-10px", borderRadius: "50%", border: "2px solid rgba(59, 130, 246, 0.2)" }}
+                 />
+              </div>
+
+              <div style={{ marginTop: "48px", textAlign: "center" }}>
+                <motion.div style={{ display: "flex", justifyContent: "center", overflow: "hidden", marginBottom: "12px" }}>
+                  {brandingText.split("").map((char, i) => (
+                    <motion.span
+                      key={i}
+                      initial={{ y: "100%", opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ duration: 0.8, delay: 0.6 + (i * 0.05), ease: [0.16, 1, 0.3, 1] }}
+                      style={{ 
+                        fontFamily: "var(--font-orbitron)", 
+                        fontSize: "32px", 
+                        fontWeight: 900, 
+                        letterSpacing: char === " " ? "0.6em" : "0.2em", 
+                        color: "#fff",
+                        display: "inline-block"
+                      }}
+                    >
+                      {char === " " ? "\u00A0" : char}
+                    </motion.span>
+                  ))}
+                </motion.div>
+
+                {/* Status Logs Animation */}
+                <div style={{ height: "20px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={logIndex}
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -5 }}
+                      transition={{ duration: 0.2 }}
+                      style={{ 
+                        fontSize: "9px", 
+                        fontFamily: "monospace",
+                        color: logIndex === statusLogs.length - 1 ? "#00E676" : "rgba(255,255,255,0.4)", 
+                        textTransform: "uppercase",
+                        letterSpacing: "0.4em",
+                        fontWeight: 800
+                      }}
+                    >
+                      {statusLogs[logIndex]}
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Bottom Progress Bar */}
+            <div style={{ position: "absolute", bottom: "10%", width: "200px", height: "2px", background: "rgba(255,255,255,0.05)", borderRadius: "99px", overflow: "hidden" }}>
+                <motion.div 
+                  initial={{ left: "-100%" }}
+                  animate={{ left: "100%" }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                  style={{
+                    position: "absolute",
+                    width: "40%",
+                    height: "100%",
+                    background: "linear-gradient(90deg, transparent, #3b82f6, transparent)",
+                  }}
+                />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
       
-      <motion.div 
-        animate={{ opacity: isLoaded ? 1 : 0 }}
-        transition={{ duration: 1 }}
-      >
+      <div style={{ opacity: isLoaded ? 1 : 0, transition: "opacity 1.2s ease-in-out" }}>
         {children}
-      </motion.div>
+      </div>
     </>
   );
 }
