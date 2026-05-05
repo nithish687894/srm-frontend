@@ -144,7 +144,7 @@ export default function CGPACalculator() {
                     <select 
                       value={sub.grade} 
                       onChange={e => updateSubject(sub.id, "grade", e.target.value)}
-                      style={{ width: "100%", background: "rgba(0,0,0,0.5)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "10px", padding: "12px", color: "#fff", outline: "none", appearance: "none", fontWeight: 800, color: sub.grade === 'F' ? '#ef4444' : '#fff' }}
+                      style={{ width: "100%", background: "rgba(0,0,0,0.5)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "10px", padding: "12px", outline: "none", appearance: "none", fontWeight: 800, color: sub.grade === 'F' ? '#ef4444' : '#fff' }}
                     >
                       {Object.keys(GRADE_POINTS).map(g => <option key={g} value={g}>Grade {g}</option>)}
                     </select>
