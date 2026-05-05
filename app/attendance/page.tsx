@@ -41,7 +41,8 @@ export default function AttendancePage() {
 
     dataAPI.getCalendar().then(d => setCalData(d)).catch(() => {});
     Promise.all([dataAPI.getTimetable(1), dataAPI.getMyTimetable()]).then(([tt, myTT]) => {
-      setTTData({ rows: tt?.data?.rows || [], myTT: myTT?.data || [] });
+      const courses = myTT?.data?.courses || myTT?.data || [];
+      setTTData({ rows: tt?.data?.rows || [], myTT: courses });
     }).catch(() => {});
   }, [ready]);
 

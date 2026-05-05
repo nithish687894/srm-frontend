@@ -198,7 +198,8 @@ export default function DashboardPage() {
   const targetClasses = useMemo(() => {
     if (!ttData?.data?.rows || !myTTData?.data || isHoliday || !dayOrder) return [];
     const rows = ttData.data.rows;
-    const slotMap = buildSlotToCourseMap(myTTData.data || []);
+    const courses = myTTData.data?.courses || myTTData.data || [];
+    const slotMap = buildSlotToCourseMap(courses);
     const schedule = buildSchedule(rows, slotMap, att);
     return schedule[dayOrder - 1]?.classes || [];
   }, [ttData, myTTData, att, dayOrder, isHoliday]);

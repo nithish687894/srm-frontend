@@ -237,8 +237,9 @@ export default function TimetablePage() {
   }, [calQ.data]);
 
   const schedule = useMemo(() => {
-    if (!ttQ.data?.data?.rows || !myTTQ.data?.data) return [];
-    const slotMap = buildSlotToCourseMap(myTTQ.data.data);
+    const courses = myTTQ.data?.data?.courses || myTTQ.data?.data || [];
+    if (!ttQ.data?.data?.rows || courses.length === 0) return [];
+    const slotMap = buildSlotToCourseMap(courses);
     const rawSchedule = buildSchedule(ttQ.data.data.rows, slotMap);
     
     return rawSchedule.map(day => {
@@ -263,13 +264,99 @@ export default function TimetablePage() {
   const firstStart = classes[0] ? fmt12(classes[0].startTime) : "";
   const lastEnd = classes[classes.length - 1] ? fmt12(classes[classes.length - 1].endTime) : "";
 
-  if (theme === "cosmos") return <CosmosTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} handleShare={handleShare} sharing={sharing} shareRef={shareRef} fullShareRef={fullShareRef} fullSharing={fullSharing} handleFullShare={handleFullShare} schedule={schedule} />;
+  const studentInfo = myTTQ.data?.data?.studentInfo || null;
+  const [showStudentInfo, setShowStudentInfo] = useState(false);
 
-  if (theme === "matrix") return <MatrixTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} handleShare={handleShare} sharing={sharing} shareRef={shareRef} fullShareRef={fullShareRef} fullSharing={fullSharing} handleFullShare={handleFullShare} schedule={schedule} />;
+  // Auto-set batch from studentInfo if available
+  useEffect(() => {
+    if (studentInfo && studentInfo["Combo / Batch"]) {
+      const b = parseInt(studentInfo["Combo / Batch"].split("/")[1]);
+      if (!isNaN(b) && b !== batch) {
+        setBatch(b);
+      }
+    }
+  }, [studentInfo]);
+
+  const renderStudentInfoModal = () => {
+    if (!showStudentInfo || !studentInfo) return null;
+    return (
+      <div 
+        onClick={() => setShowStudentInfo(false)}
+        style={{
+          position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
+          background: "rgba(0,0,0,0.6)", backdropFilter: "blur(10px)",
+          zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px"
+        }}
+      >
+        <div onClick={e => e.stopPropagation()} style={{
+          background: "var(--bg-surface)", padding: "24px", borderRadius: "24px",
+          width: "100%", maxWidth: "450px", border: "1px solid var(--border)",
+          boxShadow: "0 20px 40px rgba(0,0,0,0.5)", maxHeight: "80vh", overflowY: "auto"
+        }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+            <div style={{ fontSize: "16px", fontWeight: 800 }}>Student Details</div>
+            <button onClick={() => setShowStudentInfo(false)} style={{ background: "transparent", border: "none", color: "var(--text-muted)", fontSize: "20px", cursor: "pointer" }}>×</button>
+          </div>
+          
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "24px" }}>
+            {["Registration Number", "Name", "Combo / Batch", "Program", "Department", "Semester", "Class Room"].map(key => {
+              if (!studentInfo[key]) return null;
+              return (
+                <div key={key} style={{ background: "rgba(255,255,255,0.03)", padding: "12px", borderRadius: "12px" }}>
+                  <div style={{ fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800, marginBottom: "4px" }}>{key}</div>
+                  <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--text-primary)" }}>{studentInfo[key]}</div>
+                </div>
+              );
+            })}
+          </div>
+
+          {studentInfo.advisors && (
+            <div>
+              <div style={{ fontSize: "12px", fontWeight: 800, color: "var(--accent)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>Advisors</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                {Object.entries(studentInfo.advisors).map(([key, lines]: any) => {
+                  if (!lines || lines.length === 0) return null;
+                  return (
+                    <div key={key} style={{ background: "rgba(255,255,255,0.03)", padding: "16px", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                      {lines.map((line: string, i: number) => (
+                        <div key={i} style={{ 
+                          fontSize: i === 0 ? "14px" : "12px", 
+                          fontWeight: i === 0 ? 800 : 600, 
+                          color: i === 0 ? "var(--text-primary)" : "var(--text-secondary)",
+                          marginBottom: i === 0 ? "4px" : "2px" 
+                        }}>{line}</div>
+                      ))}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  const studentInitials = studentInfo?.Name ? studentInfo.Name.substring(0, 2).toUpperCase() : "ST";
+
+  if (theme === "cosmos") return (
+    <>
+      <CosmosTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} handleShare={handleShare} sharing={sharing} shareRef={shareRef} fullShareRef={fullShareRef} fullSharing={fullSharing} handleFullShare={handleFullShare} schedule={schedule} studentInitials={studentInitials} onShowStudentInfo={() => setShowStudentInfo(true)} />
+      {renderStudentInfoModal()}
+    </>
+  );
+
+  if (theme === "matrix") return (
+    <>
+      <MatrixTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} handleShare={handleShare} sharing={sharing} shareRef={shareRef} fullShareRef={fullShareRef} fullSharing={fullSharing} handleFullShare={handleFullShare} schedule={schedule} studentInitials={studentInitials} onShowStudentInfo={() => setShowStudentInfo(true)} />
+      {renderStudentInfoModal()}
+    </>
+  );
 
   return (
     <div className="page-root">
       <Sidebar />
+      {renderStudentInfoModal()}
       <main className="page-main">
           {/* Batch Selector (Top) */}
           <div style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(5,5,5,0.85)", backdropFilter: "blur(20px)", padding: "16px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #1c1c1c" }}>
@@ -277,9 +364,10 @@ export default function TimetablePage() {
             <div style={{ fontSize: "10px", letterSpacing: "0.2em", color: "#666", textTransform: "uppercase", fontWeight: 800, marginBottom: "2px" }}>Semester Schedule</div>
             <div style={{ fontSize: "20px", fontWeight: 900, color: "#fff", letterSpacing: "-0.01em" }}>Day {dayOverride} — Batch {batch}</div>
           </div>
-          <div style={{ display: "flex", background: "#111", borderRadius: "14px", padding: "4px", border: "1px solid #222" }}>
-            {[1, 2].map(b => (
-              <button key={b} onClick={() => setBatch(b)}
+          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+            <div style={{ display: "flex", background: "#111", borderRadius: "14px", padding: "4px", border: "1px solid #222" }}>
+              {[1, 2].map(b => (
+                <button key={b} onClick={() => setBatch(b)}
                 style={{
                   padding: "8px 18px", borderRadius: "10px", border: "none", fontSize: "13px", fontWeight: 800,
                   background: batch === b ? "#7700ff" : "transparent",
@@ -288,6 +376,17 @@ export default function TimetablePage() {
                   boxShadow: batch === b ? "0 4px 12px rgba(119, 0, 255, 0.3)" : "none"
                 }}>B{b}</button>
             ))}
+            </div>
+            <button 
+              onClick={() => setShowStudentInfo(true)}
+              style={{
+                width: "40px", height: "40px", borderRadius: "12px", background: "#222", color: "#fff",
+                border: "1px solid #333", display: "flex", alignItems: "center", justifyContent: "center",
+                fontWeight: 900, fontSize: "14px", cursor: "pointer"
+              }}
+            >
+              {studentInitials}
+            </button>
           </div>
         </div>
 
@@ -387,7 +486,7 @@ export default function TimetablePage() {
   );
 }
 
-function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule }: any) {
+function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule, studentInitials, onShowStudentInfo }: any) {
   const currentMin = new Date().getHours() * 60 + new Date().getMinutes();
   const firstStart = classes[0] ? fmtTimeOnly(classes[0].startTime) : "";
   const lastEnd = classes[classes.length - 1] ? fmtTimeOnly(classes[classes.length - 1].endTime) : "";
@@ -429,6 +528,16 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
                   }}>B{b}</button>
               ))}
             </div>
+            <button 
+              onClick={onShowStudentInfo}
+              style={{
+                width: "36px", height: "36px", borderRadius: "10px", background: "#1c1c1c", color: "#fff",
+                border: "1px solid #333", display: "flex", alignItems: "center", justifyContent: "center",
+                fontWeight: 900, fontSize: "13px", cursor: "pointer"
+              }}
+            >
+              {studentInitials}
+            </button>
            </div>
         </div>
 
@@ -587,7 +696,7 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
   );
 }
 
-function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule }: any) {
+function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule, studentInitials, onShowStudentInfo }: any) {
   const currentMin = new Date().getHours() * 60 + new Date().getMinutes();
 
   return (
@@ -617,6 +726,16 @@ function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
                 }}>B{b}</button>
               ))}
             </div>
+            <button 
+              onClick={onShowStudentInfo}
+              style={{
+                width: "36px", height: "36px", borderRadius: "12px", background: "rgba(255,255,255,0.05)", color: "#fff",
+                border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center",
+                fontWeight: 900, fontSize: "13px", cursor: "pointer"
+              }}
+            >
+              {studentInitials}
+            </button>
           </div>
         </div>
 

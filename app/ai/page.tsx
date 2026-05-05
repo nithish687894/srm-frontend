@@ -36,7 +36,8 @@ export default function AIPage() {
       if (todayEvent) calendarStr += `Today (${todayIso}): Day Order ${todayEvent.dayOrder || "N/A"} - ${todayEvent.event || "No event"}\n`;
       if (tomorrowEvent) calendarStr += `Tomorrow (${tomorrowIso}): Day Order ${tomorrowEvent.dayOrder || "N/A"} - ${tomorrowEvent.event || "No event"}`;
 
-      const merged = { ...allData, timetable: myTT?.data || myTT || [], calendarStr };
+      const courses = myTT?.data?.courses || myTT?.data || myTT || [];
+      const merged = { ...allData, timetable: courses, calendarStr };
       setLocalAcademicData(merged);
       setGlobalData(merged);
     }).catch(() => {});
