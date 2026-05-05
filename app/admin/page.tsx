@@ -91,7 +91,7 @@ export default function AdminPage() {
   const handleReplyFeedback = async (id: string) => {
     if (!replyText[id]) return;
     try {
-      await dataAPI.replyToFeedback(id, replyText[id]);
+      await dataAPI.replyToFeedback(id, replyText[id], "resolved");
       showToast("Reply sent successfully");
       fetchData(); // Refresh list
     } catch (e) {
