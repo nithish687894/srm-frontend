@@ -342,6 +342,20 @@ export default function Sidebar() {
                 </button>
 
                 <button 
+                  onClick={() => { setMenuOpen(false); router.push("/support"); }}
+                  style={{
+                    background: "rgba(255,255,255,0.03)",
+                    border: "1px solid var(--border)", color: "var(--text-primary)", display: "flex", alignItems: "center", gap: "12px",
+                    padding: "18px", borderRadius: "20px", cursor: "pointer", fontWeight: 800,
+                    textAlign: "left", fontSize: "14px", transition: "all 0.2s"
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.06)"}
+                  onMouseLeave={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.03)"}
+                >
+                  💬 Help & Support
+                </button>
+
+                <button 
                   onClick={async () => {
                     const shareData = {
                       title: 'SRM Nexus',

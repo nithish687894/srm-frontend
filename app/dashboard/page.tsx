@@ -123,6 +123,7 @@ export default function DashboardPage() {
   const [dayOffset, setDayOffset] = useState(0);
   const [mounted, setMounted] = useState(false);
   const [showStudentInfo, setShowStudentInfo] = useState(false);
+  const [broadcast, setBroadcast] = useState<any>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -148,6 +149,7 @@ export default function DashboardPage() {
     dataAPI.getTimetable(1).then(d => setTTData(d)).catch(() => { });
     dataAPI.getCalendar().then(d => setCalData(d)).catch(() => { });
     dataAPI.getMyTimetable().then(d => setMyTTData(d)).catch(() => { });
+    dataAPI.getBroadcast().then(d => setBroadcast(d)).catch(() => { });
   }, [ready]);
 
   const att = data?.attendance || [];
@@ -310,14 +312,14 @@ export default function DashboardPage() {
 
   if (theme === "cosmos") return (
     <>
-      <CosmosDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} onShowStudentInfo={() => setShowStudentInfo(true)} />
+      <CosmosDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} onShowStudentInfo={() => setShowStudentInfo(true)} broadcast={broadcast} />
       {renderStudentInfoModal()}
     </>
   );
 
   if (theme === "matrix") return (
     <>
-      <MatrixDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} dayOffset={dayOffset} setDayOffset={setDayOffset} onShowStudentInfo={() => setShowStudentInfo(true)} />
+      <MatrixDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} dayOffset={dayOffset} setDayOffset={setDayOffset} onShowStudentInfo={() => setShowStudentInfo(true)} broadcast={broadcast} />
       {renderStudentInfoModal()}
     </>
   );
@@ -328,6 +330,8 @@ export default function DashboardPage() {
       {renderStudentInfoModal()}
       <main className="page-main">
         <div className="page-content" data-section="Portal" style={{ paddingBottom: "120px" }}>
+
+          <BroadcastBanner broadcast={broadcast} />
 
           {/* Header */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "24px" }}>
@@ -468,7 +472,32 @@ export default function DashboardPage() {
   );
 }
 
-function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, initials, firstName, dayOrder, isHoliday, dayOffset, setDayOffset, onShowStudentInfo }: any) {
+function BroadcastBanner({ broadcast }: any) {
+  if (!broadcast || !broadcast.active || !broadcast.message) return null;
+  const colors: Record<string, { bg: string, text: string, border: string }> = {
+    info: { bg: "rgba(59, 130, 246, 0.1)", text: "#3b82f6", border: "rgba(59, 130, 246, 0.2)" },
+    success: { bg: "rgba(16, 185, 129, 0.1)", text: "#10b981", border: "rgba(16, 185, 129, 0.2)" },
+    warning: { bg: "rgba(239, 68, 68, 0.1)", text: "#ef4444", border: "rgba(239, 68, 68, 0.2)" }
+  };
+  const theme = colors[broadcast.type] || colors.info;
+
+  return (
+    <div style={{
+      background: theme.bg, border: `1px solid ${theme.border}`, borderRadius: "16px", padding: "16px",
+      marginBottom: "24px", display: "flex", alignItems: "center", gap: "16px", animation: "slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1)"
+    }}>
+      <div style={{ color: theme.text }}>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>
+      </div>
+      <div>
+        <div style={{ fontSize: "10px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em", color: theme.text, marginBottom: "4px" }}>System Announcement</div>
+        <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary)", lineHeight: 1.4 }}>{broadcast.message}</div>
+      </div>
+    </div>
+  );
+}
+
+function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, initials, firstName, dayOrder, isHoliday, dayOffset, setDayOffset, onShowStudentInfo, broadcast }: any) {
   const router = useRouter();
   const profile = data?.profile || {};
   const regNo = profile["Registration Number"] || "UNKNOWN";
@@ -486,8 +515,9 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
       <main style={{ padding: "16px 20px 20px" }}>
 
         {/* System Status / Profile Intro */}
-        <div style={{ marginTop: "12px", marginBottom: "36px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "18px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "32px", position: "relative", zIndex: 10 }}>
+          <BroadcastBanner broadcast={broadcast} />
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%" }}>
             <div>
               <div style={{ fontSize: "10px", color: "#a8c200", letterSpacing: "0.2em", fontWeight: 900, marginBottom: "4px" }}>SYSTEM INITIALIZED</div>
               <div style={{ fontSize: "36px", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 1 }}>{firstName.toUpperCase()}</div>
@@ -532,8 +562,9 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
           </div>
         )}
 
-        {/* Date Selector / Schedule Header */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "26px" }}>
+        {/* Header */}
+        <BroadcastBanner broadcast={broadcast} />
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px" }}>
           <div style={{ display: "flex", gap: "16px" }}>
             <button onClick={() => setDayOffset((o: any) => o - 1)} style={{ background: "#1c1c1c", border: "1px solid #333", color: "#fff", width: "44px", height: "44px", borderRadius: "14px", fontSize: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>‹</button>
             <button onClick={() => setDayOffset((o: any) => o + 1)} style={{ background: "#1c1c1c", border: "1px solid #333", color: "#fff", width: "44px", height: "44px", borderRadius: "14px", fontSize: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>›</button>
@@ -598,7 +629,7 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
   );
 }
 
-function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, recentTop5, initials, firstName, dayOrder, isHoliday, onShowStudentInfo }: any) {
+function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, recentTop5, initials, firstName, dayOrder, isHoliday, onShowStudentInfo, broadcast }: any) {
   const router = useRouter();
   const marksPct = parseFloat(avgMarks as string) || 0;
   const profile = data?.profile || {};

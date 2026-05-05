@@ -70,6 +70,12 @@ export const dataAPI = {
   clearAdminLogs: () => API.delete("/api/admin/login-logs").then((r) => r.data),
   getBroadcast: () => API.get("/api/admin/broadcast").then((r) => r.data),
   updateBroadcast: (data: any) => API.post("/api/admin/broadcast", data).then((r) => r.data),
+  getUsers: () => API.get("/api/admin/users").then((r) => r.data),
+  getFeedback: () => API.get("/api/feedback").then((r) => r.data),
+  submitFeedback: (message: string) => API.post("/api/feedback", { message }).then((r) => r.data),
+  getAllFeedback: () => API.get("/api/admin/feedback").then((r) => r.data),
+  replyToFeedback: (id: string, adminReply: string, status?: string) => 
+    API.post(`/api/admin/feedback/${id}/reply`, { adminReply, status }).then((r) => r.data),
   aiChat: (message: string, historyData: any[], academicData: any) =>
     API.post("/api/ai/chat", { message, historyData, academicData }).then((r) => r.data)
 };

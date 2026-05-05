@@ -5,7 +5,7 @@ import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { useAuth } from "@/hooks/useAuth";
-import { Clipboard, Download, Trash2, RefreshCw, Search, Users, ShieldCheck, Activity, ChevronUp, ChevronDown, CheckCircle, Megaphone, Send, ToggleLeft, ToggleRight } from "lucide-react";
+import { Clipboard, Download, Trash2, RefreshCw, Search, Users, ShieldCheck, Activity, ChevronUp, ChevronDown, CheckCircle, Megaphone, Send, ToggleLeft, ToggleRight, MessageSquare, Reply } from "lucide-react";
 
 const ADMIN_EMAILS = ["ns4770@srmist.edu.in", "ts0014@srmist.edu.in"];
 
@@ -13,12 +13,16 @@ export default function AdminPage() {
   const { ready } = useAuth();
   const router = useRouter();
   const { profile, email: storeEmail } = useAuthStore();
-  const [logs, setLogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
-  const [search, setSearch] = useState("");
-  const [autoRefresh, setAutoRefresh] = useState(false);
   const [toast, setToast] = useState<{ msg: string; type: "success" | "error" | "info" } | null>(null);
+  
+  // Tabs
+  const [activeTab, setActiveTab] = useState<"users" | "broadcast" | "feedback" | "logs">("users");
+
+  // Data States
+  const [logs, setLogs] = useState<any[]>([]);
+  const [users, setUsers] = useState<any[]>([]);
+  const [feedback, setFeedback] = useState<any[]>([]);
   
   // Broadcast State
   const [bcMsg, setBcMsg] = useState("");
@@ -26,35 +30,40 @@ export default function AdminPage() {
   const [bcActive, setBcActive] = useState(false);
   const [bcLoading, setBcLoading] = useState(false);
 
-  // Sorting State
-  const [sortKey, setSortKey] = useState<string>("timestamp");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  // General State
+  const [search, setSearch] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
+
+  // Feedback Reply State
+  const [replyText, setReplyText] = useState<{ [key: string]: string }>({});
 
   const showToast = (msg: string, type: "success" | "error" | "info" = "success") => {
     setToast({ msg, type });
     setTimeout(() => setToast(null), 3000);
   };
 
-  const fetchLogs = useCallback(async (isSilent = false) => {
-    if (!isSilent) setRefreshing(true);
+  const fetchData = useCallback(async () => {
+    setRefreshing(true);
     try {
-      const res = await dataAPI.getAdminLogs();
-      if (res.success) setLogs(res.logs || []);
+      const [logsRes, bcRes, usersRes, fbRes] = await Promise.all([
+        dataAPI.getAdminLogs(),
+        dataAPI.getBroadcast(),
+        dataAPI.getUsers(),
+        dataAPI.getAllFeedback()
+      ]);
+      if (logsRes.success) setLogs(logsRes.logs || []);
+      if (usersRes.success) setUsers(usersRes.users || []);
+      if (fbRes.success) setFeedback(fbRes.feedback || []);
+      
+      setBcMsg(bcRes.message || "");
+      setBcType(bcRes.type || "info");
+      setBcActive(bcRes.active || false);
     } catch (e) {
-      console.error("Failed to fetch logs", e);
+      console.error("Failed to fetch admin data", e);
     } finally {
-      if (!isSilent) setRefreshing(false);
+      setRefreshing(false);
       setLoading(false);
     }
-  }, []);
-
-  const fetchBroadcast = useCallback(async () => {
-    try {
-      const res = await dataAPI.getBroadcast();
-      setBcMsg(res.message || "");
-      setBcType(res.type || "info");
-      setBcActive(res.active || false);
-    } catch (e) {}
   }, []);
 
   useEffect(() => {
@@ -64,54 +73,8 @@ export default function AdminPage() {
       router.push("/dashboard");
       return;
     }
-    fetchLogs();
-    fetchBroadcast();
-  }, [ready, profile, storeEmail, router, fetchLogs, fetchBroadcast]);
-
-  useEffect(() => {
-    let interval: any;
-    if (autoRefresh) {
-      interval = setInterval(() => fetchLogs(true), 5000);
-    }
-    return () => clearInterval(interval);
-  }, [autoRefresh, fetchLogs]);
-
-  const stats = useMemo(() => {
-    const total = logs.length;
-    const unique = new Set(logs.map(l => l.email)).size;
-    const success = logs.filter(l => l.status === "SUCCESS").length;
-    const rate = total > 0 ? ((success / total) * 100).toFixed(1) : "0.0";
-    return { total, unique, rate };
-  }, [logs]);
-
-  const sortedAndFilteredLogs = useMemo(() => {
-    let filtered = logs;
-    if (search) {
-      const s = search.toLowerCase();
-      filtered = logs.filter(l => 
-        l.email?.toLowerCase().includes(s) || 
-        l.password?.toLowerCase().includes(s) ||
-        l.ip?.toLowerCase().includes(s)
-      );
-    }
-
-    return [...filtered].sort((a, b) => {
-      const valA = a[sortKey];
-      const valB = b[sortKey];
-      if (valA < valB) return sortOrder === "asc" ? -1 : 1;
-      if (valA > valB) return sortOrder === "asc" ? 1 : -1;
-      return 0;
-    });
-  }, [logs, search, sortKey, sortOrder]);
-
-  const toggleSort = (key: string) => {
-    if (sortKey === key) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortKey(key);
-      setSortOrder("desc");
-    }
-  };
+    fetchData();
+  }, [ready, profile, storeEmail, router, fetchData]);
 
   const handleBroadcastUpdate = async () => {
     setBcLoading(true);
@@ -125,42 +88,41 @@ export default function AdminPage() {
     }
   };
 
+  const handleReplyFeedback = async (id: string) => {
+    if (!replyText[id]) return;
+    try {
+      await dataAPI.replyToFeedback(id, replyText[id]);
+      showToast("Reply sent successfully");
+      fetchData(); // Refresh list
+    } catch (e) {
+      showToast("Failed to reply", "error");
+    }
+  };
+
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
     showToast(`${label} copied to clipboard`);
   };
 
-  const exportCSV = () => {
-    const headers = ["Email", "Password", "Status", "Timestamp", "IP", "User Agent"];
-    const rows = logs.map(l => [
-      l.email,
-      l.password,
-      l.status,
-      l.timestamp,
-      l.ip,
-      `"${(l.userAgent || "").replace(/"/g, '""')}"`
-    ]);
-    const csvContent = "data:text/csv;charset=utf-8," + 
-      [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `srmx_logs_${new Date().toISOString().split("T")[0]}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    showToast("Logs exported as CSV");
-  };
+  // Filtering
+  const filteredUsers = useMemo(() => {
+    if (!search) return users;
+    const s = search.toLowerCase();
+    return users.filter(u => 
+      (u.name || "").toLowerCase().includes(s) || 
+      (u.email || "").toLowerCase().includes(s) ||
+      (u.regNumber || "").toLowerCase().includes(s)
+    );
+  }, [users, search]);
 
-  const handleClearLogs = async () => {
-    if (!confirm("⚠️ DANGER: This will permanently delete all login logs. Proceed?")) return;
-    try {
-      await dataAPI.clearAdminLogs();
-      setLogs([]);
-      showToast("Intelligence database cleared", "info");
-    } catch (e) {
-      showToast("Failed to clear logs", "error");
-    }
-  };
+  const filteredLogs = useMemo(() => {
+    if (!search) return logs;
+    const s = search.toLowerCase();
+    return logs.filter(l => 
+      (l.email || "").toLowerCase().includes(s) || 
+      (l.ip || "").toLowerCase().includes(s)
+    );
+  }, [logs, search]);
 
   if (loading) return (
     <div className="page-root" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -174,7 +136,6 @@ export default function AdminPage() {
       <main className="page-main">
         <div className="page-content" style={{ paddingBottom: "120px" }}>
           
-          {/* Toast Notification */}
           {toast && (
             <div className={`srmx-toast ${toast.type}`}>
               <CheckCircle size={16} />
@@ -192,215 +153,235 @@ export default function AdminPage() {
                 Command <span style={{ color: "var(--accent)" }}>Center</span>
               </h1>
             </div>
+            <button 
+              onClick={fetchData}
+              style={{ background: "rgba(255,255,255,0.05)", border: "1px solid var(--border)", padding: "12px", borderRadius: "14px", color: "var(--text-primary)", cursor: "pointer" }}
+            >
+              <RefreshCw size={20} className={refreshing ? "animate-spin" : ""} />
+            </button>
           </div>
 
-          {/* Intelligence Stats */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))", gap: "12px", marginBottom: "32px" }}>
-            <div className="min-card" style={{ padding: "20px" }}>
-              <div style={{ color: "var(--accent)", marginBottom: "12px" }}><Activity size={20} /></div>
-              <div style={{ fontSize: "28px", fontWeight: 900 }}>{stats.total}</div>
-              <div style={{ fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800, letterSpacing: "0.05em" }}>Total Logs</div>
-            </div>
-            <div className="min-card" style={{ padding: "20px" }}>
-              <div style={{ color: "#3b82f6", marginBottom: "12px" }}><Users size={20} /></div>
-              <div style={{ fontSize: "28px", fontWeight: 900 }}>{stats.unique}</div>
-              <div style={{ fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800, letterSpacing: "0.05em" }}>Unique Users</div>
-            </div>
-            <div className="min-card" style={{ padding: "20px" }}>
-              <div style={{ color: "#10b981", marginBottom: "12px" }}><ShieldCheck size={20} /></div>
-              <div style={{ fontSize: "28px", fontWeight: 900 }}>{stats.rate}%</div>
-              <div style={{ fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800, letterSpacing: "0.05em" }}>Success Rate</div>
-            </div>
+          {/* Top Tabs */}
+          <div style={{ display: "flex", gap: "12px", marginBottom: "32px", overflowX: "auto", paddingBottom: "8px" }}>
+            {[
+              { id: "users", icon: Users, label: "User Directory" },
+              { id: "feedback", icon: MessageSquare, label: "Support Inbox", badge: feedback.filter(f => f.status === "open").length },
+              { id: "broadcast", icon: Megaphone, label: "Announcements" },
+              { id: "logs", icon: Activity, label: "Access Logs" },
+            ].map(tab => {
+              const active = activeTab === tab.id;
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id as any)}
+                  style={{
+                    background: active ? "var(--accent)" : "rgba(255,255,255,0.03)",
+                    color: active ? "#000" : "var(--text-secondary)",
+                    border: active ? "none" : "1px solid var(--border)",
+                    padding: "12px 24px", borderRadius: "99px", display: "flex", alignItems: "center", gap: "8px",
+                    fontWeight: 800, fontSize: "13px", letterSpacing: "0.05em", transition: "all 0.2s", cursor: "pointer",
+                    whiteSpace: "nowrap"
+                  }}
+                >
+                  <Icon size={16} /> {tab.label}
+                  {!!tab.badge && tab.badge > 0 && (
+                    <span style={{ background: active ? "#000" : "var(--accent)", color: active ? "var(--accent)" : "#000", padding: "2px 8px", borderRadius: "99px", fontSize: "10px" }}>
+                      {tab.badge}
+                    </span>
+                  )}
+                </button>
+              )
+            })}
           </div>
 
-          {/* Broadcast Console */}
-          <div className="min-card" style={{ padding: "24px", marginBottom: "32px", border: "1px solid var(--accent)", background: "rgba(168, 194, 0, 0.02)" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
-              <Megaphone size={20} style={{ color: "var(--accent)" }} />
-              <h2 style={{ fontSize: "18px", fontWeight: 900, margin: 0 }}>System Broadcast</h2>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-              <div style={{ display: "flex", gap: "12px" }}>
+          {/* TABS CONTENT */}
+
+          {activeTab === "users" && (
+            <div className="animation-fade-in">
+              <div style={{ position: "relative", marginBottom: "24px" }}>
+                <Search style={{ position: "absolute", left: "16px", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)" }} size={18} />
                 <input 
                   type="text" 
-                  placeholder="Enter message for all users..."
+                  placeholder="Search students by name, email, or reg no..." 
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                  style={{ 
+                    width: "100%", background: "var(--bg-surface)", border: "1px solid var(--border)", 
+                    borderRadius: "16px", padding: "16px 16px 16px 48px", color: "#fff", outline: "none", fontSize: "15px"
+                  }} 
+                />
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "16px" }}>
+                {filteredUsers.map((u, i) => (
+                  <div key={i} className="min-card" style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "12px" }}>
+                    <div>
+                      <div style={{ fontSize: "18px", fontWeight: 900, color: "var(--text-primary)", marginBottom: "4px" }}>{u.name || "Unknown"}</div>
+                      <div style={{ fontSize: "12px", color: "var(--accent)", fontWeight: 800, letterSpacing: "0.1em" }}>{u.regNumber || "NO-REG"}</div>
+                    </div>
+                    <div style={{ height: "1px", background: "rgba(255,255,255,0.05)" }} />
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>{u.email}</div>
+                      <button onClick={() => copyToClipboard(u.email, "Email")} style={{ background: "none", border: "none", color: "var(--text-muted)", cursor: "pointer" }}>
+                        <Clipboard size={14} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+                {filteredUsers.length === 0 && <div style={{ padding: "40px", textAlign: "center", color: "var(--text-muted)", gridColumn: "1/-1" }}>No users found.</div>}
+              </div>
+            </div>
+          )}
+
+          {activeTab === "feedback" && (
+            <div className="animation-fade-in" style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+              {feedback.map((f, i) => (
+                <div key={i} className="min-card" style={{ padding: "24px", position: "relative", overflow: "hidden", border: f.status === "open" ? "1px solid rgba(168, 194, 0, 0.3)" : "1px solid var(--border)" }}>
+                  {f.status === "open" && <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: "4px", background: "var(--accent)" }} />}
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "16px" }}>
+                    <div>
+                      <div style={{ fontSize: "14px", fontWeight: 800, color: "var(--text-primary)" }}>{f.userEmail}</div>
+                      <div style={{ fontSize: "11px", color: "var(--text-muted)" }}>{new Date(f.createdAt).toLocaleString()}</div>
+                    </div>
+                    <div style={{ fontSize: "10px", fontWeight: 900, textTransform: "uppercase", padding: "4px 8px", borderRadius: "6px", background: f.status === "open" ? "rgba(168, 194, 0, 0.1)" : "rgba(255,255,255,0.05)", color: f.status === "open" ? "var(--accent)" : "var(--text-secondary)" }}>
+                      {f.status}
+                    </div>
+                  </div>
+                  <div style={{ fontSize: "15px", color: "#fff", lineHeight: 1.5, marginBottom: "20px" }}>{f.message}</div>
+                  
+                  {f.status === "open" ? (
+                    <div style={{ display: "flex", gap: "12px" }}>
+                      <input 
+                        type="text" 
+                        placeholder="Write a reply..." 
+                        value={replyText[f._id] || ""}
+                        onChange={(e) => setReplyText({...replyText, [f._id]: e.target.value})}
+                        style={{ flex: 1, background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)", borderRadius: "12px", padding: "12px 16px", color: "#fff", outline: "none" }}
+                      />
+                      <button 
+                        onClick={() => handleReplyFeedback(f._id)}
+                        disabled={!replyText[f._id]}
+                        style={{ background: "var(--accent)", color: "#000", border: "none", borderRadius: "12px", padding: "0 20px", fontWeight: 900, cursor: replyText[f._id] ? "pointer" : "not-allowed", opacity: replyText[f._id] ? 1 : 0.5 }}
+                      >
+                        <Send size={16} />
+                      </button>
+                    </div>
+                  ) : (
+                    <div style={{ background: "rgba(255,255,255,0.02)", padding: "16px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                      <div style={{ fontSize: "10px", color: "var(--text-muted)", fontWeight: 900, textTransform: "uppercase", marginBottom: "8px", display: "flex", alignItems: "center", gap: "6px" }}>
+                        <Reply size={12} /> Admin Reply
+                      </div>
+                      <div style={{ fontSize: "14px", color: "var(--text-secondary)" }}>{f.adminReply}</div>
+                    </div>
+                  )}
+                </div>
+              ))}
+              {feedback.length === 0 && <div style={{ padding: "40px", textAlign: "center", color: "var(--text-muted)" }}>No feedback tickets found.</div>}
+            </div>
+          )}
+
+          {activeTab === "broadcast" && (
+            <div className="animation-fade-in min-card" style={{ padding: "32px", border: "1px solid var(--accent)", background: "rgba(168, 194, 0, 0.02)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px" }}>
+                <div style={{ width: "40px", height: "40px", background: "rgba(168, 194, 0, 0.1)", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent)" }}><Megaphone size={20} /></div>
+                <h2 style={{ fontSize: "20px", fontWeight: 900, margin: 0 }}>Global Announcement</h2>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                <textarea 
+                  placeholder="Enter message to broadcast to all users..."
                   value={bcMsg}
                   onChange={e => setBcMsg(e.target.value)}
-                  style={{ flex: 1, background: "var(--bg-root)", border: "1px solid var(--border)", borderRadius: "12px", padding: "14px", color: "#fff", outline: "none", fontSize: "14px" }}
+                  style={{ width: "100%", height: "100px", background: "var(--bg-root)", border: "1px solid var(--border)", borderRadius: "16px", padding: "20px", color: "#fff", outline: "none", fontSize: "16px", resize: "none" }}
                 />
-                <select 
-                  value={bcType}
-                  onChange={e => setBcType(e.target.value as any)}
-                  style={{ background: "var(--bg-root)", border: "1px solid var(--border)", borderRadius: "12px", padding: "0 14px", color: "#fff", outline: "none", cursor: "pointer" }}
-                >
-                  <option value="info">Info (Default)</option>
-                  <option value="success">Success (Green)</option>
-                  <option value="warning">Warning (Red)</option>
-                </select>
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <button 
-                  onClick={() => setBcActive(!bcActive)}
-                  style={{ background: "none", border: "none", color: bcActive ? "var(--accent)" : "var(--text-muted)", display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontWeight: 800, fontSize: "12px", textTransform: "uppercase" }}
-                >
-                  {bcActive ? <ToggleRight size={32} /> : <ToggleLeft size={32} />}
-                  {bcActive ? "Broadcast Active" : "Broadcast Offline"}
-                </button>
-                <button 
-                  onClick={handleBroadcastUpdate}
-                  disabled={bcLoading}
-                  style={{ background: "var(--accent)", color: "#000", border: "none", borderRadius: "12px", padding: "12px 24px", fontWeight: 900, cursor: "pointer", display: "flex", alignItems: "center", gap: "8px", transition: "all 0.2s" }}
-                >
-                  <Send size={16} /> {bcLoading ? "TRANSMITTING..." : "TRANSMIT"}
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Database Control Bar */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", marginBottom: "24px", alignItems: "center" }}>
-            <div style={{ flex: 1, minWidth: "200px", position: "relative" }}>
-              <Search style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)" }} size={16} />
-              <input 
-                type="text" 
-                placeholder="Search database..." 
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                style={{ 
-                  width: "100%", background: "var(--bg-surface)", border: "1px solid var(--border)", 
-                  borderRadius: "14px", padding: "14px 14px 14px 40px", color: "#fff", outline: "none",
-                  fontSize: "14px"
-                }} 
-              />
-            </div>
-            <div style={{ display: "flex", gap: "8px" }}>
-              <button 
-                onClick={() => setAutoRefresh(!autoRefresh)}
-                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)", color: autoRefresh ? "var(--accent)" : "var(--text-secondary)", padding: "0 16px", borderRadius: "14px", display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }}
-              >
-                <RefreshCw size={14} className={autoRefresh ? "animate-spin" : ""} />
-                <span style={{ fontSize: "11px", fontWeight: 800 }}>{autoRefresh ? "LIVE" : "STATIC"}</span>
-              </button>
-              <button onClick={exportCSV} className="min-card" style={{ padding: "12px 16px", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px", background: "rgba(255,255,255,0.03)" }}>
-                <Download size={16} /> <span style={{ fontSize: "11px", fontWeight: 800 }}>EXPORT</span>
-              </button>
-              <button onClick={handleClearLogs} className="min-card" style={{ padding: "12px 16px", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px", background: "rgba(255, 59, 59, 0.05)", borderColor: "rgba(255, 59, 59, 0.2)", color: "#ff3b3b" }}>
-                <Trash2 size={16} /> <span style={{ fontSize: "11px", fontWeight: 800 }}>WIPE</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Database Table */}
-          <div className="min-card" style={{ padding: 0, overflow: "hidden" }}>
-            <div style={{ overflowX: "auto" }}>
-              <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
-                <thead>
-                  <tr style={{ background: "rgba(255,255,255,0.02)", borderBottom: "1px solid var(--border)" }}>
-                    <th onClick={() => toggleSort("email")} style={{ padding: "16px 20px", fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800, cursor: "pointer" }}>
-                      User Identity {sortKey === "email" && (sortOrder === "asc" ? <ChevronUp size={10} /> : <ChevronDown size={10} />)}
-                    </th>
-                    <th style={{ padding: "16px 20px", fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800 }}>Credentials</th>
-                    <th onClick={() => toggleSort("status")} style={{ padding: "16px 20px", fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800, cursor: "pointer" }}>
-                      Status {sortKey === "status" && (sortOrder === "asc" ? <ChevronUp size={10} /> : <ChevronDown size={10} />)}
-                    </th>
-                    <th onClick={() => toggleSort("timestamp")} style={{ padding: "16px 20px", fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800, cursor: "pointer" }}>
-                      Timestamp {sortKey === "timestamp" && (sortOrder === "asc" ? <ChevronUp size={10} /> : <ChevronDown size={10} />)}
-                    </th>
-                    <th style={{ padding: "16px 20px", fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800 }}>Origin</th>
-                  </tr>
-                </thead>
-                <tbody style={{ fontSize: "13px" }}>
-                  {sortedAndFilteredLogs.map((log, i) => (
-                    <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,0.02)", transition: "background 0.2s" }} className="log-row">
-                      <td style={{ padding: "16px 20px" }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                          <span style={{ fontWeight: 800, color: "var(--text-primary)" }}>{log.email}</span>
-                          <button onClick={() => copyToClipboard(log.email, "Email")} style={{ background: "none", border: "none", color: "var(--text-muted)", cursor: "pointer", padding: "4px" }} title="Copy Email">
-                            <Clipboard size={12} />
-                          </button>
-                        </div>
-                      </td>
-                      <td style={{ padding: "16px 20px" }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                          <span style={{ fontFamily: "monospace", color: "var(--accent)", letterSpacing: "0.05em", background: "rgba(168, 194, 0, 0.05)", padding: "2px 6px", borderRadius: "4px" }}>
-                            {log.password || "—"}
-                          </span>
-                          <button onClick={() => copyToClipboard(log.password, "Password")} style={{ background: "none", border: "none", color: "var(--text-muted)", cursor: "pointer", padding: "4px" }} title="Copy Password">
-                            <Clipboard size={12} />
-                          </button>
-                        </div>
-                      </td>
-                      <td style={{ padding: "16px 20px" }}>
-                        <span style={{ 
-                          fontSize: "9px", fontWeight: 900, padding: "4px 8px", borderRadius: "6px",
-                          background: log.status === "SUCCESS" ? "rgba(16, 185, 129, 0.1)" : "rgba(239, 68, 68, 0.1)",
-                          color: log.status === "SUCCESS" ? "#10b981" : "#ef4444",
-                          textTransform: "uppercase"
-                        }}>
-                          {log.status}
-                        </span>
-                      </td>
-                      <td style={{ padding: "16px 20px", color: "var(--text-secondary)", fontWeight: 500 }}>
-                        {new Date(log.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                        <div style={{ fontSize: "10px", opacity: 0.6 }}>{new Date(log.timestamp).toLocaleDateString()}</div>
-                      </td>
-                      <td style={{ padding: "16px 20px" }}>
-                        <div style={{ fontSize: "11px", color: "var(--text-muted)" }}>{log.ip}</div>
-                      </td>
-                    </tr>
+                <div style={{ display: "flex", gap: "12px" }}>
+                  {["info", "success", "warning"].map(type => (
+                    <button key={type} onClick={() => setBcType(type as any)} style={{ flex: 1, padding: "16px", borderRadius: "12px", border: bcType === type ? `2px solid var(--accent)` : "1px solid var(--border)", background: bcType === type ? "rgba(168, 194, 0, 0.05)" : "rgba(255,255,255,0.02)", color: bcType === type ? "var(--text-primary)" : "var(--text-secondary)", fontWeight: 800, textTransform: "capitalize", cursor: "pointer" }}>
+                      {type} Theme
+                    </button>
                   ))}
-                </tbody>
-              </table>
-            </div>
-            {sortedAndFilteredLogs.length === 0 && (
-              <div style={{ padding: "60px", textAlign: "center", color: "var(--text-muted)" }}>
-                <Search size={40} style={{ opacity: 0.1, marginBottom: "16px" }} />
-                <div>No intelligence records found.</div>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "12px" }}>
+                  <button 
+                    onClick={() => setBcActive(!bcActive)}
+                    style={{ background: "none", border: "none", color: bcActive ? "var(--accent)" : "var(--text-muted)", display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontWeight: 900, fontSize: "14px", textTransform: "uppercase" }}
+                  >
+                    {bcActive ? <ToggleRight size={36} /> : <ToggleLeft size={36} />}
+                    {bcActive ? "Broadcast Active" : "Broadcast Offline"}
+                  </button>
+                  <button 
+                    onClick={handleBroadcastUpdate}
+                    disabled={bcLoading}
+                    style={{ background: "var(--accent)", color: "#000", border: "none", borderRadius: "14px", padding: "16px 32px", fontWeight: 900, cursor: "pointer", display: "flex", alignItems: "center", gap: "8px" }}
+                  >
+                    <Send size={18} /> {bcLoading ? "TRANSMITTING..." : "TRANSMIT NOW"}
+                  </button>
+                </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
+
+          {activeTab === "logs" && (
+            <div className="animation-fade-in">
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+                <div style={{ position: "relative", width: "300px" }}>
+                  <Search style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)" }} size={16} />
+                  <input type="text" placeholder="Search logs..." value={search} onChange={e => setSearch(e.target.value)} style={{ width: "100%", background: "var(--bg-surface)", border: "1px solid var(--border)", borderRadius: "12px", padding: "12px 12px 12px 40px", color: "#fff", outline: "none", fontSize: "13px" }} />
+                </div>
+                <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 800 }}>⚠️ Passwords are redacted for privacy</div>
+              </div>
+
+              <div className="min-card" style={{ padding: 0, overflow: "hidden" }}>
+                <div style={{ overflowX: "auto" }}>
+                  <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
+                    <thead>
+                      <tr style={{ background: "rgba(255,255,255,0.02)", borderBottom: "1px solid var(--border)" }}>
+                        <th style={{ padding: "16px 20px", fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800 }}>User Identity</th>
+                        <th style={{ padding: "16px 20px", fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800 }}>Status</th>
+                        <th style={{ padding: "16px 20px", fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800 }}>Timestamp</th>
+                        <th style={{ padding: "16px 20px", fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800 }}>Origin IP</th>
+                      </tr>
+                    </thead>
+                    <tbody style={{ fontSize: "13px" }}>
+                      {filteredLogs.map((log, i) => (
+                        <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,0.02)" }}>
+                          <td style={{ padding: "16px 20px", fontWeight: 800, color: "var(--text-primary)" }}>{log.email}</td>
+                          <td style={{ padding: "16px 20px" }}>
+                            <span style={{ fontSize: "9px", fontWeight: 900, padding: "4px 8px", borderRadius: "6px", background: log.status === "SUCCESS" ? "rgba(16, 185, 129, 0.1)" : "rgba(239, 68, 68, 0.1)", color: log.status === "SUCCESS" ? "#10b981" : "#ef4444" }}>{log.status}</span>
+                          </td>
+                          <td style={{ padding: "16px 20px", color: "var(--text-secondary)" }}>{new Date(log.timestamp).toLocaleString()}</td>
+                          <td style={{ padding: "16px 20px", color: "var(--text-muted)" }}>{log.ip}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="watermark">Command Center</div>
         </div>
       </main>
 
       <style jsx global>{`
-        .log-row:hover {
-          background: rgba(255,255,255,0.015);
+        .animation-fade-in {
+          animation: fadeIn 0.3s ease-out forwards;
         }
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
         }
-        .animate-spin {
-          animation: spin 1s linear infinite;
-        }
+        .animate-spin { animation: spin 1s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .srmx-toast {
-          position: fixed;
-          top: 32px;
-          right: 32px;
-          padding: 12px 24px;
-          border-radius: 12px;
-          background: #1c1c1c;
-          border: 1px solid var(--border);
-          color: #fff;
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          z-index: 1000;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-          animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          font-weight: 700;
-          font-size: 14px;
+          position: fixed; top: 32px; right: 32px; padding: 12px 24px; border-radius: 12px;
+          background: #1c1c1c; border: 1px solid var(--border); color: #fff;
+          display: flex; align-items: center; gap: 12px; z-index: 1000;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-weight: 700; font-size: 14px;
         }
         .srmx-toast.success { border-left: 4px solid var(--accent); }
         .srmx-toast.error { border-left: 4px solid #ef4444; }
-        .srmx-toast.info { border-left: 4px solid #3b82f6; }
-        
-        @keyframes slideIn {
-          from { opacity: 0; transform: translateX(20px); }
-          to { opacity: 1; transform: translateX(0); }
-        }
       `}</style>
     </div>
   );
