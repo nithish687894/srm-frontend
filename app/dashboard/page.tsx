@@ -96,7 +96,7 @@ function MiniGridTile({ slot }: { slot: any }) {
   const isActive = isNowIn(slot.startTime, slot.endTime);
   const isNso = slot.courseCode.includes("NSO") || slot.courseType.toLowerCase().includes("practical");
   return (
-    <motion.div 
+    <motion.div
       whileTap={{ scale: 0.96 }}
       style={{ background: isNso ? "#0d1a2a" : "#1c1c1c", borderRadius: "16px", height: "88px", padding: "8px 10px", display: "flex", flexDirection: "column", justifyContent: "space-between", border: isActive ? "1.5px solid #a8c200" : "none", cursor: 'pointer' }}>
       <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
@@ -278,11 +278,11 @@ export default function DashboardPage() {
             return (
               <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "8px", marginBottom: "32px" }}>
                 {stats.map((s, i) => (
-                  <motion.div 
-                    key={i} 
+                  <motion.div
+                    key={i}
                     whileTap={s.href ? { scale: 0.94 } : {}}
-                    className="min-card" 
-                    onClick={s.href ? () => router.push(s.href) : undefined} 
+                    className="min-card"
+                    onClick={s.href ? () => router.push(s.href) : undefined}
                     style={{ padding: "16px 12px", textAlign: "center", border: "none", cursor: s.href ? "pointer" : "default" }}
                   >
                     <div style={{ fontSize: "20px", fontWeight: "bold", color: s.color, marginBottom: "4px" }}>{s.value}</div>
@@ -397,7 +397,7 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
   const profile = data?.profile || {};
   const regNo = profile["Registration Number"] || "UNKNOWN";
   const batch = profile["Combo / Batch"] || "N/A";
-  
+
   const firstStart = targetClasses[0] ? fmtTimeOnly(targetClasses[0].startTime) : "";
   const lastEnd = targetClasses[targetClasses.length - 1] ? fmtTimeOnly(targetClasses[targetClasses.length - 1].endTime) : "";
 
@@ -408,109 +408,109 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
     <div style={{ background: "#000000", minHeight: "100vh", paddingBottom: "120px", color: "#ffffff", fontFamily: "'Inter', sans-serif" }}>
       <Sidebar />
       <main style={{ padding: "16px 20px 20px" }}>
-        
+
         {/* System Status / Profile Intro */}
         <div style={{ marginTop: "12px", marginBottom: "36px" }}>
-           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "18px" }}>
-              <div>
-                 <div style={{ fontSize: "10px", color: "#a8c200", letterSpacing: "0.2em", fontWeight: 900, marginBottom: "4px" }}>SYSTEM INITIALIZED</div>
-                 <div style={{ fontSize: "36px", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 1 }}>{firstName.toUpperCase()}</div>
-                 <div style={{ fontSize: "11px", color: "#666", fontWeight: 800, marginTop: "6px" }}>ID: {regNo} • {batch}</div>
-              </div>
-              <div style={{ width: "48px", height: "48px", borderRadius: "14px", background: "#1c1c1c", border: "1px solid #333", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px", fontWeight: 900 }}>
-                 {initials}
-              </div>
-           </div>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "18px" }}>
+            <div>
+              <div style={{ fontSize: "10px", color: "#a8c200", letterSpacing: "0.2em", fontWeight: 900, marginBottom: "4px" }}>SYSTEM INITIALIZED</div>
+              <div style={{ fontSize: "36px", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 1 }}>{firstName.toUpperCase()}</div>
+              <div style={{ fontSize: "11px", color: "#666", fontWeight: 800, marginTop: "6px" }}>ID: {regNo} • {batch}</div>
+            </div>
+            <div style={{ width: "48px", height: "48px", borderRadius: "14px", background: "#1c1c1c", border: "1px solid #333", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px", fontWeight: 900 }}>
+              {initials}
+            </div>
+          </div>
         </div>
 
         {/* Hero Performance Metrics */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "12px", marginBottom: "32px" }}>
-           <motion.div whileTap={{ scale: 0.94 }} onClick={() => router.push("/attendance")} style={{ background: "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", cursor: "pointer" }}>
-              <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Attnd</div>
-              <div style={{ fontSize: "24px", fontWeight: 900, color: "#a8c200" }}>{avgAtt}%</div>
-           </motion.div>
-           <motion.div whileTap={{ scale: 0.94 }} onClick={() => router.push("/marks")} style={{ background: "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", cursor: "pointer" }}>
-              <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Marks</div>
-              <div style={{ fontSize: "24px", fontWeight: 900 }}>{avgMarks}%</div>
-           </motion.div>
-           <motion.div whileTap={{ scale: 0.94 }} onClick={() => router.push("/attendance?risk=1")} style={{ background: riskCount > 0 ? "#221111" : "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", border: riskCount > 0 ? "1px solid #ff3b3b" : "none", cursor: "pointer" }}>
-              <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Risk</div>
-              <div style={{ fontSize: "24px", fontWeight: 900, color: riskCount > 0 ? "#ff3b3b" : "#fff" }}>{riskCount}</div>
-           </motion.div>
+          <motion.div whileTap={{ scale: 0.94 }} onClick={() => router.push("/attendance")} style={{ background: "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", cursor: "pointer" }}>
+            <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Attnd</div>
+            <div style={{ fontSize: "24px", fontWeight: 900, color: "#a8c200" }}>{avgAtt}%</div>
+          </motion.div>
+          <motion.div whileTap={{ scale: 0.94 }} onClick={() => router.push("/marks")} style={{ background: "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", cursor: "pointer" }}>
+            <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Marks</div>
+            <div style={{ fontSize: "24px", fontWeight: 900 }}>{avgMarks}%</div>
+          </motion.div>
+          <motion.div whileTap={{ scale: 0.94 }} onClick={() => router.push("/attendance?risk=1")} style={{ background: riskCount > 0 ? "#221111" : "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", border: riskCount > 0 ? "1px solid #ff3b3b" : "none", cursor: "pointer" }}>
+            <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Risk</div>
+            <div style={{ fontSize: "24px", fontWeight: 900, color: riskCount > 0 ? "#ff3b3b" : "#fff" }}>{riskCount}</div>
+          </motion.div>
         </div>
 
         {/* Highlights / Best Section */}
         {bestAtt && (
           <div style={{ background: "#1c1c1c", borderRadius: "28px", padding: "24px", marginBottom: "40px", border: "1px solid #333" }}>
-             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-                <div style={{ fontSize: "10px", color: "#a8c200", letterSpacing: "0.15em", fontWeight: 900 }}>ACADEMIC PEAK</div>
-                <div style={{ background: "#a8c200", color: "#000", fontSize: "10px", fontWeight: 900, padding: "4px 10px", borderRadius: "8px" }}>TOP TIER</div>
-             </div>
-             <div style={{ fontSize: "22px", fontWeight: 900, lineHeight: 1.2, marginBottom: "8px" }}>{bestAtt["Course Title"]}</div>
-             <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
-                <div style={{ fontSize: "32px", fontWeight: 900, color: "#a8c200" }}>{bestAtt["Attn %"]}%</div>
-                <div style={{ fontSize: "12px", color: "#666", fontWeight: 800 }}>ATTENDANCE RECORD</div>
-             </div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+              <div style={{ fontSize: "10px", color: "#a8c200", letterSpacing: "0.15em", fontWeight: 900 }}>ACADEMIC PEAK</div>
+              <div style={{ background: "#a8c200", color: "#000", fontSize: "10px", fontWeight: 900, padding: "4px 10px", borderRadius: "8px" }}>TOP TIER</div>
+            </div>
+            <div style={{ fontSize: "22px", fontWeight: 900, lineHeight: 1.2, marginBottom: "8px" }}>{bestAtt["Course Title"]}</div>
+            <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
+              <div style={{ fontSize: "32px", fontWeight: 900, color: "#a8c200" }}>{bestAtt["Attn %"]}%</div>
+              <div style={{ fontSize: "12px", color: "#666", fontWeight: 800 }}>ATTENDANCE RECORD</div>
+            </div>
           </div>
         )}
 
         {/* Date Selector / Schedule Header */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "26px" }}>
-           <div style={{ display: "flex", gap: "16px" }}>
-              <button onClick={() => setDayOffset((o: any) => o - 1)} style={{ background: "#1c1c1c", border: "1px solid #333", color: "#fff", width: "44px", height: "44px", borderRadius: "14px", fontSize: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>‹</button>
-              <button onClick={() => setDayOffset((o: any) => o + 1)} style={{ background: "#1c1c1c", border: "1px solid #333", color: "#fff", width: "44px", height: "44px", borderRadius: "14px", fontSize: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>›</button>
-           </div>
-           <div style={{ textAlign: "right" }}>
-              <div style={{ fontSize: "10px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800 }}>{dayOffset === 0 ? "TODAY" : "SCHEDULE"}</div>
-              <div style={{ fontSize: "14px", fontWeight: 700 }}>Day Order {dayOrder || "—"}</div>
-           </div>
+          <div style={{ display: "flex", gap: "16px" }}>
+            <button onClick={() => setDayOffset((o: any) => o - 1)} style={{ background: "#1c1c1c", border: "1px solid #333", color: "#fff", width: "44px", height: "44px", borderRadius: "14px", fontSize: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>‹</button>
+            <button onClick={() => setDayOffset((o: any) => o + 1)} style={{ background: "#1c1c1c", border: "1px solid #333", color: "#fff", width: "44px", height: "44px", borderRadius: "14px", fontSize: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>›</button>
+          </div>
+          <div style={{ textAlign: "right" }}>
+            <div style={{ fontSize: "10px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800 }}>{dayOffset === 0 ? "TODAY" : "SCHEDULE"}</div>
+            <div style={{ fontSize: "14px", fontWeight: 700 }}>Day Order {dayOrder || "—"}</div>
+          </div>
         </div>
 
         {/* Timeline Classes */}
         <div style={{ position: "relative", paddingLeft: "12px" }}>
-           <div style={{ position: "absolute", left: "0", top: "10px", bottom: "10px", width: "1px", background: "#333" }} />
+          <div style={{ position: "absolute", left: "0", top: "10px", bottom: "10px", width: "1px", background: "#333" }} />
 
-           <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-              {targetClasses.length === 0 ? (
-                <div style={{ padding: "40px 0", color: "#444", fontWeight: 700, textAlign: "center" }}>No classes scheduled for this period</div>
-              ) : targetClasses.map((cls: any, i: number) => {
-                const isActive = isNowIn(cls.startTime, cls.endTime);
-                return (
-                  <div key={i} style={{ position: "relative", paddingLeft: "28px" }}>
-                    <div style={{ 
-                      position: "absolute", left: "-4px", top: "14px", width: "9px", height: "9px", borderRadius: "50%", 
-                      background: isActive ? "#a8c200" : "#fff",
-                      boxShadow: isActive ? "0 0 15px #a8c200" : "none"
-                    }} />
+          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+            {targetClasses.length === 0 ? (
+              <div style={{ padding: "40px 0", color: "#444", fontWeight: 700, textAlign: "center" }}>No classes scheduled for this period</div>
+            ) : targetClasses.map((cls: any, i: number) => {
+              const isActive = isNowIn(cls.startTime, cls.endTime);
+              return (
+                <div key={i} style={{ position: "relative", paddingLeft: "28px" }}>
+                  <div style={{
+                    position: "absolute", left: "-4px", top: "14px", width: "9px", height: "9px", borderRadius: "50%",
+                    background: isActive ? "#a8c200" : "#fff",
+                    boxShadow: isActive ? "0 0 15px #a8c200" : "none"
+                  }} />
 
-                    <div onClick={() => router.push("/timetable")} style={{ 
-                      background: "#1c1c1c", borderRadius: "28px", padding: "24px", cursor: "pointer",
-                      border: isActive ? "1px solid #a8c200" : "1px solid transparent",
-                    }}>
-                       <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#666", fontSize: "11px", fontWeight: 900, marginBottom: "16px", textTransform: "uppercase" }}>
-                          {fmtTimeOnly(cls.startTime)} — {fmtTimeOnly(cls.endTime)}
-                       </div>
-                       
-                       <div style={{ fontSize: "clamp(20px, 6.2vw, 24px)", fontWeight: 900, lineHeight: 1.2, marginBottom: "6px", textTransform: "capitalize", letterSpacing: "-0.01em" }}>
-                          {cls.courseTitle.toLowerCase()}
-                       </div>
-                       <div style={{ fontSize: "11px", color: "#666", fontWeight: 800, marginBottom: "20px" }}>
-                          {cls.courseCode}
-                       </div>
+                  <div onClick={() => router.push("/timetable")} style={{
+                    background: "#1c1c1c", borderRadius: "28px", padding: "24px", cursor: "pointer",
+                    border: isActive ? "1px solid #a8c200" : "1px solid transparent",
+                  }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#666", fontSize: "11px", fontWeight: 900, marginBottom: "16px", textTransform: "uppercase" }}>
+                      {fmtTimeOnly(cls.startTime)} — {fmtTimeOnly(cls.endTime)}
+                    </div>
 
-                       <div style={{ display: "flex", gap: "20px" }}>
-                          <div style={{ fontSize: "12px", fontWeight: 800, color: "#888" }}>
-                             <span style={{ color: "#ff3b3b" }}>📍</span> {cls.roomNo || "TBA"}
-                          </div>
-                          <div style={{ fontSize: "12px", fontWeight: 800, color: "#888" }}>
-                             <span style={{ color: "#007aff" }}>👤</span> {cls.facultyName?.split(" ")[0] || "TBA"}
-                          </div>
-                       </div>
+                    <div style={{ fontSize: "clamp(20px, 6.2vw, 24px)", fontWeight: 900, lineHeight: 1.2, marginBottom: "6px", textTransform: "capitalize", letterSpacing: "-0.01em" }}>
+                      {cls.courseTitle.toLowerCase()}
+                    </div>
+                    <div style={{ fontSize: "11px", color: "#666", fontWeight: 800, marginBottom: "20px" }}>
+                      {cls.courseCode}
+                    </div>
+
+                    <div style={{ display: "flex", gap: "20px" }}>
+                      <div style={{ fontSize: "12px", fontWeight: 800, color: "#888" }}>
+                        <span style={{ color: "#ff3b3b" }}>📍</span> {cls.roomNo || "TBA"}
+                      </div>
+                      <div style={{ fontSize: "12px", fontWeight: 800, color: "#888" }}>
+                        <span style={{ color: "#007aff" }}>👤</span> {cls.facultyName?.split(" ")[0] || "TBA"}
+                      </div>
                     </div>
                   </div>
-                );
-              })}
-           </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         <div className="watermark" style={{ bottom: "140px" }}>Dashboard</div>
