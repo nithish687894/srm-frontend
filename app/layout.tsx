@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     title: "SRM Nexus — The Ultimate SRM Academia Student Portal",
     description: "The definitive student portal for SRM University. Track attendance, marks, and timetable with SRM Nexus.",
   },
-  manifest: "/site.webmanifest?v=2",
+  manifest: "/site.webmanifest?v=3",
   appleWebApp: {
     capable: true,
     title: "SRM Nexus",
