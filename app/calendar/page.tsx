@@ -201,6 +201,63 @@ export default function CalendarPage() {
             </div>
           )}
 
+          {/* Events List Section */}
+          {current && (
+            <div style={{ marginTop: "40px", animation: "slideUp 0.4s ease-out forwards" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
+                <div style={{ fontSize: "12px", fontWeight: 800, color: isCosmos ? "#9EC5FF" : "#a8c200", textTransform: "uppercase", letterSpacing: "0.15em" }}>
+                  {current.name} — Events
+                </div>
+                <div style={{ display: "flex", background: isCosmos ? "rgba(255,255,255,0.05)" : "#1c1c1c", borderRadius: "12px", padding: "4px", border: isCosmos ? "1px solid rgba(255,255,255,0.08)" : "1px solid #333" }}>
+                   <div style={{ padding: "6px 16px", borderRadius: "8px", background: isCosmos ? "rgba(26,117,255,0.2)" : "#333", fontSize: "11px", fontWeight: 800, color: isCosmos ? "#8FD3FF" : "#fff" }}>Events</div>
+                   <div style={{ padding: "6px 16px", borderRadius: "8px", fontSize: "11px", fontWeight: 800, color: "#666" }}>Tasks</div>
+                </div>
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                {current.days.filter((d: any) => d.isHoliday || d.event).length === 0 ? (
+                  <div style={{ padding: "40px", textAlign: "center", background: "rgba(255,255,255,0.02)", borderRadius: "20px", border: "1px dashed rgba(255,255,255,0.1)", color: "#666", fontSize: "13px" }}>
+                    No significant events recorded for this month.
+                  </div>
+                ) : (
+                  current.days.filter((d: any) => d.isHoliday || d.event).map((d: any, idx: number) => {
+                    const isHoliday = d.isHoliday;
+                    const dateObj = new Date(d.isoDate);
+                    const dayStr = dateObj.toLocaleDateString("en-US", { weekday: "short" });
+                    
+                    return (
+                      <div key={idx} style={{ 
+                        background: isCosmos ? "rgba(255,255,255,0.03)" : "#1c1c1c", 
+                        borderRadius: "20px", padding: "16px", 
+                        display: "flex", alignItems: "center", gap: "20px",
+                        borderLeft: isHoliday ? `4px solid ${isCosmos ? "#F97316" : "#ff3b3b"}` : "4px solid transparent",
+                        border: isCosmos ? "1px solid rgba(255,255,255,0.05)" : "none",
+                        transition: "transform 0.2s"
+                      }}>
+                        <div style={{ 
+                          width: "44px", height: "44px", borderRadius: "14px", 
+                          background: isHoliday ? (isCosmos ? "rgba(249,115,22,0.1)" : "rgba(255,59,59,0.1)") : "rgba(255,255,255,0.05)",
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                          fontSize: "18px", fontWeight: 900, color: isHoliday ? (isCosmos ? "#F97316" : "#ff3b3b") : "#fff"
+                        }}>
+                          {d.dateNum}
+                        </div>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: "15px", fontWeight: 800, color: "#fff", marginBottom: "4px" }}>
+                            {d.event || (dayStr === "Sun" ? "Sunday / Weekly Off" : "Holiday")}
+                          </div>
+                          <div style={{ fontSize: "12px", color: "#666", fontWeight: 700 }}>
+                            {dayStr} • {isHoliday ? "No Class" : `Day Order ${d.dayOrder}`}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+          )}
+
           <div className="watermark">Calendar</div>
         </div>
       </main>
