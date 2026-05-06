@@ -566,49 +566,89 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
            <div style={{ position: "absolute", left: "0", top: "10px", bottom: "10px", width: "1px", background: "#333" }} />
 
            <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-              {classes.length === 0 ? (
-                <div style={{ padding: "40px 0", color: "#444", fontWeight: 700, textAlign: "center" }}>No classes for Day {dayOverride}</div>
-              ) : classes.map((cls: any, i: number) => {
-                const isActive = currentMin >= parseStart(cls.startTime) && currentMin <= parseEnd(cls.endTime);
-                return (
-                  <div key={i} style={{ position: "relative", paddingLeft: "28px" }}>
-                    {/* Timeline Dot */}
-                    <div style={{ 
-                      position: "absolute", left: "-4px", top: "14px", width: "9px", height: "9px", borderRadius: "50%", 
-                      background: isActive ? "#a8c200" : "#fff",
-                      boxShadow: isActive ? "0 0 15px #a8c200" : "none"
-                    }} />
+               {classes.length === 0 ? (
+                 <div style={{ padding: "40px 0", color: "#444", fontWeight: 700, textAlign: "center" }}>No classes for Day {dayOverride}</div>
+               ) : (
+                 <>
+                   {/* Lead-in Free Periods */}
+                   {(() => {
+                     const firstStart = parseStart(classes[0].startTime);
+                     if (firstStart > 540) { // Starts after 9:00 AM
+                       const gapMin = firstStart - 480; // From 8:00 AM
+                       const numPeriods = Math.floor(gapMin / 50);
+                       return Array.from({ length: numPeriods }).map((_, pi) => (
+                         <div key={`lead-${pi}`} style={{ position: "relative", paddingLeft: "28px", margin: "12px 0" }}>
+                           <div style={{ position: "absolute", left: "-4px", top: "50%", transform: "translateY(-50%)", width: "9px", height: "9px", borderRadius: "50%", background: "#222", border: "2px solid #000" }} />
+                           <div style={{ height: "2px", width: "100%", borderTop: "2px dashed #222", opacity: 0.5 }} />
+                         </div>
+                       ));
+                     }
+                     return null;
+                   })()}
 
-                    <div style={{ 
-                      background: "#1c1c1c", borderRadius: "28px", padding: "24px",
-                      border: isActive ? "1px solid #a8c200" : "1px solid transparent",
-                      transition: "all 0.3s ease"
-                    }}>
-                       <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#666", fontSize: "12px", fontWeight: 800, marginBottom: "16px" }}>
-                          <span style={{ fontSize: "14px" }}>⏱</span> {fmtTimeOnly(cls.startTime)} — {fmtTimeOnly(cls.endTime)}
-                       </div>
-                       
-                       <div style={{ fontSize: "clamp(22px, 7vw, 28px)", fontWeight: 900, lineHeight: 1.2, marginBottom: "10px", textTransform: "capitalize", letterSpacing: "-0.01em" }}>
-                          {cls.courseTitle.toLowerCase()}
-                       </div>
-                       <div style={{ fontSize: "12px", color: "#666", fontWeight: 700, marginBottom: "20px" }}>
-                          {cls.courseCode}
-                       </div>
+                   {classes.map((cls: any, i: number) => {
+                     const isActive = currentMin >= parseStart(cls.startTime) && currentMin <= parseEnd(cls.endTime);
+                     return (
+                       <div key={i} style={{ position: "relative" }}>
+                         <div style={{ position: "relative", paddingLeft: "28px" }}>
+                           {/* Timeline Dot */}
+                           <div style={{ 
+                             position: "absolute", left: "-4px", top: "14px", width: "9px", height: "9px", borderRadius: "50%", 
+                             background: isActive ? "#a8c200" : "#fff",
+                             boxShadow: isActive ? "0 0 15px #a8c200" : "none"
+                           }} />
 
-                       <div style={{ height: "1px", background: "#2a2a2a", marginBottom: "20px" }} />
+                           <div style={{ 
+                             background: "#1c1c1c", borderRadius: "28px", padding: "24px",
+                             border: isActive ? "1px solid #a8c200" : "1px solid transparent",
+                             transition: "all 0.3s ease"
+                           }}>
+                              <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#666", fontSize: "12px", fontWeight: 800, marginBottom: "16px" }}>
+                                 <span style={{ fontSize: "14px" }}>⏱</span> {fmtTimeOnly(cls.startTime)} — {fmtTimeOnly(cls.endTime)}
+                              </div>
+                              
+                              <div style={{ fontSize: "clamp(22px, 7vw, 28px)", fontWeight: 900, lineHeight: 1.2, marginBottom: "10px", textTransform: "capitalize", letterSpacing: "-0.01em" }}>
+                                 {cls.courseTitle.toLowerCase()}
+                              </div>
+                              <div style={{ fontSize: "12px", color: "#666", fontWeight: 700, marginBottom: "20px" }}>
+                                 {cls.courseCode}
+                              </div>
 
-                       <div style={{ display: "flex", gap: "24px" }}>
-                          <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "13px", fontWeight: 700, color: "#888" }}>
-                             <span style={{ color: "#ff3b3b" }}>📍</span> {cls.roomNo || "TBA"}
-                          </div>
-                          <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "13px", fontWeight: 700, color: "#888" }}>
-                             <span style={{ color: "#007aff" }}>👤</span> {(cls.facultyName || "TBA").split(" ")[0]}
-                          </div>
+                              <div style={{ height: "1px", background: "#2a2a2a", marginBottom: "20px" }} />
+
+                              <div style={{ display: "flex", gap: "24px" }}>
+                                 <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "13px", fontWeight: 700, color: "#888" }}>
+                                    <span style={{ color: "#ff3b3b" }}>📍</span> {cls.roomNo || "TBA"}
+                                 </div>
+                                 <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "13px", fontWeight: 700, color: "#888" }}>
+                                    <span style={{ color: "#007aff" }}>👤</span> {(cls.facultyName || "TBA").split(" ")[0]}
+                                 </div>
+                              </div>
+                           </div>
+                         </div>
+
+                         {/* Gap after this class */}
+                         {(() => {
+                           const next = classes[i + 1];
+                           const curEnd = parseEnd(cls.endTime);
+                           const nextStart = next ? parseStart(next.startTime) : 1020; // 5:00 PM
+                           const gapMin = nextStart - curEnd;
+                           if (gapMin >= 45) {
+                             const numPeriods = Math.floor(gapMin / 50);
+                             return Array.from({ length: numPeriods }).map((_, pi) => (
+                               <div key={`gap-${i}-${pi}`} style={{ position: "relative", paddingLeft: "28px", margin: "24px 0" }}>
+                                 <div style={{ position: "absolute", left: "-4px", top: "50%", transform: "translateY(-50%)", width: "9px", height: "9px", borderRadius: "50%", background: "#222", border: "2px solid #000" }} />
+                                 <div style={{ height: "2px", width: "100%", borderTop: "2px dashed #222", opacity: 0.5 }} />
+                               </div>
+                             ));
+                           }
+                           return null;
+                         })()}
                        </div>
-                    </div>
-                  </div>
-                );
-              })}
+                     );
+                   })}
+                 </>
+               )}
            </div>
         </div>
 
@@ -772,29 +812,47 @@ function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
                 <div style={{ fontSize: "16px", fontWeight: 700, color: "var(--text-secondary)" }}>No classes scheduled for Day {dayOverride}</div>
                 <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "8px" }}>Time to catch up or relax.</div>
               </div>
-            ) : classes.map((cls: any, i: number) => {
-              const startVal = parseStart(cls.startTime);
-              const endVal = parseEnd(cls.endTime);
-              const active = currentMin >= startVal && currentMin <= endVal;
-              const past = currentMin > endVal;
-              
-              return (
-                <div key={i} style={{ position: "relative" }}>
-                  {/* Timeline Dot */}
-                  <div style={{ 
-                    position: "absolute", left: "-24px", top: "12px", width: "10px", height: "10px", borderRadius: "50%",
-                    background: active ? "var(--accent-secondary)" : past ? "var(--text-muted)" : "var(--accent)",
-                    boxShadow: active ? "0 0 15px var(--accent-secondary)" : "none",
-                    border: "2px solid var(--bg-root)", zIndex: 2
-                  }} />
+            ) : (
+              <>
+                {/* Lead-in Free Periods */}
+                {(() => {
+                  const firstStart = parseStart(classes[0].startTime);
+                  if (firstStart > 540) {
+                    const gapMin = firstStart - 480;
+                    const numPeriods = Math.floor(gapMin / 50);
+                    return Array.from({ length: numPeriods }).map((_, pi) => (
+                      <div key={`lead-${pi}`} style={{ position: "relative", margin: "12px 0" }}>
+                        <div style={{ position: "absolute", left: "-24px", top: "50%", transform: "translateY(-50%)", width: "10px", height: "10px", borderRadius: "50%", background: "rgba(255,255,255,0.05)", border: "2px solid var(--bg-root)", zIndex: 2 }} />
+                        <div style={{ height: "2px", width: "100%", borderTop: "2px dashed rgba(255,255,255,0.1)", opacity: 0.5 }} />
+                      </div>
+                    ));
+                  }
+                  return null;
+                })()}
 
-                  <div className="min-card" style={{ 
-                    padding: "20px", 
-                    borderLeft: active ? "4px solid var(--accent-secondary)" : "1px solid rgba(255,255,255,0.05)",
-                    opacity: past ? 0.6 : 1,
-                    transition: "all 0.3s ease"
-                  }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
+                {classes.map((cls: any, i: number) => {
+                  const startVal = parseStart(cls.startTime);
+                  const endVal = parseEnd(cls.endTime);
+                  const active = currentMin >= startVal && currentMin <= endVal;
+                  const past = currentMin > endVal;
+                  
+                  return (
+                    <div key={i} style={{ position: "relative" }}>
+                      {/* Timeline Dot */}
+                      <div style={{ 
+                        position: "absolute", left: "-24px", top: "12px", width: "10px", height: "10px", borderRadius: "50%",
+                        background: active ? "var(--accent-secondary)" : past ? "var(--text-muted)" : "var(--accent)",
+                        boxShadow: active ? "0 0 15px var(--accent-secondary)" : "none",
+                        border: "2px solid var(--bg-root)", zIndex: 2
+                      }} />
+
+                      <div className="min-card" style={{ 
+                        padding: "20px", 
+                        borderLeft: active ? "4px solid var(--accent-secondary)" : "1px solid rgba(255,255,255,0.05)",
+                        opacity: past ? 0.6 : 1,
+                        transition: "all 0.3s ease"
+                      }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
                       <div style={{ flex: 1 }}>
                         <div style={{ fontSize: "11px", color: active ? "var(--accent-secondary)" : "var(--text-secondary)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em" }}>
                           {fmtTimeOnly(cls.startTime)} — {fmtTimeOnly(cls.endTime)}
@@ -819,18 +877,33 @@ function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
                         {cls.courseCode}
                       </div>
                     </div>
+                    {/* Gap after this class */}
+                    {(() => {
+                      const next = classes[i + 1];
+                      const curEnd = parseEnd(cls.endTime);
+                      const nextStart = next ? parseStart(next.startTime) : 1020; // 5:00 PM
+                      const gapMin = nextStart - curEnd;
+                      if (gapMin >= 45) {
+                        const numPeriods = Math.floor(gapMin / 50);
+                        return Array.from({ length: numPeriods }).map((_, pi) => (
+                          <div key={`gap-${i}-${pi}`} style={{ position: "relative", margin: "24px 0" }}>
+                            <div style={{ position: "absolute", left: "-24px", top: "50%", transform: "translateY(-50%)", width: "10px", height: "10px", borderRadius: "50%", background: "rgba(255,255,255,0.05)", border: "2px solid var(--bg-root)", zIndex: 2 }} />
+                            <div style={{ height: "2px", width: "100%", borderTop: "2px dashed rgba(255,255,255,0.1)", opacity: 0.5 }} />
+                          </div>
+                        ));
+                      }
+                      return null;
+                    })()}
                   </div>
                 </div>
               );
             })}
-          </div>
-        </div>
-
-      </main>
+          </>
+        )}
+      </div>
     </div>
   );
 }
 
 function fmtTimeOnly(t: string) { const m = t.match(/(\d+):(\d+)/); if (!m) return t; const h24 = to24(parseInt(m[1])); const suffix = h24 >= 12 ? "p" : "a"; const h12 = h24 > 12 ? h24 - 12 : h24 === 0 ? 12 : h24; return `${h12}:${m[2]}${suffix}`; }
-
 

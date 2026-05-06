@@ -587,46 +587,75 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
         <div style={{ position: "relative", paddingLeft: "12px" }}>
           <div style={{ position: "absolute", left: "0", top: "10px", bottom: "10px", width: "1px", background: "#333" }} />
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+          <div style={{ display: "flex", flexDirection: "column" }}>
             {targetClasses.length === 0 ? (
               <div style={{ padding: "40px 0", color: "#444", fontWeight: 700, textAlign: "center" }}>No classes scheduled for this period</div>
-            ) : targetClasses.map((cls: any, i: number) => {
-              const isActive = isNowIn(cls.startTime, cls.endTime);
-              return (
-                <div key={i} style={{ position: "relative", paddingLeft: "28px" }}>
-                  <div style={{
-                    position: "absolute", left: "-4px", top: "14px", width: "9px", height: "9px", borderRadius: "50%",
-                    background: isActive ? "#a8c200" : "#fff",
-                    boxShadow: isActive ? "0 0 15px #a8c200" : "none"
-                  }} />
-
-                  <div onClick={() => router.push("/timetable")} style={{
-                    background: "#1c1c1c", borderRadius: "28px", padding: "24px", cursor: "pointer",
-                    border: isActive ? "1px solid #a8c200" : "1px solid transparent",
-                  }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#666", fontSize: "11px", fontWeight: 900, marginBottom: "16px", textTransform: "uppercase" }}>
-                      {fmtTimeOnly(cls.startTime)} — {fmtTimeOnly(cls.endTime)}
-                    </div>
-
-                    <div style={{ fontSize: "clamp(20px, 6.2vw, 24px)", fontWeight: 900, lineHeight: 1.2, marginBottom: "6px", textTransform: "capitalize", letterSpacing: "-0.01em" }}>
-                      {cls.courseTitle.toLowerCase()}
-                    </div>
-                    <div style={{ fontSize: "11px", color: "#666", fontWeight: 800, marginBottom: "20px" }}>
-                      {cls.courseCode}
-                    </div>
-
-                    <div style={{ display: "flex", gap: "20px" }}>
-                      <div style={{ fontSize: "12px", fontWeight: 800, color: "#888" }}>
-                        <span style={{ color: "#ff3b3b" }}>📍</span> {cls.roomNo || "TBA"}
+            ) : (
+              <>
+                {/* Lead-in Free Periods */}
+                {(() => {
+                  const firstStartStr = targetClasses[0].startTime;
+                  const firstStart = parseStart(firstStartStr);
+                  if (firstStart > 540) { // Starts after 9:00 AM
+                    const gapMin = firstStart - 480; // From 8:00 AM
+                    const numPeriods = Math.floor(gapMin / 50);
+                    return Array.from({ length: numPeriods }).map((_, pi) => (
+                      <div key={`lead-${pi}`} style={{ position: "relative", paddingLeft: "28px", margin: "12px 0" }}>
+                        <div style={{ position: "absolute", left: "-4px", top: "50%", transform: "translateY(-50%)", width: "9px", height: "9px", borderRadius: "50%", background: "#222", border: "2px solid #000" }} />
+                        <div style={{ height: "2px", width: "100%", borderTop: "2px dashed #222", opacity: 0.5 }} />
                       </div>
-                      <div style={{ fontSize: "12px", fontWeight: 800, color: "#888" }}>
-                        <span style={{ color: "#007aff" }}>👤</span> {cls.facultyName?.split(" ")[0] || "TBA"}
+                    ));
+                  }
+                  return null;
+                })()}
+
+                {targetClasses.map((cls: any, i: number) => {
+                  const isActive = isNowIn(cls.startTime, cls.endTime);
+                  return (
+                    <div key={i} style={{ position: "relative" }}>
+                      <div style={{ position: "relative", paddingLeft: "28px" }}>
+                        <div style={{
+                          position: "absolute", left: "-4px", top: "14px", width: "9px", height: "9px", borderRadius: "50%",
+                          background: isActive ? "#a8c200" : "#fff",
+                          boxShadow: isActive ? "0 0 15px #a8c200" : "none"
+                        }} />
+                        <div 
+                          onClick={() => router.push("/timetable")}
+                          style={{ background: "#1c1c1c", borderRadius: "24px", padding: "20px", cursor: "pointer", border: isActive ? "1px solid #a8c200" : "1px solid transparent" }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "#666", fontSize: "11px", fontWeight: 800, marginBottom: "8px" }}>
+                            {fmtTimeOnly(cls.startTime)} — {fmtTimeOnly(cls.endTime)}
+                          </div>
+                          <div style={{ fontSize: "20px", fontWeight: 900, color: "#fff", lineHeight: 1.1, marginBottom: "4px", textTransform: "capitalize" }}>
+                            {cls.courseTitle.toLowerCase()}
+                          </div>
+                          <div style={{ fontSize: "11px", color: "#666", fontWeight: 700 }}>
+                            {cls.courseCode}
+                          </div>
+                        </div>
                       </div>
+
+                      {/* Gap after this class */}
+                      {(() => {
+                        const next = targetClasses[i + 1];
+                        const curEnd = parseEnd(cls.endTime);
+                        const nextStart = next ? parseStart(next.startTime) : 1020; // 5:00 PM
+                        const gapMin = nextStart - curEnd;
+                        if (gapMin >= 45) {
+                          const numPeriods = Math.floor(gapMin / 50);
+                          return Array.from({ length: numPeriods }).map((_, pi) => (
+                            <div key={`gap-${i}-${pi}`} style={{ position: "relative", paddingLeft: "28px", margin: "24px 0" }}>
+                              <div style={{ position: "absolute", left: "-4px", top: "50%", transform: "translateY(-50%)", width: "9px", height: "9px", borderRadius: "50%", background: "#222", border: "2px solid #000" }} />
+                              <div style={{ height: "2px", width: "100%", borderTop: "2px dashed #222", opacity: 0.5 }} />
+                            </div>
+                          ));
+                        }
+                        return null;
+                      })()}
                     </div>
-                  </div>
-                </div>
-              );
-            })}
+                  );
+                })}
+              </>
+            )}
           </div>
         </div>
 
