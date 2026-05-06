@@ -23,6 +23,19 @@ function parseTimeRange(t: string): { start: string, end: string } {
   return { start: t, end: t };
 }
 
+const PERIODS = [
+  { id: 1, start: "08:00", end: "08:50" },
+  { id: 2, start: "08:50", end: "09:40" },
+  { id: 3, start: "09:45", end: "10:35" },
+  { id: 4, start: "10:40", end: "11:30" },
+  { id: 5, start: "11:35", end: "12:25" },
+  { id: 6, start: "12:30", end: "13:20" },
+  { id: 7, start: "13:25", end: "14:15" },
+  { id: 8, start: "14:20", end: "15:10" },
+  { id: 9, start: "15:10", end: "16:00" },
+  { id: 10, start: "16:00", end: "16:50" },
+];
+
 interface ScheduleItem { slot: string; startTime: string; endTime: string; courseTitle: string; courseCode: string; roomNo: string; facultyName: string; courseType: string; }
 
 function buildSlotToCourseMap(myTT: any[]) {
@@ -587,75 +600,80 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
         <div style={{ position: "relative", paddingLeft: "12px" }}>
           <div style={{ position: "absolute", left: "0", top: "10px", bottom: "10px", width: "1px", background: "#333" }} />
 
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            {targetClasses.length === 0 ? (
-              <div style={{ padding: "40px 0", color: "#444", fontWeight: 700, textAlign: "center" }}>No classes scheduled for this period</div>
-            ) : (
-              <>
-                {/* Lead-in Free Periods */}
-                {(() => {
-                  const firstStartStr = targetClasses[0].startTime;
-                  const firstStart = parseStart(firstStartStr);
-                  if (firstStart > 540) { // Starts after 9:00 AM
-                    const gapMin = firstStart - 480; // From 8:00 AM
-                    const numPeriods = Math.floor(gapMin / 50);
-                    return Array.from({ length: numPeriods }).map((_, pi) => (
-                      <div key={`lead-${pi}`} style={{ position: "relative", paddingLeft: "28px", margin: "12px 0" }}>
-                        <div style={{ position: "absolute", left: "-4px", top: "50%", transform: "translateY(-50%)", width: "9px", height: "9px", borderRadius: "50%", background: "#222", border: "2px solid #000" }} />
-                        <div style={{ height: "2px", width: "100%", borderTop: "2px dashed #222", opacity: 0.5 }} />
-                      </div>
-                    ));
-                  }
-                  return null;
-                })()}
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+            {(() => {
+              if (isHoliday) return <div style={{ padding: "40px 0", color: "#444", fontWeight: 700, textAlign: "center" }}>No classes - Holiday</div>;
+              
+              return PERIODS.map((p, pi) => {
+                const pStart = parseStart(p.start);
+                const pEnd = parseEnd(p.end);
+                const cls = targetClasses.find((c: any) => {
+                  const cs = parseStart(c.startTime);
+                  const ce = parseEnd(c.endTime);
+                  return cs < pEnd && ce > pStart;
+                });
+                
+                const isActive = cls ? isNowIn(cls.startTime, cls.endTime) : (nowMin >= pStart && nowMin < pEnd);
 
-                {targetClasses.map((cls: any, i: number) => {
-                  const isActive = isNowIn(cls.startTime, cls.endTime);
-                  return (
-                    <div key={i} style={{ position: "relative" }}>
-                      <div style={{ position: "relative", paddingLeft: "28px" }}>
-                        <div style={{
-                          position: "absolute", left: "-4px", top: "14px", width: "9px", height: "9px", borderRadius: "50%",
-                          background: isActive ? "#a8c200" : "#fff",
-                          boxShadow: isActive ? "0 0 15px #a8c200" : "none"
+                return (
+                  <div key={pi} style={{ position: "relative", paddingLeft: "32px", marginBottom: "8px" }}>
+                    {/* Period Label */}
+                    <div style={{ 
+                      position: "absolute", left: "-6px", top: "50%", transform: "translateY(-50%)", 
+                      width: "12px", height: "12px", borderRadius: "50%", 
+                      background: isActive ? "#a8c200" : "#222", 
+                      border: "2px solid #000", zIndex: 5,
+                      boxShadow: isActive ? "0 0 10px #a8c200" : "none"
+                    }} />
+                    
+                    <div style={{ 
+                      position: "absolute", left: "-32px", top: "50%", transform: "translateY(-50%)", 
+                      fontSize: "10px", fontWeight: 900, color: isActive ? "#a8c200" : "#444",
+                      width: "20px", textAlign: "right"
+                    }}>
+                      {p.id}
+                    </div>
+
+                    {!cls ? (
+                      /* Free Period */
+                      <div style={{ padding: "12px 0" }}>
+                        <div style={{ 
+                          height: "1px", width: "100%", borderTop: "2px dashed #333", 
+                          opacity: isActive ? 1 : 0.4, borderColor: isActive ? "#a8c200" : "#333" 
                         }} />
-                        <div 
-                          onClick={() => router.push("/timetable")}
-                          style={{ background: "#1c1c1c", borderRadius: "24px", padding: "20px", cursor: "pointer", border: isActive ? "1px solid #a8c200" : "1px solid transparent" }}>
-                          <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "#666", fontSize: "11px", fontWeight: 800, marginBottom: "8px" }}>
-                            {fmtTimeOnly(cls.startTime)} — {fmtTimeOnly(cls.endTime)}
+                      </div>
+                    ) : (
+                      /* Class Card */
+                      <motion.div 
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => router.push("/timetable")}
+                        style={{ 
+                          background: "#121212", borderRadius: "18px", padding: "16px 20px", 
+                          border: isActive ? "1px solid #a8c200" : "1px solid #222",
+                          cursor: "pointer", position: "relative", overflow: "hidden"
+                        }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                          <div style={{ fontSize: "10px", fontWeight: 800, color: "#666", textTransform: "uppercase" }}>
+                            {p.start} — {p.end}
                           </div>
-                          <div style={{ fontSize: "20px", fontWeight: 900, color: "#fff", lineHeight: 1.1, marginBottom: "4px", textTransform: "capitalize" }}>
-                            {cls.courseTitle.toLowerCase()}
-                          </div>
-                          <div style={{ fontSize: "11px", color: "#666", fontWeight: 700 }}>
-                            {cls.courseCode}
+                          <div style={{ fontSize: "10px", fontWeight: 900, color: isActive ? "#a8c200" : "#444" }}>
+                            PERIOD {p.id}
                           </div>
                         </div>
-                      </div>
-
-                      {/* Gap after this class */}
-                      {(() => {
-                        const next = targetClasses[i + 1];
-                        const curEnd = parseEnd(cls.endTime);
-                        const nextStart = next ? parseStart(next.startTime) : 1020; // 5:00 PM
-                        const gapMin = nextStart - curEnd;
-                        if (gapMin >= 45) {
-                          const numPeriods = Math.floor(gapMin / 50);
-                          return Array.from({ length: numPeriods }).map((_, pi) => (
-                            <div key={`gap-${i}-${pi}`} style={{ position: "relative", paddingLeft: "28px", margin: "24px 0" }}>
-                              <div style={{ position: "absolute", left: "-4px", top: "50%", transform: "translateY(-50%)", width: "9px", height: "9px", borderRadius: "50%", background: "#222", border: "2px solid #000" }} />
-                              <div style={{ height: "2px", width: "100%", borderTop: "2px dashed #222", opacity: 0.5 }} />
-                            </div>
-                          ));
-                        }
-                        return null;
-                      })()}
-                    </div>
-                  );
-                })}
-              </>
-            )}
+                        <div style={{ fontSize: "18px", fontWeight: 900, color: "#fff", textTransform: "capitalize", letterSpacing: "-0.01em", marginBottom: "2px" }}>
+                          {cls.courseTitle.toLowerCase()}
+                        </div>
+                        <div style={{ display: "flex", gap: "12px", fontSize: "10px", color: "#666", fontWeight: 800 }}>
+                          <span>{cls.courseCode}</span>
+                          <span>•</span>
+                          <span>{cls.roomNo || "TBA"}</span>
+                        </div>
+                      </motion.div>
+                    )}
+                  </div>
+                );
+              });
+            })()}
           </div>
         </div>
 

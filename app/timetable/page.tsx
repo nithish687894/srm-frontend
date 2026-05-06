@@ -20,6 +20,19 @@ function parseTimeRange(t: string): { start: string, end: string } {
   return { start: t, end: t };
 }
 
+const PERIODS = [
+  { id: 1, start: "08:00", end: "08:50" },
+  { id: 2, start: "08:50", end: "09:40" },
+  { id: 3, start: "09:45", end: "10:35" },
+  { id: 4, start: "10:40", end: "11:30" },
+  { id: 5, start: "11:35", end: "12:25" },
+  { id: 6, start: "12:30", end: "13:20" },
+  { id: 7, start: "13:25", end: "14:15" },
+  { id: 8, start: "14:20", end: "15:10" },
+  { id: 9, start: "15:10", end: "16:00" },
+  { id: 10, start: "16:00", end: "16:50" },
+];
+
 function fmt12(t: string) { 
   const m = t.match(/(\d+):(\d+)/); 
   if (!m) return t; 
@@ -565,90 +578,77 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
            {/* Timeline Line */}
            <div style={{ position: "absolute", left: "0", top: "10px", bottom: "10px", width: "1px", background: "#333" }} />
 
-           <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-               {classes.length === 0 ? (
-                 <div style={{ padding: "40px 0", color: "#444", fontWeight: 700, textAlign: "center" }}>No classes for Day {dayOverride}</div>
-               ) : (
-                 <>
-                   {/* Lead-in Free Periods */}
-                   {(() => {
-                     const firstStart = parseStart(classes[0].startTime);
-                     if (firstStart > 540) { // Starts after 9:00 AM
-                       const gapMin = firstStart - 480; // From 8:00 AM
-                       const numPeriods = Math.floor(gapMin / 50);
-                       return Array.from({ length: numPeriods }).map((_, pi) => (
-                         <div key={`lead-${pi}`} style={{ position: "relative", paddingLeft: "28px", margin: "12px 0" }}>
-                           <div style={{ position: "absolute", left: "-4px", top: "50%", transform: "translateY(-50%)", width: "9px", height: "9px", borderRadius: "50%", background: "#222", border: "2px solid #000" }} />
-                           <div style={{ height: "2px", width: "100%", borderTop: "2px dashed #222", opacity: 0.5 }} />
-                         </div>
-                       ));
-                     }
-                     return null;
-                   })()}
+           <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+               {PERIODS.map((p, pi) => {
+                 const pStart = parseStart(p.start);
+                 const pEnd = parseEnd(p.end);
+                 const cls = classes.find((c: any) => {
+                   const cs = parseStart(c.startTime);
+                   const ce = parseEnd(c.endTime);
+                   return cs < pEnd && ce > pStart;
+                 });
+                 
+                 const isActive = cls ? (currentMin >= parseStart(cls.startTime) && currentMin <= parseEnd(cls.endTime)) : (currentMin >= pStart && currentMin < pEnd);
 
-                   {classes.map((cls: any, i: number) => {
-                     const isActive = currentMin >= parseStart(cls.startTime) && currentMin <= parseEnd(cls.endTime);
-                     return (
-                       <div key={i} style={{ position: "relative" }}>
-                         <div style={{ position: "relative", paddingLeft: "28px" }}>
-                           {/* Timeline Dot */}
-                           <div style={{ 
-                             position: "absolute", left: "-4px", top: "14px", width: "9px", height: "9px", borderRadius: "50%", 
-                             background: isActive ? "#a8c200" : "#fff",
-                             boxShadow: isActive ? "0 0 15px #a8c200" : "none"
-                           }} />
+                 return (
+                   <div key={pi} style={{ position: "relative", paddingLeft: "32px", marginBottom: "8px" }}>
+                     {/* Period Label */}
+                     <div style={{ 
+                       position: "absolute", left: "-6px", top: "50%", transform: "translateY(-50%)", 
+                       width: "12px", height: "12px", borderRadius: "50%", 
+                       background: isActive ? "#a8c200" : "#222", 
+                       border: "2px solid #000", zIndex: 5,
+                       boxShadow: isActive ? "0 0 12px #a8c200" : "none"
+                     }} />
+                     
+                     <div style={{ 
+                       position: "absolute", left: "-32px", top: "50%", transform: "translateY(-50%)", 
+                       fontSize: "11px", fontWeight: 900, color: isActive ? "#a8c200" : "#444",
+                       width: "24px", textAlign: "right"
+                     }}>
+                       {p.id}
+                     </div>
 
-                           <div style={{ 
-                             background: "#1c1c1c", borderRadius: "28px", padding: "24px",
-                             border: isActive ? "1px solid #a8c200" : "1px solid transparent",
-                             transition: "all 0.3s ease"
-                           }}>
-                              <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#666", fontSize: "12px", fontWeight: 800, marginBottom: "16px" }}>
-                                 <span style={{ fontSize: "14px" }}>⏱</span> {fmtTimeOnly(cls.startTime)} — {fmtTimeOnly(cls.endTime)}
-                              </div>
-                              
-                              <div style={{ fontSize: "clamp(22px, 7vw, 28px)", fontWeight: 900, lineHeight: 1.2, marginBottom: "10px", textTransform: "capitalize", letterSpacing: "-0.01em" }}>
-                                 {cls.courseTitle.toLowerCase()}
-                              </div>
-                              <div style={{ fontSize: "12px", color: "#666", fontWeight: 700, marginBottom: "20px" }}>
-                                 {cls.courseCode}
-                              </div>
-
-                              <div style={{ height: "1px", background: "#2a2a2a", marginBottom: "20px" }} />
-
-                              <div style={{ display: "flex", gap: "24px" }}>
-                                 <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "13px", fontWeight: 700, color: "#888" }}>
-                                    <span style={{ color: "#ff3b3b" }}>📍</span> {cls.roomNo || "TBA"}
-                                 </div>
-                                 <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "13px", fontWeight: 700, color: "#888" }}>
-                                    <span style={{ color: "#007aff" }}>👤</span> {(cls.facultyName || "TBA").split(" ")[0]}
-                                 </div>
-                              </div>
-                           </div>
-                         </div>
-
-                         {/* Gap after this class */}
-                         {(() => {
-                           const next = classes[i + 1];
-                           const curEnd = parseEnd(cls.endTime);
-                           const nextStart = next ? parseStart(next.startTime) : 1020; // 5:00 PM
-                           const gapMin = nextStart - curEnd;
-                           if (gapMin >= 45) {
-                             const numPeriods = Math.floor(gapMin / 50);
-                             return Array.from({ length: numPeriods }).map((_, pi) => (
-                               <div key={`gap-${i}-${pi}`} style={{ position: "relative", paddingLeft: "28px", margin: "24px 0" }}>
-                                 <div style={{ position: "absolute", left: "-4px", top: "50%", transform: "translateY(-50%)", width: "9px", height: "9px", borderRadius: "50%", background: "#222", border: "2px solid #000" }} />
-                                 <div style={{ height: "2px", width: "100%", borderTop: "2px dashed #222", opacity: 0.5 }} />
-                               </div>
-                             ));
-                           }
-                           return null;
-                         })()}
+                     {!cls ? (
+                       <div style={{ padding: "16px 0" }}>
+                         <div style={{ 
+                           height: "2px", width: "100%", borderTop: "2.5px dashed #333", 
+                           opacity: isActive ? 1 : 0.4, borderColor: isActive ? "#a8c200" : "#444" 
+                         }} />
                        </div>
-                     );
-                   })}
-                 </>
-               )}
+                     ) : (
+                       <motion.div 
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: pi * 0.05 }}
+                        style={{ 
+                         background: "#111", borderRadius: "20px", padding: "16px 20px", 
+                         border: isActive ? "1.5px solid #a8c200" : "1.5px solid #222",
+                         boxShadow: isActive ? "0 8px 30px rgba(168, 194, 0, 0.1)" : "none"
+                       }}>
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
+                             <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#666", fontSize: "11px", fontWeight: 800 }}>
+                                <span style={{ fontSize: "14px" }}>⏱</span> {p.start} — {p.end}
+                             </div>
+                             <div style={{ fontSize: "10px", fontWeight: 900, color: isActive ? "#a8c200" : "#444", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                                Period {p.id}
+                             </div>
+                          </div>
+                          
+                          <div style={{ fontSize: "20px", fontWeight: 900, lineHeight: 1.2, marginBottom: "8px", textTransform: "capitalize", letterSpacing: "-0.01em", color: "#fff" }}>
+                             {cls.courseTitle.toLowerCase()}
+                          </div>
+
+                          <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
+                             <div style={{ fontSize: "11px", color: "#666", fontWeight: 700 }}>{cls.courseCode}</div>
+                             <div style={{ fontSize: "11px", color: "#888", fontWeight: 700 }}>📍 {cls.roomNo || "TBA"}</div>
+                             <div style={{ fontSize: "11px", color: "#888", fontWeight: 700 }}>👤 {(cls.facultyName || "TBA").split(" ")[0]}</div>
+                          </div>
+                       </motion.div>
+                     )}
+                   </div>
+                 );
+               })}
            </div>
         </div>
 
@@ -805,105 +805,89 @@ function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
             opacity: 0.2, borderRadius: "2px"
           }} />
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-            {classes.length === 0 ? (
-              <div className="min-card" style={{ padding: "40px", textAlign: "center", borderStyle: "dashed" }}>
-                <div style={{ fontSize: "32px", marginBottom: "16px" }}>☕</div>
-                <div style={{ fontSize: "16px", fontWeight: 700, color: "var(--text-secondary)" }}>No classes scheduled for Day {dayOverride}</div>
-                <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "8px" }}>Time to catch up or relax.</div>
-              </div>
-            ) : (
-              <>
-                {/* Lead-in Free Periods */}
-                {(() => {
-                  const firstStart = parseStart(classes[0].startTime);
-                  if (firstStart > 540) {
-                    const gapMin = firstStart - 480;
-                    const numPeriods = Math.floor(gapMin / 50);
-                    return Array.from({ length: numPeriods }).map((_, pi) => (
-                      <div key={`lead-${pi}`} style={{ position: "relative", margin: "12px 0" }}>
-                        <div style={{ position: "absolute", left: "-24px", top: "50%", transform: "translateY(-50%)", width: "10px", height: "10px", borderRadius: "50%", background: "rgba(255,255,255,0.05)", border: "2px solid var(--bg-root)", zIndex: 2 }} />
-                        <div style={{ height: "2px", width: "100%", borderTop: "2px dashed rgba(255,255,255,0.1)", opacity: 0.5 }} />
-                      </div>
-                    ));
-                  }
-                  return null;
-                })()}
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+            {PERIODS.map((p, pi) => {
+              const pStart = parseStart(p.start);
+              const pEnd = parseEnd(p.end);
+              const cls = classes.find((c: any) => {
+                const cs = parseStart(c.startTime);
+                const ce = parseEnd(c.endTime);
+                return cs < pEnd && ce > pStart;
+              });
+              
+              const active = cls ? (currentMin >= parseStart(cls.startTime) && currentMin <= parseEnd(cls.endTime)) : (currentMin >= pStart && currentMin < pEnd);
+              const past = currentMin >= pEnd;
 
-                {classes.map((cls: any, i: number) => {
-                  const startVal = parseStart(cls.startTime);
-                  const endVal = parseEnd(cls.endTime);
-                  const active = currentMin >= startVal && currentMin <= endVal;
-                  const past = currentMin > endVal;
-                  
-                  return (
-                    <div key={i} style={{ position: "relative" }}>
-                      {/* Timeline Dot */}
+              return (
+                <div key={pi} style={{ position: "relative", paddingLeft: "12px" }}>
+                  {/* Timeline Dot */}
+                  <div style={{ 
+                    position: "absolute", left: "-24px", top: "50%", transform: "translateY(-50%)", width: "10px", height: "10px", borderRadius: "50%",
+                    background: active ? "var(--accent-secondary)" : past ? "var(--text-muted)" : "var(--accent)",
+                    boxShadow: active ? "0 0 15px var(--accent-secondary)" : "none",
+                    border: "2px solid var(--bg-root)", zIndex: 5
+                  }} />
+
+                  <div style={{ 
+                    position: "absolute", left: "-60px", top: "50%", transform: "translateY(-50%)", 
+                    fontSize: "11px", fontWeight: 900, color: active ? "var(--accent-secondary)" : "var(--text-muted)",
+                    width: "30px", textAlign: "right"
+                  }}>
+                    {p.id}
+                  </div>
+
+                  {!cls ? (
+                    <div style={{ padding: "16px 0" }}>
                       <div style={{ 
-                        position: "absolute", left: "-24px", top: "12px", width: "10px", height: "10px", borderRadius: "50%",
-                        background: active ? "var(--accent-secondary)" : past ? "var(--text-muted)" : "var(--accent)",
-                        boxShadow: active ? "0 0 15px var(--accent-secondary)" : "none",
-                        border: "2px solid var(--bg-root)", zIndex: 2
+                        height: "2px", width: "100%", borderTop: "2px dashed rgba(255,255,255,0.1)", 
+                        opacity: active ? 1 : 0.4, borderColor: active ? "var(--accent-secondary)" : "rgba(255,255,255,0.1)" 
                       }} />
-
-                      <div className="min-card" style={{ 
-                        padding: "20px", 
+                    </div>
+                  ) : (
+                    <motion.div 
+                      initial={{ opacity: 0, scale: 0.98 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: pi * 0.04 }}
+                      className="min-card" 
+                      style={{ 
+                        padding: "16px 20px", 
                         borderLeft: active ? "4px solid var(--accent-secondary)" : "1px solid rgba(255,255,255,0.05)",
                         opacity: past ? 0.6 : 1,
                         transition: "all 0.3s ease"
                       }}>
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
-                      <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: "11px", color: active ? "var(--accent-secondary)" : "var(--text-secondary)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em" }}>
-                          {fmtTimeOnly(cls.startTime)} — {fmtTimeOnly(cls.endTime)}
-                        </div>
-                        <div style={{ fontSize: "18px", fontWeight: 800, color: "#fff", marginTop: "8px", lineHeight: 1.2 }}>{cls.courseTitle}</div>
-                      </div>
-                      {active && (
-                        <div style={{ background: "rgba(0, 255, 136, 0.1)", color: "var(--accent-secondary)", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: 800, textTransform: "uppercase", animation: "pulse 2s infinite" }}>
-                          Happening Now
-                        </div>
-                      )}
-                    </div>
-
-                    <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-                      <div style={{ background: "rgba(255,255,255,0.05)", padding: "6px 12px", borderRadius: "10px", fontSize: "11px", color: "var(--text-secondary)", display: "flex", alignItems: "center", gap: "6px", border: "1px solid rgba(255,255,255,0.05)" }}>
-                        <span style={{ opacity: 0.6 }}>📍</span> {cls.roomNo}
-                      </div>
-                      <div style={{ background: "rgba(255,255,255,0.05)", padding: "6px 12px", borderRadius: "10px", fontSize: "11px", color: "var(--text-secondary)", display: "flex", alignItems: "center", gap: "6px", border: "1px solid rgba(255,255,255,0.05)" }}>
-                        <span style={{ opacity: 0.6 }}>👤</span> {cls.facultyName}
-                      </div>
-                      <div style={{ background: "rgba(26, 117, 255, 0.1)", padding: "6px 12px", borderRadius: "10px", fontSize: "11px", color: "var(--accent)", fontWeight: 700, textTransform: "uppercase" }}>
-                        {cls.courseCode}
-                      </div>
-                    </div>
-                    {/* Gap after this class */}
-                    {(() => {
-                      const next = classes[i + 1];
-                      const curEnd = parseEnd(cls.endTime);
-                      const nextStart = next ? parseStart(next.startTime) : 1020; // 5:00 PM
-                      const gapMin = nextStart - curEnd;
-                      if (gapMin >= 45) {
-                        const numPeriods = Math.floor(gapMin / 50);
-                        return Array.from({ length: numPeriods }).map((_, pi) => (
-                          <div key={`gap-${i}-${pi}`} style={{ position: "relative", margin: "24px 0" }}>
-                            <div style={{ position: "absolute", left: "-24px", top: "50%", transform: "translateY(-50%)", width: "10px", height: "10px", borderRadius: "50%", background: "rgba(255,255,255,0.05)", border: "2px solid var(--bg-root)", zIndex: 2 }} />
-                            <div style={{ height: "2px", width: "100%", borderTop: "2px dashed rgba(255,255,255,0.1)", opacity: 0.5 }} />
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "12px" }}>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+                            <div style={{ fontSize: "11px", color: active ? "var(--accent-secondary)" : "var(--text-secondary)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                              {p.start} — {p.end}
+                            </div>
+                            <div style={{ fontSize: "10px", fontWeight: 900, color: active ? "var(--accent-secondary)" : "var(--text-muted)" }}>P{p.id}</div>
                           </div>
-                        ));
-                      }
-                      return null;
-                    })()}
-                  </div>
+                          <div style={{ fontSize: "18px", fontWeight: 800, color: "#fff", marginTop: "6px", lineHeight: 1.2 }}>{cls.courseTitle}</div>
+                        </div>
+                      </div>
+
+                      <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+                        <div style={{ background: "rgba(255,255,255,0.05)", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", color: "var(--text-secondary)", display: "flex", alignItems: "center", gap: "4px" }}>
+                          📍 {cls.roomNo}
+                        </div>
+                        <div style={{ background: "rgba(255,255,255,0.05)", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", color: "var(--text-secondary)", display: "flex", alignItems: "center", gap: "4px" }}>
+                          👤 {cls.facultyName?.split(" ")[0]}
+                        </div>
+                        <div style={{ fontSize: "10px", color: "var(--accent)", fontWeight: 700 }}>
+                          {cls.courseCode}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
                 </div>
               );
             })}
-          </>
-        )}
-      </div>
+            })}
+          </div>
+        </div>
+      </main>
     </div>
-  </main>
-</div>
   );
 }
 
