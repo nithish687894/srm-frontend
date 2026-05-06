@@ -902,6 +902,8 @@ function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
         )}
       </div>
     </div>
+  </main>
+</div>
   );
 }
 
