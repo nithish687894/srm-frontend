@@ -215,12 +215,12 @@ export default function CalendarPage() {
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                {current.days.filter((d: any) => d.isHoliday || d.event).length === 0 ? (
+                {current.days.filter((d: any) => d.event).length === 0 ? (
                   <div style={{ padding: "40px", textAlign: "center", background: "rgba(255,255,255,0.02)", borderRadius: "20px", border: "1px dashed rgba(255,255,255,0.1)", color: "#666", fontSize: "13px" }}>
-                    No significant events recorded for this month.
+                    No specific events or holidays recorded for this month.
                   </div>
                 ) : (
-                  current.days.filter((d: any) => d.isHoliday || d.event).map((d: any, idx: number) => {
+                  current.days.filter((d: any) => d.event).map((d: any, idx: number) => {
                     const isHoliday = d.isHoliday;
                     const dateObj = new Date(d.isoDate);
                     const dayStr = dateObj.toLocaleDateString("en-US", { weekday: "short" });
