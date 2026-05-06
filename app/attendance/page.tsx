@@ -444,14 +444,19 @@ function MatrixAttendance({
             <button onClick={calculatePredictions} style={{ width: "100%", padding: "18px", background: "#a8c200", borderRadius: "20px", color: "#000", fontSize: "14px", fontWeight: 900, textTransform: "uppercase", border: "none", cursor: "pointer" }}>Run Simulation</button>
             
             {predictions && (
-              <div style={{ marginTop: "24px", display: "flex", flexDirection: "column", gap: "12px" }}>
+              <div style={{ 
+                marginTop: "24px", 
+                display: "grid", 
+                gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", 
+                gap: "12px" 
+              }}>
                 {predictions.map((p: any, i: number) => (
-                  <div key={i} style={{ background: "#000", borderRadius: "20px", padding: "16px", border: "1px solid #333" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px" }}>
-                       <div style={{ fontSize: "14px", fontWeight: 800 }}>{p.code}</div>
-                       <div style={{ fontWeight: 900, color: p.projPct >= 75 ? "#a8c200" : "#ff3b3b" }}>{p.projPct.toFixed(1)}%</div>
+                  <div key={i} style={{ background: "#000", borderRadius: "20px", padding: "16px", border: "1px solid #333", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "8px" }}>
+                       <div style={{ fontSize: "13px", fontWeight: 800, color: "#fff", flex: 1, paddingRight: "12px", lineHeight: 1.3 }}>{p.title}</div>
+                       <div style={{ fontWeight: 900, color: p.projPct >= 75 ? "#a8c200" : "#ff3b3b", fontSize: "16px" }}>{p.projPct.toFixed(1)}%</div>
                     </div>
-                    <div style={{ fontSize: "11px", color: "#666" }}>{p.marginLabel}</div>
+                    <div style={{ fontSize: "11px", color: "#666", fontWeight: 700 }}>{p.marginLabel}</div>
                   </div>
                 ))}
               </div>
@@ -668,20 +673,25 @@ function CosmosAttendance({
             </button>
 
             {predictions && (
-              <div style={{ marginTop: "24px", display: "flex", flexDirection: "column", gap: "12px" }}>
+              <div style={{ 
+                marginTop: "24px", 
+                display: "grid", 
+                gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", 
+                gap: "12px" 
+              }}>
                 {predictions.length === 0 ? (
-                  <div style={{ fontSize: "13px", color: "var(--text-muted)", textAlign: "center" }}>No classes missed on selected dates.</div>
+                  <div style={{ fontSize: "13px", color: "var(--text-muted)", textAlign: "center", gridColumn: "1 / -1" }}>No classes missed on selected dates.</div>
                 ) : predictions.map((p: any, i: number) => (
                   <div key={i} style={{ background: "rgba(0,0,0,0.2)", borderRadius: "16px", padding: "16px", border: "1px solid rgba(255,255,255,0.05)" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
-                      <div style={{ fontSize: "14px", fontWeight: 700, color: "#fff" }}>{p.code}</div>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px", alignItems: "flex-start" }}>
+                      <div style={{ fontSize: "13px", fontWeight: 700, color: "#fff", flex: 1, paddingRight: "10px", lineHeight: 1.3 }}>{p.title}</div>
                       <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                        <span style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-muted)" }}>{p.currentPct.toFixed(1)}%</span>
+                        <span style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-muted)" }}>{p.currentPct.toFixed(0)}%</span>
                         <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.2)" }}>→</span>
                         <span style={{ fontSize: "14px", fontWeight: 700, color: p.projPct >= 75 ? "var(--accent-secondary)" : "var(--accent-red)" }}>{p.projPct.toFixed(1)}%</span>
                       </div>
                     </div>
-                    <div style={{ fontSize: "11px", color: p.marginSafe ? "var(--accent-secondary)" : "var(--accent-red)", fontWeight: 700, textTransform: "uppercase" }}>
+                    <div style={{ fontSize: "10px", color: p.marginSafe ? "var(--accent-secondary)" : "var(--accent-red)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.02em" }}>
                       {p.marginLabel}
                     </div>
                   </div>
