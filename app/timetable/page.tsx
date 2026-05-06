@@ -657,24 +657,42 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
         <div style={{ position: "absolute", left: "-9999px", top: 0 }}>
            <div ref={shareRef} style={{ width: "450px", background: "#050505", padding: "40px", position: "relative", overflow: "hidden" }}>
               <div style={{ position: "absolute", right: "-50px", top: "-50px", width: "200px", height: "200px", background: "#a8c200", filter: "blur(120px)", opacity: 0.15 }} />
-              <div style={{ position: "absolute", left: "-50px", bottom: "-50px", width: "200px", height: "200px", background: "#7700ff", filter: "blur(120px)", opacity: 0.1 }} />
               
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px" }}>
                  <div>
                     <div style={{ fontSize: "10px", color: "#a8c200", fontWeight: 900, letterSpacing: "0.2em", marginBottom: "4px" }}>SRM NEXUS • SRMNEXUS.APP</div>
                     <div style={{ fontSize: "24px", fontWeight: 900, color: "#fff" }}>Day {dayOverride} Schedule</div>
                  </div>
-                 <img src="/nexus-logo.png" style={{ width: "40px", height: "40px" }} />
+                 <div style={{ fontSize: "28px", fontWeight: 900, color: "#a8c200" }}>DO {dayOverride}</div>
               </div>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                 {classes.map((c: any, idx: number) => (
-                    <div key={idx} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", borderRadius: "16px", padding: "16px" }}>
-                       <div style={{ fontSize: "9px", color: "#666", fontWeight: 800, marginBottom: "8px" }}>{fmtTimeOnly(c.startTime)} — {fmtTimeOnly(c.endTime)}</div>
-                       <div style={{ fontSize: "16px", fontWeight: 900, color: "#fff", lineHeight: 1.1, marginBottom: "4px" }}>{c.courseTitle}</div>
-                       <div style={{ fontSize: "10px", color: "#888", fontWeight: 700 }}>{c.roomNo || "TBA"} • {c.courseCode}</div>
-                    </div>
-                 ))}
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                 {PERIODS.map((p, pi) => {
+                    const pStart = parseStart(p.start);
+                    const pEnd = parseEnd(p.end);
+                    const cls = classes.find((c: any) => {
+                      const cs = parseStart(c.startTime);
+                      const ce = parseEnd(c.endTime);
+                      return cs < pEnd && ce > pStart;
+                    });
+
+                    return (
+                       <div key={pi} style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+                          <div style={{ width: "20px", fontSize: "10px", fontWeight: 900, color: "#444", textAlign: "right" }}>{p.id}</div>
+                          {!cls ? (
+                             <div style={{ flex: 1, height: "1px", borderTop: "2px dashed #222" }} />
+                          ) : (
+                             <div style={{ flex: 1, background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", borderRadius: "12px", padding: "10px 14px" }}>
+                                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px" }}>
+                                   <div style={{ fontSize: "14px", fontWeight: 900, color: "#fff" }}>{cls.courseTitle}</div>
+                                   <div style={{ fontSize: "9px", color: "#666", fontWeight: 800 }}>{p.start}</div>
+                                </div>
+                                <div style={{ fontSize: "10px", color: "#888", fontWeight: 700 }}>{cls.roomNo || "TBA"} • {cls.courseCode}</div>
+                             </div>
+                          )}
+                       </div>
+                    );
+                 })}
               </div>
 
               <div style={{ marginTop: "40px", borderTop: "1px solid #111", paddingTop: "20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -686,28 +704,47 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
 
         {/* Hidden Full Schedule Card */}
         <div style={{ position: "absolute", left: "-9999px", top: 0 }}>
-           <div ref={fullShareRef} style={{ width: "1000px", background: "#050505", padding: "60px", position: "relative" }}>
+           <div ref={fullShareRef} style={{ width: "1200px", background: "#050505", padding: "60px", position: "relative" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "48px" }}>
                  <div>
                     <div style={{ fontSize: "14px", color: "#a8c200", fontWeight: 900, letterSpacing: "0.2em", marginBottom: "8px" }}>SRM NEXUS PORTAL</div>
                     <div style={{ fontSize: "42px", fontWeight: 900, color: "#fff", letterSpacing: "-1px" }}>Complete Semester Timetable</div>
-                    <div style={{ fontSize: "16px", color: "#666", fontWeight: 700 }}>Secure access via srmnexus.app</div>
                  </div>
-                 <img src="/nexus-logo.png" style={{ width: "80px", height: "80px" }} />
+                 <div style={{ textAlign: "right" }}>
+                    <div style={{ fontSize: "24px", fontWeight: 900, color: "#a8c200" }}>BATCH {batch}</div>
+                    <div style={{ fontSize: "12px", color: "#666", fontWeight: 700 }}>Secure access via srmnexus.app</div>
+                 </div>
               </div>
 
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "20px" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "16px" }}>
                  {[1, 2, 3, 4, 5].map(d => (
-                    <div key={d} style={{ background: "rgba(255,255,255,0.02)", borderRadius: "24px", padding: "24px", border: "1px solid rgba(255,255,255,0.05)" }}>
-                       <div style={{ fontSize: "12px", color: "#a8c200", fontWeight: 900, marginBottom: "20px", textTransform: "uppercase", letterSpacing: "0.1em" }}>Day Order {d}</div>
-                       <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                          {(schedule[d - 1]?.classes || []).map((c: any, ci: number) => (
-                             <div key={ci} style={{ borderLeft: "2px solid #222", paddingLeft: "12px" }}>
-                                <div style={{ fontSize: "9px", color: "#444", fontWeight: 800 }}>{fmtTimeOnly(c.startTime)}</div>
-                                <div style={{ fontSize: "13px", fontWeight: 900, color: "#ddd", lineHeight: 1.2 }}>{c.courseTitle.split(" ")[0]}</div>
-                                <div style={{ fontSize: "9px", color: "#666", fontWeight: 700 }}>{c.roomNo || "TBA"}</div>
-                             </div>
-                          ))}
+                    <div key={d} style={{ background: "rgba(255,255,255,0.02)", borderRadius: "24px", padding: "20px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                       <div style={{ fontSize: "12px", color: "#a8c200", fontWeight: 900, marginBottom: "20px", textTransform: "uppercase", letterSpacing: "0.1em", textAlign: "center" }}>Day Order {d}</div>
+                       <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                          {PERIODS.map((p, pi) => {
+                             const pStart = parseStart(p.start);
+                             const pEnd = parseEnd(p.end);
+                             const dayClasses = schedule[d - 1]?.classes || [];
+                             const cls = dayClasses.find((c: any) => {
+                               const cs = parseStart(c.startTime);
+                               const ce = parseEnd(c.endTime);
+                               return cs < pEnd && ce > pStart;
+                             });
+
+                             return (
+                                <div key={pi} style={{ display: "flex", gap: "10px", alignItems: "center", minHeight: "40px" }}>
+                                   <div style={{ width: "12px", fontSize: "9px", fontWeight: 900, color: "#444" }}>{p.id}</div>
+                                   {!cls ? (
+                                      <div style={{ flex: 1, height: "1px", borderTop: "1.5px dashed #222" }} />
+                                   ) : (
+                                      <div style={{ flex: 1, background: "rgba(255,255,255,0.03)", padding: "8px 10px", borderRadius: "10px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                                         <div style={{ fontSize: "11px", fontWeight: 900, color: "#ddd", lineHeight: 1.1 }}>{cls.courseTitle.split(" ")[0]}</div>
+                                         <div style={{ fontSize: "8px", color: "#666", fontWeight: 700 }}>{cls.roomNo || "TBA"}</div>
+                                      </div>
+                                   )}
+                                </div>
+                             );
+                          })}
                        </div>
                     </div>
                  ))}
