@@ -9,6 +9,7 @@ import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import { toPng } from "html-to-image";
 import { extractBatch } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
