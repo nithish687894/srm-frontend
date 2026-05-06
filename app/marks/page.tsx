@@ -103,7 +103,7 @@ export default function MarksPage() {
                   <div style={{ display: "flex", alignItems: "flex-start", gap: "20px", marginBottom: "20px" }}>
                     <div style={{ flexShrink: 0, textAlign: "right" }}>
                       <div style={{ display: "flex", alignItems: "baseline", gap: "2px" }}>
-                        <span style={{ fontSize: "36px", fontWeight: 900, color: "#ffffff", lineHeight: 1 }}>{scored.toFixed(0)}</span>
+                        <span style={{ fontSize: "36px", fontWeight: 900, color: "#ffffff", lineHeight: 1 }}>{scored.toFixed(1)}</span>
                         <span style={{ fontSize: "18px", color: "#666666", fontWeight: "bold" }}>/{maxTotal.toFixed(0)}</span>
                       </div>
                     </div>
@@ -212,7 +212,7 @@ function MatrixMarks({ marks, titleMap, totalScored, totalMax, hasEmergency }: a
                          <div style={{ fontSize: "11px", color: "#666", fontWeight: 800, marginTop: "4px" }}>{m.courseCode}</div>
                       </div>
                       <div style={{ textAlign: "right", display: "flex", alignItems: "baseline", justifyContent: "flex-end", gap: "2px" }}>
-                         <div style={{ fontSize: "32px", fontWeight: 900, color: "#a8c200" }}>{scored.toFixed(0)}</div>
+                         <div style={{ fontSize: "32px", fontWeight: 900, color: "#a8c200" }}>{scored.toFixed(1)}</div>
                          <div style={{ fontSize: "16px", color: "#666", fontWeight: 800 }}>/{maxTotal.toFixed(0)}</div>
                       </div>
                    </div>

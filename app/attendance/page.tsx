@@ -473,7 +473,23 @@ function MatrixAttendance({
               if (attn >= 75) {
                 margin = Math.floor((pres / 0.75) - cond);
               } else {
-                margin = Math.ceil(3 * cond - 4 * pres);
+                margin = -Math.ceil(3 * cond - 4 * pres);
+              }
+
+              let statusColor = "#a8c200"; // Default green
+              let statusText = `SKIP ${margin}`;
+
+              if (isRisk) {
+                statusColor = "#ff3b3b"; // Red
+                statusText = `ATTEND ${Math.abs(margin)}`;
+              }
+
+              if (margin === 0) {
+                statusColor = "#ff8c00"; // Orange
+                statusText = "SKIP 0";
+              } else if (margin < 0) {
+                statusColor = "#ff3b3b"; // Red
+                statusText = "SKIP";
               }
 
               return (
@@ -484,9 +500,9 @@ function MatrixAttendance({
                          <div style={{ fontSize: "11px", color: "#666", fontWeight: 800, marginTop: "4px" }}>{c["Course Code"]}</div>
                       </div>
                       <div style={{ textAlign: "right" }}>
-                         <div style={{ fontSize: "28px", fontWeight: 900, color: isRisk ? "#ff3b3b" : "#a8c200" }}>{attn}%</div>
-                         <div style={{ fontSize: "10px", fontWeight: 900, color: isRisk ? "#ff3b3b" : "#a8c200", textTransform: "uppercase" }}>
-                            {isRisk ? `ATTEND ${margin}` : `SKIP ${margin}`}
+                         <div style={{ fontSize: "28px", fontWeight: 900, color: statusColor }}>{attn}%</div>
+                         <div style={{ fontSize: "10px", fontWeight: 900, color: statusColor, textTransform: "uppercase" }}>
+                            {statusText}
                          </div>
                       </div>
                    </div>
@@ -497,7 +513,7 @@ function MatrixAttendance({
                    </div>
 
                    <div style={{ height: "6px", background: "#000", borderRadius: "99px", overflow: "hidden" }}>
-                      <div style={{ height: "100%", background: isRisk ? "#ff3b3b" : "#a8c200", width: `${attn}%` }} />
+                      <div style={{ height: "100%", background: statusColor, width: `${attn}%` }} />
                    </div>
                 </div>
               );
@@ -565,10 +581,19 @@ function CosmosAttendance({
             
             // Calculate margin (classes safe to skip or needed to recover)
             let margin = 0;
+            let statusColor = "var(--accent-secondary)";
+            let statusText = "Margin";
+
             if (attn >= 75) {
               margin = Math.floor((pres / 0.75) - cond);
+              if (margin === 0) {
+                statusColor = "#ff8c00";
+                statusText = "Skip 0";
+              }
             } else {
               margin = Math.ceil(3 * cond - 4 * pres);
+              statusColor = "var(--accent-red)";
+              statusText = "Skip";
             }
 
             return (
@@ -579,8 +604,8 @@ function CosmosAttendance({
                     <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "4px", fontWeight: 600 }}>{c["Course Code"]} • Theory</div>
                   </div>
                   <div style={{ textAlign: "right" }}>
-                    <div style={{ fontSize: "18px", fontWeight: 900, color: isRisk ? "var(--accent-red)" : "var(--accent-secondary)" }}>{margin}</div>
-                    <div style={{ fontSize: "9px", color: "var(--text-muted)", fontWeight: 800, textTransform: "uppercase" }}>Margin</div>
+                    <div style={{ fontSize: "18px", fontWeight: 900, color: statusColor }}>{margin === 0 && attn >= 75 ? 0 : isRisk ? "" : margin}</div>
+                    <div style={{ fontSize: "9px", color: statusColor, fontWeight: 800, textTransform: "uppercase" }}>{statusText}</div>
                   </div>
                 </div>
 
@@ -590,15 +615,15 @@ function CosmosAttendance({
                     <div style={{ background: "rgba(239, 68, 68, 0.1)", color: "var(--accent-red)", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: 800 }}>A {abs}</div>
                     <div style={{ background: "rgba(26, 117, 255, 0.1)", color: "var(--accent)", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: 800 }}>T {cond}</div>
                   </div>
-                  <div style={{ marginLeft: "auto", fontSize: "14px", fontWeight: 900, color: isRisk ? "var(--accent-red)" : "var(--accent)" }}>{attn}%</div>
+                  <div style={{ marginLeft: "auto", fontSize: "14px", fontWeight: 900, color: statusColor }}>{attn}%</div>
                 </div>
 
                 <div style={{ height: "6px", background: "rgba(255,255,255,0.06)", borderRadius: "99px", overflow: "hidden", position: "relative" }}>
                   <div style={{ 
                     height: "100%", 
-                    background: `linear-gradient(90deg, var(--accent), var(--accent-secondary))`, 
+                    background: statusColor, 
                     width: `${attn}%`,
-                    boxShadow: "0 0 10px rgba(26, 117, 255, 0.3)"
+                    boxShadow: `0 0 10px ${statusColor}4D`
                   }} />
                 </div>
               </div>
