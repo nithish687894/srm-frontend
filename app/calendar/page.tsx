@@ -189,7 +189,7 @@ export default function CalendarPage() {
                             {new Date(cell.isoDate).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" })}
                           </div>
                           <div style={{ fontSize: "14px", color: "#ffffff", fontWeight: "bold" }}>
-                            {cell.event || "Holiday"}
+                            {cell.event || (cell.weekdayLabel.toLowerCase().startsWith("sun") ? "Sunday / Weekly Off" : "Holiday")}
                           </div>
                         </div>
                       )}

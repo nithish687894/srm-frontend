@@ -146,7 +146,7 @@ export function buildCalendarIndex(raw: any): {
         dateNum,
         weekdayLabel: day,
         dayOrder: dayOrderNum,
-        event,
+        event: event === "-" ? "" : event,
         isHoliday: holiday,
       };
 
