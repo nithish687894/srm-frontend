@@ -208,9 +208,8 @@ export default function CalendarPage() {
                 <div style={{ fontSize: "12px", fontWeight: 800, color: isCosmos ? "#9EC5FF" : "#a8c200", textTransform: "uppercase", letterSpacing: "0.15em" }}>
                   {current.name} — Events
                 </div>
-                <div style={{ display: "flex", background: isCosmos ? "rgba(255,255,255,0.05)" : "#1c1c1c", borderRadius: "12px", padding: "4px", border: isCosmos ? "1px solid rgba(255,255,255,0.08)" : "1px solid #333" }}>
-                   <div style={{ padding: "6px 16px", borderRadius: "8px", background: isCosmos ? "rgba(26,117,255,0.2)" : "#333", fontSize: "11px", fontWeight: 800, color: isCosmos ? "#8FD3FF" : "#fff" }}>Events</div>
-                   <div style={{ padding: "6px 16px", borderRadius: "8px", fontSize: "11px", fontWeight: 800, color: "#666" }}>Tasks</div>
+                <div style={{ padding: "8px 20px", background: isCosmos ? "rgba(26,117,255,0.15)" : "#333", borderRadius: "12px", fontSize: "11px", fontWeight: 800, color: isCosmos ? "#8FD3FF" : "#fff", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                  Events
                 </div>
               </div>
 

@@ -115,8 +115,13 @@ export function buildCalendarIndex(raw: any): {
 
       const day = String(entry.day ?? "").trim();
       const dayOrder = String(entry.dayOrder ?? entry.do ?? "").trim();
-      const event = String(entry.event ?? "").trim();
+      let event = String(entry.event ?? "").trim();
       const monthLabel = String(entry.month ?? "").trim();
+
+      // If event is empty, check if dayOrder contains the holiday name (common in some exports)
+      if (!event && dayOrder && !/^[1-5]$/.test(dayOrder) && !/^(h|hd|gh|fh|sh|nh|oh|holiday)/i.test(dayOrder)) {
+        event = dayOrder;
+      }
 
       // Use the month label the backend already sends with each entry
       const parsed = parseMonthLabel(monthLabel);
