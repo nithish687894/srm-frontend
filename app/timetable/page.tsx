@@ -883,7 +883,6 @@ function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
                 </div>
               );
             })}
-            })}
           </div>
         </div>
       </main>
