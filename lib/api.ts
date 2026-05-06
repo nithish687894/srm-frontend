@@ -60,6 +60,7 @@ export const authAPI = {
 
 export const dataAPI = {
   getAll: () => API.get("/api/all").then((r) => r.data),
+  refresh: () => API.get("/api/all").then((r) => r.data),
   getAttendance: () => API.get("/api/attendance").then((r) => r.data),
   getMarks: () => API.get("/api/marks").then((r) => r.data),
   getTimetable: (batch: number = 1) =>
