@@ -362,8 +362,8 @@ function AttendanceCalculator({ attendance }: { attendance: any[] }) {
 
               const isNoData = cond === 0;
               if (isNoData) {
-                statusColor = "rgba(255,255,255,0.2)";
-                statusText = "No Data";
+                statusColor = attn > 0 ? "#ff8c00" : "rgba(255,255,255,0.2)";
+                statusText = attn > 0 ? "Pending Sync" : "No Data";
               }
 
               return (
@@ -371,7 +371,8 @@ function AttendanceCalculator({ attendance }: { attendance: any[] }) {
                   padding: "16px", borderRadius: "18px",
                   background: isRisk ? "rgba(239,68,68,0.06)" : (isWarning ? "rgba(255,140,0,0.06)" : "rgba(16,25,57,0.7)"),
                   border: `1px solid ${isRisk ? "rgba(239,68,68,0.2)" : (isWarning ? "rgba(255,140,0,0.2)" : "rgba(255,255,255,0.04)")}`,
-                  opacity: isNoData ? 0.6 : 1
+                  opacity: (isNoData && attn === 0) ? 0.6 : 1,
+                  transition: "all 0.3s ease"
                 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <div style={{ flex: 1 }}>
@@ -381,14 +382,21 @@ function AttendanceCalculator({ attendance }: { attendance: any[] }) {
                       </div>
                     </div>
                     <div style={{ textAlign: "right", marginLeft: "12px" }}>
-                      <div style={{ fontSize: "20px", fontWeight: 900, color: statusColor }}>{attn}%</div>
+                      <div style={{ 
+                        fontSize: "20px", fontWeight: 900, color: statusColor,
+                        textShadow: attn > 0 ? `0 0 15px ${statusColor}33` : "none"
+                      }}>{attn}%</div>
                       <div style={{ fontSize: "9px", fontWeight: 800, textTransform: "uppercase", color: statusColor }}>
                         {statusText}
                       </div>
                     </div>
                   </div>
                   <div style={{ height: "4px", background: "rgba(255,255,255,0.06)", borderRadius: "99px", overflow: "hidden", marginTop: "12px" }}>
-                    <div style={{ height: "100%", background: statusColor, width: `${Math.min(attn, 100)}%`, borderRadius: "99px", transition: "width 1s ease-in-out" }} />
+                    <div style={{ 
+                      height: "100%", background: statusColor, width: `${Math.min(attn, 100)}%`, borderRadius: "99px", 
+                      transition: "width 1.5s cubic-bezier(0.16, 1, 0.3, 1)",
+                      boxShadow: attn > 0 ? `0 0 8px ${statusColor}44` : "none"
+                    }} />
                   </div>
                 </div>
               );

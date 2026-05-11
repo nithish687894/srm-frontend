@@ -500,20 +500,28 @@ function MatrixAttendance({
               // Handle 0/0 case (newly added subjects or parsing error)
               const isNoData = cond === 0;
               if (isNoData) {
-                statusColor = "rgba(255,255,255,0.2)";
-                statusText = "NO DATA";
+                statusColor = attn > 0 ? "#ff8c00" : "rgba(255,255,255,0.2)";
+                statusText = attn > 0 ? "COUNTS PENDING" : "NO DATA";
               }
 
               return (
-                <div key={i} style={{ background: "#1c1c1c", borderRadius: "28px", padding: "24px", border: isRisk ? "1px solid #ff3b3b" : "1px solid transparent", opacity: isNoData ? 0.6 : 1 }}>
+                <div key={i} style={{ 
+                  background: "#1c1c1c", borderRadius: "28px", padding: "24px", 
+                  border: isRisk ? "1px solid #ff3b3b" : "1px solid transparent", 
+                  opacity: (isNoData && attn === 0) ? 0.6 : 1,
+                  transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)"
+                }}>
                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "20px" }}>
                       <div style={{ flex: 1, paddingRight: "16px" }}>
                          <div style={{ fontSize: "18px", fontWeight: 900, color: "#fff", lineHeight: 1.2, textTransform: "capitalize" }}>{c["Course Title"].toLowerCase()}</div>
                          <div style={{ fontSize: "11px", color: "#666", fontWeight: 800, marginTop: "4px" }}>{c["Course Code"]}</div>
                       </div>
                       <div style={{ textAlign: "right" }}>
-                         <div style={{ fontSize: "28px", fontWeight: 900, color: statusColor }}>{attn}%</div>
-                         <div style={{ fontSize: "10px", fontWeight: 900, color: statusColor, textTransform: "uppercase" }}>
+                         <div style={{ 
+                           fontSize: "28px", fontWeight: 900, color: statusColor,
+                           textShadow: attn > 0 ? `0 0 20px ${statusColor}33` : "none"
+                         }}>{attn}%</div>
+                         <div style={{ fontSize: "10px", fontWeight: 900, color: statusColor, textTransform: "uppercase", letterSpacing: "0.05em" }}>
                             {statusText}
                          </div>
                       </div>
@@ -525,7 +533,7 @@ function MatrixAttendance({
                    </div>
 
                    <div style={{ height: "6px", background: "#000", borderRadius: "99px", overflow: "hidden" }}>
-                      <div style={{ height: "100%", background: statusColor, width: `${attn}%`, transition: "width 1s ease-in-out" }} />
+                      <div style={{ height: "100%", background: statusColor, width: `${attn}%`, transition: "width 1.5s cubic-bezier(0.16, 1, 0.3, 1)", boxShadow: attn > 0 ? `0 0 10px ${statusColor}44` : "none" }} />
                    </div>
                 </div>
               );
