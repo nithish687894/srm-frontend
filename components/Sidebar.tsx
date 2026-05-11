@@ -27,7 +27,7 @@ export default function Sidebar() {
     { href: "/attendance", label: "Attnd" },
     { href: "/timetable",  label: "Time" },
     { href: "/calendar",   label: "Cal" },
-    { href: "/tools/srm-cgpa-calculator", label: "CGPA" },
+    { href: "/app-tools",  label: "Tools" },
     { href: "/ai",         label: "✨ AI" },
     ...(isAdmin ? [{ href: "/admin", label: "Admin" }] : []),
   ];
