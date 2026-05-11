@@ -1,36 +1,55 @@
 "use client";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { APP_VERSION } from "@/lib/version";
 
 export default function AppLaunchSplash({ children }: { children: React.ReactNode }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [logIndex, setLogIndex] = useState(0);
+  const [needsUpdate, setNeedsUpdate] = useState(false);
+  const [updateData, setUpdateData] = useState<any>(null);
 
   const statusLogs = [
     "INITIALIZING NEURAL CORE",
     "ESTABLISHING SECURE TUNNEL",
     "SYNCING ACADEMIC RECORDS",
     "OPTIMIZING INTERFACE",
-    "ESTABLISHING CONNECTION",
     "AUTHENTICATING SESSION",
     "READY"
   ];
 
   useEffect(() => {
+    const checkVersion = async () => {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://srmx-backend-new.render.com';
+        const res = await fetch(`${apiUrl}/api/config`);
+        const data = await res.json();
+        
+        // Version comparison logic: simple string comparison works for semantic versioning
+        if (data.minVersion && APP_VERSION < data.minVersion) {
+          setNeedsUpdate(true);
+          setUpdateData(data);
+        }
+      } catch (e) {
+        console.error("Version check failed", e);
+      }
+    };
+
+    checkVersion();
+
     const hasSplashed = sessionStorage.getItem("srmx_splashed");
-    if (hasSplashed) {
-      setIsLoaded(true);
-      return;
-    }
+    
+    // If already splashed, we still show a quick 800ms fade-in for smoothness
+    const duration = hasSplashed ? 800 : 2800;
 
     const timer = setTimeout(() => {
       setIsLoaded(true);
       sessionStorage.setItem("srmx_splashed", "true");
-    }, 3200);
+    }, duration);
 
     const logInterval = setInterval(() => {
       setLogIndex(prev => (prev < statusLogs.length - 1 ? prev + 1 : prev));
-    }, 450);
+    }, duration / statusLogs.length);
 
     return () => {
       clearTimeout(timer);
@@ -43,19 +62,19 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
   return (
     <>
       <AnimatePresence>
-        {!isLoaded && (
+        {(!isLoaded || needsUpdate) && (
           <motion.div
             initial={{ opacity: 1 }}
             exit={{ 
               opacity: 0,
               filter: "blur(20px)",
-              scale: 1.1,
-              transition: { duration: 0.8, ease: [0.4, 0, 0.2, 1] } 
+              scale: 1.05,
+              transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] } 
             }}
             style={{
               position: "fixed",
               inset: 0,
-              zIndex: 9999,
+              zIndex: 99999,
               background: "#000000",
               display: "flex",
               flexDirection: "column",
@@ -64,148 +83,142 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
               overflow: "hidden"
             }}
           >
-            {/* HUD Overlay Elements */}
-            <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 1, opacity: 0.4 }}>
-              <div style={{ position: "absolute", top: "10%", left: "10%", width: "40px", height: "40px", borderTop: "2px solid rgba(255,255,255,0.1)", borderLeft: "2px solid rgba(255,255,255,0.1)" }} />
-              <div style={{ position: "absolute", top: "10%", right: "10%", width: "40px", height: "40px", borderTop: "2px solid rgba(255,255,255,0.1)", borderRight: "2px solid rgba(255,255,255,0.1)" }} />
-              <div style={{ position: "absolute", bottom: "10%", left: "10%", width: "40px", height: "40px", borderBottom: "2px solid rgba(255,255,255,0.1)", borderLeft: "2px solid rgba(255,255,255,0.1)" }} />
-              <div style={{ position: "absolute", bottom: "10%", right: "10%", width: "40px", height: "40px", borderBottom: "2px solid rgba(255,255,255,0.1)", borderRight: "2px solid rgba(255,255,255,0.1)" }} />
+            {/* Background Effects */}
+            <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+              <motion.div 
+                animate={{ 
+                  scale: [1, 1.1, 1],
+                  opacity: [0.1, 0.15, 0.1]
+                }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  width: "140vw",
+                  height: "140vw",
+                  borderRadius: "50%",
+                  background: "radial-gradient(circle, rgba(54, 115, 255, 0.1) 0%, transparent 70%)",
+                  filter: "blur(80px)",
+                }}
+              />
             </div>
 
-            {/* Ambient Background Glow */}
-            <motion.div 
-              animate={{ 
-                scale: [1, 1.2, 1],
-                opacity: [0.1, 0.2, 0.1]
-              }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              style={{
-                position: "absolute",
-                width: "800px",
-                height: "800px",
-                borderRadius: "50%",
-                background: "radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%)",
-                filter: "blur(60px)",
-                zIndex: 0
-              }}
-            />
-
-            {/* Central Animated HUD Ring */}
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-              style={{
-                position: "absolute",
-                width: "320px",
-                height: "320px",
-                borderRadius: "50%",
-                border: "1px dashed rgba(255,255,255,0.05)",
-                zIndex: 1
-              }}
-            />
-
-            <motion.div
-              animate={{ rotate: -360 }}
-              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-              style={{
-                position: "absolute",
-                width: "380px",
-                height: "380px",
-                borderRadius: "50%",
-                border: "1px solid rgba(255,255,255,0.03)",
-                borderTopColor: "rgba(59, 130, 246, 0.1)",
-                zIndex: 1
-              }}
-            />
-
-            {/* Logo and Main Content */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-              style={{ position: "relative", zIndex: 5, display: "flex", flexDirection: "column", alignItems: "center" }}
-            >
-              <div style={{ position: "relative" }}>
-                 <img 
-                    src="/nexus-logo.png" 
-                    alt="SRM NEXUS" 
-                    style={{ width: "140px", height: "140px", userSelect: "none", filter: "drop-shadow(0 0 20px rgba(59, 130, 246, 0.3))" }} 
-                 />
-                 <motion.div 
-                    animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    style={{ position: "absolute", inset: "-10px", borderRadius: "50%", border: "2px solid rgba(59, 130, 246, 0.2)" }}
-                 />
-              </div>
-
-              <div style={{ marginTop: "48px", textAlign: "center" }}>
-                <motion.div style={{ display: "flex", justifyContent: "center", overflow: "hidden", marginBottom: "12px" }}>
-                  {brandingText.split("").map((char, i) => (
-                    <motion.span
-                      key={i}
-                      initial={{ y: "100%", opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ duration: 0.8, delay: 0.6 + (i * 0.05), ease: [0.16, 1, 0.3, 1] }}
-                      style={{ 
-                        fontFamily: "var(--font-orbitron)", 
-                        fontSize: "32px", 
-                        fontWeight: 900, 
-                        letterSpacing: char === " " ? "0.6em" : "0.2em", 
-                        color: "#fff",
-                        display: "inline-block"
-                      }}
-                    >
-                      {char === " " ? "\u00A0" : char}
-                    </motion.span>
-                  ))}
-                </motion.div>
-
-                {/* Status Logs Animation */}
-                <div style={{ height: "20px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={logIndex}
-                      initial={{ opacity: 0, y: 5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -5 }}
-                      transition={{ duration: 0.2 }}
-                      style={{ 
-                        fontSize: "9px", 
-                        fontFamily: "monospace",
-                        color: logIndex === statusLogs.length - 1 ? "#00E676" : "rgba(255,255,255,0.4)", 
-                        textTransform: "uppercase",
-                        letterSpacing: "0.4em",
-                        fontWeight: 800
-                      }}
-                    >
-                      {statusLogs[logIndex]}
-                    </motion.div>
-                  </AnimatePresence>
+            {needsUpdate ? (
+              // ─── Mandatory Update UI ───
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                style={{
+                  position: "relative", zIndex: 10, textAlign: "center",
+                  padding: "40px", maxWidth: "340px", width: "90%",
+                  background: "rgba(255,255,255,0.03)", backdropFilter: "blur(20px)",
+                  border: "1px solid rgba(255,255,255,0.08)", borderRadius: "32px"
+                }}
+              >
+                <div style={{ fontSize: "48px", marginBottom: "20px" }}>🚀</div>
+                <div style={{ 
+                  fontFamily: "var(--font-orbitron)", fontSize: "20px", fontWeight: 900, 
+                  color: "#fff", marginBottom: "12px", letterSpacing: "0.1em" 
+                }}>
+                  UPDATE REQUIRED
                 </div>
-              </div>
-            </motion.div>
-
-            {/* Bottom Progress Bar */}
-            <div style={{ position: "absolute", bottom: "10%", width: "200px", height: "2px", background: "rgba(255,255,255,0.05)", borderRadius: "99px", overflow: "hidden" }}>
-                <motion.div 
-                  initial={{ left: "-100%" }}
-                  animate={{ left: "100%" }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                <div style={{ fontSize: "14px", color: "rgba(255,255,255,0.5)", lineHeight: 1.6, marginBottom: "32px", fontWeight: 600 }}>
+                  {updateData?.message || "A critical update is available to keep your SRM Nexus experience smooth and secure."}
+                </div>
+                <button
+                  onClick={() => window.location.reload()}
                   style={{
-                    position: "absolute",
-                    width: "40%",
-                    height: "100%",
-                    background: "linear-gradient(90deg, transparent, #3b82f6, transparent)",
+                    width: "100%", padding: "16px", borderRadius: "16px", border: "none",
+                    background: "linear-gradient(135deg, #3673ff, #7c58ff)",
+                    color: "#fff", fontWeight: 900, fontSize: "14px", cursor: "pointer",
+                    boxShadow: "0 8px 32px rgba(54, 115, 255, 0.3)",
+                    textTransform: "uppercase", letterSpacing: "0.1em"
                   }}
-                />
-            </div>
+                >
+                  Refresh App
+                </button>
+                <div style={{ marginTop: "20px", fontSize: "10px", color: "rgba(255,255,255,0.3)", fontWeight: 700 }}>
+                  Current: v{APP_VERSION} • Required: v{updateData?.minVersion}
+                </div>
+              </motion.div>
+            ) : (
+              // ─── Regular Splash UI ───
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                style={{ position: "relative", zIndex: 5, display: "flex", flexDirection: "column", alignItems: "center" }}
+              >
+                <div style={{ position: "relative" }}>
+                   <motion.img 
+                      src="/nexus-logo.png" 
+                      alt="SRM NEXUS" 
+                      animate={{ scale: [0.95, 1, 0.95] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                      style={{ width: "120px", height: "120px", filter: "drop-shadow(0 0 30px rgba(54, 115, 255, 0.4))" }} 
+                   />
+                </div>
+
+                <div style={{ marginTop: "40px", textAlign: "center" }}>
+                  <motion.div style={{ display: "flex", justifyContent: "center", marginBottom: "16px" }}>
+                    {brandingText.split("").map((char, i) => (
+                      <motion.span
+                        key={i}
+                        initial={{ opacity: 0, filter: "blur(10px)" }}
+                        animate={{ opacity: 1, filter: "blur(0px)" }}
+                        transition={{ duration: 0.5, delay: i * 0.05 }}
+                        style={{ 
+                          fontFamily: "var(--font-orbitron)", 
+                          fontSize: "28px", 
+                          fontWeight: 900, 
+                          letterSpacing: char === " " ? "0.6em" : "0.15em", 
+                          color: "#fff",
+                          textShadow: "0 0 20px rgba(255,255,255,0.2)"
+                        }}
+                      >
+                        {char === " " ? "\u00A0" : char}
+                      </motion.span>
+                    ))}
+                  </motion.div>
+
+                  <div style={{ height: "24px" }}>
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={logIndex}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        style={{ 
+                          fontSize: "10px", 
+                          fontFamily: "monospace",
+                          color: logIndex === statusLogs.length - 1 ? "#00FF88" : "rgba(255,255,255,0.4)", 
+                          textTransform: "uppercase",
+                          letterSpacing: "0.4em",
+                          fontWeight: 900
+                        }}
+                      >
+                        {statusLogs[logIndex]}
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
+                </div>
+              </motion.div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
       
-      <div style={{ opacity: isLoaded ? 1 : 0, transition: "opacity 1.2s ease-in-out" }}>
+      <motion.div 
+        style={{ 
+          opacity: isLoaded && !needsUpdate ? 1 : 0,
+          pointerEvents: isLoaded && !needsUpdate ? "auto" : "none"
+        }}
+        animate={{ opacity: isLoaded && !needsUpdate ? 1 : 0 }}
+        transition={{ duration: 1 }}
+      >
         {children}
-      </div>
+      </motion.div>
     </>
   );
 }
