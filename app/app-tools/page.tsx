@@ -15,6 +15,7 @@ const GRADE_TABLE = [
   { min: 51, grade: "B",  points: 6,  color: "#fb923c" },
   { min: 0,  grade: "C",  points: 5,  color: "#f87171" },
 ];
+
 function getGrade(pct: number) {
   return GRADE_TABLE.find(g => pct >= g.min) || GRADE_TABLE[GRADE_TABLE.length - 1];
 }
@@ -23,7 +24,7 @@ function getGrade(pct: number) {
 export default function AppToolsPage() {
   const router = useRouter();
   const { theme } = useThemeStore();
-  const [activeTab, setActiveTab] = useState<"cgpa" | "attendance">("cgpa");
+  const [activeTab, setActiveTab] = useState<"cgpa" | "attendance" | "final">("cgpa");
   const [dataLoaded, setDataLoaded] = useState(false);
   const [attendance, setAttendance] = useState<any[]>([]);
   const [marks, setMarks] = useState<any[]>([]);
@@ -73,15 +74,16 @@ export default function AppToolsPage() {
             background: "rgba(255,255,255,0.04)", borderRadius: "16px", padding: "4px"
           }}>
             {[
-              { key: "cgpa",       label: "📊 CGPA Calculator" },
-              { key: "attendance", label: "📅 Attendance Calc" },
+              { key: "cgpa",       label: "📊 CGPA" },
+              { key: "attendance", label: "📅 Attendance" },
+              { key: "final",      label: "🎯 Pass Predictor" },
             ].map(tab => (
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key as any)}
                 style={{
                   flex: 1, padding: "10px 8px", borderRadius: "12px", border: "none",
-                  fontWeight: 800, fontSize: "12px", cursor: "pointer",
+                  fontWeight: 800, fontSize: "11px", cursor: "pointer",
                   transition: "all 0.2s ease",
                   background: activeTab === tab.key
                     ? "linear-gradient(135deg, rgba(54,115,255,0.8), rgba(94,68,255,0.9))"
@@ -102,11 +104,129 @@ export default function AppToolsPage() {
             </div>
           ) : activeTab === "cgpa" ? (
             <CGPACalculator attendance={attendance} marks={marks} />
-          ) : (
+          ) : activeTab === "attendance" ? (
             <AttendanceCalculator attendance={attendance} />
+          ) : (
+            <FinalPassPredictor attendance={attendance} marks={marks} />
           )}
         </div>
       </main>
+    </div>
+  );
+}
+
+// ─── Final Pass Predictor (60/40) ─────────────────────────────────────────────
+function FinalPassPredictor({ attendance, marks }: { attendance: any[]; marks: any[] }) {
+  const [externals, setExternals] = useState<Record<string, number>>({});
+  
+  const subjects = attendance.filter(c => 
+    c["Category"] === "Theory" || c["Course Type"] === "TH" || !c["Category"]
+  );
+
+  // Map marks to subjects
+  const marksMap: Record<string, any> = {};
+  marks.forEach(m => { marksMap[m.courseCode] = m; });
+
+  if (subjects.length === 0) {
+    return (
+      <div style={{ textAlign: "center", padding: "60px 20px" }}>
+        <div style={{ fontSize: "40px", marginBottom: "16px" }}>🎯</div>
+        <div style={{ fontSize: "16px", fontWeight: 700, color: "var(--text-secondary)" }}>No subject data loaded.</div>
+        <div style={{ fontSize: "13px", color: "var(--text-muted)", marginTop: "8px" }}>Visit the Attendance or Marks page to sync your subjects.</div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+      <div style={{ 
+        background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)",
+        borderRadius: "20px", padding: "16px", fontSize: "12px", color: "var(--text-muted)", lineHeight: 1.5
+      }}>
+        💡 <b>Pass Criteria:</b> Internal (60) + University Exam (40) ≥ 50 total marks. University exam (100) is scaled down to 40. PASS = 50.
+      </div>
+
+      {subjects.map((c, i) => {
+        const code = c["Course Code"];
+        const mData = marksMap[code];
+        
+        // Calculate Internal out of 60
+        let scoredInternals = 0;
+        let totalWeight = 0;
+        if (mData && mData.tests) {
+          mData.tests.forEach((t: any) => {
+            const parts = t.test.split("/");
+            const max = parseFloat(parts[1]) || 25;
+            const score = t.score === "Abs" ? 0 : parseFloat(t.score) || 0;
+            scoredInternals += score;
+            totalWeight += max;
+          });
+        }
+        
+        const internal60 = totalWeight > 0 ? (scoredInternals / totalWeight) * 60 : 30;
+        const ext100 = externals[code] ?? 50;
+        const ext40 = (ext100 / 100) * 40;
+        const totalPass = internal60 + ext40;
+        const isPassing = totalPass >= 50;
+        const statusColor = isPassing ? "#00FF88" : "#f87171";
+
+        return (
+          <div key={i} className="min-card" style={{
+            padding: "20px", borderRadius: "24px",
+            background: isPassing ? "rgba(16,25,57,0.7)" : "rgba(239,68,68,0.05)",
+            border: `1px solid ${isPassing ? "rgba(255,255,255,0.04)" : "rgba(239,68,68,0.15)"}`,
+            transition: "all 0.3s ease"
+          }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "20px" }}>
+              <div style={{ flex: 1, paddingRight: "16px" }}>
+                <div style={{ fontSize: "15px", fontWeight: 800, color: "#fff", lineHeight: 1.3 }}>{c["Course Title"]}</div>
+                <div style={{ fontSize: "10px", color: "var(--text-muted)", marginTop: "4px", fontWeight: 700 }}>{code}</div>
+              </div>
+              <div style={{ textAlign: "right" }}>
+                <div style={{ 
+                  fontSize: "10px", fontWeight: 900, textTransform: "uppercase", 
+                  color: statusColor, marginBottom: "4px", letterSpacing: "0.05em"
+                }}>
+                  {isPassing ? "Predicted Pass" : "At Risk"}
+                </div>
+                <div style={{ fontSize: "28px", fontWeight: 900, color: "#fff", lineHeight: 1 }}>
+                  {totalPass.toFixed(1)}<span style={{ fontSize: "12px", color: "var(--text-muted)" }}>/100</span>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", marginBottom: "16px" }}>
+              <div>
+                <div style={{ fontSize: "9px", color: "var(--text-muted)", fontWeight: 800, textTransform: "uppercase", marginBottom: "6px" }}>Internal (60)</div>
+                <div style={{ fontSize: "18px", fontWeight: 900, color: "#eef2ff" }}>{internal60.toFixed(1)}</div>
+                <div style={{ height: "4px", background: "rgba(255,255,255,0.05)", borderRadius: "2px", marginTop: "8px", overflow: "hidden" }}>
+                  <div style={{ height: "100%", background: "#7c58ff", width: `${(internal60/60)*100}%`, transition: "width 1s ease" }} />
+                </div>
+              </div>
+              <div>
+                <div style={{ fontSize: "9px", color: "var(--text-muted)", fontWeight: 800, textTransform: "uppercase", marginBottom: "6px" }}>Simulate Univ (100)</div>
+                <div style={{ fontSize: "18px", fontWeight: 900, color: "#3673ff" }}>{ext100}</div>
+                <input 
+                  type="range" min={0} max={100} value={ext100}
+                  onChange={e => setExternals(p => ({ ...p, [code]: parseInt(e.target.value) }))}
+                  style={{ width: "100%", accentColor: "#3673ff", marginTop: "8px", height: "4px" }}
+                />
+              </div>
+            </div>
+
+            <div style={{ 
+              fontSize: "11px", fontWeight: 700, padding: "12px", borderRadius: "14px",
+              background: isPassing ? "rgba(0,255,136,0.05)" : "rgba(239,68,68,0.1)",
+              color: statusColor, textAlign: "center", border: `1px solid ${statusColor}1A`
+            }}>
+              {isPassing 
+                ? `Minimum to Pass: ${Math.max(0, Math.ceil((50 - internal60) * 2.5))} marks in University Exam.`
+                : `Critical: You need at least ${Math.ceil((50 - internal60) * 2.5)} marks in University Exam to pass.`
+              }
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -131,11 +251,7 @@ function CGPACalculator({ attendance, marks }: { attendance: any[]; marks: any[]
     });
     setInternals(init);
     setInitialized(true);
-  }, [marks]);
-
-  // Build mark lookup map
-  const marksMap: Record<string, any> = {};
-  marks.forEach(m => { marksMap[m.courseCode] = m; });
+  }, [marks, initialized]);
 
   const theorySubjects = attendance.filter(c => c["Category"] === "Theory" || c["Course Type"] === "TH" || !c["Category"]);
 
@@ -164,7 +280,6 @@ function CGPACalculator({ attendance, marks }: { attendance: any[]; marks: any[]
 
   return (
     <div>
-      {/* GPA Summary Card */}
       <div style={{
         background: "linear-gradient(145deg, rgba(36,58,132,0.5), rgba(18,29,67,0.7))",
         border: "1px solid rgba(124,152,255,0.2)", borderRadius: "24px",
@@ -190,9 +305,8 @@ function CGPACalculator({ attendance, marks }: { attendance: any[]; marks: any[]
         </div>
       </div>
 
-      {/* Subject Rows */}
       <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-        {rows.map((r, i) => (
+        {rows.map((r) => (
           <div key={r.code} className="min-card" style={{
             padding: "18px", borderRadius: "20px",
             background: "rgba(16,25,57,0.7)", border: "1px solid rgba(255,255,255,0.04)"
@@ -209,7 +323,6 @@ function CGPACalculator({ attendance, marks }: { attendance: any[]; marks: any[]
             </div>
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
-              {/* Internal */}
               <div>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px" }}>
                   <span style={{ fontSize: "10px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase" }}>Internal</span>
@@ -221,7 +334,6 @@ function CGPACalculator({ attendance, marks }: { attendance: any[]; marks: any[]
                   style={{ width: "100%", accentColor: "#7c58ff", height: "4px" }}
                 />
               </div>
-              {/* External */}
               <div>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px" }}>
                   <span style={{ fontSize: "10px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase" }}>External</span>
@@ -251,7 +363,6 @@ function AttendanceCalculator({ attendance }: { attendance: any[] }) {
   const [attended, setAttended] = useState<string>("");
   const [target, setTarget] = useState<number>(75);
 
-  // Manual calculator (standalone)
   const totalC = parseInt(conducted) || 0;
   const totalA = parseInt(attended) || 0;
   const manualPct = totalC > 0 ? (totalA / totalC) * 100 : 0;
@@ -263,7 +374,6 @@ function AttendanceCalculator({ attendance }: { attendance: any[] }) {
 
   return (
     <div>
-      {/* Manual Calculator */}
       <div style={{
         background: "linear-gradient(145deg, rgba(36,58,132,0.5), rgba(18,29,67,0.7))",
         border: "1px solid rgba(124,152,255,0.2)", borderRadius: "24px",
@@ -306,7 +416,6 @@ function AttendanceCalculator({ attendance }: { attendance: any[] }) {
           </div>
         </div>
 
-        {/* Target Slider */}
         <div style={{ marginBottom: "20px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px" }}>
             <span style={{ fontSize: "10px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase" }}>Target %</span>
@@ -319,7 +428,6 @@ function AttendanceCalculator({ attendance }: { attendance: any[] }) {
           />
         </div>
 
-        {/* Result */}
         {totalC > 0 && (
           <div style={{
             background: isSafe ? "rgba(0,255,136,0.08)" : "rgba(239,68,68,0.08)",
@@ -336,7 +444,6 @@ function AttendanceCalculator({ attendance }: { attendance: any[] }) {
         )}
       </div>
 
-      {/* Live Subject Data */}
       {attendance.length > 0 && (
         <div>
           <div style={{ fontSize: "11px", color: "var(--text-secondary)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>
@@ -402,14 +509,6 @@ function AttendanceCalculator({ attendance }: { attendance: any[] }) {
               );
             })}
           </div>
-        </div>
-      )}
-
-      {attendance.length === 0 && (
-        <div style={{ textAlign: "center", padding: "40px 20px" }}>
-          <div style={{ fontSize: "36px", marginBottom: "12px" }}>📋</div>
-          <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-secondary)" }}>No live data loaded.</div>
-          <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "6px" }}>Use the calculator above manually, or visit the Attendance page to sync your data.</div>
         </div>
       )}
     </div>
