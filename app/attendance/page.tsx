@@ -57,11 +57,16 @@ export default function AttendancePage() {
       .catch(() => { if (!att.length) router.push("/"); });
 
     dataAPI.getCalendar().then(d => setCalData(d)).catch(() => {});
-    Promise.all([dataAPI.getTimetable(1), dataAPI.getMyTimetable()]).then(([tt, myTT]) => {
+    
+    // Dynamically get the batch from profile
+    const rawBatch = academicData?.profile?.["Combo / Batch"] || "";
+    const batchNum = parseInt(rawBatch.match(/\d+/)?.[0] || "1");
+
+    Promise.all([dataAPI.getTimetable(batchNum), dataAPI.getMyTimetable()]).then(([tt, myTT]) => {
       const courses = myTT?.data?.courses || myTT?.data || [];
       setTTData({ rows: tt?.data?.rows || [], myTT: courses });
     }).catch(() => {});
-  }, [ready]);
+  }, [ready, academicData?.profile]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -587,6 +592,7 @@ function CosmosAttendance({
             const isRisk = attn < 75;
             
             // Calculate margin (classes safe to skip or needed to recover)
+            let margin = 0;
             let statusColor = "#00FF88"; // Vibrant Green
             let statusText = "Margin";
 
