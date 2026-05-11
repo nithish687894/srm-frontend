@@ -344,6 +344,7 @@ function AttendanceCalculator({ attendance }: { attendance: any[] }) {
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
             {attendance.map((c: any, i: number) => {
+              const attn = parseFloat(c["Attn %"]) || 0;
               const cond = parseInt(c["Hours Conducted"]) || 0;
               const abs = parseInt(c["Hours Absent"]) || 0;
               const pres = cond - abs;
