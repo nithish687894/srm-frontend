@@ -301,16 +301,16 @@ export default function LoginPage() {
             </motion.div>
             
             <div style={{ textAlign: "center" }}>
-               <motion.div
+                <motion.div
                   animate={{ opacity: [0.4, 1, 0.4] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
                   style={{ fontSize: "14px", fontWeight: 900, letterSpacing: "0.4em", color: "#fff", textTransform: "uppercase", marginBottom: "8px" }}
-               >
-                  {loginPhase === "success" ? "Access Granted" : "Authenticating"}
-               </motion.div>
-               <div style={{ fontSize: "10px", fontFamily: "monospace", color: "rgba(255,255,255,0.4)", letterSpacing: "0.2em" }}>
-                  {loginPhase === "success" ? "DIVERTING TO SECURE DASHBOARD..." : "ESTABLISHING SECURE HANDSHAKE..."}
-               </div>
+                >
+                  {loginPhase === "success" ? "DECRYPTION COMPLETE" : "BREACHING GATEWAY"}
+                </motion.div>
+                <div style={{ fontSize: "10px", fontFamily: "monospace", color: "rgba(255,255,255,0.4)", letterSpacing: "0.2em" }}>
+                  {loginPhase === "success" ? "HANDSHAKE SUCCESSFUL. DIVERTING TO CORE..." : "BYPASSING ZOHO FIREWALL / SYNCHRONIZING SESSION..."}
+                </div>
             </div>
             </motion.div>
           )}
@@ -378,8 +378,44 @@ export default function LoginPage() {
                   <label htmlFor="remember" style={{ fontSize: '12px', color: '#666', cursor: 'pointer' }}>Remember this device</label>
                 </div>
 
-                <button type="submit" className="login-btn" disabled={loading}>
-                  {loginPhase === "success" ? "ACCESS GRANTED" : (loading ? "INITIALIZING..." : "ENTER PORTAL")}
+                <button type="submit" className="login-btn" disabled={loading} style={{
+                  background: loginPhase === "success" ? "#00E676" : (loading ? "#111" : "#fff"),
+                  color: (loading || loginPhase === "success") ? "#fff" : "#000",
+                  position: 'relative',
+                  overflow: 'hidden',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  boxShadow: loginPhase === "success" ? "0 0 30px rgba(0, 230, 118, 0.4)" : "none",
+                  border: loading ? "1px solid #333" : "none"
+                }}>
+                  {loginPhase === "success" ? (
+                    <motion.span initial={{ y: 20 }} animate={{ y: 0 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                      ACCESS GRANTED <motion.span animate={{ x: [0, 5, 0] }} transition={{ repeat: Infinity }}>→</motion.span>
+                    </motion.span>
+                  ) : loading ? (
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
+                      <motion.div 
+                        animate={{ rotate: 360 }} 
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        style={{ width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.1)', borderTopColor: '#fff', borderRadius: '50%' }}
+                      />
+                      <span>DECRYPTING...</span>
+                    </div>
+                  ) : (
+                    "ENTER PORTAL"
+                  )}
+                  
+                  {/* Subtle Shimmer Effect */}
+                  {!loading && (
+                    <motion.div
+                      animate={{ x: ['-100%', '200%'] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                      style={{
+                        position: 'absolute', top: 0, left: 0, width: '50%', height: '100%',
+                        background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+                        skewX: -20, pointerEvents: 'none'
+                      }}
+                    />
+                  )}
                 </button>
               </form>
             </div>

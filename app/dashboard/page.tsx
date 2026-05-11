@@ -327,10 +327,38 @@ export default function DashboardPage() {
   };
 
   if (!mounted || (loading && !data)) return (
-    <div className="page-root" style={{ display: "flex", flexDirection: "column", padding: "32px", gap: "24px" }}>
-      <div style={{ height: "64px", background: "#1c1c1c", borderRadius: "16px", animation: "pulse 1.5s infinite" }} />
-      <div style={{ height: "160px", background: "#1c1c1c", borderRadius: "16px", animation: "pulse 1.5s infinite" }} />
-      <div style={{ height: "300px", background: "#1c1c1c", borderRadius: "16px", animation: "pulse 1.5s infinite" }} />
+    <div className="page-root" style={{ 
+      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", 
+      background: "#000", gap: "32px", position: "fixed", inset: 0, zIndex: 1000 
+    }}>
+      <motion.div
+        animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }}
+        transition={{ duration: 2, repeat: Infinity }}
+        style={{ 
+          width: "120px", height: "120px", borderRadius: "30px", 
+          background: "linear-gradient(135deg, #3b82f6, #8b5cf6)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          boxShadow: "0 0 50px rgba(59, 130, 246, 0.2)"
+        }}
+      >
+        <img src="/nexus-logo.png" alt="Logo" style={{ width: "60px", height: "60px" }} />
+      </motion.div>
+      <div style={{ textAlign: "center" }}>
+        <motion.div
+          animate={{ opacity: [0.4, 1, 0.4] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+          style={{ fontSize: "12px", fontWeight: 900, letterSpacing: "0.5em", color: "#fff", textTransform: "uppercase", marginBottom: "12px" }}
+        >
+          Decrypting Academic Data
+        </motion.div>
+        <div style={{ width: "200px", height: "2px", background: "rgba(255,255,255,0.05)", borderRadius: "1px", margin: "0 auto", overflow: "hidden" }}>
+          <motion.div
+            animate={{ x: ["-100%", "100%"] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+            style={{ width: "50%", height: "100%", background: "linear-gradient(90deg, transparent, #3b82f6, transparent)" }}
+          />
+        </div>
+      </div>
     </div>
   );
 
