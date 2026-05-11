@@ -481,24 +481,26 @@ function MatrixAttendance({
                 margin = -Math.ceil(3 * cond - 4 * pres);
               }
 
-              let statusColor = "#a8c200"; // Default green
+              let statusColor = "#00FF88"; // Vibrant Green
               let statusText = `SKIP ${margin}`;
 
-              if (isRisk) {
+              if (attn < 75) {
                 statusColor = "#ff3b3b"; // Red
                 statusText = `ATTEND ${Math.abs(margin)}`;
+              } else if (attn < 80 || margin <= 1) {
+                statusColor = "#ff8c00"; // Orange (Warning)
+                statusText = margin === 0 ? "SKIP 0" : `SKIP ${margin}`;
               }
 
-              if (margin === 0) {
-                statusColor = "#ff8c00"; // Orange
-                statusText = "SKIP 0";
-              } else if (margin < 0) {
-                statusColor = "#ff3b3b"; // Red
-                statusText = "SKIP";
+              // Handle 0/0 case (newly added subjects or parsing error)
+              const isNoData = cond === 0;
+              if (isNoData) {
+                statusColor = "rgba(255,255,255,0.2)";
+                statusText = "NO DATA";
               }
 
               return (
-                <div key={i} style={{ background: "#1c1c1c", borderRadius: "28px", padding: "24px", border: isRisk ? "1px solid #ff3b3b" : "1px solid transparent" }}>
+                <div key={i} style={{ background: "#1c1c1c", borderRadius: "28px", padding: "24px", border: isRisk ? "1px solid #ff3b3b" : "1px solid transparent", opacity: isNoData ? 0.6 : 1 }}>
                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "20px" }}>
                       <div style={{ flex: 1, paddingRight: "16px" }}>
                          <div style={{ fontSize: "18px", fontWeight: 900, color: "#fff", lineHeight: 1.2, textTransform: "capitalize" }}>{c["Course Title"].toLowerCase()}</div>
@@ -518,7 +520,7 @@ function MatrixAttendance({
                    </div>
 
                    <div style={{ height: "6px", background: "#000", borderRadius: "99px", overflow: "hidden" }}>
-                      <div style={{ height: "100%", background: statusColor, width: `${attn}%` }} />
+                      <div style={{ height: "100%", background: statusColor, width: `${attn}%`, transition: "width 1s ease-in-out" }} />
                    </div>
                 </div>
               );
@@ -585,31 +587,37 @@ function CosmosAttendance({
             const isRisk = attn < 75;
             
             // Calculate margin (classes safe to skip or needed to recover)
-            let margin = 0;
-            let statusColor = "var(--accent-secondary)";
+            let statusColor = "#00FF88"; // Vibrant Green
             let statusText = "Margin";
 
-            if (attn >= 75) {
-              margin = Math.floor((pres / 0.75) - cond);
-              if (margin === 0) {
-                statusColor = "#ff8c00";
-                statusText = "Skip 0";
-              }
-            } else {
+            if (attn < 75) {
               margin = Math.ceil(3 * cond - 4 * pres);
               statusColor = "var(--accent-red)";
-              statusText = "Skip";
+              statusText = "Attend";
+            } else {
+              margin = Math.floor((pres / 0.75) - cond);
+              if (attn < 80 || margin <= 1) {
+                statusColor = "#ff8c00"; // Orange
+                statusText = "Critical";
+              }
+            }
+
+            // Handle 0/0 case
+            const isNoData = cond === 0;
+            if (isNoData) {
+              statusColor = "rgba(255,255,255,0.2)";
+              statusText = "No Data";
             }
 
             return (
-              <div key={i} className="min-card" style={{ padding: "20px" }}>
+              <div key={i} className="min-card" style={{ padding: "20px", opacity: isNoData ? 0.6 : 1 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
                   <div style={{ flex: 1, paddingRight: "16px" }}>
                     <div style={{ fontSize: "15px", fontWeight: 700, color: "#fff", lineHeight: 1.3 }}>{c["Course Title"]}</div>
                     <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "4px", fontWeight: 600 }}>{c["Course Code"]} • Theory</div>
                   </div>
                   <div style={{ textAlign: "right" }}>
-                    <div style={{ fontSize: "18px", fontWeight: 900, color: statusColor }}>{margin === 0 && attn >= 75 ? 0 : isRisk ? "" : margin}</div>
+                    <div style={{ fontSize: "18px", fontWeight: 900, color: statusColor }}>{isNoData ? "—" : (attn < 75 ? margin : margin)}</div>
                     <div style={{ fontSize: "9px", color: statusColor, fontWeight: 800, textTransform: "uppercase" }}>{statusText}</div>
                   </div>
                 </div>
@@ -628,7 +636,8 @@ function CosmosAttendance({
                     height: "100%", 
                     background: statusColor, 
                     width: `${attn}%`,
-                    boxShadow: `0 0 10px ${statusColor}4D`
+                    boxShadow: `0 0 10px ${statusColor}4D`,
+                    transition: "width 1s ease-in-out"
                   }} />
                 </div>
               </div>
