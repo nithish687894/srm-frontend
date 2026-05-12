@@ -53,13 +53,47 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
         }
 
 
+        body.theme-matrix {
+          font-family: 'Plus Jakarta Sans', sans-serif;
+          background: #000000;
+          margin: 0;
+          color: #ffffff;
+        }
+
+        .theme-matrix {
+          --bg: #000000;
+          --bg-surface: #0a0a0a;
+          --bg-elevated: #111111;
+          --bg-card: #0a0a0a;
+          --text-primary: #ffffff;
+          --text-secondary: #888888;
+          --text-muted: #444444;
+          --accent: #3b82f6;
+          --accent-soft: rgba(59,130,246,0.15);
+          --accent-glow: rgba(59,130,246,0.3);
+          --accent-red: #ef4444;
+          --accent-green: #22c55e;
+          --border: rgba(255,255,255,0.1);
+          --border-accent: rgba(59,130,246,0.4);
+          --nav-bg: rgba(0,0,0,0.95);
+          --nav-blur: 20px;
+          --font-body: 'Plus Jakarta Sans', sans-serif;
+          --radius: 16px;
+          background: var(--bg);
+          color: var(--text-primary);
+        }
+
         body.theme-editorial {
           font-family: 'DM Sans', sans-serif;
           background: #f5f2eb;
           margin: 0;
         }
       `}</style>
-      <div className={`theme-${currentTheme}`} style={{ minHeight: "100vh" }}>
+      <div 
+        className={mounted ? `theme-${theme}` : "theme-matrix"} 
+        style={{ minHeight: "100vh" }}
+        suppressHydrationWarning
+      >
         {children}
       </div>
     </>

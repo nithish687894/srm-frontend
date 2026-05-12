@@ -51,14 +51,26 @@ API.interceptors.response.use(
 );
 
 export const authAPI = {
-  login: (email: string, password: string) =>
+  // New v1 endpoints
+  initAuth: (type: string) => 
+    API.get(`/api/v1/connectors/${type}/init`).then((r) => r.data),
+  
+  login: (email: string, password: string, type: string = "academia", extra: any = {}) =>
+    API.post(`/api/v1/connectors/${type}/connect`, { email, username: email, password, ...extra }).then((r) => r.data),
+  
+  // Keep legacy for backward compatibility if needed, but we prefer v1 now
+  legacyLogin: (email: string, password: string) =>
     API.post("/api/login", { email, password }).then((r) => r.data),
-  logout: () => API.post("/api/logout").then((r) => r.data),
+    
+  logout: (type: string = "academia") => 
+    API.delete(`/api/v1/connectors/${type}/disconnect`).then((r) => r.data),
+    
   refreshToken: (refreshToken: string) =>
-    axios.post(`${API.defaults.baseURL}/api/refresh-token`, { refreshToken }).then((r) => r.data),
+    axios.post(`${API.defaults.baseURL}/api/v1/session/refresh`, { refreshToken }).then((r) => r.data),
 };
 
 export const dataAPI = {
+  getUnified: () => API.get("/api/v1/data/unified").then((r) => r.data),
   getAll: () => API.get("/api/all").then((r) => r.data),
   refresh: () => API.get("/api/all").then((r) => r.data),
   getAttendance: () => API.get("/api/attendance").then((r) => r.data),
@@ -67,6 +79,11 @@ export const dataAPI = {
     API.get(`/api/timetable?batch=${batch}`).then((r) => r.data),
   getCalendar: () => API.get("/api/calendar").then((r) => r.data),
   getMyTimetable: () => API.get("/api/my-timetable").then((r) => r.data),
+  
+  // Student Portal Specific
+  getAbsentDetails: () => API.get("/api/v1/data/student-portal/absent").then((r) => r.data),
+  getMalpractice: () => API.get("/api/v1/data/student-portal/malpractice").then((r) => r.data),
+  
   getAdminLogs: () => API.get("/api/admin/login-logs").then((r) => r.data),
   clearAdminLogs: () => API.delete("/api/admin/login-logs").then((r) => r.data),
   getBroadcast: () => API.get("/api/admin/broadcast").then((r) => r.data),

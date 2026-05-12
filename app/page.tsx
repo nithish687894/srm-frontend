@@ -15,6 +15,12 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [loginPhase, setLoginPhase] = useState<"idle" | "auth" | "success">("idle");
   const [error, setError] = useState("");
+  
+  // Phase 2: Multi-Connector Support
+  const [connector, setConnector] = useState<"academia" | "student-portal">("academia");
+  const [captchaData, setCaptchaData] = useState<{ captcha: string; token: string } | null>(null);
+  const [captchaAnswer, setCaptchaAnswer] = useState("");
+
   const router = useRouter();
   const { setAuthData, authToken, _hasHydrated, hasChosenTheme } = useAuthStore();
  
@@ -25,6 +31,22 @@ export default function LoginPage() {
        else router.replace("/setup/theme");
      }
    }, [_hasHydrated, authToken, hasChosenTheme, router]);
+
+   // Phase 2: Fetch Captcha when Student Portal is selected
+   useEffect(() => {
+     if (connector === "student-portal" && !captchaData) {
+       fetchCaptcha();
+     }
+   }, [connector, captchaData]);
+
+   async function fetchCaptcha() {
+     try {
+       const data = await authAPI.initAuth("student-portal");
+       setCaptchaData(data);
+     } catch (e) {
+       setError("FAILED TO LOAD CAPTCHA");
+     }
+   }
  
     async function handleLogin() {
       if (!email || !password) return setError("PROVIDE CREDENTIALS");
@@ -32,8 +54,14 @@ export default function LoginPage() {
       setLoginPhase("auth");
       setError("");
       const finalEmail = email.includes("@") ? email : `${email.trim()}@srmist.edu.in`;
+      
       try {
-        const res = await authAPI.login(finalEmail, password);
+        const extra = connector === "student-portal" ? {
+          captcha: captchaAnswer,
+          token: captchaData?.token
+        } : {};
+
+        const res = await authAPI.login(finalEmail, password, connector, extra);
         setAuthData(res.token, res.refreshToken, finalEmail);
         setLoginPhase("success");
         
@@ -328,10 +356,10 @@ export default function LoginPage() {
               <div style={{ marginBottom: "20px", display: "flex", justifyContent: "center" }}>
                 <img src="/nexus-logo.png" alt="Logo" style={{ width: "64px", height: "64px", filter: "drop-shadow(0 0 15px rgba(59, 130, 246, 0.3))" }} />
               </div>
-              <h2 style={{ textAlign: 'center', marginBottom: '8px', fontSize: '24px' }}>Secure Login</h2>
-              <p style={{ textAlign: 'center', color: '#444', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '32px' }}>
+              <p style={{ textAlign: 'center', color: '#444', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '24px' }}>
                 Use your SRM NETID credentials
               </p>
+
               
               <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
                 {error && <div className="login-error">{error}</div>}
@@ -363,14 +391,15 @@ export default function LoginPage() {
                     onChange={e => setPassword(e.target.value)}
                     disabled={loading}
                   />
-                  <button 
-                    type="button" 
-                    style={{ position: 'absolute', right: '16px', top: '18px', background: 'none', border: 'none', color: '#444', cursor: 'pointer' }}
+                  <button
+                    type="button"
                     onClick={() => setShowPassword(!showPassword)}
+                    style={{ position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: '#444', cursor: 'pointer' }}
                   >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
                 </div>
+
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px', padding: '0 8px' }}>
                   <input type="checkbox" id="remember" style={{ accentColor: '#fff' }} defaultChecked />

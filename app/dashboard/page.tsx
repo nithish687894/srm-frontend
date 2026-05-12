@@ -9,6 +9,8 @@ import { buildCalendarIndex } from "@/lib/calendarIndex";
 import { useThemeStore } from "@/lib/themeStore";
 import { motion } from "framer-motion";
 import { extractBatch } from "@/lib/utils";
+import PortalSyncModal from "@/components/PortalSyncModal";
+import { ShieldCheck } from "lucide-react";
 
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
 function parseStart(t: string) { const m = t.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
@@ -23,18 +25,32 @@ function parseTimeRange(t: string): { start: string, end: string } {
   return { start: t, end: t };
 }
 
-const PERIODS = [
-  { id: 1, start: "08:00", end: "08:50" },
-  { id: 2, start: "08:50", end: "09:40" },
-  { id: 3, start: "09:45", end: "10:35" },
-  { id: 4, start: "10:40", end: "11:30" },
-  { id: 5, start: "11:35", end: "12:25" },
-  { id: 6, start: "12:30", end: "13:20" },
-  { id: 7, start: "13:25", end: "14:15" },
-  { id: 8, start: "14:20", end: "15:10" },
-  { id: 9, start: "15:10", end: "16:00" },
-  { id: 10, start: "16:00", end: "16:50" },
-];
+const BATCH_PERIODS = {
+  1: [
+    { id: 1, start: "08:00", end: "08:50" },
+    { id: 2, start: "08:50", end: "09:40" },
+    { id: 3, start: "09:45", end: "10:35" },
+    { id: 4, start: "10:40", end: "11:30" },
+    { id: 5, start: "11:35", end: "12:25" },
+    { id: 6, start: "12:30", end: "13:20" },
+    { id: 7, start: "13:25", end: "14:15" },
+    { id: 8, start: "14:20", end: "15:10" },
+    { id: 9, start: "15:10", end: "16:00" },
+    { id: 10, start: "16:00", end: "16:50" },
+  ],
+  2: [
+    { id: 1, start: "13:15", end: "14:05" },
+    { id: 2, start: "14:05", end: "14:55" },
+    { id: 3, start: "15:00", end: "15:50" },
+    { id: 4, start: "15:50", end: "16:40" },
+    { id: 5, start: "16:45", end: "17:35" },
+    { id: 6, start: "17:35", end: "18:25" },
+    { id: 7, start: "18:30", end: "19:20" },
+    { id: 8, start: "19:20", end: "20:10" },
+    { id: 9, start: "20:10", end: "21:00" },
+    { id: 10, start: "21:00", end: "21:50" },
+  ]
+};
 
 interface ScheduleItem { slot: string; startTime: string; endTime: string; courseTitle: string; courseCode: string; roomNo: string; facultyName: string; courseType: string; }
 
@@ -136,7 +152,53 @@ export default function DashboardPage() {
   const [calData, setCalData] = useState<any>(null);
   const [dayOffset, setDayOffset] = useState(0);
   const [mounted, setMounted] = useState(false);
+
+  const renderAcademicIntegrityHub = (isMatrix = false) => {
+    const hasData = !!data?.studentPortal?.marks;
+    return (
+      <div style={{ 
+        background: isMatrix ? "#1c1c1c" : "linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%)",
+        border: isMatrix ? "1px solid #333" : "1px solid rgba(255, 255, 255, 0.05)", 
+        borderRadius: "24px", padding: "24px", marginBottom: "32px",
+        position: "relative", overflow: "hidden"
+      }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+          <div>
+            <div style={{ fontSize: "10px", fontWeight: 900, color: isMatrix ? "#a8c200" : "#3b82f6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "4px" }}>Official Performance</div>
+            <h3 style={{ fontSize: "18px", fontWeight: "bold", color: "#fff" }}>Academic Intelligence Hub</h3>
+          </div>
+          <div style={{ padding: "8px", borderRadius: "10px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }}>
+            <ShieldCheck size={20} color={isMatrix ? "#a8c200" : "#3b82f6"} />
+          </div>
+        </div>
+
+        {hasData ? (
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+            <div style={{ background: "rgba(0,0,0,0.2)", padding: "16px", borderRadius: "16px" }}>
+              <div style={{ fontSize: "20px", fontWeight: "900", color: "#fff" }}>{data?.studentPortal?.marks?.failed?.length || 0}</div>
+              <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase" }}>Arrears Tracked</div>
+            </div>
+            <div style={{ background: "rgba(0,0,0,0.2)", padding: "16px", borderRadius: "16px" }}>
+              <div style={{ fontSize: "20px", fontWeight: "900", color: "#fff" }}>{data?.studentPortal?.marks?.marks?.filter((m: any) => m.grade === 'U').length || 0}</div>
+              <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase" }}>Official Grades</div>
+            </div>
+          </div>
+        ) : (
+          <div style={{ textAlign: "center", padding: "20px 0" }}>
+            <p style={{ fontSize: "13px", color: "#666", marginBottom: "16px" }}>Connect your official Student Portal to reveal complete academic history and performance insights.</p>
+            <button 
+              onClick={() => setIsSyncModalOpen(true)}
+              style={{ background: isMatrix ? "#a8c200" : "#fff", color: "#000", padding: "10px 20px", borderRadius: "12px", fontSize: "12px", fontWeight: 900, textTransform: "uppercase" }}
+            >
+              Unlock Performance Records
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  };
   const [showStudentInfo, setShowStudentInfo] = useState(false);
+  const [isSyncModalOpen, setIsSyncModalOpen] = useState(false);
   const [broadcast, setBroadcast] = useState<any>(null);
   const [batch, setBatch] = useState<number>(() => {
     const raw = academicData?.profile?.["Combo / Batch"] || "";
@@ -149,14 +211,20 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (!ready) return;
-    dataAPI.getAll()
+    dataAPI.getUnified()
       .then(d => {
         if (d && d.success) {
-          setData(d);
-          setAcademicData(d);
-          if (d.profile) {
-            setProfile(d.profile);
-            const b = extractBatch(d.profile["Combo / Batch"] || "");
+          // Phase 2: Merge the data so existing components (which expect 'academia' format) still work
+          const mergedData = {
+            ...d.academia,
+            studentPortal: d.studentPortal
+          };
+          setData(mergedData);
+          setAcademicData(mergedData);
+          
+          if (d.academia?.profile) {
+            setProfile(d.academia.profile);
+            const b = extractBatch(d.academia.profile["Combo / Batch"] || "");
             setBatch(b);
           }
         }
@@ -183,6 +251,11 @@ export default function DashboardPage() {
   const totalCourses = att.length;
   const avgAtt = att.length ? (att.reduce((s: number, c: any) => s + parseFloat(c["Attn %"] || 0), 0) / att.length).toFixed(1) : "—";
   const riskCount = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
+
+  // Aggregate Hours
+  const totalHours = att.reduce((s: number, c: any) => s + (parseInt(c["Hours Conducted"]) || 0), 0);
+  const presentHours = att.reduce((s: number, c: any) => s + (parseInt(c["Hours Attended"]) || (parseInt(c["Hours Conducted"]) - parseInt(c["Hours Absent"])) || 0), 0);
+  const absentHours = att.reduce((s: number, c: any) => s + (parseInt(c["Hours Absent"]) || 0), 0);
 
   // Calculate average marks
   const totalScored = marks.reduce((s: number, m: any) => s + (m.tests?.reduce((a: number, t: any) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
@@ -364,14 +437,16 @@ export default function DashboardPage() {
 
   if (theme === "cosmos") return (
     <>
-      <CosmosDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} onShowStudentInfo={() => setShowStudentInfo(true)} broadcast={broadcast} />
+      <CosmosDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} onShowStudentInfo={() => setShowStudentInfo(true)} broadcast={broadcast} setIsSyncModalOpen={setIsSyncModalOpen} renderAcademicIntegrityHub={renderAcademicIntegrityHub} userBatch={batch} totalHours={totalHours} presentHours={presentHours} absentHours={absentHours} />
+      <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => window.location.reload()} netId={academicData?.profile?.["Registration Number"] || ""} />
       {renderStudentInfoModal()}
     </>
   );
 
   if (theme === "matrix") return (
     <>
-      <MatrixDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} dayOffset={dayOffset} setDayOffset={setDayOffset} onShowStudentInfo={() => setShowStudentInfo(true)} broadcast={broadcast} nowMin={nowMin} />
+      <MatrixDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} dayOffset={dayOffset} setDayOffset={setDayOffset} onShowStudentInfo={() => setShowStudentInfo(true)} broadcast={broadcast} nowMin={nowMin} setIsSyncModalOpen={setIsSyncModalOpen} renderAcademicIntegrityHub={renderAcademicIntegrityHub} userBatch={batch} totalHours={totalHours} presentHours={presentHours} absentHours={absentHours} />
+      <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => window.location.reload()} netId={academicData?.profile?.["Registration Number"] || ""} />
       {renderStudentInfoModal()}
     </>
   );
@@ -380,6 +455,12 @@ export default function DashboardPage() {
     <div className="page-root">
       <Sidebar />
       {renderStudentInfoModal()}
+      <PortalSyncModal 
+        isOpen={isSyncModalOpen} 
+        onClose={() => setIsSyncModalOpen(false)} 
+        onSuccess={() => window.location.reload()} 
+        netId={user?.email?.split('@')[0] || ""}
+      />
       <main className="page-main">
         <div className="page-content" data-section="Portal" style={{ paddingBottom: "120px" }}>
 
@@ -393,8 +474,25 @@ export default function DashboardPage() {
             <div style={{ textAlign: "right", display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
               <div style={{ fontSize: "12px", color: "#666666", marginBottom: "2px" }}>Welcome Back</div>
               <div style={{ fontSize: "24px", fontWeight: "bold", color: "#ffffff", letterSpacing: "-0.5px" }}>{firstName}</div>
+              
+              {/* Sync Button */}
+              <button 
+                onClick={() => setIsSyncModalOpen(true)}
+                style={{ 
+                  marginTop: "8px", display: "flex", alignItems: "center", gap: "6px", 
+                  padding: "6px 12px", borderRadius: "10px", background: "rgba(59, 130, 246, 0.1)", 
+                  border: "1px solid rgba(59, 130, 246, 0.2)", color: "#3b82f6", 
+                  fontSize: "10px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em" 
+                }}
+              >
+                <ShieldCheck size={14} />
+                Unlock Official History
+              </button>
             </div>
           </div>
+
+          {/* New: Unified History Card */}
+          {renderAcademicIntegrityHub()}
 
           {/* Top Stats Cards */}
           {(() => {
@@ -547,11 +645,13 @@ function BroadcastBanner({ broadcast }: any) {
   );
 }
 
-function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, initials, firstName, dayOrder, isHoliday, dayOffset, setDayOffset, onShowStudentInfo, broadcast, nowMin }: any) {
+
+function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, initials, firstName, dayOrder, isHoliday, dayOffset, setDayOffset, onShowStudentInfo, broadcast, nowMin, setIsSyncModalOpen, renderAcademicIntegrityHub, userBatch, totalHours, presentHours, absentHours }: any) {
+  const PERIODS = BATCH_PERIODS[userBatch as keyof typeof BATCH_PERIODS] || BATCH_PERIODS[1];
   const router = useRouter();
   const profile = data?.profile || {};
   const regNo = profile["Registration Number"] || "UNKNOWN";
-  const batch = profile["Combo / Batch"] || "N/A";
+  const batchDisplay = profile["Combo / Batch"] || profile["Batch"] || (userBatch ? `Batch ${userBatch}` : "N/A");
 
   const firstStart = targetClasses[0] ? fmtTimeOnly(targetClasses[0].startTime) : "";
   const lastEnd = targetClasses[targetClasses.length - 1] ? fmtTimeOnly(targetClasses[targetClasses.length - 1].endTime) : "";
@@ -570,13 +670,21 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
             <div>
               <div style={{ fontSize: "10px", color: "#a8c200", letterSpacing: "0.2em", fontWeight: 900, marginBottom: "4px" }}>SYSTEM INITIALIZED</div>
               <div style={{ fontSize: "36px", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 1 }}>{firstName.toUpperCase()}</div>
-              <div style={{ fontSize: "11px", color: "#666", fontWeight: 800, marginTop: "6px" }}>ID: {regNo} • {batch}</div>
+              <div style={{ fontSize: "11px", color: "#666", fontWeight: 800, marginTop: "6px" }}>ID: {regNo} • {batchDisplay}</div>
             </div>
+            <div>
               <div 
                 onClick={onShowStudentInfo}
                 style={{ width: "48px", height: "48px", borderRadius: "14px", background: "#1c1c1c", border: "1px solid #333", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px", fontWeight: 900, cursor: "pointer" }}>
                  {initials}
               </div>
+              <button 
+                onClick={() => setIsSyncModalOpen(true)}
+                style={{ marginTop: "8px", background: "rgba(168, 194, 0, 0.1)", border: "1px solid rgba(168, 194, 0, 0.2)", color: "#a8c200", padding: "4px 10px", borderRadius: "8px", fontSize: "9px", fontWeight: 900, textTransform: "uppercase" }}
+              >
+                Unlock History
+              </button>
+            </div>
           </div>
         </div>
 
@@ -610,6 +718,9 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
             </div>
           </div>
         )}
+
+        {/* New: Unified History Card */}
+        {renderAcademicIntegrityHub(true)}
 
         {/* Header */}
         <BroadcastBanner broadcast={broadcast} />
@@ -712,12 +823,12 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
   );
 }
 
-function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, recentTop5, initials, firstName, dayOrder, isHoliday, onShowStudentInfo, broadcast }: any) {
+function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, recentTop5, initials, firstName, dayOrder, isHoliday, onShowStudentInfo, broadcast, setIsSyncModalOpen, renderAcademicIntegrityHub, userBatch, totalHours, presentHours, absentHours }: any) {
   const router = useRouter();
   const marksPct = parseFloat(avgMarks as string) || 0;
   const profile = data?.profile || {};
   const regNo = profile["Registration Number"] || "";
-  const batch = profile["Combo / Batch"] || "";
+  const batchDisplay = profile["Combo / Batch"] || profile["Batch"] || (userBatch ? `Batch ${userBatch}` : "");
 
   return (
     <div style={{ background: "transparent", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>
@@ -745,10 +856,18 @@ function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
               {isHoliday ? "Today: Holiday" : `Today: Day Order ${dayOrder || "—"}`}
             </div>
           </div>
-          <div 
-            onClick={onShowStudentInfo}
-            style={{ width: "40px", height: "40px", borderRadius: "12px", background: "linear-gradient(135deg, #3055d7, #d946ef)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, border: "1px solid rgba(255,255,255,0.2)", boxShadow: "0 4px 15px rgba(217, 70, 239, 0.28)", cursor: "pointer" }}>
-            {initials}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "8px" }}>
+            <div 
+              onClick={onShowStudentInfo}
+              style={{ width: "40px", height: "40px", borderRadius: "12px", background: "linear-gradient(135deg, #3055d7, #d946ef)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, border: "1px solid rgba(255,255,255,0.2)", boxShadow: "0 4px 15px rgba(217, 70, 239, 0.28)", cursor: "pointer" }}>
+              {initials}
+            </div>
+            <button 
+              onClick={() => setIsSyncModalOpen(true)}
+              style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", padding: "4px 8px", borderRadius: "8px", fontSize: "9px", fontWeight: 800, textTransform: "uppercase" }}
+            >
+              Unlock More
+            </button>
           </div>
         </div>
 
@@ -790,6 +909,9 @@ function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
                 <div style={{ width: "72%", height: "100%", borderRadius: "999px", background: "linear-gradient(90deg, #00f0ff, #d946ef)", boxShadow: "0 0 10px rgba(217, 70, 239, 0.4)" }} />
               </div>
             </div>
+          </div>
+          <div style={{ marginTop: "12px" }}>
+            {renderAcademicIntegrityHub()}
           </div>
 
           <div className="min-card" style={{ padding: "18px", borderRadius: "20px" }}>
@@ -842,7 +964,7 @@ function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
         </div>
 
         <div style={{ fontSize: "10px", color: "var(--text-muted)", marginTop: "12px" }}>
-          {regNo} {batch ? `• ${batch}` : ""}
+          {regNo} {batchDisplay ? `• ${batchDisplay}` : ""}
         </div>
       </main>
     </div>

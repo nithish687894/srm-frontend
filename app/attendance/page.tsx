@@ -203,9 +203,9 @@ export default function AttendancePage() {
     ? (att.reduce((s, c) => s + parseFloat(c["Attn %"] || 0), 0) / att.length).toFixed(1)
     : "—";
 
-  const totalAgg = att.reduce((acc, c) => acc + parseInt(c["Hours Conducted"] || "0"), 0);
-  const absentAgg = att.reduce((acc, c) => acc + parseInt(c["Hours Absent"] || "0"), 0);
-  const presentAgg = totalAgg - absentAgg;
+  const totalAgg = att.reduce((acc, c) => acc + (parseInt(c["Hours Conducted"]) || 0), 0);
+  const absentAgg = att.reduce((acc, c) => acc + (parseInt(c["Hours Absent"]) || 0), 0);
+  const presentAgg = att.reduce((acc, c) => acc + (parseInt(c["Hours Attended"]) || (parseInt(c["Hours Conducted"]) - parseInt(c["Hours Absent"])) || 0), 0);
 
   if (loading && !att.length) return (
     <div className="page-root" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -336,7 +336,7 @@ export default function AttendancePage() {
               const isRisk = attn < 75;
               const cond = parseInt(c["Hours Conducted"]) || 0;
               const abs = parseInt(c["Hours Absent"]) || 0;
-              const pres = cond - abs;
+              const pres = parseInt(c["Hours Attended"]) || (cond - abs);
 
               return (
                 <div key={i} className="min-card" style={{ background: isRisk ? "rgba(255,59,59,0.05)" : "var(--bg-surface)" }}>
@@ -477,7 +477,7 @@ function MatrixAttendance({
               const isRisk = attn < 75;
               const cond = parseInt(c["Hours Conducted"]) || 0;
               const abs = parseInt(c["Hours Absent"]) || 0;
-              const pres = cond - abs;
+              const pres = parseInt(c["Hours Attended"]) || (cond - abs);
 
               let margin = 0;
               if (attn >= 75) {
@@ -596,7 +596,7 @@ function CosmosAttendance({
             const attn = parseFloat(c["Attn %"]) || 0;
             const cond = parseInt(c["Hours Conducted"]) || 0;
             const abs = parseInt(c["Hours Absent"]) || 0;
-            const pres = cond - abs;
+            const pres = parseInt(c["Hours Attended"]) || (cond - abs);
             const isRisk = attn < 75;
             
             // Calculate margin (classes safe to skip or needed to recover)

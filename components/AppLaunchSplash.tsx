@@ -21,8 +21,7 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
   useEffect(() => {
     const checkVersion = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://srmx-backend-new.render.com';
-        const res = await fetch(`${apiUrl}/api/config`);
+        const res = await fetch('/api/config');
         const data = await res.json();
         
         // Version comparison logic: simple string comparison works for semantic versioning

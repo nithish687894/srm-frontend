@@ -738,7 +738,7 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
                                       <div style={{ flex: 1, height: "1px", borderTop: "1.5px dashed #222" }} />
                                    ) : (
                                       <div style={{ flex: 1, background: "rgba(255,255,255,0.03)", padding: "8px 10px", borderRadius: "10px", border: "1px solid rgba(255,255,255,0.05)" }}>
-                                         <div style={{ fontSize: "11px", fontWeight: 900, color: "#ddd", lineHeight: 1.1 }}>{cls.courseTitle.split(" ")[0]}</div>
+                                         <div style={{ fontSize: "10px", fontWeight: 900, color: "#ddd", lineHeight: 1.1, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", textTransform: "capitalize" }}>{cls.courseTitle.toLowerCase()}</div>
                                          <div style={{ fontSize: "8px", color: "#666", fontWeight: 700 }}>{cls.roomNo || "TBA"}</div>
                                       </div>
                                    )}
