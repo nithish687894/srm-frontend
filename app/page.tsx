@@ -260,10 +260,9 @@ export default function LoginPage() {
                 inset: 0,
                 zIndex: 10000,
                 background: "rgba(0,0,0,0.95)",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
+                display: "grid",
+                placeItems: "center",
+                height: "100dvh",
                 backdropFilter: "blur(10px)"
               }}
             >
