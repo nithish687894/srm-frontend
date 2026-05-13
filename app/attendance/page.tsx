@@ -200,12 +200,18 @@ export default function AttendancePage() {
   const riskClasses = att.filter(c => parseFloat(c["Attn %"]) < 75);
   const displayAtt = showRiskOnly ? riskClasses : att;
   const avgAtt = att.length
-    ? (att.reduce((s, c) => s + parseFloat(c["Attn %"] || 0), 0) / att.length).toFixed(1)
+    ? (att.reduce((s, c) => {
+        const val = parseFloat(c["Attn %"] || "0");
+        return s + (isNaN(val) ? 0 : val);
+      }, 0) / att.length).toFixed(1)
     : "—";
 
   const totalAgg = att.reduce((acc, c) => acc + (parseInt(c["Hours Conducted"]) || 0), 0);
   const absentAgg = att.reduce((acc, c) => acc + (parseInt(c["Hours Absent"]) || 0), 0);
-  const presentAgg = att.reduce((acc, c) => acc + (parseInt(c["Hours Attended"]) || (parseInt(c["Hours Conducted"]) - parseInt(c["Hours Absent"])) || 0), 0);
+  const presentAgg = att.reduce((acc, c) => {
+    const p = parseInt(c["Hours Attended"]) || (parseInt(c["Hours Conducted"]) - parseInt(c["Hours Absent"])) || 0;
+    return acc + (isNaN(p) ? 0 : p);
+  }, 0);
 
   if (loading && !att.length) return (
     <div className="page-root" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
