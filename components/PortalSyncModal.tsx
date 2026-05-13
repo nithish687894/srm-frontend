@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { authAPI } from "@/lib/api";
-import { X, ShieldCheck, RefreshCw, Lock, Cpu } from "lucide-react";
+import { X, ShieldCheck, RefreshCw, Lock, Cpu, Eye, EyeOff } from "lucide-react";
 
 interface PortalSyncModalProps {
   isOpen: boolean;
@@ -13,6 +13,7 @@ interface PortalSyncModalProps {
 
 export default function PortalSyncModal({ isOpen, onClose, onSuccess, netId }: PortalSyncModalProps) {
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [captchaAnswer, setCaptchaAnswer] = useState("");
   const [captchaData, setCaptchaData] = useState<{ captcha: string; captchaToken: string } | null>(null);
   const [loading, setLoading] = useState(false);
@@ -26,6 +27,7 @@ export default function PortalSyncModal({ isOpen, onClose, onSuccess, netId }: P
       setError("");
       setPassword("");
       setCaptchaAnswer("");
+      setShowPassword(false);
     }
   }, [isOpen]);
 
