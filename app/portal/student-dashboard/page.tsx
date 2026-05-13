@@ -54,13 +54,23 @@ export default function StudentDashboardPage() {
         </div>
 
         {/* Content */}
-        {!studentPortalConnected || !profile ? (
+        {!studentPortalConnected ? (
           <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
             <div className="w-16 h-16 rounded-full bg-red-500/20 text-red-500 flex items-center justify-center mb-4 border border-red-500/50">
               <User size={32} />
             </div>
             <h2 className="text-xl font-bold text-white mb-2">Portal Not Connected</h2>
             <p className="text-white/60 text-sm">Please link your Student Portal from the home screen to view your dashboard.</p>
+          </div>
+        ) : !profile ? (
+          <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+            <motion.div 
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+              className="w-16 h-16 rounded-full border-2 border-blue-500/20 border-t-blue-500 mb-4"
+            />
+            <h2 className="text-xl font-bold text-white mb-2">Synchronizing Profile</h2>
+            <p className="text-white/60 text-sm">We are pulling your official details from the SRM portal. This may take up to 60 seconds.</p>
           </div>
         ) : (
           <div className="px-5">
