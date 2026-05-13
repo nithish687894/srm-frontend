@@ -10,7 +10,7 @@ import { useThemeStore } from "@/lib/themeStore";
 import { motion } from "framer-motion";
 import { extractBatch } from "@/lib/utils";
 import PortalSyncModal from "@/components/PortalSyncModal";
-import UnsplashBackground from "@/components/UnsplashBackground";
+import CyberBackground from "@/components/UnsplashBackground";
 import StudentPortalPrompt from "@/components/StudentPortalPrompt";
 import { ShieldCheck } from "lucide-react";
 
@@ -447,7 +447,7 @@ export default function DashboardPage() {
 
   return (
     <div className="page-root">
-      <UnsplashBackground query="university campus night cyberpunk" />
+      <CyberBackground variant="green" />
       <Sidebar />
       {renderStudentInfoModal()}
       <PortalSyncModal 
