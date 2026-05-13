@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
@@ -10,6 +10,8 @@ import { useThemeStore } from "@/lib/themeStore";
 import { motion } from "framer-motion";
 import { extractBatch } from "@/lib/utils";
 import PortalSyncModal from "@/components/PortalSyncModal";
+import UnsplashBackground from "@/components/UnsplashBackground";
+import StudentPortalPrompt from "@/components/StudentPortalPrompt";
 import { ShieldCheck } from "lucide-react";
 
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
@@ -144,7 +146,7 @@ export default function DashboardPage() {
   const { ready } = useAuth();
   const router = useRouter();
   const { theme } = useThemeStore();
-  const { email, setProfile, academicData, setAcademicData } = useAuthStore();
+  const { email, setProfile, academicData, setAcademicData, studentPortalConnected, setStudentPortalConnected, setStudentPortalData } = useAuthStore();
   const [data, setData] = useState<any>(academicData || null);
   const [loading, setLoading] = useState(!academicData);
   const [ttData, setTTData] = useState<any>(null);
@@ -154,21 +156,21 @@ export default function DashboardPage() {
   const [mounted, setMounted] = useState(false);
 
   const renderAcademicIntegrityHub = (isMatrix = false) => {
-    const hasData = !!data?.studentPortal?.marks;
+    const hasData = studentPortalConnected && !!data?.studentPortal?.marks;
     return (
       <div style={{ 
-        background: isMatrix ? "#1c1c1c" : "linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%)",
+        background: isMatrix ? "#1c1c1c" : "linear-gradient(135deg, rgba(0, 255, 136, 0.03) 0%, rgba(59, 130, 246, 0.03) 100%)",
         border: isMatrix ? "1px solid #333" : "1px solid rgba(255, 255, 255, 0.05)", 
         borderRadius: "24px", padding: "24px", marginBottom: "32px",
         position: "relative", overflow: "hidden"
       }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
           <div>
-            <div style={{ fontSize: "10px", fontWeight: 900, color: isMatrix ? "#a8c200" : "#3b82f6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "4px" }}>Official Performance</div>
+            <div style={{ fontSize: "10px", fontWeight: 900, color: isMatrix ? "#a8c200" : "#00ff88", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "4px" }}>Official Performance</div>
             <h3 style={{ fontSize: "18px", fontWeight: "bold", color: "#fff" }}>Academic Intelligence Hub</h3>
           </div>
           <div style={{ padding: "8px", borderRadius: "10px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }}>
-            <ShieldCheck size={20} color={isMatrix ? "#a8c200" : "#3b82f6"} />
+            <ShieldCheck size={20} color={isMatrix ? "#a8c200" : "#00ff88"} />
           </div>
         </div>
 
@@ -184,15 +186,7 @@ export default function DashboardPage() {
             </div>
           </div>
         ) : (
-          <div style={{ textAlign: "center", padding: "20px 0" }}>
-            <p style={{ fontSize: "13px", color: "#666", marginBottom: "16px" }}>Connect your official Student Portal to reveal complete academic history and performance insights.</p>
-            <button 
-              onClick={() => setIsSyncModalOpen(true)}
-              style={{ background: isMatrix ? "#a8c200" : "#fff", color: "#000", padding: "10px 20px", borderRadius: "12px", fontSize: "12px", fontWeight: 900, textTransform: "uppercase" }}
-            >
-              Unlock Performance Records
-            </button>
-          </div>
+          <StudentPortalPrompt inline onConnect={() => setIsSyncModalOpen(true)} />
         )}
       </div>
     );
@@ -438,7 +432,7 @@ export default function DashboardPage() {
   if (theme === "cosmos") return (
     <>
       <CosmosDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} onShowStudentInfo={() => setShowStudentInfo(true)} broadcast={broadcast} setIsSyncModalOpen={setIsSyncModalOpen} renderAcademicIntegrityHub={renderAcademicIntegrityHub} userBatch={batch} totalHours={totalHours} presentHours={presentHours} absentHours={absentHours} />
-      <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => window.location.reload()} netId={academicData?.profile?.["Student ID"] || academicData?.profile?.["Registration Number"] || ""} />
+      <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => { dataAPI.getUnified().then(d => { if (d?.success) { const merged = { ...d.academia, studentPortal: d.studentPortal }; setData(merged); setAcademicData(merged); } }).catch(() => {}); }} netId={academicData?.profile?.["Student ID"] || academicData?.profile?.["Registration Number"] || ""} />
       {renderStudentInfoModal()}
     </>
   );
@@ -446,22 +440,23 @@ export default function DashboardPage() {
   if (theme === "matrix") return (
     <>
       <MatrixDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} dayOffset={dayOffset} setDayOffset={setDayOffset} onShowStudentInfo={() => setShowStudentInfo(true)} broadcast={broadcast} nowMin={nowMin} setIsSyncModalOpen={setIsSyncModalOpen} renderAcademicIntegrityHub={renderAcademicIntegrityHub} userBatch={batch} totalHours={totalHours} presentHours={presentHours} absentHours={absentHours} />
-      <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => window.location.reload()} netId={academicData?.profile?.["Student ID"] || academicData?.profile?.["Registration Number"] || ""} />
+      <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => { dataAPI.getUnified().then(d => { if (d?.success) { const merged = { ...d.academia, studentPortal: d.studentPortal }; setData(merged); setAcademicData(merged); } }).catch(() => {}); }} netId={academicData?.profile?.["Student ID"] || academicData?.profile?.["Registration Number"] || ""} />
       {renderStudentInfoModal()}
     </>
   );
 
   return (
     <div className="page-root">
+      <UnsplashBackground query="university campus night cyberpunk" />
       <Sidebar />
       {renderStudentInfoModal()}
       <PortalSyncModal 
         isOpen={isSyncModalOpen} 
         onClose={() => setIsSyncModalOpen(false)} 
-        onSuccess={() => window.location.reload()} 
+        onSuccess={() => { dataAPI.getUnified().then(d => { if (d?.success) { const merged = { ...d.academia, studentPortal: d.studentPortal }; setData(merged); setAcademicData(merged); } }).catch(() => {}); }}
         netId={email?.split('@')[0] || academicData?.profile?.['Student ID'] || academicData?.profile?.['Registration Number'] || ""}
       />
-      <main className="page-main">
+      <main className="page-main" style={{ position: 'relative', zIndex: 1 }}>
         <div className="page-content" data-section="Portal" style={{ paddingBottom: "120px" }}>
 
           {/* Header */}

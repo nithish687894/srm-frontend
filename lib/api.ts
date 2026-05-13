@@ -100,5 +100,11 @@ export const dataAPI = {
   replyToFeedback: (id: string, adminReply: string, status?: string) => 
     API.post(`/api/admin/feedback/${id}/reply`, { adminReply, status }).then((r) => r.data),
   aiChat: (message: string, historyData: any[], academicData: any) =>
-    API.post("/api/ai/chat", { message, historyData, academicData }).then((r) => r.data)
+    API.post("/api/ai/chat", { message, historyData, academicData }).then((r) => r.data),
+
+  // Unsplash (proxied through backend — never expose API key)
+  getUnsplashImage: (query: string) =>
+    API.get(`/api/v1/unsplash?query=${encodeURIComponent(query)}`).then((r) => r.data),
 };
+
+export { API };

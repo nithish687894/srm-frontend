@@ -1,426 +1,483 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { authAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Home,
+  BarChart2,
+  CheckCircle,
+  Clock,
+  Calendar,
+  Wrench,
+  Sparkles,
+  Shield,
+  MoreHorizontal,
+  Settings,
+  Share2,
+  LogOut,
+} from "lucide-react";
 
+// ─── Nav Config ─────────────────────────────────────────────────────────────
+const NAV_MAIN = [
+  { href: "/dashboard", label: "Home", icon: Home },
+  { href: "/marks", label: "Marks", icon: BarChart2 },
+  { href: "/attendance", label: "Attnd", icon: CheckCircle },
+  { href: "/timetable", label: "Time", icon: Clock },
+] as const;
 
+const NAV_MORE_BASE = [
+  { href: "/calendar", label: "Cal", icon: Calendar },
+  { href: "/app-tools", label: "Tools", icon: Wrench },
+  { href: "/ai", label: "AI", icon: Sparkles },
+] as const;
 
+const ADMIN_EMAILS = ["ns4770@srmist.edu.in", "ts0014@srmist.edu.in"];
 
+// ─── Helpers ────────────────────────────────────────────────────────────────
+function isActive(href: string, path: string) {
+  if (href === "/dashboard") return path === href;
+  return path === href || path.startsWith(href + "/");
+}
 
+// ─── Component ──────────────────────────────────────────────────────────────
 export default function Sidebar() {
   const path = usePathname();
   const router = useRouter();
+  const [moreOpen, setMoreOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const { profile, email } = useAuthStore();
   const [mounted, setMounted] = useState(false);
-  
-  const ADMIN_EMAILS = ["ns4770@srmist.edu.in", "ts0014@srmist.edu.in"];
-  const userEmail = (email || profile?.Email || profile?.["Email"] || "").toLowerCase();
-  const isAdmin = ADMIN_EMAILS.map(e => e.toLowerCase()).includes(userEmail);
 
-  const NAV = [
-    { href: "/dashboard",  label: "Home" },
-    { href: "/marks",      label: "Marks" },
-    { href: "/attendance", label: "Attnd" },
-    { href: "/timetable",  label: "Time" },
-    { href: "/calendar",   label: "Cal" },
-    { href: "/app-tools",  label: "Tools" },
-    { href: "/ai",         label: "✨ AI" },
-    ...(isAdmin ? [{ href: "/admin", label: "Admin" }] : []),
+  const { profile, email, studentPortalConnected } = useAuthStore();
+  const userEmail = (email || profile?.Email || "").toLowerCase();
+  const isAdmin = ADMIN_EMAILS.some((e) => e.toLowerCase() === userEmail);
+
+  const NAV_MORE = [
+    ...NAV_MORE_BASE,
+    ...(isAdmin
+      ? [{ href: "/admin" as const, label: "Admin" as const, icon: Shield }]
+      : []),
   ];
+
+  const NAV_ALL = [...NAV_MAIN, ...NAV_MORE];
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const handleLogout = async () => {
-    try { await authAPI.logout(); } catch { }
+  // Close more sheet on route change
+  useEffect(() => {
+    setMoreOpen(false);
+  }, [path]);
+
+  const handleLogout = useCallback(async () => {
+    try {
+      await authAPI.logout();
+    } catch {
+      /* swallow */
+    }
     useAuthStore.getState().logout();
     router.push("/");
-  };
+  }, [router]);
 
+  // ── Render ──────────────────────────────────────────────────────────────────
   const navContent = (
     <>
       <style>{`
-        .srmx-nav-bar {
+        /* ═══════════ DESKTOP NAV ═══════════ */
+        .srmx-desktop-nav {
           position: fixed;
-          bottom: 0; left: 0; right: 0;
-          height: calc(72px + env(safe-area-inset-bottom));
-          padding-bottom: env(safe-area-inset-bottom);
-          background: var(--nav-bg);
-          backdrop-filter: blur(var(--nav-blur));
-          -webkit-backdrop-filter: blur(var(--nav-blur));
+          top: 24px;
+          left: 50%;
+          transform: translateX(-50%);
+          height: 64px;
+          border-radius: 99px;
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          background: rgba(10, 15, 30, 0.6);
+          backdrop-filter: blur(24px);
+          -webkit-backdrop-filter: blur(24px);
           display: flex;
           align-items: center;
-          justify-content: center;
-          gap: 16px; /* Reduced base gap */
+          gap: 32px;
+          padding: 0 40px;
           z-index: 100;
-          border-top: 1px solid var(--border);
-          transition: all 0.4s ease;
-          overflow: hidden; /* Prevent any scrolling */
-          box-shadow: 0 -10px 28px rgba(0, 0, 0, 0.35);
         }
 
-        .srmx-nav-bar::before {
-          content: "";
-          position: absolute;
+        .theme-matrix .srmx-desktop-nav {
+          border: 1px solid var(--accent);
+          box-shadow: 0 0 20px rgba(168, 194, 0, 0.2);
+          background: rgba(10, 10, 10, 0.95);
+        }
+
+        /* ═══════════ MOBILE NAV ═══════════ */
+        .srmx-mobile-nav {
+          position: fixed;
+          bottom: 0;
           left: 0;
           right: 0;
-          top: 0;
-          height: 1px;
-          background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.24) 50%, transparent 100%);
-          opacity: 0.55;
-          pointer-events: none;
+          height: calc(72px + env(safe-area-inset-bottom));
+          padding-bottom: env(safe-area-inset-bottom);
+          background: rgba(10, 10, 12, 0.95);
+          backdrop-filter: blur(24px);
+          -webkit-backdrop-filter: blur(24px);
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          z-index: 100;
+          box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
         }
 
-        .theme-cosmos .srmx-nav-bar {
-          background: rgba(15,15,19,0.97);
-          border-top: 1px solid rgba(255,255,255,0.07);
-          backdrop-filter: blur(20px);
-        }
-
-        .theme-cosmos .srmx-nav-btn {
-          color: #55556a;
-          font-family: 'Plus Jakarta Sans', sans-serif;
-          font-size: 11px;
-        }
-
-        .theme-cosmos .srmx-nav-btn.active {
-          color: #a78bfa;
-          background: rgba(124,58,237,0.12);
-          border-radius: 12px;
-        }
-
-        .theme-editorial .srmx-nav-bar {
-          background: rgba(245,242,235,0.97);
-          border-top: 1px solid #111111;
-          backdrop-filter: blur(20px);
-        }
-
-        .theme-editorial .srmx-nav-btn {
-          color: #999999;
-          font-family: 'DM Sans', sans-serif;
-          font-size: 11px;
-          letter-spacing: 0.15em;
-          border-radius: 0;
-        }
-
-        .theme-editorial .srmx-nav-btn.active {
-          color: #111111;
-          background: none;
-          border-bottom: 2px solid #111111;
-        }
-
-        .theme-matrix .srmx-nav-bar {
-          background: rgba(10, 10, 10, 0.95);
+        .theme-matrix .srmx-mobile-nav {
           border-top: 1px solid var(--accent);
           box-shadow: 0 -4px 20px rgba(168, 194, 0, 0.15);
         }
 
-        .theme-matrix .srmx-nav-btn {
+        /* ═══════════ NAV ITEM ═══════════ */
+        .nav-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 4px;
           color: #666;
-          font-weight: 800;
+          font-family: "Space Mono", monospace;
+          font-size: 10px;
+          text-transform: uppercase;
+          position: relative;
+          cursor: pointer;
+          transition: color 0.2s ease, text-shadow 0.2s ease;
+          width: 60px;
+          height: 100%;
+          -webkit-tap-highlight-color: transparent;
+          text-decoration: none;
+          background: none;
+          border: none;
+          outline: none;
         }
 
-        .theme-matrix .srmx-nav-btn.active {
+        .nav-item:hover {
+          color: #fff;
+        }
+
+        .nav-item.active {
+          color: #00ff88;
+          text-shadow: 0 0 10px rgba(0, 255, 136, 0.8);
+        }
+
+        .theme-matrix .nav-item.active {
           color: var(--accent);
           text-shadow: 0 0 10px rgba(168, 194, 0, 0.8);
-          background: rgba(168, 194, 0, 0.15);
-          border-radius: 12px;
-          box-shadow: inset 0 0 10px rgba(168, 194, 0, 0.1);
         }
 
-        .theme-matrix .srmx-nav-btn:hover {
-          color: #fff;
-          text-shadow: 0 0 8px var(--accent);
+        .theme-cosmos .nav-item.active {
+          color: #a78bfa;
+          text-shadow: 0 0 10px rgba(167, 139, 250, 0.8);
         }
 
-      
-
-        .srmx-nav-btn {
-          flex-shrink: 1;
-          background: transparent;
-          border: none;
-          cursor: pointer;
-          font-size: 12px;
-          letter-spacing: 0.1em;
-          color: var(--text-muted);
-          font-weight: 700;
-          transition: all 0.2s;
-          padding: 6px 8px;
-          text-transform: uppercase;
-          border-radius: 99px;
-          white-space: nowrap;
-          position: relative;
-          overflow: hidden;
-          transform: translateZ(0);
-          -webkit-tap-highlight-color: transparent;
-          touch-action: manipulation;
-          isolation: isolate;
-          transition:
-            color 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
-            transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
-            background-color 220ms ease,
-            box-shadow 220ms ease;
-        }
-
-        .nav-label {
-          letter-spacing: 0.09em;
-          font-weight: 760;
-          line-height: 1;
-          text-rendering: geometricPrecision;
-          font-feature-settings: "kern" 1, "liga" 1;
-        }
-
-        .srmx-nav-btn:hover {
-          color: var(--text-primary);
-          background: rgba(255, 255, 255, 0.04);
-        }
-
-        .srmx-nav-btn::before {
+        /* Neon glow indicator line */
+        .nav-item::before {
           content: "";
           position: absolute;
-          inset: 0;
-          border-radius: inherit;
-          background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 65%);
-          transform: scale(0.35);
-          opacity: 0;
-          pointer-events: none;
-        }
-
-        .srmx-nav-btn::after {
-          content: "";
-          position: absolute;
-          left: 8%;
-          right: 8%;
-          bottom: 2px;
+          top: 0px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 0px;
           height: 2px;
+          border-radius: 4px;
+          background: transparent;
+          transition: all 0.3s cubic-bezier(0.2, 0.9, 0.2, 1);
+        }
+
+        .nav-item.active::before {
+          width: 30px;
+          background: #00ff88;
+          box-shadow: 0 0 10px rgba(0, 255, 136, 0.8),
+            0 0 20px rgba(0, 255, 136, 0.4);
+        }
+
+        .theme-matrix .nav-item.active::before {
+          background: var(--accent);
+          box-shadow: 0 0 10px rgba(168, 194, 0, 0.8);
+        }
+
+        .theme-cosmos .nav-item.active::before {
+          background: #a78bfa;
+          box-shadow: 0 0 10px rgba(167, 139, 250, 0.8);
+        }
+
+        /* Desktop overrides */
+        .srmx-desktop-nav .nav-item {
+          flex-direction: row;
+          gap: 8px;
+          font-size: 12px;
+          width: auto;
+          height: auto;
+          padding: 8px 16px;
           border-radius: 99px;
-          background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.9) 50%, transparent 100%);
-          opacity: 0;
-          transform: scaleX(0.45);
-          transform-origin: center;
-          pointer-events: none;
-          transition: opacity 240ms ease, transform 260ms cubic-bezier(0.2, 0.9, 0.2, 1);
         }
 
-        .srmx-nav-btn:active {
-          transform: scale(0.92) translateY(1px);
+        .srmx-desktop-nav .nav-item::before {
+          display: none;
         }
 
-        .srmx-nav-btn:active::before {
-          animation: navTapRipple 360ms ease-out;
+        .srmx-desktop-nav .nav-item.active {
+          background: rgba(0, 255, 136, 0.08);
         }
 
-        .srmx-nav-settings-btn {
-          flex-shrink: 0 !important;
-          font-size: 18px;
-          padding-left: 4px;
+        .theme-matrix .srmx-desktop-nav .nav-item.active {
+          background: rgba(168, 194, 0, 0.15);
         }
 
-        .srmx-nav-btn.active {
-          color: var(--text-primary);
-          animation: navActivePop 340ms cubic-bezier(0.2, 0.9, 0.2, 1);
-          background: rgba(255, 255, 255, 0.06);
-          box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1), 0 6px 16px rgba(0, 0, 0, 0.25);
-        }
-
-        .srmx-nav-btn.active .nav-label {
-          text-shadow: 0 0 10px rgba(255, 255, 255, 0.16);
-        }
-
-        .theme-matrix .srmx-nav-btn.active {
-          box-shadow: inset 0 0 0 1px rgba(168, 194, 0, 0.22), 0 8px 18px rgba(0, 0, 0, 0.3);
-        }
-
-        .srmx-nav-btn.active::after {
-          opacity: 0.92;
-          transform: scaleX(1);
-          animation: navShimmer 900ms ease-out 1;
-        }
-
-        @keyframes navTapRipple {
-          0% { opacity: 0.45; transform: scale(0.35); }
-          100% { opacity: 0; transform: scale(1.75); }
-        }
-
-        @keyframes navActivePop {
-          0% { transform: scale(0.92); }
-          70% { transform: scale(1.04); }
-          100% { transform: scale(1); }
-        }
-
-        @keyframes navShimmer {
-          0% { opacity: 0.6; transform: scaleX(0.6); }
-          50% { opacity: 1; transform: scaleX(1); }
-          100% { opacity: 0.82; transform: scaleX(1); }
-        }
-
-        @media (max-width: 480px) {
-          .srmx-nav-bar {
-            gap: 4px;
-          }
-          .srmx-nav-btn {
-            font-size: 10px;
-            padding: 6px 4px;
-            letter-spacing: 0.05em;
-          }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .srmx-nav-btn,
-          .srmx-nav-btn::before,
-          .srmx-nav-btn::after,
-          .srmx-nav-btn.active {
-            animation: none !important;
-            transition: none !important;
-          }
-        }
-
-        @media (min-width: 769px) {
-          .srmx-nav-bar {
-            top: 24px; bottom: auto;
-            width: max-content;
-            margin: 0 auto;
-            padding: 0 48px;
-            border-radius: 99px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            height: 64px;
-            gap: 40px;
-            background: rgba(10, 15, 30, 0.6);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-          }
-          .theme-matrix .srmx-nav-bar {
-            border: 1px solid var(--accent);
-            box-shadow: 0 0 20px rgba(168, 194, 0, 0.2);
-          }
+        .theme-cosmos .srmx-desktop-nav .nav-item.active {
+          background: rgba(167, 139, 250, 0.12);
         }
       `}</style>
 
-      {/* Settings Overlay */}
-      {menuOpen && (
-        <div 
-          onClick={() => setMenuOpen(false)}
+      {/* ── TOP RIGHT: STATUS + SETTINGS ─────────────────────────────────── */}
+      <div
+        className="fixed top-4 right-4 z-[100] flex items-center gap-3"
+        role="status"
+      >
+        {/* Connection Status Dot */}
+        <div
+          className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/10"
           style={{
-            position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
-            background: "rgba(0,0,0,0.5)", backdropFilter: "blur(10px)",
-            zIndex: 99, display: "flex", flexDirection: "column",
-            justifyContent: "flex-end", alignItems: "center", paddingBottom: "120px"
+            boxShadow: studentPortalConnected
+              ? "0 0 10px rgba(0, 255, 136, 0.2)"
+              : "0 0 10px rgba(239, 68, 68, 0.2)",
           }}
+          aria-label={
+            studentPortalConnected
+              ? "Student Portal connected"
+              : "Student Portal disconnected"
+          }
         >
-          <div onClick={e => e.stopPropagation()} style={{
-            background: "var(--bg-surface)", 
-            padding: "24px", 
-            borderRadius: "28px",
-            width: "90%", 
-            maxWidth: "400px", 
-            display: "flex", 
-            flexDirection: "column", 
-            gap: "24px",
-            border: "1px solid var(--border)",
-            boxShadow: "0 20px 40px rgba(0,0,0,0.5)"
-          }}>
-            <div>
-              <div style={{ fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800, marginBottom: "20px" }}>
-                Control Center
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                <button 
-                  onClick={() => { setMenuOpen(false); router.push("/settings/theme"); }}
-                  style={{
-                    background: "rgba(255,255,255,0.03)",
-                    border: "1px solid var(--border)", color: "var(--text-primary)", display: "flex", alignItems: "center", gap: "12px",
-                    padding: "18px", borderRadius: "20px", cursor: "pointer", fontWeight: 800,
-                    textAlign: "left", fontSize: "14px", transition: "all 0.2s"
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.06)"}
-                  onMouseLeave={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.03)"}
-                >
-                  🎭 Personalize Interface
-                </button>
-
-                <button 
-                  onClick={() => { setMenuOpen(false); router.push("/support"); }}
-                  style={{
-                    background: "rgba(255,255,255,0.03)",
-                    border: "1px solid var(--border)", color: "var(--text-primary)", display: "flex", alignItems: "center", gap: "12px",
-                    padding: "18px", borderRadius: "20px", cursor: "pointer", fontWeight: 800,
-                    textAlign: "left", fontSize: "14px", transition: "all 0.2s"
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.06)"}
-                  onMouseLeave={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.03)"}
-                >
-                  💬 Help & Support
-                </button>
-
-                <button 
-                  onClick={async () => {
-                    const shareData = {
-                      title: 'SRM Nexus',
-                      text: 'Check out SRM Nexus - The Ultimate Student Portal for SRM Students!',
-                      url: 'https://srmnexus.app',
-                    };
-                    if (navigator.share) {
-                      try { await navigator.share(shareData); } catch (err) { console.log(err); }
-                    } else {
-                      window.open(`https://wa.me/?text=${encodeURIComponent(shareData.text + " " + shareData.url)}`, '_blank');
-                    }
-                  }}
-                  style={{
-                    background: "rgba(168, 194, 0, 0.1)",
-                    border: "1px solid rgba(168, 194, 0, 0.3)", color: "var(--accent)", display: "flex", alignItems: "center", gap: "12px",
-                    padding: "18px", borderRadius: "20px", cursor: "pointer", fontWeight: 800,
-                    textAlign: "left", fontSize: "14px", transition: "all 0.2s"
-                  }}
-                >
-                  🚀 Share Nexus Portal
-                </button>
-              </div>
-            </div>
-
-            <div style={{ height: "1px", background: "var(--border)" }} />
-
-            <button 
-              onClick={handleLogout}
-              style={{
-                background: "rgba(255, 59, 59, 0.1)", color: "#ff3b3b", border: "1px solid #ff3b3b",
-                padding: "18px", borderRadius: "20px", fontSize: "13px", fontWeight: 900,
-                cursor: "pointer", textTransform: "uppercase", letterSpacing: "0.15em"
-              }}
-            >
-              Terminate Session
-            </button>
+          <div className="relative flex h-2.5 w-2.5">
+            {studentPortalConnected && (
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+            )}
+            <span
+              className={`relative inline-flex rounded-full h-2.5 w-2.5 ${
+                studentPortalConnected ? "bg-green-500" : "bg-red-500"
+              }`}
+            />
           </div>
+          <span
+            className="text-[10px] font-mono font-bold tracking-wider text-white/80"
+            style={{ marginTop: "1px" }}
+          >
+            {studentPortalConnected ? "SYNCED" : "DISC."}
+          </span>
         </div>
-      )}
 
-      <nav className="srmx-nav-bar">
-        {NAV.map(({ href, label }) => {
-          const active = path === href || (href !== "/dashboard" && path.startsWith(href));
-          return (
+        {/* Settings */}
+        <button
+          onClick={() => {
+            setMenuOpen(true);
+            setMoreOpen(false);
+          }}
+          className="w-10 h-10 rounded-full bg-black/60 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 hover:text-white transition-all hover:scale-105 active:scale-95"
+          aria-label="Open settings"
+        >
+          <Settings size={18} />
+        </button>
+      </div>
+
+      {/* ── SETTINGS OVERLAY ─────────────────────────────────────────────── */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setMenuOpen(false)}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[110] flex flex-col justify-end items-center pb-[100px] md:justify-center md:pb-0"
+            role="dialog"
+            aria-label="Control center"
+          >
+            <motion.div
+              initial={{ y: 50, scale: 0.95, opacity: 0 }}
+              animate={{ y: 0, scale: 1, opacity: 1 }}
+              exit={{ y: 20, scale: 0.95, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-[#0f0f13] border border-white/10 p-6 rounded-[28px] w-[90%] max-w-[400px] flex flex-col gap-6 shadow-2xl"
+            >
+              <div>
+                <div className="text-[10px] text-white/40 uppercase tracking-[0.2em] font-black mb-4 font-mono">
+                  Control Center
+                </div>
+                <div className="flex flex-col gap-2.5">
+                  <button
+                    onClick={() => {
+                      setMenuOpen(false);
+                      router.push("/settings/theme");
+                    }}
+                    className="w-full bg-white/5 border border-white/10 text-white flex items-center gap-3 p-4 rounded-2xl hover:bg-white/10 transition-colors font-bold text-sm text-left"
+                  >
+                    <Sparkles size={18} /> Personalize Interface
+                  </button>
+                  <button
+                    onClick={() => {
+                      setMenuOpen(false);
+                      router.push("/support");
+                    }}
+                    className="w-full bg-white/5 border border-white/10 text-white flex items-center gap-3 p-4 rounded-2xl hover:bg-white/10 transition-colors font-bold text-sm text-left"
+                  >
+                    <Wrench size={18} /> Help & Support
+                  </button>
+                  <button
+                    onClick={async () => {
+                      if (navigator.share) {
+                        try {
+                          await navigator.share({
+                            title: "SRM Nexus",
+                            text: "Check out SRM Nexus!",
+                            url: "https://srmnexus.app",
+                          });
+                        } catch {
+                          /* cancelled */
+                        }
+                      } else {
+                        window.open(
+                          `https://wa.me/?text=https://srmnexus.app`,
+                          "_blank"
+                        );
+                      }
+                    }}
+                    className="w-full bg-[#00ff88]/10 border border-[#00ff88]/30 text-[#00ff88] flex items-center gap-3 p-4 rounded-2xl hover:bg-[#00ff88]/20 transition-colors font-bold text-sm text-left"
+                  >
+                    <Share2 size={18} /> Share Nexus Portal
+                  </button>
+                </div>
+              </div>
+
+              <div className="h-px bg-white/10 w-full" />
+
+              <button
+                onClick={handleLogout}
+                className="w-full bg-red-500/10 border border-red-500/50 text-red-500 p-4 rounded-2xl text-xs font-black tracking-widest uppercase hover:bg-red-500/20 transition-colors flex items-center justify-center gap-2"
+              >
+                <LogOut size={16} /> Terminate Session
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ── DESKTOP NAV (hidden on mobile) ───────────────────────────────── */}
+      <div className="hidden md:flex">
+        <nav className="srmx-desktop-nav" aria-label="Main navigation">
+          {NAV_ALL.map(({ href, label, icon: Icon }) => (
             <Link
               key={href}
               href={href}
-              className={`srmx-nav-btn${active ? " active" : ""}`}
-              style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              className={`nav-item ${isActive(href, path) ? "active" : ""}`}
+              aria-current={isActive(href, path) ? "page" : undefined}
             >
-              <span className="nav-label">{label}</span>
+              <Icon size={16} className="mb-0.5" />
+              <span>{label}</span>
             </Link>
-          );
-        })}
-        
-        {/* Menu Toggle */}
-        <button 
-          onClick={() => setMenuOpen(!menuOpen)}
-          className={`srmx-nav-btn srmx-nav-settings-btn${menuOpen ? " active" : ""}`}
-        >
-          ⚙️
-        </button>
-      </nav>
+          ))}
+        </nav>
+      </div>
+
+      {/* ── MOBILE BOTTOM TAB BAR (hidden on desktop) ────────────────────── */}
+      <div className="md:hidden">
+        {/* More Bottom Sheet */}
+        <AnimatePresence>
+          {moreOpen && (
+            <>
+              {/* Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-[85]"
+                onClick={() => setMoreOpen(false)}
+              />
+              <motion.div
+                initial={{ y: "100%", opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: "100%", opacity: 0 }}
+                transition={{ type: "spring", damping: 25, stiffness: 250 }}
+                className="fixed bottom-[calc(72px+env(safe-area-inset-bottom))] left-0 right-0 z-[90] bg-[#0a0a0c]/95 backdrop-blur-2xl border-t border-white/10 rounded-t-3xl p-6 pb-8 shadow-[0_-20px_40px_rgba(0,0,0,0.8)]"
+                role="dialog"
+                aria-label="More navigation options"
+              >
+                {/* Drag handle */}
+                <div className="w-12 h-1.5 bg-white/20 rounded-full mx-auto mb-6" />
+
+                <div className="grid grid-cols-4 gap-y-6">
+                  {NAV_MORE.map(({ href, label, icon: Icon }) => {
+                    const active = isActive(href, path);
+                    return (
+                      <Link
+                        key={href}
+                        href={href}
+                        onClick={() => setMoreOpen(false)}
+                        className="flex flex-col items-center justify-center gap-2"
+                        aria-current={active ? "page" : undefined}
+                      >
+                        <div
+                          className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${
+                            active
+                              ? "bg-[#00ff88]/20 text-[#00ff88] shadow-[inset_0_0_12px_rgba(0,255,136,0.3)]"
+                              : "bg-white/5 text-white/60"
+                          }`}
+                        >
+                          <Icon size={20} />
+                        </div>
+                        <span
+                          className={`text-[10px] font-mono uppercase font-bold tracking-wider ${
+                            active ? "text-[#00ff88]" : "text-white/60"
+                          }`}
+                        >
+                          {label}
+                        </span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+
+        {/* The Tab Bar */}
+        <nav className="srmx-mobile-nav" aria-label="Main navigation">
+          {NAV_MAIN.map(({ href, label, icon: Icon }) => {
+            const active = isActive(href, path);
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={`nav-item ${active ? "active" : ""}`}
+                onClick={() => setMoreOpen(false)}
+                aria-current={active ? "page" : undefined}
+                aria-label={label}
+              >
+                <Icon size={20} strokeWidth={active ? 2.5 : 2} />
+                <span>{label}</span>
+              </Link>
+            );
+          })}
+
+          <button
+            className={`nav-item ${moreOpen ? "active" : ""}`}
+            onClick={() => setMoreOpen(!moreOpen)}
+            aria-label="More navigation options"
+            aria-expanded={moreOpen}
+          >
+            <MoreHorizontal size={20} strokeWidth={moreOpen ? 2.5 : 2} />
+            <span>More</span>
+          </button>
+        </nav>
+      </div>
     </>
   );
 
