@@ -102,13 +102,18 @@ export default function PortalSyncModal({ isOpen, onClose, onSuccess, netId }: P
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   <div style={{ position: 'relative' }}>
                     <input
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       placeholder="Student Portal Password"
                       style={{ width: '100%', background: '#111', border: '1px solid #222', borderRadius: '12px', padding: '14px', color: '#fff', fontSize: '13px', outline: 'none' }}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
-                    <Lock size={14} style={{ position: 'absolute', right: '14px', top: '50%', transform: 'translateY(-50%)', opacity: 0.2 }} />
+                    <div 
+                      onClick={() => setShowPassword(!showPassword)}
+                      style={{ position: 'absolute', right: '14px', top: '50%', transform: 'translateY(-50%)', opacity: 0.4, cursor: 'pointer' }}
+                    >
+                      {showPassword ? <EyeOff size={14} /> : <Eye size={14} />} 
+                    </div>
                   </div>
 
                   <div style={{ display: 'flex', gap: '10px' }}>
@@ -129,9 +134,12 @@ export default function PortalSyncModal({ isOpen, onClose, onSuccess, netId }: P
                       placeholder="ENTER CODE"
                       style={{ width: '100%', background: '#111', border: '1px solid #222', borderRadius: '12px', padding: '14px', color: '#fff', fontSize: '18px', fontWeight: 900, textAlign: 'center', letterSpacing: '0.3em', outline: 'none' }}
                       value={captchaAnswer}
+                      autoCapitalize="none"
+                      autoCorrect="off"
+                      spellCheck="false"
                       onChange={(e) => setCaptchaAnswer(e.target.value)}
-                    maxLength={6}
-                  />
+                      maxLength={6}
+                    />
 
                   <button
                     onClick={handleSync}
