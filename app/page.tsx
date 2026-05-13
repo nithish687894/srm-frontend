@@ -18,7 +18,7 @@ export default function LoginPage() {
   
   // Phase 2: Multi-Connector Support
   const [connector, setConnector] = useState<"academia" | "student-portal">("academia");
-  const [captchaData, setCaptchaData] = useState<{ captcha: string; token: string } | null>(null);
+  const [captchaData, setCaptchaData] = useState<{ captcha: string; captchaToken: string } | null>(null);
   const [captchaAnswer, setCaptchaAnswer] = useState("");
 
   const router = useRouter();
@@ -58,7 +58,7 @@ export default function LoginPage() {
       try {
         const extra = connector === "student-portal" ? {
           captcha: captchaAnswer,
-          token: captchaData?.token
+          captchaToken: captchaData?.captchaToken
         } : {};
 
         const res = await authAPI.login(finalEmail, password, connector, extra);

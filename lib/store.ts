@@ -11,6 +11,7 @@ interface AuthStore {
   _hasHydrated: boolean;
   setAuthData: (authToken: string, refreshToken: string, email: string) => void;
   setAuthToken: (token: string) => void;
+  setRefreshToken: (refreshToken: string) => void;
   setProfile: (profile: any) => void;
   setAcademicData: (data: any) => void;
   setHasChosenTheme: (val: boolean) => void;
@@ -38,6 +39,10 @@ export const useAuthStore = create<AuthStore>()(
       setAuthToken: (authToken) => {
         localStorage.setItem("authToken", authToken);
         set({ authToken });
+      },
+      setRefreshToken: (refreshToken) => {
+        localStorage.setItem("refreshToken", refreshToken);
+        set({ refreshToken });
       },
       setProfile: (profile) => set({ profile }),
       setAcademicData: (data) => set({ academicData: data ? { ...data, lastFetchedAt: Date.now() } : null }),

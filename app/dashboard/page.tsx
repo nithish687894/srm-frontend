@@ -144,7 +144,7 @@ export default function DashboardPage() {
   const { ready } = useAuth();
   const router = useRouter();
   const { theme } = useThemeStore();
-  const { setProfile, academicData, setAcademicData } = useAuthStore();
+  const { email, setProfile, academicData, setAcademicData } = useAuthStore();
   const [data, setData] = useState<any>(academicData || null);
   const [loading, setLoading] = useState(!academicData);
   const [ttData, setTTData] = useState<any>(null);
@@ -459,7 +459,7 @@ export default function DashboardPage() {
         isOpen={isSyncModalOpen} 
         onClose={() => setIsSyncModalOpen(false)} 
         onSuccess={() => window.location.reload()} 
-        netId={user?.email?.split('@')[0] || ""}
+        netId={email?.split('@')[0] || academicData?.profile?.['Registration Number'] || ""}
       />
       <main className="page-main">
         <div className="page-content" data-section="Portal" style={{ paddingBottom: "120px" }}>

@@ -14,7 +14,7 @@ interface PortalSyncModalProps {
 export default function PortalSyncModal({ isOpen, onClose, onSuccess, netId }: PortalSyncModalProps) {
   const [password, setPassword] = useState("");
   const [captchaAnswer, setCaptchaAnswer] = useState("");
-  const [captchaData, setCaptchaData] = useState<{ captcha: string; token: string } | null>(null);
+  const [captchaData, setCaptchaData] = useState<{ captcha: string; captchaToken: string } | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [step, setStep] = useState<"form" | "success">("form");
@@ -47,7 +47,7 @@ export default function PortalSyncModal({ isOpen, onClose, onSuccess, netId }: P
     try {
       await authAPI.login(netId, password, "student-portal", {
         captcha: captchaAnswer,
-        token: captchaData?.token
+        captchaToken: captchaData?.captchaToken
       });
       setStep("success");
       setTimeout(() => {

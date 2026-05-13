@@ -28,10 +28,15 @@ API.interceptors.response.use(
       if (refreshToken) {
         try {
           // Use a fresh axios instance for the refresh call to avoid interceptor loops
-          const res = await axios.post(`${API.defaults.baseURL}/api/refresh-token`, { refreshToken });
+          const res = await axios.post(`${API.defaults.baseURL}/api/v1/session/refresh-token`, { refreshToken });
           const newToken = res.data.token;
+          const newRefreshToken = res.data.refreshToken;
 
           localStorage.setItem("authToken", newToken);
+          if (newRefreshToken) {
+            localStorage.setItem("refreshToken", newRefreshToken);
+            useAuthStore.getState().setRefreshToken(newRefreshToken);
+          }
           useAuthStore.getState().setAuthToken(newToken);
 
           originalRequest.headers["x-session-token"] = newToken;
@@ -66,7 +71,7 @@ export const authAPI = {
     API.delete(`/api/v1/connectors/${type}/disconnect`).then((r) => r.data),
     
   refreshToken: (refreshToken: string) =>
-    axios.post(`${API.defaults.baseURL}/api/v1/session/refresh`, { refreshToken }).then((r) => r.data),
+    axios.post(`${API.defaults.baseURL}/api/v1/session/refresh-token`, { refreshToken }).then((r) => r.data),
 };
 
 export const dataAPI = {
