@@ -154,6 +154,7 @@ export default function DashboardPage() {
   const [calData, setCalData] = useState<any>(null);
   const [dayOffset, setDayOffset] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const [syncError, setSyncError] = useState<string | null>(null);
 
   const renderAcademicIntegrityHub = (isMatrix = false) => {
     // Use studentPortalData from Zustand as fallback when local state hasn't synced yet
@@ -197,8 +198,23 @@ export default function DashboardPage() {
           </div>
         ) : studentPortalConnected ? (
           <div style={{ padding: "32px", textAlign: "center" }}>
-            <div style={{ fontSize: "14px", fontWeight: 700, color: "#fff", marginBottom: "8px" }}>Synchronizing Portal...</div>
-            <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.4)" }}>Updating academic intelligence hub...</div>
+            {syncError ? (
+              <>
+                <div style={{ fontSize: "14px", fontWeight: 700, color: "#EF4444", marginBottom: "8px" }}>Sync Failed</div>
+                <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.4)", marginBottom: "16px" }}>{syncError}</div>
+                <button 
+                  onClick={() => setIsSyncModalOpen(true)}
+                  style={{ padding: "8px 16px", borderRadius: "8px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontSize: "12px", cursor: "pointer" }}
+                >
+                  Retry Unlock
+                </button>
+              </>
+            ) : (
+              <>
+                <div style={{ fontSize: "14px", fontWeight: 700, color: "#fff", marginBottom: "8px" }}>Synchronizing Portal...</div>
+                <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.4)" }}>Updating academic intelligence hub...</div>
+              </>
+            )}
           </div>
         ) : (
           <StudentPortalPrompt inline onConnect={() => setIsSyncModalOpen(true)} />
@@ -233,6 +249,11 @@ export default function DashboardPage() {
           
           if (d.studentPortal) {
             setStudentPortalData(d.studentPortal);
+            if (!d.studentPortal.profile || !d.studentPortal.marks) {
+              setSyncError("Portal session expired or data missing. Please try again.");
+            } else {
+              setSyncError(null);
+            }
           }
           
           if (d.academia?.profile) {
