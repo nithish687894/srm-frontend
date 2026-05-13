@@ -29,7 +29,6 @@ const PORTAL_SERVICES = [
   { href: "/portal/student-dashboard", label: "Student Dashboard", icon: UserSquare },
   { href: "/portal/personal-details", label: "Personal Details", icon: FileText },
   { href: "/portal/grade-mark-credit", label: "Grade & Credit", icon: BookOpen },
-  { href: "/portal/placement", label: "Placements", icon: Briefcase },
 ] as const;
 
 const ADMIN_EMAILS = ["ns4770@srmist.edu.in", "ts0014@srmist.edu.in"];

@@ -158,7 +158,7 @@ export default function DashboardPage() {
   const renderAcademicIntegrityHub = (isMatrix = false) => {
     // Use studentPortalData from Zustand as fallback when local state hasn't synced yet
     const spData = data?.studentPortal || studentPortalData;
-    const hasData = studentPortalConnected && !!spData;
+    const hasData = studentPortalConnected && !!spData && !!spData.marks && !!spData.profile;
     return (
       <div style={{ 
         background: isMatrix ? "#1c1c1c" : "linear-gradient(135deg, rgba(0, 255, 136, 0.03) 0%, rgba(59, 130, 246, 0.03) 100%)",
@@ -225,6 +225,10 @@ export default function DashboardPage() {
           };
           setData(mergedData);
           setAcademicData(mergedData);
+          
+          if (d.studentPortal) {
+            setStudentPortalData(d.studentPortal);
+          }
           
           if (d.academia?.profile) {
             setProfile(d.academia.profile);
