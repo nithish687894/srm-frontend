@@ -195,6 +195,11 @@ export default function DashboardPage() {
               <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase" }}>CGPA</div>
             </div>
           </div>
+        ) : studentPortalConnected ? (
+          <div style={{ padding: "32px", textAlign: "center" }}>
+            <div style={{ fontSize: "14px", fontWeight: 700, color: "#fff", marginBottom: "8px" }}>Synchronizing Portal...</div>
+            <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.4)" }}>Updating academic intelligence hub...</div>
+          </div>
         ) : (
           <StudentPortalPrompt inline onConnect={() => setIsSyncModalOpen(true)} />
         )}
