@@ -335,7 +335,13 @@ export default function DashboardPage() {
     const courses = myTTData.data?.courses || myTTData.data || [];
     const slotMap = buildSlotToCourseMap(courses);
     const schedule = buildSchedule(rows, slotMap, att);
-    return schedule[dayOrder - 1]?.classes || [];
+    // Find the row that matches Day Order X
+    const targetRow = schedule.find(s => {
+      const header = String(s.day || "");
+      const dOrder = parseInt(header.match(/\d+/)?.[0] || "0");
+      return dOrder === dayOrder;
+    });
+    return targetRow?.classes || [];
   }, [ttData, myTTData, att, dayOrder, isHoliday]);
 
   const nowMin = new Date().getHours() * 60 + new Date().getMinutes();

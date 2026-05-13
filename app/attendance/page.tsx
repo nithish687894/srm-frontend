@@ -112,8 +112,11 @@ export default function AttendancePage() {
     const slotMap = buildSlotToCourseMap(ttData.myTT);
     const dayRows = ttData.rows.filter((r: any) => typeof r[0] === "string" && r[0].startsWith("Day"));
     
-    dayRows.forEach((row: any, doIdx: number) => {
-      const dOrder = doIdx + 1;
+    dayRows.forEach((row: any) => {
+      const header = String(row[0] || "");
+      const dOrder = parseInt(header.match(/\d+/)?.[0] || "0");
+      if (dOrder === 0) return;
+      
       doToCourses[dOrder] = [];
       const cells: string[] = row.slice(1);
       

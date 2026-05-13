@@ -271,7 +271,14 @@ export default function TimetablePage() {
     });
   }, [ttQ.data, myTTQ.data]);
 
-  const classes = schedule[dayOverride - 1]?.classes || [];
+  const classes = useMemo(() => {
+    const targetRow = schedule.find(s => {
+      const header = String(s.day || "");
+      const dOrder = parseInt(header.match(/\d+/)?.[0] || "0");
+      return dOrder === dayOverride;
+    });
+    return targetRow?.classes || [];
+  }, [schedule, dayOverride]);
   const classesWithBreaks = insertBreaks(classes);
   
   const totalClasses = classes.length;
