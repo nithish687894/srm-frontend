@@ -187,11 +187,11 @@ export default function DashboardPage() {
               <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase" }}>Grades Logged</div>
             </div>
             <div style={{ background: "rgba(0,0,0,0.2)", padding: "16px", borderRadius: "16px" }}>
-              <div style={{ fontSize: "20px", fontWeight: "900", color: isMatrix ? "#a8c200" : "#00ff88" }}>{spData?.marks?.sgpa || spData?.marks?.SGPA || "—"}</div>
+              <div style={{ fontSize: "20px", fontWeight: "900", color: isMatrix ? "#a8c200" : "#00ff88" }}>{spData?.marks?.sgpa || spData?.marks?.SGPA || data?.academia?.profile?.["SGPA"] || "—"}</div>
               <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase" }}>SGPA</div>
             </div>
             <div style={{ background: "rgba(0,0,0,0.2)", padding: "16px", borderRadius: "16px" }}>
-              <div style={{ fontSize: "20px", fontWeight: "900", color: isMatrix ? "#a8c200" : "#00ff88" }}>{spData?.marks?.cgpa || spData?.marks?.CGPA || "—"}</div>
+              <div style={{ fontSize: "20px", fontWeight: "900", color: isMatrix ? "#a8c200" : "#00ff88" }}>{spData?.marks?.cgpa || spData?.marks?.CGPA || data?.academia?.profile?.["CGPA"] || "—"}</div>
               <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase" }}>CGPA</div>
             </div>
           </div>
@@ -467,7 +467,7 @@ export default function DashboardPage() {
       <PortalSyncModal 
         isOpen={isSyncModalOpen} 
         onClose={() => setIsSyncModalOpen(false)} 
-        onSuccess={() => { dataAPI.getUnified().then(d => { if (d?.success) { const merged = { ...d.academia, studentPortal: d.studentPortal }; setData(merged); setAcademicData(merged); } }).catch(() => {}); }}
+        onSuccess={() => { window.location.reload(); }}
         netId={email?.split('@')[0] || academicData?.profile?.['Student ID'] || academicData?.profile?.['Registration Number'] || ""}
       />
       <main className="page-main" style={{ position: 'relative', zIndex: 1 }}>
