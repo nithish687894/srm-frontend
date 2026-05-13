@@ -124,12 +124,12 @@ export default function PortalSyncModal({ isOpen, onClose, onSuccess, netId }: P
                     </button>
                   </div>
 
-                  <input
-                    type="text"
-                    placeholder="ENTER CODE"
-                    style={{ width: '100%', background: '#111', border: '1px solid #222', borderRadius: '12px', padding: '14px', color: '#fff', fontSize: '18px', fontWeight: 900, textAlign: 'center', letterSpacing: '0.3em', outline: 'none', textTransform: 'uppercase' }}
-                    value={captchaAnswer}
-                    onChange={(e) => setCaptchaAnswer(e.target.value.toUpperCase())}
+                    <input
+                      type="text"
+                      placeholder="ENTER CODE"
+                      style={{ width: '100%', background: '#111', border: '1px solid #222', borderRadius: '12px', padding: '14px', color: '#fff', fontSize: '18px', fontWeight: 900, textAlign: 'center', letterSpacing: '0.3em', outline: 'none' }}
+                      value={captchaAnswer}
+                      onChange={(e) => setCaptchaAnswer(e.target.value)}
                     maxLength={6}
                   />
 
