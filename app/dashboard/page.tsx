@@ -146,7 +146,7 @@ export default function DashboardPage() {
   const { ready } = useAuth();
   const router = useRouter();
   const { theme } = useThemeStore();
-  const { email, setProfile, academicData, setAcademicData, studentPortalConnected, setStudentPortalConnected, setStudentPortalData } = useAuthStore();
+  const { email, setProfile, academicData, setAcademicData, studentPortalConnected, setStudentPortalConnected, setStudentPortalData, studentPortalData } = useAuthStore();
   const [data, setData] = useState<any>(academicData || null);
   const [loading, setLoading] = useState(!academicData);
   const [ttData, setTTData] = useState<any>(null);
@@ -156,7 +156,9 @@ export default function DashboardPage() {
   const [mounted, setMounted] = useState(false);
 
   const renderAcademicIntegrityHub = (isMatrix = false) => {
-    const hasData = studentPortalConnected && !!data?.studentPortal?.marks;
+    // Use studentPortalData from Zustand as fallback when local state hasn't synced yet
+    const spData = data?.studentPortal || studentPortalData;
+    const hasData = studentPortalConnected && !!spData;
     return (
       <div style={{ 
         background: isMatrix ? "#1c1c1c" : "linear-gradient(135deg, rgba(0, 255, 136, 0.03) 0%, rgba(59, 130, 246, 0.03) 100%)",
@@ -175,14 +177,22 @@ export default function DashboardPage() {
         </div>
 
         {hasData ? (
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "12px" }}>
             <div style={{ background: "rgba(0,0,0,0.2)", padding: "16px", borderRadius: "16px" }}>
-              <div style={{ fontSize: "20px", fontWeight: "900", color: "#fff" }}>{data?.studentPortal?.marks?.failed?.length || 0}</div>
-              <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase" }}>Arrears Tracked</div>
+              <div style={{ fontSize: "20px", fontWeight: "900", color: "#fff" }}>{spData?.marks?.failed?.length || 0}</div>
+              <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase" }}>Arrears</div>
             </div>
             <div style={{ background: "rgba(0,0,0,0.2)", padding: "16px", borderRadius: "16px" }}>
-              <div style={{ fontSize: "20px", fontWeight: "900", color: "#fff" }}>{data?.studentPortal?.marks?.marks?.filter((m: any) => m.grade === 'U').length || 0}</div>
-              <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase" }}>Official Grades</div>
+              <div style={{ fontSize: "20px", fontWeight: "900", color: "#fff" }}>{spData?.marks?.marks?.length || 0}</div>
+              <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase" }}>Grades Logged</div>
+            </div>
+            <div style={{ background: "rgba(0,0,0,0.2)", padding: "16px", borderRadius: "16px" }}>
+              <div style={{ fontSize: "20px", fontWeight: "900", color: isMatrix ? "#a8c200" : "#00ff88" }}>{spData?.marks?.sgpa || spData?.marks?.SGPA || "—"}</div>
+              <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase" }}>SGPA</div>
+            </div>
+            <div style={{ background: "rgba(0,0,0,0.2)", padding: "16px", borderRadius: "16px" }}>
+              <div style={{ fontSize: "20px", fontWeight: "900", color: isMatrix ? "#a8c200" : "#00ff88" }}>{spData?.marks?.cgpa || spData?.marks?.CGPA || "—"}</div>
+              <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase" }}>CGPA</div>
             </div>
           </div>
         ) : (
