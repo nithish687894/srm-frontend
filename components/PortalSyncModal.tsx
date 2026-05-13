@@ -98,9 +98,10 @@ export default function PortalSyncModal({
 
       setStep("success");
       setTimeout(() => {
-        onSuccess();
+        // As requested: ensure redirecting to home page updated everything
+        onSuccess(); // This calls window.location.reload() in parent
         onClose();
-      }, 1500);
+      }, 2000);
     } catch (e: any) {
       setError(e.response?.data?.error || "ACCESS DENIED");
       setCaptchaAnswer("");
