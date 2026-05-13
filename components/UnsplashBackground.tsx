@@ -1,8 +1,8 @@
 "use client";
 
 interface CyberBackgroundProps {
-  /** Color variant: "green" (default), "purple" (cosmos), "lime" (matrix) */
-  variant?: "green" | "purple" | "lime";
+  /** Color variant: "green" (default), "purple" (cosmos), "lime" (matrix), "blue" (ocean) */
+  variant?: "green" | "purple" | "lime" | "blue";
 }
 
 /**
@@ -14,6 +14,7 @@ export default function CyberBackground({ variant = "green" }: CyberBackgroundPr
     green: { a: "rgba(0, 255, 136, 0.08)", b: "rgba(0, 200, 255, 0.05)", c: "rgba(0, 100, 255, 0.04)" },
     purple: { a: "rgba(139, 92, 246, 0.08)", b: "rgba(59, 130, 246, 0.05)", c: "rgba(236, 72, 153, 0.04)" },
     lime: { a: "rgba(168, 194, 0, 0.08)", b: "rgba(200, 220, 0, 0.04)", c: "rgba(100, 150, 0, 0.03)" },
+    blue: { a: "rgba(30, 144, 255, 0.08)", b: "rgba(0, 191, 255, 0.05)", c: "rgba(70, 130, 180, 0.04)" },
   };
 
   const c = colors[variant];
