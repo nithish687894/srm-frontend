@@ -438,7 +438,7 @@ export default function DashboardPage() {
   if (theme === "cosmos") return (
     <>
       <CosmosDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} onShowStudentInfo={() => setShowStudentInfo(true)} broadcast={broadcast} setIsSyncModalOpen={setIsSyncModalOpen} renderAcademicIntegrityHub={renderAcademicIntegrityHub} userBatch={batch} totalHours={totalHours} presentHours={presentHours} absentHours={absentHours} />
-      <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => window.location.reload()} netId={academicData?.profile?.["Registration Number"] || ""} />
+      <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => window.location.reload()} netId={academicData?.profile?.["Student ID"] || academicData?.profile?.["Registration Number"] || ""} />
       {renderStudentInfoModal()}
     </>
   );
@@ -446,7 +446,7 @@ export default function DashboardPage() {
   if (theme === "matrix") return (
     <>
       <MatrixDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} dayOffset={dayOffset} setDayOffset={setDayOffset} onShowStudentInfo={() => setShowStudentInfo(true)} broadcast={broadcast} nowMin={nowMin} setIsSyncModalOpen={setIsSyncModalOpen} renderAcademicIntegrityHub={renderAcademicIntegrityHub} userBatch={batch} totalHours={totalHours} presentHours={presentHours} absentHours={absentHours} />
-      <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => window.location.reload()} netId={academicData?.profile?.["Registration Number"] || ""} />
+      <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => window.location.reload()} netId={academicData?.profile?.["Student ID"] || academicData?.profile?.["Registration Number"] || ""} />
       {renderStudentInfoModal()}
     </>
   );
@@ -459,7 +459,7 @@ export default function DashboardPage() {
         isOpen={isSyncModalOpen} 
         onClose={() => setIsSyncModalOpen(false)} 
         onSuccess={() => window.location.reload()} 
-        netId={email?.split('@')[0] || academicData?.profile?.['Registration Number'] || ""}
+        netId={email?.split('@')[0] || academicData?.profile?.['Student ID'] || academicData?.profile?.['Registration Number'] || ""}
       />
       <main className="page-main">
         <div className="page-content" data-section="Portal" style={{ paddingBottom: "120px" }}>
