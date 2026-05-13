@@ -8,8 +8,7 @@ import { useAuthStore } from "@/lib/store";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Home, BarChart2, CheckCircle, Clock, Calendar, Wrench, Sparkles, Shield,
-  MoreHorizontal, Settings, Share2, LogOut, User, BookOpen, GraduationCap,
-  X, ChevronRight, CreditCard, FileText, Bed, Bus, Bell, Award, MonitorPlay, Printer,
+  X, ChevronRight, CreditCard, FileText, Bed, Bus, Bell, Award, MonitorPlay, Printer, Briefcase, UserSquare, User, GraduationCap, BookOpen, Settings, MoreHorizontal, Share2, LogOut,
 } from "lucide-react";
 
 const NAV_MAIN = [
@@ -27,18 +26,10 @@ const NAV_MORE_ITEMS = [
 ] as const;
 
 const PORTAL_SERVICES = [
-  { href: "/portal/fee-payment", label: "Fee Payment", icon: CreditCard },
-  { href: "/portal/course-status", label: "Course Status", icon: BookOpen },
-  { href: "/portal/provisional-results", label: "Prov Results", icon: FileText },
-  { href: "/portal/revaluation", label: "Revaluation", icon: FileText },
-  { href: "/portal/hostel", label: "Hostel Details", icon: Bed },
-  { href: "/portal/transport", label: "Transport", icon: Bus },
-  { href: "/portal/finance", label: "Finance", icon: CreditCard },
-  { href: "/portal/notice-board", label: "Notices", icon: Bell },
-  { href: "/portal/abc-id", label: "ABC ID", icon: Award },
-  { href: "/portal/lms", label: "LMS", icon: MonitorPlay },
-  { href: "/portal/codetantra", label: "CodeTantra", icon: MonitorPlay },
-  { href: "/portal/id-card", label: "ID Card", icon: Printer },
+  { href: "/portal/student-dashboard", label: "Student Dashboard", icon: UserSquare },
+  { href: "/portal/personal-details", label: "Personal Details", icon: FileText },
+  { href: "/portal/grade-mark-credit", label: "Grade & Credit", icon: BookOpen },
+  { href: "/portal/placement", label: "Placements", icon: Briefcase },
 ] as const;
 
 const ADMIN_EMAILS = ["ns4770@srmist.edu.in", "ts0014@srmist.edu.in"];
