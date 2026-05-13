@@ -18,7 +18,12 @@ export default function PortalSyncModal({ isOpen, onClose, onSuccess, netId }: P
   const [captchaData, setCaptchaData] = useState<{ captcha: string; captchaToken: string } | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [localNetId, setLocalNetId] = useState(netId);
   const [step, setStep] = useState<"form" | "success">("form");
+
+  useEffect(() => {
+    setLocalNetId(netId);
+  }, [netId]);
 
   useEffect(() => {
     if (isOpen) {
@@ -47,7 +52,7 @@ export default function PortalSyncModal({ isOpen, onClose, onSuccess, netId }: P
     setError("");
 
     try {
-      await authAPI.login(netId, password, "student-portal", {
+      await authAPI.login(localNetId, password, "student-portal", {
         captcha: captchaAnswer,
         captchaToken: captchaData?.captchaToken
       });
@@ -102,6 +107,16 @@ export default function PortalSyncModal({ isOpen, onClose, onSuccess, netId }: P
                 )}
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <div style={{ position: 'relative' }}>
+                    <input
+                      type="text"
+                      placeholder="NetID (e.g. ns4770)"
+                      style={{ width: '100%', background: '#111', border: '1px solid #222', borderRadius: '12px', padding: '14px', color: '#fff', fontSize: '13px', outline: 'none' }}
+                      value={localNetId}
+                      onChange={(e) => setLocalNetId(e.target.value.split('@')[0])}
+                    />
+                  </div>
+
                   <div style={{ position: 'relative' }}>
                     <input
                       type={showPassword ? "text" : "password"}
