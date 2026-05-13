@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Home, BarChart2, CheckCircle, Clock, Calendar, Wrench, Sparkles, Shield,
   MoreHorizontal, Settings, Share2, LogOut, User, BookOpen, GraduationCap,
-  X, ChevronRight,
+  X, ChevronRight, CreditCard, FileText, Bed, Bus, Bell, Award, MonitorPlay, Printer,
 } from "lucide-react";
 
 const NAV_MAIN = [
@@ -24,6 +24,21 @@ const NAV_MORE_ITEMS = [
   { href: "/app-tools", label: "Tools", icon: Wrench, desc: "GPA calculator & utilities" },
   { href: "/ai", label: "AI Tutor", icon: Sparkles, desc: "AI-powered study assistant" },
   { href: "/gpa", label: "GPA Calc", icon: GraduationCap, desc: "CGPA & SGPA calculator" },
+] as const;
+
+const PORTAL_SERVICES = [
+  { href: "/portal/fee-payment", label: "Fee Payment", icon: CreditCard },
+  { href: "/portal/course-status", label: "Course Status", icon: BookOpen },
+  { href: "/portal/provisional-results", label: "Prov Results", icon: FileText },
+  { href: "/portal/revaluation", label: "Revaluation", icon: FileText },
+  { href: "/portal/hostel", label: "Hostel Details", icon: Bed },
+  { href: "/portal/transport", label: "Transport", icon: Bus },
+  { href: "/portal/finance", label: "Finance", icon: CreditCard },
+  { href: "/portal/notice-board", label: "Notices", icon: Bell },
+  { href: "/portal/abc-id", label: "ABC ID", icon: Award },
+  { href: "/portal/lms", label: "LMS", icon: MonitorPlay },
+  { href: "/portal/codetantra", label: "CodeTantra", icon: MonitorPlay },
+  { href: "/portal/id-card", label: "ID Card", icon: Printer },
 ] as const;
 
 const ADMIN_EMAILS = ["ns4770@srmist.edu.in", "ts0014@srmist.edu.in"];
@@ -265,7 +280,7 @@ export default function Sidebar() {
                 {/* Navigation Grid */}
                 <div style={{ padding: "16px 20px 8px" }}>
                   <div style={{ fontSize: "9px", fontWeight: 900, color: "#444", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "12px" }}>
-                    Navigate
+                    Nexus Core
                   </div>
                   <div className="grid grid-cols-4 gap-3">
                     {moreItems.map(({ href, label, icon: Icon }) => {
@@ -280,6 +295,41 @@ export default function Sidebar() {
                             <Icon size={20} />
                           </div>
                           <span className={`text-[10px] font-mono uppercase font-bold tracking-wider ${active ? "text-[#00ff88]" : "text-white/60"}`}>
+                            {label}
+                          </span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Portal Services Grid */}
+                <div style={{ padding: "16px 20px 8px" }}>
+                  <div style={{ fontSize: "9px", fontWeight: 900, color: "#444", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "12px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span>Portal Services</span>
+                    {!studentPortalConnected && <span style={{ color: "#ef4444" }}>Requires Link</span>}
+                  </div>
+                  <div className="grid grid-cols-4 gap-y-5 gap-x-3">
+                    {PORTAL_SERVICES.map(({ href, label, icon: Icon }) => {
+                      const active = isActive(href, path);
+                      return (
+                        <Link key={href} href={studentPortalConnected ? href : "#"} onClick={(e) => {
+                          if (!studentPortalConnected) {
+                            e.preventDefault();
+                            // Optional: could open sync modal here if we wanted
+                          } else {
+                            setMoreOpen(false);
+                          }
+                        }}
+                          className="flex flex-col items-center justify-start gap-2"
+                          style={{ opacity: studentPortalConnected ? 1 : 0.4, cursor: studentPortalConnected ? "pointer" : "not-allowed" }}
+                          aria-current={active ? "page" : undefined}>
+                          <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${
+                            active ? "bg-[#3b82f6]/20 text-[#3b82f6] shadow-[inset_0_0_12px_rgba(59,130,246,0.3)]" : "bg-white/5 text-white/60"
+                          }`}>
+                            <Icon size={20} />
+                          </div>
+                          <span className={`text-[9px] font-mono uppercase font-bold tracking-wider text-center ${active ? "text-[#3b82f6]" : "text-white/60"}`} style={{ lineHeight: 1.1 }}>
                             {label}
                           </span>
                         </Link>
