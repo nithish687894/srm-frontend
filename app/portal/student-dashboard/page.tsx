@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { ArrowLeft, User, Building, BookOpen, GraduationCap, MapPin, Hash, IdCard, Award } from "lucide-react";
+import { ArrowLeft, User, Building, BookOpen, GraduationCap, MapPin, Hash, IdCard, Award, Mail, Layers, UserCheck, DoorOpen } from "lucide-react";
 import CyberBackground from "@/components/UnsplashBackground";
 import { useAuthStore } from "@/lib/store";
 
@@ -18,13 +18,15 @@ export default function StudentDashboardPage() {
   const profile = studentPortalData?.profile;
 
   // Render a beautifully styled data card
-  const DataCard = ({ label, value, icon: Icon, delay = 0, variant = "blue" }: { label: string, value: string, icon: any, delay?: number, variant?: "blue" | "purple" | "green" }) => {
+  const DataCard = ({ label, value, icon: Icon, delay = 0, variant = "blue" }: { label: string, value: any, icon: any, delay?: number, variant?: "blue" | "purple" | "green" | "emerald" | "amber" }) => {
     const colorMap = {
       blue: { bg: "bg-blue-500/10", border: "border-blue-500/20", icon: "text-blue-400", accent: "from-blue-500/20" },
       purple: { bg: "bg-purple-500/10", border: "border-purple-500/20", icon: "text-purple-400", accent: "from-purple-500/20" },
-      green: { bg: "bg-emerald-500/10", border: "border-emerald-500/20", icon: "text-emerald-400", accent: "from-emerald-500/20" }
+      green: { bg: "bg-emerald-500/10", border: "border-emerald-500/20", icon: "text-emerald-400", accent: "from-emerald-500/20" },
+      emerald: { bg: "bg-emerald-500/10", border: "border-emerald-500/20", icon: "text-emerald-400", accent: "from-emerald-500/20" },
+      amber: { bg: "bg-amber-500/10", border: "border-amber-500/20", icon: "text-amber-400", accent: "from-amber-500/20" }
     };
-    const colors = colorMap[variant];
+    const colors = colorMap[variant as keyof typeof colorMap] || colorMap.blue;
 
     return (
       <motion.div 
@@ -42,7 +44,7 @@ export default function StudentDashboardPage() {
           <div className="flex-1 min-w-0">
             <div className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] mb-1">{label}</div>
             <div className="text-base font-bold text-white truncate group-hover:text-blue-400 transition-colors">
-              {value && value !== "-" ? value : <span className="text-white/20 italic font-medium">Not Assigned</span>}
+              {value && value !== "-" ? value : <span className="text-white/20 italic font-medium text-xs">Not Assigned</span>}
             </div>
           </div>
         </div>
@@ -66,7 +68,7 @@ export default function StudentDashboardPage() {
             </button>
             <div>
               <div className="text-[10px] font-black text-blue-500 uppercase tracking-[0.3em] mb-0.5">Nexus Portal</div>
-              <h1 className="text-2xl font-black text-white tracking-tight">Student ID</h1>
+              <h1 className="text-2xl font-black text-white tracking-tight">Student Identity</h1>
             </div>
           </div>
           <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white/40">
@@ -119,7 +121,7 @@ export default function StudentDashboardPage() {
                 </div>
                 
                 <h2 className="text-3xl font-black text-white tracking-tight mb-2 leading-none">{profile.name}</h2>
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center justify-center gap-3">
                   <span className="px-3 py-1 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 font-mono text-xs font-black tracking-widest">
                     {profile.registerNo}
                   </span>
@@ -129,8 +131,8 @@ export default function StudentDashboardPage() {
               </div>
             </motion.div>
 
-            {/* Structured Grid */}
-            <div className="space-y-6 pb-10">
+            {/* Core Academic Identity Section */}
+            <div className="space-y-6">
               <div className="flex items-center gap-4">
                 <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
                 <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 whitespace-nowrap">Core Academic Identity</h3>
@@ -151,6 +153,36 @@ export default function StudentDashboardPage() {
                   <DataCard label="ABC Identity" value={profile.abcNumber} icon={Award} delay={0.6} variant="purple" />
                 </div>
               </div>
+            </div>
+
+            {/* Advisory & Facilities Section */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-4">
+                <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 whitespace-nowrap">Advisory & Facilities</h3>
+                <div className="h-px flex-1 bg-gradient-to-r from-white/10 via-white/10 to-transparent" />
+              </div>
+
+              <div className="grid grid-cols-1 gap-4">
+                <DataCard label="Faculty Advisor" value={profile.facultyAdvisor} icon={UserCheck} delay={0.7} variant="amber" />
+                <DataCard label="Academic Advisor" value={profile.academicAdvisor} icon={GraduationCap} delay={0.8} variant="amber" />
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <DataCard label="Room Allocation" value={profile.roomNo} icon={DoorOpen} delay={0.9} variant="emerald" />
+                  <DataCard label="Combo Reference" value={profile.combo} icon={Layers} delay={1.0} variant="purple" />
+                </div>
+              </div>
+            </div>
+
+            {/* Contact Parameters Section */}
+            <div className="space-y-6 pb-10">
+              <div className="flex items-center gap-4">
+                <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 whitespace-nowrap">Contact Parameters</h3>
+                <div className="h-px flex-1 bg-gradient-to-r from-white/10 via-white/10 to-transparent" />
+              </div>
+              
+              <DataCard label="Official Email Node" value={profile.email} icon={Mail} delay={1.1} variant="blue" />
             </div>
           </div>
         )}
