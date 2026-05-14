@@ -43,10 +43,10 @@ export default function PersonalDetailsPage() {
   };
 
   const Row = ({ label, value, fullWidth = false }: { label: string, value: string, fullWidth?: boolean }) => (
-    <div className={`flex ${fullWidth ? 'flex-col' : 'justify-between'} items-start gap-2`}>
-      <span className="text-[10px] font-black text-white/30 uppercase tracking-widest shrink-0">{label}</span>
-      <span className={`text-sm font-bold text-white/90 ${fullWidth ? '' : 'text-right'} break-words w-full`}>
-        {value || <span className="text-white/20 italic font-medium">Not Provided</span>}
+    <div className={`flex flex-col items-start gap-1`}>
+      <span className="text-[9px] font-black text-white/20 uppercase tracking-[0.2em]">{label}</span>
+      <span className={`text-[13px] font-bold text-white/90 break-words leading-tight`}>
+        {value || <span className="text-white/10 italic font-medium text-xs">Not Provided</span>}
       </span>
     </div>
   );
@@ -86,9 +86,9 @@ export default function PersonalDetailsPage() {
           </div>
         ) : (
           <div className="px-6">
-            <div className="grid grid-cols-1 gap-1">
+            <div className="grid grid-cols-1 gap-6 pb-12">
               <DetailCard title="Personal Parameters" icon={UserCircle} delay={0.1}>
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-2 gap-x-6 gap-y-8">
                   <Row label="Date of Birth" value={profile.personalDetails?.dob} />
                   <Row label="Gender" value={profile.personalDetails?.gender} />
                   <Row label="Nationality" value={profile.personalDetails?.nationality} />
@@ -97,11 +97,11 @@ export default function PersonalDetailsPage() {
               </DetailCard>
 
               <DetailCard title="Lineage Details" icon={Users} delay={0.2} variant="purple">
-                <div className="space-y-5">
+                <div className="space-y-6">
                   <Row label="Father Name" value={profile.parentDetails?.fatherName} />
                   <Row label="Mother Name" value={profile.parentDetails?.motherName} />
-                  <div className="h-px bg-white/5" />
-                  <div className="grid grid-cols-1 gap-5">
+                  <div className="h-px bg-white/5 mx-2" />
+                  <div className="grid grid-cols-1 gap-6">
                     <Row label="Emergency Contact" value={profile.parentDetails?.contactNo} />
                     <Row label="Parent Email" value={profile.parentDetails?.email} />
                   </div>
@@ -109,9 +109,9 @@ export default function PersonalDetailsPage() {
               </DetailCard>
 
               <DetailCard title="Communication Node" icon={Map} delay={0.3}>
-                <div className="space-y-5">
+                <div className="space-y-6">
                   <Row label="Current Address" value={profile.address?.address} fullWidth />
-                  <div className="grid grid-cols-2 gap-6">
+                  <div className="grid grid-cols-2 gap-x-6 gap-y-8">
                     <Row label="District" value={profile.address?.district} />
                     <Row label="State" value={profile.address?.state} />
                     <Row label="Pincode" value={profile.address?.pincode} />

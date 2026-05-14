@@ -36,41 +36,50 @@ export default function GradeMarkCreditPage() {
     </button>
   );
 
-  const MarkRow = ({ item, index }: any) => (
-    <motion.div 
-      initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.05 }}
-      className="bg-white/5 border border-white/10 p-4 rounded-2xl mb-3 flex flex-col gap-3 relative overflow-hidden"
-    >
-      {/* Grade Badge */}
-      <div className={`absolute top-0 right-0 bottom-0 w-16 flex items-center justify-center font-black text-2xl ${
-        ["O", "A+", "A"].includes(item.grade) ? "bg-green-500/10 text-green-400 border-l border-green-500/20" :
-        ["B+", "B", "C"].includes(item.grade) ? "bg-blue-500/10 text-blue-400 border-l border-blue-500/20" :
-        "bg-red-500/10 text-red-400 border-l border-red-500/20"
-      }`}>
-        {item.grade}
-      </div>
+  const MarkRow = ({ item, index }: any) => {
+    const isPass = !["F", "W", "I", "Ab"].includes(item.grade);
+    const gradeColor = ["O", "A+", "A"].includes(item.grade) ? "emerald" : 
+                       ["B+", "B", "C"].includes(item.grade) ? "blue" : "red";
 
-      <div className="pr-16">
-        <div className="flex items-center gap-2 mb-1">
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-white/10 text-white/70 uppercase tracking-wider border border-white/10">
-            {item.code}
-          </span>
-          <span className="text-[10px] text-white/40 uppercase tracking-wider">{item.monthYear}</span>
+    return (
+      <motion.div 
+        initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.04 }}
+        className="group bg-white/[0.03] border border-white/10 p-5 rounded-[28px] mb-4 flex items-center gap-5 hover:bg-white/[0.06] hover:border-white/20 transition-all duration-300 relative overflow-hidden"
+      >
+        <div className={`absolute top-0 left-0 w-1 h-full bg-${gradeColor}-500/40`} />
+        
+        {/* Grade Hexagon/Circle */}
+        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center font-black text-2xl shrink-0 ${
+          gradeColor === "emerald" ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]" :
+          gradeColor === "blue" ? "bg-blue-500/10 text-blue-400 border border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)]" :
+          "bg-red-500/10 text-red-400 border border-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.1)]"
+        }`}>
+          {item.grade}
         </div>
-        <div className="text-sm font-bold text-white leading-snug mb-2">{item.description}</div>
-        <div className="flex gap-4">
-          <div className="flex flex-col">
-            <span className="text-[9px] text-white/40 uppercase tracking-widest font-bold">Credits</span>
-            <span className="text-xs text-white/90 font-bold">{item.credit}</span>
+  
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-1.5">
+            <span className="text-[9px] font-black px-2 py-0.5 rounded-lg bg-white/5 text-white/40 uppercase tracking-widest border border-white/5">
+              {item.code}
+            </span>
+            <span className="w-1 h-1 rounded-full bg-white/10" />
+            <span className="text-[9px] text-white/20 uppercase tracking-widest font-bold">{item.monthYear}</span>
           </div>
-          <div className="flex flex-col">
-            <span className="text-[9px] text-white/40 uppercase tracking-widest font-bold">Semester</span>
-            <span className="text-xs text-white/90 font-bold">{item.semester}</span>
+          <div className="text-sm font-bold text-white leading-tight mb-2 group-hover:text-blue-400 transition-colors truncate">{item.description}</div>
+          <div className="flex items-center gap-5">
+            <div className="flex items-center gap-1.5">
+              <span className="text-[9px] text-white/20 uppercase tracking-widest font-black">CR</span>
+              <span className="text-[11px] text-white/70 font-black">{item.credit}</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[9px] text-white/20 uppercase tracking-widest font-black">SEM</span>
+              <span className="text-[11px] text-white/70 font-black">{item.semester}</span>
+            </div>
           </div>
         </div>
-      </div>
-    </motion.div>
-  );
+      </motion.div>
+    );
+  };
 
   return (
     <div className="page-root">
