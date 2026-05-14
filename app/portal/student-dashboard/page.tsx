@@ -124,9 +124,9 @@ export default function StudentDashboardPage() {
   return (
     <>
       <style>{STYLES}</style>
-      <div className="min-h-screen h-fit bg-[#050505] text-white selection:bg-cyan-500/30 font-sans scroll-hide">
+      <div className="bg-[#050505] text-white selection:bg-cyan-500/30 font-sans scroll-hide">
         
-        <div className="relative z-10 max-w-lg mx-auto min-h-screen h-fit flex flex-col">
+        <div className="relative z-10 max-w-lg mx-auto" style={{ height: 'auto' }}>
           
           {/* Header Bar */}
           <div className="pt-8 px-6 flex items-center justify-between mb-2">
@@ -142,14 +142,14 @@ export default function StudentDashboardPage() {
             </button>
           </div>
 
-          <div className="px-4 pb-40">
+          <div className="px-4" style={{ paddingBottom: 100 }}>
             {!studentPortalConnected || !profile ? (
               <div className="py-24 text-center">
                 <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }} className="w-10 h-10 rounded-full border-2 border-cyan-500/10 border-t-cyan-500/50 mx-auto mb-4" />
                 <p className="text-white/20 text-[8px] font-black uppercase tracking-[0.4em] animate-pulse">Initializing Identity...</p>
               </div>
             ) : (
-              <div className="bg-[#0a0a0a] rounded-[2rem] border border-white/5 shadow-2xl h-fit overflow-visible flex flex-col mt-8">
+              <div className="bg-[#0a0a0a] rounded-[2rem] border border-white/5 shadow-2xl overflow-visible flex flex-col mt-8" style={{ height: 'auto' }}>
                 
                 {/* Hero Profile Header */}
                 <div className="pt-10 pb-8 px-8 flex flex-col items-center text-center space-y-6">
@@ -171,18 +171,18 @@ export default function StudentDashboardPage() {
 
                   <div className="flex items-center gap-3">
                     <span className="px-3 py-1 rounded-lg bg-white/5 border border-white/5 text-[9px] font-black uppercase text-blue-400 tracking-widest">Dept: CS</span>
-                    <span className="px-3 py-1 rounded-lg bg-white/5 border border-white/5 text-[9px] font-black uppercase text-cyan-400 tracking-widest">Sec: {profile.section}</span>
+                    <span className="px-3 py-1 rounded-lg bg-white/5 border border-white/5 text-[9px) font-black uppercase text-cyan-400 tracking-widest">Sec: {profile.section}</span>
                   </div>
                 </div>
 
                 {/* Info Table Content */}
-                <div className="px-1 h-fit">
+                <div className="px-1" style={{ height: 'auto' }}>
                   
                   <div className="section-divider">
                     <span className="text-[9px] font-black text-white/20 uppercase tracking-[0.4em]">Core Academic Identity</span>
                   </div>
 
-                  <div className="rounded-2xl overflow-hidden border border-white/[0.03] mx-1 h-fit">
+                  <div className="rounded-2xl overflow-hidden border border-white/[0.03] mx-1" style={{ height: 'auto' }}>
                     <DataRow index={0} color="#00f2ff" icon={IdCard} label="System ID" value={profile.studentId} />
                     <DataRow index={1} color="#00f2ff" icon={Hash} label="Semester" value={profile.semester} />
                     <DataRow index={2} color="#00f2ff" icon={GraduationCap} label="Primary Program" value={profile.program} />
@@ -195,7 +195,7 @@ export default function StudentDashboardPage() {
                     <span className="text-[9px] font-black text-white/20 uppercase tracking-[0.4em]">Advisory & Facilities</span>
                   </div>
 
-                  <div className="rounded-2xl overflow-hidden border border-white/[0.03] mx-1 mb-6 h-fit">
+                  <div className="rounded-2xl overflow-hidden border border-white/[0.03] mx-1 mb-6" style={{ height: 'auto' }}>
                     <AdvisorRow 
                       id="fa" color="#00f2ff" icon={UserCheck} label="Faculty Advisor" 
                       advisorStr={profile.facultyAdvisor} handleCopy={handleCopy} copiedId={copiedId} 
