@@ -51,7 +51,7 @@ const DataRow = ({ icon: Icon, label, value, color, index }: any) => {
       <div className="text-cyan-400 flex-shrink-0 opacity-80">
         <Icon size={16} strokeWidth={2.5} />
       </div>
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 min-w-0 text-left">
         <p className="text-[9px] text-white/20 uppercase tracking-widest font-black mb-0.5">{label}</p>
         <p className="text-[13px] font-bold text-white/90 break-words leading-tight">{value}</p>
       </div>
@@ -69,9 +69,9 @@ const AdvisorRow = ({ icon: Icon, label, advisorStr, defaultEmail, color, handle
       <div className="text-cyan-400 flex-shrink-0 opacity-80">
         <Icon size={18} strokeWidth={2.5} />
       </div>
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 min-w-0 text-left">
         <p className="text-[9px] text-white/20 uppercase tracking-widest font-black mb-0.5">{label}</p>
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex items-start justify-between gap-4 text-left">
           <div className="flex-1 min-w-0">
             <p className="text-[14px] font-black text-white/90 uppercase leading-none mb-1">{name}</p>
             {finalEmail && (
@@ -124,9 +124,9 @@ export default function StudentDashboardPage() {
   return (
     <>
       <style>{STYLES}</style>
-      <div className="min-h-screen bg-[#050505] text-white selection:bg-cyan-500/30 font-sans scroll-hide">
+      <div className="min-h-screen h-fit bg-[#050505] text-white selection:bg-cyan-500/30 font-sans scroll-hide">
         
-        <div className="relative z-10 max-w-lg mx-auto h-screen flex flex-col overflow-hidden">
+        <div className="relative z-10 max-w-lg mx-auto min-h-screen h-fit flex flex-col">
           
           {/* Header Bar */}
           <div className="pt-8 px-6 flex items-center justify-between mb-2">
@@ -142,7 +142,7 @@ export default function StudentDashboardPage() {
             </button>
           </div>
 
-          <div className="flex-1 px-4 overflow-y-auto scroll-hide pb-24">
+          <div className="px-4 pb-40">
             {!studentPortalConnected || !profile ? (
               <div className="py-24 text-center">
                 <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }} className="w-10 h-10 rounded-full border-2 border-cyan-500/10 border-t-cyan-500/50 mx-auto mb-4" />
@@ -176,13 +176,13 @@ export default function StudentDashboardPage() {
                 </div>
 
                 {/* Info Table Content */}
-                <div className="px-1 flex-1">
+                <div className="px-1 h-fit">
                   
                   <div className="section-divider">
                     <span className="text-[9px] font-black text-white/20 uppercase tracking-[0.4em]">Core Academic Identity</span>
                   </div>
 
-                  <div className="rounded-2xl overflow-hidden border border-white/[0.03] mx-1">
+                  <div className="rounded-2xl overflow-hidden border border-white/[0.03] mx-1 h-fit">
                     <DataRow index={0} color="#00f2ff" icon={IdCard} label="System ID" value={profile.studentId} />
                     <DataRow index={1} color="#00f2ff" icon={Hash} label="Semester" value={profile.semester} />
                     <DataRow index={2} color="#00f2ff" icon={GraduationCap} label="Primary Program" value={profile.program} />
@@ -195,7 +195,7 @@ export default function StudentDashboardPage() {
                     <span className="text-[9px] font-black text-white/20 uppercase tracking-[0.4em]">Advisory & Facilities</span>
                   </div>
 
-                  <div className="rounded-2xl overflow-hidden border border-white/[0.03] mx-1 mb-6">
+                  <div className="rounded-2xl overflow-hidden border border-white/[0.03] mx-1 mb-6 h-fit">
                     <AdvisorRow 
                       id="fa" color="#00f2ff" icon={UserCheck} label="Faculty Advisor" 
                       advisorStr={profile.facultyAdvisor} handleCopy={handleCopy} copiedId={copiedId} 
