@@ -18,30 +18,80 @@ const STYLES = `
   .glass-panel { position: relative; backdrop-filter: blur(80px); background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1rem; }
   .glow-card { position: relative; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 1.5rem; backdrop-filter: blur(80px); overflow: hidden; }
   .sync-badge { animation: glow-pulse 2s infinite; }
-  .avatar-squircle { border-radius: 3rem; background: #000; position: relative; border: 1px solid rgba(255,255,255,0.1); }
+  .avatar-circle { border-radius: 50%; background: #000; position: relative; border: 1px solid rgba(255,255,255,0.1); }
   .text-gradient { background: linear-gradient(135deg, #fff 0%, #aaa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 `;
+
+// ============================================================================
+// UTILS
+// ============================================================================
+const parseAdvisor = (advisorStr: string) => {
+  if (!advisorStr) return { name: "", email: "" };
+  const match = advisorStr.match(/(.*?)\[(.*?)\]/);
+  if (match) {
+    return { name: match[1].trim(), email: match[2].trim() };
+  }
+  return { name: advisorStr.trim(), email: "" };
+};
+
+const isInvalid = (val: any) => !val || val === "Not Assigned" || val === "Not Provided" || val === "null" || val === "undefined";
 
 // ============================================================================
 // COMPONENTS
 // ============================================================================
 
-const PremiumCard = ({ icon: Icon, label, value, muted = false, delay = 0 }: any) => (
-  <motion.div 
-    initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay, duration: 0.5 }}
-    className="group glow-card p-4 sm:p-5 hover:border-cyan-500/30 transition-all duration-500 cursor-pointer active:scale-[0.98] mb-3"
-  >
-    <div className="relative flex items-center gap-4">
-      <div className="w-11 h-11 rounded-2xl bg-cyan-500/5 flex items-center justify-center flex-shrink-0 border border-white/5 group-hover:border-cyan-500/20 transition-all">
-        <Icon size={20} className="text-cyan-400/80" />
+const PremiumCard = ({ icon: Icon, label, value, delay = 0 }: any) => {
+  if (isInvalid(value)) return null;
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay, duration: 0.5 }}
+      className="group glow-card p-4 sm:p-5 hover:border-cyan-500/30 transition-all duration-500 cursor-pointer active:scale-[0.98] mb-3"
+    >
+      <div className="relative flex items-center gap-4">
+        <div className="w-11 h-11 rounded-2xl bg-cyan-500/5 flex items-center justify-center flex-shrink-0 border border-white/5 group-hover:border-cyan-500/20 transition-all">
+          <Icon size={20} className="text-cyan-400/80" />
+        </div>
+        <div className="flex-1 min-w-0 text-left">
+          <p className="text-[10px] text-white/20 uppercase tracking-[0.2em] font-black mb-0.5">{label}</p>
+          <p className="text-[15px] font-black leading-tight text-white/90 break-words">{value}</p>
+        </div>
       </div>
-      <div className="flex-1 min-w-0 text-left">
-        <p className="text-[10px] text-white/20 uppercase tracking-[0.2em] font-black mb-0.5">{label}</p>
-        <p className={`text-[15px] font-black line-clamp-1 leading-tight ${muted ? 'text-white/10 italic' : 'text-white/90'}`}>{value}</p>
+    </motion.div>
+  );
+};
+
+const AdvisorCard = ({ icon: Icon, label, advisorStr, defaultEmail, colorClass, delay = 0, handleCopy, copiedId, id }: any) => {
+  const { name, email } = parseAdvisor(advisorStr);
+  const finalEmail = email || defaultEmail;
+
+  if (isInvalid(name)) return null;
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay, duration: 0.7 }}
+      className={`group glow-card p-5 sm:p-6 hover:border-${colorClass === 'blue' ? 'blue' : 'amber'}-500/20 transition-all duration-500 mb-4`}
+    >
+      <div className="flex items-center gap-5">
+        <div className={`w-14 h-14 rounded-2xl bg-${colorClass === 'blue' ? 'blue' : 'amber'}-500/5 flex items-center justify-center flex-shrink-0 border border-white/5 group-hover:scale-105 transition-transform`}>
+          <Icon size={28} className={colorClass === 'blue' ? 'text-blue-400' : 'text-amber-400'} />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-[10px] text-white/20 uppercase tracking-[0.2em] font-black mb-1">{label}</p>
+          <p className="text-[16px] font-black text-white/90 uppercase tracking-tight break-words leading-tight mb-1">{name}</p>
+          {finalEmail && (
+            <p className={`text-[11px] ${colorClass === 'blue' ? 'text-blue-400/60' : 'text-amber-400/60'} font-mono tracking-widest break-words`}>{finalEmail}</p>
+          )}
+        </div>
+        {finalEmail && (
+          <button onClick={() => handleCopy(finalEmail, id)} className="w-10 h-10 rounded-2xl glass-panel flex items-center justify-center hover:bg-white/10 active:scale-90 transition-all border border-white/5">
+            {copiedId === id ? <Check size={16} className="text-emerald-400" /> : <Copy size={16} className="text-white/20" />}
+          </button>
+        )}
       </div>
-    </div>
-  </motion.div>
-);
+    </motion.div>
+  );
+};
 
 const NavItem = ({ icon: Icon, label, active, onClick }: any) => (
   <button
@@ -122,7 +172,7 @@ export default function StudentDashboardPage() {
                     className="flex flex-col items-center text-center space-y-8"
                   >
                     <div className="relative group">
-                      <div className="w-40 h-40 avatar-squircle flex items-center justify-center shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] border border-white/10 relative z-10">
+                      <div className="w-40 h-40 avatar-circle flex items-center justify-center shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] border border-white/10 relative z-10">
                         <span className="text-5xl font-black text-white tracking-tighter drop-shadow-2xl">NS</span>
                         <div className="absolute -top-2 -right-2 px-3 py-1 rounded-full bg-emerald-500 text-[10px] font-black uppercase tracking-widest shadow-xl border border-white/20 z-20">
                           Active
@@ -156,11 +206,11 @@ export default function StudentDashboardPage() {
                     
                     <div className="space-y-1">
                       <PremiumCard icon={IdCard} label="System ID" value={profile.studentId} delay={0.1} />
-                      <PremiumCard icon={Hash} label="Semester" value={profile.semester || "Not Assigned"} muted={!profile.semester} delay={0.2} />
+                      <PremiumCard icon={Hash} label="Semester" value={profile.semester} delay={0.2} />
                       <PremiumCard icon={GraduationCap} label="Primary Program" value={profile.program} delay={0.3} />
                       <PremiumCard icon={Building} label="Institution" value={profile.institution} delay={0.4} />
                       <PremiumCard icon={MapPin} label="Assigned Section" value={profile.section} delay={0.5} />
-                      <PremiumCard icon={Fingerprint} label="ABC Identity" value={profile.abcNumber || "Not Assigned"} muted={!profile.abcNumber} delay={0.6} />
+                      <PremiumCard icon={Fingerprint} label="ABC Identity" value={profile.abcNumber} delay={0.6} />
                     </div>
                   </div>
 
@@ -173,44 +223,28 @@ export default function StudentDashboardPage() {
 
                     <div className="space-y-4">
                       {/* Faculty Advisor */}
-                      <motion.div 
-                        initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
-                        className="group glow-card p-5 sm:p-6 hover:border-blue-500/20 transition-all duration-500"
-                      >
-                        <div className="flex items-center gap-5">
-                          <div className="w-14 h-14 rounded-2xl bg-blue-500/5 flex items-center justify-center flex-shrink-0 border border-white/5 group-hover:scale-105 transition-transform">
-                            <UserCheck size={28} className="text-blue-400" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-[10px] text-white/20 uppercase tracking-[0.2em] font-black mb-1">Faculty Advisor</p>
-                            <p className="text-[16px] font-black text-white/90 uppercase tracking-tight truncate leading-tight mb-1">{profile.facultyAdvisor}</p>
-                            <p className="text-[11px] text-blue-400/60 font-mono tracking-widest truncate">{profile.email}</p>
-                          </div>
-                          <button onClick={() => handleCopy(profile.email, 'fa')} className="w-10 h-10 rounded-2xl glass-panel flex items-center justify-center hover:bg-white/10 active:scale-90 transition-all border border-white/5">
-                            {copiedId === 'fa' ? <Check size={16} className="text-emerald-400" /> : <Copy size={16} className="text-white/20" />}
-                          </button>
-                        </div>
-                      </motion.div>
+                      <AdvisorCard 
+                        icon={UserCheck} 
+                        label="Faculty Advisor" 
+                        advisorStr={profile.facultyAdvisor} 
+                        colorClass="blue" 
+                        delay={0.7} 
+                        handleCopy={handleCopy} 
+                        copiedId={copiedId} 
+                        id="fa" 
+                      />
 
                       {/* Academic Advisor */}
-                      <motion.div 
-                        initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}
-                        className="group glow-card p-5 sm:p-6 hover:border-amber-500/20 transition-all duration-500"
-                      >
-                        <div className="flex items-center gap-5">
-                          <div className="w-14 h-14 rounded-2xl bg-amber-500/5 flex items-center justify-center flex-shrink-0 border border-white/5 group-hover:scale-105 transition-transform">
-                            <GraduationCap size={28} className="text-amber-400" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-[10px] text-white/20 uppercase tracking-[0.2em] font-black mb-1">Academic Advisor</p>
-                            <p className="text-[16px] font-black text-white/90 uppercase tracking-tight truncate leading-tight mb-1">Dr. Nimala K</p>
-                            <p className="text-[11px] text-amber-400/60 font-mono tracking-widest truncate">nimalak@srmist.edu.in</p>
-                          </div>
-                          <button onClick={() => handleCopy('nimalak@srmist.edu.in', 'aa')} className="w-10 h-10 rounded-2xl glass-panel flex items-center justify-center hover:bg-white/10 active:scale-90 transition-all border border-white/5">
-                            {copiedId === 'aa' ? <Check size={16} className="text-emerald-400" /> : <Copy size={16} className="text-white/20" />}
-                          </button>
-                        </div>
-                      </motion.div>
+                      <AdvisorCard 
+                        icon={GraduationCap} 
+                        label="Academic Advisor" 
+                        advisorStr={profile.academicAdvisor} 
+                        colorClass="amber" 
+                        delay={0.8} 
+                        handleCopy={handleCopy} 
+                        copiedId={copiedId} 
+                        id="aa" 
+                      />
                     </div>
                   </div>
                 </>
