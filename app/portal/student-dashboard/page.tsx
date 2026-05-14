@@ -5,7 +5,8 @@ import { motion } from "framer-motion";
 import { 
   ArrowLeft, Settings, Copy, Check, User, Building, 
   GraduationCap, MapPin, Hash, IdCard, Award, Mail, 
-  Layers, UserCheck, DoorOpen, Fingerprint, Search
+  Layers, UserCheck, DoorOpen, Fingerprint, Search,
+  ExternalLink
 } from 'lucide-react';
 import { useAuthStore } from "@/lib/store";
 
@@ -13,13 +14,16 @@ import { useAuthStore } from "@/lib/store";
 // STYLES & ANIMATIONS
 // ============================================================================
 const STYLES = `
-  @keyframes aurora { 0% { transform: translateX(-100%) rotate(0deg); } 100% { transform: translateX(100%) rotate(360deg); } }
-  @keyframes glow-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.4); } 50% { box-shadow: 0 0 0 8px rgba(34, 211, 238, 0); } }
   .glass-panel { position: relative; backdrop-filter: blur(80px); background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1rem; }
-  .glow-card { position: relative; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 1.5rem; backdrop-filter: blur(80px); overflow: hidden; }
-  .sync-badge { animation: glow-pulse 2s infinite; }
-  .avatar-circle { border-radius: 50%; background: #000; position: relative; border: 1px solid rgba(255,255,255,0.1); }
-  .text-gradient { background: linear-gradient(135deg, #fff 0%, #aaa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .compact-card { position: relative; background: rgba(255, 255, 255, 0.02); border-left: 3px solid transparent; border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s ease; }
+  .compact-card:hover { background: rgba(255, 255, 255, 0.04); }
+  .avatar-circle-72 { width: 72px; height: 72px; border-radius: 50%; background: #000; border: 1px solid rgba(255,255,255,0.15); display: flex; items-center: center; justify-content: center; position: relative; }
+  .section-divider { display: flex; items-center: center; text-align: center; gap: 1rem; margin: 1.5rem 0; }
+  .section-divider::before, .section-divider::after { content: ""; flex: 1; height: 1px; background: rgba(255, 255, 255, 0.1); }
+  .copy-btn { padding: 4px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.3); transition: all 0.2s; }
+  .copy-btn:hover { background: rgba(255,255,255,0.08); color: white; border-color: rgba(255,255,255,0.2); }
+  .scroll-hide::-webkit-scrollbar { display: none; }
+  .scroll-hide { -ms-overflow-style: none; scrollbar-width: none; }
 `;
 
 // ============================================================================
@@ -28,9 +32,7 @@ const STYLES = `
 const parseAdvisor = (advisorStr: string) => {
   if (!advisorStr) return { name: "", email: "" };
   const match = advisorStr.match(/(.*?)\[(.*?)\]/);
-  if (match) {
-    return { name: match[1].trim(), email: match[2].trim() };
-  }
+  if (match) return { name: match[1].trim(), email: match[2].trim() };
   return { name: advisorStr.trim(), email: "" };
 };
 
@@ -40,68 +42,64 @@ const isInvalid = (val: any) => !val || val === "Not Assigned" || val === "Not P
 // COMPONENTS
 // ============================================================================
 
-const PremiumCard = ({ icon: Icon, label, value, delay = 0 }: any) => {
+const DataRow = ({ icon: Icon, label, value, color, index }: any) => {
   if (isInvalid(value)) return null;
+  const isOdd = index % 2 !== 0;
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay, duration: 0.5 }}
-      className="group glow-card p-4 sm:p-5 hover:border-cyan-500/30 transition-all duration-500 cursor-pointer active:scale-[0.98] mb-3"
-    >
-      <div className="relative flex items-center gap-4">
-        <div className="w-11 h-11 rounded-2xl bg-cyan-500/5 flex items-center justify-center flex-shrink-0 border border-white/5 group-hover:border-cyan-500/20 transition-all">
-          <Icon size={20} className="text-cyan-400/80" />
-        </div>
-        <div className="flex-1 min-w-0 text-left">
-          <p className="text-[10px] text-white/20 uppercase tracking-[0.2em] font-black mb-0.5">{label}</p>
-          <p className="text-[15px] font-black leading-tight text-white/90 break-words">{value}</p>
-        </div>
+    <div className={`compact-card p-4 flex items-center gap-4 ${isOdd ? 'bg-white/[0.01]' : 'bg-transparent'}`} style={{ borderLeftColor: color }}>
+      <div className="text-white/20 flex-shrink-0">
+        <Icon size={16} />
       </div>
-    </motion.div>
+      <div className="flex-1 min-w-0">
+        <p className="text-[9px] text-white/20 uppercase tracking-widest font-black mb-0.5">{label}</p>
+        <p className="text-[13px] font-bold text-white/90 break-words leading-tight">{value}</p>
+      </div>
+    </div>
   );
 };
 
-const AdvisorCard = ({ icon: Icon, label, advisorStr, defaultEmail, colorClass, delay = 0, handleCopy, copiedId, id }: any) => {
+const AdvisorRow = ({ icon: Icon, label, advisorStr, defaultEmail, color, delay = 0, handleCopy, copiedId, id }: any) => {
   const { name, email } = parseAdvisor(advisorStr);
   const finalEmail = email || defaultEmail;
-
   if (isInvalid(name)) return null;
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay, duration: 0.7 }}
-      className={`group glow-card p-5 sm:p-6 hover:border-${colorClass === 'blue' ? 'blue' : 'amber'}-500/20 transition-all duration-500 mb-4`}
-    >
-      <div className="flex items-center gap-5">
-        <div className={`w-14 h-14 rounded-2xl bg-${colorClass === 'blue' ? 'blue' : 'amber'}-500/5 flex items-center justify-center flex-shrink-0 border border-white/5 group-hover:scale-105 transition-transform`}>
-          <Icon size={28} className={colorClass === 'blue' ? 'text-blue-400' : 'text-amber-400'} />
-        </div>
-        <div className="flex-1 min-w-0">
-          <p className="text-[10px] text-white/20 uppercase tracking-[0.2em] font-black mb-1">{label}</p>
-          <p className="text-[16px] font-black text-white/90 uppercase tracking-tight break-words leading-tight mb-1">{name}</p>
+    <div className="compact-card p-4 flex items-center gap-4" style={{ borderLeftColor: color }}>
+      <div className="text-white/20 flex-shrink-0">
+        <Icon size={18} />
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-[9px] text-white/20 uppercase tracking-widest font-black mb-0.5">{label}</p>
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex-1 min-w-0">
+            <p className="text-[14px] font-black text-white/90 uppercase leading-none mb-1">{name}</p>
+            {finalEmail && (
+              <a href={`mailto:${finalEmail}`} className="text-[11px] text-blue-400 hover:text-blue-300 font-mono tracking-tight break-words flex items-center gap-1">
+                {finalEmail} <ExternalLink size={8} />
+              </a>
+            )}
+          </div>
           {finalEmail && (
-            <p className={`text-[11px] ${colorClass === 'blue' ? 'text-blue-400/60' : 'text-amber-400/60'} font-mono tracking-widest break-words`}>{finalEmail}</p>
+            <button onClick={() => handleCopy(finalEmail, id)} className="copy-btn active:scale-90 flex-shrink-0">
+              {copiedId === id ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
+            </button>
           )}
         </div>
-        {finalEmail && (
-          <button onClick={() => handleCopy(finalEmail, id)} className="w-10 h-10 rounded-2xl glass-panel flex items-center justify-center hover:bg-white/10 active:scale-90 transition-all border border-white/5">
-            {copiedId === id ? <Check size={16} className="text-emerald-400" /> : <Copy size={16} className="text-white/20" />}
-          </button>
-        )}
       </div>
-    </motion.div>
+    </div>
   );
 };
 
 const NavItem = ({ icon: Icon, label, active, onClick }: any) => (
   <button
     onClick={onClick}
-    className={`flex flex-col items-center gap-1.5 px-4 py-2 rounded-2xl transition-all duration-300 active:scale-95 ${
-      active ? 'bg-cyan-500/10 border border-cyan-500/30 shadow-lg shadow-cyan-500/20' : 'text-white/20 hover:text-white/60'
+    className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all duration-300 active:scale-95 ${
+      active ? 'bg-cyan-500/10 text-cyan-400' : 'text-white/20 hover:text-white/60'
     }`}
   >
-    <Icon size={18} className={active ? 'text-cyan-400' : ''} />
-    <span className={`text-[9px] font-black tracking-[0.2em] uppercase ${active ? 'text-cyan-300' : ''}`}>{label}</span>
+    <Icon size={16} />
+    <span className="text-[8px] font-black tracking-widest uppercase">{label}</span>
   </button>
 );
 
@@ -126,135 +124,106 @@ export default function StudentDashboardPage() {
   return (
     <>
       <style>{STYLES}</style>
-      <div className="min-h-screen bg-[#050505] text-white selection:bg-cyan-500/30 overflow-x-hidden font-sans pb-40">
+      <div className="min-h-screen bg-[#050505] text-white selection:bg-cyan-500/30 font-sans scroll-hide">
         
-        {/* Background Atmosphere */}
-        <div className="fixed inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-gradient-to-b from-cyan-950/20 to-transparent blur-[120px]" />
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-900/5 rounded-full blur-[100px]" />
-        </div>
-
-        <div className="relative z-10">
+        <div className="relative z-10 max-w-lg mx-auto min-h-screen flex flex-col">
           
-          {/* Header */}
-          <div className="pt-8 px-6 flex items-center justify-between max-w-2xl mx-auto mb-10">
-            <button onClick={() => router.back()} className="w-11 h-11 rounded-full glass-panel flex items-center justify-center hover:bg-white/10 active:scale-90 transition-all border border-white/5">
-              <ArrowLeft size={18} className="text-white/60" />
+          {/* Top Bar */}
+          <div className="pt-6 px-4 flex items-center justify-between mb-6">
+            <button onClick={() => router.back()} className="w-9 h-9 rounded-full glass-panel flex items-center justify-center hover:bg-white/10 active:scale-90 border border-white/5">
+              <ArrowLeft size={16} className="text-white/60" />
             </button>
-            <div className="flex flex-col items-center flex-1">
-              <span className="text-[10px] font-black tracking-[0.5em] text-cyan-500 uppercase mb-1">Nexus Portal</span>
-              <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-black text-white uppercase tracking-tight">Student Identity</h1>
-                <div className="px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-1.5 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
-                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 sync-badge" />
-                  <span className="text-[9px] font-black text-emerald-400 uppercase tracking-widest">Synced</span>
-                </div>
-              </div>
+            <div className="flex flex-col items-center">
+              <span className="text-[8px] font-black tracking-[0.4em] text-cyan-500 uppercase">Nexus Portal</span>
+              <h1 className="text-lg font-black text-white uppercase tracking-tight">Identity Vault</h1>
             </div>
-            <button className="w-11 h-11 rounded-full glass-panel flex items-center justify-center hover:bg-white/10 active:scale-90 transition-all border border-white/5">
-              <Settings size={18} className="text-white/60" />
+            <button className="w-9 h-9 rounded-full glass-panel flex items-center justify-center hover:bg-white/10 active:scale-90 border border-white/5">
+              <Settings size={16} className="text-white/60" />
             </button>
           </div>
 
-          <div className="px-4 sm:px-6">
-            <div className="max-w-2xl mx-auto space-y-12">
-              
-              {!studentPortalConnected || !profile ? (
-                <div className="py-24 text-center">
-                  <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }} className="w-12 h-12 rounded-full border-2 border-cyan-500/10 border-t-cyan-500/50 mx-auto mb-6" />
-                  <p className="text-white/20 text-[10px] font-black uppercase tracking-[0.4em] animate-pulse">Accessing Encrypted Profile...</p>
+          <div className="flex-1 px-4 overflow-y-auto scroll-hide pb-32">
+            {!studentPortalConnected || !profile ? (
+              <div className="py-24 text-center">
+                <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }} className="w-10 h-10 rounded-full border-2 border-cyan-500/10 border-t-cyan-500/50 mx-auto mb-4" />
+                <p className="text-white/20 text-[8px] font-black uppercase tracking-[0.4em] animate-pulse">Synchronizing Identity...</p>
+              </div>
+            ) : (
+              <div className="bg-[#0a0a0a] rounded-[2rem] border border-white/5 overflow-hidden shadow-2xl">
+                
+                {/* Hero Header */}
+                <div className="p-8 flex flex-col items-center text-center space-y-5 bg-gradient-to-b from-white/[0.02] to-transparent">
+                  <div className="avatar-circle-72 shadow-2xl">
+                    <span className="text-2xl font-black text-white/90">NS</span>
+                    <div className="absolute -top-1 -right-1 px-1.5 py-0.5 rounded-md bg-emerald-500 text-[7px] font-black uppercase tracking-widest shadow-lg border border-white/10">
+                      Active
+                    </div>
+                  </div>
+
+                  <div className="space-y-1">
+                    <h2 className="text-2xl font-black tracking-tight text-white uppercase leading-none">{profile.name}</h2>
+                    <div className="flex items-center justify-center gap-2 text-white/30 font-black uppercase text-[10px] tracking-widest">
+                      <span className="text-cyan-500/60 font-mono tracking-tighter">{profile.registerNo}</span>
+                      <span className="w-1 h-1 rounded-full bg-white/10" />
+                      <span>Batch {profile.batch}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 pt-1">
+                    <span className="px-2 py-1 rounded-md bg-white/5 border border-white/5 text-[8px] font-black uppercase text-blue-400/80 tracking-widest">Dept: CS</span>
+                    <span className="px-2 py-1 rounded-md bg-white/5 border border-white/5 text-[8px] font-black uppercase text-cyan-400/80 tracking-widest">Sec: {profile.section}</span>
+                  </div>
                 </div>
-              ) : (
-                <>
-                  {/* Hero Identity Center */}
-                  <motion.div 
-                    initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
-                    className="flex flex-col items-center text-center space-y-8"
-                  >
-                    <div className="relative group">
-                      <div className="w-40 h-40 avatar-circle flex items-center justify-center shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] border border-white/10 relative z-10">
-                        <span className="text-5xl font-black text-white tracking-tighter drop-shadow-2xl">NS</span>
-                        <div className="absolute -top-2 -right-2 px-3 py-1 rounded-full bg-emerald-500 text-[10px] font-black uppercase tracking-widest shadow-xl border border-white/20 z-20">
-                          Active
-                        </div>
-                      </div>
-                      <div className="absolute inset-0 bg-cyan-500/20 blur-[50px] rounded-full -z-10 group-hover:scale-110 transition-transform duration-700 opacity-50" />
-                    </div>
 
-                    <div className="space-y-3">
-                      <h2 className="text-4xl sm:text-5xl font-black tracking-tighter text-white uppercase leading-[0.9]">{profile.name}</h2>
-                      <div className="flex items-center justify-center gap-4 text-white/40 font-black uppercase text-[12px] tracking-widest">
-                        <span className="text-cyan-400/60 font-mono tracking-[0.2em]">{profile.registerNo}</span>
-                        <span className="w-1.5 h-1.5 rounded-full bg-white/10" />
-                        <span>Batch {profile.batch}</span>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-wrap items-center justify-center gap-2.5 pt-2">
-                      <span className="px-4 py-1.5 rounded-xl bg-white/5 border border-white/5 text-[10px] font-black uppercase text-blue-400 tracking-wider">Dept: CS</span>
-                      <span className="px-4 py-1.5 rounded-xl bg-white/5 border border-white/5 text-[10px] font-black uppercase text-cyan-400 tracking-wider">Section: {profile.section}</span>
-                      <span className="px-4 py-1.5 rounded-xl bg-white/5 border border-white/5 text-[10px] font-black uppercase text-indigo-400 tracking-wider">Academic</span>
-                    </div>
-                  </motion.div>
-
-                  {/* Core Identity Section */}
-                  <div className="space-y-6 pt-4">
-                    <div className="flex items-center gap-4 px-4">
-                      <span className="text-[11px] font-black text-white/30 uppercase tracking-[0.4em] whitespace-nowrap">Core Academic Identity</span>
-                      <div className="h-px w-full bg-gradient-to-r from-white/10 to-transparent" />
-                    </div>
-                    
-                    <div className="space-y-1">
-                      <PremiumCard icon={IdCard} label="System ID" value={profile.studentId} delay={0.1} />
-                      <PremiumCard icon={Hash} label="Semester" value={profile.semester} delay={0.2} />
-                      <PremiumCard icon={GraduationCap} label="Primary Program" value={profile.program} delay={0.3} />
-                      <PremiumCard icon={Building} label="Institution" value={profile.institution} delay={0.4} />
-                      <PremiumCard icon={MapPin} label="Assigned Section" value={profile.section} delay={0.5} />
-                      <PremiumCard icon={Fingerprint} label="ABC Identity" value={profile.abcNumber} delay={0.6} />
-                    </div>
+                {/* Content Grid */}
+                <div className="px-1">
+                  
+                  <div className="section-divider">
+                    <span className="text-[8px] font-black text-white/20 uppercase tracking-[0.4em]">Core Academic Identity</span>
                   </div>
 
-                  {/* Advisory Section */}
-                  <div className="space-y-6 pt-4">
-                    <div className="flex items-center gap-4 px-4">
-                      <span className="text-[11px] font-black text-white/30 uppercase tracking-[0.4em] whitespace-nowrap">Advisory & Facilities</span>
-                      <div className="h-px w-full bg-gradient-to-r from-white/10 to-transparent" />
-                    </div>
-
-                    <div className="space-y-4">
-                      {/* Faculty Advisor */}
-                      <AdvisorCard 
-                        icon={UserCheck} 
-                        label="Faculty Advisor" 
-                        advisorStr={profile.facultyAdvisor} 
-                        colorClass="blue" 
-                        delay={0.7} 
-                        handleCopy={handleCopy} 
-                        copiedId={copiedId} 
-                        id="fa" 
-                      />
-
-                      {/* Academic Advisor */}
-                      <AdvisorCard 
-                        icon={GraduationCap} 
-                        label="Academic Advisor" 
-                        advisorStr={profile.academicAdvisor} 
-                        colorClass="amber" 
-                        delay={0.8} 
-                        handleCopy={handleCopy} 
-                        copiedId={copiedId} 
-                        id="aa" 
-                      />
-                    </div>
+                  <div className="rounded-2xl overflow-hidden border border-white/[0.03]">
+                    <DataRow index={0} color="#3b82f6" icon={IdCard} label="System ID" value={profile.studentId} />
+                    <DataRow index={1} color="#8b5cf6" icon={Hash} label="Semester" value={profile.semester} />
+                    <DataRow index={2} color="#06b6d4" icon={GraduationCap} label="Primary Program" value={profile.program} />
+                    <DataRow index={3} color="#6366f1" icon={Building} label="Institution" value={profile.institution} />
+                    <DataRow index={4} color="#10b981" icon={MapPin} label="Assigned Section" value={profile.section} />
+                    <DataRow index={5} color="#ec4899" icon={Fingerprint} label="ABC Identity" value={profile.abcNumber} />
                   </div>
-                </>
-              )}
-            </div>
+
+                  <div className="section-divider">
+                    <span className="text-[8px] font-black text-white/20 uppercase tracking-[0.4em]">Advisory & Facilities</span>
+                  </div>
+
+                  <div className="rounded-2xl overflow-hidden border border-white/[0.03] mb-4">
+                    <AdvisorRow 
+                      id="fa" color="#3b82f6" icon={UserCheck} label="Faculty Advisor" 
+                      advisorStr={profile.facultyAdvisor} handleCopy={handleCopy} copiedId={copiedId} 
+                    />
+                    <AdvisorRow 
+                      id="aa" color="#f59e0b" icon={GraduationCap} label="Academic Advisor" 
+                      advisorStr={profile.academicAdvisor} handleCopy={handleCopy} copiedId={copiedId} 
+                    />
+                  </div>
+
+                </div>
+
+                {/* Status Footer */}
+                <div className="p-4 bg-white/[0.01] border-t border-white/5 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.5)]" />
+                    <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">Real-time Data Sync</span>
+                  </div>
+                  <span className="text-[8px] font-mono text-white/10 uppercase tracking-tighter">Academic OS v2.4</span>
+                </div>
+
+              </div>
+            )}
           </div>
 
           {/* Bottom Dock Navigation */}
-          <div className="fixed bottom-8 left-6 right-6 z-40 max-w-2xl mx-auto">
-            <div className="glass-panel px-4 py-3 flex items-center justify-around shadow-[0_30px_60px_rgba(0,0,0,0.8)] border border-white/10">
+          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[calc(100%-3rem)] max-w-sm z-50">
+            <div className="glass-panel px-3 py-2 flex items-center justify-around shadow-2xl border border-white/10">
               <NavItem icon={User} label="Home" active={activeNav === 'home'} onClick={() => setActiveNav('home')} />
               <NavItem icon={Award} label="Marks" active={activeNav === 'marks'} onClick={() => router.push('/portal/grade-mark-credit')} />
               <NavItem icon={Layers} label="Records" active={activeNav === 'records'} onClick={() => router.push('/portal/personal-details')} />
