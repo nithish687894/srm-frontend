@@ -3,102 +3,70 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { 
-  ArrowLeft, Settings, Copy, Check, User, Building, 
-  GraduationCap, MapPin, Hash, IdCard, Award, Mail, 
-  Layers, UserCheck, DoorOpen, Fingerprint, Search,
-  ExternalLink
+  ArrowLeft, Settings, Copy, Check, Home, Award, 
+  CheckCircle, Calendar, MoreHorizontal, Building, 
+  GraduationCap, MapPin, Hash, IdCard, Mail, 
+  UserCheck, Fingerprint, ExternalLink
 } from 'lucide-react';
 import { useAuthStore } from "@/lib/store";
 
-// ============================================================================
-// STYLES & ANIMATIONS
-// ============================================================================
 const STYLES = `
-  .glass-panel { position: relative; backdrop-filter: blur(80px); background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1rem; }
-  .compact-card { position: relative; background: rgba(255, 255, 255, 0.02); border-left: 4px solid transparent; border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s ease; }
+  .glass-panel { position: relative; backdrop-filter: blur(80px); background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); }
+  .compact-card { background: rgba(255, 255, 255, 0.02); border-left: 3px solid #00d4ff; border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.2s ease; }
   .compact-card:hover { background: rgba(255, 255, 255, 0.04); }
-  .avatar-circle-72 { width: 72px; height: 72px; border-radius: 50%; background: #000; border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; position: relative; }
-  .section-divider { display: flex; align-items: center; text-align: center; gap: 1rem; margin: 1rem 0; }
-  .section-divider::before, .section-divider::after { content: ""; flex: 1; height: 1px; background: rgba(255, 255, 255, 0.1); }
-  .copy-btn { padding: 4px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.3); transition: all 0.2s; }
-  .copy-btn:hover { background: rgba(255,255,255,0.08); color: white; border-color: rgba(255,255,255,0.2); }
+  .section-divider { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0 0.5rem 0; }
+  .section-divider::after { content: ""; flex: 1; height: 1px; background: rgba(255, 255, 255, 0.05); }
   .scroll-hide::-webkit-scrollbar { display: none; }
   .scroll-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .animate-blink { animation: blink 1.5s infinite; }
 `;
 
-// ============================================================================
-// UTILS
-// ============================================================================
-const parseAdvisor = (advisorStr: string) => {
-  if (!advisorStr) return { name: "", email: "" };
-  const match = advisorStr.match(/(.*?)\[(.*?)\]/);
-  if (match) return { name: match[1].trim(), email: match[2].trim() };
-  return { name: advisorStr.trim(), email: "" };
-};
-
-const isInvalid = (val: any) => !val || val === "Not Assigned" || val === "Not Provided" || val === "null" || val === "undefined";
-
-// ============================================================================
-// COMPONENTS
-// ============================================================================
-
-const DataRow = ({ icon: Icon, label, value, color, index }: any) => {
-  if (isInvalid(value)) return null;
-  const isOdd = index % 2 !== 0;
-
+const DataRow = ({ icon: Icon, label, value, index }: any) => {
+  if (!value || value === "Not Assigned") return null;
   return (
-    <div className={`compact-card p-4 flex items-center gap-4 ${isOdd ? 'bg-white/[0.01]' : 'bg-transparent'}`} style={{ borderLeftColor: color || "#00f2ff" }}>
-      <div className="text-cyan-400 flex-shrink-0 opacity-80">
+    <div className={`compact-card p-4 flex items-center gap-4 ${index % 2 !== 0 ? 'bg-white/[0.01]' : 'bg-transparent'}`}>
+      <div className="text-[#00d4ff] flex-shrink-0 opacity-80">
         <Icon size={16} strokeWidth={2.5} />
       </div>
       <div className="flex-1 min-w-0 text-left">
         <p className="text-[9px] text-white/20 uppercase tracking-widest font-black mb-0.5">{label}</p>
-        <p className="text-[13px] font-bold text-white/90 break-words leading-tight">{value}</p>
+        <p className="text-[13px] font-bold text-white/90 break-words leading-tight uppercase">{value}</p>
       </div>
     </div>
   );
 };
 
-const AdvisorRow = ({ icon: Icon, label, advisorStr, defaultEmail, color, handleCopy, copiedId, id }: any) => {
-  const { name, email } = parseAdvisor(advisorStr);
-  const finalEmail = email || defaultEmail;
-  if (isInvalid(name)) return null;
+const AdvisorRow = ({ icon: Icon, label, advisorStr, handleCopy, copiedId, id }: any) => {
+  if (!advisorStr || advisorStr === "Not Assigned") return null;
+  const match = advisorStr.match(/(.*?)\[(.*?)\]/);
+  const name = match ? match[1].trim() : advisorStr;
+  const email = match ? match[2].trim() : "";
 
   return (
-    <div className="compact-card p-4 flex items-center gap-4" style={{ borderLeftColor: color || "#00f2ff" }}>
-      <div className="text-cyan-400 flex-shrink-0 opacity-80">
+    <div className="compact-card p-4 flex items-center gap-4 text-left">
+      <div className="text-[#00d4ff] flex-shrink-0 opacity-80">
         <Icon size={18} strokeWidth={2.5} />
       </div>
-      <div className="flex-1 min-w-0 text-left">
+      <div className="flex-1 min-w-0">
         <p className="text-[9px] text-white/20 uppercase tracking-widest font-black mb-0.5">{label}</p>
-        <div className="flex items-start justify-between gap-4 text-left">
-          <div className="flex-1 min-w-0">
-            <p className="text-[14px] font-black text-white/90 uppercase leading-none mb-1">{name}</p>
-            {finalEmail && (
-              <a href={`mailto:${finalEmail}`} className="text-[11px] text-blue-400 hover:text-blue-300 font-mono tracking-tight break-words flex items-center gap-1">
-                {finalEmail} <ExternalLink size={8} />
-              </a>
-            )}
-          </div>
-          {finalEmail && (
-            <button onClick={() => handleCopy(finalEmail, id)} className="copy-btn active:scale-90 flex-shrink-0">
-              {copiedId === id ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
-            </button>
-          )}
-        </div>
+        <p className="text-[14px] font-black text-white/90 uppercase leading-none mb-1">{name}</p>
+        {email && (
+          <p className="text-[11px] text-[#00d4ff]/60 font-mono tracking-tight break-words">{email}</p>
+        )}
       </div>
+      {email && (
+        <button onClick={() => handleCopy(email, id)} className="p-2 rounded-lg bg-white/5 border border-white/10 active:scale-90 flex-shrink-0">
+          {copiedId === id ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} className="text-white/40" />}
+        </button>
+      )}
     </div>
   );
 };
 
 const NavItem = ({ icon: Icon, label, active, onClick }: any) => (
-  <button
-    onClick={onClick}
-    className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all duration-300 active:scale-95 ${
-      active ? 'bg-cyan-500/10 text-cyan-400' : 'text-white/20 hover:text-white/60'
-    }`}
-  >
-    <Icon size={16} />
+  <button onClick={onClick} className={`flex flex-col items-center gap-1 px-3 py-2 transition-all active:scale-95 ${active ? 'text-[#00d4ff]' : 'text-white/20'}`}>
+    <Icon size={20} strokeWidth={active ? 2.5 : 2} />
     <span className="text-[8px] font-black tracking-widest uppercase">{label}</span>
   </button>
 );
@@ -114,7 +82,6 @@ export default function StudentDashboardPage() {
   if (!mounted) return null;
 
   const profile = studentPortalData?.profile;
-
   const handleCopy = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
     setCopiedId(id);
@@ -122,117 +89,108 @@ export default function StudentDashboardPage() {
   };
 
   return (
-    <>
+    <div className="fixed inset-0 bg-black text-white selection:bg-[#00d4ff]/30 font-sans flex flex-col overflow-hidden">
       <style>{STYLES}</style>
-      <div className="bg-[#050505] text-white selection:bg-cyan-500/30 font-sans scroll-hide">
+      
+      {/* ── TOP HEADER (Fixed) ────────────────────────────────────────────────── */}
+      <header className="pt-10 pb-4 px-6 flex items-center justify-between border-b border-white/5 bg-black z-30">
+        <button onClick={() => router.back()} className="w-10 h-10 rounded-full flex items-center justify-center border border-white/10 active:scale-90">
+          <ArrowLeft size={20} className="text-white/60" />
+        </button>
         
-        <div className="relative z-10 max-w-lg mx-auto" style={{ height: 'auto' }}>
-          
-          {/* Header Bar */}
-          <div className="pt-8 px-6 flex items-center justify-between mb-2">
-            <button onClick={() => router.back()} className="w-10 h-10 rounded-full glass-panel flex items-center justify-center hover:bg-white/10 active:scale-90 border border-white/5">
-              <ArrowLeft size={18} className="text-white/60" />
-            </button>
-            <div className="flex flex-col items-center">
-              <span className="text-[9px] font-black tracking-[0.5em] text-cyan-500 uppercase">Nexus Portal</span>
-              <h1 className="text-xl font-black text-white uppercase tracking-tight">Student Identity</h1>
-            </div>
-            <button className="w-10 h-10 rounded-full glass-panel flex items-center justify-center hover:bg-white/10 active:scale-90 border border-white/5">
-              <Settings size={18} className="text-white/60" />
-            </button>
-          </div>
-
-          <div className="px-4" style={{ paddingBottom: 100 }}>
-            {!studentPortalConnected || !profile ? (
-              <div className="py-24 text-center">
-                <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }} className="w-10 h-10 rounded-full border-2 border-cyan-500/10 border-t-cyan-500/50 mx-auto mb-4" />
-                <p className="text-white/20 text-[8px] font-black uppercase tracking-[0.4em] animate-pulse">Initializing Identity...</p>
-              </div>
-            ) : (
-              <div className="bg-[#0a0a0a] rounded-[2rem] border border-white/5 shadow-2xl overflow-visible flex flex-col mt-8" style={{ height: 'auto' }}>
-                
-                {/* Hero Profile Header */}
-                <div className="pt-10 pb-8 px-8 flex flex-col items-center text-center space-y-6">
-                  <div className="avatar-circle-72 shadow-2xl relative">
-                    <span className="text-2xl font-black text-white/90">NS</span>
-                    <div className="absolute -top-1 -right-1 px-2 py-0.5 rounded-md bg-emerald-500 text-[8px] font-black uppercase tracking-widest shadow-lg border border-white/10">
-                      Active
-                    </div>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <h2 className="text-3xl font-black tracking-tight text-white uppercase leading-none">{profile.name}</h2>
-                    <div className="flex items-center justify-center gap-3 text-white/30 font-black uppercase text-[11px] tracking-widest">
-                      <span className="text-cyan-400 font-mono tracking-tighter">{profile.registerNo}</span>
-                      <span className="w-1.5 h-1.5 rounded-full bg-white/10" />
-                      <span>Batch {profile.batch}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <span className="px-3 py-1 rounded-lg bg-white/5 border border-white/5 text-[9px] font-black uppercase text-blue-400 tracking-widest">Dept: CS</span>
-                    <span className="px-3 py-1 rounded-lg bg-white/5 border border-white/5 text-[9px) font-black uppercase text-cyan-400 tracking-widest">Sec: {profile.section}</span>
-                  </div>
-                </div>
-
-                {/* Info Table Content */}
-                <div className="px-1" style={{ height: 'auto' }}>
-                  
-                  <div className="section-divider">
-                    <span className="text-[9px] font-black text-white/20 uppercase tracking-[0.4em]">Core Academic Identity</span>
-                  </div>
-
-                  <div className="rounded-2xl overflow-hidden border border-white/[0.03] mx-1" style={{ height: 'auto' }}>
-                    <DataRow index={0} color="#00f2ff" icon={IdCard} label="System ID" value={profile.studentId} />
-                    <DataRow index={1} color="#00f2ff" icon={Hash} label="Semester" value={profile.semester} />
-                    <DataRow index={2} color="#00f2ff" icon={GraduationCap} label="Primary Program" value={profile.program} />
-                    <DataRow index={3} color="#00f2ff" icon={Building} label="Institution" value={profile.institution} />
-                    <DataRow index={4} color="#00f2ff" icon={MapPin} label="Assigned Section" value={profile.section} />
-                    <DataRow index={5} color="#00f2ff" icon={Fingerprint} label="ABC Identity" value={profile.abcNumber} />
-                  </div>
-
-                  <div className="section-divider">
-                    <span className="text-[9px] font-black text-white/20 uppercase tracking-[0.4em]">Advisory & Facilities</span>
-                  </div>
-
-                  <div className="rounded-2xl overflow-hidden border border-white/[0.03] mx-1 mb-6" style={{ height: 'auto' }}>
-                    <AdvisorRow 
-                      id="fa" color="#00f2ff" icon={UserCheck} label="Faculty Advisor" 
-                      advisorStr={profile.facultyAdvisor} handleCopy={handleCopy} copiedId={copiedId} 
-                    />
-                    <AdvisorRow 
-                      id="aa" color="#00f2ff" icon={GraduationCap} label="Academic Advisor" 
-                      advisorStr={profile.academicAdvisor} handleCopy={handleCopy} copiedId={copiedId} 
-                    />
-                  </div>
-
-                </div>
-
-                {/* Footer Bar */}
-                <div className="p-5 mt-auto bg-white/[0.01] border-t border-white/5 rounded-b-[2rem] flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 sync-badge shadow-[0_0_8px_rgba(52,211,153,0.5)]" />
-                    <span className="text-[9px] font-black text-white/30 uppercase tracking-widest">Real-time Data Sync</span>
-                  </div>
-                  <span className="text-[9px] font-mono text-white/10 uppercase tracking-tighter">Academic OS v2.5</span>
-                </div>
-
-              </div>
-            )}
-          </div>
-
-          {/* Navigation Dock */}
-          <div className="fixed bottom-8 left-6 right-6 z-50 max-w-sm mx-auto">
-            <div className="glass-panel px-4 py-3 flex items-center justify-around shadow-2xl border border-white/10">
-              <NavItem icon={User} label="Home" active={activeNav === 'home'} onClick={() => setActiveNav('home')} />
-              <NavItem icon={Award} label="Marks" active={activeNav === 'marks'} onClick={() => router.push('/portal/grade-mark-credit')} />
-              <NavItem icon={Layers} label="Records" active={activeNav === 'records'} onClick={() => router.push('/portal/personal-details')} />
-              <NavItem icon={Settings} label="More" active={activeNav === 'more'} onClick={() => setActiveNav('more')} />
-            </div>
-          </div>
-
+        <div className="flex flex-col items-center">
+          <span className="text-[8px] font-black tracking-[0.6em] text-[#00d4ff] uppercase opacity-80">Nexus Portal</span>
+          <h1 className="text-sm font-black text-white uppercase tracking-widest">Student Identity</h1>
         </div>
-      </div>
-    </>
+
+        <div className="flex items-center gap-2">
+          <div className="flex flex-col items-end mr-1">
+            <div className="px-1.5 py-0.5 rounded-sm bg-emerald-500 text-[7px] font-black uppercase tracking-widest text-black mb-0.5">Active</div>
+            <div className="flex items-center gap-1">
+              <span className="text-[7px] font-black uppercase tracking-widest text-[#00d4ff]">Synced</span>
+              <div className="w-1 h-1 rounded-full bg-emerald-400" />
+            </div>
+          </div>
+          <button className="w-10 h-10 rounded-full flex items-center justify-center border border-white/10 active:scale-90">
+            <Settings size={20} className="text-white/60" />
+          </button>
+        </div>
+      </header>
+
+      {/* ── MAIN CONTENT (Scrollable) ─────────────────────────────────────────── */}
+      <main className="flex-1 overflow-y-auto scroll-hide px-6 py-8">
+        {!studentPortalConnected || !profile ? (
+          <div className="flex flex-col items-center justify-center h-full py-20 opacity-20">
+            <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }} className="w-12 h-12 rounded-full border border-t-[#00d4ff] mb-4" />
+            <span className="text-[9px] font-black uppercase tracking-[0.5em]">Establishing Uplink...</span>
+          </div>
+        ) : (
+          <div className="space-y-8 pb-32">
+            
+            {/* Profile Section */}
+            <div className="flex flex-col items-center space-y-5">
+              <div className="w-24 h-24 rounded-full border-2 border-white/10 bg-[#00d4ff]/10 flex items-center justify-center shadow-[0_0_40px_rgba(0,212,255,0.1)]">
+                <span className="text-3xl font-black text-[#00d4ff]">NS</span>
+              </div>
+              <div className="text-center space-y-1">
+                <h2 className="text-3xl font-black tracking-tighter text-white leading-none">{profile.name}</h2>
+                <p className="text-[#00d4ff] font-mono text-[12px] tracking-widest font-bold">
+                  {profile.registerNo} <span className="text-white/20 mx-2">●</span> BATCH {profile.batch}
+                </p>
+                <div className="flex items-center justify-center gap-2 mt-2">
+                  <span className="px-2 py-0.5 rounded bg-[#00d4ff]/10 border border-[#00d4ff]/20 text-[9px] font-black text-[#00d4ff] uppercase tracking-widest">Dept: CS</span>
+                  <span className="px-2 py-0.5 rounded bg-[#00d4ff]/10 border border-[#00d4ff]/20 text-[9px] font-black text-[#00d4ff] uppercase tracking-widest">Sec: {profile.section}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Core Identity Section */}
+            <div className="space-y-1">
+              <div className="section-divider">
+                <span className="text-[9px] font-black text-white/20 uppercase tracking-[0.5em]">Core Academic Identity</span>
+              </div>
+              <div className="rounded-xl overflow-hidden border border-white/5">
+                <DataRow index={0} icon={IdCard} label="System ID" value={profile.studentId} />
+                <DataRow index={1} icon={GraduationCap} label="Primary Program" value={profile.program} />
+                <DataRow index={2} icon={Building} label="Institution" value={profile.institution} />
+                <DataRow index={3} icon={MapPin} label="Assigned Section" value={profile.section} />
+                <DataRow index={4} icon={Fingerprint} label="ABC Identity" value={profile.abcNumber} />
+              </div>
+            </div>
+
+            {/* Advisory Section */}
+            <div className="space-y-1">
+              <div className="section-divider">
+                <span className="text-[9px] font-black text-white/20 uppercase tracking-[0.5em]">Advisory & Facilities</span>
+              </div>
+              <div className="rounded-xl overflow-hidden border border-white/5">
+                <AdvisorRow id="fa" icon={UserCheck} label="Faculty Advisor" advisorStr={profile.facultyAdvisor} handleCopy={handleCopy} copiedId={copiedId} />
+                <AdvisorRow id="aa" icon={GraduationCap} label="Academic Advisor" advisorStr={profile.academicAdvisor} handleCopy={handleCopy} copiedId={copiedId} />
+              </div>
+            </div>
+
+            {/* Sync Indicator */}
+            <div className="flex flex-col items-center pt-4 opacity-40">
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-blink" />
+                <span className="text-[8px] font-black tracking-[0.3em] uppercase">Real-time Data Sync</span>
+              </div>
+              <span className="text-[7px] font-mono tracking-tighter uppercase opacity-30 tracking-[0.5em]">Academic OS v2.5.Stable</span>
+            </div>
+
+          </div>
+        )}
+      </main>
+
+      {/* ── BOTTOM NAV (Fixed) ────────────────────────────────────────────────── */}
+      <nav className="h-20 bg-black border-t border-white/5 flex items-center justify-around px-2 z-40 pb-4">
+        <NavItem icon={Home} label="Home" active={activeNav === 'home'} onClick={() => setActiveNav('home')} />
+        <NavItem icon={Award} label="Marks" active={activeNav === 'marks'} onClick={() => router.push('/portal/grade-mark-credit')} />
+        <NavItem icon={CheckCircle} label="Attnd" active={activeNav === 'attnd'} onClick={() => router.push('/dashboard')} />
+        <NavItem icon={Calendar} label="Time" active={activeNav === 'time'} onClick={() => router.push('/timetable')} />
+        <NavItem icon={MoreHorizontal} label="More" active={activeNav === 'more'} onClick={() => setActiveNav('more')} />
+      </nav>
+
+    </div>
   );
 }
