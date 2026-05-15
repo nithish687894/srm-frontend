@@ -4,11 +4,11 @@ import { useRouter } from "next/navigation";
 
 const MATRIX_COLORS = {
   bg: "#000000",
-  accent: "#facc15",
-  dim: "rgba(250, 204, 21, 0.05)",
-  text: "#facc15",
-  sub: "rgba(250, 204, 21, 0.4)",
-  border: "rgba(250, 204, 21, 0.2)",
+  accent: "#a8c200",
+  dim: "rgba(168, 194, 0, 0.05)",
+  text: "#a8c200",
+  sub: "rgba(168, 194, 0, 0.4)",
+  border: "rgba(168, 194, 0, 0.2)",
 };
 
 export default function MatrixAttendance({ attendance, handleSync, isSyncing }: any) {
@@ -21,7 +21,7 @@ export default function MatrixAttendance({ attendance, handleSync, isSyncing }: 
       `}} />
 
       <header style={{ padding: "60px 24px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", position: 'sticky', top: 0, background: 'rgba(0,0,0,0.9)', backdropFilter: 'blur(20px)', zIndex: 100, borderBottom: `1px solid ${MATRIX_COLORS.border}` }}>
-        <button onClick={() => router.back()} style={{ width: "44px", height: "44px", borderRadius: "12px", background: "rgba(250,204,21,0.05)", border: `1px solid ${MATRIX_COLORS.border}`, color: MATRIX_COLORS.accent, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <button onClick={() => router.back()} style={{ width: "44px", height: "44px", borderRadius: "12px", background: "rgba(168, 194, 0, 0.05)", border: `1px solid ${MATRIX_COLORS.border}`, color: MATRIX_COLORS.accent, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <ArrowLeft size={20} />
         </button>
         <div style={{ textAlign: "center" }}>
@@ -30,7 +30,7 @@ export default function MatrixAttendance({ attendance, handleSync, isSyncing }: 
             <span style={{ fontSize: "10px", fontWeight: 900, color: MATRIX_COLORS.accent, textTransform: "uppercase", letterSpacing: "0.4em" }}>STABILITY_LOG</span>
           </div>
         </div>
-        <button onClick={handleSync} style={{ width: "44px", height: "44px", borderRadius: "12px", background: "rgba(250,204,21,0.05)", border: `1px solid ${MATRIX_COLORS.border}`, color: MATRIX_COLORS.accent, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <button onClick={handleSync} style={{ width: "44px", height: "44px", borderRadius: "12px", background: "rgba(168, 194, 0, 0.05)", border: `1px solid ${MATRIX_COLORS.border}`, color: MATRIX_COLORS.accent, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <RefreshCcw size={18} className={isSyncing ? "animate-spin" : ""} />
         </button>
       </header>
@@ -42,12 +42,12 @@ export default function MatrixAttendance({ attendance, handleSync, isSyncing }: 
               const isCritical = pct < 75;
               
               return (
-                <div key={i} style={{ background: "rgba(250,204,21,0.02)", border: `1px solid ${isCritical ? 'rgba(255,59,59,0.3)' : MATRIX_COLORS.border}`, borderRadius: '24px', padding: '24px', position: 'relative', overflow: 'hidden' }}>
-                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'linear-gradient(rgba(250,204,21,0.01) 1px, transparent 1px), linear-gradient(90deg, rgba(250,204,21,0.01) 1px, transparent 1px)', backgroundSize: '20px 20px', pointerEvents: 'none' }} />
+                <div key={i} style={{ background: "rgba(168,194,0,0.02)", border: `1px solid ${isCritical ? 'rgba(255,59,59,0.3)' : MATRIX_COLORS.border}`, borderRadius: '24px', padding: '24px', position: 'relative', overflow: 'hidden' }}>
+                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'linear-gradient(rgba(168,194,0,0.01) 1px, transparent 1px), linear-gradient(90deg, rgba(168,194,0,0.01) 1px, transparent 1px)', backgroundSize: '20px 20px', pointerEvents: 'none' }} />
                    
                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px', position: 'relative' }}>
                       <div style={{ flex: 1, paddingRight: '16px' }}>
-                         <div style={{ fontSize: '9px', color: MATRIX_COLORS.accent, background: 'rgba(250,204,21,0.08)', padding: '2px 10px', borderRadius: '6px', display: 'inline-block', marginBottom: '10px' }}>{course["Course Code"]}</div>
+                         <div style={{ fontSize: '9px', color: MATRIX_COLORS.accent, background: 'rgba(168,194,0,0.08)', padding: '2px 10px', borderRadius: '6px', display: 'inline-block', marginBottom: '10px' }}>{course["Course Code"]}</div>
                          <h3 style={{ fontSize: '15px', fontWeight: 800, color: '#fff', margin: 0, lineHeight: 1.3, textTransform: 'uppercase' }}>{course["Course Title"]}</h3>
                       </div>
                       <div style={{ textAlign: 'right' }}>

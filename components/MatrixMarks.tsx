@@ -4,11 +4,11 @@ import { useRouter } from "next/navigation";
 
 const MATRIX_COLORS = {
   bg: "#000000",
-  accent: "#facc15",
-  dim: "rgba(250, 204, 21, 0.05)",
-  text: "#facc15",
-  sub: "rgba(250, 204, 21, 0.4)",
-  border: "rgba(250, 204, 21, 0.2)",
+  accent: "#a8c200",
+  dim: "rgba(168, 194, 0, 0.05)",
+  text: "#a8c200",
+  sub: "rgba(168, 194, 0, 0.4)",
+  border: "rgba(168, 194, 0, 0.2)",
 };
 
 const TestBadge = ({ test, score }: any) => {
@@ -19,8 +19,8 @@ const TestBadge = ({ test, score }: any) => {
   
   return (
     <div style={{ 
-      background: "rgba(250,204,21,0.03)", 
-      border: `1px solid rgba(250,204,21,0.08)`,
+      background: "rgba(168,194,0,0.03)", 
+      border: `1px solid rgba(168,194,0,0.08)`,
       borderRadius: '12px', padding: '12px', minWidth: '80px', flex: 1
     }}>
       <p style={{ fontSize: '8px', fontWeight: 900, color: MATRIX_COLORS.sub, textTransform: 'uppercase', marginBottom: '4px' }}>{label}</p>
@@ -42,7 +42,7 @@ export default function MatrixMarks({ marks, handleSync, isSyncing }: any) {
       `}} />
 
       <header style={{ padding: "60px 24px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", position: 'sticky', top: 0, background: 'rgba(0,0,0,0.9)', backdropFilter: 'blur(20px)', zIndex: 100, borderBottom: `1px solid ${MATRIX_COLORS.border}` }}>
-        <button onClick={() => router.back()} style={{ width: "44px", height: "44px", borderRadius: "12px", background: "rgba(250,204,21,0.05)", border: `1px solid ${MATRIX_COLORS.border}`, color: MATRIX_COLORS.accent, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <button onClick={() => router.back()} style={{ width: "44px", height: "44px", borderRadius: "12px", background: "rgba(168, 194, 0, 0.05)", border: `1px solid ${MATRIX_COLORS.border}`, color: MATRIX_COLORS.accent, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <ArrowLeft size={20} />
         </button>
         <div style={{ textAlign: "center" }}>
@@ -51,7 +51,7 @@ export default function MatrixMarks({ marks, handleSync, isSyncing }: any) {
             <span style={{ fontSize: "10px", fontWeight: 900, color: MATRIX_COLORS.accent, textTransform: "uppercase", letterSpacing: "0.4em" }}>ENCRYPTED_SCORES</span>
           </div>
         </div>
-        <button onClick={handleSync} style={{ width: "44px", height: "44px", borderRadius: "12px", background: "rgba(250,204,21,0.05)", border: `1px solid ${MATRIX_COLORS.border}`, color: MATRIX_COLORS.accent, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <button onClick={handleSync} style={{ width: "44px", height: "44px", borderRadius: "12px", background: "rgba(168, 194, 0, 0.05)", border: `1px solid ${MATRIX_COLORS.border}`, color: MATRIX_COLORS.accent, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <RefreshCcw size={18} className={isSyncing ? "animate-spin" : ""} />
         </button>
       </header>
@@ -64,11 +64,11 @@ export default function MatrixMarks({ marks, handleSync, isSyncing }: any) {
               
               return (
                 <div key={i} style={{ background: "rgba(250,204,21,0.02)", border: `1px solid ${MATRIX_COLORS.border}`, borderRadius: '24px', padding: '24px', position: 'relative', overflow: 'hidden' }}>
-                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'linear-gradient(rgba(250,204,21,0.01) 1px, transparent 1px), linear-gradient(90deg, rgba(250,204,21,0.01) 1px, transparent 1px)', backgroundSize: '20px 20px', pointerEvents: 'none' }} />
+                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'linear-gradient(rgba(168,194,0,0.01) 1px, transparent 1px), linear-gradient(90deg, rgba(168,194,0,0.01) 1px, transparent 1px)', backgroundSize: '20px 20px', pointerEvents: 'none' }} />
                    
                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px', position: 'relative' }}>
                       <div style={{ flex: 1, paddingRight: '16px' }}>
-                         <div style={{ fontSize: '9px', color: MATRIX_COLORS.accent, background: 'rgba(250,204,21,0.08)', padding: '2px 10px', borderRadius: '6px', display: 'inline-block', marginBottom: '10px' }}>{m.courseCode || m.code}</div>
+                         <div style={{ fontSize: '9px', color: MATRIX_COLORS.accent, background: 'rgba(168,194,0,0.08)', padding: '2px 10px', borderRadius: '6px', display: 'inline-block', marginBottom: '10px' }}>{m.courseCode || m.code}</div>
                          <h3 style={{ fontSize: '15px', fontWeight: 800, color: '#fff', margin: 0, lineHeight: 1.3, textTransform: 'uppercase' }}>{m.title}</h3>
                       </div>
                       <div style={{ textAlign: 'right' }}>
