@@ -25,21 +25,18 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Stale-While-Revalidate strategy for maximum speed
+  // Network-First strategy to ensure updates are seen immediately
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      const fetchPromise = fetch(event.request).then((networkResponse) => {
-        if (networkResponse && networkResponse.status === 200 && event.request.method === 'GET') {
-          const resClone = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, resClone);
-          });
-        }
-        return networkResponse;
-      });
-
-      // Return the cached response immediately if available, else wait for network
-      return cachedResponse || fetchPromise;
+    fetch(event.request).then((networkResponse) => {
+      if (networkResponse && networkResponse.status === 200 && event.request.method === 'GET') {
+        const resClone = networkResponse.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, resClone);
+        });
+      }
+      return networkResponse;
+    }).catch(() => {
+      return caches.match(event.request);
     })
   );
 });

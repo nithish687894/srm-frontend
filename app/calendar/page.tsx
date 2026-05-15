@@ -2,6 +2,10 @@
 import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
+import { 
+  Home, Award, Activity, MoreHorizontal, Calendar as CalendarIcon, 
+  ChevronLeft, ChevronRight, Zap, Target
+} from "lucide-react";
 import { dataAPI } from "@/lib/api";
 import { buildCalendarIndex, type Semester } from "@/lib/calendarIndex";
 import { useQuery } from "@tanstack/react-query";
@@ -13,6 +17,19 @@ export default function CalendarPage() {
   const [selectedHoliday, setSelectedHoliday] = useState<any | null>(null);
   const router = useRouter();
   const { theme } = useThemeStore();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+
+  const isCosmos = theme === "cosmos";
+  const isAura = theme === "aura";
+  const AURA_COLORS = {
+    primary: "#FF75C3",
+    secondary: "#8F92FF",
+    accent: "#94FFD8",
+    sub: "rgba(255, 255, 255, 0.4)",
+    card: "rgba(255, 255, 255, 0.02)",
+    border: "rgba(255, 255, 255, 0.08)",
+  };
 
   const { data: cal, isLoading } = useQuery({
     queryKey: ["calendar"],
@@ -55,7 +72,13 @@ export default function CalendarPage() {
   const todayDateNum = today.getDate();
   const isCosmos = theme === "cosmos";
 
-  const topCardStyle = isCosmos
+  const topCardStyle = isAura
+    ? {
+        background: 'rgba(255, 255, 255, 0.02)',
+        backdropFilter: 'blur(40px)',
+        border: '1px solid rgba(255, 255, 255, 0.08)',
+      }
+    : isCosmos
     ? {
         background: "linear-gradient(145deg, rgba(26,117,255,0.24), rgba(107,51,255,0.2) 55%, rgba(0,255,136,0.08))",
         border: "1px solid rgba(130,150,255,0.28)",
@@ -66,11 +89,43 @@ export default function CalendarPage() {
       };
 
   return (
-    <div className="page-root" onClick={() => setSelectedHoliday(null)}>
-      <Sidebar />
+    <div className="page-root" onClick={() => setSelectedHoliday(null)} style={{ background: isAura ? '#050508' : '', overflow: 'hidden' }}>
+      <style dangerouslySetInnerHTML={{ __html: `
+        .aura-blob {
+          position: fixed; width: 600px; height: 600px;
+          border-radius: 50%; filter: blur(140px);
+          opacity: 0.12; z-index: 0; pointer-events: none;
+          animation: orbit 20s infinite linear;
+        }
+        @keyframes orbit {
+          from { transform: rotate(0deg) translate(100px) rotate(0deg); }
+          to { transform: rotate(360deg) translate(100px) rotate(-360deg); }
+        }
+      `}} />
 
-      <main className="page-main">
-        <div className="page-content" style={{ paddingBottom: "140px", position: "relative" }}>
+      {isAura && (
+        <>
+          <div className="aura-blob" style={{ background: AURA_COLORS.secondary, top: '-200px', right: '-100px' }} />
+          <div className="aura-blob" style={{ background: AURA_COLORS.accent, bottom: '-200px', left: '-100px', animationDelay: '-10s' }} />
+        </>
+      )}
+
+      {!isAura && <Sidebar />}
+      
+      <main className={isAura ? "" : "page-main"}>
+        <div className={isAura ? "" : "page-content"} style={{ padding: isAura ? "60px 24px 140px" : "0 24px 140px", position: "relative" }}>
+          
+          {isAura && (
+            <div style={{ marginBottom: "50px", textAlign: 'center' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.05)', padding: '6px 14px', borderRadius: '100px', border: '1px solid rgba(255,255,255,0.1)', marginBottom: '20px' }}>
+                <Zap size={12} color={AURA_COLORS.accent} />
+                <span style={{ fontSize: "10px", fontWeight: 800, color: '#fff', letterSpacing: '0.1em' }}>Aura Mode Active</span>
+              </div>
+              <h1 style={{ fontSize: "42px", fontWeight: 900, margin: 0, letterSpacing: '-2px', lineHeight: 1, color: '#fff' }}>
+                Registry <span style={{ color: AURA_COLORS.accent }}>Clock</span>
+              </h1>
+            </div>
+          )}
 
           {/* Top Card */}
           <div style={{ ...topCardStyle, borderRadius: "24px", padding: "24px", marginBottom: "32px", display: "flex", flexDirection: "column", gap: "8px" }}>
@@ -257,9 +312,30 @@ export default function CalendarPage() {
             </div>
           )}
 
-          <div className="watermark">Calendar</div>
+          {!isAura && <div className="watermark">Calendar</div>}
         </div>
       </main>
+
+      {isAura && (
+        <nav style={{ position: "fixed", bottom: "0", left: "0", right: "0", height: "calc(80px + env(safe-area-inset-bottom))", paddingBottom: "env(safe-area-inset-bottom)", background: "rgba(5,5,8,0.7)", backdropFilter: "blur(30px)", borderTop: `1px solid rgba(255,255,255,0.05)`, display: "flex", alignItems: "center", justifyContent: "space-around", zIndex: 1000 }}>
+          <button onClick={() => router.push('/dashboard')} style={{ background: "none", border: "none", color: AURA_COLORS.sub, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+            <Home size={22} />
+            <span style={{ fontSize: '9px', fontWeight: 900 }}>HOME</span>
+          </button>
+          <button onClick={() => router.push('/marks')} style={{ background: "none", border: "none", color: AURA_COLORS.sub, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+            <Award size={22} />
+            <span style={{ fontSize: '9px', fontWeight: 900 }}>MARK</span>
+          </button>
+          <button onClick={() => router.push('/attendance')} style={{ background: "none", border: "none", color: AURA_COLORS.sub, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+            <Activity size={22} />
+            <span style={{ fontSize: '9px', fontWeight: 900 }}>ATTND</span>
+          </button>
+          <button onClick={() => router.push('/app-tools')} style={{ background: "none", border: "none", color: AURA_COLORS.primary, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+            <MoreHorizontal size={22} strokeWidth={2.5} />
+            <span style={{ fontSize: '9px', fontWeight: 900 }}>MORE</span>
+          </button>
+        </nav>
+      )}
     </div>
   );
 }
