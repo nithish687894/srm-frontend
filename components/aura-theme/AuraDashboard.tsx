@@ -2,34 +2,19 @@
 import { motion } from "framer-motion";
 import { 
   Heart, Sparkles, Home, Award, Activity, 
-  MoreHorizontal, User, Zap, Calendar, MessageSquare
+  MoreHorizontal, User, Zap, Calendar, MessageSquare,
+  Compass, Globe, Coffee
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const AURA_COLORS = {
-  bg: "#08080c",
-  card: "rgba(255, 255, 255, 0.03)",
-  border: "rgba(255, 255, 255, 0.08)",
+  bg: "#050508",
   primary: "#FF75C3", // Soft Pink
   secondary: "#8F92FF", // Soft Lavender
   accent: "#94FFD8", // Mint
   text: "#ffffff",
-  sub: "rgba(255, 255, 255, 0.5)",
+  sub: "rgba(255, 255, 255, 0.4)",
 };
-
-const AuraCard = ({ children, style = {} }: any) => (
-  <div style={{ 
-    background: AURA_COLORS.card,
-    backdropFilter: "blur(20px)",
-    WebkitBackdropFilter: "blur(20px)",
-    border: `1px solid ${AURA_COLORS.border}`,
-    borderRadius: '32px',
-    padding: '24px',
-    ...style
-  }}>
-    {children}
-  </div>
-);
 
 export default function AuraDashboard({ 
   data, avgAtt, avgMarks, firstName, nextClass, 
@@ -38,106 +23,138 @@ export default function AuraDashboard({
   const router = useRouter();
 
   return (
-    <div style={{ background: AURA_COLORS.bg, minHeight: "100vh", color: AURA_COLORS.text, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div style={{ background: AURA_COLORS.bg, minHeight: "100vh", color: AURA_COLORS.text, fontFamily: "'Plus Jakarta Sans', sans-serif", overflow: 'hidden' }}>
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
-        .aura-bg {
-          position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-          background: radial-gradient(circle at 10% 20%, rgba(255, 117, 195, 0.05) 0%, transparent 40%),
-                      radial-gradient(circle at 90% 80%, rgba(143, 146, 255, 0.05) 0%, transparent 40%);
-          z-index: 0; pointer-events: none;
+        
+        .aura-blob {
+          position: fixed; width: 600px; height: 600px;
+          border-radius: 50%; filter: blur(140px);
+          opacity: 0.15; z-index: 0; pointer-events: none;
+          animation: orbit 20s infinite linear;
         }
-        .aura-glow {
-          position: absolute; width: 300px; height: 300px;
-          background: ${AURA_COLORS.primary}; filter: blur(120px);
-          opacity: 0.1; animation: float 10s infinite alternate;
+        @keyframes orbit {
+          from { transform: rotate(0deg) translate(100px) rotate(0deg); }
+          to { transform: rotate(360deg) translate(100px) rotate(-360deg); }
         }
-        @keyframes float { from { transform: translate(0, 0); } to { transform: translate(100px, 50px); } }
+        
+        .liquid-card {
+          background: rgba(255, 255, 255, 0.02);
+          backdrop-filter: blur(40px);
+          -webkit-backdrop-filter: blur(40px);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.02);
+          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .liquid-card:active { transform: scale(0.98); }
+        
+        .floating { animation: floating 6s ease-in-out infinite; }
+        @keyframes floating {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-10px); }
+        }
       `}} />
-      <div className="aura-bg" />
-      <div className="aura-glow" style={{ top: '10%', left: '10%' }} />
 
-      <main style={{ padding: "60px 24px 120px", position: 'relative', zIndex: 1 }}>
-        {/* Header */}
-        <div style={{ marginBottom: "40px" }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                <Sparkles size={14} color={AURA_COLORS.primary} />
-                <span style={{ fontSize: "10px", fontWeight: 900, color: AURA_COLORS.primary, textTransform: "uppercase", letterSpacing: "0.4em" }}>ETHER_MODE</span>
-              </div>
-              <h1 style={{ fontSize: "28px", fontWeight: 900, margin: 0, letterSpacing: '-0.5px' }}>
-                Hello, {firstName || "there"} <span style={{ color: AURA_COLORS.primary }}>✨</span>
-              </h1>
+      {/* Animated Aura Blobs */}
+      <div className="aura-blob" style={{ background: AURA_COLORS.primary, top: '-200px', left: '-100px' }} />
+      <div className="aura-blob" style={{ background: AURA_COLORS.secondary, bottom: '-200px', right: '-100px', animationDelay: '-5s' }} />
+      <div className="aura-blob" style={{ background: AURA_COLORS.accent, top: '40%', right: '-300px', animationDelay: '-10s' }} />
+
+      <main style={{ padding: "80px 24px 140px", position: 'relative', zIndex: 1 }}>
+        
+        {/* Aesthetic Greeting Section */}
+        <div style={{ marginBottom: "50px", textAlign: 'center' }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+            <div className="floating" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.05)', padding: '6px 14px', borderRadius: '100px', border: '1px solid rgba(255,255,255,0.1)', marginBottom: '20px' }}>
+              <Sparkles size={12} color={AURA_COLORS.primary} />
+              <span style={{ fontSize: "10px", fontWeight: 800, color: '#fff', letterSpacing: '0.1em' }}>Aura Mode Active</span>
             </div>
-            <button onClick={onShowStudentInfo} style={{ width: "48px", height: "48px", borderRadius: "50%", background: AURA_COLORS.card, border: `1px solid ${AURA_COLORS.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <User size={20} color={AURA_COLORS.secondary} />
-            </button>
+            <h1 style={{ fontSize: "42px", fontWeight: 900, margin: 0, letterSpacing: '-2px', lineHeight: 1 }}>
+              Lumina <span style={{ color: AURA_COLORS.primary }}>Space</span>
+            </h1>
+            <p style={{ fontSize: '14px', color: AURA_COLORS.sub, marginTop: '12px', fontWeight: 600 }}>
+              Welcome back, {firstName || "Explorer"} ✨
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Main Interface Grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '32px' }}>
+          <div onClick={() => router.push('/attendance')} className="liquid-card" style={{ padding: '32px 20px', borderRadius: '40px', textAlign: 'center' }}>
+             <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(148, 255, 216, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+                <Activity size={20} color={AURA_COLORS.accent} />
+             </div>
+             <div style={{ fontSize: '32px', fontWeight: 900, color: '#fff' }}>{avgAtt}%</div>
+             <div style={{ fontSize: '10px', color: AURA_COLORS.sub, marginTop: '4px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Attendance</div>
+          </div>
+
+          <div onClick={() => router.push('/marks')} className="liquid-card" style={{ padding: '32px 20px', borderRadius: '40px', textAlign: 'center' }}>
+             <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(255, 117, 195, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+                <Award size={20} color={AURA_COLORS.primary} />
+             </div>
+             <div style={{ fontSize: '32px', fontWeight: 900, color: '#fff' }}>{avgMarks}%</div>
+             <div style={{ fontSize: '10px', color: AURA_COLORS.sub, marginTop: '4px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Academic</div>
           </div>
         </div>
 
-        {/* Status Row */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "32px" }}>
-          <AuraCard onClick={() => router.push('/attendance')} style={{ cursor: 'pointer', textAlign: 'center' }}>
-             <Activity size={18} color={AURA_COLORS.accent} style={{ marginBottom: '12px', margin: '0 auto' }} />
-             <div style={{ fontSize: '28px', fontWeight: 900 }}>{avgAtt}%</div>
-             <div style={{ fontSize: '10px', color: AURA_COLORS.sub, marginTop: '4px', fontWeight: 800 }}>STABILITY</div>
-          </AuraCard>
-          <AuraCard onClick={() => router.push('/marks')} style={{ cursor: 'pointer', textAlign: 'center' }}>
-             <Award size={18} color={AURA_COLORS.primary} style={{ marginBottom: '12px', margin: '0 auto' }} />
-             <div style={{ fontSize: '28px', fontWeight: 900 }}>{avgMarks}%</div>
-             <div style={{ fontSize: '10px', color: AURA_COLORS.sub, marginTop: '4px', fontWeight: 800 }}>PERFORMANCE</div>
-          </AuraCard>
-        </div>
-
-        {/* Target Card */}
-        {nextClass && (
-          <AuraCard style={{ marginBottom: '32px', position: 'relative', overflow: 'hidden' }}>
-             <div style={{ position: 'absolute', top: 0, right: 0, width: '150px', height: '150px', background: `radial-gradient(circle at top right, ${AURA_COLORS.secondary}22, transparent 70%)` }} />
-             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-                <Calendar size={14} color={AURA_COLORS.secondary} />
-                <span style={{ fontSize: '10px', fontWeight: 900, color: AURA_COLORS.secondary, letterSpacing: '0.1em' }}>UPCOMING_SESSION</span>
+        {/* Dynamic Highlight Card */}
+        {nextClass ? (
+          <div className="liquid-card" style={{ padding: '32px', borderRadius: '40px', marginBottom: '32px', position: 'relative' }}>
+             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                   <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: AURA_COLORS.secondary }} />
+                   <span style={{ fontSize: '11px', fontWeight: 900, textTransform: 'uppercase', color: AURA_COLORS.sub }}>Current Schedule</span>
+                </div>
+                <div style={{ padding: '6px 12px', background: 'rgba(255,255,255,0.05)', borderRadius: '12px', fontSize: '11px', fontWeight: 800 }}>{nextClass.startTime}</div>
              </div>
-             <h2 style={{ fontSize: '20px', fontWeight: 900, margin: '0 0 4px' }}>{nextClass.courseTitle}</h2>
-             <p style={{ fontSize: '12px', color: AURA_COLORS.sub, margin: 0 }}>Room: {nextClass.roomNo || "TBA"} • {nextClass.startTime}</p>
-          </AuraCard>
+             <h2 style={{ fontSize: '24px', fontWeight: 900, margin: '0 0 8px', lineHeight: 1.2 }}>{nextClass.courseTitle}</h2>
+             <div style={{ display: 'flex', gap: '12px', fontSize: '13px', color: AURA_COLORS.sub, fontWeight: 700 }}>
+                <span>Room {nextClass.roomNo}</span>
+                <span style={{ opacity: 0.3 }}>•</span>
+                <span>ID {nextClass.courseCode}</span>
+             </div>
+          </div>
+        ) : (
+          <div className="liquid-card" style={{ padding: '40px', borderRadius: '40px', textAlign: 'center', marginBottom: '32px' }}>
+             <Coffee size={32} color={AURA_COLORS.sub} style={{ margin: '0 auto 16px' }} />
+             <div style={{ fontSize: '14px', fontWeight: 700, color: AURA_COLORS.sub }}>System Rest: No Active Classes</div>
+          </div>
         )}
 
-        {/* Integrity Hub */}
+        {/* Official Hub Integration */}
         {renderAcademicIntegrityHub(true)}
 
-        {/* Broadcast */}
-        {broadcast?.active && (
-          <AuraCard style={{ marginTop: '32px', background: 'linear-gradient(145deg, rgba(255,117,195,0.05), rgba(143,146,255,0.05))' }}>
-             <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-                <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                   <MessageSquare size={18} color={AURA_COLORS.primary} />
-                </div>
-                <div>
-                   <div style={{ fontSize: '10px', fontWeight: 900, textTransform: 'uppercase', color: AURA_COLORS.sub }}>Bulletin_Intercept</div>
-                   <div style={{ fontSize: '13px', lineHeight: 1.4, marginTop: '2px' }}>{broadcast.message}</div>
-                </div>
+        {/* Personal Details Quick Access */}
+        <button onClick={onShowStudentInfo} className="liquid-card" style={{ width: '100%', padding: '24px', borderRadius: '32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '32px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+             <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: 'linear-gradient(135deg, #FF75C3, #8F92FF)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <User size={20} color="#fff" />
              </div>
-          </AuraCard>
-        )}
+             <div style={{ textAlign: 'left' }}>
+                <div style={{ fontSize: '14px', fontWeight: 900 }}>Identity Registry</div>
+                <div style={{ fontSize: '11px', color: AURA_COLORS.sub }}>View student credentials</div>
+             </div>
+          </div>
+          <Compass size={20} color={AURA_COLORS.sub} />
+        </button>
 
-        {/* Bottom Nav */}
-        <nav style={{ position: "fixed", bottom: "0", left: "0", right: "0", height: "calc(72px + env(safe-area-inset-bottom))", paddingBottom: "env(safe-area-inset-bottom)", background: "rgba(8,8,12,0.8)", backdropFilter: "blur(24px)", borderTop: `1px solid ${AURA_COLORS.border}`, display: "flex", alignItems: "center", justifyContent: "space-around", zIndex: 1000 }}>
+        {/* Aura Bottom Nav */}
+        <nav style={{ position: "fixed", bottom: "0", left: "0", right: "0", height: "calc(80px + env(safe-area-inset-bottom))", paddingBottom: "env(safe-area-inset-bottom)", background: "rgba(5,5,8,0.7)", backdropFilter: "blur(30px)", borderTop: `1px solid rgba(255,255,255,0.05)`, display: "flex", alignItems: "center", justifyContent: "space-around", zIndex: 1000 }}>
           <button onClick={() => router.push('/dashboard')} style={{ background: "none", border: "none", color: AURA_COLORS.primary, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-            <Home size={22} />
-            <span style={{ fontSize: '8px', fontWeight: 900, textTransform: 'uppercase' }}>Nexus</span>
+            <Home size={22} strokeWidth={2.5} />
+            <span style={{ fontSize: '9px', fontWeight: 900 }}>SPACE</span>
           </button>
           <button onClick={() => router.push('/marks')} style={{ background: "none", border: "none", color: AURA_COLORS.sub, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
             <Award size={22} />
-            <span style={{ fontSize: '8px', fontWeight: 900, textTransform: 'uppercase' }}>Marks</span>
+            <span style={{ fontSize: '9px', fontWeight: 900 }}>LOGS</span>
           </button>
           <button onClick={() => router.push('/attendance')} style={{ background: "none", border: "none", color: AURA_COLORS.sub, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
             <Activity size={22} />
-            <span style={{ fontSize: '8px', fontWeight: 900, textTransform: 'uppercase' }}>Attnd</span>
+            <span style={{ fontSize: '9px', fontWeight: 900 }}>SYNC</span>
           </button>
           <button onClick={() => router.push('/app-tools')} style={{ background: "none", border: "none", color: AURA_COLORS.sub, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
             <MoreHorizontal size={22} />
-            <span style={{ fontSize: '8px', fontWeight: 900, textTransform: 'uppercase' }}>More</span>
+            <span style={{ fontSize: '9px', fontWeight: 900 }}>MORE</span>
           </button>
         </nav>
       </main>
