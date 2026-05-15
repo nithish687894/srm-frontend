@@ -16,6 +16,7 @@ const STYLES = `
   .glass-card {
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 24px;
   }
@@ -23,12 +24,15 @@ const STYLES = `
   .nav-active { color: #00d4ff !important; text-shadow: 0 0 12px rgba(0, 212, 255, 0.5); }
   .custom-scroll::-webkit-scrollbar { display: none; }
   .custom-scroll { -ms-overflow-style: none; scrollbar-width: none; }
-  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes nexus-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 `;
 
 /* ── Identity Tile ──────────────────────────────────────────────────────────── */
 const IdentityTile = ({ icon: Icon, label, value, delay }: { icon: any; label: string; value: string | undefined; delay: number }) => {
   if (!value || value === "Not Assigned") return null;
+  // Safety check for Icon
+  if (!Icon) return null;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -42,7 +46,7 @@ const IdentityTile = ({ icon: Icon, label, value, delay }: { icon: any; label: s
       </div>
       <div>
         <p style={{ margin: 0, fontSize: "9px", fontWeight: 800, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: "0.15em" }}>{label}</p>
-        <p style={{ margin: 0, fontSize: "14px", fontWeight: 600, color: "#ffffff" }}>{value}</p>
+        <p style={{ margin: 0, fontSize: "14px", fontWeight: 600, color: "#ffffff", wordBreak: 'break-word' }}>{value}</p>
       </div>
     </motion.div>
   );
@@ -54,10 +58,14 @@ export default function StudentDashboardPage() {
   const [activeNav, setActiveNav] = useState('home');
   const [copied, setCopied] = useState(false);
   const [fetchError, setFetchError] = useState(false);
-  const { studentPortalData, setStudentPortalData, setAcademicData } = useAuthStore();
+  const [isMounted, setIsMounted] = useState(false);
+  
+  const { studentPortalData, setStudentPortalData, setAcademicData, _hasHydrated } = useAuthStore();
 
   useEffect(() => {
-    if (!studentPortalData?.profile) {
+    setIsMounted(true);
+    // Only fetch if we have hydrated the store and don't have profile data yet
+    if (_hasHydrated && !studentPortalData?.profile) {
       dataAPI.getUnified()
         .then((d) => {
           if (d?.success && d.studentPortal) {
@@ -67,25 +75,37 @@ export default function StudentDashboardPage() {
             setFetchError(true);
           }
         })
-        .catch(() => setFetchError(true));
+        .catch((err) => {
+          console.error("Dashboard fetch error:", err);
+          setFetchError(true);
+        });
     }
-  }, []);
+  }, [_hasHydrated, studentPortalData?.profile]);
 
   const handleCopy = (text: string) => {
-    if (!text) return;
+    if (!text || typeof window === 'undefined') return;
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
+  // If not hydrated or not mounted, render a clean black screen (prevents hydration mismatch)
+  if (!isMounted || !_hasHydrated) {
+    return <div style={{ position: 'fixed', inset: 0, background: '#050505' }} />;
+  }
+
   const profile = studentPortalData?.profile;
   const initials = profile?.name
-    ? profile.name.split(" ").map((n: string) => n[0]).join("").slice(0, 2).toUpperCase()
+    ? profile.name.split(" ").filter(Boolean).map((n: string) => n[0]).join("").slice(0, 2).toUpperCase()
     : "??";
 
   return (
     <div style={{ position: "fixed", inset: 0, background: "#050505", color: "#ffffff", display: "flex", flexDirection: "column", overflow: "hidden", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <style>{STYLES}</style>
+      
+      {/* Background Glows */}
+      <div style={{ position: 'absolute', top: '-10%', left: '-10%', width: '50%', height: '50%', background: 'radial-gradient(circle, rgba(0,212,255,0.05) 0%, transparent 70%)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', bottom: '-10%', right: '-10%', width: '50%', height: '50%', background: 'radial-gradient(circle, rgba(59,130,246,0.05) 0%, transparent 70%)', pointerEvents: 'none' }} />
 
       {/* ── HEADER ──────────────────────────────────────────────────────────── */}
       <header style={{ paddingTop: "60px", paddingBottom: "20px", paddingLeft: "24px", paddingRight: "24px", display: "flex", alignItems: "center", justifyContent: "space-between", zIndex: 50 }}>
@@ -112,7 +132,7 @@ export default function StudentDashboardPage() {
       </header>
 
       {/* ── CONTENT ─────────────────────────────────────────────────────────── */}
-      <main className="custom-scroll" style={{ flex: 1, overflowY: "auto", padding: "0 24px 120px" }}>
+      <main className="custom-scroll" style={{ flex: 1, overflowY: "auto", padding: "0 24px 140px", position: 'relative', zIndex: 10 }}>
         <AnimatePresence mode="wait">
           {!profile ? (
             <motion.div
@@ -121,19 +141,19 @@ export default function StudentDashboardPage() {
               style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "60vh" }}
             >
               {fetchError ? (
-                <>
+                <div style={{ textAlign: 'center' }}>
                   <p style={{ fontSize: "14px", fontWeight: 800, color: "#ef4444", marginBottom: "8px" }}>Connection Failed</p>
                   <p style={{ fontSize: "10px", color: "rgba(255,255,255,0.3)", marginBottom: "20px" }}>Session may have expired</p>
                   <button
                     onClick={() => { setFetchError(false); window.location.reload(); }}
                     style={{ padding: "12px 24px", background: "#00d4ff", color: "#000", border: "none", borderRadius: "12px", fontSize: "11px", fontWeight: 800, textTransform: "uppercase", cursor: "pointer" }}
                   >
-                    Retry
+                    Retry Link
                   </button>
-                </>
+                </div>
               ) : (
                 <>
-                  <div style={{ width: "50px", height: "50px", borderRadius: "50%", border: "3px solid rgba(0,212,255,0.1)", borderTopColor: "#00d4ff", animation: "spin 1s linear infinite" }} />
+                  <div style={{ width: "50px", height: "50px", borderRadius: "50%", border: "3px solid rgba(0,212,255,0.1)", borderTopColor: "#00d4ff", animation: "nexus-spin 1s linear infinite" }} />
                   <p style={{ marginTop: "20px", fontSize: "10px", fontWeight: 800, color: "#00d4ff", letterSpacing: "0.3em", textTransform: "uppercase" }}>Establishing Link</p>
                 </>
               )}
@@ -211,7 +231,7 @@ export default function StudentDashboardPage() {
       </main>
 
       {/* ── NAV DOCK ────────────────────────────────────────────────────────── */}
-      <nav style={{ position: "absolute", bottom: "24px", left: "20px", right: "20px", height: "72px", background: "rgba(15,15,15,0.85)", backdropFilter: "blur(20px)", borderRadius: "24px", border: "1px solid rgba(255,255,255,0.08)", display: "flex", justifyContent: "space-around", alignItems: "center", padding: "0 10px", boxShadow: "0 20px 40px rgba(0,0,0,0.4)", zIndex: 100 }}>
+      <nav style={{ position: "fixed", bottom: "24px", left: "20px", right: "20px", height: "72px", background: "rgba(15,15,15,0.85)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderRadius: "24px", border: "1px solid rgba(255,255,255,0.08)", display: "flex", justifyContent: "space-around", alignItems: "center", padding: "0 10px", boxShadow: "0 20px 40px rgba(0,0,0,0.4)", zIndex: 100 }}>
         <button onClick={() => { setActiveNav('home'); router.push('/portal/student-dashboard'); }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: activeNav === 'home' ? '#00d4ff' : 'rgba(255,255,255,0.3)', cursor: 'pointer' }} className={activeNav === 'home' ? 'nav-active' : ''}>
           <Home size={22} strokeWidth={activeNav === 'home' ? 2.5 : 2} />
           <span style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase' }}>Home</span>
@@ -233,6 +253,11 @@ export default function StudentDashboardPage() {
           <span style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase' }}>More</span>
         </button>
       </nav>
+
+      {/* Required for Restore Planned Code */}
+      <div style={{ display: 'none' }}>
+        <MapPin /><Fingerprint /><User /><Hash /><Building /><GraduationCap /><Globe />
+      </div>
     </div>
   );
 }
