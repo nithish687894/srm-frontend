@@ -245,60 +245,36 @@ export default function AttendancePage() {
 
   if (!mounted && typeof window !== "undefined") return <div style={{ background: '#050505', minHeight: '100vh' }} />;
 
-  if (theme === "hacker") return (
-    <HackerAttendance attendance={att} handleSync={handleSync} isSyncing={isSyncing} />
-  );
-
   if (theme === "aura") return (
     <AuraAttendance attendance={att} handleSync={handleSync} isSyncing={isSyncing} />
   );
 
   if (theme === "cosmos") return (
     <CosmosAttendance 
-      att={att} 
-      avgAtt={avgAtt} 
-      totalAgg={totalAgg} 
-      presentAgg={presentAgg} 
-      absentAgg={absentAgg} 
-      showPredictor={showPredictor}
-      setShowPredictor={setShowPredictor}
-      next30Days={next30Days}
-      selectedDates={selectedDates}
-      toggleDate={toggleDate}
-      calculatePredictions={calculatePredictions}
-      predictions={predictions}
-      setSelectedDates={setSelectedDates}
-      setPredictions={setPredictions}
-      showRiskOnly={showRiskOnly}
-      timeAgoStr={timeAgoStr}
+      att={att} avgAtt={avgAtt} totalAgg={totalAgg} presentAgg={presentAgg} absentAgg={absentAgg} 
+      showPredictor={showPredictor} setShowPredictor={setShowPredictor}
+      next30Days={next30Days} selectedDates={selectedDates} toggleDate={toggleDate}
+      calculatePredictions={calculatePredictions} predictions={predictions}
+      setSelectedDates={setSelectedDates} setPredictions={setPredictions}
+      showRiskOnly={showRiskOnly} timeAgoStr={timeAgoStr}
     />
   );
 
   if (theme === "matrix") return (
     <MatrixAttendance 
-      att={att} 
-      avgAtt={avgAtt} 
-      totalAgg={totalAgg} 
-      presentAgg={presentAgg} 
-      absentAgg={absentAgg} 
-      showPredictor={showPredictor}
-      setShowPredictor={setShowPredictor}
-      next30Days={next30Days}
-      selectedDates={selectedDates}
-      toggleDate={toggleDate}
-      calculatePredictions={calculatePredictions}
-      predictions={predictions}
-      setSelectedDates={setSelectedDates}
-      setPredictions={setPredictions}
-      showRiskOnly={showRiskOnly}
-      timeAgoStr={timeAgoStr}
+      att={att} avgAtt={avgAtt} totalAgg={totalAgg} presentAgg={presentAgg} absentAgg={absentAgg} 
+      showPredictor={showPredictor} setShowPredictor={setShowPredictor}
+      next30Days={next30Days} selectedDates={selectedDates} toggleDate={toggleDate}
+      calculatePredictions={calculatePredictions} predictions={predictions}
+      setSelectedDates={setSelectedDates} setPredictions={setPredictions}
+      showRiskOnly={showRiskOnly} timeAgoStr={timeAgoStr}
     />
   );
 
   return (
-    <div className="page-root">
+    <div style={{ height: "100vh", width: "100vw", background: "#050505", display: "flex", flexDirection: "column", overflow: "hidden" }}>
       <Sidebar />
-      <main className="page-main">
+      <main style={{ flex: 1, overflowY: "auto", paddingBottom: "100px", WebkitOverflowScrolling: "touch" }}>
         <div className="page-content" data-section="Attendance" style={{ paddingBottom: "140px" }}>
 
           {/* Header */}
@@ -412,9 +388,9 @@ function MatrixAttendance({
   const riskCount = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
 
   return (
-    <div style={{ background: "#000000", minHeight: "100vh", paddingBottom: "120px", color: "#ffffff", fontFamily: "'Inter', sans-serif" }}>
+    <div style={{ height: "100vh", width: "100vw", background: "#000000", display: "flex", flexDirection: "column", color: "#ffffff", fontFamily: "'Inter', sans-serif", overflow: "hidden" }}>
       <Sidebar />
-      <main style={{ padding: "20px" }}>
+      <main style={{ flex: 1, overflowY: "auto", padding: "20px", WebkitOverflowScrolling: "touch" }}>
         
         {/* Header */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "40px", marginTop: "20px" }}>
@@ -593,9 +569,9 @@ function CosmosAttendance({
   const riskCount = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
 
   return (
-    <div style={{ background: "transparent", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>
+    <div style={{ height: "100vh", width: "100vw", background: "transparent", display: "flex", flexDirection: "column", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF", overflow: "hidden" }}>
       <Sidebar />
-      <main style={{ padding: "16px" }}>
+      <main style={{ flex: 1, overflowY: "auto", padding: "16px", WebkitOverflowScrolling: "touch" }}>
         
         {/* Header */}
         <div style={{ display: "flex", alignItems: "center", gap: "10px", margin: "24px 0 32px" }}>

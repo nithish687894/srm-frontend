@@ -204,6 +204,8 @@ export default function Sidebar() {
                   <ChevronRight size={18} className="text-white/10" />
                 </button>
               </div>
+
+
             </motion.div>
           </>
         )}

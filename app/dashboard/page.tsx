@@ -10,8 +10,6 @@ import { useThemeStore } from "@/lib/themeStore";
 import { motion } from "framer-motion";
 import { extractBatch } from "@/lib/utils";
 import PortalSyncModal from "@/components/PortalSyncModal";
-import CyberBackground from "@/components/UnsplashBackground";
-import StudentPortalPrompt from "@/components/StudentPortalPrompt";
 import { ShieldCheck } from "lucide-react";
 import HackerDashboard from "@/components/hacker-os/HackerDashboard";
 import AuraDashboard from "@/components/aura-theme/AuraDashboard";
@@ -484,84 +482,68 @@ export default function DashboardPage() {
           animate={{ scale: [1, 1.2, 1], opacity: [0.05, 0.1, 0.05] }}
           transition={{ duration: 10, repeat: Infinity }}
           style={{
-            position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
-            width: "120vw", height: "120vw", borderRadius: "50%",
-            background: "radial-gradient(circle, #8F92FF 0%, transparent 70%)",
-            filter: "blur(100px)",
-          }}
-        />
+      {/* Animated Aura Blobs for Loading */}
+      <motion.div 
+        animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.25, 0.15], rotate: [0, 180, 360] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+        style={{ position: 'absolute', width: '400px', height: '400px', borderRadius: '50%', background: '#FF75C3', filter: 'blur(100px)', zIndex: 0 }}
+      />
+      <motion.div 
+        animate={{ scale: [1.2, 1, 1.2], opacity: [0.1, 0.2, 0.1], rotate: [360, 180, 0] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+        style={{ position: 'absolute', width: '500px', height: '500px', borderRadius: '50%', background: '#8F92FF', filter: 'blur(120px)', zIndex: 0 }}
+      />
+
+      <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
+        <motion.div
+          animate={{ scale: [1, 1.05, 1], opacity: [0.8, 1, 0.8] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          style={{ width: "80px", height: "80px", borderRadius: "24px", background: "rgba(255,255,255,0.05)", backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.1)', display: "flex", alignItems: "center", justifyContent: "center", margin: '0 auto 32px', boxShadow: '0 0 30px rgba(143, 146, 255, 0.2)' }}
+        >
+          <img src="/nexus-logo.png" alt="Logo" style={{ width: "40px", height: "40px", filter: 'drop-shadow(0 0 10px #8F92FF)' }} />
+        </motion.div>
+
+        <motion.div
+          animate={{ opacity: [0.4, 1, 0.4] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          style={{ fontSize: "10px", fontWeight: 900, letterSpacing: "0.5em", color: "#fff", textTransform: "uppercase", marginBottom: "8px" }}
+        >
+          Initializing Aura Space
+        </motion.div>
+        <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)', fontWeight: 600 }}>Syncing academic nebula...</div>
       </div>
-
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}
-      >
-        <div style={{ position: 'relative', width: '120px', height: '120px', marginBottom: '40px' }}>
-          <motion.div
-            animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0, 0.2] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            style={{ position: 'absolute', inset: -10, borderRadius: '30px', border: '1px solid #8F92FF', filter: 'blur(10px)' }}
-          />
-          <motion.div
-            animate={{ scale: [1, 1.05, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            style={{ 
-              width: "100%", height: "100%", borderRadius: "30px", 
-              background: "rgba(255,255,255,0.05)", backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              display: "flex", alignItems: "center", justifyContent: "center",
-              boxShadow: "0 20px 40px rgba(0, 0, 0, 0.4)"
-            }}
-          >
-            <img src="/nexus-logo.png" alt="Logo" style={{ width: "60px", height: "60px", filter: 'drop-shadow(0 0 10px #8F92FF)' }} />
-          </motion.div>
-        </div>
-
-        <div style={{ textAlign: "center" }}>
-          <motion.div
-            animate={{ opacity: [0.4, 1, 0.4] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            style={{ fontSize: "10px", fontWeight: 900, letterSpacing: "0.4em", color: "#fff", textTransform: "uppercase", marginBottom: "16px" }}
-          >
-            DECRYPTING_ACADEMIC_DATA
-          </motion.div>
-          <div style={{ width: "200px", height: "2px", background: "rgba(255,255,255,0.05)", borderRadius: "10px", margin: "0 auto", overflow: "hidden" }}>
-            <motion.div
-              animate={{ x: ["-100%", "100%"] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-              style={{ width: "60%", height: "100%", background: "linear-gradient(90deg, transparent, #8F92FF, transparent)" }}
-            />
-          </div>
-        </div>
-      </motion.div>
     </div>
   );
 
-  if (!mounted) return <div style={{ background: '#000', minHeight: '100vh' }} />;
+  if (!mounted || !data) return renderAuraLoading();
+
+  const themeProps = { 
+    data, riskCount, avgAtt, avgMarks, totalCourses, 
+    targetClasses, nextClass, recentTop5, initials, 
+    firstName, dayOrder, isHoliday, dayOffset, setDayOffset,
+    onShowStudentInfo: () => setShowStudentInfo(true),
+    broadcast, setIsSyncModalOpen, renderAcademicIntegrityHub,
+    userBatch: batch, totalHours, presentHours, absentHours, nowMin
+  };
 
   if (theme === "cosmos") return (
     <>
-      <CosmosDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} onShowStudentInfo={() => setShowStudentInfo(true)} broadcast={broadcast} setIsSyncModalOpen={setIsSyncModalOpen} renderAcademicIntegrityHub={renderAcademicIntegrityHub} userBatch={batch} totalHours={totalHours} presentHours={presentHours} absentHours={absentHours} />
-      <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => { dataAPI.getUnified().then(d => { if (d?.success) { const merged = { ...d.academia, studentPortal: d.studentPortal }; setData(merged); setAcademicData(merged); } }).catch(() => {}); }} netId={academicData?.profile?.["Student ID"] || academicData?.profile?.["Registration Number"] || ""} />
+      <CosmosDashboard {...themeProps} />
+      <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => {}} netId="" />
       {renderStudentInfoModal()}
     </>
   );
 
-  if (theme === "hacker") return (
+  if (theme === "matrix") return (
     <>
-      <HackerDashboard 
-        data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} 
-        targetClasses={targetClasses} nextClass={nextClass} firstName={firstName} dayOrder={dayOrder} 
-        isHoliday={isHoliday} dayOffset={dayOffset} setDayOffset={setDayOffset} onShowStudentInfo={() => setShowStudentInfo(true)}
-        broadcast={broadcast} setIsSyncModalOpen={setIsSyncModalOpen} renderAcademicIntegrityHub={renderAcademicIntegrityHub}
-      />
-      <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => { dataAPI.getUnified().then(d => { if (d?.success) { const merged = { ...d.academia, studentPortal: d.studentPortal }; setData(merged); setAcademicData(merged); } }).catch(() => {}); }} netId={academicData?.profile?.["Student ID"] || academicData?.profile?.["Registration Number"] || ""} />
+      <MatrixDashboard {...themeProps} />
+      <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => {}} netId="" />
       {renderStudentInfoModal()}
     </>
   );
 
-  if (theme === "aura") return (
+  // Default to Aura
+  return (
     <>
       <AuraDashboard 
         data={data} avgAtt={avgAtt} avgMarks={avgMarks} firstName={firstName} 
@@ -570,14 +552,6 @@ export default function DashboardPage() {
         upcomingEvents={upcomingEvents}
       />
       <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => {}} netId="" />
-      {renderStudentInfoModal()}
-    </>
-  );
-
-  if (theme === "matrix") return (
-    <>
-      <MatrixDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} dayOffset={dayOffset} setDayOffset={setDayOffset} onShowStudentInfo={() => setShowStudentInfo(true)} broadcast={broadcast} nowMin={nowMin} setIsSyncModalOpen={setIsSyncModalOpen} renderAcademicIntegrityHub={renderAcademicIntegrityHub} userBatch={batch} totalHours={totalHours} presentHours={presentHours} absentHours={absentHours} />
-      <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => { dataAPI.getUnified().then(d => { if (d?.success) { const merged = { ...d.academia, studentPortal: d.studentPortal }; setData(merged); setAcademicData(merged); } }).catch(() => {}); }} netId={academicData?.profile?.["Student ID"] || academicData?.profile?.["Registration Number"] || ""} />
       {renderStudentInfoModal()}
     </>
   );
@@ -792,9 +766,9 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
   const bestAtt = data?.attendance?.length ? [...data.attendance].sort((a: any, b: any) => parseFloat(b["Attn %"]) - parseFloat(a["Attn %"]))[0] : null;
 
   return (
-    <div style={{ background: "#000000", minHeight: "100vh", paddingBottom: "120px", color: "#ffffff", fontFamily: "'Inter', sans-serif" }}>
+    <div style={{ background: "#000000", height: "100vh", display: "flex", flexDirection: "column", color: "#ffffff", fontFamily: "'Inter', sans-serif", overflow: "hidden" }}>
       <Sidebar />
-      <main style={{ padding: "16px 20px 20px" }}>
+      <main style={{ flex: 1, overflowY: "auto", padding: "16px 20px 20px", WebkitOverflowScrolling: "touch" }}>
 
         {/* System Status / Profile Intro */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "32px", position: "relative", zIndex: 10 }}>
@@ -963,9 +937,9 @@ function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
   const batchDisplay = profile["Combo / Batch"] || profile["Batch"] || (userBatch ? `Batch ${userBatch}` : "");
 
   return (
-    <div style={{ background: "transparent", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>
+    <div style={{ background: "transparent", height: "100vh", display: "flex", flexDirection: "column", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF", overflow: "hidden" }}>
       <Sidebar />
-      <main style={{ padding: "16px" }}>
+      <main style={{ flex: 1, overflowY: "auto", padding: "16px", WebkitOverflowScrolling: "touch" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "18px", gap: "12px" }}>
           <div>
             <div

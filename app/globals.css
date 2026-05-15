@@ -171,9 +171,11 @@ body.theme-ember {
 
 /* ═══ Reset ═══ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { 
-  scroll-behavior: smooth; 
-  -webkit-tap-highlight-color: transparent;
+html, body { 
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: fixed;
 }
 
 body {
@@ -183,7 +185,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-family: var(--font-main);
   transition: background 0.4s ease, color 0.4s ease;
-  overflow-x: hidden;
 }
 
 /* Global Interaction Feedback */

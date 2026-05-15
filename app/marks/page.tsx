@@ -82,27 +82,21 @@ export default function MarksPage() {
     };
   });
 
-  // Hacker OS Theme
-  if (theme === "hacker") return (
-    <HackerMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />
-  );
-
   if (theme === "aura") return (
     <AuraMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />
   );
 
-  // Matrix Theme (Direct Render for now)
   if (theme === "matrix") return (
     <MatrixMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} router={router} />
   );
 
-  // Default: EduVerse Theme
+  // Default / Cosmos Theme
   const totalScored = marks.reduce((s:number, m:any) => s + (m.tests?.reduce((a:number, t:any) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
   const totalMax = marks.reduce((s:number, m:any) => s + (m.tests?.reduce((a:number, t:any) => a + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0), 0);
   const avgPct = totalMax > 0 ? (totalScored / totalMax) * 100 : 0;
 
   return (
-    <div style={{ minHeight: "100vh", background: THEME.bg, color: "#fff", display: "flex", flexDirection: "column", paddingBottom: "140px" }}>
+    <div style={{ height: "100vh", width: "100vw", background: THEME.bg, color: "#fff", display: "flex", flexDirection: "column", overflow: "hidden" }}>
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
         * { box-sizing: border-box; }
@@ -111,7 +105,7 @@ export default function MarksPage() {
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
       `}} />
 
-      <header style={{ padding: "60px 24px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", position: 'sticky', top: 0, background: 'rgba(5,5,5,0.8)', backdropFilter: 'blur(20px)', zIndex: 100 }}>
+      <header style={{ padding: "60px 24px 20px", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "space-between", background: 'rgba(5,5,5,0.8)', backdropFilter: 'blur(20px)', zIndex: 100 }}>
         <button onClick={() => router.back()} style={{ width: "44px", height: "44px", borderRadius: "50%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", color: THEME.accentPurple, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <ArrowLeft size={20} />
         </button>
@@ -128,7 +122,7 @@ export default function MarksPage() {
         </button>
       </header>
 
-      <main style={{ padding: "0 20px", flex: 1 }}>
+      <main style={{ padding: "0 20px", flex: 1, overflowY: "auto", WebkitOverflowScrolling: "touch" }}>
         <div style={{ 
           background: 'linear-gradient(145deg, rgba(191,0,255,0.05), rgba(0,212,255,0.05))',
           border: '1px solid rgba(255,255,255,0.08)', borderRadius: '32px', padding: '32px 24px',
@@ -215,8 +209,8 @@ function MatrixMarks({ marks, handleSync, isSyncing, router }: any) {
   const avgPct = totalMax > 0 ? (totalScored / totalMax) * 100 : 0;
 
   return (
-    <div style={{ minHeight: "100vh", background: MATRIX.bg, color: MATRIX.text, display: "flex", flexDirection: "column", paddingBottom: "140px" }}>
-      <header style={{ padding: "60px 24px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", position: 'sticky', top: 0, background: 'rgba(5,7,5,0.9)', backdropFilter: 'blur(20px)', zIndex: 100, borderBottom: `1px solid ${MATRIX.border}` }}>
+    <div style={{ height: "100vh", width: "100vw", background: MATRIX.bg, color: MATRIX.text, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+      <header style={{ padding: "60px 24px 20px", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "space-between", background: 'rgba(5,7,5,0.9)', backdropFilter: 'blur(20px)', zIndex: 100, borderBottom: `1px solid ${MATRIX.border}` }}>
         <button onClick={() => router.back()} style={{ width: "40px", height: "40px", borderRadius: "12px", background: "rgba(0,255,65,0.05)", border: `1px solid ${MATRIX.border}`, color: MATRIX.glow, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <ArrowLeft size={18} />
         </button>
@@ -232,7 +226,7 @@ function MatrixMarks({ marks, handleSync, isSyncing, router }: any) {
         </button>
       </header>
 
-      <main style={{ padding: "24px 20px", flex: 1 }}>
+      <main style={{ padding: "24px 20px", flex: 1, overflowY: "auto", WebkitOverflowScrolling: "touch" }}>
          <div style={{ background: MATRIX.surface, border: `1px solid ${MATRIX.border}`, borderRadius: '24px', padding: '32px', textAlign: 'center', marginBottom: '32px', position: 'relative' }}>
            <p style={{ fontSize: '9px', fontWeight: 900, color: 'rgba(0,255,65,0.4)', textTransform: 'uppercase', letterSpacing: '0.3em', marginBottom: '12px', fontFamily: 'monospace' }}>SYSTEM INTEGRITY</p>
            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '8px' }}>
