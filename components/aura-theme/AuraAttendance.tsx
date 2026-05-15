@@ -147,7 +147,7 @@ export default function AuraAttendance({ attendance, handleSync, isSyncing }: an
           <Award size={22} />
           <span style={{ fontSize: '9px', fontWeight: 900 }}>LOGS</span>
         </button>
-        <button onClick={() => router.push('/attendance')} style={{ background: "none", border: "none", color: AURA_COLORS.accent, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+        <button onClick={() => router.push('/attendance')} style={{ background: "none", border: "none", color: AURA_COLORS.primary, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
           <Activity size={22} strokeWidth={2.5} />
           <span style={{ fontSize: '9px', fontWeight: 900 }}>SYNC</span>
         </button>

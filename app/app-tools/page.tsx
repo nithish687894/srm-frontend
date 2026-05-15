@@ -7,6 +7,8 @@ import {
   LayoutTemplate, LifeBuoy, ChevronRight, User
 } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
+import { useThemeStore } from "@/lib/themeStore";
+import { motion } from "framer-motion";
 
 const THEME = {
   bg: "#050505",
@@ -71,6 +73,8 @@ export default function AppToolsPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const { studentPortalData } = useAuthStore();
+  const { theme } = useThemeStore();
+  const isAura = theme === "aura";
   
   useEffect(() => { setMounted(true); }, []);
 
@@ -80,25 +84,46 @@ export default function AppToolsPage() {
   const initials = profile.name ? profile.name.split(' ').filter(Boolean).map((n:any)=>n[0]).join('').slice(0,2).toUpperCase() : "NK";
 
   return (
-    <div style={{ minHeight: "100vh", background: THEME.bg, color: "#fff", display: "flex", flexDirection: "column", paddingBottom: "120px" }}>
+    <div style={{ minHeight: "100vh", background: isAura ? "#050508" : THEME.bg, color: "#fff", display: "flex", flexDirection: "column", paddingBottom: "140px", overflow: 'hidden', position: 'relative' }}>
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
         * { box-sizing: border-box; }
-        body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background: ${THEME.bg}; }
+        body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background: ${isAura ? "#050508" : THEME.bg}; }
+        
+        .aura-blob {
+          position: fixed; width: 600px; height: 600px;
+          border-radius: 50%; filter: blur(140px);
+          opacity: 0.15; z-index: 0; pointer-events: none;
+          animation: orbit 20s infinite linear;
+        }
+        @keyframes orbit {
+          from { transform: rotate(0deg) translate(100px) rotate(0deg); }
+          to { transform: rotate(360deg) translate(100px) rotate(-360deg); }
+        }
       `}} />
 
+      {isAura && (
+        <>
+          <div className="aura-blob" style={{ background: "#FF75C3", top: '-200px', left: '-100px' }} />
+          <div className="aura-blob" style={{ background: "#8F92FF", bottom: '-200px', right: '-100px', animationDelay: '-5s' }} />
+        </>
+      )}
+
       {/* HEADER: USER CARD */}
-      <div style={{ padding: "60px 24px 20px" }}>
+      <div style={{ padding: "60px 24px 20px", position: 'relative', zIndex: 1 }}>
         <div style={{ 
           display: 'flex', alignItems: 'center', gap: '16px', padding: '20px',
-          background: 'rgba(0,212,255,0.03)', border: '1px solid rgba(0,212,255,0.1)', borderRadius: '24px'
+          background: isAura ? 'rgba(255, 255, 255, 0.02)' : 'rgba(0,212,255,0.03)', 
+          backdropFilter: isAura ? 'blur(40px)' : 'none',
+          border: isAura ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0,212,255,0.1)', 
+          borderRadius: "24px"
         }}>
           <div style={{ 
             width: "56px", height: "56px", borderRadius: "16px", 
-            background: "linear-gradient(135deg, #00ff88, #00d4ff)", 
+            background: isAura ? "linear-gradient(135deg, #FF75C3, #8F92FF)" : "linear-gradient(135deg, #00ff88, #00d4ff)", 
             display: 'flex', alignItems: 'center', justifyContent: 'center', 
-            color: '#000', fontSize: '20px', fontWeight: 900,
-            boxShadow: '0 0 20px rgba(0,212,255,0.3)'
+            color: '#fff', fontSize: '20px', fontWeight: 900,
+            boxShadow: isAura ? 'none' : '0 0 20px rgba(0,212,255,0.3)'
           }}>
             {initials}
           </div>
@@ -107,9 +132,9 @@ export default function AppToolsPage() {
             <p style={{ fontSize: "11px", color: 'rgba(255,255,255,0.4)', marginTop: "4px" }}>
               {profile.registerNo || "Nexus ID Locked"} • {profile.program?.split('-')[0] || "Architecture Core"}
             </p>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(0,255,136,0.1)', padding: '4px 10px', borderRadius: '8px', marginTop: '10px' }}>
-              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#00ff88' }} />
-              <span style={{ fontSize: '9px', fontWeight: 900, color: '#00ff88', textTransform: 'uppercase' }}>PORTAL LINKED</span>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: isAura ? 'rgba(255, 117, 195, 0.1)' : 'rgba(0,255,136,0.1)', padding: '4px 10px', borderRadius: '8px', marginTop: '10px' }}>
+              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: isAura ? '#FF75C3' : '#00ff88' }} />
+              <span style={{ fontSize: '9px', fontWeight: 900, color: isAura ? '#FF75C3' : '#00ff88', textTransform: 'uppercase' }}>PORTAL LINKED</span>
             </div>
           </div>
         </div>
@@ -154,22 +179,36 @@ export default function AppToolsPage() {
       </main>
 
       {/* NAV DOCK */}
-      <nav style={{ position: "fixed", bottom: "24px", left: "20px", right: "20px", height: "72px", background: "rgba(10,12,18,0.95)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "24px", display: "flex", justifyContent: "space-around", alignItems: "center", zIndex: 1000 }}>
+      <nav style={{ 
+        position: "fixed", 
+        bottom: "0", 
+        left: "0", 
+        right: "0", 
+        height: isAura ? "calc(80px + env(safe-area-inset-bottom))" : "72px", 
+        paddingBottom: isAura ? "env(safe-area-inset-bottom)" : "0",
+        background: isAura ? "rgba(5,5,8,0.7)" : "rgba(10,12,18,0.95)", 
+        backdropFilter: "blur(30px)",
+        borderTop: isAura ? "1px solid rgba(255,255,255,0.05)" : "none",
+        border: !isAura ? "1px solid rgba(255,255,255,0.1)" : "none",
+        borderRadius: isAura ? "0" : "24px",
+        margin: isAura ? "0" : "0 20px 24px",
+        display: "flex", justifyContent: "space-around", alignItems: "center", zIndex: 1000 
+      }}>
         <button onClick={() => router.push('/dashboard')} style={{ background: "none", border: "none", color: 'rgba(255,255,255,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
           <Home size={22} />
-          <span style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase' }}>Nexus</span>
+          <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase' }}>{isAura ? "SPACE" : "Nexus"}</span>
         </button>
         <button onClick={() => router.push('/marks')} style={{ background: "none", border: "none", color: 'rgba(255,255,255,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
           <Award size={22} />
-          <span style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase' }}>Marks</span>
+          <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase' }}>{isAura ? "LOGS" : "Marks"}</span>
         </button>
-        <button onClick={() => router.push('/portal/student-dashboard')} style={{ background: "none", border: "none", color: 'rgba(255,255,255,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-          <User size={22} />
-          <span style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase' }}>Records</span>
+        <button onClick={() => router.push('/attendance')} style={{ background: "none", border: "none", color: 'rgba(255,255,255,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+          <Activity size={22} />
+          <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase' }}>{isAura ? "SYNC" : "Sync"}</span>
         </button>
-        <button onClick={() => router.push('/app-tools')} style={{ background: "none", border: "none", color: THEME.accentCyan, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+        <button onClick={() => router.push('/app-tools')} style={{ background: "none", border: "none", color: isAura ? "#FF75C3" : THEME.accentCyan, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
           <MoreHorizontal size={22} />
-          <span style={{ fontSize: '8px', fontWeight: 900, textTransform: 'uppercase' }}>More</span>
+          <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase' }}>MORE</span>
         </button>
       </nav>
     </div>
