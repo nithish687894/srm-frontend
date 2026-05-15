@@ -2,11 +2,13 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { 
-  ArrowLeft, Settings, Copy, Check, Home, Award, 
+  ArrowLeft, Settings, Home, Award, 
   CheckCircle, Calendar, MoreHorizontal, Building, 
-  GraduationCap, MapPin, IdCard, UserCheck, Fingerprint
+  GraduationCap, MapPin, IdCard, UserCheck, Fingerprint,
+  RefreshCw
 } from 'lucide-react';
 import { useAuthStore } from "@/lib/store";
+import { dataAPI } from "@/lib/api";
 
 const STYLES = `
   .loader {
@@ -49,13 +51,49 @@ export default function StudentDashboardPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [activeNav, setActiveNav] = useState('home');
-  const [copiedId, setCopiedId] = useState<string | null>(null);
-  const { studentPortalData, studentPortalConnected } = useAuthStore();
+  const [isFetching, setIsFetching] = useState(false);
+  const [fetchError, setFetchError] = useState(false);
+  
+  const { studentPortalData, setStudentPortalData, setAcademicData } = useAuthStore();
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => { 
+    setMounted(true); 
+    
+    // Check if we need to fetch data
+    if (!studentPortalData?.profile) {
+      handleFetch();
+    }
+  }, []);
+
+  const handleFetch = async () => {
+    setIsFetching(true);
+    setFetchError(false);
+    try {
+      console.log("[Identity] No data in store. Triggering unified fetch...");
+      const d = await dataAPI.getUnified();
+      console.log("[Identity] API Result:", d);
+      
+      if (d && d.success && d.studentPortal) {
+        // Sync to global store
+        setStudentPortalData(d.studentPortal);
+        // Also sync academic data for other components
+        const merged = { ...d.academia, studentPortal: d.studentPortal };
+        setAcademicData(merged);
+      } else {
+        setFetchError(true);
+      }
+    } catch (err) {
+      console.error("[Identity] Fetch Failed:", err);
+      setFetchError(true);
+    } finally {
+      setIsFetching(false);
+    }
+  };
+
   if (!mounted) return null;
 
   const profile = studentPortalData?.profile;
+  console.log("[Identity] Current Profile State:", profile);
 
   return (
     <div style={{ position: 'fixed', inset: 0, backgroundColor: '#000000', color: '#ffffff', display: 'flex', flexDirection: 'column', overflow: 'hidden', fontFamily: 'sans-serif' }}>
@@ -74,10 +112,12 @@ export default function StudentDashboardPage() {
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'end' }}>
-            <span style={{ padding: '2px 6px', background: '#10b981', color: '#000000', fontSize: '7px', fontWeight: 900, borderRadius: '2px', textTransform: 'uppercase' }}>Active</span>
+            <span style={{ padding: '2px 6px', background: profile ? '#10b981' : '#f59e0b', color: '#000000', fontSize: '7px', fontWeight: 900, borderRadius: '2px', textTransform: 'uppercase' }}>
+              {profile ? 'Active' : 'Offline'}
+            </span>
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
-              <span style={{ fontSize: '7px', fontWeight: 900, color: '#00d4ff', textTransform: 'uppercase' }}>Synced</span>
-              <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#10b981' }} />
+              <span style={{ fontSize: '7px', fontWeight: 900, color: '#00d4ff', textTransform: 'uppercase' }}>{profile ? 'Synced' : 'Waiting'}</span>
+              <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: profile ? '#10b981' : '#f59e0b' }} />
             </div>
           </div>
           <button style={{ width: '40px', height: '40px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent' }}>
@@ -90,11 +130,29 @@ export default function StudentDashboardPage() {
       <main className="custom-scroll" style={{ flex: 1, overflowY: 'auto', padding: '24px' }}>
         {!profile ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh' }}>
-            <div className="loader" style={{ marginBottom: '24px' }}></div>
-            <div style={{ textAlign: 'center' }}>
-              <p style={{ margin: 0, fontSize: '11px', fontWeight: 900, color: '#ffffff', textTransform: 'uppercase', letterSpacing: '0.3em' }}>Establishing Uplink</p>
-              <p style={{ margin: '4px 0 0 0', fontSize: '8px', color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase' }}>Waiting for Student Portal Response...</p>
-            </div>
+            {fetchError ? (
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ color: '#ef4444', marginBottom: '16px' }}>
+                   <RefreshCw size={40} style={{ margin: '0 auto' }} />
+                </div>
+                <p style={{ margin: 0, fontSize: '14px', fontWeight: 900, color: '#ffffff', textTransform: 'uppercase' }}>Sync Interrupted</p>
+                <p style={{ margin: '8px 0 20px 0', fontSize: '10px', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>Session might have expired</p>
+                <button 
+                  onClick={handleFetch}
+                  style={{ padding: '12px 24px', background: '#00d4ff', color: '#000', border: 'none', borderRadius: '8px', fontSize: '11px', fontWeight: 900, textTransform: 'uppercase' }}
+                >
+                  Force Re-Sync
+                </button>
+              </div>
+            ) : (
+              <>
+                <div className="loader" style={{ marginBottom: '24px' }}></div>
+                <div style={{ textAlign: 'center' }}>
+                  <p style={{ margin: 0, fontSize: '11px', fontWeight: 900, color: '#ffffff', textTransform: 'uppercase', letterSpacing: '0.3em' }}>Establishing Uplink</p>
+                  <p style={{ margin: '4px 0 0 0', fontSize: '8px', color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase' }}>Retrieving Unified Identity...</p>
+                </div>
+              </>
+            )}
           </div>
         ) : (
           <div style={{ paddingBottom: '100px' }}>
@@ -102,7 +160,7 @@ export default function StudentDashboardPage() {
             {/* PROFILE HERO */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '32px', marginTop: '10px' }}>
               <div style={{ width: '90px', height: '90px', borderRadius: '50%', border: '1px solid rgba(0,212,255,0.2)', background: 'rgba(0,212,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
-                <span style={{ fontSize: '30px', fontWeight: 900, color: '#00d4ff' }}>NS</span>
+                <span style={{ fontSize: '30px', fontWeight: 900, color: '#00d4ff' }}>{profile.name?.slice(0, 2).toUpperCase() || 'NS'}</span>
               </div>
               <h2 style={{ margin: '0 0 8px 0', fontSize: '26px', fontWeight: 900, color: '#ffffff', textAlign: 'center', textTransform: 'uppercase' }}>{profile.name}</h2>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
