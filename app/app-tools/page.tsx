@@ -131,7 +131,7 @@ export default function AppToolsPage() {
         <SectionHeader title="PORTAL SERVICES" />
         <div style={{ display: 'flex', gap: '24px' }}>
           <MenuIcon icon={IdCard} label="Student Dashboard" color="#fff" onClick={() => router.push('/portal/student-dashboard')} />
-          <MenuIcon icon={GraduationCap} label="Grade & Credit" color="#fff" onClick={() => router.push('/marks')} />
+          <MenuIcon icon={GraduationCap} label="Grade & Credit" color="#fff" onClick={() => router.push('/portal/grade-mark-credit')} />
         </div>
 
         {/* QUICK ACTIONS */}

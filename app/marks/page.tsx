@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   ArrowLeft, Home, Award, MoreHorizontal, IdCard, User, 
-  Settings, AlertCircle, CheckCircle2
+  Settings, RefreshCcw, ShieldAlert, ChevronRight, BarChart3
 } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
 import { dataAPI } from "@/lib/api";
@@ -14,50 +14,28 @@ const THEME = {
   border: "rgba(255, 255, 255, 0.08)",
   accentPurple: "#bf00ff",
   accentCyan: "#00d4ff",
+  accentGreen: "#00ff88",
   accentRed: "#ff3b3b",
 };
 
-const GradeBadge = ({ grade }: { grade: string }) => {
-  const isFail = grade === "F";
-  const color = isFail ? THEME.accentRed : (grade === "O" || grade.includes('A')) ? THEME.accentCyan : THEME.accentPurple;
-  
-  return (
-    <div style={{ 
-      width: '60px', height: '60px', borderRadius: '50%', 
-      background: `rgba(${isFail ? '255,59,59' : '191,0,255'}, 0.05)`, 
-      border: `1px solid ${color}33`,
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      boxShadow: `0 0 20px ${color}1A`,
-      flexShrink: 0
-    }}>
-      <span style={{ fontSize: '24px', fontWeight: 900, color }}>{grade}</span>
-    </div>
-  );
-};
+const TestBadge = ({ test, score }: any) => {
+  const parts = test.split('/');
+  const label = parts[0];
+  const max = parseFloat(parts[1]) || 100;
+  const sc = score === "Abs" ? 0 : parseFloat(score) || 0;
+  const pct = (sc / max) * 100;
+  const isCritical = pct < 50;
 
-const RecordCard = ({ m }: { m: any }) => {
   return (
     <div style={{ 
-      background: THEME.surface, border: `1px solid ${THEME.border}`, borderRadius: '24px',
-      padding: '16px', display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '12px'
+      background: isCritical ? "rgba(255,59,59,0.05)" : "rgba(255,255,255,0.03)", 
+      border: `1px solid ${isCritical ? "rgba(255,59,59,0.1)" : "rgba(255,255,255,0.06)"}`,
+      borderRadius: '16px', padding: '12px', minWidth: '85px', flex: 1
     }}>
-      <GradeBadge grade={m.grade || "—"} />
-      <div style={{ flex: 1 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-          <span style={{ fontSize: '9px', fontWeight: 900, color: 'rgba(255,255,255,0.3)', background: 'rgba(255,255,255,0.05)', padding: '2px 8px', borderRadius: '4px', letterSpacing: '0.05em' }}>{m.code || m.courseCode}</span>
-          <span style={{ fontSize: '9px', fontWeight: 900, color: 'rgba(255,255,255,0.3)' }}>{m.monthYear}</span>
-        </div>
-        <h3 style={{ fontSize: '13px', fontWeight: 800, color: '#fff', margin: '0 0 8px', textTransform: 'uppercase', lineHeight: 1.3 }}>{m.description || m.courseTitle || "Course Title"}</h3>
-        <div style={{ display: 'flex', gap: '16px' }}>
-          <div>
-            <span style={{ fontSize: '8px', fontWeight: 900, color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>CREDITS </span>
-            <span style={{ fontSize: '12px', fontWeight: 800, color: '#fff' }}>{m.credit || "0"}</span>
-          </div>
-          <div>
-            <span style={{ fontSize: '8px', fontWeight: 900, color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>SEM </span>
-            <span style={{ fontSize: '12px', fontWeight: 800, color: '#fff' }}>{m.semester || "—"}</span>
-          </div>
-        </div>
+      <p style={{ fontSize: '9px', fontWeight: 900, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', marginBottom: '6px' }}>{label}</p>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: '2px' }}>
+        <span style={{ fontSize: '18px', fontWeight: 900, color: score === "Abs" ? THEME.accentRed : '#fff' }}>{score === "Abs" ? "ABS" : sc}</span>
+        <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.2)', fontWeight: 800 }}>/{max}</span>
       </div>
     </div>
   );
@@ -66,25 +44,28 @@ const RecordCard = ({ m }: { m: any }) => {
 export default function MarksPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
-  const [activeTab, setActiveTab] = useState<"evaluated" | "arrears">("evaluated");
-  const { academicData, setAcademicData } = useAuthStore();
+  const [isSyncing, setIsSyncing] = useState(false);
+  const { academicData, setAcademicData, studentPortalData } = useAuthStore();
   
   useEffect(() => {
     setMounted(true);
-    if (!academicData?.marks) {
-      dataAPI.getMarks().then(res => {
-        if (res.data) setAcademicData({ ...academicData, marks: res.data });
-      });
-    }
+    if (!academicData?.marks) handleSync();
   }, []);
+
+  const handleSync = async () => {
+    setIsSyncing(true);
+    try {
+      const res = await dataAPI.getMarks();
+      if (res.data) setAcademicData({ ...academicData, marks: res.data });
+    } catch (e) { console.error(e); } finally { setTimeout(() => setIsSyncing(false), 800); }
+  };
 
   if (!mounted) return <div style={{ background: '#050505', height: '100vh' }} />;
 
-  const allMarks = academicData?.marks || [];
-  const arrears = allMarks.filter((m: any) => m.grade === "F");
-  const evaluated = allMarks.filter((m: any) => m.grade !== "F");
-  
-  const displayMarks = activeTab === "evaluated" ? evaluated : arrears;
+  const marks = academicData?.marks || [];
+  const totalScored = marks.reduce((s:number, m:any) => s + (m.tests?.reduce((a:number, t:any) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
+  const totalMax = marks.reduce((s:number, m:any) => s + (m.tests?.reduce((a:number, t:any) => a + (parseFloat(t.test.split('/')[1]) || 0), 0) || 0), 0);
+  const avgPct = totalMax > 0 ? (totalScored / totalMax) * 100 : 0;
 
   return (
     <div style={{ minHeight: "100vh", background: THEME.bg, color: "#fff", display: "flex", flexDirection: "column", paddingBottom: "140px" }}>
@@ -92,6 +73,8 @@ export default function MarksPage() {
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
         * { box-sizing: border-box; }
         body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background: ${THEME.bg}; }
+        .animate-spin { animation: spin 2s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
       `}} />
 
       {/* HEADER */}
@@ -105,56 +88,68 @@ export default function MarksPage() {
             <span style={{ fontSize: "10px", fontWeight: 900, color: THEME.accentPurple, textTransform: "uppercase", letterSpacing: "0.4em" }}>ACADEMIC OS</span>
             <div style={{ width: "4px", height: "4px", borderRadius: "50%", background: THEME.accentPurple }} />
           </div>
-          <span style={{ fontSize: "11px", fontWeight: 800, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.2em", display: 'block', marginTop: '2px' }}>GRADES & RECORDS</span>
+          <span style={{ fontSize: "11px", fontWeight: 800, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.2em", display: 'block', marginTop: '2px' }}>INTERNAL MARKS</span>
         </div>
-        <button style={{ width: "44px", height: "44px", borderRadius: "50%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.3)", display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Settings size={18} />
+        <button onClick={handleSync} style={{ width: "44px", height: "44px", borderRadius: "50%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", color: "#fff", display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <RefreshCcw size={18} className={isSyncing ? "animate-spin" : ""} />
         </button>
       </header>
 
       <main style={{ padding: "0 20px", flex: 1 }}>
         
-        {/* TAB SWITCHER */}
-        <div style={{ display: 'flex', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '14px', padding: '4px', marginBottom: '24px' }}>
-           <button 
-             onClick={() => setActiveTab('evaluated')}
-             style={{ 
-               flex: 1, padding: '10px', borderRadius: '10px', border: 'none', 
-               background: activeTab === 'evaluated' ? 'rgba(255,255,255,0.05)' : 'transparent',
-               color: activeTab === 'evaluated' ? '#fff' : 'rgba(255,255,255,0.2)',
-               fontSize: '11px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.1em',
-               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
-             }}
-           >
-             <CheckCircle2 size={14} color={activeTab === 'evaluated' ? THEME.accentCyan : 'currentColor'} />
-             EVALUATED
-           </button>
-           <button 
-             onClick={() => setActiveTab('arrears')}
-             style={{ 
-               flex: 1, padding: '10px', borderRadius: '10px', border: 'none', 
-               background: activeTab === 'arrears' ? 'rgba(255,59,59,0.05)' : 'transparent',
-               color: activeTab === 'arrears' ? THEME.accentRed : 'rgba(255,255,255,0.2)',
-               fontSize: '11px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.1em',
-               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
-             }}
-           >
-             <AlertCircle size={14} color={activeTab === 'arrears' ? THEME.accentRed : 'currentColor'} />
-             ARREARS
-             {arrears.length > 0 && <span style={{ background: THEME.accentRed, color: '#000', fontSize: '10px', padding: '0 6px', borderRadius: '4px', marginLeft: '4px' }}>{arrears.length}</span>}
-           </button>
+        {/* SCORE SNAPSHOT */}
+        <div style={{ 
+          background: 'linear-gradient(145deg, rgba(191,0,255,0.05), rgba(0,212,255,0.05))',
+          border: '1px solid rgba(255,255,255,0.08)', borderRadius: '32px', padding: '32px 24px',
+          textAlign: 'center', marginBottom: '32px', position: 'relative', overflow: 'hidden'
+        }}>
+           <div style={{ position: 'absolute', top: '-40px', right: '-40px', width: '120px', height: '120px', background: THEME.accentCyan, filter: 'blur(60px)', opacity: 0.1 }} />
+           <p style={{ fontSize: '10px', fontWeight: 900, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.2em', marginBottom: '12px' }}>Aggregated Internal Score</p>
+           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '8px' }}>
+              <h1 style={{ fontSize: '64px', fontWeight: 900, color: '#fff', margin: 0, letterSpacing: '-0.04em' }}>{totalScored.toFixed(1)}</h1>
+              <span style={{ fontSize: '24px', fontWeight: 800, color: 'rgba(255,255,255,0.1)' }}>/{totalMax.toFixed(0)}</span>
+           </div>
+           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.03)', padding: '6px 16px', borderRadius: '12px', marginTop: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
+              <BarChart3 size={14} color={THEME.accentCyan} />
+              <span style={{ fontSize: '11px', fontWeight: 800, color: THEME.accentCyan }}>{avgPct.toFixed(1)}% SUCCESS RATE</span>
+           </div>
         </div>
 
-        {/* RECORDS LIST */}
-        {displayMarks.length > 0 ? (
-          displayMarks.map((m: any, i: number) => <RecordCard key={i} m={m} />)
-        ) : (
-          <div style={{ textAlign: 'center', padding: '60px 20px', color: 'rgba(255,255,255,0.2)' }}>
-            <Award size={48} strokeWidth={1} style={{ marginBottom: '16px' }} />
-            <p style={{ fontSize: '13px', fontWeight: 800 }}>No {activeTab} records found.</p>
+        {avgPct < 50 && (
+          <div style={{ background: 'rgba(255,59,59,0.05)', border: '1px solid rgba(255,59,59,0.2)', borderRadius: '20px', padding: '16px', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+             <ShieldAlert size={20} color={THEME.accentRed} />
+             <p style={{ fontSize: '11px', fontWeight: 800, color: THEME.accentRed, margin: 0 }}>CRITICAL: Internal average is currently below 50%. Immediate attention required.</p>
           </div>
         )}
 
+        {/* SUBJECTS LIST */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+           {marks.map((m: any, i: number) => {
+              const scored = m.tests?.reduce((s: number, t: any) => s + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0;
+              const max = m.tests?.reduce((s: number, t: any) => s + (parseFloat(t.test.split('/')[1]) || 0), 0) || 0;
+              
+              return (
+                <div key={i} style={{ background: THEME.surface, border: `1px solid ${THEME.border}`, borderRadius: '28px', padding: '24px' }}>
+                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
+                      <div style={{ flex: 1, paddingRight: '16px' }}>
+                         <div style={{ fontSize: '9px', fontWeight: 900, color: 'rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.05)', padding: '2px 8px', borderRadius: '4px', letterSpacing: '0.05em', display: 'inline-block', marginBottom: '8px' }}>{m.courseCode}</div>
+                         <h3 style={{ fontSize: '15px', fontWeight: 800, color: '#fff', margin: 0, lineHeight: 1.3, textTransform: 'uppercase' }}>{m.courseTitle || "Subject Title"}</h3>
+                      </div>
+                      <div style={{ textAlign: 'right' }}>
+                         <div style={{ fontSize: '28px', fontWeight: 900, color: THEME.accentCyan, lineHeight: 1 }}>{scored.toFixed(1)}</div>
+                         <div style={{ fontSize: '11px', fontWeight: 800, color: 'rgba(255,255,255,0.2)', marginTop: '4px' }}>MAX {max}</div>
+                      </div>
+                   </div>
+
+                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                      {m.tests?.map((t: any, j: number) => (
+                        <TestBadge key={j} test={t.test} score={t.score} />
+                      ))}
+                   </div>
+                </div>
+              );
+           })}
+        </div>
       </main>
 
       {/* NAV DOCK */}
