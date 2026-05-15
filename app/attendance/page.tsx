@@ -47,6 +47,9 @@ export default function AttendancePage() {
   const [selectedDates, setSelectedDates] = useState<Set<string>>(new Set());
   const [predictions, setPredictions] = useState<any[] | null>(null);
   const [showRiskOnly, setShowRiskOnly] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
 
   const [now, setNow] = useState(Date.now());
   useEffect(() => {
