@@ -133,10 +133,10 @@ export default function StudentDashboardPage() {
 
         <SectionHeader icon={Users} title="Lineage Node" color="#ff0080" />
         <div className="vault-card">
-           <Parameter label="Father / Guardian" value={getV('fatherName', parent)} width="100%" />
-           <Parameter label="Mother / Primary" value={getV('motherName', parent)} width="100%" />
-           <Parameter label="Parent Contact" value={getV('contactNo', parent) || getV('emergencyContact')} />
-           <Parameter label="Parent Email" value={getV('email', parent)} />
+           <Parameter label="Father Name" value={getV('fatherName', parent)} width="100%" />
+           <Parameter label="Mother Name" value={getV('motherName', parent)} width="100%" />
+           <Parameter label="Parent Contact No." value={getV('contactNo', parent) || getV('emergencyContact')} />
+           <Parameter label="Parent Email ID" value={getV('email', parent)} />
         </div>
 
         <SectionHeader icon={MapPin} title="Geographic Location" color="#ff3d00" />
