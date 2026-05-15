@@ -53,6 +53,11 @@ export default function AuraDashboard({
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-10px); }
         }
+        @keyframes pulse {
+          0% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(148, 255, 216, 0.4); }
+          70% { transform: scale(1.1); opacity: 0.8; box-shadow: 0 0 0 10px rgba(148, 255, 216, 0); }
+          100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(148, 255, 216, 0); }
+        }
       `}} />
 
       {/* Animated Aura Blobs */}
@@ -181,14 +186,23 @@ export default function AuraDashboard({
            
            <div style={{ 
               background: 'rgba(255,255,255,0.02)', 
-              borderRadius: '24px', 
-              padding: '40px', 
+              borderRadius: '28px', 
+              padding: '40px 24px', 
               border: '1px solid rgba(255,255,255,0.05)',
               textAlign: 'center',
-              position: 'relative'
+              position: 'relative',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '12px'
            }}>
-              <div style={{ fontSize: '12px', fontWeight: 800, color: 'rgba(255,255,255,0.2)', letterSpacing: '0.1em' }}>NO_SCHEDULED_EVENTS</div>
-              <div style={{ fontSize: '10px', fontWeight: 700, color: AURA_COLORS.sub, marginTop: '8px', opacity: 0.5 }}>Your academic future is currently clear.</div>
+              <div className="floating" style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(148, 255, 216, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(148, 255, 216, 0.2)' }}>
+                 <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: AURA_COLORS.accent, boxShadow: `0 0 15px ${AURA_COLORS.accent}`, animation: 'pulse 2s infinite' }} />
+              </div>
+              <div>
+                 <div style={{ fontSize: '10px', fontWeight: 900, color: '#fff', letterSpacing: '0.2em', textTransform: 'uppercase' }}>All Systems Clear</div>
+                 <div style={{ fontSize: '11px', fontWeight: 700, color: AURA_COLORS.sub, marginTop: '4px' }}>No immediate academic threats detected.</div>
+              </div>
            </div>
         </section>
 
