@@ -330,7 +330,7 @@ export default function DashboardPage() {
     
     // Find the current active semester based on today's date
     const currentMonth = now.getMonth();
-    const activeSem: Semester = (currentMonth >= 6) ? "ODD" : "EVEN";
+    const activeSem = (currentMonth >= 6) ? "ODD" : "EVEN";
 
     for (const d of sortedDays) {
       if (d.isoDate >= todayStr) {
