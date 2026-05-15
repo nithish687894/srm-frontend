@@ -328,15 +328,22 @@ export default function DashboardPage() {
     const now = new Date();
     const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
     
+    // Find the current active semester based on today's date
+    const currentMonth = now.getMonth();
+    const activeSem: Semester = (currentMonth >= 6) ? "ODD" : "EVEN";
+
     for (const d of sortedDays) {
       if (d.isoDate >= todayStr) {
         const isSignificant = (d.event && d.event !== "-") || d.isHoliday;
-        const isNextAcademicDay = d.dayOrder && events.length === 0; // Always show the very next academic day
+        // Significant event OR it's the very next academic day of the ACTIVE semester
+        const isNextAcademicDay = d.dayOrder && events.length === 0 && d.semester === activeSem; 
         
         if (isSignificant || isNextAcademicDay) {
+          let eventTitle = d.event && d.event !== "-" ? d.event : d.isHoliday ? "University Holiday" : `Academic Cycle: Day Order ${d.dayOrder}`;
+          
           events.push({
             ...d,
-            event: d.event && d.event !== "-" ? d.event : `Academic Cycle: Day Order ${d.dayOrder}`
+            event: eventTitle
           });
           if (events.length >= 3) break;
         }
