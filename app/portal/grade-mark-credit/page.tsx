@@ -72,8 +72,8 @@ export default function GradeMarkCreditPage() {
   useEffect(() => {
     setMounted(true);
     if (!studentPortalData?.marks) {
-      dataAPI.getStudentPortal().then(res => {
-        if (res.data) setStudentPortalData(res.data);
+      dataAPI.getUnified().then(res => {
+        if (res.studentPortal) setStudentPortalData(res.studentPortal);
       });
     }
   }, []);

@@ -56,8 +56,8 @@ export default function Sidebar() {
   const userEmail = (email || profile?.Email || "").toLowerCase();
   const isAdmin = ADMIN_EMAILS.some((e) => e.toLowerCase() === userEmail);
 
-  const userName = academicData?.profile?.name || studentPortalData?.profile?.name || profile?.Name || "Student";
-  const regNo = academicData?.profile?.registerNo || studentPortalData?.profile?.registerNo || "";
+  const userName = academicData?.profile?.Name || academicData?.profile?.name || studentPortalData?.profile?.name || profile?.Name || "Student";
+  const regNo = academicData?.profile?.['Registration Number'] || academicData?.profile?.registerNo || studentPortalData?.profile?.registerNo || "";
   const initials = userName.split(" ").filter(Boolean).map((n: string) => n[0]).join("").slice(0, 2).toUpperCase();
 
   const moreItems = [

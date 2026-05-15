@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   ArrowLeft, Home, Award, MoreHorizontal, IdCard, User, 
-  Settings, RefreshCcw, ShieldAlert, ChevronRight, BarChart3
+  Settings, RefreshCcw, ShieldAlert, BarChart3
 } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
 import { dataAPI } from "@/lib/api";
@@ -19,7 +19,7 @@ const THEME = {
 };
 
 const TestBadge = ({ test, score }: any) => {
-  const parts = test.split('/');
+  const parts = (test || "Test/100").split('/');
   const label = parts[0];
   const max = parseFloat(parts[1]) || 100;
   const sc = score === "Abs" ? 0 : parseFloat(score) || 0;
@@ -45,7 +45,7 @@ export default function MarksPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
-  const { academicData, setAcademicData, studentPortalData } = useAuthStore();
+  const { academicData, setAcademicData } = useAuthStore();
   
   useEffect(() => {
     setMounted(true);
@@ -56,15 +56,19 @@ export default function MarksPage() {
     setIsSyncing(true);
     try {
       const res = await dataAPI.getMarks();
-      if (res.data) setAcademicData({ ...academicData, marks: res.data });
+      if (res && res.data) {
+         setAcademicData({ ...academicData, marks: res.data });
+      } else if (Array.isArray(res)) {
+         setAcademicData({ ...academicData, marks: res });
+      }
     } catch (e) { console.error(e); } finally { setTimeout(() => setIsSyncing(false), 800); }
   };
 
   if (!mounted) return <div style={{ background: '#050505', height: '100vh' }} />;
 
-  const marks = academicData?.marks || [];
+  const marks = Array.isArray(academicData?.marks) ? academicData.marks : [];
   const totalScored = marks.reduce((s:number, m:any) => s + (m.tests?.reduce((a:number, t:any) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
-  const totalMax = marks.reduce((s:number, m:any) => s + (m.tests?.reduce((a:number, t:any) => a + (parseFloat(t.test.split('/')[1]) || 0), 0) || 0), 0);
+  const totalMax = marks.reduce((s:number, m:any) => s + (m.tests?.reduce((a:number, t:any) => a + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0), 0);
   const avgPct = totalMax > 0 ? (totalScored / totalMax) * 100 : 0;
 
   return (
@@ -77,7 +81,6 @@ export default function MarksPage() {
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
       `}} />
 
-      {/* HEADER */}
       <header style={{ padding: "60px 24px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", position: 'sticky', top: 0, background: 'rgba(5,5,5,0.8)', backdropFilter: 'blur(20px)', zIndex: 100 }}>
         <button onClick={() => router.back()} style={{ width: "44px", height: "44px", borderRadius: "50%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", color: THEME.accentPurple, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <ArrowLeft size={20} />
@@ -88,7 +91,7 @@ export default function MarksPage() {
             <span style={{ fontSize: "10px", fontWeight: 900, color: THEME.accentPurple, textTransform: "uppercase", letterSpacing: "0.4em" }}>ACADEMIC OS</span>
             <div style={{ width: "4px", height: "4px", borderRadius: "50%", background: THEME.accentPurple }} />
           </div>
-          <span style={{ fontSize: "11px", fontWeight: 800, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.2em", display: 'block', marginTop: '2px' }}>INTERNAL MARKS</span>
+          <span style={{ fontSize: "11px", fontWeight: 800, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.2em", display: 'block', marginTop: '2px' }}>INTERNAL RECORDS</span>
         </div>
         <button onClick={handleSync} style={{ width: "44px", height: "44px", borderRadius: "50%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", color: "#fff", display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <RefreshCcw size={18} className={isSyncing ? "animate-spin" : ""} />
@@ -96,51 +99,39 @@ export default function MarksPage() {
       </header>
 
       <main style={{ padding: "0 20px", flex: 1 }}>
-        
-        {/* SCORE SNAPSHOT */}
         <div style={{ 
           background: 'linear-gradient(145deg, rgba(191,0,255,0.05), rgba(0,212,255,0.05))',
           border: '1px solid rgba(255,255,255,0.08)', borderRadius: '32px', padding: '32px 24px',
           textAlign: 'center', marginBottom: '32px', position: 'relative', overflow: 'hidden'
         }}>
-           <div style={{ position: 'absolute', top: '-40px', right: '-40px', width: '120px', height: '120px', background: THEME.accentCyan, filter: 'blur(60px)', opacity: 0.1 }} />
-           <p style={{ fontSize: '10px', fontWeight: 900, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.2em', marginBottom: '12px' }}>Aggregated Internal Score</p>
+           <p style={{ fontSize: '10px', fontWeight: 900, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.2em', marginBottom: '12px' }}>AGGREGATED SCORE</p>
            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '8px' }}>
-              <h1 style={{ fontSize: '64px', fontWeight: 900, color: '#fff', margin: 0, letterSpacing: '-0.04em' }}>{totalScored.toFixed(1)}</h1>
+              <h1 style={{ fontSize: '64px', fontWeight: 900, color: '#fff', margin: 0 }}>{totalScored.toFixed(1)}</h1>
               <span style={{ fontSize: '24px', fontWeight: 800, color: 'rgba(255,255,255,0.1)' }}>/{totalMax.toFixed(0)}</span>
            </div>
            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.03)', padding: '6px 16px', borderRadius: '12px', marginTop: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
               <BarChart3 size={14} color={THEME.accentCyan} />
-              <span style={{ fontSize: '11px', fontWeight: 800, color: THEME.accentCyan }}>{avgPct.toFixed(1)}% SUCCESS RATE</span>
+              <span style={{ fontSize: '11px', fontWeight: 800, color: THEME.accentCyan }}>{avgPct.toFixed(1)}% SUCCESS</span>
            </div>
         </div>
 
-        {avgPct < 50 && (
-          <div style={{ background: 'rgba(255,59,59,0.05)', border: '1px solid rgba(255,59,59,0.2)', borderRadius: '20px', padding: '16px', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-             <ShieldAlert size={20} color={THEME.accentRed} />
-             <p style={{ fontSize: '11px', fontWeight: 800, color: THEME.accentRed, margin: 0 }}>CRITICAL: Internal average is currently below 50%. Immediate attention required.</p>
-          </div>
-        )}
-
-        {/* SUBJECTS LIST */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-           {marks.map((m: any, i: number) => {
+           {marks.length > 0 ? marks.map((m: any, i: number) => {
               const scored = m.tests?.reduce((s: number, t: any) => s + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0;
-              const max = m.tests?.reduce((s: number, t: any) => s + (parseFloat(t.test.split('/')[1]) || 0), 0) || 0;
+              const max = m.tests?.reduce((s: number, t: any) => s + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0;
               
               return (
                 <div key={i} style={{ background: THEME.surface, border: `1px solid ${THEME.border}`, borderRadius: '28px', padding: '24px' }}>
                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
                       <div style={{ flex: 1, paddingRight: '16px' }}>
-                         <div style={{ fontSize: '9px', fontWeight: 900, color: 'rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.05)', padding: '2px 8px', borderRadius: '4px', letterSpacing: '0.05em', display: 'inline-block', marginBottom: '8px' }}>{m.courseCode}</div>
-                         <h3 style={{ fontSize: '15px', fontWeight: 800, color: '#fff', margin: 0, lineHeight: 1.3, textTransform: 'uppercase' }}>{m.courseTitle || "Subject Title"}</h3>
+                         <div style={{ fontSize: '9px', fontWeight: 900, color: 'rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.05)', padding: '2px 8px', borderRadius: '4px', display: 'inline-block', marginBottom: '8px' }}>{m.courseCode || m.code}</div>
+                         <h3 style={{ fontSize: '15px', fontWeight: 800, color: '#fff', margin: 0, lineHeight: 1.3, textTransform: 'uppercase' }}>{m.courseTitle || m.description || "Subject"}</h3>
                       </div>
                       <div style={{ textAlign: 'right' }}>
                          <div style={{ fontSize: '28px', fontWeight: 900, color: THEME.accentCyan, lineHeight: 1 }}>{scored.toFixed(1)}</div>
-                         <div style={{ fontSize: '11px', fontWeight: 800, color: 'rgba(255,255,255,0.2)', marginTop: '4px' }}>MAX {max}</div>
+                         <div style={{ fontSize: '11px', fontWeight: 800, color: 'rgba(255,255,255,0.2)', marginTop: '4px' }}>/{max}</div>
                       </div>
                    </div>
-
                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
                       {m.tests?.map((t: any, j: number) => (
                         <TestBadge key={j} test={t.test} score={t.score} />
@@ -148,12 +139,16 @@ export default function MarksPage() {
                    </div>
                 </div>
               );
-           })}
+           }) : (
+             <div style={{ textAlign: 'center', padding: '60px', opacity: 0.2 }}>
+                <BarChart3 size={48} style={{ margin: '0 auto 16px' }} />
+                <p style={{ fontSize: '12px', fontWeight: 800 }}>No internal records found.</p>
+             </div>
+           )}
         </div>
       </main>
 
-      {/* NAV DOCK */}
-      <nav style={{ position: "fixed", bottom: "24px", left: "20px", right: "20px", height: "72px", background: "rgba(10,12,18,0.95)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "24px", display: "flex", justifyContent: "space-around", alignItems: "center", zIndex: 1000 }}>
+      <nav style={{ position: "fixed", bottom: "0", left: "0", right: "0", height: "calc(72px + env(safe-area-inset-bottom))", paddingBottom: "env(safe-area-inset-bottom)", background: "rgba(10,10,12,0.98)", backdropFilter: "blur(24px)", borderTop: "1px solid rgba(255,255,255,0.08)", display: "flex", alignItems: "center", justifyContent: "space-around", zIndex: 1000 }}>
         <button onClick={() => router.push('/dashboard')} style={{ background: "none", border: "none", color: 'rgba(255,255,255,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
           <Home size={22} />
           <span style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase' }}>Nexus</span>
