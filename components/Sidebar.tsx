@@ -99,14 +99,15 @@ export default function Sidebar() {
         .drawer-item-icon {
           width: 52px; height: 52px; border-radius: 18px;
           background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
-          display: flex; alignItems: center; justify-content: center;
+          display: flex; align-items: center; justify-content: center;
           transition: all 0.2s ease;
         }
         .drawer-item-icon.active {
           background: ${theme === 'matrix' ? 'rgba(168, 194, 0, 0.08)' : theme === 'aura' ? 'rgba(255, 117, 195, 0.08)' : 'rgba(0,212,255,0.08)'}; 
-          border-color: ${theme === 'matrix' ? 'rgba(168, 194, 0, 0.15)' : theme === 'aura' ? 'rgba(255, 117, 195, 0.15)' : 'rgba(0,212,255,0.15)'}; 
+          border-color: ${theme === 'matrix' ? 'rgba(168, 194, 0, 0.25)' : theme === 'aura' ? 'rgba(255, 117, 195, 0.15)' : 'rgba(0,212,255,0.15)'}; 
           color: ${theme === 'matrix' ? '#a8c200' : theme === 'aura' ? '#FF75C3' : THEME.accentCyan};
         }
+        .matrix-font { font-family: 'JetBrains Mono', 'Courier New', monospace; }
       `}</style>
 
       {/* TOP STATUS BAR */}
@@ -165,14 +166,14 @@ export default function Sidebar() {
             <motion.div
               initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 300 }}
-              className="fixed bottom-0 left-0 right-0 z-[900] rounded-t-[40px] px-6 pt-3 pb-[100px]"
+              className="fixed bottom-0 left-0 right-0 z-[900] rounded-t-[40px] px-6 pt-3 pb-[100px] shadow-[0_-20px_60px_rgba(0,0,0,0.5)]"
               style={{ 
                 maxHeight: "85vh", 
                 overflowY: "auto",
-                background: theme === 'matrix' ? '#0a0a0c' : 'rgba(10, 10, 15, 0.95)',
+                background: theme === 'matrix' ? '#050705' : 'rgba(10, 10, 15, 0.95)',
                 backdropFilter: 'blur(30px)',
                 WebkitBackdropFilter: 'blur(30px)',
-                borderTop: theme === 'matrix' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(255,255,255,0.08)'
+                borderTop: theme === 'matrix' ? '1px solid rgba(0,255,65,0.1)' : '1px solid rgba(255,255,255,0.08)'
               }}
             >
               <div className="w-12 h-1.5 bg-white/10 rounded-full mx-auto mb-8" />
@@ -200,10 +201,10 @@ export default function Sidebar() {
                 <div className="grid grid-cols-4 gap-4">
                   {moreItems.map(({ href, label, icon: Icon, color }) => (
                     <Link key={href} href={href} onClick={() => setMoreOpen(false)} className="flex flex-col items-center gap-3">
-                      <div className={`drawer-item-icon ${isActive(href, path) ? "active" : ""}`} style={{ color: isActive(href, path) ? (theme === 'matrix' ? '#a8c200' : theme === 'aura' ? '#FF75C3' : THEME.accentCyan) : color }}>
+                      <div className={`drawer-item-icon ${isActive(href, path) ? "active" : ""}`} style={{ color: isActive(href, path) ? (theme === 'matrix' ? '#a8c200' : theme === 'aura' ? '#FF75C3' : THEME.accentCyan) : (theme === 'matrix' ? '#a8c200' : color) }}>
                         <Icon size={22} />
                       </div>
-                      <span className="text-[9px] font-black text-white/40 uppercase tracking-wider text-center">{label}</span>
+                      <span className={`text-[9px] font-black uppercase tracking-wider text-center ${theme === 'matrix' ? 'text-[#a8c200]/40 matrix-font' : 'text-white/40'}`}>{label}</span>
                     </Link>
                   ))}
                 </div>
@@ -215,10 +216,10 @@ export default function Sidebar() {
                 <div className="grid grid-cols-4 gap-4">
                   {PORTAL_SERVICES.map(({ href, label, icon: Icon }) => (
                     <Link key={href} href={href} onClick={() => setMoreOpen(false)} className="flex flex-col items-center gap-3">
-                      <div className={`drawer-item-icon ${isActive(href, path) ? "active" : ""}`}>
+                      <div className={`drawer-item-icon ${isActive(href, path) ? "active" : ""}`} style={{ color: isActive(href, path) ? (theme === 'matrix' ? '#a8c200' : theme === 'aura' ? '#FF75C3' : THEME.accentCyan) : (theme === 'matrix' ? '#a8c200' : '#fff') }}>
                         <Icon size={22} />
                       </div>
-                      <span className="text-[9px] font-black text-white/40 uppercase tracking-wider text-center leading-tight">{label}</span>
+                      <span className={`text-[9px] font-black uppercase tracking-wider text-center leading-tight ${theme === 'matrix' ? 'text-[#a8c200]/40 matrix-font' : 'text-white/40'}`}>{label}</span>
                     </Link>
                   ))}
                 </div>
