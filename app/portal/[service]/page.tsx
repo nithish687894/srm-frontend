@@ -7,17 +7,12 @@ import CyberBackground from "@/components/UnsplashBackground";
 
 export default function PortalServicePage({ params }: { params: { service: string } }) {
   const router = useRouter();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => { setMounted(true); }, []);
 
   const formatServiceName = (str: string) => {
     return str.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
   };
 
   const serviceName = formatServiceName(params.service || "");
-
-  if (!mounted) return null;
 
   return (
     <div className="page-root">
