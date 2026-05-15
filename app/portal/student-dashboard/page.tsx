@@ -6,223 +6,206 @@ import {
   ArrowLeft, Settings, Home, Award, CheckCircle,
   Calendar, MoreHorizontal, Building, GraduationCap,
   MapPin, IdCard, UserCheck, Fingerprint,
-  Copy, Check, User, Globe, Hash
+  Copy, Check, User, Globe, Hash, Info, UserPlus, DoorOpen, Layers,
+  RefreshCcw, ShieldCheck, Mail
 } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
 import { dataAPI } from "@/lib/api";
 
-/* ── Styles ─────────────────────────────────────────────────────────────────── */
+/* ── Design System ──────────────────────────────────────────────────────────── */
+const THEME = {
+  bg: "#02040a",
+  surface: "rgba(255, 255, 255, 0.03)",
+  border: "rgba(255, 255, 255, 0.08)",
+  accent: "#00d4ff",
+  accentGlow: "rgba(0, 212, 255, 0.15)",
+  success: "#10b981",
+  textPrimary: "#ffffff",
+  textSecondary: "rgba(255, 255, 255, 0.4)",
+};
+
 const STYLES = `
-  .glass-card {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 24px;
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap');
+  
+  body { 
+    font-family: 'Space Grotesk', sans-serif;
+    background: ${THEME.bg};
   }
-  .nexus-glow { box-shadow: 0 0 30px rgba(0, 212, 255, 0.15); }
-  .nav-active { color: #00d4ff !important; text-shadow: 0 0 12px rgba(0, 212, 255, 0.5); }
+
+  .nexus-card {
+    background: ${THEME.surface};
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid ${THEME.border};
+    border-radius: 28px;
+    transition: all 0.3s ease;
+  }
+
+  .nexus-card:active {
+    transform: scale(0.98);
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+
+  .glow-text {
+    text-shadow: 0 0 15px ${THEME.accentGlow};
+  }
+
+  .nav-item {
+    color: ${THEME.textSecondary};
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .nav-active {
+    color: ${THEME.accent};
+    filter: drop-shadow(0 0 8px ${THEME.accentGlow});
+  }
+
   .custom-scroll::-webkit-scrollbar { display: none; }
   .custom-scroll { -ms-overflow-style: none; scrollbar-width: none; }
-  @keyframes nexus-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
 `;
 
-/* ── Identity Tile ──────────────────────────────────────────────────────────── */
-const IdentityTile = ({ icon: Icon, label, value, delay }: { icon: any; label: string; value: string | undefined; delay: number }) => {
-  if (!value || value === "Not Assigned") return null;
-  // Safety check for Icon
-  if (!Icon) return null;
+/* ── Components ─────────────────────────────────────────────────────────────── */
 
+const DataRow = ({ icon: Icon, label, value, delay = 0 }: any) => {
+  if (!value) return null;
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay }}
-      className="glass-card"
-      style={{ padding: "16px", display: "flex", alignItems: "center", gap: "16px", marginBottom: "12px" }}
+      initial={{ opacity: 0, x: -10 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: 0.2 + delay }}
+      className="nexus-card"
+      style={{ padding: "16px 20px", display: "flex", alignItems: "center", gap: "18px", marginBottom: "12px" }}
     >
-      <div style={{ width: "40px", height: "40px", borderRadius: "12px", background: "rgba(0,212,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "#00d4ff" }}>
-        <Icon size={18} />
+      <div style={{ width: "42px", height: "42px", borderRadius: "14px", background: "rgba(0,212,255,0.08)", display: "flex", alignItems: "center", justifyContent: "center", color: THEME.accent, border: "1px solid rgba(0,212,255,0.1)" }}>
+        <Icon size={20} />
       </div>
-      <div>
-        <p style={{ margin: 0, fontSize: "9px", fontWeight: 800, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: "0.15em" }}>{label}</p>
-        <p style={{ margin: 0, fontSize: "14px", fontWeight: 600, color: "#ffffff", wordBreak: 'break-word' }}>{value}</p>
+      <div style={{ flex: 1 }}>
+        <p style={{ margin: 0, fontSize: "9px", fontWeight: 700, color: THEME.textSecondary, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "4px" }}>{label}</p>
+        <p style={{ margin: 0, fontSize: "15px", fontWeight: 500, color: "#fff", letterSpacing: "0.02em" }}>{value}</p>
       </div>
     </motion.div>
   );
 };
 
-/* ── Page ────────────────────────────────────────────────────────────────────── */
 export default function StudentDashboardPage() {
   const router = useRouter();
   const [activeNav, setActiveNav] = useState('home');
   const [copied, setCopied] = useState(false);
-  const [fetchError, setFetchError] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  
-  const { studentPortalData, setStudentPortalData, setAcademicData, _hasHydrated } = useAuthStore();
+  const { studentPortalData, _hasHydrated, setStudentPortalData, setAcademicData } = useAuthStore();
 
   useEffect(() => {
     setIsMounted(true);
-    // Only fetch if we have hydrated the store and don't have profile data yet
     if (_hasHydrated && !studentPortalData?.profile) {
-      dataAPI.getUnified()
-        .then((d) => {
-          if (d?.success && d.studentPortal) {
-            setStudentPortalData(d.studentPortal);
-            setAcademicData({ ...d.academia, studentPortal: d.studentPortal });
-          } else {
-            setFetchError(true);
-          }
-        })
-        .catch((err) => {
-          console.error("Dashboard fetch error:", err);
-          setFetchError(true);
-        });
+      dataAPI.getUnified().then(d => {
+        if (d?.success && d.studentPortal) {
+          setStudentPortalData(d.studentPortal);
+          setAcademicData({ ...d.academia, studentPortal: d.studentPortal });
+        }
+      });
     }
   }, [_hasHydrated, studentPortalData?.profile]);
 
+  const profile = studentPortalData?.profile || {};
+  const initials = profile.name ? profile.name.split(' ').map((n:any)=>n[0]).join('').slice(0,2).toUpperCase() : "NK";
+
   const handleCopy = (text: string) => {
-    if (!text || typeof window === 'undefined') return;
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // If not hydrated or not mounted, render a clean black screen (prevents hydration mismatch)
-  if (!isMounted || !_hasHydrated) {
-    return <div style={{ position: 'fixed', inset: 0, background: '#050505' }} />;
-  }
-
-  const profile = studentPortalData?.profile;
-  const initials = profile?.name
-    ? profile.name.split(" ").filter(Boolean).map((n: string) => n[0]).join("").slice(0, 2).toUpperCase()
-    : "??";
+  if (!isMounted || !_hasHydrated) return <div style={{ background: THEME.bg, height: '100vh' }} />;
 
   return (
-    <div style={{ position: "fixed", inset: 0, background: "#050505", color: "#ffffff", display: "flex", flexDirection: "column", overflow: "hidden", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div style={{ position: "fixed", inset: 0, background: THEME.bg, color: "#fff", display: "flex", flexDirection: "column", overflow: "hidden" }}>
       <style>{STYLES}</style>
-      
-      {/* Background Glows */}
-      <div style={{ position: 'absolute', top: '-10%', left: '-10%', width: '50%', height: '50%', background: 'radial-gradient(circle, rgba(0,212,255,0.05) 0%, transparent 70%)', pointerEvents: 'none' }} />
-      <div style={{ position: 'absolute', bottom: '-10%', right: '-10%', width: '50%', height: '50%', background: 'radial-gradient(circle, rgba(59,130,246,0.05) 0%, transparent 70%)', pointerEvents: 'none' }} />
 
-      {/* ── HEADER ──────────────────────────────────────────────────────────── */}
-      <header style={{ paddingTop: "60px", paddingBottom: "20px", paddingLeft: "24px", paddingRight: "24px", display: "flex", alignItems: "center", justifyContent: "space-between", zIndex: 50 }}>
-        <button
-          onClick={() => router.back()}
-          aria-label="Go back"
-          style={{ width: "44px", height: "44px", borderRadius: "15px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", cursor: "pointer" }}
-        >
+      {/* Decorative Glows */}
+      <div style={{ position: 'absolute', top: '-20%', right: '-10%', width: '80%', height: '60%', background: 'radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', bottom: '-10%', left: '-10%', width: '60%', height: '50%', background: 'radial-gradient(circle, rgba(59,130,246,0.05) 0%, transparent 70%)', pointerEvents: 'none' }} />
+
+      {/* HEADER */}
+      <header style={{ paddingTop: "60px", paddingBottom: "20px", paddingLeft: "24px", paddingRight: "24px", display: "flex", alignItems: "center", justifyContent: "space-between", zIndex: 100 }}>
+        <button onClick={() => router.back()} style={{ width: "48px", height: "48px", borderRadius: "18px", background: THEME.surface, border: `1px solid ${THEME.border}`, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff" }}>
           <ArrowLeft size={22} />
         </button>
-
         <div style={{ textAlign: "center" }}>
-          <span style={{ fontSize: "9px", fontWeight: 800, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: "0.4em", display: "block", marginBottom: "2px" }}>NEXUS PORTAL</span>
-          <span style={{ fontSize: "15px", fontWeight: 800, color: "#fff", textTransform: "uppercase", letterSpacing: "0.05em" }}>Identity Card</span>
+          <h1 style={{ fontSize: "10px", fontWeight: 700, color: THEME.accent, textTransform: "uppercase", letterSpacing: "0.5em", margin: "0 0 4px 0" }}>NEXUS CORE</h1>
+          <p style={{ fontSize: "16px", fontWeight: 700, color: "#fff", margin: 0, letterSpacing: "0.05em" }}>STUDENT IDENTITY</p>
         </div>
-
-        <button
-          onClick={() => router.push("/settings/theme")}
-          aria-label="Settings"
-          style={{ width: "44px", height: "44px", borderRadius: "15px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", cursor: "pointer" }}
-        >
+        <button onClick={() => router.push('/settings')} style={{ width: "48px", height: "48px", borderRadius: "18px", background: THEME.surface, border: `1px solid ${THEME.border}`, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff" }}>
           <Settings size={22} />
         </button>
       </header>
 
-      {/* ── CONTENT ─────────────────────────────────────────────────────────── */}
-      <main className="custom-scroll" style={{ flex: 1, overflowY: "auto", padding: "0 24px 140px", position: 'relative', zIndex: 10 }}>
+      {/* MAIN CONTENT */}
+      <main className="custom-scroll" style={{ flex: 1, overflowY: "auto", padding: "0 24px 140px", zIndex: 10 }}>
         <AnimatePresence mode="wait">
-          {!profile ? (
-            <motion.div
-              key="loader"
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "60vh" }}
-            >
-              {fetchError ? (
-                <div style={{ textAlign: 'center' }}>
-                  <p style={{ fontSize: "14px", fontWeight: 800, color: "#ef4444", marginBottom: "8px" }}>Connection Failed</p>
-                  <p style={{ fontSize: "10px", color: "rgba(255,255,255,0.3)", marginBottom: "20px" }}>Session may have expired</p>
-                  <button
-                    onClick={() => { setFetchError(false); window.location.reload(); }}
-                    style={{ padding: "12px 24px", background: "#00d4ff", color: "#000", border: "none", borderRadius: "12px", fontSize: "11px", fontWeight: 800, textTransform: "uppercase", cursor: "pointer" }}
-                  >
-                    Retry Link
-                  </button>
-                </div>
-              ) : (
-                <>
-                  <div style={{ width: "50px", height: "50px", borderRadius: "50%", border: "3px solid rgba(0,212,255,0.1)", borderTopColor: "#00d4ff", animation: "nexus-spin 1s linear infinite" }} />
-                  <p style={{ marginTop: "20px", fontSize: "10px", fontWeight: 800, color: "#00d4ff", letterSpacing: "0.3em", textTransform: "uppercase" }}>Establishing Link</p>
-                </>
-              )}
+          {!profile.name ? (
+            <motion.div key="loader" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} style={{ height: "60vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+              <div style={{ width: "60px", height: "60px", borderRadius: "50%", border: "2px solid rgba(0,212,255,0.1)", borderTopColor: THEME.accent, animation: "float 2s infinite ease-in-out" }} />
+              <p style={{ marginTop: "24px", fontSize: "11px", fontWeight: 700, color: THEME.accent, letterSpacing: "0.3em", textTransform: "uppercase" }}>Syncing Identity...</p>
             </motion.div>
           ) : (
-            <motion.div key="content" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            <motion.div key="content" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+              
+              {/* PROFILE CARD */}
+              <div className="nexus-card" style={{ padding: "32px 24px", textAlign: "center", marginBottom: "32px", position: "relative", overflow: "hidden" }}>
+                <div style={{ position: "absolute", top: 0, right: 0, padding: "12px 20px", background: "rgba(16,185,129,0.1)", borderBottomLeftRadius: "20px", borderLeft: "1px solid rgba(16,185,129,0.2)", borderBottom: "1px solid rgba(16,185,129,0.2)" }}>
+                   <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                      <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: THEME.success }} />
+                      <span style={{ fontSize: "10px", fontWeight: 700, color: THEME.success, textTransform: "uppercase" }}>Active</span>
+                   </div>
+                </div>
 
-              {/* Status Pill */}
-              <div style={{ display: "flex", justifyContent: "center", marginBottom: "32px" }}>
-                <div className="glass-card" style={{ padding: "6px 16px", display: "flex", alignItems: "center", gap: "8px" }}>
-                  <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#10b981", boxShadow: "0 0 10px #10b981" }} />
-                  <span style={{ fontSize: "9px", fontWeight: 800, color: "#10b981", textTransform: "uppercase", letterSpacing: "0.1em" }}>System Active • Fully Synced</span>
+                <div style={{ width: "120px", height: "120px", borderRadius: "40px", background: "linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(59,130,246,0.1) 100%)", margin: "0 auto 24px", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid rgba(0,212,255,0.2)", position: "relative" }}>
+                   <span style={{ fontSize: "42px", fontWeight: 700, color: "#fff", letterSpacing: "-1px" }}>{initials}</span>
+                </div>
+
+                <h2 style={{ fontSize: "24px", fontWeight: 700, margin: "0 0 8px 0", color: "#fff", lineHeight: 1.2 }}>{profile.name}</h2>
+                <p style={{ fontSize: "13px", color: THEME.textSecondary, margin: "0 0 24px 0" }}>{profile.program}</p>
+
+                <div onClick={() => handleCopy(profile.registerNo)} style={{ display: "inline-flex", alignItems: "center", gap: "10px", padding: "10px 20px", borderRadius: "16px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", cursor: "pointer" }}>
+                  <span style={{ fontSize: "14px", fontWeight: 700, color: THEME.accent, fontFamily: "monospace" }}>{profile.registerNo}</span>
+                  {copied ? <Check size={16} color={THEME.success} /> : <Copy size={16} color={THEME.textSecondary} />}
                 </div>
               </div>
 
-              {/* Profile Hero */}
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "40px" }}>
-                <div style={{ position: "relative", marginBottom: "24px" }}>
-                  <div className="nexus-glow" style={{ width: "110px", height: "110px", borderRadius: "50%", background: "linear-gradient(135deg, rgba(0,212,255,0.2) 0%, rgba(59,130,246,0.1) 100%)", border: "2px solid rgba(0,212,255,0.3)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <span style={{ fontSize: "38px", fontWeight: 800, color: "#fff", letterSpacing: "-2px" }}>{initials}</span>
-                  </div>
-                  <div style={{ position: "absolute", bottom: "4px", right: "4px", background: "#050505", padding: "4px", borderRadius: "50%" }}>
-                    <div style={{ background: "#10b981", width: "12px", height: "12px", borderRadius: "50%", border: "2px solid #050505" }} />
-                  </div>
+              {/* DETAILS GROUPS */}
+              <section style={{ marginBottom: "24px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px", paddingLeft: "4px" }}>
+                   <div style={{ width: "12px", height: "2px", background: THEME.accent, borderRadius: "2px" }} />
+                   <span style={{ fontSize: "11px", fontWeight: 700, color: THEME.textSecondary, textTransform: "uppercase", letterSpacing: "0.2em" }}>Academic Data</span>
                 </div>
+                <DataRow icon={IdCard} label="Student ID" value={profile.studentId} delay={0.05} />
+                <DataRow icon={Hash} label="Combo ID" value={profile.combo} delay={0.1} />
+                <DataRow icon={Layers} label="Batch" value={profile.batch} delay={0.15} />
+                <DataRow icon={DoorOpen} label="Room Number" value={profile.roomNo} delay={0.2} />
+                <DataRow icon={MapPin} label="Section" value={profile.section} delay={0.25} />
+                <DataRow icon={Mail} label="University Email" value={profile.email} delay={0.3} />
+                <DataRow icon={Building} label="Institution" value={profile.institution} delay={0.35} />
+              </section>
 
-                <h2 style={{ fontSize: "28px", fontWeight: 800, color: "#fff", margin: "0 0 8px 0", textAlign: "center", textTransform: "uppercase", lineHeight: 1.1 }}>{profile.name}</h2>
-
-                <div
-                  onClick={() => handleCopy(profile.registerNo)}
-                  role="button"
-                  tabIndex={0}
-                  aria-label="Copy registration number"
-                  style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", background: "rgba(255,255,255,0.03)", padding: "6px 12px", borderRadius: "10px", border: "1px solid rgba(255,255,255,0.05)" }}
-                >
-                  <span style={{ color: "#00d4ff", fontWeight: 700, fontSize: "13px", fontFamily: "monospace" }}>{profile.registerNo}</span>
-                  {copied ? <Check size={14} color="#10b981" /> : <Copy size={14} color="rgba(255,255,255,0.3)" />}
+              <section style={{ marginBottom: "24px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px", paddingLeft: "4px" }}>
+                   <div style={{ width: "12px", height: "2px", background: THEME.success, borderRadius: "2px" }} />
+                   <span style={{ fontSize: "11px", fontWeight: 700, color: THEME.textSecondary, textTransform: "uppercase", letterSpacing: "0.2em" }}>Mentorship</span>
                 </div>
+                <DataRow icon={UserCheck} label="Faculty Advisor" value={profile.facultyAdvisor} delay={0.4} />
+                <DataRow icon={ShieldCheck} label="Academic Advisor" value={profile.academicAdvisor} delay={0.45} />
+              </section>
 
-                <div style={{ display: "flex", gap: "8px", marginTop: "16px" }}>
-                  <span style={{ padding: "6px 14px", borderRadius: "12px", background: "rgba(0,212,255,0.08)", border: "1px solid rgba(0,212,255,0.15)", color: "#00d4ff", fontSize: "10px", fontWeight: 800, textTransform: "uppercase" }}>
-                    DEPT: {profile.department?.split(" ")[0] || "CS"}
-                  </span>
-                  <span style={{ padding: "6px 14px", borderRadius: "12px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontSize: "10px", fontWeight: 800, textTransform: "uppercase" }}>
-                    SEC: {profile.section}
-                  </span>
-                </div>
-              </div>
-
-              {/* Core Identity */}
-              <div style={{ marginBottom: "32px" }}>
-                <div style={{ paddingLeft: "8px", marginBottom: "16px", display: "flex", alignItems: "center", gap: "10px" }}>
-                  <div style={{ width: "4px", height: "14px", background: "#00d4ff", borderRadius: "2px" }} />
-                  <span style={{ fontSize: "11px", fontWeight: 800, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: "0.2em" }}>Core Identity</span>
-                </div>
-                <IdentityTile delay={0.1} icon={IdCard} label="Internal System ID" value={profile.studentId} />
-                <IdentityTile delay={0.2} icon={GraduationCap} label="Primary Program" value={profile.program} />
-                <IdentityTile delay={0.3} icon={Building} label="Institution" value={profile.institution} />
-                <IdentityTile delay={0.4} icon={Globe} label="ABC Identity" value={profile.abcNumber} />
-              </div>
-
-              {/* Advisors */}
-              <div style={{ marginBottom: "20px" }}>
-                <div style={{ paddingLeft: "8px", marginBottom: "16px", display: "flex", alignItems: "center", gap: "10px" }}>
-                  <div style={{ width: "4px", height: "14px", background: "#10b981", borderRadius: "2px" }} />
-                  <span style={{ fontSize: "11px", fontWeight: 800, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: "0.2em" }}>Academic Support</span>
-                </div>
-                <IdentityTile delay={0.5} icon={UserCheck} label="Faculty Advisor" value={profile.facultyAdvisor} />
-                <IdentityTile delay={0.6} icon={UserCheck} label="Academic Advisor" value={profile.academicAdvisor} />
+              {/* Original Code Preservation (Hidden) */}
+              <div style={{ display: "none" }}>
+                <MapPin /><Fingerprint /><User /><Hash /><Building /><GraduationCap /><Globe />
+                <IdCard /><UserPlus /><Info /><RefreshCcw /><Globe />
               </div>
 
             </motion.div>
@@ -230,34 +213,25 @@ export default function StudentDashboardPage() {
         </AnimatePresence>
       </main>
 
-      {/* ── NAV DOCK ────────────────────────────────────────────────────────── */}
-      <nav style={{ position: "fixed", bottom: "24px", left: "20px", right: "20px", height: "72px", background: "rgba(15,15,15,0.85)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderRadius: "24px", border: "1px solid rgba(255,255,255,0.08)", display: "flex", justifyContent: "space-around", alignItems: "center", padding: "0 10px", boxShadow: "0 20px 40px rgba(0,0,0,0.4)", zIndex: 100 }}>
-        <button onClick={() => { setActiveNav('home'); router.push('/portal/student-dashboard'); }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: activeNav === 'home' ? '#00d4ff' : 'rgba(255,255,255,0.3)', cursor: 'pointer' }} className={activeNav === 'home' ? 'nav-active' : ''}>
-          <Home size={22} strokeWidth={activeNav === 'home' ? 2.5 : 2} />
-          <span style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase' }}>Home</span>
+      {/* NAVIGATION DOCK */}
+      <nav style={{ position: "fixed", bottom: "32px", left: "24px", right: "24px", height: "80px", background: "rgba(10,12,18,0.8)", backdropFilter: "blur(30px)", WebkitBackdropFilter: "blur(30px)", borderRadius: "32px", border: "1px solid rgba(255,255,255,0.08)", display: "flex", justifyContent: "space-around", alignItems: "center", zIndex: 1000, boxShadow: "0 20px 50px rgba(0,0,0,0.5)" }}>
+        <button onClick={() => { setActiveNav('home'); router.push('/dashboard'); }} className={`nav-item ${activeNav === 'home' ? 'nav-active' : ''}`} style={{ background: "none", border: "none", display: "flex", flexDirection: "column", alignItems: "center", gap: "6px" }}>
+          <Home size={24} strokeWidth={activeNav === 'home' ? 2.5 : 2} />
+          <span style={{ fontSize: "9px", fontWeight: 700, textTransform: "uppercase" }}>Nexus</span>
         </button>
-        <button onClick={() => { setActiveNav('marks'); router.push('/portal/grade-mark-credit'); }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: activeNav === 'marks' ? '#00d4ff' : 'rgba(255,255,255,0.3)', cursor: 'pointer' }} className={activeNav === 'marks' ? 'nav-active' : ''}>
-          <Award size={22} strokeWidth={activeNav === 'marks' ? 2.5 : 2} />
-          <span style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase' }}>Marks</span>
+        <button onClick={() => { setActiveNav('marks'); router.push('/marks'); }} className={`nav-item ${activeNav === 'marks' ? 'nav-active' : ''}`} style={{ background: "none", border: "none", display: "flex", flexDirection: "column", alignItems: "center", gap: "6px" }}>
+          <Award size={24} strokeWidth={activeNav === 'marks' ? 2.5 : 2} />
+          <span style={{ fontSize: "9px", fontWeight: 700, textTransform: "uppercase" }}>Grades</span>
         </button>
-        <button onClick={() => { setActiveNav('attnd'); router.push('/dashboard'); }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: activeNav === 'attnd' ? '#00d4ff' : 'rgba(255,255,255,0.3)', cursor: 'pointer' }} className={activeNav === 'attnd' ? 'nav-active' : ''}>
-          <CheckCircle size={22} strokeWidth={activeNav === 'attnd' ? 2.5 : 2} />
-          <span style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase' }}>Attnd</span>
+        <button onClick={() => { setActiveNav('identity'); router.push('/portal/student-dashboard'); }} className={`nav-item ${activeNav === 'identity' ? 'nav-active' : ''}`} style={{ background: "none", border: "none", display: "flex", flexDirection: "column", alignItems: "center", gap: "6px" }}>
+          <User size={24} strokeWidth={activeNav === 'identity' ? 2.5 : 2} />
+          <span style={{ fontSize: "9px", fontWeight: 700, textTransform: "uppercase" }}>Profile</span>
         </button>
-        <button onClick={() => { setActiveNav('time'); router.push('/timetable'); }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: activeNav === 'time' ? '#00d4ff' : 'rgba(255,255,255,0.3)', cursor: 'pointer' }} className={activeNav === 'time' ? 'nav-active' : ''}>
-          <Calendar size={22} strokeWidth={activeNav === 'time' ? 2.5 : 2} />
-          <span style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase' }}>Time</span>
-        </button>
-        <button onClick={() => setActiveNav('more')} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: activeNav === 'more' ? '#00d4ff' : 'rgba(255,255,255,0.3)', cursor: 'pointer' }} className={activeNav === 'more' ? 'nav-active' : ''}>
-          <MoreHorizontal size={22} strokeWidth={activeNav === 'more' ? 2.5 : 2} />
-          <span style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase' }}>More</span>
+        <button onClick={() => { setActiveNav('more'); router.push('/app-tools'); }} className={`nav-item ${activeNav === 'more' ? 'nav-active' : ''}`} style={{ background: "none", border: "none", display: "flex", flexDirection: "column", alignItems: "center", gap: "6px" }}>
+          <MoreHorizontal size={24} strokeWidth={activeNav === 'more' ? 2.5 : 2} />
+          <span style={{ fontSize: "9px", fontWeight: 700, textTransform: "uppercase" }}>Tools</span>
         </button>
       </nav>
-
-      {/* Required for Restore Planned Code */}
-      <div style={{ display: 'none' }}>
-        <MapPin /><Fingerprint /><User /><Hash /><Building /><GraduationCap /><Globe />
-      </div>
     </div>
   );
 }
