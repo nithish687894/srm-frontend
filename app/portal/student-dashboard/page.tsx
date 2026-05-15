@@ -59,14 +59,12 @@ const IdentityTile = ({ icon: Icon, label, value, delay }: any) => {
 
 export default function StudentDashboardPage() {
   const router = useRouter();
-  const [mounted, setMounted] = useState(false);
   const [activeNav, setActiveNav] = useState('home');
   const [copied, setCopied] = useState(false);
   
   const { studentPortalData, setStudentPortalData, setAcademicData } = useAuthStore();
 
   useEffect(() => { 
-    setMounted(true); 
     if (!studentPortalData?.profile) {
       dataAPI.getUnified().then(d => {
         if (d?.success && d.studentPortal) {
@@ -83,7 +81,7 @@ export default function StudentDashboardPage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  if (!mounted) return null;
+
 
   const profile = studentPortalData?.profile;
 

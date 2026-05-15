@@ -8,7 +8,6 @@ const TAB_ORDER = [
   "/attendance",
   "/timetable",
   "/calendar",
-  "/tools/srm-cgpa-calculator",
   "/ai"
 ];
 
