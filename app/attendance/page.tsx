@@ -9,6 +9,7 @@ import { useAuthStore } from "@/lib/store";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
 import { useThemeStore } from "@/lib/themeStore";
 import HackerAttendance from "@/components/hacker-os/HackerAttendance";
+import AuraAttendance from "@/components/aura-theme/AuraAttendance";
 import { RefreshCcw } from "lucide-react";
 
 function buildSlotToCourseMap(myTT: any[]) {
@@ -20,6 +21,7 @@ function buildSlotToCourseMap(myTT: any[]) {
 export default function AttendancePage() {
   const { ready } = useAuth();
   const { theme } = useThemeStore();
+  const { academicData, setAcademicData } = useAuthStore();
   const [att, setAtt] = useState<any[]>(academicData?.attendance || []);
   const [loading, setLoading] = useState(!academicData?.attendance);
   const [isSyncing, setIsSyncing] = useState(false);
@@ -242,6 +244,10 @@ export default function AttendancePage() {
 
   if (theme === "hacker") return (
     <HackerAttendance attendance={att} handleSync={handleSync} isSyncing={isSyncing} />
+  );
+
+  if (theme === "aura") return (
+    <AuraAttendance attendance={att} handleSync={handleSync} isSyncing={isSyncing} />
   );
 
   if (theme === "cosmos") return (

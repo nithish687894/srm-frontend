@@ -9,6 +9,7 @@ import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import { dataAPI } from "@/lib/api";
 import HackerMarks from "@/components/hacker-os/HackerMarks";
+import AuraMarks from "@/components/aura-theme/AuraMarks";
 
 const THEME = {
   bg: "#050505",
@@ -84,6 +85,10 @@ export default function MarksPage() {
   // Hacker OS Theme
   if (theme === "hacker") return (
     <HackerMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />
+  );
+
+  if (theme === "aura") return (
+    <AuraMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />
   );
 
   // Matrix Theme (Direct Render for now)

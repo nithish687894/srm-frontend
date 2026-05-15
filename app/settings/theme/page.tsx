@@ -26,6 +26,14 @@ const THEMES: { id: ThemeType; name: string; sub: string; bg: string; accent: st
     bg: "#050705",
     accent: "#00ff41",
     hasGlow: true
+  },
+  {
+    id: "aura",
+    name: "Aura",
+    sub: "Elegant. Soft. Aesthetic.",
+    bg: "#08080c",
+    accent: "#FF75C3",
+    hasGlow: true
   }
 ];
 
@@ -75,11 +83,11 @@ export default function ThemeSettingsPage() {
         onClick={handleApply}
         style={{ 
           width: "100%", padding: "18px", borderRadius: "16px", border: "none",
-          background: selected === "matrix" ? "#a8c200" : selected === "hacker" ? "#00ff41" : "#7c3aed",
-          color: selected === "matrix" || selected === "hacker" ? "#000" : "#fff",
+          background: selected === "matrix" ? "#a8c200" : selected === "hacker" ? "#00ff41" : selected === "aura" ? "#FF75C3" : "#7c3aed",
+          color: selected === "matrix" || selected === "hacker" || selected === "aura" ? "#000" : "#fff",
           fontSize: "14px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em",
           cursor: "pointer", transition: "all 0.3s",
-          boxShadow: `0 10px 30px ${selected === "matrix" ? "rgba(168,194,0,0.2)" : selected === "hacker" ? "rgba(0,255,65,0.2)" : "rgba(124,58,237,0.3)"}`
+          boxShadow: `0 10px 30px ${selected === "matrix" ? "rgba(168,194,0,0.2)" : selected === "hacker" ? "rgba(0,255,65,0.2)" : selected === "aura" ? "rgba(255,117,195,0.3)" : "rgba(124,58,237,0.3)"}`
         }}
       >
         Apply Selection

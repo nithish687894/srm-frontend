@@ -14,6 +14,7 @@ import CyberBackground from "@/components/UnsplashBackground";
 import StudentPortalPrompt from "@/components/StudentPortalPrompt";
 import { ShieldCheck } from "lucide-react";
 import HackerDashboard from "@/components/hacker-os/HackerDashboard";
+import AuraDashboard from "@/components/aura-theme/AuraDashboard";
 
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
 function parseStart(t: string) { const m = t.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
@@ -489,6 +490,18 @@ export default function DashboardPage() {
         broadcast={broadcast} setIsSyncModalOpen={setIsSyncModalOpen} renderAcademicIntegrityHub={renderAcademicIntegrityHub}
       />
       <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => { dataAPI.getUnified().then(d => { if (d?.success) { const merged = { ...d.academia, studentPortal: d.studentPortal }; setData(merged); setAcademicData(merged); } }).catch(() => {}); }} netId={academicData?.profile?.["Student ID"] || academicData?.profile?.["Registration Number"] || ""} />
+      {renderStudentInfoModal()}
+    </>
+  );
+
+  if (theme === "aura") return (
+    <>
+      <AuraDashboard 
+        data={data} avgAtt={avgAtt} avgMarks={avgMarks} firstName={firstName} 
+        nextClass={nextClass} onShowStudentInfo={() => setShowStudentInfo(true)}
+        broadcast={broadcast} renderAcademicIntegrityHub={renderAcademicIntegrityHub}
+      />
+      <PortalSyncModal isOpen={isSyncing} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => {}} netId="" />
       {renderStudentInfoModal()}
     </>
   );
