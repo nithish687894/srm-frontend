@@ -156,6 +156,8 @@ export default function DashboardPage() {
   const [calData, setCalData] = useState<any>(null);
   const [dayOffset, setDayOffset] = useState(0);
   const [syncError, setSyncError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
 
   const renderAcademicIntegrityHub = (isMatrix = false) => {
     // Use studentPortalData from Zustand as fallback when local state hasn't synced yet
@@ -472,6 +474,8 @@ export default function DashboardPage() {
       </div>
     </div>
   );
+
+  if (!mounted) return <div style={{ background: '#000', minHeight: '100vh' }} />;
 
   if (theme === "cosmos") return (
     <>

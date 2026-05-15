@@ -1,7 +1,7 @@
 "use client";
+import { useState, useEffect } from "react";
 import { ThemeType, useThemeStore } from "@/lib/themeStore";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 const THEMES: { id: ThemeType; name: string; sub: string; bg: string; accent: string; hasGlow?: boolean }[] = [
   { 
@@ -41,11 +41,19 @@ export default function ThemeSettingsPage() {
   const { theme, setTheme } = useThemeStore();
   const router = useRouter();
   const [selected, setSelected] = useState<ThemeType>(theme);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    setSelected(theme);
+  }, [theme]);
 
   const handleApply = () => {
     setTheme(selected);
     router.back();
   };
+
+  if (!mounted) return null;
 
   return (
     <div style={{ background: "var(--bg)", minHeight: "100vh", padding: "24px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
