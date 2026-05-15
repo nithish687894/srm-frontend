@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   ArrowLeft, Home, Award, MoreHorizontal, IdCard, User, Mail, MapPin, 
-  RefreshCcw, Shield, Fingerprint, Copy, Check, UserCircle, Users, Phone,
-  GraduationCap
+  RefreshCcw, Shield, Phone, GraduationCap, Users
 } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
 import { dataAPI } from "@/lib/api";
@@ -17,12 +16,18 @@ const THEME = {
   accentCyan: "#00d4ff",
 };
 
-/* ── Stable Sub-Components ────────────────────────────────────────────────── */
+/* ── Defensive Helpers ────────────────────────────────────────────────────── */
+
+const safe = (val: any) => {
+  if (!val) return "—";
+  if (typeof val === 'object') return JSON.stringify(val).slice(0, 20);
+  return String(val);
+};
 
 const Parameter = ({ label, value, width = "50%" }: any) => (
   <div style={{ width, marginBottom: "20px" }}>
     <p style={{ fontSize: '9px', fontWeight: 800, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '6px' }}>{label}</p>
-    <p style={{ fontSize: '16px', fontWeight: 800, color: '#fff', margin: 0 }}>{value || "—"}</p>
+    <p style={{ fontSize: '16px', fontWeight: 800, color: '#fff', margin: 0 }}>{safe(value)}</p>
   </div>
 );
 
@@ -100,13 +105,12 @@ export default function StudentDashboardPage() {
               <User size={30} />
            </div>
            <div>
-              <h2 style={{ fontSize: "20px", fontWeight: 800, margin: 0 }}>{profile.name || "SYNCING..."}</h2>
-              <p style={{ fontSize: "11px", color: THEME.accentCyan, fontWeight: 700, marginTop: "4px" }}>{profile.registerNo || "DETECTING..."}</p>
+              <h2 style={{ fontSize: "20px", fontWeight: 800, margin: 0 }}>{safe(profile.name)}</h2>
+              <p style={{ fontSize: "11px", color: THEME.accentCyan, fontWeight: 700, marginTop: "4px" }}>{safe(profile.registerNo)}</p>
            </div>
         </div>
 
-        {/* PRIMARY PARAMETERS */}
-        <SectionHeader icon={UserCircle} title="Primary Parameters" />
+        <SectionHeader icon={User} title="Primary Parameters" />
         <div className="vault-card">
            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
               <Parameter label="Date of Birth" value={profile.dob} />
@@ -116,45 +120,24 @@ export default function StudentDashboardPage() {
            </div>
         </div>
 
-        {/* LINEAGE NODE */}
         <SectionHeader icon={Users} title="Lineage Node" color="#ff0080" />
         <div className="vault-card">
            <Parameter label="Father / Guardian" value={profile.fatherName} width="100%" />
            <Parameter label="Mother / Primary" value={profile.motherName} width="100%" />
-           <Parameter label="Emergency Contact" value={profile.emergencyContact} width="100%" />
-           <Parameter label="Parental Email" value={profile.parentEmail} width="100%" />
         </div>
 
-        {/* GEOGRAPHIC LOCATION */}
         <SectionHeader icon={MapPin} title="Geographic Location" color="#ff3d00" />
         <div className="vault-card">
            <Parameter label="Residential Address" value={profile.address} width="100%" />
-           <div style={{ display: 'flex' }}>
-              <Parameter label="District" value={profile.district} />
-              <Parameter label="State" value={profile.state} />
-           </div>
-           <Parameter label="Pincode" value={profile.pincode} />
         </div>
 
-        {/* COMMUNICATION CHANNELS */}
         <SectionHeader icon={Phone} title="Communication Channels" color="#00ff88" />
         <div className="vault-card">
            <Parameter label="Student Mobile" value={profile.mobile} width="100%" />
            <Parameter label="Official Email" value={profile.email} width="100%" />
         </div>
-
-        {/* ACADEMIC LINKAGE */}
-        <SectionHeader icon={GraduationCap} title="Academic Linkage" color={THEME.accentCyan} />
-        <div className="vault-card">
-           <Parameter label="Program" value={profile.program} width="100%" />
-           <div style={{ display: 'flex' }}>
-              <Parameter label="Section" value={profile.section} />
-              <Parameter label="Batch" value={profile.batch} />
-           </div>
-        </div>
       </main>
 
-      {/* NAV DOCK */}
       <nav style={{ position: "fixed", bottom: "24px", left: "20px", right: "20px", height: "72px", background: "rgba(10,12,18,0.95)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "24px", display: "flex", justifyContent: "space-around", alignItems: "center", zIndex: 1000 }}>
         <button onClick={() => router.push('/dashboard')} style={{ background: "none", border: "none", color: 'rgba(255,255,255,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
           <Home size={22} />
