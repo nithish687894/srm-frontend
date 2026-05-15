@@ -148,7 +148,10 @@ export default function StudentDashboardPage() {
                   <span className="text-[#00d4ff] font-mono text-[11px] font-bold tracking-widest">{profile.registerNo}</span>
                   <span className="w-1 h-1 rounded-full bg-white/10" />
                   <span className="text-white/40 text-[10px] font-bold uppercase tracking-widest">Batch {profile.batch}</span>
-                </div>[#00d4ff]/10 border border-[#00d4ff]/20 text-[9px] font-black text-[#00d4ff] uppercase tracking-widest">Sec: {profile.section}</span>
+                </div>
+                <div className="flex items-center justify-center gap-2 mt-2">
+                  <span className="px-2 py-0.5 rounded bg-[#00d4ff]/10 border border-[#00d4ff]/20 text-[9px] font-black text-[#00d4ff] uppercase tracking-widest">Dept: CS</span>
+                  <span className="px-2 py-0.5 rounded bg-[#00d4ff]/10 border border-[#00d4ff]/20 text-[9px] font-black text-[#00d4ff] uppercase tracking-widest">Sec: {profile.section}</span>
                 </div>
               </div>
             </div>
