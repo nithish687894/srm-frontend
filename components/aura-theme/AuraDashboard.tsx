@@ -210,7 +210,7 @@ export default function AuraDashboard({
                        </div>
                        <div style={{ flex: 1 }}>
                           <div style={{ fontSize: '13px', fontWeight: 800, color: '#fff' }}>{event.event}</div>
-                          <div style={{ fontSize: '9px', fontWeight: 700, color: AURA_COLORS.sub, marginTop: '2px' }}>{event.weekdayLabel} • SYSTEM_ALERT</div>
+                          <div style={{ fontSize: '9px', fontWeight: 700, color: AURA_COLORS.sub, marginTop: '2px' }}>{event.weekdayLabel}</div>
                        </div>
                     </div>
                  ))
