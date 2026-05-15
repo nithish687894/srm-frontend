@@ -1,10 +1,10 @@
 "use client";
-// Deployment Trigger: 2026-04-27
+// Deployment Trigger: 2026-05-15
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { authAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Shield, Zap, Target } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
@@ -16,7 +16,6 @@ export default function LoginPage() {
   const [loginPhase, setLoginPhase] = useState<"idle" | "auth" | "success">("idle");
   const [error, setError] = useState("");
   
-  // Phase 2: Multi-Connector Support
   const [connector, setConnector] = useState<"academia" | "student-portal">("academia");
   const [captchaData, setCaptchaData] = useState<{ captcha: string; captchaToken: string } | null>(null);
   const [captchaAnswer, setCaptchaAnswer] = useState("");
@@ -32,7 +31,6 @@ export default function LoginPage() {
      }
    }, [_hasHydrated, authToken, hasChosenTheme, router]);
 
-   // Phase 2: Fetch Captcha when Student Portal is selected
    useEffect(() => {
      if (connector === "student-portal" && !captchaData) {
        fetchCaptcha();
@@ -65,11 +63,10 @@ export default function LoginPage() {
         setAuthData(res.token, res.refreshToken, finalEmail);
         setLoginPhase("success");
         
-        // Brief delay for success animation before redirect
         setTimeout(() => {
           if (hasChosenTheme) router.push("/dashboard");
           else router.push("/setup/theme");
-        }, 800);
+        }, 1200);
      } catch (e: any) {
        setLoading(false);
        setLoginPhase("idle");
@@ -79,48 +76,43 @@ export default function LoginPage() {
 
   return (
     <>
-      <style>{`
+      <style jsx global>{`
         .lp-root {
           min-height: 100vh;
           background: #000000;
           color: #ffffff;
-          font-family: var(--font-inter), sans-serif;
+          font-family: 'Plus Jakarta Sans', sans-serif;
           overflow-x: hidden;
+          position: relative;
+        }
+
+        .nebula-bg {
+          position: absolute;
+          inset: 0;
+          z-index: 0;
+          background: 
+            radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 40%),
+            radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.08) 0%, transparent 40%),
+            radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.05) 0%, transparent 60%);
+          filter: blur(100px);
+          animation: nebulaDrift 30s ease-in-out infinite alternate;
+        }
+
+        @keyframes nebulaDrift {
+          from { transform: scale(1) translate(0, 0); }
+          to { transform: scale(1.1) translate(30px, 30px); }
         }
 
         .hero-section {
-          padding: 40px 24px;
+          padding: 80px 24px;
           display: flex;
           flex-direction: column;
           align-items: center;
-          max-width: 1200px;
+          max-width: 1400px;
           margin: 0 auto;
           text-align: center;
-          gap: 32px;
-        }
-
-        .hero-content {
-          flex: 1;
-        }
-
-        .hero-h1 {
-          font-family: var(--font-orbitron), sans-serif;
-          font-size: clamp(32px, 6vw, 64px);
-          font-weight: 900;
-          letter-spacing: -0.05em;
-          line-height: 1.1;
-          margin-bottom: 24px;
-          background: linear-gradient(to right, #ffffff, #888888);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-
-        .hero-sub {
-          font-size: 16px;
-          color: #888888;
-          max-width: 500px;
-          margin: 0 auto 40px;
-          line-height: 1.6;
+          position: relative;
+          z-index: 1;
         }
 
         @media (min-width: 1024px) {
@@ -128,155 +120,92 @@ export default function LoginPage() {
             flex-direction: row;
             text-align: left;
             justify-content: space-between;
-            align-items: center;
-            padding: 120px 24px;
-            gap: 60px;
-          }
-          .hero-content {
-            text-align: left;
-            order: 1 !important;
-          }
-          .hero-login {
-            order: 2 !important;
-          }
-          .hero-sub {
-            margin: 0 0 40px 0;
+            min-height: 100vh;
+            padding: 40px;
           }
         }
-
-        .feature-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-          gap: 24px;
-          max-width: 1200px;
-          margin: 0 auto 80px;
-          padding: 0 24px;
-        }
-
-        .feature-card {
-          background: #0a0a0a;
-          border: 1px solid #1a1a1a;
-          padding: 32px;
-          border-radius: 24px;
-          transition: all 0.3s ease;
-        }
-
-        .feature-card:hover {
-          border-color: #333333;
-          transform: translateY(-5px);
-        }
-
-        .feature-icon { color: #ffffff; margin-bottom: 16px; }
-        .feature-title { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
-        .feature-desc { color: #666666; font-size: 14px; line-height: 1.6; }
-
-        .demo-widgets {
-          display: flex;
-          gap: 20px;
-          justify-content: center;
-          margin-top: 60px;
-          flex-wrap: wrap;
-        }
-
-        .widget-demo {
-          background: #0a0a0a;
-          border: 1px solid #1a1a1a;
-          border-radius: 24px;
-          padding: 24px;
-          text-align: left;
-          width: 280px;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-          animation: float 6s ease-in-out infinite;
-        }
-
-        .widget-demo:nth-child(2) { animation-delay: -3s; }
-
-        @keyframes float {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
-        }
-
-        .widget-label { font-size: 10px; color: #444; font-weight: 900; text-transform: uppercase; margin-bottom: 16px; display: block; letter-spacing: 0.1em; }
-        
-        .attn-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-        .attn-bar { height: 4px; background: #111; border-radius: 2px; flex: 1; margin: 0 12px; overflow: hidden; }
-        .attn-fill { height: 100%; background: #ffffff; border-radius: 2px; }
-
-        .mark-pill { background: #111; padding: 4px 8px; border-radius: 8px; font-size: 12px; font-weight: 700; color: #888; }
-
-        .compare-section {
-          background: #050505;
-          padding: 80px 24px;
-          text-align: center;
-        }
-
-        .compare-table {
-          max-width: 800px;
-          margin: 48px auto 0;
-          width: 100%;
-          border-collapse: collapse;
-          text-align: left;
-        }
-
-        .compare-table th, .compare-table td {
-          padding: 20px;
-          border-bottom: 1px solid #111;
-        }
-
-        .compare-tag {
-          padding: 4px 12px;
-          border-radius: 12px;
-          font-size: 10px;
-          font-weight: 900;
-          text-transform: uppercase;
-        }
-
-        .tag-nexus { background: #ffffff; color: #000000; }
-        .tag-academia { background: #111; color: #444; }
 
         .login-container {
-          max-width: 400px;
           width: 100%;
-          padding: 40px 24px;
-          background: rgba(10, 10, 10, 0.8);
-          backdrop-filter: blur(20px);
-          border-radius: 32px;
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+          max-width: 440px;
+          padding: 48px;
+          background: rgba(255, 255, 255, 0.03);
+          backdrop-filter: blur(40px);
+          -webkit-backdrop-filter: blur(40px);
+          border-radius: 40px;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
         }
 
         .login-input {
-          width: 100%; padding: 18px 24px;
-          background: #111; border: 1px solid #1a1a1a;
+          width: 100%; padding: 20px 24px;
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid rgba(255, 255, 255, 0.08);
           color: #ffffff; font-size: 16px;
           font-family: inherit; font-weight: 600;
-          outline: none; transition: all 0.2s;
-          border-radius: 16px;
-          margin-bottom: 16px;
+          outline: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          border-radius: 20px;
+          margin-bottom: 20px;
         }
 
-        .login-input:focus { border-color: #444; background: #151515; }
+        .login-input:focus { 
+          border-color: rgba(255, 255, 255, 0.3); 
+          background: rgba(255, 255, 255, 0.08);
+          box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+        }
 
         .login-btn {
-          width: 100%; padding: 18px;
+          width: 100%; padding: 20px;
           background: #ffffff; color: #000000;
-          font-size: 14px; font-weight: 900;
-          text-transform: uppercase; letter-spacing: 0.1em;
+          font-size: 15px; font-weight: 900;
+          text-transform: uppercase; letter-spacing: 0.15em;
           cursor: pointer; border: none;
-          transition: all 0.2s;
-          border-radius: 16px;
+          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          border-radius: 20px;
+          position: relative;
+          overflow: hidden;
         }
 
-        .login-btn:hover { transform: scale(1.02); }
-        .login-btn:disabled { opacity: 0.5; }
+        .login-btn:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(255, 255, 255, 0.2); }
+        .login-btn:active { transform: translateY(-1px); }
+        .login-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        .login-error {
-          color: #ff3b3b; font-size: 12px; text-align: center; margin-bottom: 16px; font-weight: 700;
+        .feature-card {
+          background: rgba(255, 255, 255, 0.02);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          padding: 32px;
+          border-radius: 32px;
+          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
+        .feature-card:hover {
+          background: rgba(255, 255, 255, 0.04);
+          border-color: rgba(255, 255, 255, 0.1);
+          transform: translateY(-8px);
+        }
+
+        .compare-table {
+          width: 100%;
+          border-collapse: separate;
+          border-spacing: 0 12px;
+        }
+
+        .compare-table tr {
+          background: rgba(255, 255, 255, 0.02);
+          transition: background 0.3s;
+        }
+
+        .compare-table tr:hover { background: rgba(255, 255, 255, 0.04); }
+
+        .compare-table td { padding: 24px; }
+        .compare-table td:first-child { border-radius: 20px 0 0 20px; }
+        .compare-table td:last-child { border-radius: 0 20px 20px 0; }
       `}</style>
 
       <div className="lp-root">
-        {/* Auth Transition Overlay */}
+        <div className="nebula-bg" />
+
         <AnimatePresence>
           {loading && (
             <motion.div
@@ -284,248 +213,193 @@ export default function LoginPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               style={{
-                position: "fixed",
-                inset: 0,
-                zIndex: 10000,
-                background: "rgba(0,0,0,0.95)",
-                display: "grid",
-                placeItems: "center",
-                height: "100dvh",
-                backdropFilter: "blur(10px)"
+                position: "fixed", inset: 0, zIndex: 10000,
+                background: "rgba(0,0,0,0.98)", display: "flex",
+                flexDirection: "column", alignItems: "center", justifyContent: "center",
+                backdropFilter: "blur(20px)"
               }}
             >
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              style={{ position: "relative", marginBottom: "40px" }}
-            >
-              <div style={{
-                width: "80px", height: "80px", borderRadius: "20px",
-                background: loginPhase === "success" ? "#FF75C3" : "linear-gradient(135deg, #FF75C3, #8F92FF)",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                boxShadow: loginPhase === "success" ? "0 0 40px rgba(255, 117, 195, 0.4)" : "0 0 40px rgba(255, 117, 195, 0.4)",
-                transition: "all 0.5s ease"
-              }}>
-                {loginPhase === "success" ? (
-                  <motion.svg initial={{ scale: 0 }} animate={{ scale: 1 }} width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></motion.svg>
-                ) : (
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                )}
-              </div>
-              {loginPhase !== "success" && (
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                  style={{
-                    position: "absolute", inset: "-15px",
-                    border: "2px solid rgba(255,255,255,0.1)",
-                    borderTopColor: "#FF75C3",
-                    borderRadius: "50%"
-                  }}
-                />
-              )}
-            </motion.div>
-            
-            <div style={{ textAlign: "center" }}>
-                <motion.div
-                  animate={{ opacity: [0.4, 1, 0.4] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                  style={{ fontSize: "14px", fontWeight: 900, letterSpacing: "0.4em", color: "#fff", textTransform: "uppercase", marginBottom: "8px" }}
-                >
-                  {loginPhase === "success" ? "DECRYPTION COMPLETE" : "BREACHING GATEWAY"}
-                </motion.div>
-                <div style={{ fontSize: "10px", fontFamily: "monospace", color: "rgba(255,255,255,0.4)", letterSpacing: "0.2em" }}>
-                  {loginPhase === "success" ? "HANDSHAKE SUCCESSFUL. DIVERTING TO CORE..." : "BYPASSING ZOHO FIREWALL / SYNCHRONIZING SESSION..."}
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                style={{ position: "relative", marginBottom: "64px" }}
+              >
+                {/* Aura Loading Core */}
+                <div style={{
+                  width: "100px", height: "100px", borderRadius: "30px",
+                  background: loginPhase === "success" 
+                    ? "linear-gradient(135deg, #00FF88, #00E6FF)" 
+                    : "linear-gradient(135deg, #FF75C3, #CD93FF)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  boxShadow: loginPhase === "success" 
+                    ? "0 0 60px rgba(0, 255, 136, 0.3)" 
+                    : "0 0 60px rgba(255, 117, 195, 0.3)",
+                  transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1)"
+                }}>
+                  {loginPhase === "success" ? (
+                    <motion.svg initial={{ scale: 0, rotate: -45 }} animate={{ scale: 1, rotate: 0 }} width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></motion.svg>
+                  ) : (
+                    <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ repeat: Infinity, duration: 2 }}>
+                      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </motion.div>
+                  )}
                 </div>
-            </div>
+                
+                {loginPhase !== "success" && (
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                    style={{
+                      position: "absolute", inset: "-20px",
+                      border: "2px solid rgba(255,255,255,0.05)",
+                      borderTopColor: "#FF75C3",
+                      borderRadius: "40px"
+                    }}
+                  />
+                )}
+              </motion.div>
+              
+              <div style={{ textAlign: "center" }}>
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  style={{ fontSize: "16px", fontWeight: 900, letterSpacing: "0.6em", color: "#fff", textTransform: "uppercase", marginBottom: "16px" }}
+                >
+                  {loginPhase === "success" ? "AUTHENTICATION GRANTED" : "BREACHING GATEWAY"}
+                </motion.div>
+                <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)", letterSpacing: "0.2em", fontWeight: 600 }}>
+                  {loginPhase === "success" ? "INITIATING NEBULA HANDSHAKE..." : "BYPASSING FIREWALLS / SYNCHRONIZING CORE..."}
+                </div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Hero Section */}
         <section className="hero-section">
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
+            initial={{ opacity: 0, x: -40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
             className="hero-login"
-            style={{ width: '100%', maxWidth: '400px', order: 1 }}
           >
-            <div id="login" className="login-container">
-              <div style={{ marginBottom: "20px", display: "flex", justifyContent: "center" }}>
-                <img src="/nexus-logo.png" alt="Logo" style={{ width: "64px", height: "64px", filter: "drop-shadow(0 0 15px rgba(255, 117, 195, 0.3))" }} />
+            <div className="login-container">
+              <div style={{ marginBottom: "40px", textAlign: "center" }}>
+                <motion.div 
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                  style={{ display: "inline-block" }}
+                >
+                  <img src="/nexus-logo.png" alt="Logo" style={{ width: "80px", height: "80px", filter: "drop-shadow(0 0 20px rgba(255, 117, 195, 0.4))" }} />
+                </motion.div>
+                <h2 style={{ fontSize: "28px", fontWeight: 900, letterSpacing: "-0.04em", marginTop: "24px" }}>SRM NEXUS</h2>
+                <p style={{ color: "rgba(255, 255, 255, 0.4)", fontSize: "12px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.2em", marginTop: "8px" }}>Identity Secure</p>
               </div>
-              <p style={{ textAlign: 'center', color: '#444', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '24px' }}>
-                Use your SRM NETID credentials
-              </p>
 
-              
               <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
-                {error && <div className="login-error">{error}</div>}
+                {error && <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} style={{ color: "#ff4d4d", fontSize: "13px", textAlign: "center", marginBottom: "20px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em" }}>{error}</motion.div>}
 
-                <div style={{ marginBottom: '16px' }}>
-                  <input
-                    type="text"
-                    name="username"
-                    autoComplete="username"
-                    placeholder="NETID (e.g. ab1234)"
-                    className="login-input"
-                    style={{ marginBottom: 0 }}
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    disabled={loading}
-                    maxLength={6}
-                  />
-                </div>
+                <input
+                  type="text" placeholder="NETID (e.g. ab1234)"
+                  className="login-input"
+                  value={email} onChange={e => setEmail(e.target.value)}
+                  disabled={loading} maxLength={6}
+                />
 
-                <div style={{ position: 'relative', marginBottom: '24px' }}>
+                <div style={{ position: 'relative' }}>
                   <input
                     type={showPassword ? "text" : "password"}
-                    name="password"
-                    autoComplete="current-password"
                     placeholder="PASSWORD"
                     className="login-input"
-                    style={{ marginBottom: 0 }}
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
+                    value={password} onChange={e => setPassword(e.target.value)}
                     disabled={loading}
                   />
                   <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    style={{ position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: '#444', cursor: 'pointer' }}
+                    type="button" onClick={() => setShowPassword(!showPassword)}
+                    style={{ position: 'absolute', right: '20px', top: '24px', background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', cursor: 'pointer' }}
                   >
-                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                    {showPassword ? <EyeOff size={22} /> : <Eye size={22} />}
                   </button>
                 </div>
 
-
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px', padding: '0 8px' }}>
-                  <input type="checkbox" id="remember" style={{ accentColor: '#fff' }} defaultChecked />
-                  <label htmlFor="remember" style={{ fontSize: '12px', color: '#666', cursor: 'pointer' }}>Remember this device</label>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '32px', padding: '0 4px' }}>
+                  <input type="checkbox" id="remember" style={{ accentColor: '#fff', width: "18px", height: "18px" }} defaultChecked />
+                  <label htmlFor="remember" style={{ fontSize: "13px", color: "rgba(255, 255, 255, 0.5)", fontWeight: 600 }}>Remember session</label>
                 </div>
 
-                <button type="submit" className="login-btn" disabled={loading} style={{
-                  background: loginPhase === "success" ? "#FF75C3" : (loading ? "#111" : "#fff"),
-                  color: (loading || loginPhase === "success") ? "#fff" : "#000",
-                  position: 'relative',
-                  overflow: 'hidden',
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                  boxShadow: loginPhase === "success" ? "0 0 30px rgba(255, 117, 195, 0.4)" : "none",
-                  border: loading ? "1px solid #333" : "none"
-                }}>
-                  {loginPhase === "success" ? (
-                    <motion.span initial={{ y: 20 }} animate={{ y: 0 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                      ACCESS GRANTED <motion.span animate={{ x: [0, 5, 0] }} transition={{ repeat: Infinity }}>→</motion.span>
-                    </motion.span>
-                  ) : loading ? (
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
-                      <motion.div 
-                        animate={{ rotate: 360 }} 
-                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                        style={{ width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.1)', borderTopColor: '#fff', borderRadius: '50%' }}
-                      />
-                      <span>DECRYPTING...</span>
-                    </div>
-                  ) : (
-                    "ENTER PORTAL"
-                  )}
-                  
-                  {/* Subtle Shimmer Effect */}
-                  {!loading && (
-                    <motion.div
-                      animate={{ x: ['-100%', '200%'] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                      style={{
-                        position: 'absolute', top: 0, left: 0, width: '50%', height: '100%',
-                        background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
-                        skewX: -20, pointerEvents: 'none'
-                      }}
-                    />
-                  )}
+                <button type="submit" className="login-btn" disabled={loading}>
+                  {loading ? "INITIALIZING..." : "ENTER ACADEMIC OS"}
                 </button>
               </form>
             </div>
           </motion.div>
 
-          <div className="hero-content" style={{ order: 2 }}>
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
+          <div className="hero-content" style={{ maxWidth: "600px" }}>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="hero-h1"
-              style={{ fontSize: "clamp(24px, 5vw, 48px)" }}
+              transition={{ duration: 1, delay: 0.2 }}
             >
-              SRM NEXUS — SRM ACADEMIA PORTAL
-            </motion.h1>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-              className="hero-sub"
-              style={{ fontSize: "14px", marginBottom: "20px" }}
-            >
-              The definitive student intelligence portal for SRM University. 
-              Engineered for precision, speed, and dominance.
-            </motion.p>
-          </div>
-        </section>
-
-        {/* Feature Grid */}
-        <section className="feature-grid">
-          <div className="feature-card">
-            <div className="feature-title">Live Attendance Tracker</div>
-            <p className="feature-desc">Real-time sync with SRM Academia. Calculate safe-miss limits and target percentages instantly.</p>
-          </div>
-          <div className="feature-card">
-            <div className="feature-title">Internal Marks Analytics</div>
-            <p className="feature-desc">Deep analysis of your CT and Model marks. Predict your final grades before the exams even start.</p>
-          </div>
-          <div className="feature-card">
-            <div className="feature-title">Smart SGPA Calculator</div>
-            <p className="feature-desc">The most accurate SGPA/CGPA engine calibrated for SRM's specific credit systems.</p>
+              <div style={{ display: "flex", gap: "12px", marginBottom: "24px" }}>
+                <span style={{ padding: "6px 12px", background: "rgba(255,255,255,0.05)", borderRadius: "99px", fontSize: "10px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em" }}>v2.0 PRODUCTION</span>
+                <span style={{ padding: "6px 12px", background: "rgba(0,255,136,0.1)", color: "#00FF88", borderRadius: "99px", fontSize: "10px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em" }}>SYSTEMS ONLINE</span>
+              </div>
+              <h1 style={{ fontSize: "clamp(40px, 8vw, 84px)", fontWeight: 950, letterSpacing: "-0.05em", lineHeight: 0.9, marginBottom: "32px" }}>
+                Dominate Your <span style={{ color: "rgba(255,255,255,0.4)" }}>Academic Journey.</span>
+              </h1>
+              <p style={{ fontSize: "18px", color: "rgba(255,255,255,0.5)", lineHeight: 1.6, marginBottom: "48px" }}>
+                Experience the next generation of student intelligence. Precision metrics, AI-driven predictions, and zero-latency synchronization.
+              </p>
+              
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
+                <div className="feature-card">
+                  <Shield size={24} style={{ marginBottom: "16px", color: "#FF75C3" }} />
+                  <div style={{ fontWeight: 900, marginBottom: "8px" }}>SECURE SYNC</div>
+                  <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.4)", lineHeight: 1.5 }}>Bank-grade encryption for all your portal interactions.</div>
+                </div>
+                <div className="feature-card">
+                  <Zap size={24} style={{ marginBottom: "16px", color: "#00FF88" }} />
+                  <div style={{ fontWeight: 900, marginBottom: "8px" }}>ULTRA SPEED</div>
+                  <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.4)", lineHeight: 1.5 }}>Engineered for zero-lag data hydration.</div>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </section>
 
         {/* Comparison Section */}
-        <section className="compare-section">
-          <h2 style={{ fontSize: '32px', fontFamily: 'var(--font-orbitron)' }}>Nexus Academia — Better Than the Official Portal</h2>
-          <table className="compare-table">
-            <thead>
-              <tr>
-                <th>Feature</th>
-                <th>SRM Academia</th>
-                <th>SRM Nexus</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Load Speed</td>
-                <td><span className="compare-tag tag-academia">Slow (5-10s)</span></td>
-                <td><span className="compare-tag tag-nexus">Instant (0.5s)</span></td>
-              </tr>
-              <tr>
-                <td>Mobile UI</td>
-                <td><span className="compare-tag tag-academia">None / Poor</span></td>
-                <td><span className="compare-tag tag-nexus">Premium Native</span></td>
-              </tr>
-              <tr>
-                <td>AI Insights</td>
-                <td><span className="compare-tag tag-academia">No</span></td>
-                <td><span className="compare-tag tag-nexus">Yes (Antigravity AI)</span></td>
-              </tr>
-            </tbody>
-          </table>
+        <section style={{ padding: "120px 24px", background: "rgba(255,255,255,0.01)", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+          <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
+            <div style={{ textAlign: "center", marginBottom: "64px" }}>
+              <h2 style={{ fontSize: "40px", fontWeight: 900, letterSpacing: "-0.04em" }}>The Nexus Advantage</h2>
+              <p style={{ color: "rgba(255,255,255,0.4)", marginTop: "12px", fontWeight: 700 }}>Why settle for the official portal?</p>
+            </div>
+            
+            <table className="compare-table">
+              <tbody>
+                <tr>
+                  <td style={{ fontWeight: 800 }}>Load Speed</td>
+                  <td style={{ color: "rgba(255,255,255,0.3)" }}>Academia: ~8.4s</td>
+                  <td style={{ color: "#00FF88", fontWeight: 900 }}>Nexus: ~0.4s</td>
+                </tr>
+                <tr>
+                  <td style={{ fontWeight: 800 }}>Mobile UX</td>
+                  <td style={{ color: "rgba(255,255,255,0.3)" }}>Non-Responsive</td>
+                  <td style={{ color: "#00FF88", fontWeight: 900 }}>Pure Native Feel</td>
+                </tr>
+                <tr>
+                  <td style={{ fontWeight: 800 }}>Intelligence</td>
+                  <td style={{ color: "rgba(255,255,255,0.3)" }}>Static Data</td>
+                  <td style={{ color: "#00FF88", fontWeight: 900 }}>AI Prediction</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </section>
 
-        {/* Footer SEO Text */}
-        <footer style={{ padding: '60px 24px', textAlign: 'center', color: '#222', fontSize: '12px' }}>
-          <p>© 2026 SRM NEXUS. Not affiliated with SRMIST. Built for students by students.</p>
-          <div style={{ marginTop: '12px', display: 'flex', justifyContent: 'center', gap: '16px' }}>
-            <Link href="/tools/srm-attendance-calculator" style={{ color: 'inherit' }}>Attendance Tracker</Link>
-            <Link href="/tools/srm-cgpa-calculator" style={{ color: 'inherit' }}>SGPA Calculator</Link>
-            <Link href="/tools" style={{ color: 'inherit' }}>All Public Tools</Link>
+        <footer style={{ padding: '80px 24px', textAlign: 'center', borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+          <div style={{ fontSize: "11px", fontWeight: 800, color: "rgba(255,255,255,0.2)", letterSpacing: "0.2em" }}>
+            SRM NEXUS © 2026 • BUILT FOR DOMINANCE
           </div>
         </footer>
       </div>
