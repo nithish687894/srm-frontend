@@ -16,18 +16,22 @@ const THEME = {
   accentCyan: "#00d4ff",
 };
 
-/* ── Defensive Helpers ────────────────────────────────────────────────────── */
+/* ── Smart Data Extractor ────────────────────────────────────────────────── */
 
-const safe = (val: any) => {
+const extract = (val: any) => {
   if (!val) return "—";
-  if (typeof val === 'object') return JSON.stringify(val).slice(0, 20);
+  if (typeof val === 'string') return val;
+  if (typeof val === 'object') {
+    // If it's an object, try to find a common value key
+    return val.address || val.value || val.name || val.text || JSON.stringify(val).slice(0, 50);
+  }
   return String(val);
 };
 
 const Parameter = ({ label, value, width = "50%" }: any) => (
   <div style={{ width, marginBottom: "20px" }}>
     <p style={{ fontSize: '9px', fontWeight: 800, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '6px' }}>{label}</p>
-    <p style={{ fontSize: '16px', fontWeight: 800, color: '#fff', margin: 0 }}>{safe(value)}</p>
+    <p style={{ fontSize: '16px', fontWeight: 800, color: '#fff', margin: 0 }}>{extract(value)}</p>
   </div>
 );
 
@@ -105,8 +109,8 @@ export default function StudentDashboardPage() {
               <User size={30} />
            </div>
            <div>
-              <h2 style={{ fontSize: "20px", fontWeight: 800, margin: 0 }}>{safe(profile.name)}</h2>
-              <p style={{ fontSize: "11px", color: THEME.accentCyan, fontWeight: 700, marginTop: "4px" }}>{safe(profile.registerNo)}</p>
+              <h2 style={{ fontSize: "20px", fontWeight: 800, margin: 0 }}>{extract(profile.name)}</h2>
+              <p style={{ fontSize: "11px", color: THEME.accentCyan, fontWeight: 700, marginTop: "4px" }}>{extract(profile.registerNo)}</p>
            </div>
         </div>
 
@@ -124,11 +128,17 @@ export default function StudentDashboardPage() {
         <div className="vault-card">
            <Parameter label="Father / Guardian" value={profile.fatherName} width="100%" />
            <Parameter label="Mother / Primary" value={profile.motherName} width="100%" />
+           <Parameter label="Emergency" value={profile.emergencyContact} />
+           <Parameter label="Parent Email" value={profile.parentEmail} />
         </div>
 
         <SectionHeader icon={MapPin} title="Geographic Location" color="#ff3d00" />
         <div className="vault-card">
            <Parameter label="Residential Address" value={profile.address} width="100%" />
+           <div style={{ display: 'flex' }}>
+              <Parameter label="District" value={profile.district} />
+              <Parameter label="State" value={profile.state} />
+           </div>
         </div>
 
         <SectionHeader icon={Phone} title="Communication Channels" color="#00ff88" />
