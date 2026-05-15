@@ -15,7 +15,7 @@ const AURA_COLORS = {
 };
 
 const StardustSparkline = ({ scores }: { scores: number[] }) => {
-  if (!scores.length) return null;
+  if (!scores?.length || scores.length < 2) return null;
   const max = Math.max(...scores, 100);
   const width = 100;
   const height = 30;
@@ -30,7 +30,7 @@ const StardustSparkline = ({ scores }: { scores: number[] }) => {
         </linearGradient>
       </defs>
       <polyline points={points} fill="none" stroke="url(#lineGrad)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      {scores.map((s, i) => (
+      {scores?.map((s, i) => (
         <circle key={i} cx={(i / (scores.length - 1)) * width} cy={height - (s / max) * height} r="2" fill="#fff" />
       ))}
     </svg>
@@ -117,7 +117,7 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-           {marks.map((m: any, i: number) => {
+           {marks?.map((m: any, i: number) => {
               const testScores = m.tests?.map((t: any) => parseFloat(t.score) || 0) || [];
               const totalScored = testScores.reduce((a: number, b: number) => a + b, 0);
               const maxPossible = m.tests?.reduce((s: number, t: any) => s + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0;
@@ -134,7 +134,7 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
                         <div style={{ flex: 1, paddingRight: '16px' }}>
                            <div style={{ fontSize: '9px', fontWeight: 900, color: AURA_COLORS.primary, background: 'rgba(255,117,195,0.05)', padding: '4px 12px', borderRadius: '100px', display: 'inline-block', marginBottom: '12px' }}>{m.courseCode}</div>
-                           <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', margin: 0, textTransform: 'capitalize', lineHeight: 1.2 }}>{m.title.toLowerCase()}</h3>
+                           <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', margin: 0, textTransform: 'capitalize', lineHeight: 1.2 }}>{m.title?.toLowerCase() || "unknown module"}</h3>
                         </div>
                         <div style={{ textAlign: 'right' }}>
                            <div style={{ fontSize: '32px', fontWeight: 900, color: '#fff', lineHeight: 1 }}>{totalScored.toFixed(1)}</div>

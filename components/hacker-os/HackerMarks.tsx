@@ -57,8 +57,8 @@ export default function HackerMarks({ marks, handleSync, isSyncing }: any) {
       </header>
 
       <main style={{ padding: "24px 20px" }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-           {marks.map((m: any, i: number) => {
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+           {marks?.map((m: any, i: number) => {
               const scored = m.tests?.reduce((s: number, t: any) => s + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0;
               const max = m.tests?.reduce((s: number, t: any) => s + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0;
               
@@ -85,12 +85,6 @@ export default function HackerMarks({ marks, handleSync, isSyncing }: any) {
               );
            })}
 
-           {marks.length === 0 && (
-             <div style={{ padding: '80px 20px', textAlign: 'center', opacity: 0.3 }}>
-                <Terminal size={48} style={{ margin: '0 auto 16px' }} />
-                <div style={{ fontSize: '12px' }}>NO RECORDS DECRYPTED</div>
-             </div>
-           )}
         </div>
       </main>
     </div>
