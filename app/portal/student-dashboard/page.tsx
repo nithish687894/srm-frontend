@@ -93,53 +93,62 @@ export default function StudentDashboardPage() {
       <style>{STYLES}</style>
       
       {/* ── TOP HEADER (Fixed) ────────────────────────────────────────────────── */}
-      <header className="pt-10 pb-4 px-6 flex items-center justify-between border-b border-white/5 bg-black z-30">
-        <button onClick={() => router.back()} className="w-10 h-10 rounded-full flex items-center justify-center border border-white/10 active:scale-90">
-          <ArrowLeft size={20} className="text-white/60" />
+      <header className="pt-12 pb-4 px-6 flex items-center justify-between border-b border-white/5 bg-black/80 backdrop-blur-xl z-30">
+        <button onClick={() => router.back()} className="w-10 h-10 rounded-full flex items-center justify-center border border-white/10 active:scale-90 flex-shrink-0">
+          <ArrowLeft size={18} className="text-white/60" />
         </button>
         
-        <div className="flex flex-col items-center">
-          <span className="text-[8px] font-black tracking-[0.6em] text-[#00d4ff] uppercase opacity-80">Nexus Portal</span>
-          <h1 className="text-sm font-black text-white uppercase tracking-widest">Student Identity</h1>
+        <div className="flex-1 flex flex-col items-center px-2 text-center">
+          <span className="text-[7px] font-black tracking-[0.6em] text-[#00d4ff] uppercase opacity-80 mb-0.5">Nexus Portal</span>
+          <h1 className="text-[12px] font-black text-white uppercase tracking-widest whitespace-nowrap">Student Identity</h1>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-shrink-0 min-w-[80px] justify-end">
           <div className="flex flex-col items-end mr-1">
-            <div className="px-1.5 py-0.5 rounded-sm bg-emerald-500 text-[7px] font-black uppercase tracking-widest text-black mb-0.5">Active</div>
+            <div className="px-1.5 py-0.5 rounded-[2px] bg-emerald-500 text-[6px] font-black uppercase tracking-widest text-black mb-0.5">Active</div>
             <div className="flex items-center gap-1">
               <span className="text-[7px] font-black uppercase tracking-widest text-[#00d4ff]">Synced</span>
               <div className="w-1 h-1 rounded-full bg-emerald-400" />
             </div>
           </div>
           <button className="w-10 h-10 rounded-full flex items-center justify-center border border-white/10 active:scale-90">
-            <Settings size={20} className="text-white/60" />
+            <Settings size={18} className="text-white/60" />
           </button>
         </div>
       </header>
 
       {/* ── MAIN CONTENT (Scrollable) ─────────────────────────────────────────── */}
-      <main className="flex-1 overflow-y-auto scroll-hide px-6 py-8">
+      <main className="flex-1 overflow-y-auto scroll-hide px-6">
         {!studentPortalConnected || !profile ? (
-          <div className="flex flex-col items-center justify-center h-full py-20 opacity-20">
-            <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }} className="w-12 h-12 rounded-full border border-t-[#00d4ff] mb-4" />
-            <span className="text-[9px] font-black uppercase tracking-[0.5em]">Establishing Uplink...</span>
+          <div className="flex flex-col items-center justify-center min-h-[60vh] py-20 text-center">
+            <motion.div 
+              animate={{ rotate: 360 }} 
+              transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }} 
+              className="w-10 h-10 rounded-full border-2 border-white/5 border-t-[#00d4ff] mb-6 shadow-[0_0_20px_rgba(0,212,255,0.2)]" 
+            />
+            <div className="space-y-1">
+              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/60">Initializing Identity</span>
+              <p className="text-[8px] font-medium uppercase tracking-[0.2em] text-white/20">Securing encrypted uplink...</p>
+            </div>
           </div>
         ) : (
-          <div className="space-y-8 pb-32">
+          <div className="space-y-8 pt-8 pb-32">
             
             {/* Profile Section */}
-            <div className="flex flex-col items-center space-y-5">
-              <div className="w-24 h-24 rounded-full border-2 border-white/10 bg-[#00d4ff]/10 flex items-center justify-center shadow-[0_0_40px_rgba(0,212,255,0.1)]">
-                <span className="text-3xl font-black text-[#00d4ff]">NS</span>
+            <div className="flex flex-col items-center space-y-6">
+              <div className="w-24 h-24 rounded-full border border-white/10 bg-[#00d4ff]/5 flex items-center justify-center relative shadow-[0_0_50px_rgba(0,212,255,0.05)]">
+                <span className="text-3xl font-black text-[#00d4ff] tracking-tighter">NS</span>
+                <div className="absolute -bottom-1 right-1 w-6 h-6 rounded-full bg-black border border-white/10 flex items-center justify-center">
+                  <CheckCircle size={12} className="text-emerald-400" />
+                </div>
               </div>
-              <div className="text-center space-y-1">
-                <h2 className="text-3xl font-black tracking-tighter text-white leading-none">{profile.name}</h2>
-                <p className="text-[#00d4ff] font-mono text-[12px] tracking-widest font-bold">
-                  {profile.registerNo} <span className="text-white/20 mx-2">●</span> BATCH {profile.batch}
-                </p>
-                <div className="flex items-center justify-center gap-2 mt-2">
-                  <span className="px-2 py-0.5 rounded bg-[#00d4ff]/10 border border-[#00d4ff]/20 text-[9px] font-black text-[#00d4ff] uppercase tracking-widest">Dept: CS</span>
-                  <span className="px-2 py-0.5 rounded bg-[#00d4ff]/10 border border-[#00d4ff]/20 text-[9px] font-black text-[#00d4ff] uppercase tracking-widest">Sec: {profile.section}</span>
+              <div className="text-center space-y-2">
+                <h2 className="text-3xl font-black tracking-tight text-white leading-none uppercase">{profile.name}</h2>
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                  <span className="text-[#00d4ff] font-mono text-[11px] font-bold tracking-widest">{profile.registerNo}</span>
+                  <span className="w-1 h-1 rounded-full bg-white/10" />
+                  <span className="text-white/40 text-[10px] font-bold uppercase tracking-widest">Batch {profile.batch}</span>
+                </div>[#00d4ff]/10 border border-[#00d4ff]/20 text-[9px] font-black text-[#00d4ff] uppercase tracking-widest">Sec: {profile.section}</span>
                 </div>
               </div>
             </div>

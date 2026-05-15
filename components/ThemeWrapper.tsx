@@ -1,6 +1,7 @@
 "use client";
 import { useThemeStore } from "@/lib/themeStore";
 import { useEffect, useState } from "react";
+import VersionGuard from "./VersionGuard";
 
 export default function ThemeWrapper({ children }: { children: React.ReactNode }) {
   const { theme } = useThemeStore();
@@ -94,6 +95,7 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
         style={{ minHeight: "100vh" }}
         suppressHydrationWarning
       >
+        <VersionGuard />
         {children}
       </div>
     </>
