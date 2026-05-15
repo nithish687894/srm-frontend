@@ -172,7 +172,6 @@ export default function StudentDashboardPage() {
              <Parameter label="Faculty Advisor" value={getV('facultyAdvisor')} width="100%" />
              <Parameter label="Academic Advisor" value={getV('academicAdvisor')} width="100%" />
           </div>
-        </div>
       </main>
     </div>
   );

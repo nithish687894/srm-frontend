@@ -566,8 +566,6 @@ export default function DashboardPage() {
     </div>
   );
 }
-}
-
 
 function BroadcastBanner({ broadcast }: any) {
   if (!broadcast || !broadcast.active || !broadcast.message) return null;
