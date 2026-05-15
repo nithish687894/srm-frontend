@@ -10,6 +10,7 @@ import { useThemeStore } from "@/lib/themeStore";
 import { motion } from "framer-motion";
 import { extractBatch } from "@/lib/utils";
 import PortalSyncModal from "@/components/PortalSyncModal";
+import StudentPortalPrompt from "@/components/StudentPortalPrompt";
 import { ShieldCheck } from "lucide-react";
 import HackerDashboard from "@/components/hacker-os/HackerDashboard";
 import AuraDashboard from "@/components/aura-theme/AuraDashboard";
@@ -481,7 +482,10 @@ export default function DashboardPage() {
         <motion.div 
           animate={{ scale: [1, 1.2, 1], opacity: [0.05, 0.1, 0.05] }}
           transition={{ duration: 10, repeat: Infinity }}
-          style={{
+          style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at center, #111 0%, #000 100%)' }}
+        />
+      </div>
+
       {/* Animated Aura Blobs for Loading */}
       <motion.div 
         animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.25, 0.15], rotate: [0, 180, 360] }}
@@ -514,8 +518,6 @@ export default function DashboardPage() {
       </div>
     </div>
   );
-
-  if (!mounted || !data) return renderAuraLoading();
 
   const themeProps = { 
     data, riskCount, avgAtt, avgMarks, totalCourses, 
@@ -554,175 +556,6 @@ export default function DashboardPage() {
       <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => {}} netId="" />
       {renderStudentInfoModal()}
     </>
-  );
-
-  return (
-    <div className="page-root">
-      <CyberBackground variant="green" />
-      <Sidebar />
-      {renderStudentInfoModal()}
-      <PortalSyncModal 
-        isOpen={isSyncModalOpen} 
-        onClose={() => setIsSyncModalOpen(false)} 
-        onSuccess={() => { window.location.reload(); }}
-        netId={email?.split('@')[0] || academicData?.profile?.['Student ID'] || academicData?.profile?.['Registration Number'] || ""}
-      />
-      <main className="page-main" style={{ position: 'relative', zIndex: 1 }}>
-        <div className="page-content" data-section="Portal" style={{ paddingBottom: "120px" }}>
-
-          {/* Header */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "24px" }}>
-            <div 
-              onClick={() => setShowStudentInfo(true)}
-              style={{ width: "48px", height: "48px", borderRadius: "12px", background: "#1c1c1c", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: "bold", fontSize: "16px", cursor: "pointer" }}>
-              {initials}
-            </div>
-            <div style={{ textAlign: "right", display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
-              <div style={{ fontSize: "12px", color: "#666666", marginBottom: "2px" }}>Welcome Back</div>
-              <div style={{ fontSize: "24px", fontWeight: "bold", color: "#ffffff", letterSpacing: "-0.5px" }}>{firstName}</div>
-              
-              {/* Sync Button */}
-              <button 
-                onClick={() => setIsSyncModalOpen(true)}
-                style={{ 
-                  marginTop: "8px", display: "flex", alignItems: "center", gap: "6px", 
-                  padding: "6px 12px", borderRadius: "10px", background: "rgba(59, 130, 246, 0.1)", 
-                  border: "1px solid rgba(59, 130, 246, 0.2)", color: "#3b82f6", 
-                  fontSize: "10px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em" 
-                }}
-              >
-                <ShieldCheck size={14} />
-                Unlock Official History
-              </button>
-            </div>
-          </div>
-
-          {/* New: Unified History Card */}
-          {renderAcademicIntegrityHub()}
-
-          {/* Top Stats Cards */}
-          {(() => {
-            const stats = [
-              { label: "Attendance", value: `${avgAtt}%`, color: "var(--accent)", href: "/attendance" },
-              { label: "Avg Marks", value: `${avgMarks}%`, color: "var(--text-primary)", href: "/marks" },
-              { label: "At Risk", value: riskCount, color: riskCount > 0 ? "var(--accent-red)" : "var(--text-secondary)", href: "/attendance?risk=1" },
-              { label: "Courses", value: totalCourses, color: "var(--text-secondary)" },
-            ];
-
-            return (
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "8px", marginBottom: "32px" }}>
-                {stats.map((s, i) => (
-                  <motion.div
-                    key={i}
-                    whileTap={s.href ? { scale: 0.94 } : {}}
-                    className="min-card"
-                    onClick={s.href ? () => router.push(s.href) : undefined}
-                    style={{ padding: "16px 12px", textAlign: "center", border: "none", cursor: s.href ? "pointer" : "default" }}
-                  >
-                    <div style={{ fontSize: "20px", fontWeight: "bold", color: s.color, marginBottom: "4px" }}>{s.value}</div>
-                    <div style={{ fontSize: "9px", color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: "0.05em" }}>{s.label}</div>
-                  </motion.div>
-                ))}
-              </div>
-            );
-          })()}
-
-          {/* Date / Day Order Selector */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
-            <div style={{ fontSize: "12px", color: "#666666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 600 }}>
-              {isHoliday ? `Holiday • ${dayOffset === 0 ? "Today" : "Later"}` : `Day Order ${dayOrder} • ${dayOffset === 0 ? "Today" : "Later"}`}
-            </div>
-            <div style={{ display: "flex", gap: "12px" }}>
-              <button onClick={() => setDayOffset(o => o - 1)} style={{ background: "none", border: "none", color: "#ffffff", fontSize: "18px", cursor: "pointer" }}>‹</button>
-              <button onClick={() => setDayOffset(o => o + 1)} style={{ background: "none", border: "none", color: "#ffffff", fontSize: "18px", cursor: "pointer" }}>›</button>
-            </div>
-          </div>
-
-          {/* Next Up / Today's Schedule */}
-          {targetClasses.length > 0 ? (
-            <>
-              {nextClass ? (
-                <div style={{ marginBottom: "32px", position: "relative" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px", position: "relative", zIndex: 10 }}>
-                    <span style={{ fontSize: "12px", color: "var(--text-secondary)", letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 800 }}>Next Up</span>
-                    <span style={{ fontSize: "12px", color: "var(--text-primary)", fontWeight: 800, background: "var(--bg-surface)", padding: "4px 12px", borderRadius: "12px", border: "1px solid var(--border)" }}>{nextClass.roomNo || "TBA"}</span>
-                  </div>
-                  <div className="font-heading" style={{
-                    fontSize: "clamp(32px, 8vw, 56px)", fontWeight: 900, color: "var(--text-primary)", letterSpacing: "-0.04em", lineHeight: 0.9,
-                    display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden",
-                    wordBreak: "break-word", textTransform: "uppercase", marginBottom: "20px", marginTop: "12px"
-                  }}>
-                    {nextClass.courseTitle}
-                  </div>
-                  <div className="min-card" style={{ padding: "16px 20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                      <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "var(--accent)", boxShadow: "0 0 10px var(--accent)" }} />
-                      <div style={{ fontSize: "14px", color: "var(--text-primary)", fontWeight: 600 }}>STATUS • <span style={{ fontWeight: 900 }}>{nextClass.courseCode.substring(0, 5)}</span></div>
-                    </div>
-                    <div style={{ fontSize: "12px", color: "var(--text-secondary)", fontWeight: 900 }}>
-                      {fmtTimeOnly(nextClass.startTime) === fmtTimeOnly(nextClass.endTime) ? fmtTimeOnly(nextClass.startTime) : `${fmtTimeOnly(nextClass.startTime)} — ${fmtTimeOnly(nextClass.endTime)}`}
-                    </div>
-                  </div>
-                </div>
-              ) : null}
-
-              {/* Mini Grid */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "8px", marginBottom: "40px" }}>
-                {gridSlots.map((s, i) => (
-                  <MiniGridTile key={i} slot={s} />
-                ))}
-              </div>
-            </>
-          ) : (
-            <div style={{ background: "#1c1c1c", borderRadius: "20px", padding: "40px", textAlign: "center", marginBottom: "40px" }}>
-              <div style={{ fontSize: "32px", color: "#333", marginBottom: "16px" }}>☕</div>
-              <div style={{ fontSize: "16px", fontWeight: "bold", color: "#ffffff" }}>No Classes Scheduled</div>
-              <div style={{ fontSize: "12px", color: "#888888", marginTop: "8px" }}>Enjoy your free time.</div>
-            </div>
-          )}
-
-          {/* Action Cards */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-            {riskCount > 0 && (
-              <div onClick={() => router.push("/attendance")} style={{ background: "#1a0000", border: "2px dashed #ff3b3b", borderRadius: "24px", padding: "24px", display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer" }}>
-                <div>
-                  <div style={{ fontSize: "11px", color: "#ff3b3b", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "8px" }}>Academic Emergency</div>
-                  <div style={{ fontSize: "32px", fontWeight: 900, color: "#ff3b3b", lineHeight: 1 }}>{riskCount} Subjects At Risk</div>
-                  <div style={{ fontSize: "12px", color: "#ff3b3b", fontStyle: "italic", marginTop: "8px" }}>Tap to view details</div>
-                </div>
-                <div style={{ color: "#ff3b3b", fontSize: "24px" }}>›</div>
-              </div>
-            )}
-
-            <div onClick={() => router.push("/marks")} className="min-card" style={{ cursor: "pointer" }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
-                <div style={{ fontSize: "16px", fontWeight: "bold", color: "var(--text-primary)" }}>Recent Marks</div>
-                <div style={{ color: "var(--text-primary)", fontSize: "24px" }}>›</div>
-              </div>
-              {recentTop5.length > 0 ? (
-                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                  {recentTop5.map((rm, i) => (
-                    <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <div>
-                        <div style={{ fontSize: "14px", fontWeight: "bold", color: "var(--text-primary)" }}>{rm.courseCode}</div>
-                        <div style={{ fontSize: "11px", color: "var(--text-secondary)", textTransform: "uppercase" }}>{rm.label}</div>
-                      </div>
-                      <div style={{ fontWeight: "bold", fontSize: "16px", color: "var(--accent)" }}>
-                        {rm.score}/{rm.max}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div style={{ fontSize: "13px", color: "var(--text-muted)" }}>No recent assessments recorded.</div>
-              )}
-            </div>
-          </div>
-
-          <div className="watermark">Dashboard</div>
-        </div>
-      </main>
-    </div>
   );
 }
 
