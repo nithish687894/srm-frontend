@@ -110,7 +110,7 @@ export default function HackerDashboard({
         )}
 
         {/* Official Hub Integration */}
-        {renderAcademicIntegrityHub(true)}
+        {renderAcademicIntegrityHub("matrix")}
 
         {/* Broadcast / System Comms */}
         {broadcast?.active && (

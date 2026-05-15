@@ -159,24 +159,28 @@ export default function DashboardPage() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
 
-  const renderAcademicIntegrityHub = (isMatrix = false) => {
+  const renderAcademicIntegrityHub = (mode: "default" | "matrix" | "aura" = "default") => {
+    const isMatrix = mode === "matrix";
+    const isAura = mode === "aura";
     // Use studentPortalData from Zustand as fallback when local state hasn't synced yet
     const spData = data?.studentPortal || studentPortalData;
     const hasData = studentPortalConnected && !!spData && !!spData.marks && !!spData.profile;
     return (
       <div style={{ 
-        background: isMatrix ? "#1c1c1c" : "linear-gradient(135deg, rgba(0, 255, 136, 0.03) 0%, rgba(59, 130, 246, 0.03) 100%)",
-        border: isMatrix ? "1px solid #333" : "1px solid rgba(255, 255, 255, 0.05)", 
-        borderRadius: "24px", padding: "24px", marginBottom: "32px",
+        background: isAura ? "rgba(255, 255, 255, 0.02)" : isMatrix ? "#1c1c1c" : "linear-gradient(135deg, rgba(0, 255, 136, 0.03) 0%, rgba(59, 130, 246, 0.03) 100%)",
+        backdropFilter: isAura ? "blur(40px)" : "none",
+        WebkitBackdropFilter: isAura ? "blur(40px)" : "none",
+        border: isAura || isMatrix ? `1px solid ${isAura ? "rgba(255, 255, 255, 0.08)" : "#333"}` : "1px solid rgba(255, 255, 255, 0.05)", 
+        borderRadius: "32px", padding: "24px", marginBottom: "32px",
         position: "relative", overflow: "hidden"
       }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
           <div>
-            <div style={{ fontSize: "10px", fontWeight: 900, color: isMatrix ? "#a8c200" : "#00ff88", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "4px" }}>Official Performance</div>
+            <div style={{ fontSize: "10px", fontWeight: 900, color: isAura ? "#FF75C3" : isMatrix ? "#a8c200" : "#00ff88", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "4px" }}>Official Performance</div>
             <h3 style={{ fontSize: "18px", fontWeight: "bold", color: "#fff" }}>Academic Intelligence Hub</h3>
           </div>
           <div style={{ padding: "8px", borderRadius: "10px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }}>
-            <ShieldCheck size={20} color={isMatrix ? "#a8c200" : "#00ff88"} />
+            <ShieldCheck size={20} color={isAura ? "#8F92FF" : isMatrix ? "#a8c200" : "#00ff88"} />
           </div>
         </div>
 
@@ -191,11 +195,11 @@ export default function DashboardPage() {
               <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase" }}>Grades Logged</div>
             </div>
             <div style={{ background: "rgba(0,0,0,0.2)", padding: "16px", borderRadius: "16px" }}>
-              <div style={{ fontSize: "20px", fontWeight: "900", color: isMatrix ? "#a8c200" : "#00ff88" }}>{spData?.marks?.sgpa || spData?.marks?.SGPA || data?.academia?.profile?.["SGPA"] || "—"}</div>
+              <div style={{ fontSize: "20px", fontWeight: "900", color: isAura ? "#FF75C3" : isMatrix ? "#a8c200" : "#00ff88" }}>{spData?.marks?.sgpa || spData?.marks?.SGPA || data?.academia?.profile?.["SGPA"] || "—"}</div>
               <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase" }}>SGPA</div>
             </div>
             <div style={{ background: "rgba(0,0,0,0.2)", padding: "16px", borderRadius: "16px" }}>
-              <div style={{ fontSize: "20px", fontWeight: "900", color: isMatrix ? "#a8c200" : "#00ff88" }}>{spData?.marks?.cgpa || spData?.marks?.CGPA || data?.academia?.profile?.["CGPA"] || "—"}</div>
+              <div style={{ fontSize: "20px", fontWeight: "900", color: isAura ? "#FF75C3" : isMatrix ? "#a8c200" : "#00ff88" }}>{spData?.marks?.cgpa || spData?.marks?.CGPA || data?.academia?.profile?.["CGPA"] || "—"}</div>
               <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase" }}>CGPA</div>
             </div>
           </div>
@@ -788,7 +792,7 @@ function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
         )}
 
         {/* New: Unified History Card */}
-        {renderAcademicIntegrityHub(true)}
+        {renderAcademicIntegrityHub("matrix")}
 
         {/* Header */}
         <BroadcastBanner broadcast={broadcast} />
@@ -979,7 +983,7 @@ function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targ
             </div>
           </div>
           <div style={{ marginTop: "12px" }}>
-            {renderAcademicIntegrityHub()}
+            {renderAcademicIntegrityHub("default")}
           </div>
 
           <div className="min-card" style={{ padding: "18px", borderRadius: "20px" }}>

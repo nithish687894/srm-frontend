@@ -122,7 +122,7 @@ export default function AuraDashboard({
         )}
 
         {/* Official Hub Integration */}
-        {renderAcademicIntegrityHub(true)}
+        {renderAcademicIntegrityHub("aura")}
 
         {/* Personal Details Quick Access */}
         <button onClick={onShowStudentInfo} className="liquid-card" style={{ width: '100%', padding: '24px', borderRadius: '32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '32px' }}>
