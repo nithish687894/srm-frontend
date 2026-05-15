@@ -110,6 +110,7 @@ export default function StudentDashboardPage() {
           </button>
         </header>
 
+        <div style={{ padding: "24px 24px 140px" }}>
           {/* PROFILE SUMMARY */}
           <div className="vault-card" style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px', background: 'rgba(191,0,255,0.03)', borderColor: 'rgba(191,0,255,0.1)' }}>
              <div style={{ width: "60px", height: "60px", borderRadius: "50%", background: "rgba(191,0,255,0.1)", border: "1px solid rgba(191,0,255,0.2)", display: 'flex', alignItems: 'center', justifyContent: 'center', color: THEME.accentPurple }}>
@@ -172,6 +173,7 @@ export default function StudentDashboardPage() {
              <Parameter label="Faculty Advisor" value={getV('facultyAdvisor')} width="100%" />
              <Parameter label="Academic Advisor" value={getV('academicAdvisor')} width="100%" />
           </div>
+        </div>
       </main>
     </div>
   );

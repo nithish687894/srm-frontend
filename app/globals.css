@@ -312,6 +312,9 @@ h4 { font-weight: 740; }
   background: var(--bg-root);
 }
 .page-main {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding-top: 80px; /* Top nav height */
   padding-bottom: calc(72px + env(safe-area-inset-bottom));
   position: relative;

@@ -112,7 +112,7 @@ export default function GradeMarkCreditPage() {
           </button>
         </header>
 
-        <div style={{ padding: "0 20px", paddingBottom: "120px" }}>
+        <div style={{ padding: "0 20px", paddingBottom: "140px" }}>
           {/* TAB SWITCHER */}
           <div style={{ display: 'flex', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '14px', padding: '4px', marginBottom: '24px' }}>
              <button 

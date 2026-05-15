@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { ArrowLeft, ShieldCheck, Cpu } from "lucide-react";
+import Sidebar from "@/components/Sidebar";
 import CyberBackground from "@/components/UnsplashBackground";
 
 export default function PortalServicePage({ params }: { params: { service: string } }) {
@@ -15,9 +16,10 @@ export default function PortalServicePage({ params }: { params: { service: strin
   const serviceName = formatServiceName(params.service || "");
 
   return (
-    <div className="page-root">
+    <div style={{ height: "100vh", width: "100vw", background: "#000", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+      <Sidebar />
       <CyberBackground variant="purple" />
-      <main className="page-main" style={{ position: 'relative', zIndex: 1, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <main style={{ flex: 1, overflowY: "auto", position: 'relative', zIndex: 1, WebkitOverflowScrolling: "touch" }}>
         
         {/* Header */}
         <div style={{ padding: "24px 20px", display: "flex", alignItems: "center", gap: "16px" }}>
