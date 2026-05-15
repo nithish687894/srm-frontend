@@ -11,7 +11,6 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
     setMounted(true);
   }, []);
 
-  const { theme } = useThemeStore();
   const currentTheme = mounted ? theme : "aura";
 
   useEffect(() => {
