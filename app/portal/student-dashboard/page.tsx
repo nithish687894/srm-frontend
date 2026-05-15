@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   ArrowLeft, Home, Award, MoreHorizontal, IdCard, User, Mail, MapPin, 
-  RefreshCcw, Shield, Phone, GraduationCap, Users, BookOpen, Briefcase
+  RefreshCcw, Shield, Phone, GraduationCap, Users, BookOpen, Briefcase, Hash
 } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
 import { dataAPI } from "@/lib/api";
@@ -164,6 +164,7 @@ export default function StudentDashboardPage() {
               <Parameter label="Batch" value={getV('batch')} />
               <Parameter label="Room No" value={getV('roomNo')} />
            </div>
+           <Parameter label="ABC ID / Number" value={getV('abcNumber')} width="100%" />
         </div>
 
         <SectionHeader icon={Briefcase} title="Advisor Infrastructure" color="#ffcc00" />
