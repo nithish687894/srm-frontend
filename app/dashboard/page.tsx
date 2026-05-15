@@ -329,9 +329,17 @@ export default function DashboardPage() {
     const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
     
     for (const d of sortedDays) {
-      if (d.isoDate >= todayStr && d.event && d.event !== "-") {
-        events.push(d);
-        if (events.length >= 3) break;
+      if (d.isoDate >= todayStr) {
+        const isSignificant = (d.event && d.event !== "-") || d.isHoliday;
+        const isNextAcademicDay = d.dayOrder && events.length === 0; // Always show the very next academic day
+        
+        if (isSignificant || isNextAcademicDay) {
+          events.push({
+            ...d,
+            event: d.event && d.event !== "-" ? d.event : `Academic Cycle: Day Order ${d.dayOrder}`
+          });
+          if (events.length >= 3) break;
+        }
       }
     }
     return events;
@@ -461,36 +469,65 @@ export default function DashboardPage() {
   if (loading && !data) return (
     <div className="page-root" style={{ 
       display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", 
-      background: "#000", gap: "32px", position: "fixed", inset: 0, zIndex: 1000 
+      background: "#000", position: "fixed", inset: 0, zIndex: 1000, overflow: 'hidden'
     }}>
-      <motion.div
-        animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        style={{ 
-          width: "120px", height: "120px", borderRadius: "30px", 
-          background: "linear-gradient(135deg, #3b82f6, #8b5cf6)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          boxShadow: "0 0 50px rgba(59, 130, 246, 0.2)"
-        }}
-      >
-        <img src="/nexus-logo.png" alt="Logo" style={{ width: "60px", height: "60px" }} />
-      </motion.div>
-      <div style={{ textAlign: "center" }}>
-        <motion.div
-          animate={{ opacity: [0.4, 1, 0.4] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          style={{ fontSize: "12px", fontWeight: 900, letterSpacing: "0.5em", color: "#fff", textTransform: "uppercase", marginBottom: "12px" }}
-        >
-          Decrypting Academic Data
-        </motion.div>
-        <div style={{ width: "200px", height: "2px", background: "rgba(255,255,255,0.05)", borderRadius: "1px", margin: "0 auto", overflow: "hidden" }}>
-          <motion.div
-            animate={{ x: ["-100%", "100%"] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-            style={{ width: "50%", height: "100%", background: "linear-gradient(90deg, transparent, #3b82f6, transparent)" }}
-          />
-        </div>
+      {/* Background Neural Field */}
+      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+        <motion.div 
+          animate={{ scale: [1, 1.2, 1], opacity: [0.05, 0.1, 0.05] }}
+          transition={{ duration: 10, repeat: Infinity }}
+          style={{
+            position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
+            width: "120vw", height: "120vw", borderRadius: "50%",
+            background: "radial-gradient(circle, #8F92FF 0%, transparent 70%)",
+            filter: "blur(100px)",
+          }}
+        />
       </div>
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+      >
+        <div style={{ position: 'relative', width: '120px', height: '120px', marginBottom: '40px' }}>
+          <motion.div
+            animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0, 0.2] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            style={{ position: 'absolute', inset: -10, borderRadius: '30px', border: '1px solid #8F92FF', filter: 'blur(10px)' }}
+          />
+          <motion.div
+            animate={{ scale: [1, 1.05, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            style={{ 
+              width: "100%", height: "100%", borderRadius: "30px", 
+              background: "rgba(255,255,255,0.05)", backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              display: "flex", alignItems: "center", justifyContent: "center",
+              boxShadow: "0 20px 40px rgba(0, 0, 0, 0.4)"
+            }}
+          >
+            <img src="/nexus-logo.png" alt="Logo" style={{ width: "60px", height: "60px", filter: 'drop-shadow(0 0 10px #8F92FF)' }} />
+          </motion.div>
+        </div>
+
+        <div style={{ textAlign: "center" }}>
+          <motion.div
+            animate={{ opacity: [0.4, 1, 0.4] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            style={{ fontSize: "10px", fontWeight: 900, letterSpacing: "0.4em", color: "#fff", textTransform: "uppercase", marginBottom: "16px" }}
+          >
+            DECRYPTING_ACADEMIC_DATA
+          </motion.div>
+          <div style={{ width: "200px", height: "2px", background: "rgba(255,255,255,0.05)", borderRadius: "10px", margin: "0 auto", overflow: "hidden" }}>
+            <motion.div
+              animate={{ x: ["-100%", "100%"] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              style={{ width: "60%", height: "100%", background: "linear-gradient(90deg, transparent, #8F92FF, transparent)" }}
+            />
+          </div>
+        </div>
+      </motion.div>
     </div>
   );
 

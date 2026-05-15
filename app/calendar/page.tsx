@@ -101,19 +101,6 @@ export default function CalendarPage() {
           from { transform: rotate(0deg) translate(100px) rotate(0deg); }
           to { transform: rotate(360deg) translate(100px) rotate(-360deg); }
         }
-        .scanning-line {
-          position: absolute; width: 100%; height: 2px;
-          background: linear-gradient(90deg, transparent, ${AURA_COLORS.primary}, transparent);
-          box-shadow: 0 0 15px ${AURA_COLORS.primary};
-          animation: scan 4s infinite linear;
-          z-index: 10; pointer-events: none;
-        }
-        @keyframes scan {
-          0% { top: -10%; opacity: 0; }
-          10% { opacity: 1; }
-          90% { opacity: 1; }
-          100% { top: 110%; opacity: 0; }
-        }
         .shard-hover { transition: all 0.3s ease; }
         .shard-hover:hover { transform: translateY(-4px); background: rgba(255,255,255,0.05) !important; border-color: rgba(255,255,255,0.1) !important; }
       `}} />
@@ -179,7 +166,6 @@ export default function CalendarPage() {
 
               {/* Tactical Calendar Grid */}
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '44px' }}>
-                <div className="scanning-line" />
                 <div style={{ background: 'rgba(255,255,255,0.02)', padding: '32px 24px', border: '1px solid rgba(255,255,255,0.05)', backdropFilter: 'blur(40px)' }}>
                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px', padding: '0 8px' }}>
                       <div>
