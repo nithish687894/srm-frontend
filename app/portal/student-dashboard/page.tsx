@@ -5,7 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, Settings, Home, Award, CheckCircle,
   Calendar, MoreHorizontal, Building, GraduationCap,
-  IdCard, UserCheck, Copy, Check, Globe
+  MapPin, IdCard, UserCheck, Fingerprint,
+  Copy, Check, User, Globe, Hash
 } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
 import { dataAPI } from "@/lib/api";
