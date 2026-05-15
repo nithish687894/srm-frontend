@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import {
   Home, Award, MoreHorizontal, IdCard, Calendar, Wrench, 
   Sparkles, Calculator, ShieldAlert, GraduationCap, 
-  LayoutTemplate, LifeBuoy, ChevronRight, User
+  LayoutTemplate, LifeBuoy, ChevronRight, User, Activity
 } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
