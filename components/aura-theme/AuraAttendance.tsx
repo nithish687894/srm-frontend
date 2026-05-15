@@ -1,5 +1,5 @@
 "use client";
-import { ArrowLeft, RefreshCcw, Activity, ShieldAlert, Binary, Terminal, Sparkles } from "lucide-react";
+import { ArrowLeft, RefreshCcw, Activity, ShieldAlert, Binary, Terminal, Sparkles, Zap } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
@@ -14,18 +14,27 @@ const AURA_COLORS = {
   border: "rgba(255, 255, 255, 0.08)",
 };
 
-const CircularGauge = ({ value, size = 60, color }: any) => {
-  const radius = (size / 2) - 4;
+const PulsingCore = ({ value, color }: any) => {
+  const radius = 26;
   const circum = 2 * Math.PI * radius;
   const offset = circum - (value / 100) * circum;
   
   return (
-    <div style={{ position: 'relative', width: size, height: size, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
-        <circle cx={size/2} cy={size/2} r={radius} fill="transparent" stroke="rgba(255,255,255,0.05)" strokeWidth="4" />
-        <circle cx={size/2} cy={size/2} r={radius} fill="transparent" stroke={color} strokeWidth="4" strokeDasharray={circum} strokeDashoffset={offset} strokeLinecap="round" style={{ transition: 'stroke-dashoffset 1s ease-out' }} />
+    <div style={{ position: 'relative', width: '70px', height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      {/* Outer Pulse */}
+      <motion.div 
+        animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
+        transition={{ duration: 4, repeat: Infinity }}
+        style={{ position: 'absolute', width: '100%', height: '100%', borderRadius: '50%', background: color, filter: 'blur(15px)' }}
+      />
+      <svg width="70" height="70" style={{ transform: 'rotate(-90deg)', position: 'relative', zIndex: 1 }}>
+        <circle cx="35" cy="35" r={radius} fill="transparent" stroke="rgba(255,255,255,0.03)" strokeWidth="6" />
+        <circle cx="35" cy="35" r={radius} fill="transparent" stroke={color} strokeWidth="6" strokeDasharray={circum} strokeDashoffset={offset} strokeLinecap="round" style={{ transition: 'stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1)', filter: `drop-shadow(0 0 5px ${color})` }} />
       </svg>
-      <div style={{ position: 'absolute', fontSize: '12px', fontWeight: 900, color: '#fff' }}>{Math.round(value)}</div>
+      <div style={{ position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 2 }}>
+        <div style={{ fontSize: '14px', fontWeight: 900, color: '#fff', lineHeight: 1 }}>{Math.round(value)}</div>
+        <div style={{ fontSize: '7px', fontWeight: 900, color: AURA_COLORS.sub, textTransform: 'uppercase' }}>%</div>
+      </div>
     </div>
   );
 };
@@ -37,35 +46,46 @@ export default function AuraAttendance({ attendance, handleSync, isSyncing }: an
     <div style={{ background: AURA_COLORS.bg, minHeight: "100vh", color: AURA_COLORS.text, fontFamily: "'Plus Jakarta Sans', sans-serif", paddingBottom: "120px", overflow: 'hidden' }}>
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
-        .aura-blob {
-          position: fixed; width: 500px; height: 500px;
-          border-radius: 50%; filter: blur(120px);
-          opacity: 0.1; z-index: 0; pointer-events: none;
-          animation: drift 15s infinite alternate;
+        
+        .aura-liquid-bg {
+          position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+          background: radial-gradient(circle at 50% -20%, ${AURA_COLORS.secondary}15 0%, transparent 50%),
+                      radial-gradient(circle at 0% 100%, ${AURA_COLORS.primary}10 0%, transparent 40%);
+          z-index: 0; pointer-events: none;
         }
-        @keyframes drift { from { transform: translate(-10%, -10%); } to { transform: translate(10%, 10%); } }
-        .cloud-card {
+
+        .pulsing-shell {
           background: rgba(255, 255, 255, 0.02);
-          backdrop-filter: blur(30px);
-          -webkit-backdrop-filter: blur(30px);
+          backdrop-filter: blur(40px);
+          -webkit-backdrop-filter: blur(40px);
           border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 32px;
-          padding: 24px;
-          transition: all 0.3s ease;
+          border-radius: 40px;
+          padding: 24px 28px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          position: relative;
+          overflow: hidden;
+          transition: all 0.4s ease;
         }
+        .pulsing-shell::before {
+          content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+          transition: 0.5s;
+        }
+        .pulsing-shell:hover::before { left: 100%; }
       `}} />
 
-      <div className="aura-blob" style={{ background: AURA_COLORS.secondary, top: '-10%', right: '-10%' }} />
-      <div className="aura-blob" style={{ background: AURA_COLORS.primary, bottom: '-10%', left: '-10%', animationDelay: '-5s' }} />
+      <div className="aura-liquid-bg" />
 
       <header style={{ padding: "60px 24px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", position: 'sticky', top: 0, background: 'rgba(5,5,8,0.7)', backdropFilter: 'blur(30px)', zIndex: 100, borderBottom: `1px solid ${AURA_COLORS.border}` }}>
-        <button onClick={() => router.back()} style={{ width: "44px", height: "44px", borderRadius: "50%", background: AURA_COLORS.card, border: `1px solid ${AURA_COLORS.border}`, color: AURA_COLORS.secondary, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <button onClick={() => router.back()} style={{ width: "44px", height: "44px", borderRadius: "50%", background: AURA_COLORS.card, border: `1px solid ${AURA_COLORS.border}`, color: AURA_COLORS.accent, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <ArrowLeft size={20} />
         </button>
         <div style={{ textAlign: "center" }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-            <Sparkles size={14} color={AURA_COLORS.accent} />
-            <span style={{ fontSize: "11px", fontWeight: 900, color: '#fff', textTransform: "uppercase", letterSpacing: "0.2em" }}>Sync Status</span>
+            <Zap size={14} color={AURA_COLORS.accent} />
+            <span style={{ fontSize: "11px", fontWeight: 900, color: '#fff', textTransform: "uppercase", letterSpacing: "0.2em" }}>Energy Registry</span>
           </div>
         </div>
         <button onClick={handleSync} style={{ width: "44px", height: "44px", borderRadius: "50%", background: AURA_COLORS.card, border: `1px solid ${AURA_COLORS.border}`, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -81,16 +101,22 @@ export default function AuraAttendance({ attendance, handleSync, isSyncing }: an
               const statusColor = isCritical ? "#ff3b3b" : AURA_COLORS.accent;
               
               return (
-                <div key={i} className="cloud-card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                   <div style={{ flex: 1, paddingRight: '16px' }}>
-                      <div style={{ fontSize: '10px', color: isCritical ? '#ff3b3b' : AURA_COLORS.sub, fontWeight: 900, marginBottom: '4px' }}>{a["Course Code"]}</div>
-                      <div style={{ fontSize: '15px', fontWeight: 800, color: '#fff', textTransform: 'capitalize', lineHeight: 1.3 }}>{a["Course Title"].toLowerCase()}</div>
-                      <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
-                         <div style={{ fontSize: '10px', color: AURA_COLORS.sub }}>P: {a["Hours Attended"]}</div>
-                         <div style={{ fontSize: '10px', color: AURA_COLORS.sub }}>A: {a["Hours Absent"]}</div>
+                <div key={i} className="pulsing-shell">
+                   <div style={{ flex: 1, paddingRight: '20px' }}>
+                      <div style={{ fontSize: '9px', color: isCritical ? '#ff3b3b' : AURA_COLORS.secondary, fontWeight: 900, marginBottom: '6px', letterSpacing: '0.05em' }}>{a["Course Code"]}</div>
+                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#fff', textTransform: 'capitalize', lineHeight: 1.3 }}>{a["Course Title"].toLowerCase()}</div>
+                      <div style={{ display: 'flex', gap: '16px', marginTop: '16px' }}>
+                         <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: AURA_COLORS.accent }} />
+                            <span style={{ fontSize: '10px', color: AURA_COLORS.sub, fontWeight: 800 }}>{a["Hours Attended"]} PRESENT</span>
+                         </div>
+                         <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)' }} />
+                            <span style={{ fontSize: '10px', color: AURA_COLORS.sub, fontWeight: 800 }}>{a["Hours Absent"]} ABSENT</span>
+                         </div>
                       </div>
                    </div>
-                   <CircularGauge value={pct} color={statusColor} />
+                   <PulsingCore value={pct} color={statusColor} />
                 </div>
               );
            })}
