@@ -18,6 +18,15 @@ const THEME = {
   accentCyan: "#00d4ff",
 };
 
+const AURA_COLORS = {
+  bg: "#050508",
+  primary: "#FF75C3",
+  secondary: "#8F92FF",
+  accent: "#94FFD8",
+  text: "#ffffff",
+  sub: "rgba(255, 255, 255, 0.4)",
+};
+
 const MenuIcon = ({ icon: Icon, label, color = THEME.accentCyan, onClick }: any) => (
   <button 
     onClick={onClick}
@@ -84,11 +93,10 @@ export default function AppToolsPage() {
   const initials = profile.name ? profile.name.split(' ').filter(Boolean).map((n:any)=>n[0]).join('').slice(0,2).toUpperCase() : "NK";
 
   return (
-    <div style={{ minHeight: "100vh", background: isAura ? "#050508" : THEME.bg, color: "#fff", display: "flex", flexDirection: "column", paddingBottom: "140px", overflow: 'hidden', position: 'relative' }}>
+    <div style={{ background: isAura ? AURA_COLORS.bg : THEME.bg, height: "100vh", display: "flex", flexDirection: "column", color: "#fff", fontFamily: "'Plus Jakarta Sans', sans-serif", overflow: 'hidden' }}>
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
         * { box-sizing: border-box; }
-        body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background: ${isAura ? "#050508" : THEME.bg}; }
         
         .aura-blob {
           position: fixed; width: 600px; height: 600px;
@@ -104,13 +112,13 @@ export default function AppToolsPage() {
 
       {isAura && (
         <>
-          <div className="aura-blob" style={{ background: "#FF75C3", top: '-200px', left: '-100px' }} />
-          <div className="aura-blob" style={{ background: "#8F92FF", bottom: '-200px', right: '-100px', animationDelay: '-5s' }} />
+          <div className="aura-blob" style={{ background: AURA_COLORS.primary, top: '-200px', left: '-100px' }} />
+          <div className="aura-blob" style={{ background: AURA_COLORS.secondary, bottom: '-200px', right: '-100px', animationDelay: '-5s' }} />
         </>
       )}
 
       {/* HEADER: USER CARD */}
-      <div style={{ padding: "60px 24px 20px", position: 'relative', zIndex: 1 }}>
+      <header style={{ flexShrink: 0, padding: "60px 24px 20px", position: 'relative', zIndex: 1 }}>
         <div style={{ 
           display: 'flex', alignItems: 'center', gap: '16px', padding: '20px',
           background: isAura ? 'rgba(255, 255, 255, 0.02)' : 'rgba(0,212,255,0.03)', 
@@ -133,20 +141,20 @@ export default function AppToolsPage() {
               {profile.registerNo || "Nexus ID Locked"} • {profile.program?.split('-')[0] || "Architecture Core"}
             </p>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: isAura ? 'rgba(255, 117, 195, 0.1)' : 'rgba(0,255,136,0.1)', padding: '4px 10px', borderRadius: '8px', marginTop: '10px' }}>
-              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: isAura ? '#FF75C3' : '#00ff88' }} />
-              <span style={{ fontSize: '9px', fontWeight: 900, color: isAura ? '#FF75C3' : '#00ff88', textTransform: 'uppercase' }}>PORTAL LINKED</span>
+              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: isAura ? AURA_COLORS.primary : '#00ff88' }} />
+              <span style={{ fontSize: '9px', fontWeight: 900, color: isAura ? AURA_COLORS.primary : '#00ff88', textTransform: 'uppercase' }}>PORTAL LINKED</span>
             </div>
           </div>
         </div>
-      </div>
+      </header>
 
-      <main style={{ padding: "0 24px", flex: 1 }}>
+      <main style={{ flex: 1, overflowY: "auto", WebkitOverflowScrolling: "touch", padding: "0 24px 120px", position: 'relative', zIndex: 1 }}>
         
         {/* NEXUS CORE */}
         <SectionHeader title="NEXUS CORE" />
         <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '20px 0' }}>
           <MenuIcon icon={Calendar} label="Calendar" color="#fff" onClick={() => router.push('/calendar')} />
-          <MenuIcon icon={Wrench} label="Tools" color="#00ff88" onClick={() => {}} />
+          <MenuIcon icon={Wrench} label="Tools" color={isAura ? AURA_COLORS.accent : "#00ff88"} onClick={() => router.push('/tools')} />
           <MenuIcon icon={Sparkles} label="AI Tutor" color="#fff" onClick={() => router.push('/ai')} />
           <MenuIcon icon={Calculator} label="GPA Calc" color="#fff" onClick={() => router.push('/gpa')} />
           <MenuIcon icon={ShieldAlert} label="Admin" color="#fff" onClick={() => router.push('/admin')} />
@@ -165,7 +173,7 @@ export default function AppToolsPage() {
           icon={LayoutTemplate} 
           title="Themes" 
           subtitle="Customize your look" 
-          color="#bf00ff"
+          color={isAura ? AURA_COLORS.primary : "#bf00ff"}
           onClick={() => router.push('/settings/theme')} 
         />
         <ActionCard 
@@ -178,36 +186,33 @@ export default function AppToolsPage() {
 
       </main>
 
-      {/* NAV DOCK */}
+      {/* NAV DOCK - FIXED */}
       <nav style={{ 
-        position: "fixed", 
-        bottom: "0", 
-        left: "0", 
-        right: "0", 
-        height: isAura ? "calc(80px + env(safe-area-inset-bottom))" : "72px", 
-        paddingBottom: isAura ? "env(safe-area-inset-bottom)" : "0",
-        background: isAura ? "rgba(5,5,8,0.7)" : "rgba(10,12,18,0.95)", 
-        backdropFilter: "blur(30px)",
-        borderTop: isAura ? "1px solid rgba(255,255,255,0.05)" : "none",
-        border: !isAura ? "1px solid rgba(255,255,255,0.1)" : "none",
-        borderRadius: isAura ? "0" : "24px",
-        margin: isAura ? "0" : "0 20px 24px",
-        display: "flex", justifyContent: "space-around", alignItems: "center", zIndex: 1000 
+        flexShrink: 0,
+        height: isAura ? "calc(80px + env(safe-area-inset-bottom))" : "calc(72px + 24px)", 
+        paddingBottom: isAura ? "env(safe-area-inset-bottom)" : "24px",
+        background: isAura ? "rgba(5,5,8,0.85)" : "transparent", 
+        backdropFilter: isAura ? "blur(30px)" : "none",
+        borderTop: isAura ? `1px solid rgba(255,255,255,0.08)` : "none",
+        display: "flex", justifyContent: "space-around", alignItems: "center", zIndex: 10000 
       }}>
-        <button onClick={() => router.push('/dashboard')} style={{ background: "none", border: "none", color: 'rgba(255,255,255,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+        {!isAura && (
+           <div style={{ position: 'absolute', inset: '0 20px 24px', background: 'rgba(10,12,18,0.95)', backdropFilter: 'blur(30px)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '24px', zIndex: -1 }} />
+        )}
+        <button onClick={() => router.push('/dashboard')} style={{ background: "none", border: "none", color: 'rgba(255,255,255,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
           <Home size={22} />
           <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase' }}>{isAura ? "HOME" : "Nexus"}</span>
         </button>
-        <button onClick={() => router.push('/marks')} style={{ background: "none", border: "none", color: 'rgba(255,255,255,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+        <button onClick={() => router.push('/marks')} style={{ background: "none", border: "none", color: 'rgba(255,255,255,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
           <Award size={22} />
           <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase' }}>{isAura ? "MARK" : "Marks"}</span>
         </button>
-        <button onClick={() => router.push('/attendance')} style={{ background: "none", border: "none", color: 'rgba(255,255,255,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+        <button onClick={() => router.push('/attendance')} style={{ background: "none", border: "none", color: 'rgba(255,255,255,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
           <Activity size={22} />
           <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase' }}>{isAura ? "ATTND" : "Sync"}</span>
         </button>
-        <button onClick={() => router.push('/app-tools')} style={{ background: "none", border: "none", color: isAura ? "#FF75C3" : THEME.accentCyan, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-          <MoreHorizontal size={22} />
+        <button onClick={() => router.push('/app-tools')} style={{ background: "none", border: "none", color: isAura ? AURA_COLORS.primary : THEME.accentCyan, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
+          <MoreHorizontal size={22} strokeWidth={isAura ? 2.5 : 2} />
           <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase' }}>MORE</span>
         </button>
       </nav>
