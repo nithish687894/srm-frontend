@@ -18,12 +18,13 @@ const AURA_COLORS = {
 
 export default function AuraDashboard({ 
   data, avgAtt, avgMarks, firstName, nextClass, 
-  onShowStudentInfo, broadcast, renderAcademicIntegrityHub
+  onShowStudentInfo, broadcast, renderAcademicIntegrityHub,
+  upcomingEvents
 }: any) {
   const router = useRouter();
 
   return (
-    <div style={{ background: AURA_COLORS.bg, minHeight: "100vh", color: AURA_COLORS.text, fontFamily: "'Plus Jakarta Sans', sans-serif", overflow: 'hidden' }}>
+    <div style={{ background: AURA_COLORS.bg, height: "100vh", display: "flex", flexDirection: "column", color: AURA_COLORS.text, fontFamily: "'Plus Jakarta Sans', sans-serif", overflow: 'hidden' }}>
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
         
@@ -65,7 +66,7 @@ export default function AuraDashboard({
       <div className="aura-blob" style={{ background: AURA_COLORS.secondary, bottom: '-200px', right: '-100px', animationDelay: '-5s' }} />
       <div className="aura-blob" style={{ background: AURA_COLORS.accent, top: '40%', right: '-300px', animationDelay: '-10s' }} />
 
-      <main style={{ padding: "80px 24px 140px", position: 'relative', zIndex: 1 }}>
+      <main style={{ flex: 1, overflowY: "auto", WebkitOverflowScrolling: "touch", padding: "80px 24px 140px", position: 'relative', zIndex: 1 }}>
         
         {/* Aesthetic Greeting Section */}
         <div style={{ marginBottom: "50px", textAlign: 'center' }}>
@@ -187,29 +188,50 @@ export default function AuraDashboard({
            <div style={{ 
               background: 'rgba(255,255,255,0.02)', 
               borderRadius: '28px', 
-              padding: '40px 24px', 
+              padding: upcomingEvents?.length > 0 ? '24px' : '40px 24px', 
               border: '1px solid rgba(255,255,255,0.05)',
-              textAlign: 'center',
+              textAlign: upcomingEvents?.length > 0 ? 'left' : 'center',
               position: 'relative',
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'center',
+              alignItems: upcomingEvents?.length > 0 ? 'stretch' : 'center',
               gap: '12px'
            }}>
-              <div className="floating" style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(148, 255, 216, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(148, 255, 216, 0.2)' }}>
-                 <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: AURA_COLORS.accent, boxShadow: `0 0 15px ${AURA_COLORS.accent}`, animation: 'pulse 2s infinite' }} />
-              </div>
-              <div>
-                 <div style={{ fontSize: '10px', fontWeight: 900, color: '#fff', letterSpacing: '0.2em', textTransform: 'uppercase' }}>All Systems Clear</div>
-                 <div style={{ fontSize: '11px', fontWeight: 700, color: AURA_COLORS.sub, marginTop: '4px' }}>No immediate academic threats detected.</div>
-              </div>
+              {upcomingEvents?.length > 0 ? (
+                 upcomingEvents.map((event: any, idx: number) => (
+                    <div key={idx} style={{ 
+                       display: 'flex', alignItems: 'center', gap: '16px', 
+                       padding: '16px', background: 'rgba(255,255,255,0.03)', 
+                       borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' 
+                    }}>
+                       <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(255,255,255,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                          <span style={{ fontSize: '12px', fontWeight: 900, color: '#fff' }}>{event.dateNum}</span>
+                          <span style={{ fontSize: '7px', fontWeight: 900, color: AURA_COLORS.sub }}>{event.monthLabel.split(' ')[0].toUpperCase()}</span>
+                       </div>
+                       <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: '13px', fontWeight: 800, color: '#fff' }}>{event.event}</div>
+                          <div style={{ fontSize: '9px', fontWeight: 700, color: AURA_COLORS.sub, marginTop: '2px' }}>{event.weekdayLabel} • SYSTEM_ALERT</div>
+                       </div>
+                    </div>
+                 ))
+              ) : (
+                 <>
+                    <div className="floating" style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(148, 255, 216, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(148, 255, 216, 0.2)' }}>
+                       <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: AURA_COLORS.accent, boxShadow: `0 0 15px ${AURA_COLORS.accent}`, animation: 'pulse 2s infinite' }} />
+                    </div>
+                    <div>
+                       <div style={{ fontSize: '10px', fontWeight: 900, color: '#fff', letterSpacing: '0.2em', textTransform: 'uppercase' }}>All Systems Clear</div>
+                       <div style={{ fontSize: '11px', fontWeight: 700, color: AURA_COLORS.sub, marginTop: '4px' }}>No immediate academic threats detected.</div>
+                    </div>
+                 </>
+              )}
            </div>
         </section>
 
       </main>
 
-      {/* Aura Bottom Nav - FIXED OUTSIDE MAIN */}
-      <nav style={{ position: "fixed", bottom: "0", left: "0", right: "0", height: "calc(80px + env(safe-area-inset-bottom))", paddingBottom: "env(safe-area-inset-bottom)", background: "rgba(5,5,8,0.85)", backdropFilter: "blur(30px)", WebkitBackdropFilter: "blur(30px)", borderTop: `1px solid rgba(255,255,255,0.08)`, display: "flex", alignItems: "center", justifyContent: "space-around", zIndex: 10000 }}>
+      {/* Aura Bottom Nav - FIXED */}
+      <nav style={{ flexShrink: 0, height: "calc(80px + env(safe-area-inset-bottom))", paddingBottom: "env(safe-area-inset-bottom)", background: "rgba(5,5,8,0.85)", backdropFilter: "blur(30px)", WebkitBackdropFilter: "blur(30px)", borderTop: `1px solid rgba(255,255,255,0.08)`, display: "flex", alignItems: "center", justifyContent: "space-around", zIndex: 10000 }}>
         <button onClick={() => router.push('/dashboard')} style={{ background: "none", border: "none", color: AURA_COLORS.primary, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
           <Home size={22} strokeWidth={2.5} />
           <span style={{ fontSize: '9px', fontWeight: 900 }}>HOME</span>

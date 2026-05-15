@@ -89,7 +89,7 @@ export default function CalendarPage() {
       };
 
   return (
-    <div className="page-root" onClick={() => setSelectedHoliday(null)} style={{ background: isAura ? '#050508' : '', overflow: 'hidden' }}>
+    <div className="page-root" onClick={() => setSelectedHoliday(null)} style={{ background: isAura ? '#050508' : '', height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
       <style dangerouslySetInnerHTML={{ __html: `
         .aura-blob {
           position: fixed; width: 600px; height: 600px;
@@ -127,7 +127,7 @@ export default function CalendarPage() {
 
       {!isAura && <Sidebar />}
       
-      <main className={isAura ? "" : "page-main"}>
+      <main className={isAura ? "" : "page-main"} style={isAura ? { flex: 1, overflowY: 'auto', WebkitOverflowScrolling: 'touch' } : {}}>
         <div className={isAura ? "" : "page-content"} style={{ padding: isAura ? "60px 24px 140px" : "0 24px 140px", position: "relative" }}>
           
           {isAura ? (
@@ -465,7 +465,7 @@ export default function CalendarPage() {
       {isAura && (
         <>
           {/* Aura Bottom Nav - FIXED */}
-          <nav style={{ position: "fixed", bottom: "0", left: "0", right: "0", height: "calc(80px + env(safe-area-inset-bottom))", paddingBottom: "env(safe-area-inset-bottom)", background: "rgba(5,5,8,0.85)", backdropFilter: "blur(30px)", WebkitBackdropFilter: "blur(30px)", borderTop: `1px solid rgba(255,255,255,0.08)`, display: "flex", alignItems: "center", justifyContent: "space-around", zIndex: 10000 }}>
+          <nav style={{ flexShrink: 0, height: "calc(80px + env(safe-area-inset-bottom))", paddingBottom: "env(safe-area-inset-bottom)", background: "rgba(5,5,8,0.85)", backdropFilter: "blur(30px)", WebkitBackdropFilter: "blur(30px)", borderTop: `1px solid rgba(255,255,255,0.08)`, display: "flex", alignItems: "center", justifyContent: "space-around", zIndex: 10000 }}>
             <button onClick={() => router.push('/dashboard')} style={{ background: "none", border: "none", color: isAura ? (isCosmos ? "#7E88B6" : "#888") : "#888", display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
               <Home size={22} />
               <span style={{ fontSize: '9px', fontWeight: 900 }}>HOME</span>

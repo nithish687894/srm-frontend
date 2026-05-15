@@ -317,10 +317,25 @@ export default function DashboardPage() {
   const firstName = data?.profile?.["Name"]?.split(" ")[0] || "Student";
   const initials = firstName.slice(0, 2).toUpperCase();
 
-  const { byDate } = useMemo(() => {
-    if (!calData) return { byDate: new Map() };
-    try { return buildCalendarIndex(calData); } catch { return { byDate: new Map() }; }
+  const { months, byDate } = useMemo(() => {
+    if (!calData) return { months: { ODD: [], EVEN: [] }, byDate: new Map() };
+    try { return buildCalendarIndex(calData); } catch { return { months: { ODD: [], EVEN: [] }, byDate: new Map() }; }
   }, [calData]);
+
+  const upcomingEvents = useMemo(() => {
+    const events: any[] = [];
+    const sortedDays = Array.from(byDate.values()).sort((a: any, b: any) => a.isoDate.localeCompare(b.isoDate));
+    const now = new Date();
+    const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+    
+    for (const d of sortedDays) {
+      if (d.isoDate >= todayStr && d.event && d.event !== "-") {
+        events.push(d);
+        if (events.length >= 3) break;
+      }
+    }
+    return events;
+  }, [byDate]);
 
   const targetDate = useMemo(() => {
     const d = new Date();
@@ -508,6 +523,7 @@ export default function DashboardPage() {
         data={data} avgAtt={avgAtt} avgMarks={avgMarks} firstName={firstName} 
         nextClass={nextClass} onShowStudentInfo={() => setShowStudentInfo(true)}
         broadcast={broadcast} renderAcademicIntegrityHub={renderAcademicIntegrityHub}
+        upcomingEvents={upcomingEvents}
       />
       <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => {}} netId="" />
       {renderStudentInfoModal()}
