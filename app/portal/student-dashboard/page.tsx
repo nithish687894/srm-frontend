@@ -51,6 +51,7 @@ const IdentityTile = ({ icon: Icon, label, value, delay }: { icon: any; label: s
 /* ── Page ────────────────────────────────────────────────────────────────────── */
 export default function StudentDashboardPage() {
   const router = useRouter();
+  const [activeNav, setActiveNav] = useState('home');
   const [copied, setCopied] = useState(false);
   const [fetchError, setFetchError] = useState(false);
   const { studentPortalData, setStudentPortalData, setAcademicData } = useAuthStore();
@@ -211,24 +212,26 @@ export default function StudentDashboardPage() {
 
       {/* ── NAV DOCK ────────────────────────────────────────────────────────── */}
       <nav style={{ position: "absolute", bottom: "24px", left: "20px", right: "20px", height: "72px", background: "rgba(15,15,15,0.85)", backdropFilter: "blur(20px)", borderRadius: "24px", border: "1px solid rgba(255,255,255,0.08)", display: "flex", justifyContent: "space-around", alignItems: "center", padding: "0 10px", boxShadow: "0 20px 40px rgba(0,0,0,0.4)", zIndex: 100 }}>
-        {[
-          { icon: Home, label: "Home", href: "/portal/student-dashboard", active: true },
-          { icon: Award, label: "Marks", href: "/portal/grade-mark-credit" },
-          { icon: CheckCircle, label: "Attnd", href: "/dashboard" },
-          { icon: Calendar, label: "Time", href: "/timetable" },
-          { icon: MoreHorizontal, label: "More", href: "/app-tools" },
-        ].map(({ icon: NavIcon, label, href, active }) => (
-          <button
-            key={label}
-            onClick={() => router.push(href)}
-            className={active ? "nav-active" : ""}
-            aria-label={label}
-            style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "4px", background: "none", border: "none", color: active ? "#00d4ff" : "rgba(255,255,255,0.3)", cursor: "pointer" }}
-          >
-            <NavIcon size={22} strokeWidth={active ? 2.5 : 2} />
-            <span style={{ fontSize: "8px", fontWeight: 800, textTransform: "uppercase" }}>{label}</span>
-          </button>
-        ))}
+        <button onClick={() => { setActiveNav('home'); router.push('/portal/student-dashboard'); }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: activeNav === 'home' ? '#00d4ff' : 'rgba(255,255,255,0.3)', cursor: 'pointer' }} className={activeNav === 'home' ? 'nav-active' : ''}>
+          <Home size={22} strokeWidth={activeNav === 'home' ? 2.5 : 2} />
+          <span style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase' }}>Home</span>
+        </button>
+        <button onClick={() => { setActiveNav('marks'); router.push('/portal/grade-mark-credit'); }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: activeNav === 'marks' ? '#00d4ff' : 'rgba(255,255,255,0.3)', cursor: 'pointer' }} className={activeNav === 'marks' ? 'nav-active' : ''}>
+          <Award size={22} strokeWidth={activeNav === 'marks' ? 2.5 : 2} />
+          <span style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase' }}>Marks</span>
+        </button>
+        <button onClick={() => { setActiveNav('attnd'); router.push('/dashboard'); }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: activeNav === 'attnd' ? '#00d4ff' : 'rgba(255,255,255,0.3)', cursor: 'pointer' }} className={activeNav === 'attnd' ? 'nav-active' : ''}>
+          <CheckCircle size={22} strokeWidth={activeNav === 'attnd' ? 2.5 : 2} />
+          <span style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase' }}>Attnd</span>
+        </button>
+        <button onClick={() => { setActiveNav('time'); router.push('/timetable'); }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: activeNav === 'time' ? '#00d4ff' : 'rgba(255,255,255,0.3)', cursor: 'pointer' }} className={activeNav === 'time' ? 'nav-active' : ''}>
+          <Calendar size={22} strokeWidth={activeNav === 'time' ? 2.5 : 2} />
+          <span style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase' }}>Time</span>
+        </button>
+        <button onClick={() => setActiveNav('more')} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: activeNav === 'more' ? '#00d4ff' : 'rgba(255,255,255,0.3)', cursor: 'pointer' }} className={activeNav === 'more' ? 'nav-active' : ''}>
+          <MoreHorizontal size={22} strokeWidth={activeNav === 'more' ? 2.5 : 2} />
+          <span style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase' }}>More</span>
+        </button>
       </nav>
     </div>
   );
