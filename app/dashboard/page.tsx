@@ -12,8 +12,13 @@ import { extractBatch } from "@/lib/utils";
 import PortalSyncModal from "@/components/PortalSyncModal";
 import StudentPortalPrompt from "@/components/StudentPortalPrompt";
 import { ShieldCheck } from "lucide-react";
+import dynamic from "next/dynamic";
 import HackerDashboard from "@/components/hacker-os/HackerDashboard";
 import AuraDashboard from "@/components/aura-theme/AuraDashboard";
+
+// Dynamic imports for performance optimization
+const MatrixDashboard = dynamic(() => import("@/components/MatrixDashboard"), { ssr: false });
+const CosmosDashboard = dynamic(() => import("@/components/CosmosDashboard"), { ssr: false });
 
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
 function parseStart(t: string) { const m = t.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
@@ -525,7 +530,8 @@ export default function DashboardPage() {
     firstName, dayOrder, isHoliday, dayOffset, setDayOffset,
     onShowStudentInfo: () => setShowStudentInfo(true),
     broadcast, setIsSyncModalOpen, renderAcademicIntegrityHub,
-    userBatch: batch, totalHours, presentHours, absentHours, nowMin
+    userBatch: batch, totalHours, presentHours, absentHours, nowMin,
+    fmtTimeOnly, fmt12, parseStart, parseEnd, isNowIn, BATCH_PERIODS, BroadcastBanner
   };
 
   if (theme === "cosmos") return (
@@ -559,6 +565,7 @@ export default function DashboardPage() {
   );
 }
 
+
 function BroadcastBanner({ broadcast }: any) {
   if (!broadcast || !broadcast.active || !broadcast.message) return null;
   const colors: Record<string, { bg: string, text: string, border: string }> = {
@@ -580,332 +587,6 @@ function BroadcastBanner({ broadcast }: any) {
         <div style={{ fontSize: "10px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em", color: theme.text, marginBottom: "4px" }}>System Announcement</div>
         <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary)", lineHeight: 1.4 }}>{broadcast.message}</div>
       </div>
-    </div>
-  );
-}
-
-
-function MatrixDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, initials, firstName, dayOrder, isHoliday, dayOffset, setDayOffset, onShowStudentInfo, broadcast, nowMin, setIsSyncModalOpen, renderAcademicIntegrityHub, userBatch, totalHours, presentHours, absentHours }: any) {
-  const PERIODS = BATCH_PERIODS[userBatch as keyof typeof BATCH_PERIODS] || BATCH_PERIODS[1];
-  const router = useRouter();
-  const profile = data?.profile || {};
-  const regNo = profile["Registration Number"] || "UNKNOWN";
-  const batchDisplay = profile["Combo / Batch"] || profile["Batch"] || (userBatch ? `Batch ${userBatch}` : "N/A");
-
-  const firstStart = targetClasses[0] ? fmtTimeOnly(targetClasses[0].startTime) : "";
-  const lastEnd = targetClasses[targetClasses.length - 1] ? fmtTimeOnly(targetClasses[targetClasses.length - 1].endTime) : "";
-
-  // Find best attendance
-  const bestAtt = data?.attendance?.length ? [...data.attendance].sort((a: any, b: any) => parseFloat(b["Attn %"]) - parseFloat(a["Attn %"]))[0] : null;
-
-  return (
-    <div style={{ background: "#000000", height: "100vh", display: "flex", flexDirection: "column", color: "#ffffff", fontFamily: "'Inter', sans-serif", overflow: "hidden" }}>
-      <Sidebar />
-      <main style={{ flex: 1, overflowY: "auto", padding: "16px 20px 20px", WebkitOverflowScrolling: "touch" }}>
-
-        {/* System Status / Profile Intro */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "32px", position: "relative", zIndex: 10 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%" }}>
-            <div>
-              <div style={{ fontSize: "10px", color: "#a8c200", letterSpacing: "0.2em", fontWeight: 900, marginBottom: "4px" }}>SYSTEM INITIALIZED</div>
-              <div style={{ fontSize: "36px", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 1 }}>{firstName.toUpperCase()}</div>
-              <div style={{ fontSize: "11px", color: "#666", fontWeight: 800, marginTop: "6px" }}>ID: {regNo} • {batchDisplay}</div>
-            </div>
-            <div>
-              <div 
-                onClick={onShowStudentInfo}
-                style={{ width: "48px", height: "48px", borderRadius: "14px", background: "#1c1c1c", border: "1px solid #333", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px", fontWeight: 900, cursor: "pointer" }}>
-                 {initials}
-              </div>
-              <button 
-                onClick={() => setIsSyncModalOpen(true)}
-                style={{ marginTop: "8px", background: "rgba(168, 194, 0, 0.1)", border: "1px solid rgba(168, 194, 0, 0.2)", color: "#a8c200", padding: "4px 10px", borderRadius: "8px", fontSize: "9px", fontWeight: 900, textTransform: "uppercase" }}
-              >
-                Unlock History
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Hero Performance Metrics */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "12px", marginBottom: "32px" }}>
-          <motion.div whileTap={{ scale: 0.94 }} onClick={() => router.push("/attendance")} style={{ background: "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", cursor: "pointer" }}>
-            <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Attnd</div>
-            <div style={{ fontSize: "24px", fontWeight: 900, color: "#a8c200" }}>{avgAtt}%</div>
-          </motion.div>
-          <motion.div whileTap={{ scale: 0.94 }} onClick={() => router.push("/marks")} style={{ background: "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", cursor: "pointer" }}>
-            <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Marks</div>
-            <div style={{ fontSize: "24px", fontWeight: 900 }}>{avgMarks}%</div>
-          </motion.div>
-          <motion.div whileTap={{ scale: 0.94 }} onClick={() => router.push("/attendance?risk=1")} style={{ background: riskCount > 0 ? "#221111" : "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", border: riskCount > 0 ? "1px solid #ff3b3b" : "none", cursor: "pointer" }}>
-            <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Risk</div>
-            <div style={{ fontSize: "24px", fontWeight: 900, color: riskCount > 0 ? "#ff3b3b" : "#fff" }}>{riskCount}</div>
-          </motion.div>
-        </div>
-
-        {/* Highlights / Best Section */}
-        {bestAtt && (
-          <div style={{ background: "#1c1c1c", borderRadius: "28px", padding: "24px", marginBottom: "40px", border: "1px solid #333" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-              <div style={{ fontSize: "10px", color: "#a8c200", letterSpacing: "0.15em", fontWeight: 900 }}>ACADEMIC PEAK</div>
-              <div style={{ background: "#a8c200", color: "#000", fontSize: "10px", fontWeight: 900, padding: "4px 10px", borderRadius: "8px" }}>TOP TIER</div>
-            </div>
-            <div style={{ fontSize: "22px", fontWeight: 900, lineHeight: 1.2, marginBottom: "8px" }}>{bestAtt["Course Title"]}</div>
-            <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
-              <div style={{ fontSize: "32px", fontWeight: 900, color: "#a8c200" }}>{bestAtt["Attn %"]}%</div>
-              <div style={{ fontSize: "12px", color: "#666", fontWeight: 800 }}>ATTENDANCE RECORD</div>
-            </div>
-          </div>
-        )}
-
-        {/* New: Unified History Card */}
-        {renderAcademicIntegrityHub("matrix")}
-
-        {/* Header */}
-        <BroadcastBanner broadcast={broadcast} />
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px" }}>
-          <div style={{ display: "flex", gap: "16px" }}>
-            <button onClick={() => setDayOffset((o: any) => o - 1)} style={{ background: "#1c1c1c", border: "1px solid #333", color: "#fff", width: "44px", height: "44px", borderRadius: "14px", fontSize: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>‹</button>
-            <button onClick={() => setDayOffset((o: any) => o + 1)} style={{ background: "#1c1c1c", border: "1px solid #333", color: "#fff", width: "44px", height: "44px", borderRadius: "14px", fontSize: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>›</button>
-          </div>
-          <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: "10px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800 }}>{dayOffset === 0 ? "TODAY" : "SCHEDULE"}</div>
-            <div style={{ fontSize: "14px", fontWeight: 700 }}>Day Order {dayOrder || "—"}</div>
-          </div>
-        </div>
-
-        {/* Timeline Classes */}
-        <div style={{ position: "relative", paddingLeft: "12px" }}>
-          <div style={{ position: "absolute", left: "0", top: "10px", bottom: "10px", width: "1px", background: "#333" }} />
-
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            {(() => {
-              if (isHoliday) return <div style={{ padding: "40px 0", color: "#444", fontWeight: 700, textAlign: "center" }}>No classes - Holiday</div>;
-              
-              return PERIODS.map((p, pi) => {
-                const pStart = parseStart(p.start);
-                const pEnd = parseEnd(p.end);
-                const cls = targetClasses.find((c: any) => {
-                  const cs = parseStart(c.startTime);
-                  const ce = parseEnd(c.endTime);
-                  return cs < pEnd && ce > pStart;
-                });
-                
-                const isActive = cls ? isNowIn(cls.startTime, cls.endTime) : (nowMin >= pStart && nowMin < pEnd);
-
-                return (
-                  <div key={pi} style={{ position: "relative", paddingLeft: "32px", marginBottom: "8px" }}>
-                    {/* Period Label */}
-                    <div style={{ 
-                      position: "absolute", left: "-6px", top: "50%", transform: "translateY(-50%)", 
-                      width: "12px", height: "12px", borderRadius: "50%", 
-                      background: isActive ? "#a8c200" : "#222", 
-                      border: "2px solid #000", zIndex: 5,
-                      boxShadow: isActive ? "0 0 10px #a8c200" : "none"
-                    }} />
-                    
-                    <div style={{ 
-                      position: "absolute", left: "-32px", top: "50%", transform: "translateY(-50%)", 
-                      fontSize: "10px", fontWeight: 900, color: isActive ? "#a8c200" : "#444",
-                      width: "20px", textAlign: "right"
-                    }}>
-                      {p.id}
-                    </div>
-
-                    {!cls ? (
-                      /* Free Period */
-                      <div style={{ padding: "12px 0" }}>
-                        <div style={{ 
-                          height: "1px", width: "100%", borderTop: "2px dashed #333", 
-                          opacity: isActive ? 1 : 0.4, borderColor: isActive ? "#a8c200" : "#333" 
-                        }} />
-                      </div>
-                    ) : (
-                      /* Class Card */
-                      <motion.div 
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => router.push("/timetable")}
-                        style={{ 
-                          background: "#121212", borderRadius: "18px", padding: "16px 20px", 
-                          border: isActive ? "1px solid #a8c200" : "1px solid #222",
-                          cursor: "pointer", position: "relative", overflow: "hidden"
-                        }}>
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
-                          <div style={{ fontSize: "10px", fontWeight: 800, color: "#666", textTransform: "uppercase" }}>
-                            {p.start} — {p.end}
-                          </div>
-                          <div style={{ fontSize: "10px", fontWeight: 900, color: isActive ? "#a8c200" : "#444" }}>
-                            PERIOD {p.id}
-                          </div>
-                        </div>
-                        <div style={{ fontSize: "18px", fontWeight: 900, color: "#fff", textTransform: "capitalize", letterSpacing: "-0.01em", marginBottom: "2px" }}>
-                          {cls.courseTitle.toLowerCase()}
-                        </div>
-                        <div style={{ display: "flex", gap: "12px", fontSize: "10px", color: "#666", fontWeight: 800 }}>
-                          <span>{cls.courseCode}</span>
-                          <span>•</span>
-                          <span>{cls.roomNo || "TBA"}</span>
-                        </div>
-                      </motion.div>
-                    )}
-                  </div>
-                );
-              });
-            })()}
-          </div>
-        </div>
-
-        <div className="watermark" style={{ bottom: "140px" }}>Dashboard</div>
-        <div style={{ height: "40px" }} />
-      </main>
-    </div>
-  );
-}
-
-function CosmosDashboard({ data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, recentTop5, initials, firstName, dayOrder, isHoliday, onShowStudentInfo, broadcast, setIsSyncModalOpen, renderAcademicIntegrityHub, userBatch, totalHours, presentHours, absentHours }: any) {
-  const router = useRouter();
-  const marksPct = parseFloat(avgMarks as string) || 0;
-  const profile = data?.profile || {};
-  const regNo = profile["Registration Number"] || "";
-  const batchDisplay = profile["Combo / Batch"] || profile["Batch"] || (userBatch ? `Batch ${userBatch}` : "");
-
-  return (
-    <div style={{ background: "transparent", height: "100vh", display: "flex", flexDirection: "column", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF", overflow: "hidden" }}>
-      <Sidebar />
-      <main style={{ flex: 1, overflowY: "auto", padding: "16px", WebkitOverflowScrolling: "touch" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "18px", gap: "12px" }}>
-          <div>
-            <div
-              style={{
-                fontSize: "24px",
-                fontWeight: 800,
-                lineHeight: 1.1,
-                letterSpacing: "-0.02em",
-                background: "linear-gradient(90deg, #eef2ff 0%, #a5b4fc 50%, #fbcfe8 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              Welcome back, {firstName}
-            </div>
-            <div style={{ fontSize: "12px", color: "var(--text-secondary)", marginTop: "4px" }}>
-              Let&apos;s continue where you left off
-            </div>
-            <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "6px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>
-              {isHoliday ? "Today: Holiday" : `Today: Day Order ${dayOrder || "—"}`}
-            </div>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "8px" }}>
-            <div 
-              onClick={onShowStudentInfo}
-              style={{ width: "40px", height: "40px", borderRadius: "12px", background: "linear-gradient(135deg, #3055d7, #d946ef)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, border: "1px solid rgba(255,255,255,0.2)", boxShadow: "0 4px 15px rgba(217, 70, 239, 0.28)", cursor: "pointer" }}>
-              {initials}
-            </div>
-            <button 
-              onClick={() => setIsSyncModalOpen(true)}
-              style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", padding: "4px 8px", borderRadius: "8px", fontSize: "9px", fontWeight: 800, textTransform: "uppercase" }}
-            >
-              Unlock More
-            </button>
-          </div>
-        </div>
-
-        <div className="min-card" style={{ padding: "10px 14px", marginBottom: "20px", display: "flex", alignItems: "center", gap: "12px", borderRadius: "999px", background: "rgba(13, 20, 46, 0.6)" }}>
-          <div style={{ flex: 1, display: "flex", alignItems: "center", gap: "8px", color: "var(--text-secondary)", fontSize: "12px" }}>
-            <span style={{ opacity: 0.8 }}>🔎</span>
-            Search courses, assessments...
-          </div>
-          <div style={{ background: "linear-gradient(90deg, #3b82f6, #8b5cf6)", borderRadius: "999px", padding: "6px 14px", fontSize: "10px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.06em", color: "#fff", boxShadow: "0 2px 10px rgba(139, 92, 246, 0.35)" }}>
-            AI Tutor
-          </div>
-        </div>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(132px, 1fr))", gap: "10px", marginBottom: "20px" }}>
-          {[
-            { label: "Enrolled", value: totalCourses, sub: "Courses", tone: "#00f0ff", shadow: "rgba(0, 240, 255, 0.16)" },
-            { label: "Attendance", value: `${avgAtt}%`, sub: "Health", tone: "#f59e0b", shadow: "rgba(245, 158, 11, 0.16)", href: "/attendance" },
-            { label: "Academics", value: `${avgMarks}%`, sub: "Average", tone: "#00E676", shadow: "rgba(0, 230, 118, 0.16)", href: "/marks" },
-            { label: "At Risk", value: riskCount, sub: "Focus", tone: "#d946ef", shadow: "rgba(217, 70, 239, 0.18)", href: "/attendance?risk=1" },
-          ].map((card, i) => (
-            <div key={i} className="min-card" onClick={card.href ? () => router.push(card.href) : undefined} style={{ padding: "12px", borderRadius: "16px", borderTop: `1px solid ${card.tone}`, boxShadow: `0 8px 18px ${card.shadow}`, cursor: card.href ? "pointer" : "default" }}>
-              <div style={{ fontSize: "10px", color: "var(--text-secondary)", marginBottom: "6px", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700 }}>{card.label}</div>
-              <div style={{ fontSize: "24px", fontWeight: 800, lineHeight: 1.1, color: "#fff" }}>{card.value}</div>
-              <div style={{ fontSize: "10px", color: card.tone, marginTop: "6px", fontWeight: 700 }}>{card.sub}</div>
-            </div>
-          ))}
-        </div>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "12px", marginBottom: "16px" }}>
-          <div className="min-card" style={{ padding: "18px", borderRadius: "20px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "14px" }}>
-              <div style={{ fontSize: "18px", fontWeight: 800, lineHeight: 1.1 }}>Continue Learning</div>
-              <button onClick={() => router.push("/marks")} style={{ background: "none", border: "none", color: "#00f0ff", cursor: "pointer", fontWeight: 800, fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.05em" }}>View All</button>
-            </div>
-            <div style={{ background: "linear-gradient(145deg, rgba(59,130,246,0.15), rgba(124,58,237,0.12))", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "16px", padding: "16px" }}>
-              <div style={{ fontSize: "16px", fontWeight: 800, marginBottom: "6px", color: "#fff" }}>{nextClass?.courseTitle || "No upcoming class"}</div>
-              <div style={{ fontSize: "11px", color: "var(--text-secondary)", fontWeight: 600 }}>{nextClass?.courseCode || "Schedule is clear for now"}</div>
-              <div style={{ marginTop: "14px", height: "6px", borderRadius: "999px", background: "rgba(255,255,255,0.1)", overflow: "hidden", boxShadow: "inset 0 1px 2px rgba(0,0,0,0.5)" }}>
-                <div style={{ width: "72%", height: "100%", borderRadius: "999px", background: "linear-gradient(90deg, #00f0ff, #d946ef)", boxShadow: "0 0 10px rgba(217, 70, 239, 0.4)" }} />
-              </div>
-            </div>
-          </div>
-          <div style={{ marginTop: "12px" }}>
-            {renderAcademicIntegrityHub("default")}
-          </div>
-
-          <div className="min-card" style={{ padding: "18px", borderRadius: "20px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "14px" }}>
-              <div style={{ fontSize: "18px", fontWeight: 800, lineHeight: 1.1 }}>Today&apos;s Schedule</div>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                <span style={{ fontSize: "10px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--text-secondary)" }}>
-                  {isHoliday ? "Holiday" : `Day ${dayOrder || "—"}`}
-                </span>
-                <button onClick={() => router.push("/timetable")} style={{ background: "none", border: "none", color: "#00f0ff", cursor: "pointer", fontWeight: 800, fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Full Calendar</button>
-              </div>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              {targetClasses.length === 0 && (
-                <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>No classes planned.</div>
-              )}
-              {targetClasses.slice(0, 3).map((cls: any, i: number) => (
-                <div key={i} style={{ display: "grid", gridTemplateColumns: "56px 1fr", gap: "10px", background: "rgba(13, 20, 46, 0.6)", border: "1px solid rgba(255,255,255,0.05)", borderRadius: "14px", padding: "10px 12px", alignItems: "center" }}>
-                  <div style={{ fontSize: "10px", color: "var(--accent-secondary)", fontWeight: 800, lineHeight: 1.2 }}>{fmt12(cls.startTime).replace(" ", "\n")}</div>
-                  <div>
-                    <div style={{ fontSize: "12px", fontWeight: 700, color: "#fff", lineHeight: 1.2 }}>{cls.courseTitle}</div>
-                    <div style={{ fontSize: "10px", color: "var(--text-muted)", marginTop: "3px", fontWeight: 600 }}>{cls.roomNo || "TBA"}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
-          {[
-            { key: "marks", label: "Marks", value: `${avgMarks}%`, pct: marksPct, color: "#60A5FA", onClick: () => router.push("/marks") },
-            { key: "risk", label: "Risk", value: `${riskCount}`, pct: Math.min((riskCount / Math.max(totalCourses || 1, 1)) * 100, 100), color: "#EF4444", onClick: () => router.push("/attendance?risk=1") },
-            { key: "Recent", label: "Recent", value: `${recentTop5.length}`, pct: Math.min((recentTop5.length / 5) * 100, 100), color: "#8B5CF6" },
-          ].map((s) => {
-            const r = 18;
-            const c = 2 * Math.PI * r;
-            const offset = c * (1 - s.pct / 100);
-            return (
-              <div key={s.key} onClick={s.onClick} className="min-card" style={{ padding: "10px 8px", textAlign: "center", cursor: s.onClick ? "pointer" : "default", background: "rgba(255,255,255,0.03)" }}>
-                <svg width="50" height="50" viewBox="0 0 50 50" style={{ marginBottom: "6px" }}>
-                  <circle cx="25" cy="25" r={r} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="4" />
-                  <circle cx="25" cy="25" r={r} fill="none" stroke={s.color} strokeWidth="4" strokeLinecap="round" strokeDasharray={c} strokeDashoffset={offset} transform="rotate(-90 25 25)" />
-                </svg>
-                <div style={{ fontSize: "13px", fontWeight: 800, color: "#fff" }}>{s.value}</div>
-                <div style={{ fontSize: "9px", color: "var(--text-secondary)", marginTop: "3px", fontWeight: 700, textTransform: "uppercase" }}>{s.label}</div>
-              </div>
-            );
-          })}
-        </div>
-
-        <div style={{ fontSize: "10px", color: "var(--text-muted)", marginTop: "12px" }}>
-          {regNo} {batchDisplay ? `• ${batchDisplay}` : ""}
-        </div>
-      </main>
     </div>
   );
 }
