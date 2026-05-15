@@ -196,15 +196,15 @@ export default function AppToolsPage() {
       }}>
         <button onClick={() => router.push('/dashboard')} style={{ background: "none", border: "none", color: 'rgba(255,255,255,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
           <Home size={22} />
-          <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase' }}>{isAura ? "SPACE" : "Nexus"}</span>
+          <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase' }}>{isAura ? "HOME" : "Nexus"}</span>
         </button>
         <button onClick={() => router.push('/marks')} style={{ background: "none", border: "none", color: 'rgba(255,255,255,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
           <Award size={22} />
-          <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase' }}>{isAura ? "LOGS" : "Marks"}</span>
+          <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase' }}>{isAura ? "MARK" : "Marks"}</span>
         </button>
         <button onClick={() => router.push('/attendance')} style={{ background: "none", border: "none", color: 'rgba(255,255,255,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
           <Activity size={22} />
-          <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase' }}>{isAura ? "SYNC" : "Sync"}</span>
+          <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase' }}>{isAura ? "ATTND" : "Sync"}</span>
         </button>
         <button onClick={() => router.push('/app-tools')} style={{ background: "none", border: "none", color: isAura ? "#FF75C3" : THEME.accentCyan, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
           <MoreHorizontal size={22} />
