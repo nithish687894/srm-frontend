@@ -8,7 +8,7 @@ import {
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import { dataAPI } from "@/lib/api";
-import HackerMarks from "@/components/hacker-os/HackerMarks";
+import MatrixMarks from "@/components/hacker-os/HackerMarks";
 import AuraMarks from "@/components/aura-theme/AuraMarks";
 
 const THEME = {
@@ -61,9 +61,9 @@ export default function MarksPage() {
     try {
       const res = await dataAPI.getMarks();
       if (res && res.data) {
-         setAcademicData({ ...academicData, marks: res.data });
+         setAcademicData({ ...(academicData || {}), marks: res.data });
       } else if (Array.isArray(res)) {
-         setAcademicData({ ...academicData, marks: res });
+         setAcademicData({ ...(academicData || {}), marks: res });
       }
     } catch (e) { console.error(e); } finally { setTimeout(() => setIsSyncing(false), 800); }
   };
@@ -192,82 +192,6 @@ export default function MarksPage() {
         <button onClick={() => router.push('/app-tools')} style={{ background: "none", border: "none", color: 'rgba(255,255,255,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
           <MoreHorizontal size={22} />
           <span style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase' }}>More</span>
-        </button>
-      </nav>
-    </div>
-  );
-}
-
-function MatrixMarks({ marks, handleSync, isSyncing, router }: any) {
-  const MATRIX = {
-    bg: "#050705",
-    surface: "rgba(0, 59, 0, 0.05)",
-    border: "rgba(0, 255, 65, 0.1)",
-    glow: "#00ff41",
-    darkGlow: "#003b00",
-    text: "#00ff41",
-  };
-
-  const totalScored = marks.reduce((s:number, m:any) => s + (m.tests?.reduce((a:number, t:any) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
-  const totalMax = marks.reduce((s:number, m:any) => s + (m.tests?.reduce((a:number, t:any) => a + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0), 0);
-  const avgPct = totalMax > 0 ? (totalScored / totalMax) * 100 : 0;
-
-  return (
-    <div style={{ height: "100vh", width: "100vw", background: MATRIX.bg, color: MATRIX.text, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-      <header style={{ padding: "60px 24px 20px", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "space-between", background: 'rgba(5,7,5,0.9)', backdropFilter: 'blur(20px)', zIndex: 100, borderBottom: `1px solid ${MATRIX.border}` }}>
-        <button onClick={() => router.back()} style={{ width: "40px", height: "40px", borderRadius: "12px", background: "rgba(0,255,65,0.05)", border: `1px solid ${MATRIX.border}`, color: MATRIX.glow, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <ArrowLeft size={18} />
-        </button>
-        <div style={{ textAlign: "center" }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-            <Terminal size={14} />
-            <span style={{ fontSize: "10px", fontWeight: 900, color: MATRIX.glow, textTransform: "uppercase", letterSpacing: "0.4em", fontFamily: 'monospace' }}>MATRIX RECORDS</span>
-          </div>
-          <span style={{ fontSize: "9px", fontWeight: 800, color: "rgba(0,255,65,0.3)", textTransform: "uppercase", letterSpacing: "0.2em", display: 'block', marginTop: '4px' }}>ACCESS: GRANTED</span>
-        </div>
-        <button onClick={handleSync} style={{ width: "40px", height: "40px", borderRadius: "12px", background: "rgba(0,255,65,0.05)", border: `1px solid ${MATRIX.border}`, color: MATRIX.glow, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <RefreshCcw size={16} className={isSyncing ? "animate-spin" : ""} />
-        </button>
-      </header>
-
-      <main style={{ padding: "24px 20px", flex: 1, overflowY: "auto", WebkitOverflowScrolling: "touch" }}>
-         <div style={{ background: MATRIX.surface, border: `1px solid ${MATRIX.border}`, borderRadius: '24px', padding: '32px', textAlign: 'center', marginBottom: '32px', position: 'relative' }}>
-           <p style={{ fontSize: '9px', fontWeight: 900, color: 'rgba(0,255,65,0.4)', textTransform: 'uppercase', letterSpacing: '0.3em', marginBottom: '12px', fontFamily: 'monospace' }}>SYSTEM INTEGRITY</p>
-           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '8px' }}>
-              <h1 style={{ fontSize: '64px', fontWeight: 900, color: MATRIX.glow, margin: 0, textShadow: '0 0 20px rgba(0,255,65,0.5)', fontFamily: 'monospace' }}>{totalScored.toFixed(1)}</h1>
-              <span style={{ fontSize: '24px', fontWeight: 800, color: 'rgba(0,255,65,0.1)', fontFamily: 'monospace' }}>/{totalMax.toFixed(0)}</span>
-           </div>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-           {marks.map((m: any, i: number) => (
-             <div key={i} style={{ background: MATRIX.surface, border: `1px solid ${MATRIX.border}`, borderRadius: '20px', padding: '24px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
-                   <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: '9px', color: MATRIX.glow, background: 'rgba(0,255,65,0.08)', padding: '2px 8px', borderRadius: '4px', display: 'inline-block', marginBottom: '8px' }}>{m.courseCode || m.code}</div>
-                      <h3 style={{ fontSize: '15px', fontWeight: 800, color: '#fff', margin: 0, textTransform: 'uppercase' }}>{m.title}</h3>
-                   </div>
-                   <div style={{ fontSize: '24px', fontWeight: 900, color: MATRIX.glow }}>{(m.tests?.reduce((s:number, t:any)=>s+(parseFloat(t.score)||0), 0)).toFixed(1)}</div>
-                </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                   {m.tests?.map((t: any, j: number) => (
-                     <div key={j} style={{ background: 'rgba(0,255,65,0.03)', border: '1px solid rgba(0,255,65,0.08)', borderRadius: '8px', padding: '8px', minWidth: '60px' }}>
-                        <div style={{ fontSize: '8px', color: 'rgba(0,255,65,0.4)', textTransform: 'uppercase' }}>{t.test.split('/')[0]}</div>
-                        <div style={{ fontSize: '14px', fontWeight: 900, color: MATRIX.glow }}>{t.score}</div>
-                     </div>
-                   ))}
-                </div>
-             </div>
-           ))}
-        </div>
-      </main>
-      <nav style={{ position: "fixed", bottom: "0", left: "0", right: "0", height: "calc(72px + env(safe-area-inset-bottom))", paddingBottom: "env(safe-area-inset-bottom)", background: "rgba(5,7,5,0.98)", backdropFilter: "blur(24px)", borderTop: `1px solid ${MATRIX.border}`, display: "flex", alignItems: "center", justifyContent: "space-around", zIndex: 1000 }}>
-        <button onClick={() => router.push('/dashboard')} style={{ background: "none", border: "none", color: 'rgba(0,255,65,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-          <Home size={22} />
-          <span style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase', fontFamily: 'monospace' }}>Nexus</span>
-        </button>
-        <button onClick={() => router.push('/marks')} style={{ background: "none", border: "none", color: MATRIX.glow, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-          <Award size={22} />
-          <span style={{ fontSize: '8px', fontWeight: 900, textTransform: 'uppercase', fontFamily: 'monospace' }}>Marks</span>
         </button>
       </nav>
     </div>
