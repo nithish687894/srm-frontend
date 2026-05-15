@@ -49,7 +49,6 @@ const InfoRow = ({ icon: Icon, label, value, index }: any) => {
 
 export default function StudentDashboardPage() {
   const router = useRouter();
-  const [mounted, setMounted] = useState(false);
   const [activeNav, setActiveNav] = useState('home');
   const [isFetching, setIsFetching] = useState(false);
   const [fetchError, setFetchError] = useState(false);
@@ -57,8 +56,6 @@ export default function StudentDashboardPage() {
   const { studentPortalData, setStudentPortalData, setAcademicData } = useAuthStore();
 
   useEffect(() => { 
-    setMounted(true); 
-    
     // Check if we need to fetch data
     if (!studentPortalData?.profile) {
       handleFetch();
