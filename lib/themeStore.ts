@@ -11,7 +11,7 @@ interface ThemeStore {
 export const useThemeStore = create<ThemeStore>()(
   persist(
     (set) => ({
-      theme: "matrix",
+      theme: "aura",
       setTheme: (theme) => set({ theme }),
     }),
     {

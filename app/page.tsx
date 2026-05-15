@@ -302,9 +302,9 @@ export default function LoginPage() {
             >
               <div style={{
                 width: "80px", height: "80px", borderRadius: "20px",
-                background: loginPhase === "success" ? "#00E676" : "linear-gradient(135deg, #3b82f6, #8b5cf6)",
+                background: loginPhase === "success" ? "#FF75C3" : "linear-gradient(135deg, #FF75C3, #8F92FF)",
                 display: "flex", alignItems: "center", justifyContent: "center",
-                boxShadow: loginPhase === "success" ? "0 0 40px rgba(0, 230, 118, 0.4)" : "0 0 40px rgba(59, 130, 246, 0.4)",
+                boxShadow: loginPhase === "success" ? "0 0 40px rgba(255, 117, 195, 0.4)" : "0 0 40px rgba(255, 117, 195, 0.4)",
                 transition: "all 0.5s ease"
               }}>
                 {loginPhase === "success" ? (
@@ -320,7 +320,7 @@ export default function LoginPage() {
                   style={{
                     position: "absolute", inset: "-15px",
                     border: "2px solid rgba(255,255,255,0.1)",
-                    borderTopColor: "#3b82f6",
+                    borderTopColor: "#FF75C3",
                     borderRadius: "50%"
                   }}
                 />
@@ -354,7 +354,7 @@ export default function LoginPage() {
           >
             <div id="login" className="login-container">
               <div style={{ marginBottom: "20px", display: "flex", justifyContent: "center" }}>
-                <img src="/nexus-logo.png" alt="Logo" style={{ width: "64px", height: "64px", filter: "drop-shadow(0 0 15px rgba(59, 130, 246, 0.3))" }} />
+                <img src="/nexus-logo.png" alt="Logo" style={{ width: "64px", height: "64px", filter: "drop-shadow(0 0 15px rgba(255, 117, 195, 0.3))" }} />
               </div>
               <p style={{ textAlign: 'center', color: '#444', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '24px' }}>
                 Use your SRM NETID credentials
@@ -407,12 +407,12 @@ export default function LoginPage() {
                 </div>
 
                 <button type="submit" className="login-btn" disabled={loading} style={{
-                  background: loginPhase === "success" ? "#00E676" : (loading ? "#111" : "#fff"),
+                  background: loginPhase === "success" ? "#FF75C3" : (loading ? "#111" : "#fff"),
                   color: (loading || loginPhase === "success") ? "#fff" : "#000",
                   position: 'relative',
                   overflow: 'hidden',
                   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                  boxShadow: loginPhase === "success" ? "0 0 30px rgba(0, 230, 118, 0.4)" : "none",
+                  boxShadow: loginPhase === "success" ? "0 0 30px rgba(255, 117, 195, 0.4)" : "none",
                   border: loading ? "1px solid #333" : "none"
                 }}>
                   {loginPhase === "success" ? (

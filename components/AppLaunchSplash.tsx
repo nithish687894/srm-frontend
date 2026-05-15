@@ -97,7 +97,7 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
                 style={{
                   position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
                   width: "140vw", height: "140vw", borderRadius: "50%",
-                  background: "radial-gradient(circle, rgba(54, 115, 255, 0.15) 0%, transparent 70%)",
+                  background: "radial-gradient(circle, rgba(255, 117, 195, 0.15) 0%, transparent 70%)",
                   filter: "blur(80px)",
                 }}
               />
@@ -113,7 +113,7 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
                 alt="SRM NEXUS" 
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                style={{ width: "100px", height: "100px", filter: "drop-shadow(0 0 20px rgba(54, 115, 255, 0.4))", marginBottom: "40px" }} 
+                style={{ width: "100px", height: "100px", filter: "drop-shadow(0 0 20px rgba(255, 117, 195, 0.4))", marginBottom: "40px" }} 
               />
 
               <div style={{ textAlign: "center" }}>
