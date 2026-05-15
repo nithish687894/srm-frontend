@@ -19,11 +19,10 @@ const THEME = {
 /* ── Smart Data Extractor ────────────────────────────────────────────────── */
 
 const extract = (val: any) => {
-  if (!val) return "—";
+  if (!val) return null;
   if (typeof val === 'string') return val;
   if (typeof val === 'object') {
-    // If it's an object, try to find a common value key
-    return val.address || val.value || val.name || val.text || JSON.stringify(val).slice(0, 50);
+    return val.address || val.value || val.name || val.text || null;
   }
   return String(val);
 };
@@ -31,7 +30,7 @@ const extract = (val: any) => {
 const Parameter = ({ label, value, width = "50%" }: any) => (
   <div style={{ width, marginBottom: "20px" }}>
     <p style={{ fontSize: '9px', fontWeight: 800, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '6px' }}>{label}</p>
-    <p style={{ fontSize: '16px', fontWeight: 800, color: '#fff', margin: 0 }}>{extract(value)}</p>
+    <p style={{ fontSize: '16px', fontWeight: 800, color: '#fff', margin: 0 }}>{extract(value) || "—"}</p>
   </div>
 );
 
@@ -72,6 +71,16 @@ export default function StudentDashboardPage() {
   if (!mounted) return <div style={{ background: '#050505', height: '100vh' }} />;
 
   const profile = studentPortalData?.profile || {};
+  
+  // Try both nested and flattened paths for maximum compatibility
+  const personal = profile.personalDetails || {};
+  const address = profile.address || {};
+  const parent = profile.parentDetails || {};
+  const contact = profile.contact || {};
+
+  const getV = (key: string, subObj?: any) => {
+    return extract(subObj?.[key]) || extract(profile[key]);
+  };
 
   return (
     <div style={{ minHeight: "100vh", background: THEME.bg, color: "#fff", display: "flex", flexDirection: "column", paddingBottom: "120px" }}>
@@ -109,42 +118,52 @@ export default function StudentDashboardPage() {
               <User size={30} />
            </div>
            <div>
-              <h2 style={{ fontSize: "20px", fontWeight: 800, margin: 0 }}>{extract(profile.name)}</h2>
-              <p style={{ fontSize: "11px", color: THEME.accentCyan, fontWeight: 700, marginTop: "4px" }}>{extract(profile.registerNo)}</p>
+              <h2 style={{ fontSize: "20px", fontWeight: 800, margin: 0 }}>{getV('name')}</h2>
+              <p style={{ fontSize: "11px", color: THEME.accentCyan, fontWeight: 700, marginTop: "4px" }}>{getV('registerNo')}</p>
            </div>
         </div>
 
         <SectionHeader icon={User} title="Primary Parameters" />
         <div className="vault-card">
            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-              <Parameter label="Date of Birth" value={profile.dob} />
-              <Parameter label="Gender" value={profile.gender} />
-              <Parameter label="Nationality" value={profile.nationality} />
-              <Parameter label="Blood Group" value={profile.bloodGroup} />
+              <Parameter label="Date of Birth" value={getV('dob', personal)} />
+              <Parameter label="Gender" value={getV('gender', personal)} />
+              <Parameter label="Nationality" value={getV('nationality', personal)} />
+              <Parameter label="Blood Group" value={getV('bloodGroup', personal)} />
            </div>
         </div>
 
         <SectionHeader icon={Users} title="Lineage Node" color="#ff0080" />
         <div className="vault-card">
-           <Parameter label="Father / Guardian" value={profile.fatherName} width="100%" />
-           <Parameter label="Mother / Primary" value={profile.motherName} width="100%" />
-           <Parameter label="Emergency" value={profile.emergencyContact} />
-           <Parameter label="Parent Email" value={profile.parentEmail} />
+           <Parameter label="Father / Guardian" value={getV('fatherName', parent)} width="100%" />
+           <Parameter label="Mother / Primary" value={getV('motherName', parent)} width="100%" />
+           <Parameter label="Parent Contact" value={getV('contactNo', parent) || getV('emergencyContact')} />
+           <Parameter label="Parent Email" value={getV('email', parent)} />
         </div>
 
         <SectionHeader icon={MapPin} title="Geographic Location" color="#ff3d00" />
         <div className="vault-card">
-           <Parameter label="Residential Address" value={profile.address} width="100%" />
+           <Parameter label="Residential Address" value={getV('address', address)} width="100%" />
            <div style={{ display: 'flex' }}>
-              <Parameter label="District" value={profile.district} />
-              <Parameter label="State" value={profile.state} />
+              <Parameter label="District" value={getV('district', address)} />
+              <Parameter label="State" value={getV('state', address)} />
            </div>
+           <Parameter label="Pincode" value={getV('pincode', address)} />
         </div>
 
         <SectionHeader icon={Phone} title="Communication Channels" color="#00ff88" />
         <div className="vault-card">
-           <Parameter label="Student Mobile" value={profile.mobile} width="100%" />
+           <Parameter label="Student Mobile" value={getV('mobile', contact)} width="100%" />
            <Parameter label="Official Email" value={profile.email} width="100%" />
+        </div>
+
+        <SectionHeader icon={GraduationCap} title="Academic Linkage" color={THEME.accentCyan} />
+        <div className="vault-card">
+           <Parameter label="Program" value={getV('program')} width="100%" />
+           <div style={{ display: 'flex' }}>
+              <Parameter label="Section" value={getV('section')} />
+              <Parameter label="Batch" value={getV('batch')} />
+           </div>
         </div>
       </main>
 
