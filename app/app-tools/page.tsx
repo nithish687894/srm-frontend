@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  Home, Award, MoreHorizontal, IdCard, Calendar, Wrench, 
+  Home, Award, Activity, MoreHorizontal, IdCard, Calendar, Wrench, 
   Sparkles, Calculator, ShieldAlert, GraduationCap, 
   LayoutTemplate, LifeBuoy, ChevronRight, User
 } from "lucide-react";
