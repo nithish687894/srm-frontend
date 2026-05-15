@@ -68,11 +68,8 @@ export default function MarksPage() {
     } catch (e) { console.error(e); } finally { setTimeout(() => setIsSyncing(false), 800); }
   };
 
-  if (!mounted) return <div style={{ background: '#050505', height: '100vh' }} />;
-
   const { marks, totalScored, totalMax, avgPct } = useMemo(() => {
-    if (!mounted) return { marks: [], totalScored: 0, totalMax: 0, avgPct: 0 };
-    
+    // Logic inside here is safe because it's always called
     const rawMarks = Array.isArray(academicData?.marks) ? academicData.marks : [];
     const attendance = Array.isArray(academicData?.attendance) ? academicData.attendance : [];
 
@@ -90,7 +87,7 @@ export default function MarksPage() {
     const pct = max > 0 ? (scored / max) * 100 : 0;
 
     return { marks: processedMarks, totalScored: scored, totalMax: max, avgPct: pct };
-  }, [mounted, academicData]);
+  }, [academicData]);
 
   const activeMarks = useMemo(() => {
     if (!mounted) return null;
@@ -101,7 +98,11 @@ export default function MarksPage() {
     }
   }, [mounted, theme, marks, isSyncing, router]);
 
-  if (!mounted) return <div style={{ background: '#050505', height: '100vh' }} />;
+  // MOVED: Conditional return AFTER all hooks
+  if (!mounted) {
+    return <div style={{ background: '#050505', height: '100vh' }} />;
+  }
+
   if (activeMarks) return activeMarks;
 
   return (

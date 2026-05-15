@@ -477,6 +477,38 @@ export default function DashboardPage() {
     );
   };
 
+  const themeProps = useMemo(() => ({ 
+    data, riskCount, avgAtt, avgMarks, totalCourses, 
+    targetClasses, nextClass, recentTop5, initials, 
+    firstName, dayOrder, isHoliday, dayOffset, setDayOffset,
+    onShowStudentInfo: () => setShowStudentInfo(true),
+    broadcast, setIsSyncModalOpen, renderAcademicIntegrityHub,
+    userBatch: batch, totalHours, presentHours, absentHours, nowMin,
+    fmtTimeOnly, fmt12, parseStart, parseEnd, isNowIn, BATCH_PERIODS, BroadcastBanner
+  }), [data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, recentTop5, initials, firstName, dayOrder, isHoliday, dayOffset, broadcast, batch, totalHours, presentHours, absentHours, nowMin]);
+
+  const activeDashboard = useMemo(() => {
+    if (!mounted) return null;
+    switch (theme) {
+      case "matrix": return <MatrixDashboard {...themeProps} />;
+      case "cosmos": return <CosmosDashboard {...themeProps} />;
+      default: return (
+        <AuraDashboard 
+          data={data} avgAtt={avgAtt} avgMarks={avgMarks} firstName={firstName} 
+          nextClass={nextClass} onShowStudentInfo={() => setShowStudentInfo(true)}
+          broadcast={broadcast} renderAcademicIntegrityHub={renderAcademicIntegrityHub}
+          upcomingEvents={upcomingEvents}
+        />
+      );
+    }
+  }, [mounted, theme, data, themeProps, upcomingEvents, firstName, nextClass, broadcast]);
+
+  if (!mounted) {
+    return (
+      <div className="page-root" style={{ background: "#050508", height: "100vh", width: "100vw", overflow: 'hidden' }} />
+    );
+  }
+
   if (loading && !data) return (
     <div className="page-root" style={{ 
       display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", 
@@ -523,38 +555,6 @@ export default function DashboardPage() {
       </div>
     </div>
   );
-
-  const themeProps = { 
-    data, riskCount, avgAtt, avgMarks, totalCourses, 
-    targetClasses, nextClass, recentTop5, initials, 
-    firstName, dayOrder, isHoliday, dayOffset, setDayOffset,
-    onShowStudentInfo: () => setShowStudentInfo(true),
-    broadcast, setIsSyncModalOpen, renderAcademicIntegrityHub,
-    userBatch: batch, totalHours, presentHours, absentHours, nowMin,
-    fmtTimeOnly, fmt12, parseStart, parseEnd, isNowIn, BATCH_PERIODS, BroadcastBanner
-  };
-
-  const activeDashboard = useMemo(() => {
-    if (!mounted) return null;
-    switch (theme) {
-      case "matrix": return <MatrixDashboard {...themeProps} />;
-      case "cosmos": return <CosmosDashboard {...themeProps} />;
-      default: return (
-        <AuraDashboard 
-          data={data} avgAtt={avgAtt} avgMarks={avgMarks} firstName={firstName} 
-          nextClass={nextClass} onShowStudentInfo={() => setShowStudentInfo(true)}
-          broadcast={broadcast} renderAcademicIntegrityHub={renderAcademicIntegrityHub}
-          upcomingEvents={upcomingEvents}
-        />
-      );
-    }
-  }, [mounted, theme, data, themeProps, upcomingEvents, firstName, nextClass, broadcast]);
-
-  if (!mounted) {
-    return (
-      <div className="page-root" style={{ background: "#050508", height: "100vh", width: "100vw", overflow: 'hidden' }} />
-    );
-  }
 
   return (
     <>
