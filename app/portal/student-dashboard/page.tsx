@@ -19,7 +19,6 @@ const THEME = {
 
 export default function StudentDashboardPage() {
   const router = useRouter();
-  const [activeNav, setActiveNav] = useState('identity');
   const [mounted, setMounted] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
   
@@ -46,7 +45,6 @@ export default function StudentDashboardPage() {
   if (!mounted) return <div style={{ background: '#050505', height: '100vh' }} />;
 
   const profile = studentPortalData?.profile || {};
-  const initials = profile.name ? profile.name.split(' ').filter(Boolean).map((n:any)=>n[0]).join('').slice(0,2).toUpperCase() : "NK";
 
   const SectionHeader = ({ icon: Icon, title, color = THEME.accentPurple }: any) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '32px 0 16px', paddingLeft: '4px' }}>
@@ -54,6 +52,13 @@ export default function StudentDashboardPage() {
         <Icon size={16} />
       </div>
       <span style={{ fontSize: '10px', fontWeight: 900, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.3em' }}>{title}</span>
+    </div>
+  );
+
+  const Parameter = ({ label, value, width = "50%" }: any) => (
+    <div style={{ width, marginBottom: "20px" }}>
+      <p style={{ fontSize: '9px', fontWeight: 800, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '6px' }}>{label}</p>
+      <p style={{ fontSize: '16px', fontWeight: 800, color: '#fff', margin: 0 }}>{value || "—"}</p>
     </div>
   );
 
@@ -68,7 +73,7 @@ export default function StudentDashboardPage() {
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
       `}} />
 
-      {/* HEADER: ACADEMIC OS BRANDING */}
+      {/* HEADER */}
       <header style={{ padding: "60px 24px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", position: 'sticky', top: 0, background: 'rgba(5,5,5,0.8)', backdropFilter: 'blur(20px)', zIndex: 100 }}>
         <button onClick={() => router.back()} style={{ width: "44px", height: "44px", borderRadius: "50%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", color: THEME.accentPurple, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <ArrowLeft size={20} />
@@ -86,7 +91,6 @@ export default function StudentDashboardPage() {
         </button>
       </header>
 
-      {/* VAULT CONTENT */}
       <main style={{ padding: "0 20px", flex: 1 }}>
         {/* PROFILE SUMMARY */}
         <div className="vault-card" style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px', background: 'rgba(191,0,255,0.03)', borderColor: 'rgba(191,0,255,0.1)' }}>
@@ -99,20 +103,53 @@ export default function StudentDashboardPage() {
            </div>
         </div>
 
-        {/* VAULT SECTIONS (Structure Only) */}
+        {/* PRIMARY PARAMETERS */}
         <SectionHeader icon={UserCircle} title="Primary Parameters" />
-        <div className="vault-card" style={{ height: '100px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-           <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.2)', fontWeight: 800, textTransform: 'uppercase' }}>Data Stream Pending...</span>
+        <div className="vault-card">
+           <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+              <Parameter label="Date of Birth" value={profile.dob} />
+              <Parameter label="Gender" value={profile.gender} />
+              <Parameter label="Nationality" value={profile.nationality} />
+              <Parameter label="Blood Group" value={profile.bloodGroup} />
+           </div>
         </div>
 
+        {/* LINEAGE NODE */}
         <SectionHeader icon={Users} title="Lineage Node" color="#ff0080" />
-        <div className="vault-card" style={{ height: '100px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-           <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.2)', fontWeight: 800, textTransform: 'uppercase' }}>Nodes Offline...</span>
+        <div className="vault-card">
+           <Parameter label="Father / Guardian" value={profile.fatherName} width="100%" />
+           <Parameter label="Mother / Primary" value={profile.motherName} width="100%" />
+           <Parameter label="Emergency Contact" value={profile.emergencyContact} width="100%" />
+           <Parameter label="Parental Email" value={profile.parentEmail} width="100%" />
         </div>
 
+        {/* GEOGRAPHIC LOCATION */}
         <SectionHeader icon={MapPin} title="Geographic Location" color="#ff3d00" />
+        <div className="vault-card">
+           <Parameter label="Residential Address" value={profile.address} width="100%" />
+           <div style={{ display: 'flex' }}>
+              <Parameter label="District" value={profile.district} />
+              <Parameter label="State" value={profile.state} />
+           </div>
+           <Parameter label="Pincode" value={profile.pincode} />
+        </div>
+
+        {/* COMMUNICATION CHANNELS */}
         <SectionHeader icon={Phone} title="Communication Channels" color="#00ff88" />
+        <div className="vault-card">
+           <Parameter label="Student Mobile" value={profile.mobile} width="100%" />
+           <Parameter label="Official Email" value={profile.email} width="100%" />
+        </div>
+
+        {/* ACADEMIC LINKAGE */}
         <SectionHeader icon={GraduationCap} title="Academic Linkage" color={THEME.accentCyan} />
+        <div className="vault-card">
+           <Parameter label="Program" value={profile.program} width="100%" />
+           <div style={{ display: 'flex' }}>
+              <Parameter label="Section" value={profile.section} />
+              <Parameter label="Batch" value={profile.batch} />
+           </div>
+        </div>
       </main>
 
       {/* NAV DOCK */}
