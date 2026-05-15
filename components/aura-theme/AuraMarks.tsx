@@ -101,17 +101,7 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
       <div className="aura-blob" style={{ background: AURA_COLORS.primary, top: '-200px', left: '-100px' }} />
       <div className="aura-blob" style={{ background: AURA_COLORS.secondary, bottom: '-200px', right: '-100px', animationDelay: '-5s' }} />
 
-      <header style={{ flexShrink: 0, padding: "60px 24px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", background: 'rgba(5,5,8,0.7)', backdropFilter: 'blur(30px)', zIndex: 100, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-        <button onClick={() => router.back()} style={{ width: "44px", height: "44px", borderRadius: "50%", background: AURA_COLORS.card, border: `1px solid ${AURA_COLORS.border}`, color: AURA_COLORS.primary, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <ArrowLeft size={20} />
-        </button>
-        <div style={{ textAlign: "center" }}>
-           <span style={{ fontSize: "11px", fontWeight: 900, color: AURA_COLORS.sub, textTransform: "uppercase", letterSpacing: "0.2em" }}>Official Records</span>
-        </div>
-        <button onClick={handleSync} style={{ width: "44px", height: "44px", borderRadius: "50%", background: AURA_COLORS.card, border: `1px solid ${AURA_COLORS.border}`, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <RefreshCcw size={18} className={isSyncing ? "animate-spin" : ""} />
-        </button>
-      </header>
+
 
       <main style={{ flex: 1, overflowY: "auto", WebkitOverflowScrolling: "touch", padding: "40px 24px", position: 'relative', zIndex: 1 }}>
         

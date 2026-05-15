@@ -1,73 +1,145 @@
-import React from "react";
-import Link from "next/link";
-import { Calculator, CalendarOff, TrendingUp } from "lucide-react";
+"use client";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Calculator, CalendarOff, TrendingUp, ChevronLeft, Home, Award, Activity, MoreHorizontal } from "lucide-react";
+import { useThemeStore } from "@/lib/themeStore";
+
+const THEME = {
+  bg: "#050505",
+  surface: "rgba(255, 255, 255, 0.03)",
+  border: "rgba(255, 255, 255, 0.08)",
+  accentPurple: "#bf00ff",
+  accentCyan: "#00d4ff",
+};
+
+const AURA_COLORS = {
+  bg: "#050508",
+  primary: "#FF75C3",
+  secondary: "#8F92FF",
+  accent: "#94FFD8",
+  text: "#ffffff",
+  sub: "rgba(255, 255, 255, 0.4)",
+};
 
 export default function ToolsHubPage() {
+  const router = useRouter();
+  const [mounted, setMounted] = useState(false);
+  const { theme } = useThemeStore();
+  const isAura = theme === "aura";
+
+  useEffect(() => { setMounted(true); }, []);
+
+  if (!mounted) return <div style={{ background: '#050505', height: '100vh' }} />;
+
   return (
-    <div>
-      <div style={{ textAlign: "center", padding: "60px 0", maxWidth: "800px", margin: "0 auto" }}>
-        <div style={{ fontSize: "12px", color: "var(--accent, #a8c200)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
-          Free Public Tools
-        </div>
-        <h1 style={{ fontSize: "clamp(40px, 8vw, 64px)", fontWeight: 900, letterSpacing: "-0.04em", margin: "0 0 24px 0", lineHeight: 1.1 }}>
-          The Ultimate <br/> SRM Toolkit
-        </h1>
-        <p style={{ fontSize: "18px", color: "var(--text-secondary, #aaa)", lineHeight: 1.6, marginBottom: "40px" }}>
-          Instant, accurate calculators designed specifically for SRM Institute of Science and Technology's 75% attendance rules and 2018/2021 grading regulations.
-        </p>
-      </div>
-
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "24px" }}>
+    <div style={{ background: isAura ? AURA_COLORS.bg : THEME.bg, height: "100vh", display: "flex", flexDirection: "column", color: "#fff", fontFamily: "'Plus Jakarta Sans', sans-serif", overflow: 'hidden' }}>
+      <style dangerouslySetInnerHTML={{ __html: `
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        * { box-sizing: border-box; }
         
-        {/* Attendance Calculator */}
-        <Link href="/tools/srm-attendance-calculator" style={{ textDecoration: "none", color: "inherit" }}>
-          <div style={{ 
-            background: "linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)",
-            border: "1px solid rgba(255,255,255,0.05)", borderRadius: "24px", padding: "32px",
-            transition: "transform 0.2s, background 0.2s", cursor: "pointer", height: "100%"
-          }} className="tool-card">
-            <div style={{ width: "48px", height: "48px", background: "rgba(239, 68, 68, 0.1)", color: "#ef4444", borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "24px" }}>
-              <CalendarOff size={24} />
-            </div>
-            <h2 style={{ fontSize: "24px", fontWeight: 800, marginBottom: "12px" }}>Attendance Calculator</h2>
-            <p style={{ fontSize: "15px", color: "var(--text-muted, #888)", lineHeight: 1.6, marginBottom: "24px" }}>
-              Find out exactly how many classes you can bunk safely. Input your total classes and attended classes to see your 75% status instantly.
-            </p>
-            <div style={{ fontSize: "13px", fontWeight: 800, color: "var(--accent, #a8c200)", display: "flex", alignItems: "center", gap: "8px" }}>
-              Calculate Bunk Budget <TrendingUp size={14} />
-            </div>
-          </div>
-        </Link>
-
-        {/* CGPA Calculator */}
-        <Link href="/tools/srm-cgpa-calculator" style={{ textDecoration: "none", color: "inherit" }}>
-          <div style={{ 
-            background: "linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)",
-            border: "1px solid rgba(255,255,255,0.05)", borderRadius: "24px", padding: "32px",
-            transition: "transform 0.2s, background 0.2s", cursor: "pointer", height: "100%"
-          }} className="tool-card">
-            <div style={{ width: "48px", height: "48px", background: "rgba(59, 130, 246, 0.1)", color: "#3b82f6", borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "24px" }}>
-              <Calculator size={24} />
-            </div>
-            <h2 style={{ fontSize: "24px", fontWeight: 800, marginBottom: "12px" }}>CGPA Calculator</h2>
-            <p style={{ fontSize: "15px", color: "var(--text-muted, #888)", lineHeight: 1.6, marginBottom: "24px" }}>
-              Accurate semester GPA and cumulative CGPA calculator. Supports SRM 2018 and 2021 regulation grading scales.
-            </p>
-            <div style={{ fontSize: "13px", fontWeight: 800, color: "var(--accent, #a8c200)", display: "flex", alignItems: "center", gap: "8px" }}>
-              Calculate Grades <TrendingUp size={14} />
-            </div>
-          </div>
-        </Link>
-
-      </div>
-
-      <style>{`
-        .tool-card:hover {
-          transform: translateY(-4px);
-          background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%) !important;
-          border-color: rgba(255,255,255,0.1) !important;
+        .aura-blob {
+          position: fixed; width: 600px; height: 600px;
+          border-radius: 50%; filter: blur(140px);
+          opacity: 0.15; z-index: 0; pointer-events: none;
+          animation: orbit 20s infinite linear;
         }
-      `}</style>
+        @keyframes orbit {
+          from { transform: rotate(0deg) translate(100px) rotate(0deg); }
+          to { transform: rotate(360deg) translate(100px) rotate(-360deg); }
+        }
+      `}} />
+
+      {isAura && (
+        <>
+          <div className="aura-blob" style={{ background: AURA_COLORS.primary, top: '-200px', left: '-100px' }} />
+          <div className="aura-blob" style={{ background: AURA_COLORS.secondary, bottom: '-200px', right: '-100px', animationDelay: '-5s' }} />
+        </>
+      )}
+
+      {/* HEADER */}
+      <header style={{ flexShrink: 0, padding: "60px 24px 20px", position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <button onClick={() => router.back()} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', width: '40px', height: '40px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+          <ChevronLeft size={20} />
+        </button>
+        <h1 style={{ fontSize: "24px", fontWeight: 900, margin: 0, letterSpacing: '-0.5px' }}>Nexus Tools</h1>
+      </header>
+
+      <main style={{ flex: 1, overflowY: "auto", WebkitOverflowScrolling: "touch", padding: "0 24px 120px", position: 'relative', zIndex: 1 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "16px" }}>
+          
+          {/* Attendance Calculator */}
+          <div onClick={() => router.push('/tools/srm-attendance-calculator')} style={{ 
+            background: isAura ? "rgba(255,255,255,0.02)" : THEME.surface,
+            border: isAura ? "1px solid rgba(255,255,255,0.05)" : `1px solid ${THEME.border}`, 
+            borderRadius: "24px", padding: "24px", cursor: "pointer", position: 'relative', overflow: 'hidden'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+               <div style={{ width: "48px", height: "48px", background: "rgba(239, 68, 68, 0.1)", color: "#ef4444", borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                 <CalendarOff size={24} />
+               </div>
+               <div>
+                  <h2 style={{ fontSize: "18px", fontWeight: 800, margin: 0, color: '#fff' }}>Bunk Budget</h2>
+                  <div style={{ fontSize: "10px", fontWeight: 900, color: "rgba(255,255,255,0.3)", textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: '4px' }}>ATTENDANCE_CALC</div>
+               </div>
+            </div>
+            <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.5)", lineHeight: 1.5, margin: 0 }}>
+              Instantly calculate exactly how many classes you can afford to skip while safely maintaining your 75% requirement.
+            </p>
+          </div>
+
+          {/* CGPA Calculator */}
+          <div onClick={() => router.push('/tools/srm-cgpa-calculator')} style={{ 
+            background: isAura ? "rgba(255,255,255,0.02)" : THEME.surface,
+            border: isAura ? "1px solid rgba(255,255,255,0.05)" : `1px solid ${THEME.border}`, 
+            borderRadius: "24px", padding: "24px", cursor: "pointer", position: 'relative', overflow: 'hidden'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+               <div style={{ width: "48px", height: "48px", background: isAura ? "rgba(148, 255, 216, 0.1)" : "rgba(59, 130, 246, 0.1)", color: isAura ? AURA_COLORS.accent : "#3b82f6", borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                 <Calculator size={24} />
+               </div>
+               <div>
+                  <h2 style={{ fontSize: "18px", fontWeight: 800, margin: 0, color: '#fff' }}>Grade Predictor</h2>
+                  <div style={{ fontSize: "10px", fontWeight: 900, color: "rgba(255,255,255,0.3)", textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: '4px' }}>GPA_CGPA_CALC</div>
+               </div>
+            </div>
+            <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.5)", lineHeight: 1.5, margin: 0 }}>
+              Accurate GPA calculations supporting both 2018 and 2021 grading regulations. Predict your final academic standing.
+            </p>
+          </div>
+
+        </div>
+      </main>
+
+      {/* NAV DOCK - FIXED */}
+      <nav style={{ 
+        flexShrink: 0,
+        height: isAura ? "calc(80px + env(safe-area-inset-bottom))" : "calc(72px + 24px)", 
+        paddingBottom: isAura ? "env(safe-area-inset-bottom)" : "24px",
+        background: isAura ? "rgba(5,5,8,0.85)" : "transparent", 
+        backdropFilter: isAura ? "blur(30px)" : "none",
+        borderTop: isAura ? `1px solid rgba(255,255,255,0.08)` : "none",
+        display: "flex", justifyContent: "space-around", alignItems: "center", zIndex: 10000 
+      }}>
+        {!isAura && (
+           <div style={{ position: 'absolute', inset: '0 20px 24px', background: 'rgba(10,12,18,0.95)', backdropFilter: 'blur(30px)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '24px', zIndex: -1 }} />
+        )}
+        <button onClick={() => router.push('/dashboard')} style={{ background: "none", border: "none", color: 'rgba(255,255,255,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
+          <Home size={22} />
+          <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase' }}>{isAura ? "HOME" : "Nexus"}</span>
+        </button>
+        <button onClick={() => router.push('/marks')} style={{ background: "none", border: "none", color: 'rgba(255,255,255,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
+          <Award size={22} />
+          <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase' }}>{isAura ? "MARK" : "Marks"}</span>
+        </button>
+        <button onClick={() => router.push('/attendance')} style={{ background: "none", border: "none", color: 'rgba(255,255,255,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
+          <Activity size={22} />
+          <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase' }}>{isAura ? "ATTND" : "Sync"}</span>
+        </button>
+        <button onClick={() => router.push('/app-tools')} style={{ background: "none", border: "none", color: isAura ? AURA_COLORS.primary : THEME.accentCyan, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
+          <MoreHorizontal size={22} strokeWidth={isAura ? 2.5 : 2} />
+          <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase' }}>MORE</span>
+        </button>
+      </nav>
     </div>
   );
 }
