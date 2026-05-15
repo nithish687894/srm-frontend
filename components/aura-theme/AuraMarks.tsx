@@ -1,5 +1,5 @@
 "use client";
-import { ArrowLeft, RefreshCcw, Award, Sparkles, Heart, Binary, TrendingUp } from "lucide-react";
+import { ArrowLeft, RefreshCcw, Award, Sparkles, TrendingUp, Home, Activity, MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
@@ -48,11 +48,11 @@ const CrystalOrb = ({ test, score }: any) => {
       backdropFilter: 'blur(15px)',
       border: `1px solid rgba(255,255,255,0.06)`,
       borderRadius: '24px', padding: '16px 12px', minWidth: '80px', flex: 1,
-      textAlign: 'center', boxShadow: 'inset 0 0 15px rgba(255,255,255,0.02)'
+      textAlign: 'center'
     }}>
       <p style={{ fontSize: '8px', fontWeight: 900, color: AURA_COLORS.sub, textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.1em' }}>{label}</p>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '2px' }}>
-        <span style={{ fontSize: '18px', fontWeight: 900, color: '#fff', textShadow: '0 0 15px rgba(255,255,255,0.3)' }}>{score}</span>
+        <span style={{ fontSize: '18px', fontWeight: 900, color: '#fff' }}>{score}</span>
         <span style={{ fontSize: '9px', color: 'rgba(255,255,255,0.1)', fontWeight: 800 }}>/{max}</span>
       </div>
     </div>
@@ -63,51 +63,69 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
   const router = useRouter();
 
   return (
-    <div style={{ background: AURA_COLORS.bg, minHeight: "100vh", color: AURA_COLORS.text, fontFamily: "'Plus Jakarta Sans', sans-serif", paddingBottom: "120px", overflow: 'hidden' }}>
+    <div style={{ background: AURA_COLORS.bg, minHeight: "100vh", color: AURA_COLORS.text, fontFamily: "'Plus Jakarta Sans', sans-serif", paddingBottom: "140px", overflow: 'hidden' }}>
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
         
-        .aura-stardust {
-          position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-          background-image: radial-gradient(1px 1px at 20px 30px, #eee, rgba(0,0,0,0)),
-                            radial-gradient(1px 1px at 40px 70px, #fff, rgba(0,0,0,0)),
-                            radial-gradient(1px 1px at 50px 160px, #ddd, rgba(0,0,0,0));
-          background-size: 200px 200px;
-          opacity: 0.1; pointer-events: none; z-index: 0;
+        .aura-blob {
+          position: fixed; width: 600px; height: 600px;
+          border-radius: 50%; filter: blur(140px);
+          opacity: 0.15; z-index: 0; pointer-events: none;
+          animation: orbit 20s infinite linear;
+        }
+        @keyframes orbit {
+          from { transform: rotate(0deg) translate(100px) rotate(0deg); }
+          to { transform: rotate(360deg) translate(100px) rotate(-360deg); }
         }
 
-        .lustre-gem {
+        .liquid-card {
           background: rgba(255, 255, 255, 0.02);
           backdrop-filter: blur(40px);
           -webkit-backdrop-filter: blur(40px);
           border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 44px;
+          border-radius: 40px;
           padding: 32px;
           position: relative;
           overflow: hidden;
-          transition: all 0.4s ease;
+          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .lustre-gem:hover { border-color: rgba(255, 117, 195, 0.3); transform: translateY(-5px); }
+        
+        .floating { animation: floating 6s ease-in-out infinite; }
+        @keyframes floating {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-10px); }
+        }
       `}} />
 
-      <div className="aura-stardust" />
+      {/* Animated Aura Blobs */}
+      <div className="aura-blob" style={{ background: AURA_COLORS.primary, top: '-200px', left: '-100px' }} />
+      <div className="aura-blob" style={{ background: AURA_COLORS.secondary, bottom: '-200px', right: '-100px', animationDelay: '-5s' }} />
 
-      <header style={{ padding: "60px 24px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", position: 'sticky', top: 0, background: 'rgba(5,5,8,0.7)', backdropFilter: 'blur(30px)', zIndex: 100, borderBottom: `1px solid ${AURA_COLORS.border}` }}>
+      <header style={{ padding: "60px 24px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", position: 'sticky', top: 0, background: 'rgba(5,5,8,0.7)', backdropFilter: 'blur(30px)', zIndex: 100 }}>
         <button onClick={() => router.back()} style={{ width: "44px", height: "44px", borderRadius: "50%", background: AURA_COLORS.card, border: `1px solid ${AURA_COLORS.border}`, color: AURA_COLORS.primary, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <ArrowLeft size={20} />
         </button>
         <div style={{ textAlign: "center" }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-            <Award size={14} color={AURA_COLORS.secondary} />
-            <span style={{ fontSize: "11px", fontWeight: 900, color: '#fff', textTransform: "uppercase", letterSpacing: "0.2em" }}>Crystal Logs</span>
-          </div>
+           <span style={{ fontSize: "11px", fontWeight: 900, color: AURA_COLORS.sub, textTransform: "uppercase", letterSpacing: "0.2em" }}>Official Records</span>
         </div>
         <button onClick={handleSync} style={{ width: "44px", height: "44px", borderRadius: "50%", background: AURA_COLORS.card, border: `1px solid ${AURA_COLORS.border}`, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <RefreshCcw size={18} className={isSyncing ? "animate-spin" : ""} />
         </button>
       </header>
 
-      <main style={{ padding: "24px 20px", position: 'relative', zIndex: 1 }}>
+      <main style={{ padding: "40px 24px", position: 'relative', zIndex: 1 }}>
+        
+        {/* Lumina Heading */}
+        <div style={{ marginBottom: "50px", textAlign: 'center' }}>
+          <div className="floating" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.05)', padding: '6px 14px', borderRadius: '100px', border: '1px solid rgba(255,255,255,0.1)', marginBottom: '20px' }}>
+            <Award size={12} color={AURA_COLORS.primary} />
+            <span style={{ fontSize: "10px", fontWeight: 800, color: '#fff', letterSpacing: '0.1em' }}>Aura Mode Active</span>
+          </div>
+          <h1 style={{ fontSize: "42px", fontWeight: 900, margin: 0, letterSpacing: '-2px', lineHeight: 1 }}>
+            Marks <span style={{ color: AURA_COLORS.primary }}>Registry</span>
+          </h1>
+        </div>
+
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
            {marks.map((m: any, i: number) => {
               const testScores = m.tests?.map((t: any) => parseFloat(t.score) || 0) || [];
@@ -116,10 +134,8 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
               const performancePct = maxPossible > 0 ? (totalScored / maxPossible) * 100 : 0;
               
               return (
-                <div key={i} className="lustre-gem">
-                   {/* Prismatic Background Glow */}
-                   <div style={{ 
-                     position: 'absolute', top: '-50px', right: '-50px', width: '200px', height: '200px', 
+                <div key={i} className="liquid-card">
+                   <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '200px', height: '200px', 
                      background: `radial-gradient(circle, ${performancePct > 80 ? AURA_COLORS.primary : AURA_COLORS.secondary}11 0%, transparent 70%)`,
                      filter: 'blur(40px)', zIndex: 0
                    }} />
@@ -127,21 +143,17 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
                    <div style={{ position: 'relative', zIndex: 1 }}>
                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
                         <div style={{ flex: 1, paddingRight: '16px' }}>
-                           <div style={{ fontSize: '9px', fontWeight: 900, color: AURA_COLORS.primary, background: 'rgba(255,117,195,0.05)', padding: '4px 12px', borderRadius: '100px', display: 'inline-block', marginBottom: '12px' }}>{m.courseCode || m.code}</div>
+                           <div style={{ fontSize: '9px', fontWeight: 900, color: AURA_COLORS.primary, background: 'rgba(255,117,195,0.05)', padding: '4px 12px', borderRadius: '100px', display: 'inline-block', marginBottom: '12px' }}>{m.courseCode}</div>
                            <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', margin: 0, textTransform: 'capitalize', lineHeight: 1.2 }}>{m.title.toLowerCase()}</h3>
-                           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '12px' }}>
-                              <TrendingUp size={12} color={AURA_COLORS.accent} />
-                              <span style={{ fontSize: '10px', color: AURA_COLORS.sub, fontWeight: 700 }}>Trajectory Status</span>
-                           </div>
                         </div>
                         <div style={{ textAlign: 'right' }}>
-                           <div style={{ fontSize: '36px', fontWeight: 900, color: '#fff', lineHeight: 1, textShadow: '0 0 20px rgba(255,255,255,0.1)' }}>{totalScored.toFixed(1)}</div>
-                           <div style={{ fontSize: '12px', color: AURA_COLORS.sub, fontWeight: 900, marginTop: '6px' }}>OF {maxPossible}</div>
+                           <div style={{ fontSize: '32px', fontWeight: 900, color: '#fff', lineHeight: 1 }}>{totalScored.toFixed(1)}</div>
+                           <div style={{ fontSize: '11px', color: AURA_COLORS.sub, fontWeight: 900, marginTop: '4px' }}>OF {maxPossible}</div>
                         </div>
                      </div>
 
                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', padding: '16px', background: 'rgba(255,255,255,0.02)', borderRadius: '24px' }}>
-                        <div style={{ fontSize: '10px', fontWeight: 800, color: AURA_COLORS.sub }}>PERFORMANCE_CURVE</div>
+                        <div style={{ fontSize: '9px', fontWeight: 800, color: AURA_COLORS.sub }}>PERFORMANCE</div>
                         <StardustSparkline scores={testScores} />
                      </div>
 
@@ -156,6 +168,26 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
            })}
         </div>
       </main>
+
+      {/* Aura Bottom Nav */}
+      <nav style={{ position: "fixed", bottom: "0", left: "0", right: "0", height: "calc(80px + env(safe-area-inset-bottom))", paddingBottom: "env(safe-area-inset-bottom)", background: "rgba(5,5,8,0.7)", backdropFilter: "blur(30px)", borderTop: `1px solid rgba(255,255,255,0.05)`, display: "flex", alignItems: "center", justifyContent: "space-around", zIndex: 1000 }}>
+        <button onClick={() => router.push('/dashboard')} style={{ background: "none", border: "none", color: AURA_COLORS.sub, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+          <Home size={22} />
+          <span style={{ fontSize: '9px', fontWeight: 900 }}>SPACE</span>
+        </button>
+        <button onClick={() => router.push('/marks')} style={{ background: "none", border: "none", color: AURA_COLORS.primary, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+          <Award size={22} strokeWidth={2.5} />
+          <span style={{ fontSize: '9px', fontWeight: 900 }}>LOGS</span>
+        </button>
+        <button onClick={() => router.push('/attendance')} style={{ background: "none", border: "none", color: AURA_COLORS.sub, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+          <Activity size={22} />
+          <span style={{ fontSize: '9px', fontWeight: 900 }}>SYNC</span>
+        </button>
+        <button onClick={() => router.push('/app-tools')} style={{ background: "none", border: "none", color: AURA_COLORS.sub, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+          <MoreHorizontal size={22} />
+          <span style={{ fontSize: '9px', fontWeight: 900 }}>MORE</span>
+        </button>
+      </nav>
     </div>
   );
 }
