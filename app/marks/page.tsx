@@ -70,17 +70,27 @@ export default function MarksPage() {
 
   if (!mounted) return <div style={{ background: '#050505', height: '100vh' }} />;
 
-  const rawMarks = Array.isArray(academicData?.marks) ? academicData.marks : [];
-  const attendance = Array.isArray(academicData?.attendance) ? academicData.attendance : [];
+  const { marks, totalScored, totalMax, avgPct } = useMemo(() => {
+    if (!mounted) return { marks: [], totalScored: 0, totalMax: 0, avgPct: 0 };
+    
+    const rawMarks = Array.isArray(academicData?.marks) ? academicData.marks : [];
+    const attendance = Array.isArray(academicData?.attendance) ? academicData.attendance : [];
 
-  // Merge titles from attendance
-  const marks = rawMarks.map((m: any) => {
-    const attnMatch = attendance.find((a: any) => a['Course Code'] === m.courseCode || a['Course Code'] === m.code);
-    return {
-      ...m,
-      title: m.courseTitle || m.description || attnMatch?.['Course Title'] || attnMatch?.['title'] || "Unknown Module"
-    };
-  });
+    const processedMarks = rawMarks.map((m: any) => {
+      if (!m) return null;
+      const attnMatch = attendance.find((a: any) => a && (a['Course Code'] === m.courseCode || a['Course Code'] === m.code));
+      return {
+        ...m,
+        title: m.courseTitle || m.description || attnMatch?.['Course Title'] || attnMatch?.['title'] || "Unknown Module"
+      };
+    }).filter(Boolean);
+
+    const scored = processedMarks.reduce((s:number, m:any) => s + (m.tests?.reduce((a:number, t:any) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
+    const max = processedMarks.reduce((s:number, m:any) => s + (m.tests?.reduce((a:number, t:any) => a + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0), 0);
+    const pct = max > 0 ? (scored / max) * 100 : 0;
+
+    return { marks: processedMarks, totalScored: scored, totalMax: max, avgPct: pct };
+  }, [mounted, academicData]);
 
   const activeMarks = useMemo(() => {
     if (!mounted) return null;
@@ -93,11 +103,6 @@ export default function MarksPage() {
 
   if (!mounted) return <div style={{ background: '#050505', height: '100vh' }} />;
   if (activeMarks) return activeMarks;
-
-  // Default / Cosmos Theme
-  const totalScored = marks.reduce((s:number, m:any) => s + (m.tests?.reduce((a:number, t:any) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
-  const totalMax = marks.reduce((s:number, m:any) => s + (m.tests?.reduce((a:number, t:any) => a + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0), 0);
-  const avgPct = totalMax > 0 ? (totalScored / totalMax) * 100 : 0;
 
   return (
     <div style={{ height: "100vh", width: "100vw", background: THEME.bg, color: "#fff", display: "flex", flexDirection: "column", overflow: "hidden" }}>
