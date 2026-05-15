@@ -8,6 +8,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAuthStore } from "@/lib/store";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
 import { useThemeStore } from "@/lib/themeStore";
+import HackerAttendance from "@/components/hacker-os/HackerAttendance";
+import { RefreshCcw } from "lucide-react";
 
 function buildSlotToCourseMap(myTT: any[]) {
   const map: Record<string, any> = {};
@@ -18,9 +20,23 @@ function buildSlotToCourseMap(myTT: any[]) {
 export default function AttendancePage() {
   const { ready } = useAuth();
   const { theme } = useThemeStore();
-  const { academicData, setAcademicData } = useAuthStore();
   const [att, setAtt] = useState<any[]>(academicData?.attendance || []);
   const [loading, setLoading] = useState(!academicData?.attendance);
+  const [isSyncing, setIsSyncing] = useState(false);
+
+  const handleSync = async () => {
+    setIsSyncing(true);
+    try {
+      const d = await dataAPI.getAttendance();
+      const updated = d.data || [];
+      setAtt(updated);
+      setAcademicData({ ...academicData, attendance: updated });
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsSyncing(false);
+    }
+  };
 
   const [calData, setCalData] = useState<any>(null);
   const [ttData, setTTData] = useState<any>(null);
@@ -220,6 +236,12 @@ export default function AttendancePage() {
     <div className="page-root" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
       <div className="srmx-spinner" />
     </div>
+  );
+
+  if (!mounted && typeof window !== "undefined") return <div style={{ background: '#050505', minHeight: '100vh' }} />;
+
+  if (theme === "hacker") return (
+    <HackerAttendance attendance={att} handleSync={handleSync} isSyncing={isSyncing} />
   );
 
   if (theme === "cosmos") return (

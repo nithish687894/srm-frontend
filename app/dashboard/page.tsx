@@ -13,6 +13,7 @@ import PortalSyncModal from "@/components/PortalSyncModal";
 import CyberBackground from "@/components/UnsplashBackground";
 import StudentPortalPrompt from "@/components/StudentPortalPrompt";
 import { ShieldCheck } from "lucide-react";
+import HackerDashboard from "@/components/hacker-os/HackerDashboard";
 
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
 function parseStart(t: string) { const m = t.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
@@ -474,6 +475,19 @@ export default function DashboardPage() {
   if (theme === "cosmos") return (
     <>
       <CosmosDashboard data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} targetClasses={targetClasses} nextClass={nextClass} recentTop5={recentTop5} initials={initials} firstName={firstName} dayOrder={dayOrder} isHoliday={isHoliday} onShowStudentInfo={() => setShowStudentInfo(true)} broadcast={broadcast} setIsSyncModalOpen={setIsSyncModalOpen} renderAcademicIntegrityHub={renderAcademicIntegrityHub} userBatch={batch} totalHours={totalHours} presentHours={presentHours} absentHours={absentHours} />
+      <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => { dataAPI.getUnified().then(d => { if (d?.success) { const merged = { ...d.academia, studentPortal: d.studentPortal }; setData(merged); setAcademicData(merged); } }).catch(() => {}); }} netId={academicData?.profile?.["Student ID"] || academicData?.profile?.["Registration Number"] || ""} />
+      {renderStudentInfoModal()}
+    </>
+  );
+
+  if (theme === "hacker") return (
+    <>
+      <HackerDashboard 
+        data={data} riskCount={riskCount} avgAtt={avgAtt} avgMarks={avgMarks} totalCourses={totalCourses} 
+        targetClasses={targetClasses} nextClass={nextClass} firstName={firstName} dayOrder={dayOrder} 
+        isHoliday={isHoliday} dayOffset={dayOffset} setDayOffset={setDayOffset} onShowStudentInfo={() => setShowStudentInfo(true)}
+        broadcast={broadcast} setIsSyncModalOpen={setIsSyncModalOpen} renderAcademicIntegrityHub={renderAcademicIntegrityHub}
+      />
       <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => { dataAPI.getUnified().then(d => { if (d?.success) { const merged = { ...d.academia, studentPortal: d.studentPortal }; setData(merged); setAcademicData(merged); } }).catch(() => {}); }} netId={academicData?.profile?.["Student ID"] || academicData?.profile?.["Registration Number"] || ""} />
       {renderStudentInfoModal()}
     </>
