@@ -14,7 +14,7 @@ import { useThemeStore } from "@/lib/themeStore";
 
 export default function CalendarPage() {
   const [monthIdx, setMonthIdx] = useState(0);
-  const [sem, setSem] = useState<Semester>("EVEN");
+  const [sem, setSem] = useState<Semester>("ODD");
   const [selectedHoliday, setSelectedHoliday] = useState<any | null>(null);
   const router = useRouter();
   const { theme } = useThemeStore();
@@ -196,10 +196,8 @@ export default function CalendarPage() {
                     {weekDays.map((d, i) => (
                       <div key={i} style={{ textAlign: "center", fontSize: "10px", fontWeight: 900, color: AURA_COLORS.sub }}>{d}</div>
                     ))}
-                  </div>
-
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "8px" }}>
-                    {gridCells.map((cell, i) => {
+                  </div>                   <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "8px" }}>
+                    {current ? gridCells.map((cell, i) => {
                       if (!cell) return <div key={i} />;
                       const isToday = cell.isoDate === todayIso;
                       const isPast = new Date(cell.isoDate) < new Date(todayIso);
@@ -227,7 +225,12 @@ export default function CalendarPage() {
                           {cell.isHoliday && <div style={{ position: 'absolute', bottom: '8px', width: '3px', height: '3px', borderRadius: '50%', background: '#ff3b3b', boxShadow: '0 0 8px #ff3b3b' }} />}
                         </motion.div>
                       );
-                    })}
+                    }) : (
+                      <div style={{ gridColumn: 'span 7', padding: '60px 20px', textAlign: 'center' }}>
+                         <div style={{ fontSize: '12px', fontWeight: 900, color: AURA_COLORS.sub, letterSpacing: '0.2em' }}>PHASE_SYNC_PENDING</div>
+                         <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.2)', marginTop: '8px' }}>The university has not yet released the {sem} planner.</div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -460,20 +463,21 @@ export default function CalendarPage() {
       </main>
 
       {isAura && (
-        <nav style={{ position: "fixed", bottom: "0", left: "0", right: "0", height: "calc(80px + env(safe-area-inset-bottom))", paddingBottom: "env(safe-area-inset-bottom)", background: "rgba(5,5,8,0.7)", backdropFilter: "blur(30px)", borderTop: `1px solid rgba(255,255,255,0.05)`, display: "flex", alignItems: "center", justifyContent: "space-around", zIndex: 1000 }}>
-          <button onClick={() => router.push('/dashboard')} style={{ background: "none", border: "none", color: AURA_COLORS.sub, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+        {/* Aura Bottom Nav - FIXED */}
+        <nav style={{ position: "fixed", bottom: "0", left: "0", right: "0", height: "calc(80px + env(safe-area-inset-bottom))", paddingBottom: "env(safe-area-inset-bottom)", background: "rgba(5,5,8,0.85)", backdropFilter: "blur(30px)", WebkitBackdropFilter: "blur(30px)", borderTop: `1px solid rgba(255,255,255,0.08)`, display: "flex", alignItems: "center", justifyContent: "space-around", zIndex: 10000 }}>
+          <button onClick={() => router.push('/dashboard')} style={{ background: "none", border: "none", color: isAura ? (isCosmos ? "#7E88B6" : "#888") : "#888", display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
             <Home size={22} />
             <span style={{ fontSize: '9px', fontWeight: 900 }}>HOME</span>
           </button>
-          <button onClick={() => router.push('/marks')} style={{ background: "none", border: "none", color: AURA_COLORS.sub, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+          <button onClick={() => router.push('/marks')} style={{ background: "none", border: "none", color: isAura ? (isCosmos ? "#7E88B6" : "#888") : "#888", display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
             <Award size={22} />
             <span style={{ fontSize: '9px', fontWeight: 900 }}>MARK</span>
           </button>
-          <button onClick={() => router.push('/attendance')} style={{ background: "none", border: "none", color: AURA_COLORS.sub, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+          <button onClick={() => router.push('/attendance')} style={{ background: "none", border: "none", color: isAura ? (isCosmos ? "#7E88B6" : "#888") : "#888", display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
             <Activity size={22} />
             <span style={{ fontSize: '9px', fontWeight: 900 }}>ATTND</span>
           </button>
-          <button onClick={() => router.push('/app-tools')} style={{ background: "none", border: "none", color: AURA_COLORS.primary, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+          <button onClick={() => router.push('/app-tools')} style={{ background: "none", border: "none", color: isAura ? (isCosmos ? "#8FD3FF" : "#FF75C3") : "#FF75C3", display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
             <MoreHorizontal size={22} strokeWidth={2.5} />
             <span style={{ fontSize: '9px', fontWeight: 900 }}>MORE</span>
           </button>

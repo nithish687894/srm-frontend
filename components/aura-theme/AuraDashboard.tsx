@@ -171,26 +171,48 @@ export default function AuraDashboard({
           </div>
         </button>
 
-        {/* Aura Bottom Nav */}
-        <nav style={{ position: "fixed", bottom: "0", left: "0", right: "0", height: "calc(80px + env(safe-area-inset-bottom))", paddingBottom: "env(safe-area-inset-bottom)", background: "rgba(5,5,8,0.7)", backdropFilter: "blur(30px)", borderTop: `1px solid rgba(255,255,255,0.05)`, display: "flex", alignItems: "center", justifyContent: "space-around", zIndex: 1000 }}>
-          <button onClick={() => router.push('/dashboard')} style={{ background: "none", border: "none", color: AURA_COLORS.primary, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-            <Home size={22} strokeWidth={2.5} />
-            <span style={{ fontSize: '9px', fontWeight: 900 }}>HOME</span>
-          </button>
-          <button onClick={() => router.push('/marks')} style={{ background: "none", border: "none", color: AURA_COLORS.sub, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-            <Award size={22} />
-            <span style={{ fontSize: '9px', fontWeight: 900 }}>MARK</span>
-          </button>
-          <button onClick={() => router.push('/attendance')} style={{ background: "none", border: "none", color: AURA_COLORS.sub, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-            <Activity size={22} />
-            <span style={{ fontSize: '9px', fontWeight: 900 }}>ATTND</span>
-          </button>
-          <button onClick={() => router.push('/app-tools')} style={{ background: "none", border: "none", color: AURA_COLORS.sub, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-            <MoreHorizontal size={22} />
-            <span style={{ fontSize: '9px', fontWeight: 900 }}>MORE</span>
-          </button>
-        </nav>
+        <section style={{ marginTop: '40px' }}>
+           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+              <div style={{ width: '32px', height: '32px', borderRadius: '10px', background: 'rgba(255, 117, 195, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                 <Zap size={16} color={AURA_COLORS.primary} className="floating" />
+              </div>
+              <h3 style={{ fontSize: '12px', fontWeight: 900, color: '#fff', letterSpacing: '0.15em', textTransform: 'uppercase' }}>Strategic Timeline</h3>
+           </div>
+           
+           <div style={{ 
+              background: 'rgba(255,255,255,0.02)', 
+              borderRadius: '24px', 
+              padding: '40px', 
+              border: '1px solid rgba(255,255,255,0.05)',
+              textAlign: 'center',
+              position: 'relative'
+           }}>
+              <div style={{ fontSize: '12px', fontWeight: 800, color: 'rgba(255,255,255,0.2)', letterSpacing: '0.1em' }}>NO_SCHEDULED_EVENTS</div>
+              <div style={{ fontSize: '10px', fontWeight: 700, color: AURA_COLORS.sub, marginTop: '8px', opacity: 0.5 }}>Your academic future is currently clear.</div>
+           </div>
+        </section>
+
       </main>
+
+      {/* Aura Bottom Nav - FIXED OUTSIDE MAIN */}
+      <nav style={{ position: "fixed", bottom: "0", left: "0", right: "0", height: "calc(80px + env(safe-area-inset-bottom))", paddingBottom: "env(safe-area-inset-bottom)", background: "rgba(5,5,8,0.85)", backdropFilter: "blur(30px)", WebkitBackdropFilter: "blur(30px)", borderTop: `1px solid rgba(255,255,255,0.08)`, display: "flex", alignItems: "center", justifyContent: "space-around", zIndex: 10000 }}>
+        <button onClick={() => router.push('/dashboard')} style={{ background: "none", border: "none", color: AURA_COLORS.primary, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
+          <Home size={22} strokeWidth={2.5} />
+          <span style={{ fontSize: '9px', fontWeight: 900 }}>HOME</span>
+        </button>
+        <button onClick={() => router.push('/marks')} style={{ background: "none", border: "none", color: AURA_COLORS.sub, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
+          <Award size={22} />
+          <span style={{ fontSize: '9px', fontWeight: 900 }}>MARK</span>
+        </button>
+        <button onClick={() => router.push('/attendance')} style={{ background: "none", border: "none", color: AURA_COLORS.sub, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
+          <Activity size={22} />
+          <span style={{ fontSize: '9px', fontWeight: 900 }}>ATTND</span>
+        </button>
+        <button onClick={() => router.push('/app-tools')} style={{ background: "none", border: "none", color: AURA_COLORS.sub, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
+          <MoreHorizontal size={22} />
+          <span style={{ fontSize: '9px', fontWeight: 900 }}>MORE</span>
+        </button>
+      </nav>
     </div>
   );
 }
