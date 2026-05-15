@@ -124,18 +124,51 @@ export default function AuraDashboard({
         {/* Official Hub Integration */}
         {renderAcademicIntegrityHub("aura")}
 
-        {/* Personal Details Quick Access */}
-        <button onClick={onShowStudentInfo} className="liquid-card" style={{ width: '100%', padding: '24px', borderRadius: '32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '32px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-             <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: 'linear-gradient(135deg, #FF75C3, #8F92FF)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <User size={20} color="#fff" />
+        {/* Lumina ID Passport */}
+        <button 
+          onClick={onShowStudentInfo} 
+          className="liquid-card" 
+          style={{ 
+            width: '100%', padding: '32px', borderRadius: '44px', 
+            display: 'flex', flexDirection: 'column', gap: '24px', 
+            marginTop: '32px', textAlign: 'left', position: 'relative',
+            background: 'rgba(255, 255, 255, 0.02)', overflow: 'hidden'
+          }}
+        >
+          {/* Holographic Shimmer */}
+          <motion.div 
+            animate={{ x: ['-100%', '200%'] }}
+            transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
+            style={{ 
+              position: 'absolute', top: 0, left: 0, width: '40%', height: '100%', 
+              background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent)',
+              skewX: '-20deg', pointerEvents: 'none'
+            }}
+          />
+
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <div style={{ width: '52px', height: '52px', borderRadius: '18px', background: 'linear-gradient(135deg, #FF75C3, #8F92FF)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 20px rgba(255, 117, 195, 0.2)' }}>
+                   <User size={24} color="#fff" />
+                </div>
+                <div>
+                   <div style={{ fontSize: '18px', fontWeight: 900, color: '#fff' }}>Identity Registry</div>
+                   <div style={{ fontSize: '11px', color: AURA_COLORS.sub, fontWeight: 700 }}>LUMINA_PASSPORT_ACTIVE</div>
+                </div>
              </div>
-             <div style={{ textAlign: 'left' }}>
-                <div style={{ fontSize: '14px', fontWeight: 900 }}>Identity Registry</div>
-                <div style={{ fontSize: '11px', color: AURA_COLORS.sub }}>View student credentials</div>
+             <Compass size={20} color={AURA_COLORS.primary} className="floating" />
+          </div>
+
+          <div style={{ display: 'flex', gap: '12px' }}>
+             <div style={{ background: 'rgba(255,255,255,0.03)', padding: '10px 16px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)', flex: 1 }}>
+                <div style={{ fontSize: '8px', fontWeight: 900, color: AURA_COLORS.sub, marginBottom: '4px' }}>ID_TOKEN</div>
+                <div style={{ fontSize: '12px', fontWeight: 800, color: '#fff' }}>{data?.profile?.["Registration Number"] || "LOCKED"}</div>
+             </div>
+             <div style={{ background: 'rgba(255,255,255,0.03)', padding: '10px 16px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)', flex: 1 }}>
+                <div style={{ fontSize: '8px', fontWeight: 900, color: AURA_COLORS.sub, marginBottom: '4px' }}>ACCESS_LEVEL</div>
+                <div style={{ fontSize: '12px', fontWeight: 800, color: AURA_COLORS.primary }}>STUDENT_CORE</div>
              </div>
           </div>
-          <Compass size={20} color={AURA_COLORS.sub} />
         </button>
 
         {/* Aura Bottom Nav */}
