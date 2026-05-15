@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   ArrowLeft, Home, Award, MoreHorizontal, IdCard, User, Mail, MapPin, 
-  RefreshCcw, Shield, Phone, GraduationCap, Users
+  RefreshCcw, Shield, Phone, GraduationCap, Users, BookOpen, Briefcase
 } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
 import { dataAPI } from "@/lib/api";
@@ -71,8 +71,6 @@ export default function StudentDashboardPage() {
   if (!mounted) return <div style={{ background: '#050505', height: '100vh' }} />;
 
   const profile = studentPortalData?.profile || {};
-  
-  // Try both nested and flattened paths for maximum compatibility
   const personal = profile.personalDetails || {};
   const address = profile.address || {};
   const parent = profile.parentDetails || {};
@@ -83,7 +81,7 @@ export default function StudentDashboardPage() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: THEME.bg, color: "#fff", display: "flex", flexDirection: "column", paddingBottom: "120px" }}>
+    <div style={{ minHeight: "100vh", background: THEME.bg, color: "#fff", display: "flex", flexDirection: "column", paddingBottom: "140px" }}>
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
         * { box-sizing: border-box; }
@@ -143,27 +141,35 @@ export default function StudentDashboardPage() {
 
         <SectionHeader icon={MapPin} title="Geographic Location" color="#ff3d00" />
         <div className="vault-card">
-           <Parameter label="Residential Address" value={getV('address', address)} width="100%" />
+           <Parameter label="Residential Address" value={address.address} width="100%" />
            <div style={{ display: 'flex' }}>
-              <Parameter label="District" value={getV('district', address)} />
-              <Parameter label="State" value={getV('state', address)} />
+              <Parameter label="District" value={address.district} />
+              <Parameter label="State" value={address.state} />
            </div>
-           <Parameter label="Pincode" value={getV('pincode', address)} />
+           <Parameter label="Pincode" value={address.pincode} />
         </div>
 
         <SectionHeader icon={Phone} title="Communication Channels" color="#00ff88" />
         <div className="vault-card">
-           <Parameter label="Student Mobile" value={getV('mobile', contact)} width="100%" />
+           <Parameter label="Student Mobile" value={contact.mobile} width="100%" />
            <Parameter label="Official Email" value={profile.email} width="100%" />
         </div>
 
         <SectionHeader icon={GraduationCap} title="Academic Linkage" color={THEME.accentCyan} />
         <div className="vault-card">
            <Parameter label="Program" value={getV('program')} width="100%" />
-           <div style={{ display: 'flex' }}>
+           <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+              <Parameter label="Semester" value={getV('semester')} />
               <Parameter label="Section" value={getV('section')} />
               <Parameter label="Batch" value={getV('batch')} />
+              <Parameter label="Room No" value={getV('roomNo')} />
            </div>
+        </div>
+
+        <SectionHeader icon={Briefcase} title="Advisor Infrastructure" color="#ffcc00" />
+        <div className="vault-card">
+           <Parameter label="Faculty Advisor" value={getV('facultyAdvisor')} width="100%" />
+           <Parameter label="Academic Advisor" value={getV('academicAdvisor')} width="100%" />
         </div>
       </main>
 
