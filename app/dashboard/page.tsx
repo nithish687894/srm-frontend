@@ -534,31 +534,31 @@ export default function DashboardPage() {
     fmtTimeOnly, fmt12, parseStart, parseEnd, isNowIn, BATCH_PERIODS, BroadcastBanner
   };
 
-  if (theme === "cosmos") return (
-    <>
-      <CosmosDashboard {...themeProps} />
-      <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => {}} netId="" />
-      {renderStudentInfoModal()}
-    </>
-  );
+  const activeDashboard = useMemo(() => {
+    if (!mounted) return null;
+    switch (theme) {
+      case "matrix": return <MatrixDashboard {...themeProps} />;
+      case "cosmos": return <CosmosDashboard {...themeProps} />;
+      default: return (
+        <AuraDashboard 
+          data={data} avgAtt={avgAtt} avgMarks={avgMarks} firstName={firstName} 
+          nextClass={nextClass} onShowStudentInfo={() => setShowStudentInfo(true)}
+          broadcast={broadcast} renderAcademicIntegrityHub={renderAcademicIntegrityHub}
+          upcomingEvents={upcomingEvents}
+        />
+      );
+    }
+  }, [mounted, theme, data, themeProps, upcomingEvents, firstName, nextClass, broadcast]);
 
-  if (theme === "matrix") return (
-    <>
-      <MatrixDashboard {...themeProps} />
-      <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => {}} netId="" />
-      {renderStudentInfoModal()}
-    </>
-  );
+  if (!mounted) {
+    return (
+      <div className="page-root" style={{ background: "#050508", height: "100vh", width: "100vw", overflow: 'hidden' }} />
+    );
+  }
 
-  // Default to Aura
   return (
     <>
-      <AuraDashboard 
-        data={data} avgAtt={avgAtt} avgMarks={avgMarks} firstName={firstName} 
-        nextClass={nextClass} onShowStudentInfo={() => setShowStudentInfo(true)}
-        broadcast={broadcast} renderAcademicIntegrityHub={renderAcademicIntegrityHub}
-        upcomingEvents={upcomingEvents}
-      />
+      {activeDashboard}
       <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => {}} netId="" />
       {renderStudentInfoModal()}
     </>

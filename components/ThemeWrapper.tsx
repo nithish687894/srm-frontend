@@ -16,16 +16,21 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
   useEffect(() => {
     if (!mounted) return;
     document.body.className = `theme-${currentTheme}`;
-    document.body.style.background = "#050508"; 
+    document.body.style.background = currentTheme === 'matrix' ? '#000' : '#050508'; 
+    document.body.style.overflow = 'hidden';
+    document.body.style.height = '100vh';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
   }, [currentTheme, mounted]);
 
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-        body { background: #050508; margin: 0; padding: 0; }
-        .theme-matrix { --bg: #000000; --text-primary: #ffffff; }
-        .theme-cosmos { --bg: #0f0f13; --text-primary: #f0f0ff; }
+        body { background: #050508; margin: 0; padding: 0; overflow: hidden; height: 100vh; position: fixed; width: 100%; }
+        .theme-matrix { --bg: #000000; --text-primary: #ffffff; --accent: #a8c200; }
+        .theme-aura { --bg: #050508; --text-primary: #ffffff; --accent: #FF75C3; }
+        .theme-cosmos { --bg: #0f0f13; --text-primary: #f0f0ff; --accent: #7c3aed; }
       `}} />
       
       <div 

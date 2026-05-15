@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { authAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
+import { useThemeStore } from "@/lib/themeStore";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Home, BarChart2, CheckCircle, Clock, Calendar, Wrench, Sparkles, Shield,
@@ -51,6 +52,7 @@ export default function Sidebar() {
   const [moreOpen, setMoreOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const { theme } = useThemeStore();
 
   const { profile, email, studentPortalConnected, studentPortalData, academicData } = useAuthStore();
   const userEmail = (email || profile?.Email || "").toLowerCase();
@@ -84,7 +86,7 @@ export default function Sidebar() {
           background: rgba(10,10,12,0.98); backdrop-filter: blur(24px);
           -webkit-backdrop-filter: blur(24px); border-top: 1px solid rgba(255,255,255,0.08);
           display: flex; align-items: center; justify-content: space-around;
-          z-index: 1000; box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+          z-index: 99999; box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
         }
         .nav-item {
           display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -93,7 +95,7 @@ export default function Sidebar() {
           transition: all 0.2s ease; -webkit-tap-highlight-color: transparent;
           background: none; border: none; outline: none; text-decoration: none; width: 64px;
         }
-        .nav-item.active { color: ${THEME.accentCyan}; }
+        .nav-item.active { color: ${theme === 'matrix' ? '#a8c200' : theme === 'aura' ? '#FF75C3' : THEME.accentCyan}; }
         .drawer-item-icon {
           width: 52px; height: 52px; border-radius: 18px;
           background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
@@ -101,18 +103,34 @@ export default function Sidebar() {
           transition: all 0.2s ease;
         }
         .drawer-item-icon.active {
-          background: rgba(0,212,255,0.08); border-color: rgba(0,212,255,0.15); color: ${THEME.accentCyan};
+          background: ${theme === 'matrix' ? 'rgba(168, 194, 0, 0.08)' : theme === 'aura' ? 'rgba(255, 117, 195, 0.08)' : 'rgba(0,212,255,0.08)'}; 
+          border-color: ${theme === 'matrix' ? 'rgba(168, 194, 0, 0.15)' : theme === 'aura' ? 'rgba(255, 117, 195, 0.15)' : 'rgba(0,212,255,0.15)'}; 
+          color: ${theme === 'matrix' ? '#a8c200' : theme === 'aura' ? '#FF75C3' : THEME.accentCyan};
         }
       `}</style>
 
       {/* TOP STATUS BAR */}
-      <div className="fixed top-12 left-6 right-6 z-[100] flex items-center justify-between pointer-events-none">
-        <div className="pointer-events-auto flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/10">
-          <div className={`w-1.5 h-1.5 rounded-full ${studentPortalConnected ? "bg-green-500" : "bg-red-500"}`} />
+      <div className="fixed top-12 left-6 right-6 z-[99999] flex items-center justify-between pointer-events-none">
+        <div 
+          className="pointer-events-auto flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-md border"
+          style={{ 
+            background: theme === 'matrix' ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.05)',
+            borderColor: theme === 'matrix' ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.08)'
+          }}
+        >
+          <div className={`w-1.5 h-1.5 rounded-full ${studentPortalConnected ? (theme === 'matrix' ? "bg-[#a8c200]" : "bg-[#94FFD8]") : "bg-red-500"}`} />
           <span className="text-[9px] font-black tracking-widest text-white/60 uppercase">{studentPortalConnected ? "SYNCED" : "OFFLINE"}</span>
         </div>
-        <button onClick={() => { setMenuOpen(true); setMoreOpen(false); }} className="pointer-events-auto w-10 h-10 rounded-full bg-black/60 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/60">
-          <Settings size={18} />
+        <button 
+          onClick={() => { setMenuOpen(true); setMoreOpen(false); }} 
+          className="pointer-events-auto w-10 h-10 rounded-full backdrop-blur-md border flex items-center justify-center text-white/60 transition-all active:scale-90"
+          style={{ 
+            background: theme === 'matrix' ? 'rgba(0,0,0,0.6)' : 'rgba(255, 117, 195, 0.1)',
+            borderColor: theme === 'matrix' ? 'rgba(255,255,255,0.1)' : 'rgba(255, 117, 195, 0.2)',
+            boxShadow: theme === 'aura' ? '0 0 15px rgba(255, 117, 195, 0.15)' : 'none'
+          }}
+        >
+          <Settings size={18} color={theme === 'aura' ? '#FF75C3' : '#fff'} />
         </button>
       </div>
 
@@ -147,14 +165,27 @@ export default function Sidebar() {
             <motion.div
               initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 300 }}
-              className="fixed bottom-0 left-0 right-0 z-[900] bg-[#0a0a0c] border-t border-white/10 rounded-t-[40px] px-6 pt-3 pb-[100px]"
-              style={{ maxHeight: "85vh", overflowY: "auto" }}
+              className="fixed bottom-0 left-0 right-0 z-[900] rounded-t-[40px] px-6 pt-3 pb-[100px]"
+              style={{ 
+                maxHeight: "85vh", 
+                overflowY: "auto",
+                background: theme === 'matrix' ? '#0a0a0c' : 'rgba(10, 10, 15, 0.95)',
+                backdropFilter: 'blur(30px)',
+                WebkitBackdropFilter: 'blur(30px)',
+                borderTop: theme === 'matrix' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(255,255,255,0.08)'
+              }}
             >
               <div className="w-12 h-1.5 bg-white/10 rounded-full mx-auto mb-8" />
 
               {/* USER INFO */}
               <div className="flex items-center gap-4 p-5 bg-white/[0.02] border border-white/[0.05] rounded-[28px] mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#00ff88] to-[#00d4ff] flex items-center justify-center text-black text-xl font-black">
+                <div 
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center text-black text-xl font-black"
+                  style={{ 
+                    background: theme === 'matrix' ? 'linear-gradient(135deg, #a8c200, #00d4ff)' : 'linear-gradient(135deg, #FF75C3, #8F92FF)',
+                    boxShadow: `0 8px 20px ${theme === 'matrix' ? 'rgba(168, 194, 0, 0.2)' : 'rgba(255, 117, 195, 0.2)'}`
+                  }}
+                >
                   {initials}
                 </div>
                 <div>
@@ -169,7 +200,7 @@ export default function Sidebar() {
                 <div className="grid grid-cols-4 gap-4">
                   {moreItems.map(({ href, label, icon: Icon, color }) => (
                     <Link key={href} href={href} onClick={() => setMoreOpen(false)} className="flex flex-col items-center gap-3">
-                      <div className={`drawer-item-icon ${isActive(href, path) ? "active" : ""}`} style={{ color: isActive(href, path) ? THEME.accentCyan : color }}>
+                      <div className={`drawer-item-icon ${isActive(href, path) ? "active" : ""}`} style={{ color: isActive(href, path) ? (theme === 'matrix' ? '#a8c200' : theme === 'aura' ? '#FF75C3' : THEME.accentCyan) : color }}>
                         <Icon size={22} />
                       </div>
                       <span className="text-[9px] font-black text-white/40 uppercase tracking-wider text-center">{label}</span>

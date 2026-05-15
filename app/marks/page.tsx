@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import {
   ArrowLeft, Home, Award, MoreHorizontal, Terminal, User, 
@@ -82,13 +82,17 @@ export default function MarksPage() {
     };
   });
 
-  if (theme === "aura") return (
-    <AuraMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />
-  );
+  const activeMarks = useMemo(() => {
+    if (!mounted) return null;
+    switch (theme) {
+      case "aura": return <AuraMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />;
+      case "matrix": return <MatrixMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} router={router} />;
+      default: return null;
+    }
+  }, [mounted, theme, marks, isSyncing, router]);
 
-  if (theme === "matrix") return (
-    <MatrixMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} router={router} />
-  );
+  if (!mounted) return <div style={{ background: '#050505', height: '100vh' }} />;
+  if (activeMarks) return activeMarks;
 
   // Default / Cosmos Theme
   const totalScored = marks.reduce((s:number, m:any) => s + (m.tests?.reduce((a:number, t:any) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
