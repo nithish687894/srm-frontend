@@ -505,7 +505,7 @@ export default function DashboardPage() {
         nextClass={nextClass} onShowStudentInfo={() => setShowStudentInfo(true)}
         broadcast={broadcast} renderAcademicIntegrityHub={renderAcademicIntegrityHub}
       />
-      <PortalSyncModal isOpen={isSyncing} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => {}} netId="" />
+      <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => {}} netId="" />
       {renderStudentInfoModal()}
     </>
   );
