@@ -17,6 +17,24 @@ const THEME = {
   accentCyan: "#00d4ff",
 };
 
+/* ── Stable Sub-Components ────────────────────────────────────────────────── */
+
+const Parameter = ({ label, value, width = "50%" }: any) => (
+  <div style={{ width, marginBottom: "20px" }}>
+    <p style={{ fontSize: '9px', fontWeight: 800, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '6px' }}>{label}</p>
+    <p style={{ fontSize: '16px', fontWeight: 800, color: '#fff', margin: 0 }}>{value || "—"}</p>
+  </div>
+);
+
+const SectionHeader = ({ icon: Icon, title, color = THEME.accentPurple }: any) => (
+  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '32px 0 16px', paddingLeft: '4px' }}>
+    <div style={{ width: '32px', height: '32px', borderRadius: '10px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', color }}>
+      <Icon size={16} />
+    </div>
+    <span style={{ fontSize: '10px', fontWeight: 900, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.3em' }}>{title}</span>
+  </div>
+);
+
 export default function StudentDashboardPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
@@ -45,22 +63,6 @@ export default function StudentDashboardPage() {
   if (!mounted) return <div style={{ background: '#050505', height: '100vh' }} />;
 
   const profile = studentPortalData?.profile || {};
-
-  const SectionHeader = ({ icon: Icon, title, color = THEME.accentPurple }: any) => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '32px 0 16px', paddingLeft: '4px' }}>
-      <div style={{ width: '32px', height: '32px', borderRadius: '10px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', color }}>
-        <Icon size={16} />
-      </div>
-      <span style={{ fontSize: '10px', fontWeight: 900, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.3em' }}>{title}</span>
-    </div>
-  );
-
-  const Parameter = ({ label, value, width = "50%" }: any) => (
-    <div style={{ width, marginBottom: "20px" }}>
-      <p style={{ fontSize: '9px', fontWeight: 800, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '6px' }}>{label}</p>
-      <p style={{ fontSize: '16px', fontWeight: 800, color: '#fff', margin: 0 }}>{value || "—"}</p>
-    </div>
-  );
 
   return (
     <div style={{ minHeight: "100vh", background: THEME.bg, color: "#fff", display: "flex", flexDirection: "column", paddingBottom: "120px" }}>
@@ -99,7 +101,7 @@ export default function StudentDashboardPage() {
            </div>
            <div>
               <h2 style={{ fontSize: "20px", fontWeight: 800, margin: 0 }}>{profile.name || "SYNCING..."}</h2>
-              <p style={{ fontSize: "11px", color: THEME.accentCyan, fontWeight: 700, marginTop: "4px" }}>{profile.registerNo || "ID DETECTED"}</p>
+              <p style={{ fontSize: "11px", color: THEME.accentCyan, fontWeight: 700, marginTop: "4px" }}>{profile.registerNo || "DETECTING..."}</p>
            </div>
         </div>
 
