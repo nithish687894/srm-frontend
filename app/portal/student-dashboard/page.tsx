@@ -1,218 +1,217 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
   ArrowLeft, Settings, Home, Award, 
   CheckCircle, Calendar, MoreHorizontal, Building, 
   GraduationCap, MapPin, IdCard, UserCheck, Fingerprint,
-  RefreshCw
+  Copy, Check, User, Globe, Hash
 } from 'lucide-react';
 import { useAuthStore } from "@/lib/store";
 import { dataAPI } from "@/lib/api";
 
 const STYLES = `
-  .loader {
-    width: 40px;
-    height: 40px;
-    border: 3px solid rgba(255,255,255,0.1);
-    border-top: 3px solid #00d4ff;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+  
+  body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  
+  .glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
   }
-  @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  
+  .nexus-glow {
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.15);
+  }
+  
+  .nav-active {
+    color: #00d4ff !important;
+    text-shadow: 0 0 12px rgba(0, 212, 255, 0.5);
+  }
+
   .custom-scroll::-webkit-scrollbar { display: none; }
   .custom-scroll { -ms-overflow-style: none; scrollbar-width: none; }
 `;
 
-const InfoRow = ({ icon: Icon, label, value, index }: any) => {
+const IdentityTile = ({ icon: Icon, label, value, delay }: any) => {
   if (!value || value === "Not Assigned") return null;
   return (
-    <div style={{ 
-      display: 'flex', 
-      alignItems: 'center', 
-      gap: '12px', 
-      padding: '16px', 
-      backgroundColor: index % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent',
-      borderBottom: '1px solid rgba(255,255,255,0.05)',
-      borderLeft: '3px solid #00d4ff'
-    }}>
-      <div style={{ color: '#00d4ff' }}>
-        <Icon size={16} strokeWidth={2.5} />
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay }}
+      className="glass-card"
+      style={{ padding: '16px', display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '12px' }}
+    >
+      <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(0,212,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#00d4ff' }}>
+        <Icon size={18} />
       </div>
-      <div style={{ flex: 1 }}>
-        <p style={{ margin: 0, fontSize: '9px', fontWeight: 900, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{label}</p>
-        <p style={{ margin: 0, fontSize: '13px', fontWeight: 700, color: '#ffffff', textTransform: 'uppercase' }}>{value}</p>
+      <div>
+        <p style={{ margin: 0, fontSize: '9px', fontWeight: 800, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.15em' }}>{label}</p>
+        <p style={{ margin: 0, fontSize: '14px', fontWeight: 600, color: '#ffffff' }}>{value}</p>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
 export default function StudentDashboardPage() {
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
   const [activeNav, setActiveNav] = useState('home');
-  const [isFetching, setIsFetching] = useState(false);
-  const [fetchError, setFetchError] = useState(false);
+  const [copied, setCopied] = useState(false);
   
   const { studentPortalData, setStudentPortalData, setAcademicData } = useAuthStore();
 
   useEffect(() => { 
-    // Check if we need to fetch data
+    setMounted(true); 
     if (!studentPortalData?.profile) {
-      handleFetch();
+      dataAPI.getUnified().then(d => {
+        if (d?.success && d.studentPortal) {
+          setStudentPortalData(d.studentPortal);
+          setAcademicData({ ...d.academia, studentPortal: d.studentPortal });
+        }
+      });
     }
   }, []);
 
-  const handleFetch = async () => {
-    setIsFetching(true);
-    setFetchError(false);
-    try {
-      console.log("[Identity] No data in store. Triggering unified fetch...");
-      const d = await dataAPI.getUnified();
-      console.log("[Identity] API Result:", d);
-      
-      if (d && d.success && d.studentPortal) {
-        // Sync to global store
-        setStudentPortalData(d.studentPortal);
-        // Also sync academic data for other components
-        const merged = { ...d.academia, studentPortal: d.studentPortal };
-        setAcademicData(merged);
-      } else {
-        setFetchError(true);
-      }
-    } catch (err) {
-      console.error("[Identity] Fetch Failed:", err);
-      setFetchError(true);
-    } finally {
-      setIsFetching(false);
-    }
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   if (!mounted) return null;
 
   const profile = studentPortalData?.profile;
-  console.log("[Identity] Current Profile State:", profile);
 
   return (
-    <div style={{ position: 'fixed', inset: 0, backgroundColor: '#000000', color: '#ffffff', display: 'flex', flexDirection: 'column', overflow: 'hidden', fontFamily: 'sans-serif' }}>
+    <div style={{ position: 'fixed', inset: 0, background: '#050505', color: '#ffffff', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
       <style>{STYLES}</style>
       
       {/* HEADER */}
-      <header style={{ paddingTop: '55px', paddingBottom: '16px', paddingLeft: '24px', paddingRight: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.1)', backgroundColor: '#000000' }}>
-        <button onClick={() => router.back()} style={{ width: '40px', height: '40px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent' }}>
-          <ArrowLeft size={20} color="#ffffff" />
+      <header style={{ paddingTop: '60px', paddingBottom: '20px', paddingLeft: '24px', paddingRight: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', zIndex: 50 }}>
+        <button onClick={() => router.back()} style={{ width: '44px', height: '44px', borderRadius: '15px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+          <ArrowLeft size={22} />
         </button>
         
         <div style={{ textAlign: 'center' }}>
-          <p style={{ margin: 0, fontSize: '8px', fontWeight: 900, color: '#00d4ff', textTransform: 'uppercase', letterSpacing: '0.4em' }}>Nexus Portal</p>
-          <h1 style={{ margin: 0, fontSize: '13px', fontWeight: 900, color: '#ffffff', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Student Identity</h1>
+          <span style={{ fontSize: '9px', fontWeight: 800, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.4em', display: 'block', marginBottom: '2px' }}>NEXUS PORTAL</span>
+          <span style={{ fontSize: '15px', fontWeight: 800, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Identity Card</span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'end' }}>
-            <span style={{ padding: '2px 6px', background: profile ? '#10b981' : '#f59e0b', color: '#000000', fontSize: '7px', fontWeight: 900, borderRadius: '2px', textTransform: 'uppercase' }}>
-              {profile ? 'Active' : 'Offline'}
-            </span>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
-              <span style={{ fontSize: '7px', fontWeight: 900, color: '#00d4ff', textTransform: 'uppercase' }}>{profile ? 'Synced' : 'Waiting'}</span>
-              <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: profile ? '#10b981' : '#f59e0b' }} />
-            </div>
-          </div>
-          <button style={{ width: '40px', height: '40px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent' }}>
-            <Settings size={20} color="#ffffff" />
-          </button>
-        </div>
+        <button style={{ width: '44px', height: '44px', borderRadius: '15px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+          <Settings size={22} />
+        </button>
       </header>
 
-      {/* CONTENT */}
-      <main className="custom-scroll" style={{ flex: 1, overflowY: 'auto', padding: '24px' }}>
-        {!profile ? (
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh' }}>
-            {fetchError ? (
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ color: '#ef4444', marginBottom: '16px' }}>
-                   <RefreshCw size={40} style={{ margin: '0 auto' }} />
+      {/* CONTENT AREA */}
+      <main className="custom-scroll" style={{ flex: 1, overflowY: 'auto', padding: '0 24px 120px' }}>
+        <AnimatePresence mode="wait">
+          {!profile ? (
+            <motion.div 
+              key="loader"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh' }}
+            >
+              <div style={{ width: '50px', height: '50px', borderRadius: '50%', border: '3px solid rgba(0,212,255,0.1)', borderTopColor: '#00d4ff', animation: 'spin 1s linear infinite' }} />
+              <p style={{ marginTop: '20px', fontSize: '10px', fontWeight: 800, color: '#00d4ff', letterSpacing: '0.3em', textTransform: 'uppercase' }}>Establishing Link</p>
+            </motion.div>
+          ) : (
+            <motion.div 
+              key="content"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+            >
+              {/* STATUS INDICATOR */}
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '32px' }}>
+                <div className="glass-card" style={{ padding: '6px 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', boxShadow: '0 0 10px #10b981' }} />
+                  <span style={{ fontSize: '9px', fontWeight: 800, color: '#10b981', textTransform: 'uppercase', letterSpacing: '0.1em' }}>System Active • Fully Synced</span>
                 </div>
-                <p style={{ margin: 0, fontSize: '14px', fontWeight: 900, color: '#ffffff', textTransform: 'uppercase' }}>Sync Interrupted</p>
-                <p style={{ margin: '8px 0 20px 0', fontSize: '10px', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>Session might have expired</p>
-                <button 
-                  onClick={handleFetch}
-                  style={{ padding: '12px 24px', background: '#00d4ff', color: '#000', border: 'none', borderRadius: '8px', fontSize: '11px', fontWeight: 900, textTransform: 'uppercase' }}
-                >
-                  Force Re-Sync
-                </button>
               </div>
-            ) : (
-              <>
-                <div className="loader" style={{ marginBottom: '24px' }}></div>
-                <div style={{ textAlign: 'center' }}>
-                  <p style={{ margin: 0, fontSize: '11px', fontWeight: 900, color: '#ffffff', textTransform: 'uppercase', letterSpacing: '0.3em' }}>Establishing Uplink</p>
-                  <p style={{ margin: '4px 0 0 0', fontSize: '8px', color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase' }}>Retrieving Unified Identity...</p>
+
+              {/* PROFILE HERO */}
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '40px' }}>
+                <div style={{ position: 'relative', marginBottom: '24px' }}>
+                  <div className="nexus-glow" style={{ width: '110px', height: '110px', borderRadius: '50%', background: 'linear-gradient(135deg, rgba(0,212,255,0.2) 0%, rgba(59,130,246,0.1) 100%)', border: '2px solid rgba(0,212,255,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span style={{ fontSize: '38px', fontWeight: 800, color: '#fff', letterSpacing: '-2px' }}>
+                      {profile.name?.split(' ').map((n:any)=>n[0]).join('').slice(0,2).toUpperCase()}
+                    </span>
+                  </div>
+                  <div style={{ position: 'absolute', bottom: '4px', right: '4px', background: '#050505', padding: '4px', borderRadius: '50%' }}>
+                    <div style={{ background: '#10b981', width: '12px', height: '12px', borderRadius: '50%', border: '2px solid #050505' }} />
+                  </div>
                 </div>
-              </>
-            )}
-          </div>
-        ) : (
-          <div style={{ paddingBottom: '100px' }}>
-            
-            {/* PROFILE HERO */}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '32px', marginTop: '10px' }}>
-              <div style={{ width: '90px', height: '90px', borderRadius: '50%', border: '1px solid rgba(0,212,255,0.2)', background: 'rgba(0,212,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
-                <span style={{ fontSize: '30px', fontWeight: 900, color: '#00d4ff' }}>{profile.name?.slice(0, 2).toUpperCase() || 'NS'}</span>
-              </div>
-              <h2 style={{ margin: '0 0 8px 0', fontSize: '26px', fontWeight: 900, color: '#ffffff', textAlign: 'center', textTransform: 'uppercase' }}>{profile.name}</h2>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ color: '#00d4ff', fontWeight: 700, fontSize: '12px', fontFamily: 'monospace' }}>{profile.registerNo}</span>
-                <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)' }}></span>
-                <span style={{ fontSize: '10px', fontWeight: 700, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>Batch {profile.batch}</span>
-              </div>
-              <div style={{ display: 'flex', gap: '8px', marginTop: '14px' }}>
-                <span style={{ padding: '4px 10px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#ffffff', fontSize: '9px', fontWeight: 900, borderRadius: '4px', textTransform: 'uppercase' }}>Dept: CS</span>
-                <span style={{ padding: '4px 10px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#ffffff', fontSize: '9px', fontWeight: 900, borderRadius: '4px', textTransform: 'uppercase' }}>Sec: {profile.section}</span>
-              </div>
-            </div>
 
-            {/* DATA LIST */}
-            <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.01)' }}>
-              <InfoRow index={0} icon={IdCard} label="System ID" value={profile.studentId} />
-              <InfoRow index={1} icon={GraduationCap} label="Primary Program" value={profile.program} />
-              <InfoRow index={2} icon={Building} label="Institution" value={profile.institution} />
-              <InfoRow index={3} icon={MapPin} label="Assigned Section" value={profile.section} />
-              <InfoRow index={4} icon={Fingerprint} label="ABC Identity" value={profile.abcNumber} />
-            </div>
+                <h2 style={{ fontSize: '28px', fontWeight: 800, color: '#fff', margin: '0 0 8px 0', textAlign: 'center', textTransform: 'uppercase', lineHeight: 1.1 }}>{profile.name}</h2>
+                
+                <div onClick={() => handleCopy(profile.registerNo)} style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', background: 'rgba(255,255,255,0.03)', padding: '6px 12px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                  <span style={{ color: '#00d4ff', fontWeight: 700, fontSize: '13px', fontFamily: 'monospace' }}>{profile.registerNo}</span>
+                  {copied ? <Check size={14} color="#10b981" /> : <Copy size={14} color="rgba(255,255,255,0.3)" />}
+                </div>
 
-            <div style={{ marginTop: '24px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.01)' }}>
-               <InfoRow index={0} icon={UserCheck} label="Faculty Advisor" value={profile.facultyAdvisor} />
-               <InfoRow index={1} icon={UserCheck} label="Academic Advisor" value={profile.academicAdvisor} />
-            </div>
+                <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
+                  <span style={{ padding: '6px 14px', borderRadius: '12px', background: 'rgba(0,212,255,0.08)', border: '1px solid rgba(0,212,255,0.15)', color: '#00d4ff', fontSize: '10px', fontWeight: 800, textTransform: 'uppercase' }}>DEPT: {profile.department?.split(' ')[0] || 'CS'}</span>
+                  <span style={{ padding: '6px 14px', borderRadius: '12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', fontSize: '10px', fontWeight: 800, textTransform: 'uppercase' }}>SEC: {profile.section}</span>
+                </div>
+              </div>
 
-          </div>
-        )}
+              {/* CORE ACADEMIC SECTION */}
+              <div style={{ marginBottom: '32px' }}>
+                <div style={{ paddingLeft: '8px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <div style={{ width: '4px', height: '14px', background: '#00d4ff', borderRadius: '2px' }} />
+                  <span style={{ fontSize: '11px', fontWeight: 800, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.2em' }}>Core Identity</span>
+                </div>
+                <IdentityTile delay={0.1} icon={IdCard} label="Internal System ID" value={profile.studentId} />
+                <IdentityTile delay={0.2} icon={GraduationCap} label="Primary Program" value={profile.program} />
+                <IdentityTile delay={0.3} icon={Building} label="Institution" value={profile.institution} />
+                <IdentityTile delay={0.4} icon={Globe} label="ABC Identity" value={profile.abcNumber} />
+              </div>
+
+              {/* ADVISOR SECTION */}
+              <div style={{ marginBottom: '20px' }}>
+                <div style={{ paddingLeft: '8px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <div style={{ width: '4px', height: '14px', background: '#10b981', borderRadius: '2px' }} />
+                  <span style={{ fontSize: '11px', fontWeight: 800, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.2em' }}>Academic Support</span>
+                </div>
+                <IdentityTile delay={0.5} icon={UserCheck} label="Faculty Advisor" value={profile.facultyAdvisor} />
+                <IdentityTile delay={0.6} icon={UserCheck} label="Academic Advisor" value={profile.academicAdvisor} />
+              </div>
+
+            </motion.div>
+          )}
+        </AnimatePresence>
       </main>
 
-      {/* NAVIGATION */}
-      <nav style={{ height: '85px', backgroundColor: '#000000', borderTop: '1px solid rgba(255,255,255,0.1)', display: 'flex', justifyContent: 'space-around', alignItems: 'center', paddingBottom: '20px' }}>
-        <button onClick={() => setActiveNav('home')} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', background: 'transparent', border: 'none', color: activeNav === 'home' ? '#00d4ff' : 'rgba(255,255,255,0.2)' }}>
-          <Home size={20} strokeWidth={activeNav === 'home' ? 2.5 : 2} />
-          <span style={{ fontSize: '8px', fontWeight: 900, textTransform: 'uppercase' }}>Home</span>
+      {/* NAV DOCK */}
+      <nav style={{ position: 'absolute', bottom: '24px', left: '20px', right: '20px', height: '72px', background: 'rgba(15,15,15,0.85)', backdropFilter: 'blur(20px)', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', justifyContent: 'space-around', alignItems: 'center', padding: '0 10px', boxShadow: '0 20px 40px rgba(0,0,0,0.4)', zIndex: 100 }}>
+        <button onClick={() => setActiveNav('home')} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)' }} className={activeNav === 'home' ? 'nav-active' : ''}>
+          <Home size={22} strokeWidth={2.5} />
+          <span style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase' }}>Home</span>
         </button>
-        <button onClick={() => router.push('/portal/grade-mark-credit')} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.2)' }}>
-          <Award size={20} />
-          <span style={{ fontSize: '8px', fontWeight: 900, textTransform: 'uppercase' }}>Marks</span>
+        <button onClick={() => router.push('/portal/grade-mark-credit')} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)' }}>
+          <Award size={22} />
+          <span style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase' }}>Marks</span>
         </button>
-        <button onClick={() => router.push('/dashboard')} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.2)' }}>
-          <CheckCircle size={20} />
-          <span style={{ fontSize: '8px', fontWeight: 900, textTransform: 'uppercase' }}>Attnd</span>
+        <button onClick={() => router.push('/dashboard')} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)' }}>
+          <CheckCircle size={22} />
+          <span style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase' }}>Attnd</span>
         </button>
-        <button onClick={() => router.push('/timetable')} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.2)' }}>
-          <Calendar size={20} />
-          <span style={{ fontSize: '8px', fontWeight: 900, textTransform: 'uppercase' }}>Time</span>
+        <button onClick={() => router.push('/timetable')} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)' }}>
+          <Calendar size={22} />
+          <span style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase' }}>Time</span>
         </button>
-        <button onClick={() => setActiveNav('more')} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', background: 'transparent', border: 'none', color: activeNav === 'more' ? '#00d4ff' : 'rgba(255,255,255,0.2)' }}>
-          <MoreHorizontal size={20} />
-          <span style={{ fontSize: '8px', fontWeight: 900, textTransform: 'uppercase' }}>More</span>
+        <button style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)' }}>
+          <MoreHorizontal size={22} />
+          <span style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase' }}>More</span>
         </button>
       </nav>
 
+      <style>{`
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+      `}</style>
     </div>
   );
 }

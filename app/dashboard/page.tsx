@@ -153,7 +153,6 @@ export default function DashboardPage() {
   const [myTTData, setMyTTData] = useState<any>(null);
   const [calData, setCalData] = useState<any>(null);
   const [dayOffset, setDayOffset] = useState(0);
-  const [mounted, setMounted] = useState(false);
   const [syncError, setSyncError] = useState<string | null>(null);
 
   const renderAcademicIntegrityHub = (isMatrix = false) => {
@@ -230,9 +229,6 @@ export default function DashboardPage() {
     return extractBatch(raw);
   });
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     if (!ready) return;
@@ -439,7 +435,7 @@ export default function DashboardPage() {
     );
   };
 
-  if (!mounted || (loading && !data)) return (
+  if (loading && !data) return (
     <div className="page-root" style={{ 
       display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", 
       background: "#000", gap: "32px", position: "fixed", inset: 0, zIndex: 1000 

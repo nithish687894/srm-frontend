@@ -8,7 +8,7 @@ import axios from "axios";
  * Compares the local frontend version with the backend version.
  * If a mismatch is detected, it forces a page reload to bust the cache.
  */
-const CURRENT_VERSION = "2.5.2"; 
+const CURRENT_VERSION = "2.6.0"; 
 
 export default function VersionGuard() {
   useEffect(() => {
