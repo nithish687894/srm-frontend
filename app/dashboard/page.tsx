@@ -556,12 +556,16 @@ export default function DashboardPage() {
   );
 
   return (
-    <>
-      {activeDashboard}
-      <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => {}} netId="" />
-      {renderStudentInfoModal()}
-    </>
+    <div style={{ height: "100vh", width: "100vw", background: "#000", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+      <Sidebar />
+      <main style={{ flex: 1, overflowY: "auto", WebkitOverflowScrolling: "touch" }}>
+        {activeDashboard}
+        <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => {}} netId="" />
+        {renderStudentInfoModal()}
+      </main>
+    </div>
   );
+}
 }
 
 
