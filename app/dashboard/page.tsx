@@ -13,7 +13,6 @@ import PortalSyncModal from "@/components/PortalSyncModal";
 import StudentPortalPrompt from "@/components/StudentPortalPrompt";
 import { ShieldCheck } from "lucide-react";
 import dynamic from "next/dynamic";
-import HackerDashboard from "@/components/hacker-os/HackerDashboard";
 import AuraDashboard from "@/components/aura-theme/AuraDashboard";
 
 // Dynamic imports for performance optimization

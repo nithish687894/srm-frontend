@@ -24,13 +24,13 @@ export default function MatrixDashboard({
   return (
     <div style={{ background: "#000000", height: "100vh", display: "flex", flexDirection: "column", color: "#ffffff", fontFamily: "'Inter', sans-serif", overflow: "hidden" }}>
       <Sidebar />
-      <main style={{ flex: 1, overflowY: "auto", padding: "16px 20px 20px", WebkitOverflowScrolling: "touch" }}>
+      <main style={{ flex: 1, overflowY: "auto", padding: "16px 20px 120px", WebkitOverflowScrolling: "touch" }}>
 
         {/* System Status / Profile Intro */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "32px", position: "relative", zIndex: 10 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%" }}>
             <div>
-              <div style={{ fontSize: "10px", color: "#a8c200", letterSpacing: "0.2em", fontWeight: 900, marginBottom: "4px" }}>SYSTEM INITIALIZED</div>
+              <div style={{ fontSize: "10px", color: "#facc15", letterSpacing: "0.2em", fontWeight: 900, marginBottom: "4px" }}>SYSTEM INITIALIZED</div>
               <div style={{ fontSize: "36px", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 1 }}>{firstName.toUpperCase()}</div>
               <div style={{ fontSize: "11px", color: "#666", fontWeight: 800, marginTop: "6px" }}>ID: {regNo} • {batchDisplay}</div>
             </div>
@@ -42,7 +42,7 @@ export default function MatrixDashboard({
               </div>
               <button 
                 onClick={() => setIsSyncModalOpen(true)}
-                style={{ marginTop: "8px", background: "rgba(168, 194, 0, 0.1)", border: "1px solid rgba(168, 194, 0, 0.2)", color: "#a8c200", padding: "4px 10px", borderRadius: "8px", fontSize: "9px", fontWeight: 900, textTransform: "uppercase" }}
+                style={{ marginTop: "8px", background: "rgba(250, 204, 21, 0.1)", border: "1px solid rgba(250, 204, 21, 0.2)", color: "#facc15", padding: "4px 10px", borderRadius: "8px", fontSize: "9px", fontWeight: 900, textTransform: "uppercase" }}
               >
                 Unlock History
               </button>
@@ -54,7 +54,7 @@ export default function MatrixDashboard({
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "12px", marginBottom: "32px" }}>
           <motion.div whileTap={{ scale: 0.94 }} onClick={() => router.push("/attendance")} style={{ background: "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", cursor: "pointer" }}>
             <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Attnd</div>
-            <div style={{ fontSize: "24px", fontWeight: 900, color: "#a8c200" }}>{avgAtt}%</div>
+            <div style={{ fontSize: "24px", fontWeight: 900, color: "#facc15" }}>{avgAtt}%</div>
           </motion.div>
           <motion.div whileTap={{ scale: 0.94 }} onClick={() => router.push("/marks")} style={{ background: "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", cursor: "pointer" }}>
             <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Marks</div>
@@ -70,12 +70,12 @@ export default function MatrixDashboard({
         {bestAtt && (
           <div style={{ background: "#1c1c1c", borderRadius: "28px", padding: "24px", marginBottom: "40px", border: "1px solid #333" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-              <div style={{ fontSize: "10px", color: "#a8c200", letterSpacing: "0.15em", fontWeight: 900 }}>ACADEMIC PEAK</div>
-              <div style={{ background: "#a8c200", color: "#000", fontSize: "10px", fontWeight: 900, padding: "4px 10px", borderRadius: "8px" }}>TOP TIER</div>
+              <div style={{ fontSize: "10px", color: "#facc15", letterSpacing: "0.15em", fontWeight: 900 }}>ACADEMIC PEAK</div>
+              <div style={{ background: "#facc15", color: "#000", fontSize: "10px", fontWeight: 900, padding: "4px 10px", borderRadius: "8px" }}>TOP TIER</div>
             </div>
             <div style={{ fontSize: "22px", fontWeight: 900, lineHeight: 1.2, marginBottom: "8px" }}>{bestAtt["Course Title"]}</div>
             <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
-              <div style={{ fontSize: "32px", fontWeight: 900, color: "#a8c200" }}>{bestAtt["Attn %"]}%</div>
+              <div style={{ fontSize: "32px", fontWeight: 900, color: "#facc15" }}>{bestAtt["Attn %"]}%</div>
               <div style={{ fontSize: "12px", color: "#666", fontWeight: 800 }}>ATTENDANCE RECORD</div>
             </div>
           </div>
@@ -122,14 +122,14 @@ export default function MatrixDashboard({
                     <div style={{ 
                       position: "absolute", left: "-6px", top: "50%", transform: "translateY(-50%)", 
                       width: "12px", height: "12px", borderRadius: "50%", 
-                      background: isActive ? "#a8c200" : "#222", 
+                      background: isActive ? "#facc15" : "#222", 
                       border: "2px solid #000", zIndex: 5,
-                      boxShadow: isActive ? "0 0 10px #a8c200" : "none"
+                      boxShadow: isActive ? "0 0 10px #facc15" : "none"
                     }} />
                     
                     <div style={{ 
                       position: "absolute", left: "-32px", top: "50%", transform: "translateY(-50%)", 
-                      fontSize: "10px", fontWeight: 900, color: isActive ? "#a8c200" : "#444",
+                      fontSize: "10px", fontWeight: 900, color: isActive ? "#facc15" : "#444",
                       width: "20px", textAlign: "right"
                     }}>
                       {p.id}
@@ -140,7 +140,7 @@ export default function MatrixDashboard({
                       <div style={{ padding: "12px 0" }}>
                         <div style={{ 
                           height: "1px", width: "100%", borderTop: "2px dashed #333", 
-                          opacity: isActive ? 1 : 0.4, borderColor: isActive ? "#a8c200" : "#333" 
+                          opacity: isActive ? 1 : 0.4, borderColor: isActive ? "#facc15" : "#333" 
                         }} />
                       </div>
                     ) : (
@@ -150,14 +150,14 @@ export default function MatrixDashboard({
                         onClick={() => router.push("/timetable")}
                         style={{ 
                           background: "#121212", borderRadius: "18px", padding: "16px 20px", 
-                          border: isActive ? "1px solid #a8c200" : "1px solid #222",
+                          border: isActive ? "1px solid #facc15" : "1px solid #222",
                           cursor: "pointer", position: "relative", overflow: "hidden"
                         }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
                           <div style={{ fontSize: "10px", fontWeight: 800, color: "#666", textTransform: "uppercase" }}>
                             {p.start} — {p.end}
                           </div>
-                          <div style={{ fontSize: "10px", fontWeight: 900, color: isActive ? "#a8c200" : "#444" }}>
+                          <div style={{ fontSize: "10px", fontWeight: 900, color: isActive ? "#facc15" : "#444" }}>
                             PERIOD {p.id}
                           </div>
                         </div>

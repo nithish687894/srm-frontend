@@ -95,7 +95,7 @@ export default function Sidebar() {
           transition: all 0.2s ease; -webkit-tap-highlight-color: transparent;
           background: none; border: none; outline: none; text-decoration: none; width: 64px;
         }
-        .nav-item.active { color: ${theme === 'matrix' ? '#a8c200' : theme === 'aura' ? '#FF75C3' : THEME.accentCyan}; }
+        .nav-item.active { color: ${theme === 'matrix' ? '#facc15' : theme === 'aura' ? '#FF75C3' : THEME.accentCyan}; }
         .drawer-item-icon {
           width: 52px; height: 52px; border-radius: 18px;
           background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
@@ -103,9 +103,9 @@ export default function Sidebar() {
           transition: all 0.2s ease;
         }
         .drawer-item-icon.active {
-          background: ${theme === 'matrix' ? 'rgba(168, 194, 0, 0.08)' : theme === 'aura' ? 'rgba(255, 117, 195, 0.08)' : 'rgba(0,212,255,0.08)'}; 
-          border-color: ${theme === 'matrix' ? 'rgba(168, 194, 0, 0.25)' : theme === 'aura' ? 'rgba(255, 117, 195, 0.15)' : 'rgba(0,212,255,0.15)'}; 
-          color: ${theme === 'matrix' ? '#a8c200' : theme === 'aura' ? '#FF75C3' : THEME.accentCyan};
+          background: ${theme === 'matrix' ? 'rgba(250, 204, 21, 0.08)' : theme === 'aura' ? 'rgba(255, 117, 195, 0.08)' : 'rgba(0,212,255,0.08)'}; 
+          border-color: ${theme === 'matrix' ? 'rgba(250, 204, 21, 0.25)' : theme === 'aura' ? 'rgba(255, 117, 195, 0.15)' : 'rgba(0,212,255,0.15)'}; 
+          color: ${theme === 'matrix' ? '#facc15' : theme === 'aura' ? '#FF75C3' : THEME.accentCyan};
         }
         .matrix-font { font-family: 'JetBrains Mono', 'Courier New', monospace; }
       `}</style>
@@ -119,7 +119,7 @@ export default function Sidebar() {
             borderColor: theme === 'matrix' ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.08)'
           }}
         >
-          <div className={`w-1.5 h-1.5 rounded-full ${studentPortalConnected ? (theme === 'matrix' ? "bg-[#a8c200]" : "bg-[#94FFD8]") : "bg-red-500"}`} />
+          <div className={`w-1.5 h-1.5 rounded-full ${studentPortalConnected ? (theme === 'matrix' ? "bg-[#facc15]" : "bg-[#94FFD8]") : "bg-red-500"}`} />
           <span className="text-[9px] font-black tracking-widest text-white/60 uppercase">{studentPortalConnected ? "SYNCED" : "OFFLINE"}</span>
         </div>
         <button 
@@ -183,15 +183,26 @@ export default function Sidebar() {
                 <div 
                   className="w-14 h-14 rounded-2xl flex items-center justify-center text-black text-xl font-black"
                   style={{ 
-                    background: theme === 'matrix' ? 'linear-gradient(135deg, #a8c200, #00d4ff)' : 'linear-gradient(135deg, #FF75C3, #8F92FF)',
-                    boxShadow: `0 8px 20px ${theme === 'matrix' ? 'rgba(168, 194, 0, 0.2)' : 'rgba(255, 117, 195, 0.2)'}`
+                    background: theme === 'matrix' ? 'linear-gradient(135deg, #facc15, #ffffff)' : 'linear-gradient(135deg, #FF75C3, #8F92FF)',
+                    boxShadow: `0 8px 20px ${theme === 'matrix' ? 'rgba(250, 204, 21, 0.2)' : 'rgba(255, 117, 195, 0.2)'}`
                   }}
                 >
                   {initials}
                 </div>
-                <div>
-                  <h2 className="text-lg font-black text-white leading-tight">{userName}</h2>
-                  <p className="text-[11px] text-white/30 font-bold mt-1 uppercase tracking-wider">{regNo}</p>
+                <div className="flex-1 min-w-0">
+                  <h2 className={`text-lg font-black text-white leading-tight truncate ${theme === 'matrix' ? 'matrix-font' : ''}`}>{userName}</h2>
+                  <div className="flex flex-wrap items-center gap-2 mt-1">
+                    <p className="text-[10px] text-white/30 font-bold uppercase tracking-wider">{regNo}</p>
+                    {academicData?.profile?.["Degree"] && (
+                      <p className="text-[10px] text-white/20 font-bold uppercase">• {academicData.profile["Degree"]}</p>
+                    )}
+                  </div>
+                  {studentPortalConnected && (
+                    <div className="inline-flex items-center gap-1.5 px-2 py-0.5 mt-2 rounded-full bg-white/[0.05] border border-white/10">
+                      <div className={`w-1 h-1 rounded-full ${theme === 'matrix' ? 'bg-[#facc15]' : 'bg-[#FF75C3]'}`} />
+                      <span className="text-[8px] font-black text-white/40 uppercase tracking-tighter">Portal Linked</span>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -201,10 +212,10 @@ export default function Sidebar() {
                 <div className="grid grid-cols-4 gap-4">
                   {moreItems.map(({ href, label, icon: Icon, color }) => (
                     <Link key={href} href={href} onClick={() => setMoreOpen(false)} className="flex flex-col items-center gap-3">
-                      <div className={`drawer-item-icon ${isActive(href, path) ? "active" : ""}`} style={{ color: isActive(href, path) ? (theme === 'matrix' ? '#a8c200' : theme === 'aura' ? '#FF75C3' : THEME.accentCyan) : (theme === 'matrix' ? '#a8c200' : color) }}>
+                      <div className={`drawer-item-icon ${isActive(href, path) ? "active" : ""}`} style={{ color: isActive(href, path) ? (theme === 'matrix' ? '#facc15' : theme === 'aura' ? '#FF75C3' : THEME.accentCyan) : (theme === 'matrix' ? '#facc15' : color) }}>
                         <Icon size={22} />
                       </div>
-                      <span className={`text-[9px] font-black uppercase tracking-wider text-center ${theme === 'matrix' ? 'text-[#a8c200]/40 matrix-font' : 'text-white/40'}`}>{label}</span>
+                      <span className={`text-[9px] font-black uppercase tracking-wider text-center ${theme === 'matrix' ? 'text-[#facc15]/40 matrix-font' : 'text-white/40'}`}>{label}</span>
                     </Link>
                   ))}
                 </div>
@@ -216,10 +227,10 @@ export default function Sidebar() {
                 <div className="grid grid-cols-4 gap-4">
                   {PORTAL_SERVICES.map(({ href, label, icon: Icon }) => (
                     <Link key={href} href={href} onClick={() => setMoreOpen(false)} className="flex flex-col items-center gap-3">
-                      <div className={`drawer-item-icon ${isActive(href, path) ? "active" : ""}`} style={{ color: isActive(href, path) ? (theme === 'matrix' ? '#a8c200' : theme === 'aura' ? '#FF75C3' : THEME.accentCyan) : (theme === 'matrix' ? '#a8c200' : '#fff') }}>
+                      <div className={`drawer-item-icon ${isActive(href, path) ? "active" : ""}`} style={{ color: isActive(href, path) ? (theme === 'matrix' ? '#facc15' : theme === 'aura' ? '#FF75C3' : THEME.accentCyan) : (theme === 'matrix' ? '#facc15' : '#fff') }}>
                         <Icon size={22} />
                       </div>
-                      <span className={`text-[9px] font-black uppercase tracking-wider text-center leading-tight ${theme === 'matrix' ? 'text-[#a8c200]/40 matrix-font' : 'text-white/40'}`}>{label}</span>
+                      <span className={`text-[9px] font-black uppercase tracking-wider text-center leading-tight ${theme === 'matrix' ? 'text-[#facc15]/40 matrix-font' : 'text-white/40'}`}>{label}</span>
                     </Link>
                   ))}
                 </div>
@@ -227,11 +238,20 @@ export default function Sidebar() {
 
               {/* QUICK ACTIONS */}
               <div className="flex flex-col gap-3">
-                <button onClick={() => { setMoreOpen(false); router.push("/settings/theme"); }} className="flex items-center gap-4 p-5 bg-white/[0.03] border border-white/[0.08] rounded-[24px] text-left">
-                  <LayoutTemplate size={20} color={THEME.accentPurple} />
+                <p className={`text-[9px] font-black text-white/20 uppercase tracking-[0.3em] mb-2 pl-1 ${theme === 'matrix' ? 'matrix-font' : ''}`}>Quick Actions</p>
+                <button onClick={() => { setMoreOpen(false); router.push("/settings/theme"); }} className="flex items-center gap-4 p-5 bg-white/[0.03] border border-white/[0.08] rounded-[24px] text-left transition-all active:scale-[0.98]">
+                  <LayoutTemplate size={20} color={theme === 'matrix' ? '#facc15' : '#bf00ff'} />
                   <div className="flex-1">
-                    <p className="text-[15px] font-black text-white">Themes & Layout</p>
+                    <p className={`text-[15px] font-black text-white ${theme === 'matrix' ? 'matrix-font text-sm text-[#facc15]' : ''}`}>Themes & Layout</p>
                     <p className="text-[11px] text-white/20 font-bold">Customize your Nexus experience</p>
+                  </div>
+                  <ChevronRight size={18} className="text-white/10" />
+                </button>
+                <button onClick={() => { setMoreOpen(false); router.push("/support"); }} className="flex items-center gap-4 p-5 bg-white/[0.03] border border-white/[0.08] rounded-[24px] text-left transition-all active:scale-[0.98]">
+                  <LifeBuoy size={20} color={theme === 'matrix' ? '#00d4ff' : '#3673ff'} />
+                  <div className="flex-1">
+                    <p className={`text-[15px] font-black text-white ${theme === 'matrix' ? 'matrix-font text-sm' : ''}`}>Help & Support</p>
+                    <p className="text-[11px] text-white/20 font-bold">Get assistance with Academic OS</p>
                   </div>
                   <ChevronRight size={18} className="text-white/10" />
                 </button>

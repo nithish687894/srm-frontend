@@ -8,7 +8,7 @@ import {
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import { dataAPI } from "@/lib/api";
-import MatrixMarks from "@/components/hacker-os/HackerMarks";
+import MatrixMarks from "@/components/MatrixMarks";
 import AuraMarks from "@/components/aura-theme/AuraMarks";
 
 const THEME = {
