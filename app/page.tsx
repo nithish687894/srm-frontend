@@ -73,6 +73,30 @@ export default function LoginPage() {
      }
    }
 
+   async function launchDemo() {
+     setLoading(true);
+     setLoginPhase("auth");
+     setError("");
+     setEmail("demo12");
+     setPassword("demo");
+     const demoEmail = "demo12@srmist.edu.in";
+     
+     try {
+       const res = await authAPI.login(demoEmail, "demo", "academia");
+       setAuthData(res.token, res.refreshToken, demoEmail);
+       setLoginPhase("success");
+       
+       setTimeout(() => {
+         if (hasChosenTheme) router.push("/dashboard");
+         else router.push("/setup/theme");
+       }, 1200);
+     } catch (e: any) {
+       setLoading(false);
+       setLoginPhase("idle");
+       setError(e?.response?.data?.error || "DEMO LOGIN FAILED");
+     }
+   }
+
   return (
     <>
       <style jsx global>{`
@@ -314,6 +338,49 @@ export default function LoginPage() {
                 <button type="submit" className="login-btn" disabled={loading}>
                   {loading ? "INITIALIZING..." : "ENTER ACADEMIC OS"}
                 </button>
+
+                <div style={{ marginTop: '16px', textAlign: 'center' }}>
+                  <button 
+                    type="button" 
+                    onClick={launchDemo} 
+                    disabled={loading}
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%)',
+                      border: '1px solid rgba(255, 255, 255, 0.06)',
+                      color: 'rgba(255, 255, 255, 0.65)',
+                      padding: '14px 20px',
+                      borderRadius: '16px',
+                      fontSize: '11px',
+                      fontWeight: 900,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.12em',
+                      cursor: 'pointer',
+                      width: '100%',
+                      transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(236, 72, 153, 0.15) 100%)';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+                      e.currentTarget.style.color = '#ffffff';
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.boxShadow = '0 10px 20px rgba(139, 92, 246, 0.1)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%)';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.06)';
+                      e.currentTarget.style.color = 'rgba(255, 255, 255, 0.65)';
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = 'none';
+                    }}
+                  >
+                    <Zap size={13} style={{ color: '#00FF88' }} />
+                    Quick Launch Demo Mode
+                  </button>
+                </div>
               </form>
             </div>
           </div>

@@ -81,13 +81,16 @@ const SectionHeader = ({ title }: { title: string }) => (
 export default function AppToolsPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
-  const { studentPortalData } = useAuthStore();
+  const { studentPortalData, email } = useAuthStore();
   const { theme } = useThemeStore();
   const isAura = theme === "aura";
   
   useEffect(() => { setMounted(true); }, []);
 
   if (!mounted) return <div style={{ background: '#050505', height: '100vh' }} />;
+
+  const ADMIN_EMAILS = ["ns4770@srmist.edu.in", "ts0014@srmist.edu.in"];
+  const isAdmin = email && ADMIN_EMAILS.some((e) => e.toLowerCase() === email.toLowerCase());
 
   const profile = studentPortalData?.profile || {};
   const initials = profile.name ? profile.name.split(' ').filter(Boolean).map((n:any)=>n[0]).join('').slice(0,2).toUpperCase() : "NK";
@@ -158,7 +161,7 @@ export default function AppToolsPage() {
             <MenuIcon icon={Wrench} label="Tools" color={isAura ? AURA_COLORS.accent : "#00ff88"} onClick={() => router.push('/tools')} />
             <MenuIcon icon={Sparkles} label="AI Tutor" color="#fff" onClick={() => router.push('/ai')} />
             <MenuIcon icon={Calculator} label="GPA Calc" color="#fff" onClick={() => router.push('/gpa')} />
-            <MenuIcon icon={ShieldAlert} label="Admin" color="#fff" onClick={() => router.push('/admin')} />
+            {isAdmin && <MenuIcon icon={ShieldAlert} label="Admin" color="#fff" onClick={() => router.push('/admin')} />}
           </div>
 
           {/* PORTAL SERVICES */}
