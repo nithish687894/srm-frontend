@@ -189,7 +189,7 @@ export default function AuraAttendance({ attendance, handleSync, isSyncing }: an
         </div>
       </div>
 
-      <div style={{ flex: 1, padding: "100px 0 24px 0", position: 'relative', zIndex: 1 }}>
+      <div style={{ flex: 1, padding: "100px 0 140px 0", position: 'relative', zIndex: 1 }}>
         
         {/* Header Section */}
         <div style={{ textAlign: 'center', marginBottom: '24px' }}>

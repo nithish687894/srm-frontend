@@ -219,7 +219,7 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
         </div>
       </div>
 
-      <div style={{ position: 'relative', zIndex: 1, paddingTop: '100px', paddingBottom: '24px' }}>
+      <div style={{ position: 'relative', zIndex: 1, paddingTop: '100px', paddingBottom: '140px' }}>
         
         {/* Header Section */}
         <div style={{ textAlign: 'center', marginBottom: '24px' }}>
