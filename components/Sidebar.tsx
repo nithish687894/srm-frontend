@@ -156,6 +156,19 @@ export default function Sidebar() {
           from { opacity: 0; }
           to { opacity: 1; }
         }
+
+        @media (min-width: 768px) {
+          main, .page-main, .swipe-wrapper > div:last-child {
+            padding-left: 310px !important;
+            padding-right: 40px !important;
+          }
+          .fixed.top-12 {
+            left: 310px !important;
+          }
+          .fixed.top-12 button {
+            display: none !important;
+          }
+        }
       `}</style>
 
       {/* TOP STATUS BAR */}
@@ -203,6 +216,89 @@ export default function Sidebar() {
             </div>
           </div>
         )}
+
+      {/* DESKTOP SIDEBAR NAVIGATION */}
+      <div className="hidden md:flex" style={{
+        position: "fixed", left: "24px", top: "24px", bottom: "24px", width: "260px",
+        background: theme === "matrix" ? "rgba(5,7,5,0.85)" : theme === "aura" ? "rgba(20,15,35,0.85)" : "rgba(10,10,12,0.85)",
+        backdropFilter: "blur(40px)",
+        borderRadius: "32px", border: `1.5px solid ${hubCardBorder}`,
+        boxShadow: `0 20px 40px rgba(0,0,0,0.5), 0 0 30px ${hubAccentGlow}`,
+        padding: "24px", flexDirection: "column",
+        zIndex: 99999, overflowY: "auto"
+      }}>
+         {/* Top Profile Area */}
+         <div>
+           <div className="flex items-center gap-3 pb-6 border-b border-white/5 mb-6">
+              <div 
+                className="w-11 h-11 rounded-full flex items-center justify-center text-black text-sm font-black shrink-0"
+                style={{ 
+                  background: `linear-gradient(135deg, ${hubAccent} 0%, #ffffff 200%)`, 
+                  boxShadow: `0 4px 12px ${hubAccentGlow}` 
+                }}
+              >
+                {initials}
+              </div>
+              <div className="min-w-0">
+                <h3 className="text-sm font-black text-white leading-tight truncate">{userName}</h3>
+                <p className="text-[9px] text-white/40 font-bold uppercase tracking-widest mt-1 tabular-nums">{regNo.substring(0, 10)}...</p>
+              </div>
+           </div>
+
+           {/* Main Links */}
+           <div className="flex flex-col gap-2">
+             <p className="text-[8px] font-black text-white/20 uppercase tracking-[0.25em] mb-2 pl-1">Nexus Core</p>
+             {NAV_MAIN.map(({ href, label, icon: Icon }) => (
+               <Link 
+                 key={href} 
+                 href={href} 
+                 className={`flex items-center gap-3.5 px-4 py-3 rounded-2xl text-left transition-all ${isActive(href, path) ? "text-white" : "text-white/40 hover:text-white/70"}`}
+                 style={{ 
+                   background: isActive(href, path) ? hubAccentGlow : "transparent",
+                   border: isActive(href, path) ? `1px solid ${hubCardBorder}` : "1px solid transparent"
+                 }}
+               >
+                 <Icon size={18} color={isActive(href, path) ? hubAccent : "currentColor"} />
+                 <span className="text-xs font-black tracking-wide">{label}</span>
+               </Link>
+             ))}
+
+             <p className="text-[8px] font-black text-white/20 uppercase tracking-[0.25em] mt-4 mb-2 pl-1">Extended Tools</p>
+             {moreItems.map(({ href, label, icon: Icon, color }) => (
+               <Link 
+                 key={href} 
+                 href={href} 
+                 className={`flex items-center gap-3.5 px-4 py-3 rounded-2xl text-left transition-all ${isActive(href, path) ? "text-white" : "text-white/40 hover:text-white/70"}`}
+                 style={{ 
+                   background: isActive(href, path) ? hubAccentGlow : "transparent",
+                   border: isActive(href, path) ? `1px solid ${hubCardBorder}` : "1px solid transparent"
+                 }}
+               >
+                 <Icon size={18} color={isActive(href, path) ? hubAccent : color} />
+                 <span className="text-xs font-black tracking-wide">{label}</span>
+               </Link>
+             ))}
+           </div>
+         </div>
+
+         {/* Bottom Actions */}
+         <div className="mt-auto pt-6 border-t border-white/5 flex flex-col gap-2">
+           <button 
+             onClick={() => router.push("/settings/theme")}
+             className="flex items-center gap-3.5 px-4 py-3 rounded-2xl text-left transition-all text-white/40 hover:text-white/70 w-full"
+           >
+             <Settings size={18} />
+             <span className="text-xs font-black tracking-wide">Settings</span>
+           </button>
+           <button 
+             onClick={handleLogout}
+             className="flex items-center gap-3.5 px-4 py-3 rounded-2xl text-left transition-all text-red-500/80 hover:text-red-500 w-full"
+           >
+             <LogOut size={18} />
+             <span className="text-xs font-black tracking-wide uppercase font-sans">Sign Out</span>
+           </button>
+         </div>
+      </div>
 
       {/* BOTTOM NAV BAR (FLAT STYLE) */}
       <div className="md:hidden">
