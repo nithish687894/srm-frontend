@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Orbitron, Playfair_Display, Bebas_Neue } from "next/font/google";
+import { Inter, Orbitron, Playfair_Display, Bebas_Neue, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 import SwipeLayout from "@/components/SwipeLayout";
@@ -14,6 +14,20 @@ const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-inter",
+});
+
+const jakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-jakarta",
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-jetbrains",
+  weight: ["400", "700"],
 });
 
 const orbitron = Orbitron({
@@ -87,7 +101,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${orbitron.variable} ${playfair.variable} ${bebas.variable}`}>
+    <html lang="en" className={`${inter.variable} ${jakartaSans.variable} ${jetbrainsMono.variable} ${orbitron.variable} ${playfair.variable} ${bebas.variable}`}>
       <body style={{ margin: 0, padding: 0 }}>
         <JsonLd />
         <Providers>

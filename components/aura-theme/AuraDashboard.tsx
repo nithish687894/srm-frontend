@@ -37,7 +37,6 @@ export default function AuraDashboard({
       position: 'relative'
     }}>
       <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap');
         
         .aura-blob {
           position: fixed; width: 600px; height: 600px;

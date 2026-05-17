@@ -417,7 +417,6 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
     <div style={{ background: AURA.bg, minHeight: "100vh", display: "flex", flexDirection: "column", color: "#ffffff", fontFamily: "'Plus Jakarta Sans', sans-serif", position: "relative" }}>
       <Sidebar />
       <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap');
         
         .aura-blob {
           position: fixed; width: 600px; height: 600px;
@@ -669,8 +668,6 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
     <div style={{ background: "#000000", minHeight: "100vh", paddingBottom: "160px", color: "#ffffff", fontFamily: "'Inter', sans-serif", position: 'relative' }}>
       <Sidebar />
       <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
         
         .card-matrix {
           transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);

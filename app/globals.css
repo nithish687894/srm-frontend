@@ -24,9 +24,11 @@
   /* ── Structural ── */
   --radius: 20px;
   --border: #222;
+  /* ── Fonts ── */
   --font-main: var(--font-inter), system-ui, sans-serif;
   --font-heading: var(--font-inter), system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
+  --font-jakarta: var(--font-jakarta), 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), 'JetBrains Mono', monospace;
   --card-clip: none;
   --nav-blur: 20px;
   --nav-bg: rgba(5, 5, 5, 0.8);
@@ -725,4 +727,95 @@ h4 { font-weight: 740; }
     opacity: 1;
     transform: scale(1);
   }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   PERFORMANCE OPTIMIZATIONS
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Font variables — use Next.js preloaded fonts everywhere */
+.font-jakarta, [style*="Plus Jakarta Sans"] {
+  font-family: var(--font-jakarta), 'Plus Jakarta Sans', system-ui, sans-serif !important;
+}
+.font-mono, [style*="JetBrains Mono"], [style*="Space Mono"] {
+  font-family: var(--font-mono), 'JetBrains Mono', monospace !important;
+}
+
+/* GPU compositing: promote nav bar to its own layer */
+.srmx-mobile-nav, .srmx-desktop-nav {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Content visibility for off-screen page sections */
+.page-content > * {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 200px;
+}
+
+/* ── Low-end mobile performance mode ──
+   Targets phones with small screens (usually weaker GPUs).
+   Disables the most expensive GPU effects while keeping visual quality. */
+@media (max-width: 480px) {
+  /* Kill orbiting 600×600 blur blobs — biggest GPU drain */
+  .aura-blob {
+    display: none !important;
+  }
+
+  /* Reduce backdrop-filter blur on cards (40px → 12px) */
+  .liquid-card {
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+  }
+
+  /* Reduce sticky header blur */
+  .sticky-header {
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+  }
+
+  /* Disable card hover lift animation (no hover on touch) */
+  .min-card:hover {
+    transform: none !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22) !important;
+  }
+
+  /* Simplify page entry animation */
+  main {
+    animation-duration: 0.2s !important;
+  }
+}
+
+/* ── Mid-range phones (481px–767px) ──
+   Keep effects but at reduced cost */
+@media (min-width: 481px) and (max-width: 767px) {
+  .aura-blob {
+    opacity: 0.06 !important; /* Half opacity → less GPU blend cost */
+    filter: blur(80px) !important; /* 140px → 80px */
+  }
+
+  .liquid-card {
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+  }
+}
+
+/* ── Disable all heavy effects when user prefers reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .aura-blob {
+    animation: none !important;
+    display: none !important;
+  }
+  main {
+    animation: none !important;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ── Prevent layout thrash: contain expensive components ── */
+.swipe-wrapper {
+  contain: layout style;
 }

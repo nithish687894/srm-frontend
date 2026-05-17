@@ -159,7 +159,6 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
   return (
     <div style={{ background: 'radial-gradient(circle at 50% 0%, #1e1e30 0%, #050508 100%)', minHeight: "100%", display: "flex", flexDirection: "column", color: AURA_COLORS.text, fontFamily: "'Plus Jakarta Sans', sans-serif", position: 'relative' }}>
       <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap');
         
         .aura-blob {
           position: fixed; width: 600px; height: 600px;

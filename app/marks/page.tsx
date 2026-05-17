@@ -102,7 +102,6 @@ export default function MarksPage() {
   return (
     <div style={{ minHeight: "100vh", width: "100%", background: THEME.bg, color: "#fff", display: "flex", flexDirection: "column", position: "relative" }}>
       <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
         * { box-sizing: border-box; }
         body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background: ${THEME.bg}; }
         .animate-spin { animation: spin 2s linear infinite; }

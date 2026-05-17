@@ -24,7 +24,6 @@ export default function MatrixMarks({ marks, handleSync, isSyncing }: any) {
   return (
     <div style={{ background: "#000000", minHeight: "100vh", color: "#ffffff", fontFamily: "'Inter', sans-serif", paddingBottom: "120px", position: "relative", overflowX: "hidden" }}>
        <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=JetBrains+Mono:wght@700;900&display=swap');
         .animate-spin { animation: spin 2s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         
