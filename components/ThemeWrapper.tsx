@@ -17,16 +17,12 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
     if (!mounted) return;
     document.body.className = `theme-${currentTheme}`;
     document.body.style.background = currentTheme === 'matrix' ? '#000' : '#050508'; 
-    document.body.style.overflow = 'hidden';
-    document.body.style.height = '100vh';
-    document.body.style.position = 'fixed';
-    document.body.style.width = '100%';
   }, [currentTheme, mounted]);
 
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: `
-        body { background: #050508; margin: 0; padding: 0; overflow: hidden; height: 100vh; position: fixed; width: 100%; }
+        body { background: #050508; margin: 0; padding: 0; }
         .theme-matrix { --bg: #000000; --text-primary: #ffffff; --accent: #a8c200; }
         .theme-aura { --bg: #050508; --text-primary: #ffffff; --accent: #FF75C3; }
         .theme-cosmos { --bg: #0f0f13; --text-primary: #f0f0ff; --accent: #7c3aed; }
@@ -34,7 +30,7 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
       
       <div 
         className={mounted ? `theme-${theme}` : "theme-aura"} 
-        style={{ height: "100vh", width: "100vw", position: 'relative', zIndex: 1, overflow: 'hidden' }}
+        style={{ minHeight: "100vh", width: "100%", position: 'relative', zIndex: 1 }}
       >
         <VersionGuard />
         {children}
