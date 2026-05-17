@@ -84,10 +84,16 @@ export default function AuraAttendance({ attendance, handleSync, isSyncing }: an
 
   useEffect(() => {
     const parentMain = document.getElementById("attendance-parent-scroll") || document.querySelector('main');
-    if (!parentMain) return;
-    const onScroll = () => setIsScrolled(parentMain.scrollTop > 180);
-    parentMain.addEventListener('scroll', onScroll);
-    return () => parentMain.removeEventListener('scroll', onScroll);
+    const onScroll = () => {
+      const scrolled = window.scrollY > 180 || (parentMain ? parentMain.scrollTop > 180 : false);
+      setIsScrolled(scrolled);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    if (parentMain) parentMain.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (parentMain) parentMain.removeEventListener('scroll', onScroll);
+    };
   }, []);
 
   const processedAttendance = useMemo(() => {

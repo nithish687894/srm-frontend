@@ -253,9 +253,9 @@ export default function AttendancePage() {
   };
 
   return (
-    <div style={{ height: "100vh", width: "100vw", background: "#050505", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+    <div style={{ minHeight: "100vh", width: "100%", background: "#050505", display: "flex", flexDirection: "column", position: "relative" }}>
       <Sidebar />
-      <main id="attendance-parent-scroll" style={{ flex: 1, overflowY: "auto", paddingBottom: "100px", WebkitOverflowScrolling: "touch" }}>
+      <main id="attendance-parent-scroll" style={{ flex: 1, paddingBottom: "100px" }}>
         {theme === "matrix" ? (
           <MatrixAttendance {...themeProps} attendance={att} />
         ) : theme === "cosmos" ? (

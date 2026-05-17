@@ -84,10 +84,16 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
 
   useEffect(() => {
     const mainEl = document.querySelector('main');
-    if (!mainEl) return;
-    const onScroll = () => setIsScrolled(mainEl.scrollTop > 180);
-    mainEl.addEventListener('scroll', onScroll);
-    return () => mainEl.removeEventListener('scroll', onScroll);
+    const onScroll = () => {
+      const scrolled = window.scrollY > 180 || (mainEl ? mainEl.scrollTop > 180 : false);
+      setIsScrolled(scrolled);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    if (mainEl) mainEl.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (mainEl) mainEl.removeEventListener('scroll', onScroll);
+    };
   }, []);
 
   const processedMarks = useMemo(() => {

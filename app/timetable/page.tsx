@@ -141,11 +141,11 @@ function insertBreaks(classes: ScheduleItem[]) {
 }
 
 export default function TimetablePage() {
-  const { academicData } = useAuthStore();
+  const { academicData, profile } = useAuthStore();
   const { theme } = useThemeStore();
   const [dayOverride, setDayOverride] = useState<number>(1);
   const [batch, setBatch] = useState<number>(() => {
-    const raw = academicData?.profile?.["Combo / Batch"] || "";
+    const raw = (profile || academicData?.profile)?.["Combo / Batch"] || "";
     return extractBatch(raw);
   });
   const router = useRouter();
@@ -251,8 +251,26 @@ export default function TimetablePage() {
   const schedule = useMemo(() => {
     const courses = myTTQ.data?.data?.courses || myTTQ.data?.data || [];
     if (!ttQ.data?.data?.rows || courses.length === 0) return [];
+    
+    let rows = ttQ.data.data.rows;
+    // Extract actual student batch from profile
+    const studentBatch = (profile || academicData?.profile)?.["Combo / Batch"] ? extractBatch((profile || academicData?.profile)["Combo / Batch"]) : 1;
+    
+    // Dynamic Grid Swap to fix B1/B2 Selector portal redirect bug
+    if (batch !== studentBatch) {
+      rows = rows.map((row: any[]) => {
+        if (typeof row[0] === "string" && row[0].startsWith("Day")) {
+          const dayName = row[0];
+          const morning = row.slice(1, 6);   // Periods 1-5
+          const afternoon = row.slice(6, 11); // Periods 6-10
+          return [dayName, ...afternoon, ...morning, ...row.slice(11)];
+        }
+        return row;
+      });
+    }
+
     const slotMap = buildSlotToCourseMap(courses);
-    const rawSchedule = buildSchedule(ttQ.data.data.rows, slotMap);
+    const rawSchedule = buildSchedule(rows, slotMap);
     
     return rawSchedule.map(day => {
       const merged: ScheduleItem[] = [];
@@ -267,7 +285,7 @@ export default function TimetablePage() {
       });
       return { ...day, classes: merged };
     });
-  }, [ttQ.data, myTTQ.data]);
+  }, [ttQ.data, myTTQ.data, batch, profile, academicData]);
 
   const classes = useMemo(() => {
     const targetRow = schedule.find(s => {
@@ -283,7 +301,7 @@ export default function TimetablePage() {
   const firstStart = classes[0] ? fmt12(classes[0].startTime) : "";
   const lastEnd = classes[classes.length - 1] ? fmt12(classes[classes.length - 1].endTime) : "";
 
-  const studentInfo = myTTQ.data?.data?.studentInfo || null;
+  const studentInfo = profile || academicData?.profile || myTTQ.data?.data?.studentInfo || null;
   const [showStudentInfo, setShowStudentInfo] = useState(false);
 
   // Auto-set batch from studentInfo if available
@@ -396,7 +414,7 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
   };
 
   return (
-    <div style={{ background: AURA.bg, height: "100vh", display: "flex", flexDirection: "column", color: "#ffffff", fontFamily: "'Plus Jakarta Sans', sans-serif", overflow: "hidden", position: "relative" }}>
+    <div style={{ background: AURA.bg, minHeight: "100vh", display: "flex", flexDirection: "column", color: "#ffffff", fontFamily: "'Plus Jakarta Sans', sans-serif", position: "relative" }}>
       <Sidebar />
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap');
@@ -429,7 +447,7 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
       <div className="aura-blob" style={{ background: AURA.secondary, top: '-200px', right: '-100px' }} />
       <div className="aura-blob" style={{ background: AURA.accent, bottom: '-200px', left: '-100px', animationDelay: '-10s' }} />
 
-      <main style={{ flex: 1, overflowY: "auto", WebkitOverflowScrolling: "touch", position: "relative", zIndex: 1, padding: "20px", paddingBottom: "200px" }}>
+      <main style={{ flex: 1, position: "relative", zIndex: 1, padding: "20px", paddingBottom: "200px" }}>
         
         {/* Header with Batch Selector */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px", marginTop: "12px", background: "rgba(255,255,255,0.03)", padding: "16px 20px", borderRadius: "24px", border: "1px solid rgba(255,255,255,0.05)", backdropFilter: "blur(20px)" }}>
@@ -648,7 +666,7 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
   const lastEnd = classes[classes.length - 1] ? fmtTimeOnly(classes[classes.length - 1].endTime) : "";
 
   return (
-    <div style={{ background: "#000000", minHeight: "100vh", paddingBottom: "160px", color: "#ffffff", fontFamily: "'Inter', sans-serif", position: 'relative', overflow: 'hidden' }}>
+    <div style={{ background: "#000000", minHeight: "100vh", paddingBottom: "160px", color: "#ffffff", fontFamily: "'Inter', sans-serif", position: 'relative' }}>
       <Sidebar />
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap');

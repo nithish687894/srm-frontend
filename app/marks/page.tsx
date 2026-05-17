@@ -100,7 +100,7 @@ export default function MarksPage() {
   }, [mounted, theme, marks, isSyncing, router]);
 
   return (
-    <div style={{ height: "100vh", width: "100vw", background: THEME.bg, color: "#fff", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+    <div style={{ minHeight: "100vh", width: "100%", background: THEME.bg, color: "#fff", display: "flex", flexDirection: "column", position: "relative" }}>
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
         * { box-sizing: border-box; }
@@ -109,7 +109,7 @@ export default function MarksPage() {
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
       `}} />
       <Sidebar />
-      <main style={{ flex: 1, overflowY: "auto", paddingBottom: "140px", WebkitOverflowScrolling: "touch" }}>
+      <main style={{ flex: 1, paddingBottom: "140px" }}>
         {theme === "matrix" ? (
           <MatrixMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} router={router} />
         ) : theme === "aura" ? (
