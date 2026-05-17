@@ -127,31 +127,31 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
 
   const stats = useMemo(() => {
     const totalSubs = processedMarks.length;
-    const totalS = processedMarks.reduce((a, b) => a + b.totalScored, 0);
-    const totalM = processedMarks.reduce((a, b) => a + b.maxPossible, 0);
+    const totalS = processedMarks.reduce((a: number, b: any) => a + b.totalScored, 0);
+    const totalM = processedMarks.reduce((a: number, b: any) => a + b.maxPossible, 0);
     const overallAvg = totalM > 0 ? (totalS / totalM) * 100 : 0;
-    const atRisk = processedMarks.filter(m => m.pct > 0 && m.pct < 40).length;
+    const atRisk = processedMarks.filter((m: any) => m.pct > 0 && m.pct < 40).length;
     return { totalSubs, overallAvg, atRisk };
   }, [processedMarks]);
 
   const filteredMarks = useMemo(() => {
     let result = [...processedMarks];
     if (filter === "At Risk") {
-      result = result.filter(m => m.pct > 0 && m.pct < 40);
+      result = result.filter((m: any) => m.pct > 0 && m.pct < 40);
     } else if (filter === "Lowest Score") {
-      result.sort((a, b) => {
+      result.sort((a: any, b: any) => {
         if (a.pct === 0 && b.pct !== 0) return 1;
         if (b.pct === 0 && a.pct !== 0) return -1;
         return a.pct - b.pct;
       });
     } else if (filter === "Highest Score") {
-      result.sort((a, b) => {
+      result.sort((a: any, b: any) => {
         if (a.pct === 0 && b.pct !== 0) return 1;
         if (b.pct === 0 && a.pct !== 0) return -1;
         return b.pct - a.pct;
       });
     } else if (filter === "Alphabetical") {
-      result.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
+      result.sort((a: any, b: any) => (a.title || "").localeCompare(b.title || ""));
     }
     return result;
   }, [processedMarks, filter]);

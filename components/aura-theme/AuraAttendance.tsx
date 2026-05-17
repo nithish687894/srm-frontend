@@ -111,18 +111,18 @@ export default function AuraAttendance({ attendance, handleSync, isSyncing }: an
 
   const stats = useMemo(() => {
     const totalSubs = processedAttendance.length;
-    const totalAttended = processedAttendance.reduce((sum, a) => sum + a.attended, 0);
-    const totalConducted = processedAttendance.reduce((sum, a) => sum + a.conducted, 0);
+    const totalAttended = processedAttendance.reduce((sum: number, a: any) => sum + a.attended, 0);
+    const totalConducted = processedAttendance.reduce((sum: number, a: any) => sum + a.conducted, 0);
     const overallAvg = totalConducted > 0 ? (totalAttended / totalConducted) * 100 : 0;
-    const atRisk = processedAttendance.filter(a => a.pct < 75).length;
+    const atRisk = processedAttendance.filter((a: any) => a.pct < 75).length;
     return { totalSubs, overallAvg, atRisk };
   }, [processedAttendance]);
 
   const filteredAttendance = useMemo(() => {
     let result = [...processedAttendance];
-    if (filter === "At Risk") result = result.filter(a => a.pct < 75);
-    else if (filter === "Highest") result.sort((a, b) => b.pct - a.pct);
-    else if (filter === "Lowest") result.sort((a, b) => a.pct - b.pct);
+    if (filter === "At Risk") result = result.filter((a: any) => a.pct < 75);
+    else if (filter === "Highest") result.sort((a: any, b: any) => b.pct - a.pct);
+    else if (filter === "Lowest") result.sort((a: any, b: any) => a.pct - b.pct);
     return result;
   }, [processedAttendance, filter]);
 
