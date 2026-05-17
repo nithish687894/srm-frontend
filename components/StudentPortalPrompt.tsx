@@ -1,5 +1,4 @@
 "use client";
-import { motion } from "framer-motion";
 import { ShieldCheck } from "lucide-react";
 
 interface StudentPortalPromptProps {
@@ -55,9 +54,7 @@ export default function StudentPortalPrompt({
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.98 }}
-      animate={{ opacity: 1, scale: 1 }}
+    <div
       style={{
         textAlign: "center",
         padding: "40px 20px",
@@ -122,6 +119,6 @@ export default function StudentPortalPrompt({
       >
         Connect Student Portal
       </button>
-    </motion.div>
+    </div>
   );
 }

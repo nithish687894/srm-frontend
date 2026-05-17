@@ -1,5 +1,4 @@
 "use client";
-import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 
@@ -52,18 +51,18 @@ export default function MatrixDashboard({
 
         {/* Hero Performance Metrics */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "12px", marginBottom: "32px" }}>
-          <motion.div whileTap={{ scale: 0.94 }} onClick={() => router.push("/attendance")} style={{ background: "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", cursor: "pointer" }}>
+          <div onClick={() => router.push("/attendance")} style={{ background: "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", cursor: "pointer", transition: "transform 0.1s" }} onPointerDown={(e) => e.currentTarget.style.transform = "scale(0.94)"} onPointerUp={(e) => e.currentTarget.style.transform = "scale(1)"} onPointerLeave={(e) => e.currentTarget.style.transform = "scale(1)"}>
             <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Attnd</div>
             <div style={{ fontSize: "24px", fontWeight: 900, color: "#a8c200" }}>{avgAtt}%</div>
-          </motion.div>
-          <motion.div whileTap={{ scale: 0.94 }} onClick={() => router.push("/marks")} style={{ background: "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", cursor: "pointer" }}>
+          </div>
+          <div onClick={() => router.push("/marks")} style={{ background: "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", cursor: "pointer", transition: "transform 0.1s" }} onPointerDown={(e) => e.currentTarget.style.transform = "scale(0.94)"} onPointerUp={(e) => e.currentTarget.style.transform = "scale(1)"} onPointerLeave={(e) => e.currentTarget.style.transform = "scale(1)"}>
             <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Marks</div>
             <div style={{ fontSize: "24px", fontWeight: 900 }}>{avgMarks}%</div>
-          </motion.div>
-          <motion.div whileTap={{ scale: 0.94 }} onClick={() => router.push("/attendance?risk=1")} style={{ background: riskCount > 0 ? "#221111" : "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", border: riskCount > 0 ? "1px solid #ff3b3b" : "none", cursor: "pointer" }}>
+          </div>
+          <div onClick={() => router.push("/attendance?risk=1")} style={{ background: riskCount > 0 ? "#221111" : "#1c1c1c", borderRadius: "24px", padding: "20px", textAlign: "center", border: riskCount > 0 ? "1px solid #ff3b3b" : "none", cursor: "pointer", transition: "transform 0.1s" }} onPointerDown={(e) => e.currentTarget.style.transform = "scale(0.94)"} onPointerUp={(e) => e.currentTarget.style.transform = "scale(1)"} onPointerLeave={(e) => e.currentTarget.style.transform = "scale(1)"}>
             <div style={{ fontSize: "10px", color: "#666", fontWeight: 900, textTransform: "uppercase", marginBottom: "12px" }}>Risk</div>
             <div style={{ fontSize: "24px", fontWeight: 900, color: riskCount > 0 ? "#ff3b3b" : "#fff" }}>{riskCount}</div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Highlights / Best Section */}
@@ -145,14 +144,18 @@ export default function MatrixDashboard({
                       </div>
                     ) : (
                       /* Class Card */
-                      <motion.div 
-                        whileTap={{ scale: 0.98 }}
+                      <div 
                         onClick={() => router.push("/timetable")}
                         style={{ 
                           background: "#121212", borderRadius: "18px", padding: "16px 20px", 
                           border: isActive ? "1px solid #a8c200" : "1px solid #222",
-                          cursor: "pointer", position: "relative", overflow: "hidden"
-                        }}>
+                          cursor: "pointer", position: "relative", overflow: "hidden",
+                          transition: "transform 0.1s"
+                        }}
+                        onPointerDown={(e) => e.currentTarget.style.transform = "scale(0.98)"} 
+                        onPointerUp={(e) => e.currentTarget.style.transform = "scale(1)"} 
+                        onPointerLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+                      >
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
                           <div style={{ fontSize: "10px", fontWeight: 800, color: "#666", textTransform: "uppercase" }}>
                             {p.start} — {p.end}
@@ -169,7 +172,7 @@ export default function MatrixDashboard({
                           <span>•</span>
                           <span>{cls.roomNo || "TBA"}</span>
                         </div>
-                      </motion.div>
+                      </div>
                     )}
                   </div>
                 );

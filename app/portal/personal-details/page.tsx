@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
 import { ArrowLeft, Settings, User, Map, Users, Mail, Phone, Home, FileText, Droplet, Flag, Award, Layers } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
 
@@ -38,8 +37,7 @@ export default function PersonalDetailsPage() {
     const borderColor = variant === "purple" ? "group-hover:border-purple-500/30" : "group-hover:border-blue-500/30";
 
     return (
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay, duration: 0.6 }}
+      <div 
         className={`glow-card p-0 ${borderColor} transition-all duration-500 group`}
       >
         <div className={`absolute inset-0 bg-gradient-to-br ${accents} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`} />
@@ -54,7 +52,7 @@ export default function PersonalDetailsPage() {
         <div className="p-8 space-y-6">
           {children}
         </div>
-      </motion.div>
+      </div>
     );
   };
 

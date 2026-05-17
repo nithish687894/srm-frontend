@@ -7,7 +7,6 @@ import { useAuthStore } from "@/lib/store";
 import { useAuth } from "@/hooks/useAuth";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
 import { useThemeStore } from "@/lib/themeStore";
-import { motion } from "framer-motion";
 import { extractBatch } from "@/lib/utils";
 import PortalSyncModal from "@/components/PortalSyncModal";
 import StudentPortalPrompt from "@/components/StudentPortalPrompt";
@@ -133,9 +132,12 @@ function MiniGridTile({ slot }: { slot: any }) {
   const isActive = isNowIn(slot.startTime, slot.endTime);
   const isNso = slot.courseCode.includes("NSO") || slot.courseType.toLowerCase().includes("practical");
   return (
-    <motion.div
-      whileTap={{ scale: 0.96 }}
-      style={{ background: isNso ? "#0d1a2a" : "#1c1c1c", borderRadius: "16px", height: "88px", padding: "8px 10px", display: "flex", flexDirection: "column", justifyContent: "space-between", border: isActive ? "1.5px solid #a8c200" : "none", cursor: 'pointer' }}>
+    <div
+      style={{ background: isNso ? "#0d1a2a" : "#1c1c1c", borderRadius: "16px", height: "88px", padding: "8px 10px", display: "flex", flexDirection: "column", justifyContent: "space-between", border: isActive ? "1.5px solid #a8c200" : "none", cursor: 'pointer', transition: "transform 0.1s" }}
+      onPointerDown={(e) => e.currentTarget.style.transform = "scale(0.96)"}
+      onPointerUp={(e) => e.currentTarget.style.transform = "scale(1)"}
+      onPointerLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+    >
       <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
         <div style={{ fontSize: "8px", color: "#888888", marginBottom: "4px", fontWeight: "bold" }}>{slot.courseCode.substring(0, 5)} • {slot.roomNo?.split(",")[0]?.substring(0, 4) || "TBA"}</div>
         <span style={{ fontSize: "11px", fontWeight: "900", color: isNso ? "#00aaff" : "#ffffff", textAlign: "center", lineHeight: 1.1, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", textTransform: "capitalize", wordBreak: "break-word" }}>{slot.courseTitle.toLowerCase()}</span>
@@ -143,7 +145,7 @@ function MiniGridTile({ slot }: { slot: any }) {
       <div style={{ fontSize: "9px", color: "#888888", textAlign: "center", fontWeight: "bold" }}>
         {fmtTimeOnly(slot.startTime) === fmtTimeOnly(slot.endTime) ? fmtTimeOnly(slot.startTime) : `${fmtTimeOnly(slot.startTime)} - ${fmtTimeOnly(slot.endTime)}`}
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -515,41 +517,31 @@ export default function DashboardPage() {
     }}>
       {/* Background Neural Field */}
       <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
-        <motion.div 
-          animate={{ scale: [1, 1.2, 1], opacity: [0.05, 0.1, 0.05] }}
-          transition={{ duration: 10, repeat: Infinity }}
+        <div 
           style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at center, #111 0%, #000 100%)' }}
         />
       </div>
 
       {/* Animated Aura Blobs for Loading */}
-      <motion.div 
-        animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.25, 0.15], rotate: [0, 180, 360] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-        style={{ position: 'absolute', width: '400px', height: '400px', borderRadius: '50%', background: '#FF75C3', filter: 'blur(100px)', zIndex: 0 }}
+      <div 
+        style={{ position: 'absolute', width: '400px', height: '400px', borderRadius: '50%', background: '#FF75C3', filter: 'blur(100px)', zIndex: 0, opacity: 0.15 }}
       />
-      <motion.div 
-        animate={{ scale: [1.2, 1, 1.2], opacity: [0.1, 0.2, 0.1], rotate: [360, 180, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-        style={{ position: 'absolute', width: '500px', height: '500px', borderRadius: '50%', background: '#8F92FF', filter: 'blur(120px)', zIndex: 0 }}
+      <div 
+        style={{ position: 'absolute', width: '500px', height: '500px', borderRadius: '50%', background: '#8F92FF', filter: 'blur(120px)', zIndex: 0, opacity: 0.15 }}
       />
 
       <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
-        <motion.div
-          animate={{ scale: [1, 1.05, 1], opacity: [0.8, 1, 0.8] }}
-          transition={{ duration: 2, repeat: Infinity }}
+        <div
           style={{ width: "80px", height: "80px", borderRadius: "24px", background: "rgba(255,255,255,0.05)", backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.1)', display: "flex", alignItems: "center", justifyContent: "center", margin: '0 auto 32px', boxShadow: '0 0 30px rgba(143, 146, 255, 0.2)' }}
         >
           <img src="/nexus-logo.png" alt="Logo" style={{ width: "40px", height: "40px", filter: 'drop-shadow(0 0 10px #8F92FF)' }} />
-        </motion.div>
+        </div>
 
-        <motion.div
-          animate={{ opacity: [0.4, 1, 0.4] }}
-          transition={{ duration: 2, repeat: Infinity }}
+        <div
           style={{ fontSize: "10px", fontWeight: 900, letterSpacing: "0.5em", color: "#fff", textTransform: "uppercase", marginBottom: "8px" }}
         >
           Initializing Aura Space
-        </motion.div>
+        </div>
         <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)', fontWeight: 600 }}>Syncing academic nebula...</div>
       </div>
     </div>

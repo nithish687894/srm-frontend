@@ -5,7 +5,6 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { authAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
-import { motion, AnimatePresence } from "framer-motion";
 import { Home, BarChart2, CheckCircle, Clock, Calendar, Wrench, Sparkles, Shield, MoreHorizontal, Settings, Share2, LogOut, Wifi, WifiOff } from "lucide-react";
 
 export default function BottomNavigation() {
@@ -62,24 +61,17 @@ export default function BottomNavigation() {
     if (!mounted) return null;
 
     return createPortal(
-      <AnimatePresence>
+      <>
         {moreOpen && (
           <>
             {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+            <div
               className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
               onClick={() => setMoreOpen(false)}
             />
 
             {/* Sheet */}
-            <motion.div
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            <div
               className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-xl border-t border-white/10 z-50 rounded-t-3xl"
               style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
             >
@@ -135,10 +127,10 @@ export default function BottomNavigation() {
                   </span>
                 </button>
               </div>
-            </motion.div>
+            </div>
           </>
         )}
-      </AnimatePresence>,
+      </>,
       document.body
     );
   };

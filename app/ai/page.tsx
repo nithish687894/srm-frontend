@@ -5,7 +5,6 @@ import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
-import { motion, AnimatePresence } from "framer-motion";
 
 interface Message { role: "user" | "assistant"; content: string; }
 
@@ -106,9 +105,9 @@ export default function AIPage() {
 
         {/* Messages */}
         <div style={{ flex: 1, overflowY: "auto", padding: "32px", display: "flex", flexDirection: "column", gap: "24px" }}>
-          <AnimatePresence mode="popLayout">
+          <div>
             {messages.map((m, i) => (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} key={i} style={{ display: "flex", flexDirection: "column", alignItems: m.role === "user" ? "flex-end" : "flex-start" }}>
+              <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: m.role === "user" ? "flex-end" : "flex-start" }}>
                 <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.2)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "8px", fontWeight: "bold" }}>
                   {m.role === "user" ? "You" : "Assistant"}
                 </div>
@@ -122,16 +121,16 @@ export default function AIPage() {
                 }}>
                   {m.content}
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </AnimatePresence>
+          </div>
           {loading && (
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
               <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.2)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "8px", fontWeight: "bold" }}>
                 Assistant
               </div>
               <div style={{ padding: "16px 24px", borderRadius: "20px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", display: "flex", gap: "8px" }}>
-                {[0,1,2].map(i => <motion.div key={i} animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }} style={{ width: "6px", height: "6px", borderRadius: "50%", background: ACCENT }} />)}
+                {[0,1,2].map(i => <div key={i} style={{ width: "6px", height: "6px", borderRadius: "50%", background: ACCENT }} />)}
               </div>
             </div>
           )}

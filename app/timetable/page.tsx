@@ -9,8 +9,6 @@ import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import { toPng } from "html-to-image";
 import { extractBatch } from "@/lib/utils";
-import { motion } from "framer-motion";
-
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
 function parseStart(t: string) { const m = t.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
@@ -375,134 +373,271 @@ export default function TimetablePage() {
   );
 
   return (
-    <div className="page-root">
-      <Sidebar />
+    <>
+      <AuraTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} classesWithBreaks={classesWithBreaks} handleShare={handleShare} sharing={sharing} shareRef={shareRef} fullShareRef={fullShareRef} fullSharing={fullSharing} handleFullShare={handleFullShare} schedule={schedule} studentInitials={studentInitials} onShowStudentInfo={() => setShowStudentInfo(true)} />
       {renderStudentInfoModal()}
-      <main className="page-main">
-          {/* Batch Selector (Top) */}
-          <div style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(5,5,5,0.85)", backdropFilter: "blur(20px)", padding: "16px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #1c1c1c" }}>
-          <div>
-            <div style={{ fontSize: "10px", letterSpacing: "0.2em", color: "#666", textTransform: "uppercase", fontWeight: 800, marginBottom: "2px" }}>Semester Schedule</div>
-            <div style={{ fontSize: "20px", fontWeight: 900, color: "#fff", letterSpacing: "-0.01em" }}>Day {dayOverride} — Batch {batch}</div>
-          </div>
-          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-            <div style={{ display: "flex", background: "#111", borderRadius: "14px", padding: "4px", border: "1px solid #222" }}>
+    </>
+  );
+}
+
+function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, classesWithBreaks, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule, studentInitials, onShowStudentInfo }: any) {
+  const currentMin = new Date().getHours() * 60 + new Date().getMinutes();
+  const firstStart = classes[0] ? fmt12(classes[0].startTime) : "";
+  const lastEnd = classes[classes.length - 1] ? fmt12(classes[classes.length - 1].endTime) : "";
+  const totalClasses = classes.length;
+
+  const AURA = {
+    bg: "#050508",
+    primary: "#FF75C3",
+    secondary: "#8F92FF",
+    accent: "#94FFD8",
+    card: "rgba(255, 255, 255, 0.02)",
+    border: "rgba(255, 255, 255, 0.08)",
+  };
+
+  return (
+    <div style={{ background: AURA.bg, height: "100vh", display: "flex", flexDirection: "column", color: "#ffffff", fontFamily: "'Plus Jakarta Sans', sans-serif", overflow: "hidden", position: "relative" }}>
+      <Sidebar />
+      <style dangerouslySetInnerHTML={{ __html: `
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap');
+        
+        .aura-blob {
+          position: fixed; width: 600px; height: 600px;
+          border-radius: 50%; filter: blur(140px);
+          opacity: 0.12; z-index: 0; pointer-events: none;
+          animation: orbit 20s infinite linear;
+        }
+        @keyframes orbit {
+          from { transform: rotate(0deg) translate(100px) rotate(0deg); }
+          to { transform: rotate(360deg) translate(100px) rotate(-360deg); }
+        }
+
+        .liquid-card {
+          background: rgba(255, 255, 255, 0.02);
+          backdrop-filter: blur(40px);
+          -webkit-backdrop-filter: blur(40px);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 32px;
+          padding: 24px;
+          position: relative;
+          overflow: hidden;
+          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+      `}} />
+
+      {/* Animated Aura Blobs */}
+      <div className="aura-blob" style={{ background: AURA.secondary, top: '-200px', right: '-100px' }} />
+      <div className="aura-blob" style={{ background: AURA.accent, bottom: '-200px', left: '-100px', animationDelay: '-10s' }} />
+
+      <main style={{ flex: 1, overflowY: "auto", WebkitOverflowScrolling: "touch", position: "relative", zIndex: 1, padding: "20px", paddingBottom: "200px" }}>
+        
+        {/* Header with Batch Selector */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px", marginTop: "12px", background: "rgba(255,255,255,0.03)", padding: "16px 20px", borderRadius: "24px", border: "1px solid rgba(255,255,255,0.05)", backdropFilter: "blur(20px)" }}>
+           <div>
+              <div style={{ fontSize: "10px", color: AURA.primary, textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800 }}>SEMESTER SCHEDULE</div>
+              <div style={{ fontSize: "16px", fontWeight: 800 }}>Day {dayOverride} — Batch {batch}</div>
+           </div>
+           <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+             <button onClick={handleShare} disabled={sharing} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 800, cursor: "pointer", transition: "all 0.3s" }}>
+               {sharing ? "..." : "DAY"}
+             </button>
+             <button onClick={handleFullShare} disabled={fullSharing} style={{ background: AURA.secondary, border: "none", color: "#fff", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 800, cursor: "pointer", transition: "all 0.3s", boxShadow: `0 4px 15px ${AURA.secondary}44` }}>
+               {fullSharing ? "..." : "ALL"}
+             </button>
+             <div style={{ display: "flex", background: "rgba(0,0,0,0.4)", borderRadius: "14px", padding: "4px", border: "1px solid rgba(255,255,255,0.1)" }}>
               {[1, 2].map(b => (
                 <button key={b} onClick={() => setBatch(b)}
-                style={{
-                  padding: "8px 18px", borderRadius: "10px", border: "none", fontSize: "13px", fontWeight: 800,
-                  background: batch === b ? "#7700ff" : "transparent",
-                  color: batch === b ? "#fff" : "#666",
-                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)", cursor: "pointer",
-                  boxShadow: batch === b ? "0 4px 12px rgba(119, 0, 255, 0.3)" : "none"
-                }}>B{b}</button>
-            ))}
+                  style={{
+                    padding: "8px 14px", borderRadius: "10px", border: "none", fontSize: "12px", fontWeight: 800,
+                    background: batch === b ? AURA.accent : "transparent",
+                    color: batch === b ? "#000" : "rgba(255,255,255,0.5)",
+                    transition: "all 0.3s", cursor: "pointer",
+                    boxShadow: batch === b ? `0 4px 15px ${AURA.accent}44` : "none"
+                  }}>B{b}</button>
+              ))}
             </div>
             <button 
-              onClick={() => setShowStudentInfo(true)}
+              onClick={onShowStudentInfo}
               style={{
-                width: "40px", height: "40px", borderRadius: "12px", background: "#222", color: "#fff",
-                border: "1px solid #333", display: "flex", alignItems: "center", justifyContent: "center",
-                fontWeight: 900, fontSize: "14px", cursor: "pointer"
+                width: "40px", height: "40px", borderRadius: "14px", background: "rgba(255,255,255,0.05)", color: "#fff",
+                border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center",
+                fontWeight: 900, fontSize: "13px", cursor: "pointer", transition: "all 0.3s"
               }}
             >
               {studentInitials}
             </button>
-          </div>
+           </div>
         </div>
 
-        <div className="page-content" style={{ paddingBottom: "140px", paddingTop: "24px" }}>
-          <div style={{ textAlign: "center", marginBottom: "32px", opacity: 0.5 }}>
-            <div style={{ fontSize: "11px", letterSpacing: "0.2em", color: "#888", textTransform: "uppercase", fontWeight: 600 }}>Grid Mode: {batch === 1 ? "B1 (Theory Morning)" : "B2 (Lab Morning)"}</div>
+        {/* Day Overview Card */}
+        {totalClasses > 0 && (
+          <div className="liquid-card" style={{ marginBottom: "40px" }}>
+             <div style={{ position: "absolute", top: "-50px", right: "-50px", width: "150px", height: "150px", background: `radial-gradient(circle, ${AURA.accent}33 0%, transparent 70%)`, filter: "blur(40px)", zIndex: 0 }} />
+             <div style={{ position: "relative", zIndex: 1, display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                <div>
+                  <div style={{ fontSize: "11px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.15em", color: AURA.accent, marginBottom: "8px" }}>Day Overview</div>
+                  <div style={{ fontSize: "32px", fontWeight: 900, letterSpacing: "-1px" }}>
+                    {firstStart} - {lastEnd}
+                  </div>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.05)", width: "60px", height: "60px", borderRadius: "20px", border: "1px solid rgba(255,255,255,0.1)" }}>
+                  <div style={{ fontSize: "24px", fontWeight: 900, color: AURA.accent, lineHeight: 1 }}>{totalClasses}</div>
+                  <div style={{ fontSize: "9px", fontWeight: 800, color: "rgba(255,255,255,0.5)", textTransform: "uppercase" }}>Classes</div>
+                </div>
+             </div>
           </div>
+        )}
 
-          <div style={{ textAlign: "center", marginBottom: "32px" }}>
-            <div style={{ fontSize: "12px", letterSpacing: "0.2em", color: "#666666", textTransform: "uppercase" }}>
-              Current Day Order
-            </div>
-            <div style={{ fontSize: "120px", fontWeight: 900, color: "#ffffff", lineHeight: 1 }}>
-              {dayOverride}
-            </div>
-          </div>
+        {/* Timeline Classes */}
+        {totalClasses === 0 ? (
+          <div style={{ textAlign: "center", color: "rgba(255,255,255,0.4)", marginTop: "60px", fontSize: "14px", fontWeight: 600 }}>No classes scheduled for Day {dayOverride}.</div>
+        ) : (
+          <div style={{ position: "relative", paddingLeft: "16px", display: "flex", flexDirection: "column", gap: "20px" }}>
+            <div style={{ position: "absolute", left: "0", top: "20px", bottom: "20px", width: "2px", background: "linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,255,255,0.02))" }} />
+            
+            {classesWithBreaks.map((item: any, i: number) => {
+              if (item.isBreak) {
+                return (
+                  <div key={`break-${i}`} style={{ display: "flex", alignItems: "center", gap: "16px", position: "relative", opacity: 0.7 }}>
+                    <div style={{ position: "absolute", left: "-19px", width: "8px", height: "8px", borderRadius: "50%", background: "rgba(255,255,255,0.2)", border: "2px solid #050508" }} />
+                    <div style={{ background: "rgba(255,255,255,0.03)", padding: "8px 16px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.05)", display: "flex", gap: "12px", alignItems: "center", flex: 1 }}>
+                       <div style={{ fontSize: "10px", color: AURA.secondary, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase" }}>Break</div>
+                       <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.6)", fontWeight: 600 }}>{fmt12(item.startTime)} - {fmt12(item.endTime)}</div>
+                    </div>
+                  </div>
+                );
+              }
 
-          {totalClasses > 0 && (
-            <div style={{ background: "#1a2600", borderRadius: "20px", padding: "24px", marginBottom: "32px" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                <div style={{ fontSize: "12px", letterSpacing: "0.15em", color: "#a8c200", textTransform: "uppercase", fontWeight: 600 }}>Day Overview</div>
-                <div style={{ fontSize: "32px", fontWeight: 900, color: "#a8c200", lineHeight: 1 }}>{totalClasses}</div>
-              </div>
-              <div style={{ fontSize: "28px", fontWeight: "bold", color: "#a8c200", marginTop: "16px" }}>
-                {firstStart} - {lastEnd}
-              </div>
-            </div>
-          )}
+              const isNso = item.courseCode.includes("NSO") || item.courseType.toLowerCase().includes("practical");
+              const cardColor = isNso ? AURA.primary : AURA.secondary;
+              const isActive = (currentMin >= parseStart(item.startTime) && currentMin <= parseEnd(item.endTime));
 
-          {totalClasses === 0 ? (
-            <div style={{ textAlign: "center", color: "#666", marginTop: "40px" }}>No classes scheduled.</div>
-          ) : (
-            <div style={{ position: "relative", paddingLeft: "16px" }}>
-              <div style={{ position: "absolute", left: "0", top: "16px", bottom: "16px", width: "1px", background: "#2e2e2e" }} />
-              
-              <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-                {classesWithBreaks.map((item, i) => {
-                  if (item.isBreak) {
-                    return (
-                      <div key={`break-${i}`} style={{ display: "flex", alignItems: "center", gap: "16px", position: "relative" }}>
-                        <div style={{ position: "absolute", left: "-18px", width: "5px", height: "5px", borderRadius: "50%", background: "#444" }} />
-                        <div style={{ flex: 1, fontSize: "12px", color: "#555", letterSpacing: "0.1em", textTransform: "uppercase" }}>short break</div>
-                        <div style={{ fontSize: "12px", color: "#555" }}>{fmt12(item.startTime)} - {fmt12(item.endTime)}</div>
-                      </div>
-                    );
-                  }
-
-                  const isNso = item.courseCode.includes("NSO") || item.courseType.toLowerCase().includes("practical");
+              return (
+                <div key={i} style={{ position: "relative" }}>
+                  <div style={{ 
+                    position: "absolute", left: "-21px", top: "24px", width: "12px", height: "12px", borderRadius: "50%", 
+                    background: isActive ? AURA.accent : cardColor, border: "3px solid #050508", zIndex: 2,
+                    boxShadow: isActive ? `0 0 15px ${AURA.accent}` : "none"
+                  }} />
                   
-                  return (
-                    <div key={i} style={{ position: "relative" }}>
-                      <div style={{ position: "absolute", left: "-18px", top: "16px", width: "5px", height: "5px", borderRadius: "50%", background: isNso ? "#00aaff" : "#fff" }} />
-                      
-                      <div style={{ background: isNso ? "#0d1a2a" : "#1e1e1e", borderRadius: "20px", padding: "20px" }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "#aaaaaa", fontSize: "13px", marginBottom: "12px" }}>
-                          {fmt12(item.startTime) === fmt12(item.endTime) ? fmt12(item.startTime) : `${fmt12(item.startTime)} — ${fmt12(item.endTime)}`}
-                        </div>
-                        {isNso && <div style={{ fontSize: "10px", color: "#00aaff", textTransform: "uppercase", fontWeight: "bold", marginBottom: "4px" }}>TBA</div>}
-                        <div style={{ fontSize: "24px", fontWeight: "900", color: isNso ? "#00aaff" : "#ffffff", lineHeight: 1.1, marginBottom: "6px", textTransform: "capitalize" }}>
-                          {item.courseTitle.toLowerCase()}
-                        </div>
-                        <div style={{ fontSize: "12px", color: "#888888", marginBottom: "16px", fontWeight: 700 }}>
-                          {item.courseCode}
-                        </div>
-                        <div style={{ height: "1px", background: "#333333", marginBottom: "16px" }} />
-                        <div style={{ display: "flex", gap: "16px", fontSize: "13px", color: "#666666" }}>
-                          <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>📍 {item.roomNo || "TBA"}</span>
-                          <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>👤 {(item.facultyName || "TBA").replace(/\s*\(\d+\)/, "")}</span>
-                        </div>
+                  <div className="liquid-card" style={{ padding: "20px", border: isActive ? `1px solid ${AURA.accent}55` : "1px solid rgba(255, 255, 255, 0.08)" }}>
+                    {isActive && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: `linear-gradient(90deg, transparent, ${AURA.accent}, transparent)` }} />}
+                    
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "12px" }}>
+                       <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "rgba(255,255,255,0.7)", fontSize: "12px", fontWeight: 700, background: "rgba(0,0,0,0.3)", padding: "4px 10px", borderRadius: "8px" }}>
+                         {fmt12(item.startTime)} — {fmt12(item.endTime)}
+                       </div>
+                       {isNso && <div style={{ fontSize: "9px", color: AURA.primary, textTransform: "uppercase", fontWeight: 800, background: `${AURA.primary}22`, padding: "4px 8px", borderRadius: "8px" }}>Practical</div>}
+                    </div>
+
+                    <div style={{ fontSize: "22px", fontWeight: "900", color: "#fff", lineHeight: 1.2, marginBottom: "8px", textTransform: "capitalize", letterSpacing: "-0.5px" }}>
+                      {item.courseTitle.toLowerCase()}
+                    </div>
+                    
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", marginTop: "16px" }}>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                        <span style={{ fontSize: "9px", color: "rgba(255,255,255,0.4)", textTransform: "uppercase", fontWeight: 800 }}>Course Code</span>
+                        <span style={{ fontSize: "12px", color: cardColor, fontWeight: 700 }}>{item.courseCode}</span>
+                      </div>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                        <span style={{ fontSize: "9px", color: "rgba(255,255,255,0.4)", textTransform: "uppercase", fontWeight: 800 }}>Room</span>
+                        <span style={{ fontSize: "12px", color: "#fff", fontWeight: 700 }}>{item.roomNo || "TBA"}</span>
+                      </div>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                        <span style={{ fontSize: "9px", color: "rgba(255,255,255,0.4)", textTransform: "uppercase", fontWeight: 800 }}>Faculty</span>
+                        <span style={{ fontSize: "12px", color: "#fff", fontWeight: 700 }}>{(item.facultyName || "TBA").replace(/\s*\(\d+\)/, "")}</span>
                       </div>
                     </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          <div style={{ position: "fixed", bottom: "85px", left: "20px", right: "20px", display: "flex", justifyContent: "center", zIndex: 10 }}>
-            <div style={{ background: "#1c1c1c", borderRadius: "99px", padding: "8px 16px", display: "flex", alignItems: "center", gap: "12px", border: "1px solid #2e2e2e", boxShadow: "0 10px 30px rgba(0,0,0,0.5)" }}>
-              <span style={{ fontSize: "12px", color: "#7700ff", fontWeight: 800, paddingRight: "4px" }}>DO</span>
-              {[1, 2, 3, 4, 5].map(d => (
-                <button key={d} onClick={() => setDayOverride(d)}
-                  style={{
-                    width: "32px", height: "32px", borderRadius: "50%",
-                    background: dayOverride === d ? "#ffffff" : "transparent",
-                    color: dayOverride === d ? "#000000" : "#555555",
-                    fontSize: "14px", fontWeight: "bold", border: "none", cursor: "pointer",
-                    transition: "all 0.2s"
-                  }}>{d}</button>
-              ))}
-            </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-          <div className="watermark">Timetable</div>
+        )}
+
+        {/* Hidden Share Card */}
+        <div style={{ position: "absolute", left: "-9999px", top: 0 }}>
+           <div ref={shareRef} style={{ width: "450px", background: AURA.bg, padding: "40px", position: "relative", overflow: "hidden", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              <div style={{ position: "absolute", right: "-50px", top: "-50px", width: "200px", height: "200px", background: AURA.secondary, filter: "blur(120px)", opacity: 0.2 }} />
+              
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px" }}>
+                 <div>
+                    <div style={{ fontSize: "10px", color: AURA.primary, fontWeight: 900, letterSpacing: "0.2em", marginBottom: "4px" }}>SRM NEXUS</div>
+                    <div style={{ fontSize: "24px", fontWeight: 900, color: "#fff", letterSpacing: "-0.5px" }}>Day {dayOverride} Schedule</div>
+                 </div>
+                 <div style={{ fontSize: "28px", fontWeight: 900, color: AURA.accent }}>DO {dayOverride}</div>
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                 {classesWithBreaks.map((item: any, i: number) => {
+                    if (item.isBreak) return null;
+                    return (
+                       <div key={i} style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+                          <div style={{ width: "80px", fontSize: "10px", fontWeight: 800, color: "rgba(255,255,255,0.6)", textAlign: "right" }}>{fmt12(item.startTime)}</div>
+                          <div style={{ flex: 1, background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", borderRadius: "12px", padding: "12px 16px" }}>
+                             <div style={{ fontSize: "14px", fontWeight: 900, color: "#fff", marginBottom: "4px", textTransform: "capitalize" }}>{item.courseTitle.toLowerCase()}</div>
+                             <div style={{ fontSize: "10px", color: AURA.secondary, fontWeight: 700 }}>{item.roomNo || "TBA"} • {item.courseCode}</div>
+                          </div>
+                       </div>
+                    );
+                 })}
+              </div>
+
+              <div style={{ marginTop: "40px", borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: "20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                 <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.4)", fontWeight: 700 }}>GENERATED VIA SRMNEXUS.APP</div>
+              </div>
+           </div>
+        </div>
+
+        {/* Hidden Full Share Card */}
+        <div style={{ position: "absolute", left: "-9999px", top: 0 }}>
+           <div ref={fullShareRef} style={{ width: "1200px", background: AURA.bg, padding: "60px", position: "relative", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "48px" }}>
+                 <div>
+                    <div style={{ fontSize: "14px", color: AURA.accent, fontWeight: 900, letterSpacing: "0.2em", marginBottom: "8px" }}>SRM NEXUS PORTAL</div>
+                    <div style={{ fontSize: "42px", fontWeight: 900, color: "#fff", letterSpacing: "-1px" }}>Semester Timetable</div>
+                 </div>
+                 <div style={{ textAlign: "right" }}>
+                    <div style={{ fontSize: "24px", fontWeight: 900, color: AURA.secondary }}>BATCH {batch}</div>
+                 </div>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "16px" }}>
+                 {[1, 2, 3, 4, 5].map(d => (
+                    <div key={d} style={{ background: "rgba(255,255,255,0.02)", borderRadius: "24px", padding: "20px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                       <div style={{ fontSize: "14px", color: AURA.primary, fontWeight: 900, marginBottom: "20px", textTransform: "uppercase", letterSpacing: "0.1em", textAlign: "center" }}>Day Order {d}</div>
+                       <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                          {(schedule[d - 1]?.classes || []).map((cls: any, i: number) => (
+                             <div key={i} style={{ background: "rgba(255,255,255,0.03)", padding: "10px 12px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                                <div style={{ fontSize: "11px", fontWeight: 900, color: "#fff", marginBottom: "4px", textTransform: "capitalize" }}>{cls.courseTitle.toLowerCase()}</div>
+                                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "9px", color: "rgba(255,255,255,0.5)", fontWeight: 700 }}>
+                                  <span>{fmt12(cls.startTime)}</span>
+                                  <span>{cls.roomNo || "TBA"}</span>
+                                </div>
+                             </div>
+                          ))}
+                       </div>
+                    </div>
+                 ))}
+              </div>
+           </div>
         </div>
       </main>
+
+      {/* Day Switcher Bottom Overlay */}
+      <div style={{ position: "fixed", bottom: "110px", left: "20px", right: "20px", display: "flex", justifyContent: "center", zIndex: 100 }}>
+         <div style={{ background: "rgba(10,10,15,0.8)", backdropFilter: "blur(20px)", borderRadius: "24px", padding: "8px", display: "flex", gap: "8px", border: "1px solid rgba(255,255,255,0.1)", boxShadow: "0 20px 40px rgba(0,0,0,0.5)" }}>
+            {[1, 2, 3, 4, 5].map(d => (
+              <button key={d} onClick={() => setDayOverride(d)} style={{
+                width: "44px", height: "44px", borderRadius: "16px", border: "none",
+                background: dayOverride === d ? AURA.secondary : "transparent",
+                color: dayOverride === d ? "#fff" : "rgba(255,255,255,0.5)",
+                fontSize: "16px", fontWeight: 900, cursor: "pointer", transition: "all 0.3s",
+                boxShadow: dayOverride === d ? `0 4px 15px ${AURA.secondary}66` : "none"
+              }}>{d}</button>
+            ))}
+         </div>
+      </div>
     </div>
   );
 }
@@ -513,47 +648,82 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
   const lastEnd = classes[classes.length - 1] ? fmtTimeOnly(classes[classes.length - 1].endTime) : "";
 
   return (
-    <div style={{ background: "#000000", minHeight: "100vh", paddingBottom: "120px", color: "#ffffff", fontFamily: "'Inter', sans-serif" }}>
+    <div style={{ background: "#000000", minHeight: "100vh", paddingBottom: "160px", color: "#ffffff", fontFamily: "'Inter', sans-serif", position: 'relative', overflow: 'hidden' }}>
       <Sidebar />
-      <main style={{ padding: "16px 20px 20px" }}>
+      <style dangerouslySetInnerHTML={{ __html: `
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        .card-matrix {
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @media(hover: hover) {
+          .card-matrix:hover {
+            border-color: rgba(168, 194, 0, 0.25) !important;
+            box-shadow: inset 0 0 25px rgba(168, 194, 0, 0.05), 0 15px 35px rgba(0,0,0,0.5) !important;
+            transform: translateY(-2px);
+          }
+        }
+        .btn-matrix {
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-matrix:active {
+          transform: scale(0.92);
+        }
+      `}} />
+
+      {/* Gigantic Structure Backdrop Watermark */}
+      <div style={{
+        position: 'absolute', right: '-120px', top: '150px',
+        fontSize: '120px', fontWeight: 900, color: 'rgba(255,255,255,0.02)',
+        fontFamily: "'Plus Jakarta Sans', sans-serif", pointerEvents: 'none',
+        userSelect: 'none', zIndex: 0, letterSpacing: '-0.05em'
+      }}>
+        PLANNER
+      </div>
+
+      <main style={{ padding: "20px 24px", position: 'relative', zIndex: 1 }}>
         
         {/* Header with Batch Selector */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "26px", marginTop: "12px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px", marginTop: "12px", background: "rgba(255,255,255,0.02)", padding: "16px 20px", borderRadius: "24px", border: "1px solid rgba(255,255,255,0.05)", backdropFilter: "blur(20px)" }}>
            <div>
-              <div style={{ fontSize: "10px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800 }}>SEMESTER</div>
-              <div style={{ fontSize: "14px", fontWeight: 700 }}>Schedule Planner</div>
+              <div style={{ fontSize: "9px", color: "#a8c200", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 900 }}>SEMESTER SCHEDULE</div>
+              <div style={{ fontSize: "15px", fontWeight: 800, color: '#fff', marginTop: '2px' }}>Planner • Batch {batch}</div>
            </div>
            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
              <button 
               onClick={handleShare}
               disabled={sharing}
-              style={{ background: "#1c1c1c", border: "1px solid #333", color: "#fff", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 800, cursor: "pointer", display: "flex", alignItems: "center", gap: "6px" }}
+              className="btn-matrix"
+              style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 800, cursor: "pointer" }}
              >
-               {sharing ? "..." : "📸 DAY"}
+               {sharing ? "..." : "DAY"}
              </button>
              <button 
               onClick={handleFullShare}
               disabled={fullSharing}
-              style={{ background: "#a8c200", border: "none", color: "#000", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 900, cursor: "pointer" }}
+              className="btn-matrix"
+              style={{ background: "#a8c200", border: "none", color: "#000", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 900, cursor: "pointer", boxShadow: "0 4px 15px rgba(168,194,0,0.3)" }}
              >
-               {fullSharing ? "..." : "📸 ALL"}
+               {fullSharing ? "..." : "ALL"}
              </button>
-             <div style={{ display: "flex", background: "#111", borderRadius: "14px", padding: "4px", border: "1px solid #222" }}>
+             <div style={{ display: "flex", background: "rgba(0,0,0,0.4)", borderRadius: "14px", padding: "4px", border: "1px solid rgba(255,255,255,0.08)" }}>
               {[1, 2].map(b => (
                 <button key={b} onClick={() => setBatch(b)}
                   style={{
                     padding: "8px 14px", borderRadius: "10px", border: "none", fontSize: "11px", fontWeight: 800,
                     background: batch === b ? "#a8c200" : "transparent",
-                    color: batch === b ? "#000" : "#666",
+                    color: batch === b ? "#000" : "rgba(255,255,255,0.5)",
                     transition: "all 0.2s", cursor: "pointer"
                   }}>B{b}</button>
               ))}
             </div>
             <button 
               onClick={onShowStudentInfo}
+              className="btn-matrix"
               style={{
-                width: "36px", height: "36px", borderRadius: "10px", background: "#1c1c1c", color: "#fff",
-                border: "1px solid #333", display: "flex", alignItems: "center", justifyContent: "center",
+                width: "40px", height: "40px", borderRadius: "14px", background: "rgba(255,255,255,0.05)", color: "#fff",
+                border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center",
                 fontWeight: 900, fontSize: "13px", cursor: "pointer"
               }}
             >
@@ -563,19 +733,29 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
         </div>
 
         {/* Day Order Big Number */}
-        <div style={{ textAlign: "center", marginBottom: "40px" }}>
-          <div style={{ fontSize: "12px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800, marginBottom: "8px" }}>Day Order</div>
-          <div style={{ fontSize: "160px", fontWeight: 900, lineHeight: 0.8, letterSpacing: "-0.05em" }}>{dayOverride}</div>
+        <div style={{ textAlign: "center", marginBottom: "36px", position: "relative" }}>
+          <div style={{ fontSize: "9px", color: "#a8c200", textTransform: "uppercase", letterSpacing: "0.25em", fontWeight: 900, marginBottom: "4px" }}>DAY ORDER</div>
+          <div style={{ fontSize: "120px", fontWeight: 900, lineHeight: 1, letterSpacing: "-0.06em", color: "#ffffff", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{dayOverride}</div>
         </div>
 
         {/* Day Overview Card */}
         {classes.length > 0 && (
-          <div style={{ background: "#a8c200", borderRadius: "28px", padding: "28px", marginBottom: "40px", color: "#000" }}>
-             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "24px" }}>
-                <div style={{ fontSize: "12px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em" }}>Session Timing</div>
-                <div style={{ fontSize: "48px", fontWeight: 900, lineHeight: 1 }}>{classes.length}</div>
+          <div style={{ 
+            background: "#1c1c1c", 
+            border: '1px solid rgba(168,194,0,0.2)', 
+            borderRadius: "28px", 
+            padding: "24px 28px", 
+            marginBottom: "40px", 
+            boxShadow: 'inset 0 0 25px rgba(168,194,0,0.05), 0 10px 30px rgba(0,0,0,0.4)',
+            position: 'relative'
+          }}>
+             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+                <span style={{ fontSize: "9px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.18em", color: "#a8c200" }}>LECTURE SESSION TIMING</span>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(168,194,0,0.1)', border: '1px solid rgba(168,194,0,0.2)', color: '#a8c200', fontSize: '10px', fontWeight: 900, padding: '4px 10px', borderRadius: '8px' }}>
+                  {classes.length} PERIODS
+                </div>
              </div>
-             <div style={{ fontSize: "36px", fontWeight: 900, letterSpacing: "-0.03em" }}>
+             <div style={{ fontSize: "32px", fontWeight: 900, color: '#fff', letterSpacing: "-0.03em", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                 {firstStart} - {lastEnd}
              </div>
           </div>
@@ -584,9 +764,9 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
         {/* Timeline Classes */}
         <div style={{ position: "relative", paddingLeft: "12px" }}>
            {/* Timeline Line */}
-           <div style={{ position: "absolute", left: "0", top: "10px", bottom: "10px", width: "1px", background: "#333" }} />
+           <div style={{ position: "absolute", left: "0", top: "10px", bottom: "10px", width: "2px", background: "linear-gradient(to bottom, rgba(255,255,255,0.08), rgba(255,255,255,0.02))", borderRadius: '2px' }} />
 
-           <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                {PERIODS.map((p, pi) => {
                  const pStart = parseStart(p.start);
                  const pEnd = parseEnd(p.end);
@@ -599,60 +779,69 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
                  const isActive = cls ? (currentMin >= parseStart(cls.startTime) && currentMin <= parseEnd(cls.endTime)) : (currentMin >= pStart && currentMin < pEnd);
 
                  return (
-                   <div key={pi} style={{ position: "relative", paddingLeft: "32px", marginBottom: "8px" }}>
+                   <div key={pi} style={{ position: "relative", paddingLeft: "32px" }}>
                      {/* Period Label */}
                      <div style={{ 
                        position: "absolute", left: "-6px", top: "50%", transform: "translateY(-50%)", 
-                       width: "12px", height: "12px", borderRadius: "50%", 
+                       width: "14px", height: "14px", borderRadius: "50%", 
                        background: isActive ? "#a8c200" : "#222", 
-                       border: "2px solid #000", zIndex: 5,
-                       boxShadow: isActive ? "0 0 12px #a8c200" : "none"
+                       border: "3px solid #000", zIndex: 5,
+                       boxShadow: isActive ? "0 0 15px #a8c200, 0 0 5px #fff" : "none"
                      }} />
                      
                      <div style={{ 
                        position: "absolute", left: "-32px", top: "50%", transform: "translateY(-50%)", 
                        fontSize: "11px", fontWeight: 900, color: isActive ? "#a8c200" : "#444",
-                       width: "24px", textAlign: "right"
+                       width: "24px", textAlign: "right", fontFamily: "'Plus Jakarta Sans', sans-serif"
                      }}>
                        {p.id}
                      </div>
 
                      {!cls ? (
-                       <div style={{ padding: "16px 0" }}>
+                       <div style={{ padding: "20px 0" }}>
                          <div style={{ 
                            height: "2px", width: "100%", borderTop: "2.5px dashed #333", 
-                           opacity: isActive ? 1 : 0.4, borderColor: isActive ? "#a8c200" : "#444" 
+                           opacity: isActive ? 1 : 0.35, borderColor: isActive ? "#a8c200" : "#333" 
                          }} />
                        </div>
                      ) : (
-                       <motion.div 
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: pi * 0.05 }}
-                        style={{ 
-                         background: "#111", borderRadius: "20px", padding: "16px 20px", 
-                         border: isActive ? "1.5px solid #a8c200" : "1.5px solid #222",
-                         boxShadow: isActive ? "0 8px 30px rgba(168, 194, 0, 0.1)" : "none"
-                       }}>
-                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
-                             <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#666", fontSize: "11px", fontWeight: 800 }}>
-                                <span style={{ fontSize: "14px" }}>⏱</span> {p.start} — {p.end}
+                       <div
+                         className="card-matrix"
+                         style={{ 
+                          background: "#1c1c1c", 
+                          borderRadius: "20px", 
+                          padding: "18px 20px", 
+                          border: isActive ? "1.5px solid rgba(168,194,0,0.4)" : "1.5px solid #333",
+                          boxShadow: isActive ? "inset 0 0 20px rgba(168,194,0,0.05), 0 8px 30px rgba(0,0,0,0.4)" : "none",
+                          position: 'relative', overflow: 'hidden'
+                        }}>
+                          {isActive && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: "linear-gradient(90deg, transparent, #a8c200, transparent)" }} />}
+                          
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+                             <div style={{ display: "flex", alignItems: "center", gap: "6px", color: isActive ? "#a8c200" : "rgba(255,255,255,0.4)", fontSize: "11px", fontWeight: 800 }}>
+                                <span style={{ fontSize: "12px" }}>⏱</span> {p.start} — {p.end}
                              </div>
-                             <div style={{ fontSize: "10px", fontWeight: 900, color: isActive ? "#a8c200" : "#444", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                             <div style={{ fontSize: "8.5px", fontWeight: 900, color: isActive ? "#a8c200" : "#666", textTransform: "uppercase", letterSpacing: "0.1em", background: isActive ? 'rgba(168,194,0,0.1)' : 'rgba(255,255,255,0.03)', padding: '2px 8px', borderRadius: '6px' }}>
                                 Period {p.id}
                              </div>
                           </div>
                           
-                          <div style={{ fontSize: "20px", fontWeight: 900, lineHeight: 1.2, marginBottom: "8px", textTransform: "capitalize", letterSpacing: "-0.01em", color: "#fff" }}>
+                          <div style={{ fontSize: "18px", fontWeight: 900, lineHeight: 1.3, marginBottom: "12px", textTransform: "capitalize", letterSpacing: "-0.01em", color: "#fff", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                              {cls.courseTitle.toLowerCase()}
                           </div>
 
-                          <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
-                             <div style={{ fontSize: "11px", color: "#666", fontWeight: 700 }}>{cls.courseCode}</div>
-                             <div style={{ fontSize: "11px", color: "#888", fontWeight: 700 }}>📍 {cls.roomNo || "TBA"}</div>
-                             <div style={{ fontSize: "11px", color: "#888", fontWeight: 700 }}>👤 {(cls.facultyName || "TBA").split(" ")[0]}</div>
+                          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+                             <div style={{ background: "rgba(255,255,255,0.02)", border: '1px solid #2b2b2b', padding: "4px 10px", borderRadius: "8px", fontSize: "10px", color: "#888", fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }}>
+                               {cls.courseCode}
+                             </div>
+                             <div style={{ background: "rgba(255,255,255,0.02)", border: '1px solid #2b2b2b', padding: "4px 10px", borderRadius: "8px", fontSize: "10px", color: "#fff", fontWeight: 700 }}>
+                               📍 {cls.roomNo || "TBA"}
+                             </div>
+                             <div style={{ background: "rgba(255,255,255,0.02)", border: '1px solid #2b2b2b', padding: "4px 10px", borderRadius: "8px", fontSize: "10px", color: "#fff", fontWeight: 700 }}>
+                               👤 {(cls.facultyName || "TBA").split(" ")[0]}
+                             </div>
                           </div>
-                       </motion.div>
+                       </div>
                      )}
                    </div>
                  );
@@ -764,15 +953,23 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
         </div>
 
         {/* Day Switcher Bottom Overlay */}
-        <div style={{ position: "fixed", bottom: "100px", left: "20px", right: "20px", display: "flex", justifyContent: "center", zIndex: 100 }}>
-           <div style={{ background: "rgba(20,20,20,0.8)", backdropFilter: "blur(20px)", borderRadius: "99px", padding: "8px", display: "flex", gap: "8px", border: "1px solid #333" }}>
+        <div style={{ position: "fixed", bottom: "110px", left: "20px", right: "20px", display: "flex", justifyContent: "center", zIndex: 100 }}>
+           <div style={{ background: "rgba(10,10,12,0.85)", backdropFilter: "blur(20px)", borderRadius: "24px", padding: "8px", display: "flex", gap: "8px", border: "1px solid #333", boxShadow: "0 20px 40px rgba(0,0,0,0.5)" }}>
               {[1, 2, 3, 4, 5].map(d => (
-                <button key={d} onClick={() => setDayOverride(d)} style={{
-                  width: "44px", height: "44px", borderRadius: "50%", border: "none",
-                  background: dayOverride === d ? "#a8c200" : "transparent",
-                  color: dayOverride === d ? "#000" : "#fff",
-                  fontSize: "16px", fontWeight: 900, cursor: "pointer", transition: "all 0.2s"
-                }}>{d}</button>
+                <button 
+                  key={d} 
+                  onClick={() => setDayOverride(d)} 
+                  className="btn-matrix"
+                  style={{
+                    width: "44px", height: "44px", borderRadius: "16px", border: "none",
+                    background: dayOverride === d ? "#a8c200" : "transparent",
+                    color: dayOverride === d ? "#000" : "rgba(255,255,255,0.5)",
+                    fontSize: "16px", fontWeight: 900, cursor: "pointer", transition: "all 0.2s",
+                    boxShadow: dayOverride === d ? "0 4px 15px rgba(168,194,0,0.3)" : "none"
+                  }}
+                >
+                  {d}
+                </button>
               ))}
            </div>
         </div>
@@ -889,10 +1086,7 @@ function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
                       }} />
                     </div>
                   ) : (
-                    <motion.div 
-                      initial={{ opacity: 0, scale: 0.98 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: pi * 0.04 }}
+                    <div 
                       className="min-card" 
                       style={{ 
                         padding: "16px 20px", 
@@ -923,7 +1117,7 @@ function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
                           {cls.courseCode}
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   )}
                 </div>
               );

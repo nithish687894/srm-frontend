@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Calculator, CalendarOff, TrendingUp, ChevronLeft, Home, Award, Activity, MoreHorizontal } from "lucide-react";
 import { useThemeStore } from "@/lib/themeStore";
+import Sidebar from "@/components/Sidebar";
 
 const THEME = {
   bg: "#050505",
@@ -110,36 +111,7 @@ export default function ToolsHubPage() {
         </div>
       </main>
 
-      {/* NAV DOCK - FIXED */}
-      <nav style={{ 
-        flexShrink: 0,
-        height: isAura ? "calc(80px + env(safe-area-inset-bottom))" : "calc(72px + 24px)", 
-        paddingBottom: isAura ? "env(safe-area-inset-bottom)" : "24px",
-        background: isAura ? "rgba(5,5,8,0.85)" : "transparent", 
-        backdropFilter: isAura ? "blur(30px)" : "none",
-        borderTop: isAura ? `1px solid rgba(255,255,255,0.08)` : "none",
-        display: "flex", justifyContent: "space-around", alignItems: "center", zIndex: 10000 
-      }}>
-        {!isAura && (
-           <div style={{ position: 'absolute', inset: '0 20px 24px', background: 'rgba(10,12,18,0.95)', backdropFilter: 'blur(30px)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '24px', zIndex: -1 }} />
-        )}
-        <button onClick={() => router.push('/dashboard')} style={{ background: "none", border: "none", color: 'rgba(255,255,255,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
-          <Home size={22} />
-          <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase' }}>{isAura ? "HOME" : "Nexus"}</span>
-        </button>
-        <button onClick={() => router.push('/marks')} style={{ background: "none", border: "none", color: 'rgba(255,255,255,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
-          <Award size={22} />
-          <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase' }}>{isAura ? "MARK" : "Marks"}</span>
-        </button>
-        <button onClick={() => router.push('/attendance')} style={{ background: "none", border: "none", color: 'rgba(255,255,255,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
-          <Activity size={22} />
-          <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase' }}>{isAura ? "ATTND" : "Sync"}</span>
-        </button>
-        <button onClick={() => router.push('/app-tools')} style={{ background: "none", border: "none", color: isAura ? AURA_COLORS.primary : THEME.accentCyan, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
-          <MoreHorizontal size={22} strokeWidth={isAura ? 2.5 : 2} />
-          <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase' }}>MORE</span>
-        </button>
-      </nav>
+      <Sidebar />
     </div>
   );
 }

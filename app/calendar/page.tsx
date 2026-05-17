@@ -6,7 +6,6 @@ import {
   Home, Award, Activity, MoreHorizontal, Calendar as CalendarIcon, 
   ChevronLeft, ChevronRight, Zap, Target
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 import { dataAPI } from "@/lib/api";
 import { buildCalendarIndex, type Semester } from "@/lib/calendarIndex";
 import { useQuery } from "@tanstack/react-query";
@@ -112,7 +111,7 @@ export default function CalendarPage() {
         </>
       )}
 
-      {!isAura && <Sidebar />}
+      <Sidebar />
       
       <main className={isAura ? "" : "page-main"} style={isAura ? { flex: 1, overflowY: 'auto', WebkitOverflowScrolling: 'touch' } : {}}>
         <div className={isAura ? "" : "page-content"} style={{ padding: isAura ? "60px 24px 140px" : "0 24px 140px", position: "relative" }}>
@@ -127,14 +126,10 @@ export default function CalendarPage() {
                 </div>
                 
                 <div style={{ position: 'relative', display: 'inline-block' }}>
-                   <motion.div 
-                     animate={{ rotate: 360 }}
-                     transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
+                   <div 
                      style={{ position: 'absolute', inset: '-25px', border: '2px dashed rgba(255,117,195,0.15)', borderRadius: '50%' }} 
                    />
-                   <motion.div 
-                     animate={{ rotate: -360 }}
-                     transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
+                   <div 
                      style={{ position: 'absolute', inset: '-40px', border: '1px solid rgba(144,146,255,0.1)', borderRadius: '50%' }} 
                    />
                    <div style={{ width: '190px', height: '190px', borderRadius: '50%', background: 'rgba(5,5,8,0.4)', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(30px)', position: 'relative', zIndex: 2, boxShadow: '0 0 40px rgba(0,0,0,0.4)' }}>
@@ -189,9 +184,8 @@ export default function CalendarPage() {
                       const isPast = new Date(cell.isoDate) < new Date(todayIso);
                       
                       return (
-                        <motion.div 
+                        <div 
                           key={i} 
-                          whileTap={{ scale: 0.9 }}
                           onClick={(e) => {
                             if (cell.isHoliday) {
                               e.stopPropagation();
@@ -209,7 +203,7 @@ export default function CalendarPage() {
                             <span style={{ fontSize: '7px', fontWeight: 900, color: AURA_COLORS.sub }}>DO{cell.dayOrder}</span>
                           )}
                           {cell.isHoliday && <div style={{ position: 'absolute', bottom: '8px', width: '3px', height: '3px', borderRadius: '50%', background: '#ff3b3b', boxShadow: '0 0 8px #ff3b3b' }} />}
-                        </motion.div>
+                        </div>
                       );
                     }) : (
                       <div style={{ gridColumn: 'span 7', padding: '60px 20px', textAlign: 'center' }}>
@@ -233,12 +227,9 @@ export default function CalendarPage() {
                        <div style={{ padding: '40px', textAlign: 'center', background: 'rgba(255,255,255,0.02)', borderRadius: '28px', border: '1px dashed rgba(255,255,255,0.1)', color: AURA_COLORS.sub, fontSize: '11px', fontWeight: 800 }}>NO_SCHEDULED_EVENTS</div>
                     ) : (
                        current?.days.filter((d: any) => d.event).map((d: any, idx: number) => (
-                          <motion.div 
+                          <div 
                              key={idx}
                              className="shard-hover"
-                             initial={{ opacity: 0, y: 20 }}
-                             animate={{ opacity: 1, y: 0 }}
-                             transition={{ delay: idx * 0.05 }}
                              style={{ background: 'rgba(255,255,255,0.015)', padding: '24px', borderRadius: '28px', border: '1px solid rgba(255,255,255,0.04)', display: 'flex', alignItems: 'center', gap: '20px' }}
                            >
                              <div style={{ width: '52px', height: '52px', borderRadius: '18px', background: d.isHoliday ? 'rgba(255,59,59,0.08)' : 'rgba(148, 255, 216, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', fontWeight: 900, color: d.isHoliday ? '#ff3b3b' : AURA_COLORS.accent, border: d.isHoliday ? '1px solid rgba(255,59,59,0.1)' : `1px solid rgba(148,255,216,0.1)` }}>
@@ -249,7 +240,7 @@ export default function CalendarPage() {
                                 <div style={{ fontSize: '10px', color: AURA_COLORS.sub, fontWeight: 800, letterSpacing: '0.05em' }}>{new Date(d.isoDate).toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase()} • {d.isHoliday ? 'OFF_CYCLE' : `DAY_ORDER_${d.dayOrder}`}</div>
                              </div>
                              <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: d.isHoliday ? '#ff3b3b' : AURA_COLORS.accent, opacity: 0.4 }} />
-                          </motion.div>
+                          </div>
                        ))
                     )}
                  </div>
@@ -448,29 +439,7 @@ export default function CalendarPage() {
         </div>
       </main>
 
-      {isAura && (
-        <>
-          {/* Aura Bottom Nav - FIXED */}
-          <nav style={{ flexShrink: 0, height: "calc(80px + env(safe-area-inset-bottom))", paddingBottom: "env(safe-area-inset-bottom)", background: "rgba(5,5,8,0.85)", backdropFilter: "blur(30px)", WebkitBackdropFilter: "blur(30px)", borderTop: `1px solid rgba(255,255,255,0.08)`, display: "flex", alignItems: "center", justifyContent: "space-around", zIndex: 10000 }}>
-            <button onClick={() => router.push('/dashboard')} style={{ background: "none", border: "none", color: isAura ? (isCosmos ? "#7E88B6" : "#888") : "#888", display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
-              <Home size={22} />
-              <span style={{ fontSize: '9px', fontWeight: 900 }}>HOME</span>
-            </button>
-            <button onClick={() => router.push('/marks')} style={{ background: "none", border: "none", color: isAura ? (isCosmos ? "#7E88B6" : "#888") : "#888", display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
-              <Award size={22} />
-              <span style={{ fontSize: '9px', fontWeight: 900 }}>MARK</span>
-            </button>
-            <button onClick={() => router.push('/attendance')} style={{ background: "none", border: "none", color: isAura ? (isCosmos ? "#7E88B6" : "#888") : "#888", display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
-              <Activity size={22} />
-              <span style={{ fontSize: '9px', fontWeight: 900 }}>ATTND</span>
-            </button>
-            <button onClick={() => router.push('/app-tools')} style={{ background: "none", border: "none", color: isAura ? (isCosmos ? "#8FD3FF" : "#FF75C3") : "#FF75C3", display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
-              <MoreHorizontal size={22} strokeWidth={2.5} />
-              <span style={{ fontSize: '9px', fontWeight: 900 }}>MORE</span>
-            </button>
-          </nav>
-        </>
-      )}
+
     </div>
   );
 }

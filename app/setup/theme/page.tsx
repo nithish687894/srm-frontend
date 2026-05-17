@@ -3,8 +3,6 @@ import { useRouter } from "next/navigation";
 import { ThemeType, useThemeStore } from "@/lib/themeStore";
 import { useAuthStore } from "@/lib/store";
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-
 export default function ThemeOnboarding() {
   const { setTheme, theme } = useThemeStore();
   const { setHasChosenTheme, authToken, _hasHydrated } = useAuthStore();
@@ -249,20 +247,13 @@ export default function ThemeOnboarding() {
       <div className="nebula-bg" />
 
       <div className="onboarding-container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
+        <div>
           <h1 className="title">Select Interface</h1>
           <p className="subtitle">Choose your visual environment</p>
-        </motion.div>
+        </div>
 
         <div className="theme-grid">
-          <motion.div 
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
+          <div 
             className="theme-card" onClick={() => handleSelect("aura")}
           >
             <div className="theme-name">Aura</div>
@@ -271,12 +262,9 @@ export default function ThemeOnboarding() {
               <div style={{ background: "rgba(0,0,0,0.2)", backdropFilter: "blur(4px)", padding: "12px 24px", borderRadius: "14px", fontSize: "11px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em" }}>Vibrancy Active</div>
             </div>
             <button className="select-btn" style={{ background: "linear-gradient(90deg, #FF75C3, #CD93FF)", color: "#fff" }}>Initialize Aura</button>
-          </motion.div>
+          </div>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+          <div 
             className="theme-card" onClick={() => handleSelect("matrix")}
           >
             <div className="theme-name">Matrix</div>
@@ -285,12 +273,9 @@ export default function ThemeOnboarding() {
               <div className="matrix-line" />
             </div>
             <button className="select-btn" style={{ background: "#a8c200", color: "#000" }}>Initialize Matrix</button>
-          </motion.div>
+          </div>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+          <div 
             className="theme-card" onClick={() => handleSelect("cosmos")}
           >
             <div className="theme-name">EduVerse</div>
@@ -301,17 +286,14 @@ export default function ThemeOnboarding() {
               </div>
             </div>
             <button className="select-btn" style={{ background: "linear-gradient(90deg, #2f63f2, #4d7dff)", color: "#fff" }}>Initialize EduVerse</button>
-          </motion.div>
+          </div>
         </div>
 
-        <motion.p 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.6 }}
+        <p 
           className="footer-text"
         >
           You can change this anytime in settings
-        </motion.p>
+        </p>
       </div>
     </div>
   );

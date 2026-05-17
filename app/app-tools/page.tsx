@@ -9,7 +9,6 @@ import {
 import { useAuthStore } from "@/lib/store";
 import Sidebar from "@/components/Sidebar";
 import { useThemeStore } from "@/lib/themeStore";
-import { motion } from "framer-motion";
 
 const THEME = {
   bg: "#050505",

@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { authAPI, dataAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { X, ShieldCheck, RefreshCw, Lock, Cpu, Eye, EyeOff } from "lucide-react";
@@ -147,13 +146,10 @@ export default function PortalSyncModal({
   };
 
   return (
-    <AnimatePresence>
+    <>
       {isOpen && (
         <div style={overlayStyle}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
+          <div
             style={cardStyle}
             role="dialog"
             aria-label="Connect Student Portal"
@@ -420,9 +416,9 @@ export default function PortalSyncModal({
                 </p>
               </div>
             )}
-          </motion.div>
+          </div>
         </div>
       )}
-    </AnimatePresence>
+    </>
   );
 }

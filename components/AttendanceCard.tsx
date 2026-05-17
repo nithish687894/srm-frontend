@@ -1,7 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-
 export default function AttendanceCard({ course }: { course: any }) {
   const pct = parseFloat(course["Attn %"]) || 0;
   const conducted = parseInt(course["Hours Conducted"]) || 0;
@@ -43,21 +41,22 @@ export default function AttendanceCard({ course }: { course: any }) {
   const pillColors: Record<string, string> = { P: "#7ecba1", A: "#c47b7b", T: "#7b9ec4" };
 
   return (
-    <motion.div
-      whileTap={{ scale: 0.96 }}
-      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+    <div
       style={{
         borderRadius: "14px",
         padding: "18px",
         background: "#3a4f5c",
         border: "1px solid rgba(255,255,255,0.09)",
-        transition: "border-color 0.2s ease, opacity 0.5s",
+        transition: "transform 0.1s, border-color 0.2s ease, opacity 0.5s",
         cursor: "pointer",
         position: "relative",
         overflow: "hidden",
         opacity: visible ? 1 : 0,
         transform: visible ? "translateY(0)" : "translateY(14px)",
       }}
+      onPointerDown={(e) => e.currentTarget.style.transform = "scale(0.96)"}
+      onPointerUp={(e) => e.currentTarget.style.transform = "scale(1)"}
+      onPointerLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
       onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.16)")}
       onMouseLeave={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)")}
     >
@@ -124,6 +123,6 @@ export default function AttendanceCard({ course }: { course: any }) {
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { authAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { Eye, EyeOff, Shield, Zap, Target } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
 export default function LoginPage() {
@@ -206,12 +205,9 @@ export default function LoginPage() {
       <div className="lp-root">
         <div className="nebula-bg" />
 
-        <AnimatePresence>
+        <div>
           {loading && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+            <div
               style={{
                 position: "fixed", inset: 0, zIndex: 10000,
                 background: "rgba(0,0,0,0.98)", display: "flex",
@@ -219,10 +215,7 @@ export default function LoginPage() {
                 backdropFilter: "blur(20px)"
               }}
             >
-              <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              <div
                 style={{ position: "relative", marginBottom: "64px" }}
               >
                 {/* Aura Loading Core */}
@@ -238,18 +231,16 @@ export default function LoginPage() {
                   transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1)"
                 }}>
                   {loginPhase === "success" ? (
-                    <motion.svg initial={{ scale: 0, rotate: -45 }} animate={{ scale: 1, rotate: 0 }} width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></motion.svg>
+                    <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                   ) : (
-                    <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ repeat: Infinity, duration: 2 }}>
+                    <div>
                       <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                    </motion.div>
+                    </div>
                   )}
                 </div>
                 
                 {loginPhase !== "success" && (
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                  <div
                     style={{
                       position: "absolute", inset: "-20px",
                       border: "2px solid rgba(255,255,255,0.05)",
@@ -258,46 +249,39 @@ export default function LoginPage() {
                     }}
                   />
                 )}
-              </motion.div>
+              </div>
               
               <div style={{ textAlign: "center" }}>
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
+                <div
                   style={{ fontSize: "16px", fontWeight: 900, letterSpacing: "0.6em", color: "#fff", textTransform: "uppercase", marginBottom: "16px" }}
                 >
                   {loginPhase === "success" ? "AUTHENTICATION GRANTED" : "BREACHING GATEWAY"}
-                </motion.div>
+                </div>
                 <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)", letterSpacing: "0.2em", fontWeight: 600 }}>
                   {loginPhase === "success" ? "INITIATING NEBULA HANDSHAKE..." : "BYPASSING FIREWALLS / SYNCHRONIZING CORE..."}
                 </div>
               </div>
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
+        </div>
 
         <section className="hero-section">
-          <motion.div 
-            initial={{ opacity: 0, x: -40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
+          <div 
             className="hero-login"
           >
             <div className="login-container">
               <div style={{ marginBottom: "40px", textAlign: "center" }}>
-                <motion.div 
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                <div 
                   style={{ display: "inline-block" }}
                 >
                   <img src="/nexus-logo.png" alt="Logo" style={{ width: "80px", height: "80px", filter: "drop-shadow(0 0 20px rgba(255, 117, 195, 0.4))" }} />
-                </motion.div>
+                </div>
                 <h2 style={{ fontSize: "28px", fontWeight: 900, letterSpacing: "-0.04em", marginTop: "24px" }}>SRM NEXUS</h2>
                 <p style={{ color: "rgba(255, 255, 255, 0.4)", fontSize: "12px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.2em", marginTop: "8px" }}>Identity Secure</p>
               </div>
 
               <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
-                {error && <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} style={{ color: "#ff4d4d", fontSize: "13px", textAlign: "center", marginBottom: "20px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em" }}>{error}</motion.div>}
+                {error && <div style={{ color: "#ff4d4d", fontSize: "13px", textAlign: "center", marginBottom: "20px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em" }}>{error}</div>}
 
                 <input
                   type="text" placeholder="NETID (e.g. ab1234)"
@@ -332,14 +316,10 @@ export default function LoginPage() {
                 </button>
               </form>
             </div>
-          </motion.div>
+          </div>
 
           <div className="hero-content" style={{ maxWidth: "600px" }}>
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.2 }}
-            >
+            <div>
               <div style={{ display: "flex", gap: "12px", marginBottom: "24px" }}>
                 <span style={{ padding: "6px 12px", background: "rgba(255,255,255,0.05)", borderRadius: "99px", fontSize: "10px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em" }}>v2.0 PRODUCTION</span>
                 <span style={{ padding: "6px 12px", background: "rgba(0,255,136,0.1)", color: "#00FF88", borderRadius: "99px", fontSize: "10px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em" }}>SYSTEMS ONLINE</span>
@@ -363,7 +343,7 @@ export default function LoginPage() {
                   <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.4)", lineHeight: 1.5 }}>Engineered for zero-lag data hydration.</div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
 
