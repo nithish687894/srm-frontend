@@ -67,9 +67,11 @@ function buildSchedule(gridRows: any[], slotMap: Record<string, any>): { day: st
     cells.forEach((cell, ci) => {
       const s = cell?.trim();
       const up = s?.toUpperCase() || "";
-      if (!s || !/^[PL]\d+$/i.test(up)) return;
-      const course = slotMap[up];
-      if (course) labCells.push({ idx: ci, slot: up, course });
+      if (!s || !/^[PL]\d+/i.test(up)) return;
+      const match = up.match(/^[PL]\d+/i);
+      const slotCode = match ? match[0] : up;
+      const course = slotMap[slotCode];
+      if (course) labCells.push({ idx: ci, slot: slotCode, course });
     });
 
     const labGroups: { cells: { idx: number; slot: string; course: any }[] }[] = [];
@@ -92,7 +94,7 @@ function buildSchedule(gridRows: any[], slotMap: Record<string, any>): { day: st
       const s = cell?.trim();
       if (!s || s === "-") return;
       const up = s.toUpperCase();
-      if (/^[PL]\d+$/i.test(up)) return;
+      if (/^[PL]\d+/i.test(up)) return;
       const parts = up.split("/").map((p: string) => p.trim());
       for (const part of parts) {
         const letter = part.replace(/[^A-Z]/g, "");
@@ -251,26 +253,9 @@ export default function TimetablePage() {
   const schedule = useMemo(() => {
     const courses = myTTQ.data?.data?.courses || myTTQ.data?.data || [];
     if (!ttQ.data?.data?.rows || courses.length === 0) return [];
-    
-    let rows = ttQ.data.data.rows;
-    // Extract actual student batch from profile
-    const studentBatch = (profile || academicData?.profile)?.["Combo / Batch"] ? extractBatch((profile || academicData?.profile)["Combo / Batch"]) : 1;
-    
-    // Dynamic Grid Swap to fix B1/B2 Selector portal redirect bug
-    if (batch !== studentBatch) {
-      rows = rows.map((row: any[]) => {
-        if (typeof row[0] === "string" && row[0].startsWith("Day")) {
-          const dayName = row[0];
-          const morning = row.slice(1, 6);   // Periods 1-5
-          const afternoon = row.slice(6, 11); // Periods 6-10
-          return [dayName, ...afternoon, ...morning, ...row.slice(11)];
-        }
-        return row;
-      });
-    }
 
     const slotMap = buildSlotToCourseMap(courses);
-    const rawSchedule = buildSchedule(rows, slotMap);
+    const rawSchedule = buildSchedule(ttQ.data.data.rows, slotMap);
     
     return rawSchedule.map(day => {
       const merged: ScheduleItem[] = [];
@@ -285,7 +270,7 @@ export default function TimetablePage() {
       });
       return { ...day, classes: merged };
     });
-  }, [ttQ.data, myTTQ.data, batch, profile, academicData]);
+  }, [ttQ.data, myTTQ.data]);
 
   const classes = useMemo(() => {
     const targetRow = schedule.find(s => {
