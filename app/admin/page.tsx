@@ -213,6 +213,7 @@ export default function AdminPage() {
                 />
               </div>
 
+              
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "16px" }}>
                 {filteredUsers.map((u, i) => (
                   <div key={i} className="min-card" style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "12px" }}>
