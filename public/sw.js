@@ -1,7 +1,7 @@
-const CACHE_NAME = 'srm-nexus-v3';
+const CACHE_NAME = 'srm-nexus-v4';
 const ASSETS = [
   '/',
-  '/site.webmanifest?v=3',
+  '/site.webmanifest?v=4',
   '/favicon.ico',
   '/nexus-logo.png'
 ];

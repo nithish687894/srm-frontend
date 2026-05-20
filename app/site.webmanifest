@@ -1,19 +1,19 @@
 {
-  "name": "SRMX Student Portal",
-  "short_name": "SRMX",
+  "name": "SRM Nexus Student Portal",
+  "short_name": "SRM Nexus",
   "icons": [
     {
-      "src": "/srmx-icon-192.png",
+      "src": "/nexus-logo.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/srmx-icon-512.png",
+      "src": "/nexus-logo.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "/srmx-icon-maskable-512.png",
+      "src": "/nexus-logo.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable any"
