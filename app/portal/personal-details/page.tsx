@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Settings, User, Map, Users, Mail, Phone, Home, FileText, Droplet, Flag, Award, Layers } from "lucide-react";
+import { ArrowLeft, Settings, User, Map, Users, Mail, Phone, Home, FileText, Droplet, Flag, Award, Layers, AlertCircle, RefreshCcw } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
 
 const STYLES = `
@@ -95,16 +95,37 @@ export default function PersonalDetailsPage() {
           <div className="pt-8 px-4 sm:px-6 pb-40">
             <div className="max-w-3xl mx-auto space-y-6">
               
-              {!studentPortalConnected || !profile ? (
+              {!profile ? (
                 <div className="py-20 text-center">
                   <div className="w-20 h-20 rounded-[32px] bg-red-500/5 text-red-500/30 flex items-center justify-center mb-8 border border-red-500/10 mx-auto shadow-2xl">
                     <User size={40} />
                   </div>
-                  <h2 className="text-xl font-black text-white mb-2 uppercase tracking-widest">Vault Locked</h2>
-                  <p className="text-white/20 text-[9px] font-black uppercase tracking-[0.2em]">Authentication Required</p>
+                  <h2 className="text-xl font-black text-white mb-2 uppercase tracking-widest">Vault Empty</h2>
+                  <p className="text-white/20 text-[9px] font-black uppercase tracking-[0.2em]">Please connect your student portal to fetch details</p>
                 </div>
               ) : (
                 <div className="space-y-6">
+                  {!studentPortalConnected && (
+                    <div 
+                      className="flex items-center justify-between p-4 rounded-2xl bg-amber-500/5 border border-amber-500/20 text-amber-200"
+                      style={{ backdropFilter: "blur(20px)" }}
+                    >
+                      <div className="flex items-center gap-3">
+                        <AlertCircle size={18} className="text-amber-500 flex-shrink-0" />
+                        <div>
+                          <div className="text-[10px] font-black uppercase tracking-wider text-amber-500">Offline Cache</div>
+                          <div className="text-[11px] text-white/50 font-semibold mt-0.5">Viewing cached profile. Reconnect to sync updates.</div>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => router.push('/dashboard?sync=1')}
+                        className="flex items-center gap-1.5 px-4 py-2 bg-amber-500 hover:bg-amber-400 text-black font-black text-[10px] uppercase tracking-wider rounded-xl active:scale-95 transition-all shadow-lg shadow-amber-500/10"
+                      >
+                        <RefreshCcw size={10} className="stroke-[3]" />
+                         <span>Sync</span>
+                      </button>
+                    </div>
+                  )}
                   <DetailCard title="Primary Parameters" icon="👤" delay={0.1}>
                     <div className="grid grid-cols-2 gap-x-8 gap-y-8">
                       <Row label="Date of Birth" value={profile.personalDetails?.dob} />

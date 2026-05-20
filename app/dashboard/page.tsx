@@ -10,7 +10,7 @@ import { useThemeStore } from "@/lib/themeStore";
 import { extractBatch } from "@/lib/utils";
 import PortalSyncModal from "@/components/PortalSyncModal";
 import StudentPortalPrompt from "@/components/StudentPortalPrompt";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, AlertCircle, RefreshCw } from "lucide-react";
 import dynamic from "next/dynamic";
 import AuraDashboard from "@/components/aura-theme/AuraDashboard";
 
@@ -173,12 +173,35 @@ export default function DashboardPage() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
 
+  const formatLastSynced = (dateInput: any) => {
+    if (!dateInput) return "Never";
+    try {
+      const d = new Date(dateInput);
+      if (isNaN(d.getTime())) return "Recently";
+      
+      const seconds = Math.floor((Date.now() - d.getTime()) / 1000);
+      if (seconds < 60) return "Just now";
+      
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return `${minutes}m ago`;
+      
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${hours}h ago`;
+      
+      return d.toLocaleDateString();
+    } catch {
+      return "Recently";
+    }
+  };
+
   const renderAcademicIntegrityHub = (mode: "default" | "matrix" | "aura" = "default") => {
     const isMatrix = mode === "matrix";
     const isAura = mode === "aura";
-    // Use studentPortalData from Zustand as fallback when local state hasn't synced yet
-    const spData = data?.studentPortal || studentPortalData;
-    const hasData = studentPortalConnected && !!spData && !!spData.marks && !!spData.profile;
+    // Fall back to local Zustand cache if the newly fetched object is empty or expired
+    const rawSpData = data?.studentPortal;
+    const fallbackSpData = studentPortalData;
+    const spData = (rawSpData && rawSpData.marks && rawSpData.profile) ? rawSpData : fallbackSpData;
+    const hasData = !!spData && !!spData.marks && !!spData.profile;
     return (
       <div style={{ 
         background: isAura ? "rgba(255, 255, 255, 0.02)" : isMatrix ? "#1c1c1c" : "linear-gradient(135deg, rgba(0, 255, 136, 0.03) 0%, rgba(59, 130, 246, 0.03) 100%)",
@@ -192,11 +215,91 @@ export default function DashboardPage() {
           <div>
             <div style={{ fontSize: "10px", fontWeight: 900, color: isAura ? "#FF75C3" : isMatrix ? "#a8c200" : "#00ff88", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "4px" }}>Official Performance</div>
             <h3 style={{ fontSize: "18px", fontWeight: "bold", color: "#fff" }}>Academic Intelligence Hub</h3>
+            {hasData && (
+              <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.4)", fontWeight: 700, display: "flex", alignItems: "center", gap: "4px", marginTop: "4px" }}>
+                <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: studentPortalConnected ? (isAura ? "#FF75C3" : isMatrix ? "#a8c200" : "#00ff88") : "rgba(255,255,255,0.2)" }} />
+                <span>Synced {formatLastSynced(spData?.lastSyncedAt)}</span>
+              </div>
+            )}
           </div>
           <div style={{ padding: "8px", borderRadius: "10px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }}>
             <ShieldCheck size={20} color={isAura ? "#8F92FF" : isMatrix ? "#a8c200" : "#00ff88"} />
           </div>
         </div>
+
+        {hasData && !studentPortalConnected && (
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            background: isAura 
+              ? "rgba(255, 149, 0, 0.05)" 
+              : isMatrix 
+                ? "rgba(168, 194, 0, 0.05)" 
+                : "rgba(0, 255, 136, 0.04)",
+            border: `1px solid ${
+              isAura 
+                ? "rgba(255, 149, 0, 0.2)" 
+                : isMatrix 
+                  ? "rgba(168, 194, 0, 0.2)" 
+                  : "rgba(0, 255, 136, 0.15)"
+            }`,
+            borderRadius: "16px",
+            padding: "12px 16px",
+            marginBottom: "16px",
+            gap: "12px"
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", flex: 1 }}>
+              <AlertCircle 
+                size={16} 
+                color={isAura ? "#FF9500" : isMatrix ? "#a8c200" : "#00ff88"} 
+                style={{ flexShrink: 0 }}
+              />
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <span style={{ 
+                  fontSize: "11px", 
+                  fontWeight: 900, 
+                  color: isAura ? "#FF9500" : isMatrix ? "#a8c200" : "#00ff88", 
+                  textTransform: "uppercase", 
+                  letterSpacing: "0.05em" 
+                }}>
+                  Viewing Offline Cache
+                </span>
+                <span style={{ fontSize: "10px", color: "rgba(255, 255, 255, 0.5)", fontWeight: 600, marginTop: "2px" }}>
+                  Session expired. Reconnect to sync fresh grades & arrears.
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={() => setIsSyncModalOpen(true)}
+              style={{
+                background: isAura ? "#FF9500" : isMatrix ? "#a8c200" : "#00ff88",
+                color: "#000",
+                border: "none",
+                padding: "6px 14px",
+                borderRadius: "10px",
+                fontSize: "10px",
+                fontWeight: 900,
+                cursor: "pointer",
+                textTransform: "uppercase",
+                letterSpacing: "0.05em",
+                boxShadow: `0 0 15px ${
+                  isAura 
+                    ? "rgba(255, 149, 0, 0.2)" 
+                    : isMatrix 
+                      ? "rgba(168, 194, 0, 0.2)" 
+                      : "rgba(0, 255, 136, 0.2)"
+                }`,
+                display: "flex",
+                alignItems: "center",
+                gap: "4px"
+              }}
+            >
+              <RefreshCw size={10} strokeWidth={3} />
+              <span>Sync</span>
+            </button>
+          </div>
+        )}
 
         {hasData ? (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "12px" }}>
@@ -250,6 +353,18 @@ export default function DashboardPage() {
     const raw = academicData?.profile?.["Combo / Batch"] || "";
     return extractBatch(raw);
   });
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("sync") === "1" || params.get("sync") === "true") {
+        setIsSyncModalOpen(true);
+        // Clean up URL query parameters without reloading
+        const newUrl = window.location.pathname;
+        window.history.replaceState({ path: newUrl }, "", newUrl);
+      }
+    }
+  }, []);
 
 
   useEffect(() => {
@@ -425,7 +540,7 @@ export default function DashboardPage() {
     return slots;
   }, [ttData, targetClasses]);
 
-  const studentInfo = myTTData?.data?.studentInfo || null;
+  const studentInfo = myTTData?.data?.studentInfo || data?.profile || null;
 
   const renderStudentInfoModal = () => {
     if (!showStudentInfo || !studentInfo) return null;
@@ -434,27 +549,31 @@ export default function DashboardPage() {
         onClick={() => setShowStudentInfo(false)}
         style={{
           position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
-          background: "rgba(0,0,0,0.6)", backdropFilter: "blur(10px)",
-          zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px"
+          background: "rgba(0,0,0,0.8)", backdropFilter: "blur(20px)",
+          zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px"
         }}
       >
         <div onClick={e => e.stopPropagation()} style={{
-          background: "var(--bg-surface)", padding: "24px", borderRadius: "24px",
-          width: "100%", maxWidth: "450px", border: "1px solid var(--border)",
-          boxShadow: "0 20px 40px rgba(0,0,0,0.5)", maxHeight: "80vh", overflowY: "auto"
+          background: "rgba(10, 10, 15, 0.95)", padding: "28px", borderRadius: "28px",
+          width: "100%", maxWidth: "450px", border: "1px solid rgba(255,255,255,0.08)",
+          boxShadow: "0 24px 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(255,255,255,0.02)", maxHeight: "80vh", overflowY: "auto"
         }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-            <div style={{ fontSize: "16px", fontWeight: 800, color: "var(--text-primary)" }}>Student Details</div>
-            <button onClick={() => setShowStudentInfo(false)} style={{ background: "transparent", border: "none", color: "var(--text-muted)", fontSize: "20px", cursor: "pointer" }}>×</button>
+            <div style={{ fontSize: "16px", fontWeight: 900, color: "#fff", letterSpacing: "0.05em", textTransform: "uppercase" }}>Student Details</div>
+            <button onClick={() => setShowStudentInfo(false)} style={{ background: "transparent", border: "none", color: "rgba(255,255,255,0.4)", fontSize: "24px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>×</button>
           </div>
           
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "24px" }}>
             {["Registration Number", "Name", "Combo / Batch", "Program", "Department", "Semester", "Class Room"].map(key => {
-              if (!studentInfo[key]) return null;
+              const value = studentInfo[key] || 
+                            studentInfo[key.toLowerCase()] || 
+                            studentInfo[key.replace(/\s+/g, '')] ||
+                            studentInfo[key.replace(/\s+/g, '').toLowerCase()];
+              if (!value) return null;
               return (
-                <div key={key} style={{ background: "rgba(255,255,255,0.03)", padding: "12px", borderRadius: "12px" }}>
-                  <div style={{ fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800, marginBottom: "4px" }}>{key}</div>
-                  <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--text-primary)" }}>{studentInfo[key]}</div>
+                <div key={key} style={{ background: "rgba(255,255,255,0.03)", padding: "12px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                  <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.4)", textTransform: "uppercase", fontWeight: 800, marginBottom: "4px" }}>{key}</div>
+                  <div style={{ fontSize: "13px", fontWeight: 700, color: "#fff" }}>{value}</div>
                 </div>
               );
             })}
@@ -462,17 +581,17 @@ export default function DashboardPage() {
 
           {studentInfo.advisors && (
             <div>
-              <div style={{ fontSize: "12px", fontWeight: 800, color: "var(--accent)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>Advisors</div>
+              <div style={{ fontSize: "12px", fontWeight: 900, color: "#FF75C3", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>Advisors</div>
               <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                 {Object.entries(studentInfo.advisors).map(([key, lines]: any) => {
                   if (!lines || lines.length === 0) return null;
                   return (
-                    <div key={key} style={{ background: "rgba(255,255,255,0.03)", padding: "16px", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                    <div key={key} style={{ background: "rgba(255,255,255,0.02)", padding: "16px", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.05)" }}>
                       {lines.map((line: string, i: number) => (
                         <div key={i} style={{ 
                           fontSize: i === 0 ? "14px" : "12px", 
                           fontWeight: i === 0 ? 800 : 600, 
-                          color: i === 0 ? "var(--text-primary)" : "var(--text-secondary)",
+                          color: i === 0 ? "#fff" : "rgba(255,255,255,0.6)",
                           marginBottom: i === 0 ? "4px" : "2px" 
                         }}>{line}</div>
                       ))}

@@ -103,7 +103,7 @@ export const useAuthStore = create<AuthStore>()(
       setStudentPortalData: (data) =>
         set({
           studentPortalData: data,
-          studentPortalConnected: !!data,
+          studentPortalConnected: !!data && data.sessionStatus === "active",
         }),
 
       // ── UI ────────────────────────────────────────────────────────────────
