@@ -49,7 +49,9 @@ export default function MarksPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
-  const { academicData, setAcademicData } = useAuthStore();
+  // Enforce granular Zustand selectors to eliminate main-thread render lags
+  const academicData = useAuthStore((state) => state.academicData);
+  const setAcademicData = useAuthStore((state) => state.setAcademicData);
   const { theme } = useThemeStore();
   
   useEffect(() => {

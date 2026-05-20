@@ -20,7 +20,12 @@ export default function LoginPage() {
   const [captchaAnswer, setCaptchaAnswer] = useState("");
 
   const router = useRouter();
-  const { setAuthData, authToken, _hasHydrated, hasChosenTheme } = useAuthStore();
+  
+  // Enforce granular Zustand selectors to eliminate unnecessary render thrashing
+  const setAuthData = useAuthStore((state) => state.setAuthData);
+  const authToken = useAuthStore((state) => state.authToken);
+  const _hasHydrated = useAuthStore((state) => state._hasHydrated);
+  const hasChosenTheme = useAuthStore((state) => state.hasChosenTheme);
  
    useEffect(() => {
      if (!_hasHydrated) return;
@@ -304,14 +309,15 @@ export default function LoginPage() {
                 <p style={{ color: "rgba(255, 255, 255, 0.4)", fontSize: "12px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.2em", marginTop: "8px" }}>Identity Secure</p>
               </div>
 
-              <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
-                {error && <div style={{ color: "#ff4d4d", fontSize: "13px", textAlign: "center", marginBottom: "20px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em" }}>{error}</div>}
+              <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }} data-testid="login-form">
+                {error && <div data-testid="login-error" style={{ color: "#ff4d4d", fontSize: "13px", textAlign: "center", marginBottom: "20px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em" }}>{error}</div>}
 
                 <input
                   type="text" placeholder="NETID (e.g. ab1234)"
                   className="login-input"
                   value={email} onChange={e => setEmail(e.target.value)}
                   disabled={loading} maxLength={6}
+                  data-testid="netid-input"
                 />
 
                 <div style={{ position: 'relative' }}>
@@ -321,21 +327,23 @@ export default function LoginPage() {
                     className="login-input"
                     value={password} onChange={e => setPassword(e.target.value)}
                     disabled={loading}
+                    data-testid="password-input"
                   />
                   <button
                     type="button" onClick={() => setShowPassword(!showPassword)}
                     style={{ position: 'absolute', right: '20px', top: '24px', background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', cursor: 'pointer' }}
+                    data-testid="toggle-password-btn"
                   >
                     {showPassword ? <EyeOff size={22} /> : <Eye size={22} />}
                   </button>
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '32px', padding: '0 4px' }}>
-                  <input type="checkbox" id="remember" style={{ accentColor: '#fff', width: "18px", height: "18px" }} defaultChecked />
+                  <input type="checkbox" id="remember" style={{ accentColor: '#fff', width: "18px", height: "18px" }} defaultChecked data-testid="remember-checkbox" />
                   <label htmlFor="remember" style={{ fontSize: "13px", color: "rgba(255, 255, 255, 0.5)", fontWeight: 600 }}>Remember session</label>
                 </div>
 
-                <button type="submit" className="login-btn" disabled={loading}>
+                <button type="submit" className="login-btn" disabled={loading} data-testid="submit-login-btn">
                   {loading ? "INITIALIZING..." : "ENTER ACADEMIC OS"}
                 </button>
 
@@ -344,6 +352,7 @@ export default function LoginPage() {
                     type="button" 
                     onClick={launchDemo} 
                     disabled={loading}
+                    data-testid="quick-demo-btn"
                     style={{
                       background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%)',
                       border: '1px solid rgba(255, 255, 255, 0.06)',

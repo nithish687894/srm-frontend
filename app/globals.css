@@ -819,3 +819,64 @@ h4 { font-weight: 740; }
 .swipe-wrapper {
   contain: layout style;
 }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ADAPTIVE GPU PERFORMANCE GUARD OVERRIDES (.theme-perf-low)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.theme-perf-low,
+.theme-perf-low *,
+html.theme-perf-low,
+body.theme-perf-low {
+  /* Eliminate complex, expensive GPU multi-pass filters */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+
+  /* Promote elements to GPU and pre-allocate compositor layer */
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Specific class fallbacks for performance mode */
+.theme-perf-low .aura-blob,
+.theme-perf-low .launch-splash-glow,
+.theme-perf-low .launch-splash-glow-pulse {
+  display: none !important;
+  animation: none !important;
+}
+
+/* Login background simplification */
+.theme-perf-low .nebula-bg {
+  background: radial-gradient(circle at 50% 50%, #08060f 0%, #000000 100%) !important;
+  animation: none !important;
+  filter: none !important;
+}
+
+/* Glassmorphism fallback to highly performant solid backdrops */
+.theme-perf-low .login-container {
+  background: rgba(12, 12, 16, 0.98) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9) !important;
+}
+
+.theme-perf-low .min-card,
+.theme-perf-low .liquid-card,
+.theme-perf-low .feature-card {
+  background: #0f0f12 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Eliminate layout shifts on low-end device scrolling */
+.theme-perf-low .min-card:hover {
+  transform: none !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Accelerate navigation transitions */
+.theme-perf-low .srmx-mobile-nav,
+.theme-perf-low .srmx-nav-bar {
+  background: #08080a !important;
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.8) !important;
+}
+

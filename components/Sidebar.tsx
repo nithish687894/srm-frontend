@@ -93,7 +93,7 @@ export default function Sidebar() {
     { href: "/app-tools", label: "Tools", icon: Wrench, color: theme === "aura" ? "#34C759" : theme === "matrix" ? "#a8c200" : "#00ff88" },
     { href: "/ai", label: "AI Tutor", icon: Sparkles, color: theme === "aura" ? "#BF5AF2" : theme === "matrix" ? "#a8c200" : "#bf00ff" },
     { href: "/gpa", label: "GPA Calc", icon: GraduationCap, color: theme === "aura" ? "#FF2D55" : theme === "matrix" ? "#a8c200" : "#ffffff" },
-    { href: "/admin", label: "Admin", icon: Shield, color: theme === "aura" ? "#FF9500" : theme === "matrix" ? "#a8c200" : "#ff3b30" },
+    ...(isAdmin ? [{ href: "/admin", label: "Admin", icon: Shield, color: theme === "aura" ? "#FF9500" : theme === "matrix" ? "#a8c200" : "#ff3b30" }] : []),
   ];
 
   const portalServices = [
@@ -332,148 +332,151 @@ export default function Sidebar() {
 
           {/* Sliding Bottom Drawer with Top Glowing Accent */}
           <div 
-            className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[420px] max-h-[85vh] overflow-y-auto z-[99999] rounded-t-[36px] flex flex-col transition-transform duration-300"
+            className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[420px] max-h-[85vh] z-[99999] rounded-t-[36px] flex flex-col transition-transform duration-300 overflow-hidden"
             style={{ 
-              background: theme === "matrix" ? "rgba(4, 7, 4, 0.92)" : theme === "aura" ? "rgba(12, 8, 22, 0.92)" : "rgba(8, 10, 15, 0.92)",
-              backdropFilter: "blur(50px) saturate(220%)",
-              WebkitBackdropFilter: "blur(50px) saturate(220%)",
+              background: theme === "matrix" 
+                ? "linear-gradient(to bottom, rgba(6, 10, 6, 0.98), rgba(3, 5, 3, 0.99))" 
+                : theme === "aura" 
+                  ? "linear-gradient(to bottom, rgba(16, 10, 28, 0.98), rgba(8, 5, 15, 0.99))" 
+                  : "linear-gradient(to bottom, rgba(10, 12, 18, 0.98), rgba(5, 6, 10, 0.99))",
+              backdropFilter: "blur(60px) saturate(220%)",
+              WebkitBackdropFilter: "blur(60px) saturate(220%)",
               borderTop: `1.5px solid ${hubCardBorder}`,
               boxShadow: `0 -25px 60px rgba(0,0,0,0.85), inset 0 1px 0 rgba(255,255,255,0.06), 0 -2px 20px ${hubAccentGlow}`,
               animation: "slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
               paddingBottom: "calc(20px + env(safe-area-inset-bottom))"
             }}
           >
-            {/* Drag Bar Handle */}
-            <div className="w-12 h-1 bg-white/20 rounded-full mx-auto my-4 shrink-0 cursor-pointer hover:bg-white/30 active:scale-95 transition-all" onClick={() => setMoreOpen(false)} />
-
-            {/* Header section inside the drawer */}
-            <div className="flex items-center justify-between px-6 pb-4 border-b border-white/5 shrink-0">
-              <span className="text-[10px] text-white/30 uppercase tracking-[0.35em] font-black font-sans">
-                Central Hub
-              </span>
-              <button 
-                onClick={() => setMoreOpen(false)}
-                className="w-8 h-8 rounded-full flex items-center justify-center bg-white/5 border border-white/10 active:scale-90 hover:bg-white/10 transition-all"
-              >
-                <X size={14} className="text-white/60" />
-              </button>
-            </div>
-
+            {/* STICKY TOP HEADER (Unified Profile Header) */}
             <div 
-              className="px-6 py-6 flex-1 flex flex-col gap-7 w-full"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+              className="shrink-0 flex flex-col w-full relative z-10 border-b border-white/5"
+              style={{
+                background: theme === "matrix" ? "#060a06" : theme === "aura" ? "#100a1c" : "#0a0c12"
+              }}
             >
-              
-              {/* STUDENT PROFILE CARD */}
+              {/* Drag Bar Handle */}
               <div 
-                className="flex items-center gap-5 p-5 rounded-[28px] w-full relative overflow-hidden"
-                style={{ 
-                  background: hubCardBg, 
-                  border: `1px solid ${hubCardBorder}`, 
-                  boxShadow: `inset 0 0 25px ${hubAccentGlow}, 0 10px 30px rgba(0,0,0,0.3)` 
-                }}
-              >
-                {/* Subtle passport-style glare effect */}
-                <div 
-                  className="absolute inset-0 pointer-events-none opacity-20"
-                  style={{
-                    background: "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, transparent 100%)"
-                  }}
-                />
+                className="w-12 h-1.5 bg-white/20 rounded-full mx-auto mt-4 mb-3 shrink-0 cursor-pointer hover:bg-white/30 active:scale-95 transition-all" 
+                onClick={() => setMoreOpen(false)} 
+              />
 
+              {/* Profile Header Section */}
+              <div className="flex items-center gap-4 px-6 pb-4">
+                {/* Initials Avatar */}
                 <div 
-                  className="w-14 h-14 rounded-full flex items-center justify-center text-black text-xl font-black shrink-0 relative overflow-hidden"
+                  className="w-12 h-12 rounded-full flex items-center justify-center text-black text-base font-black shrink-0 relative overflow-hidden border border-white/10"
                   style={{ 
                     background: `linear-gradient(135deg, ${hubAccent} 0%, #ffffff 200%)`, 
-                    boxShadow: `0 8px 24px ${hubAccentGlow}` 
+                    boxShadow: `0 4px 12px ${hubAccentGlow}` 
                   }}
                 >
                   {initials}
                 </div>
-                
+
+                {/* Profile Details */}
                 <div className="flex-1 min-w-0">
-                  <h2 className="text-lg font-black text-white leading-tight truncate tracking-wide">{userName}</h2>
-                  <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest mt-1.5 tabular-nums">{regNo}</p>
+                  <h2 className="text-sm font-black text-white leading-tight truncate tracking-wide">{userName}</h2>
+                  <p className="text-[9px] text-white/40 font-bold uppercase tracking-widest mt-1 tabular-nums">{regNo}</p>
                   
                   {studentPortalConnected && (
-                    <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 mt-2.5 rounded-full bg-white/[0.04] border border-white/10">
-                      <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: hubAccent, boxShadow: `0 0 8px ${hubAccent}` }} />
-                      <span className="text-[8px] font-black text-white/50 uppercase tracking-widest">Portal Linked</span>
+                    <div className="inline-flex items-center gap-1.5 px-2 py-0.5 mt-1.5 rounded-full bg-white/[0.04] border border-white/10">
+                      <div 
+                        className="w-1 h-1 rounded-full animate-pulse" 
+                        style={{ 
+                          background: hubAccent, 
+                          boxShadow: `0 0 6px ${hubAccent}` 
+                        }} 
+                      />
+                      <span className="text-[7px] font-black text-white/50 uppercase tracking-widest">Portal Linked</span>
                     </div>
                   )}
                 </div>
-              </div>
 
-              {/* NEXUS CORE */}
+                {/* Close Button */}
+                <button 
+                  onClick={() => setMoreOpen(false)}
+                  className="w-8 h-8 rounded-full flex items-center justify-center bg-white/5 border border-white/10 active:scale-90 hover:bg-white/10 transition-all shrink-0 self-start"
+                >
+                  <X size={14} className="text-white/60" />
+                </button>
+              </div>
+            </div>
+
+            {/* SCROLLABLE BODY */}
+            <div 
+              className="px-6 py-5 flex-1 overflow-y-auto flex flex-col gap-6 w-full relative z-0"
+              style={{ 
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                scrollbarWidth: "none"
+              }}
+            >
+
+              {/* NEXUS CORE (Uniform aspect-square modern glass tiles) */}
               <div>
-                <p className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em] mb-3.5 pl-1">Nexus Core</p>
-                <div className="grid grid-cols-5 gap-2.5">
+                <p className="text-[9px] font-black text-white/25 uppercase tracking-[0.3em] mb-3 pl-1">Nexus Core</p>
+                <div className="grid grid-cols-3 gap-3">
                   {moreItems.map(({ href, label, icon: Icon, color }) => (
-                    <div key={href} className="flex flex-col items-center">
-                      <button 
-                        onClick={() => { setMoreOpen(false); router.push(href); }}
-                        className="w-14 h-14 rounded-full flex items-center justify-center active:scale-90 transition-all hover:bg-white/[0.04]"
-                        style={{ 
-                          background: hubCardBg, 
-                          border: `1px solid ${hubCardBorder}`,
-                          boxShadow: "inset 0 0 15px rgba(255,255,255,0.01)" 
-                        }}
-                      >
-                        <Icon size={20} color={color || hubAccent} />
-                      </button>
-                      <span className="text-[7.5px] font-extrabold uppercase tracking-wider text-center mt-2.5 text-white/45 leading-tight min-h-[16px] font-sans">
+                    <button 
+                      key={href}
+                      onClick={() => { setMoreOpen(false); router.push(href); }}
+                      className="aspect-square w-full rounded-[24px] flex flex-col items-center justify-center gap-2 active:scale-95 transition-all hover:bg-white/[0.06] border border-white/[0.08] hover:border-white/[0.15]"
+                      style={{ 
+                        background: "rgba(255, 255, 255, 0.02)",
+                        boxShadow: `inset 0 0 20px rgba(255, 255, 255, 0.01), 0 4px 12px rgba(0,0,0,0.2)`
+                      }}
+                    >
+                      <Icon size={24} color={color || hubAccent} style={{ filter: `drop-shadow(0 0 8px ${(color || hubAccent)}50)` }} />
+                      <span className="text-[10px] font-black uppercase tracking-wider text-center text-white/60 mt-1 leading-tight">
                         {label}
                       </span>
-                    </div>
+                    </button>
                   ))}
                 </div>
               </div>
 
-              {/* PORTAL SERVICES */}
+              {/* PORTAL SERVICES (Matching unified aspect-square tiles) */}
               <div>
-                <p className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em] mb-3.5 pl-1">Portal Services</p>
-                <div className="grid grid-cols-5 gap-2.5">
+                <p className="text-[9px] font-black text-white/25 uppercase tracking-[0.3em] mb-3 pl-1">Portal Services</p>
+                <div className="grid grid-cols-3 gap-3">
                   {portalServices.map(({ href, label, icon: Icon, color }) => (
-                    <div key={href} className="flex flex-col items-center">
-                      <button 
-                        onClick={() => { setMoreOpen(false); router.push(href); }}
-                        className="w-14 h-14 rounded-full flex items-center justify-center active:scale-90 transition-all hover:bg-white/[0.04]"
-                        style={{ 
-                          background: hubCardBg, 
-                          border: `1px solid ${hubCardBorder}`,
-                          boxShadow: "inset 0 0 15px rgba(255,255,255,0.01)" 
-                        }}
-                      >
-                        <Icon size={20} color={color || hubAccent} />
-                      </button>
-                      <span className="text-[7.5px] font-extrabold uppercase tracking-wider text-center mt-2.5 text-white/45 leading-tight min-h-[16px] max-w-[64px] font-sans">
+                    <button 
+                      key={href}
+                      onClick={() => { setMoreOpen(false); router.push(href); }}
+                      className="aspect-square w-full rounded-[24px] flex flex-col items-center justify-center gap-2 active:scale-95 transition-all hover:bg-white/[0.06] border border-white/[0.08] hover:border-white/[0.15]"
+                      style={{ 
+                        background: "rgba(255, 255, 255, 0.02)",
+                        boxShadow: `inset 0 0 20px rgba(255, 255, 255, 0.01), 0 4px 12px rgba(0,0,0,0.2)`
+                      }}
+                    >
+                      <Icon size={24} color={color || hubAccent} style={{ filter: `drop-shadow(0 0 8px ${(color || hubAccent)}50)` }} />
+                      <span className="text-[9px] font-black uppercase tracking-wider text-center text-white/60 mt-1 leading-tight">
                         {label}
                       </span>
-                    </div>
+                    </button>
                   ))}
                 </div>
               </div>
 
               {/* QUICK ACTIONS */}
               <div className="flex flex-col gap-3">
-                <p className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em] mb-1 pl-1">Quick Actions</p>
+                <p className="text-[9px] font-black text-white/25 uppercase tracking-[0.3em] mb-1 pl-1">Quick Actions</p>
                 
                 <button 
                   onClick={() => { setMoreOpen(false); router.push("/settings/theme"); }} 
-                  className="flex items-center gap-4.5 p-4 rounded-[24px] text-left transition-all active:scale-[0.98] w-full text-white/70 hover:text-white group"
-                  style={{ background: hubCardBg, border: `1px solid ${hubCardBorder}` }}
+                  className="flex items-center gap-4 p-3.5 rounded-[24px] text-left transition-all active:scale-[0.98] w-full text-white/70 hover:text-white group border border-white/[0.05]"
+                  style={{ background: hubCardBg }}
                 >
                   <div 
-                    className="w-11 h-11 rounded-full flex items-center justify-center bg-white/[0.03] border border-white/[0.06] shrink-0 group-hover:scale-105 transition-transform" 
+                    className="w-11 h-11 rounded-full flex items-center justify-center bg-white/[0.02] border border-white/[0.04] shrink-0 group-hover:scale-105 transition-transform" 
                     style={{ boxShadow: `inset 0 0 12px ${hubAccentGlow}` }}
                   >
                     <LayoutTemplate size={20} color={hubAccent} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-black text-white leading-none font-sans">
+                    <p className="text-xs font-black text-white leading-none">
                       Themes
                     </p>
-                    <p className="text-[10.5px] text-white/35 font-bold mt-1 leading-none truncate">
+                    <p className="text-[10px] text-white/35 font-bold mt-1.5 leading-none truncate">
                       Customize your look
                     </p>
                   </div>
@@ -482,20 +485,20 @@ export default function Sidebar() {
                 
                 <button 
                   onClick={() => { setMoreOpen(false); router.push("/support"); }} 
-                  className="flex items-center gap-4.5 p-4 rounded-[24px] text-left transition-all active:scale-[0.98] w-full text-white/70 hover:text-white group"
-                  style={{ background: hubCardBg, border: `1px solid ${hubCardBorder}` }}
+                  className="flex items-center gap-4 p-3.5 rounded-[24px] text-left transition-all active:scale-[0.98] w-full text-white/70 hover:text-white group border border-white/[0.05]"
+                  style={{ background: hubCardBg }}
                 >
                   <div 
-                    className="w-11 h-11 rounded-full flex items-center justify-center bg-white/[0.03] border border-white/[0.06] shrink-0 group-hover:scale-105 transition-transform" 
+                    className="w-11 h-11 rounded-full flex items-center justify-center bg-white/[0.02] border border-white/[0.04] shrink-0 group-hover:scale-105 transition-transform" 
                     style={{ boxShadow: `inset 0 0 12px ${hubAccentGlow}` }}
                   >
                     <LifeBuoy size={20} color={hubAccent} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-black text-white leading-none font-sans">
+                    <p className="text-xs font-black text-white leading-none">
                       Help & Support
                     </p>
-                    <p className="text-[10.5px] text-white/35 font-bold mt-1 leading-none truncate">
+                    <p className="text-[10px] text-white/35 font-bold mt-1.5 leading-none truncate">
                       Get assistance with Academic OS
                     </p>
                   </div>
@@ -503,13 +506,13 @@ export default function Sidebar() {
                 </button>
               </div>
 
-              {/* LOGOUT */}
+              {/* LOGOUT (Futuristic Glowing Crimson Capsule Button) */}
               <button 
                 onClick={() => { setMoreOpen(false); handleLogout(); }}
-                className="flex items-center justify-center gap-2.5 p-4.5 rounded-[24px] w-full mt-2 active:scale-[0.98] transition-all hover:bg-red-500/20"
+                className="flex items-center justify-center gap-2.5 p-4 rounded-[24px] w-full mt-2 active:scale-[0.98] transition-all hover:bg-red-500/20"
                 style={{ 
-                  background: "rgba(255, 59, 48, 0.06)", 
-                  border: "1px solid rgba(255, 59, 48, 0.15)",
+                  background: "linear-gradient(135deg, rgba(255, 59, 48, 0.12) 0%, rgba(255, 59, 48, 0.04) 100%)", 
+                  border: "1px solid rgba(255, 59, 48, 0.25)",
                   boxShadow: "0 6px 20px rgba(0,0,0,0.15)"
                 }}
               >

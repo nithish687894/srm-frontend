@@ -22,7 +22,9 @@ function buildSlotToCourseMap(myTT: any[]) {
 export default function AttendancePage() {
   const { ready } = useAuth();
   const { theme } = useThemeStore();
-  const { academicData, setAcademicData } = useAuthStore();
+  // Optimize Zustand subscriptions to eliminate main-thread render lags
+  const academicData = useAuthStore((state) => state.academicData);
+  const setAcademicData = useAuthStore((state) => state.setAcademicData);
   const [att, setAtt] = useState<any[]>(academicData?.attendance || []);
   const [loading, setLoading] = useState(!academicData?.attendance);
   const [isSyncing, setIsSyncing] = useState(false);

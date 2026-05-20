@@ -152,8 +152,17 @@ function MiniGridTile({ slot }: { slot: any }) {
 export default function DashboardPage() {
   const { ready } = useAuth();
   const router = useRouter();
-  const { theme } = useThemeStore();
-  const { email, setProfile, academicData, setAcademicData, studentPortalConnected, setStudentPortalConnected, setStudentPortalData, studentPortalData } = useAuthStore();
+  // Enforce granular store selectors to avoid main-thread rendering bottlenecks
+  const theme = useThemeStore((state) => state.theme);
+  
+  const email = useAuthStore((state) => state.email);
+  const setProfile = useAuthStore((state) => state.setProfile);
+  const academicData = useAuthStore((state) => state.academicData);
+  const setAcademicData = useAuthStore((state) => state.setAcademicData);
+  const studentPortalConnected = useAuthStore((state) => state.studentPortalConnected);
+  const setStudentPortalConnected = useAuthStore((state) => state.setStudentPortalConnected);
+  const setStudentPortalData = useAuthStore((state) => state.setStudentPortalData);
+  const studentPortalData = useAuthStore((state) => state.studentPortalData);
   const [data, setData] = useState<any>(academicData || null);
   const [loading, setLoading] = useState(!academicData);
   const [ttData, setTTData] = useState<any>(null);

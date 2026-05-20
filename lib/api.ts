@@ -21,7 +21,10 @@ API.interceptors.response.use(
   (res) => res,
   async (err) => {
     const originalRequest = err.config;
-    if (err.response?.status === 401 && !originalRequest._retry && typeof window !== "undefined") {
+    // Do not attempt to refresh or redirect if the 401 error is on a login/connect endpoint (wrong credentials)
+    const isAuthRequest = originalRequest?.url?.includes("/connect") || originalRequest?.url?.includes("/login");
+    
+    if (err.response?.status === 401 && !isAuthRequest && !originalRequest._retry && typeof window !== "undefined") {
       originalRequest._retry = true;
       const refreshToken = localStorage.getItem("refreshToken");
 
