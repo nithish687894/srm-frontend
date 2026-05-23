@@ -33,6 +33,44 @@
   --nav-blur: 20px;
   --nav-bg: rgba(5, 5, 5, 0.8);
   --section-bg-text: "";
+
+  /* ═══ NEXUS DESIGN SYSTEM TOKENS ═══ */
+
+  /* ── Motion Hierarchy ── */
+  --motion-hero-duration: 6s;
+  --motion-hero-ease: cubic-bezier(0.37, 0, 0.63, 1);      /* Slow, elegant */
+  --motion-panel-duration: 0.5s;
+  --motion-panel-ease: cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Spring physics */
+  --motion-bento-duration: 0.25s;
+  --motion-bento-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);   /* Subtle ease */
+  --motion-utility-duration: 0.15s;
+  --motion-utility-ease: ease;
+
+  /* ── Blur Levels ── */
+  --blur-surface: 20px;
+  --blur-panel: 60px;
+  --blur-heavy: 80px;
+  --blur-atmospheric: 140px;
+
+  /* ── Depth Shadows ── */
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --shadow-panel: 0 -25px 60px rgba(0, 0, 0, 0.85);
+  --shadow-elevated: 0 20px 60px rgba(0, 0, 0, 0.6);
+  --shadow-hero: 0 0 60px rgba(168, 85, 247, 0.12);
+
+  /* ── Spacing Scale ── */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  /* ── Card Depth Rules ── */
+  --glass-bg: rgba(255, 255, 255, 0.02);
+  --glass-bg-hover: rgba(255, 255, 255, 0.04);
+  --glass-glare: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --glass-saturate: saturate(180%);
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -62,6 +100,218 @@ body.theme-matrix {
 .theme-matrix .font-bold-heavy {
   font-weight: 900;
   letter-spacing: -0.02em;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   THEME — AURA (Neo-Conic Glassmorphism)
+   Premium glassmorphic design with orbital
+   conic gradients, glow indicators, and
+   the signature Pink→Purple→Cyan palette.
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+body.theme-aura {
+  /* ── Core Palette ── */
+  --bg-root: #050508;
+  --bg-surface: rgba(255, 255, 255, 0.02);
+  --bg-elevated: rgba(255, 255, 255, 0.04);
+  --bg-surface-rgb: 12, 10, 20;
+
+  /* ── Accents ── */
+  --accent: #FF75C3;
+  --accent-secondary: #8F92FF;
+  --accent-purple: #BF5AF2;
+  --accent-cyan: #00E5FF;
+  --accent-bg: rgba(255, 117, 195, 0.1);
+
+  /* ── Text ── */
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --text-muted: rgba(255, 255, 255, 0.3);
+
+  /* ── Structural ── */
+  --radius: 24px;
+  --border: rgba(255, 255, 255, 0.06);
+  --font-heading: 'Plus Jakarta Sans', var(--font-inter), system-ui, sans-serif;
+  --font-main: 'Plus Jakarta Sans', var(--font-inter), system-ui, sans-serif;
+
+  /* ── Navigation ── */
+  --nav-bg: rgba(15, 12, 28, 0.82);
+  --nav-blur: 32px;
+
+  /* ── Glass Depth ── */
+  --glass-bg: rgba(255, 255, 255, 0.02);
+  --glass-bg-hover: rgba(255, 255, 255, 0.04);
+  --glass-glare: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --glass-saturate: saturate(200%);
+
+  /* ── Shadows ── */
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --shadow-panel: 0 -20px 60px rgba(0, 0, 0, 0.7);
+  --shadow-elevated: 0 20px 60px rgba(0, 0, 0, 0.5);
+  --shadow-hero: 0 0 60px rgba(191, 90, 242, 0.12);
+  --shadow-glow-pink: 0 0 40px rgba(255, 117, 195, 0.15);
+  --shadow-glow-purple: 0 0 40px rgba(191, 90, 242, 0.15);
+
+  /* ── Background ── */
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(191, 90, 242, 0.08), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 90%, rgba(0, 229, 255, 0.05), transparent 50%),
+    #050508;
+  background-attachment: fixed;
+}
+
+/* ── Aura Card System ── */
+.theme-aura .min-card {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 20px 40px rgba(0, 0, 0, 0.4);
+  position: relative;
+}
+
+.theme-aura .min-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 117, 195, 0.04) 0%, transparent 40%, rgba(143, 146, 255, 0.03) 100%);
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.theme-aura .min-card:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 117, 195, 0.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 30px 50px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(255, 117, 195, 0.06);
+}
+
+/* ── Aura Action Buttons ── */
+.theme-aura .action-btn {
+  background: rgba(255, 117, 195, 0.06);
+  border: 1px solid rgba(255, 117, 195, 0.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 117, 195, 0.06);
+}
+
+.theme-aura .action-btn:hover {
+  background: rgba(255, 117, 195, 0.1);
+  border-color: rgba(255, 117, 195, 0.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 117, 195, 0.1);
+}
+
+.theme-aura .action-btn .icon-l {
+  background: rgba(255, 117, 195, 0.12);
+}
+
+.theme-aura .action-btn .icon-r {
+  background: rgba(191, 90, 242, 0.12);
+}
+
+/* ── Aura Navigation Bar ── */
+.theme-aura .srmx-nav-bar,
+.theme-aura .srmx-mobile-nav {
+  background: var(--nav-bg);
+  backdrop-filter: blur(var(--nav-blur));
+  -webkit-backdrop-filter: blur(var(--nav-blur));
+  border-top: 1px solid rgba(255, 117, 195, 0.08);
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5), 0 -2px 20px rgba(191, 90, 242, 0.05);
+}
+
+.theme-aura .srmx-desktop-nav {
+  background: rgba(15, 12, 28, 0.7);
+  border: 1px solid rgba(255, 117, 195, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(191, 90, 242, 0.06);
+}
+
+/* ── Aura Nav Item Active State ── */
+.theme-aura .nav-item.active {
+  color: #FF75C3;
+  text-shadow: 0 0 12px rgba(255, 117, 195, 0.7);
+}
+
+.theme-aura .nav-item.active::before {
+  background: #FF75C3;
+  box-shadow: 0 0 12px rgba(255, 117, 195, 0.6);
+}
+
+/* ── Aura Selection & Scrollbar ── */
+.theme-aura ::selection {
+  background: rgba(255, 117, 195, 0.35);
+  color: #ffffff;
+}
+
+.theme-aura ::-webkit-scrollbar-thumb {
+  background: rgba(255, 117, 195, 0.15);
+}
+
+.theme-aura ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 117, 195, 0.35);
+}
+
+/* ── Aura Launch Splash Overrides ── */
+.theme-aura .launch-splash {
+  background:
+    radial-gradient(120% 70% at 50% 8%, rgba(255, 117, 195, 0.18) 0%, transparent 50%),
+    linear-gradient(180deg, #0a0810 0%, #050508 100%);
+}
+
+.theme-aura .launch-splash-mark {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 117, 195, 0.88) 100%);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 0 30px rgba(255, 117, 195, 0.25);
+}
+
+.theme-aura .launch-splash-logo {
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.45), 0 0 45px rgba(255, 117, 195, 0.18);
+}
+
+.theme-aura .launch-splash-glow {
+  background: radial-gradient(circle, rgba(255, 117, 195, 0.22) 0%, rgba(255, 117, 195, 0) 68%);
+}
+
+/* ── Aura Floating Backlight ── */
+.theme-aura .floating-backlight::before {
+  background: radial-gradient(circle, rgba(255, 117, 195, 0.12) 0%, transparent 60%);
+}
+
+/* ── Aura Hero Glow Animation ── */
+@keyframes auraHeroBreathe {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 117, 195, 0.06);
+  }
+  50% {
+    box-shadow: 0 0 45px rgba(255, 117, 195, 0.15);
+  }
+}
+
+@keyframes auraBorderShimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ── Aura Liquid Cards (Glassmorphism Helper) ── */
+.theme-aura .liquid-card {
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 16px 40px rgba(0, 0, 0, 0.4);
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -818,6 +1068,164 @@ h4 { font-weight: 740; }
 /* ── Prevent layout thrash: contain expensive components ── */
 .swipe-wrapper {
   contain: layout style;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), filter 0.6s cubic-bezier(0.22, 1, 0.36, 1), border-radius 0.6s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  transform-origin: center top;
+}
+
+body.nexus-panel-active .swipe-wrapper {
+  transform: scale(0.95) translateY(-14px) !important;
+  filter: blur(14px) brightness(0.24) !important;
+  pointer-events: none !important;
+  border-radius: 36px !important;
+  overflow: hidden !important;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.85) !important;
+}
+
+/* ── Holographic Backlight Behind Spatial Panel ── */
+.floating-backlight {
+  position: relative;
+}
+
+.floating-backlight::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.18) 0%, transparent 60%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: -1;
+  animation: breatheBacklight 6s ease-in-out infinite;
+}
+
+@keyframes breatheBacklight {
+  0%, 100% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+/* ── Spatial Expansion Keyframes ── */
+@keyframes floatExpand {
+  0% {
+    transform: translateY(80px) scale(0.92);
+    opacity: 0;
+    filter: blur(12px);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes floatShrink {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    transform: translateY(80px) scale(0.92);
+    opacity: 0;
+    filter: blur(12px);
+  }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   NEXUS MOTION HIERARCHY SYSTEM
+   Level 1: Hero — Slow, elegant, breathing
+   Level 2: Panel — Strong spring physics
+   Level 3: Bento — Tiny hover/parallax only
+   Level 4: Utility — Almost static
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Level 1 — Hero Motion (AURA Status, AI indicators) */
+.motion-hero {
+  transition: opacity var(--motion-hero-duration) var(--motion-hero-ease),
+              transform var(--motion-hero-duration) var(--motion-hero-ease);
+}
+
+@keyframes heroBreathe {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+    filter: brightness(1.08);
+  }
+}
+
+@keyframes heroGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.08);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(168, 85, 247, 0.2);
+  }
+}
+
+/* Level 2 — Panel Motion (Drawer, overlays) */
+.motion-panel {
+  transition: transform var(--motion-panel-duration) var(--motion-panel-ease),
+              opacity var(--motion-panel-duration) var(--motion-panel-ease);
+}
+
+/* Level 3 — Bento Tiles (subtle hover parallax only) */
+.motion-bento {
+  transition: transform var(--motion-bento-duration) var(--motion-bento-ease),
+              background var(--motion-bento-duration) var(--motion-bento-ease),
+              box-shadow var(--motion-bento-duration) var(--motion-bento-ease);
+}
+.motion-bento:hover {
+  transform: translateY(-2px);
+}
+.motion-bento:active {
+  transform: scale(0.97) !important;
+  transition-duration: 0.1s;
+}
+
+/* Level 4 — Utility Items (near-static, fast micro-transitions) */
+.motion-utility {
+  transition: color var(--motion-utility-duration) var(--motion-utility-ease),
+              background var(--motion-utility-duration) var(--motion-utility-ease),
+              opacity var(--motion-utility-duration) var(--motion-utility-ease);
+}
+.motion-utility:active {
+  transform: scale(0.98);
+}
+
+/* ── Dynamic Light Response ── */
+@keyframes ambientShift {
+  0% {
+    background-position: 0% 50%;
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: hue-rotate(8deg);
+  }
+  100% {
+    background-position: 0% 50%;
+    filter: hue-rotate(0deg);
+  }
+}
+
+.ambient-responsive {
+  background-size: 200% 200%;
+  animation: ambientShift 20s ease-in-out infinite;
+}
+
+/* Scroll-reactive light CSS custom property target */
+.nexus-scroll-glow {
+  --scroll-glow-opacity: 0.15;
+  transition: --scroll-glow-opacity 0.8s ease;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

@@ -9,6 +9,7 @@ import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import { toPng } from "html-to-image";
 import { extractBatch } from "@/lib/utils";
+import { Share2 } from "lucide-react";
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
 function parseStart(t: string) { const m = t.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
@@ -40,6 +41,27 @@ function fmt12(t: string) {
   const h12 = h24 > 12 ? h24 - 12 : h24 === 0 ? 12 : h24; 
   return `${h12}:${m[2]} ${suffix}`; 
 }
+
+function formatDateNicely(isoDateStr: string) {
+  const parts = isoDateStr.split("-");
+  if (parts.length !== 3) return isoDateStr;
+  const year = parseInt(parts[0], 10);
+  const month = parseInt(parts[1], 10) - 1;
+  const day = parseInt(parts[2], 10);
+  const d = new Date(year, month, day);
+  return d.toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" });
+}
+
+function formatDateNicelyShort(isoDateStr: string) {
+  const parts = isoDateStr.split("-");
+  if (parts.length !== 3) return isoDateStr;
+  const year = parseInt(parts[0], 10);
+  const month = parseInt(parts[1], 10) - 1;
+  const day = parseInt(parts[2], 10);
+  const d = new Date(year, month, day);
+  return d.toLocaleDateString("en-US", { weekday: "short", day: "numeric" });
+}
+
 
 interface ScheduleItem {
   slot: string; startTime: string; endTime: string;
@@ -155,6 +177,7 @@ export default function TimetablePage() {
   const fullShareRef = useRef<HTMLDivElement>(null);
   const [sharing, setSharing] = useState(false);
   const [fullSharing, setFullSharing] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
 
   const handleShare = async () => {
     if (!shareRef.current) return;
@@ -249,6 +272,49 @@ export default function TimetablePage() {
       }
     }
   }, [calQ.data]);
+
+  const calendarIndex = useMemo(() => {
+    if (!calQ.data) return null;
+    return buildCalendarIndex(calQ.data);
+  }, [calQ.data]);
+
+  const todayInfo = useMemo(() => {
+    if (!calendarIndex) return null;
+    const today = new Date();
+    const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+    return calendarIndex.byDate.get(todayIso) || null;
+  }, [calendarIndex]);
+
+  const getNextOccurrence = useMemo(() => {
+    return (dayOrderNum: number) => {
+      if (!calendarIndex) return null;
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      const occurrences: any[] = [];
+      calendarIndex.byDate.forEach((info) => {
+        if (info.dayOrder === dayOrderNum) {
+          const parts = info.isoDate.split("-");
+          const infoDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+          infoDate.setHours(0, 0, 0, 0);
+          if (infoDate >= today) {
+            occurrences.push(info);
+          }
+        }
+      });
+      
+      occurrences.sort((a, b) => {
+        const aParts = a.isoDate.split("-");
+        const bParts = b.isoDate.split("-");
+        const aTime = new Date(parseInt(aParts[0]), parseInt(aParts[1]) - 1, parseInt(aParts[2])).getTime();
+        const bTime = new Date(parseInt(bParts[0]), parseInt(bParts[1]) - 1, parseInt(bParts[2])).getTime();
+        return aTime - bTime;
+      });
+      
+      return occurrences[0] || null;
+    };
+  }, [calendarIndex]);
+
 
   const schedule = useMemo(() => {
     const courses = myTTQ.data?.data?.courses || myTTQ.data?.data || [];
@@ -359,31 +425,187 @@ export default function TimetablePage() {
     );
   };
 
+  const renderShareModal = () => {
+    if (!showShareModal) return null;
+    
+    const isMatrix = theme === "matrix";
+    const isAura = theme === "aura";
+    
+    const colors = {
+      bg: isMatrix ? "#0a0a0c" : isAura ? "#0f0a15" : "var(--bg-surface)",
+      border: isMatrix ? "rgba(168,194,0,0.2)" : isAura ? "rgba(255,255,255,0.08)" : "var(--border)",
+      textPrimary: "#fff",
+      textMuted: isMatrix ? "#888" : isAura ? "rgba(255,255,255,0.6)" : "var(--text-muted)",
+      accent: isMatrix ? "#a8c200" : isAura ? "#FF75C3" : "var(--accent)",
+      secondaryAccent: isMatrix ? "#a8c200" : isAura ? "#8F92FF" : "var(--accent-secondary)",
+    };
+
+    return (
+      <div 
+        onClick={() => setShowShareModal(false)}
+        style={{
+          position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
+          background: "rgba(0,0,0,0.6)", backdropFilter: "blur(10px)",
+          zIndex: 99999, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px"
+        }}
+      >
+        <div 
+          onClick={e => e.stopPropagation()} 
+          style={{
+            background: colors.bg, 
+            padding: "28px", 
+            borderRadius: "28px",
+            width: "100%", 
+            maxWidth: "420px", 
+            border: `1px solid ${colors.border}`,
+            boxShadow: isAura 
+              ? `0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(143, 146, 255, 0.08)`
+              : `0 20px 40px rgba(0,0,0,0.5)`, 
+            maxHeight: "90vh", 
+            overflowY: "auto",
+            position: "relative"
+          }}
+        >
+          {isAura && (
+            <div style={{ position: "absolute", right: "-50px", top: "-50px", width: "150px", height: "150px", background: `radial-gradient(circle, ${colors.secondaryAccent}22 0%, transparent 70%)`, filter: "blur(30px)", pointerEvents: "none" }} />
+          )}
+
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+            <div>
+              <div style={{ fontSize: "10px", fontWeight: 900, color: colors.accent, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "4px" }}>Share Timetable</div>
+              <div style={{ fontSize: "18px", fontWeight: 800, color: colors.textPrimary }}>Export Schedule</div>
+            </div>
+            <button 
+              onClick={() => setShowShareModal(false)} 
+              style={{ 
+                background: "transparent", 
+                border: "none", 
+                color: colors.textMuted, 
+                fontSize: "24px", 
+                cursor: "pointer", 
+                display: "flex", 
+                alignItems: "center", 
+                justifyContent: "center",
+                padding: "4px"
+              }}
+            >
+              ×
+            </button>
+          </div>
+
+          <p style={{ fontSize: "12px", color: colors.textMuted, lineHeight: 1.5, marginBottom: "24px" }}>
+            Select how you would like to export your schedule. You can download it directly or share it to other apps.
+          </p>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+            <button
+              onClick={() => {
+                setShowShareModal(false);
+                handleShare();
+              }}
+              disabled={sharing}
+              style={{
+                background: "rgba(255, 255, 255, 0.02)",
+                border: `1px solid ${colors.border}`,
+                borderRadius: "20px",
+                padding: "18px",
+                textAlign: "left",
+                cursor: "pointer",
+                transition: "all 0.2s",
+                display: "flex",
+                alignItems: "center",
+                gap: "16px",
+                width: "100%",
+                outline: "none"
+              }}
+            >
+              <div style={{ 
+                width: "44px", height: "44px", borderRadius: "14px", 
+                background: `${colors.accent}15`, 
+                display: "flex", alignItems: "center", justifyContent: "center",
+                flexShrink: 0
+              }}>
+                <Share2 size={20} color={colors.accent} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: "14px", fontWeight: 800, color: colors.textPrimary }}>Export Day {dayOverride} Schedule</div>
+                <div style={{ fontSize: "11px", color: colors.textMuted, marginTop: "4px" }}>
+                  Download a beautiful single-day card.
+                </div>
+              </div>
+            </button>
+
+            <button
+              onClick={() => {
+                setShowShareModal(false);
+                handleFullShare();
+              }}
+              disabled={fullSharing}
+              style={{
+                background: "rgba(255, 255, 255, 0.02)",
+                border: `1px solid ${colors.border}`,
+                borderRadius: "20px",
+                padding: "18px",
+                textAlign: "left",
+                cursor: "pointer",
+                transition: "all 0.2s",
+                display: "flex",
+                alignItems: "center",
+                gap: "16px",
+                width: "100%",
+                outline: "none"
+              }}
+            >
+              <div style={{ 
+                width: "44px", height: "44px", borderRadius: "14px", 
+                background: `${colors.secondaryAccent}15`, 
+                display: "flex", alignItems: "center", justifyContent: "center",
+                flexShrink: 0
+              }}>
+                <Share2 size={20} color={colors.secondaryAccent} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: "14px", fontWeight: 800, color: colors.textPrimary }}>Export Full Timetable</div>
+                <div style={{ fontSize: "11px", color: colors.textMuted, marginTop: "4px" }}>
+                  Download a complete grid of all 5 days.
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   const studentInitials = studentInfo?.Name ? studentInfo.Name.substring(0, 2).toUpperCase() : "ST";
 
   if (theme === "cosmos") return (
     <>
-      <CosmosTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} handleShare={handleShare} sharing={sharing} shareRef={shareRef} fullShareRef={fullShareRef} fullSharing={fullSharing} handleFullShare={handleFullShare} schedule={schedule} studentInitials={studentInitials} onShowStudentInfo={() => setShowStudentInfo(true)} />
+      <CosmosTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} handleShare={handleShare} sharing={sharing} shareRef={shareRef} fullShareRef={fullShareRef} fullSharing={fullSharing} handleFullShare={handleFullShare} schedule={schedule} studentInitials={studentInitials} onShowStudentInfo={() => setShowStudentInfo(true)} setShowShareModal={setShowShareModal} todayInfo={todayInfo} getNextOccurrence={getNextOccurrence} />
       {renderStudentInfoModal()}
+      {renderShareModal()}
     </>
   );
 
   if (theme === "matrix") return (
     <>
-      <MatrixTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} handleShare={handleShare} sharing={sharing} shareRef={shareRef} fullShareRef={fullShareRef} fullSharing={fullSharing} handleFullShare={handleFullShare} schedule={schedule} studentInitials={studentInitials} onShowStudentInfo={() => setShowStudentInfo(true)} />
+      <MatrixTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} handleShare={handleShare} sharing={sharing} shareRef={shareRef} fullShareRef={fullShareRef} fullSharing={fullSharing} handleFullShare={handleFullShare} schedule={schedule} studentInitials={studentInitials} onShowStudentInfo={() => setShowStudentInfo(true)} setShowShareModal={setShowShareModal} todayInfo={todayInfo} getNextOccurrence={getNextOccurrence} />
       {renderStudentInfoModal()}
+      {renderShareModal()}
     </>
   );
 
   return (
     <>
-      <AuraTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} classesWithBreaks={classesWithBreaks} handleShare={handleShare} sharing={sharing} shareRef={shareRef} fullShareRef={fullShareRef} fullSharing={fullSharing} handleFullShare={handleFullShare} schedule={schedule} studentInitials={studentInitials} onShowStudentInfo={() => setShowStudentInfo(true)} />
+      <AuraTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} classesWithBreaks={classesWithBreaks} handleShare={handleShare} sharing={sharing} shareRef={shareRef} fullShareRef={fullShareRef} fullSharing={fullSharing} handleFullShare={handleFullShare} schedule={schedule} studentInitials={studentInitials} onShowStudentInfo={() => setShowStudentInfo(true)} setShowShareModal={setShowShareModal} todayInfo={todayInfo} getNextOccurrence={getNextOccurrence} />
       {renderStudentInfoModal()}
+      {renderShareModal()}
     </>
   );
+
 }
 
-function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, classesWithBreaks, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule, studentInitials, onShowStudentInfo }: any) {
+function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, classesWithBreaks, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule, studentInitials, onShowStudentInfo, setShowShareModal, todayInfo, getNextOccurrence }: any) {
   const currentMin = new Date().getHours() * 60 + new Date().getMinutes();
   const firstStart = classes[0] ? fmt12(classes[0].startTime) : "";
   const lastEnd = classes[classes.length - 1] ? fmt12(classes[classes.length - 1].endTime) : "";
@@ -431,45 +653,105 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
       <div className="aura-blob" style={{ background: AURA.secondary, top: '-200px', right: '-100px' }} />
       <div className="aura-blob" style={{ background: AURA.accent, bottom: '-200px', left: '-100px', animationDelay: '-10s' }} />
 
-      <main style={{ flex: 1, position: "relative", zIndex: 1, padding: "20px", paddingBottom: "200px" }}>
+      <main style={{ flex: 1, position: "relative", zIndex: 1, padding: "110px 20px 200px", color: "#ffffff", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         
         {/* Header with Batch Selector */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px", marginTop: "12px", background: "rgba(255,255,255,0.03)", padding: "16px 20px", borderRadius: "24px", border: "1px solid rgba(255,255,255,0.05)", backdropFilter: "blur(20px)" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px", marginTop: "28px", background: "rgba(255,255,255,0.03)", padding: "16px 20px", borderRadius: "24px", border: "1px solid rgba(255,255,255,0.05)", backdropFilter: "blur(20px)" }}>
            <div>
               <div style={{ fontSize: "10px", color: AURA.primary, textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800 }}>SEMESTER SCHEDULE</div>
-              <div style={{ fontSize: "16px", fontWeight: 800 }}>Day {dayOverride} — Batch {batch}</div>
+              <div style={{ fontSize: "16px", fontWeight: 800, color: "#fff", marginTop: "2px" }}>Day {dayOverride} — Batch {batch}</div>
            </div>
            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-             <button onClick={handleShare} disabled={sharing} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 800, cursor: "pointer", transition: "all 0.3s" }}>
-               {sharing ? "..." : "DAY"}
-             </button>
-             <button onClick={handleFullShare} disabled={fullSharing} style={{ background: AURA.secondary, border: "none", color: "#fff", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 800, cursor: "pointer", transition: "all 0.3s", boxShadow: `0 4px 15px ${AURA.secondary}44` }}>
-               {fullSharing ? "..." : "ALL"}
+             <button 
+               onClick={() => setShowShareModal(true)} 
+               style={{ 
+                 background: AURA.secondary, 
+                 border: "none", 
+                 color: "#fff", 
+                 padding: "8px 14px", 
+                 borderRadius: "12px", 
+                 fontSize: "11px", 
+                 fontWeight: 800, 
+                 cursor: "pointer", 
+                 transition: "all 0.3s", 
+                 boxShadow: `0 4px 15px ${AURA.secondary}44`,
+                 display: "flex",
+                 alignItems: "center",
+                 gap: "6px"
+               }}
+             >
+               <Share2 size={12} color="#fff" />
+               Export
              </button>
              <div style={{ display: "flex", background: "rgba(0,0,0,0.4)", borderRadius: "14px", padding: "4px", border: "1px solid rgba(255,255,255,0.1)" }}>
-              {[1, 2].map(b => (
-                <button key={b} onClick={() => setBatch(b)}
-                  style={{
-                    padding: "8px 14px", borderRadius: "10px", border: "none", fontSize: "12px", fontWeight: 800,
-                    background: batch === b ? AURA.accent : "transparent",
-                    color: batch === b ? "#000" : "rgba(255,255,255,0.5)",
-                    transition: "all 0.3s", cursor: "pointer",
-                    boxShadow: batch === b ? `0 4px 15px ${AURA.accent}44` : "none"
-                  }}>B{b}</button>
-              ))}
-            </div>
-            <button 
-              onClick={onShowStudentInfo}
-              style={{
-                width: "40px", height: "40px", borderRadius: "14px", background: "rgba(255,255,255,0.05)", color: "#fff",
-                border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center",
-                fontWeight: 900, fontSize: "13px", cursor: "pointer", transition: "all 0.3s"
-              }}
-            >
-              {studentInitials}
-            </button>
+               {[1, 2].map(b => (
+                 <button key={b} onClick={() => setBatch(b)}
+                   style={{
+                     padding: "8px 14px", borderRadius: "10px", border: "none", fontSize: "12px", fontWeight: 800,
+                     background: batch === b ? AURA.accent : "transparent",
+                     color: batch === b ? "#000" : "rgba(255,255,255,0.5)",
+                     transition: "all 0.3s", cursor: "pointer",
+                     boxShadow: batch === b ? `0 4px 15px ${AURA.accent}44` : "none"
+                   }}>B{b}</button>
+               ))}
+             </div>
+             <button 
+               onClick={onShowStudentInfo}
+               style={{
+                 width: "40px", height: "40px", borderRadius: "14px", background: "rgba(255,255,255,0.05)", color: "#fff",
+                 border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center",
+                 fontWeight: 900, fontSize: "13px", cursor: "pointer", transition: "all 0.3s"
+               }}
+             >
+               {studentInitials}
+             </button>
            </div>
         </div>
+
+        {/* Today's Context Banner */}
+        {todayInfo ? (
+          <div className="liquid-card" style={{ marginBottom: "32px", padding: "16px 20px", border: `1px solid ${AURA.border}`, background: "rgba(255, 255, 255, 0.01)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <div style={{ 
+                  width: "8px", height: "8px", borderRadius: "50%", 
+                  background: todayInfo.isHoliday ? "#FF7597" : AURA.accent, 
+                  boxShadow: `0 0 10px ${todayInfo.isHoliday ? "#FF7597" : AURA.accent}` 
+                }} />
+                <div>
+                  <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.4)", fontWeight: 800, letterSpacing: "0.05em" }}>TODAY'S CALENDAR</span>
+                  <div style={{ fontSize: "13px", fontWeight: 800, color: "#fff", marginTop: "2px" }}>
+                    {formatDateNicely(todayInfo.isoDate)} — {todayInfo.isHoliday ? `Holiday (${todayInfo.event || "No classes"})` : `Day Order ${todayInfo.dayOrder}`}
+                  </div>
+                </div>
+              </div>
+              {todayInfo.dayOrder && dayOverride !== todayInfo.dayOrder && (
+                <button 
+                  onClick={() => setDayOverride(todayInfo.dayOrder)}
+                  style={{
+                    background: "rgba(255, 255, 255, 0.05)", border: "1px solid rgba(255,255,255,0.1)",
+                    color: AURA.accent, padding: "6px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 800,
+                    cursor: "pointer", transition: "all 0.2s"
+                  }}
+                >
+                  View Today
+                </button>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="liquid-card" style={{ marginBottom: "32px", padding: "16px 20px", border: `1px solid ${AURA.border}`, background: "rgba(255, 255, 255, 0.01)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#FF7597", boxShadow: "0 0 10px #FF7597" }} />
+              <div>
+                <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.4)", fontWeight: 800, letterSpacing: "0.05em" }}>TODAY'S CALENDAR</span>
+                <div style={{ fontSize: "13px", fontWeight: 800, color: "#fff", marginTop: "2px" }}>
+                  {new Date().toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" })} — Weekend / Holiday (No classes)
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Day Overview Card */}
         {totalClasses > 0 && (
@@ -629,22 +911,39 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
       {/* Day Switcher Bottom Overlay */}
       <div style={{ position: "fixed", bottom: "110px", left: "20px", right: "20px", display: "flex", justifyContent: "center", zIndex: 100 }}>
          <div style={{ background: "rgba(10,10,15,0.8)", backdropFilter: "blur(20px)", borderRadius: "24px", padding: "8px", display: "flex", gap: "8px", border: "1px solid rgba(255,255,255,0.1)", boxShadow: "0 20px 40px rgba(0,0,0,0.5)" }}>
-            {[1, 2, 3, 4, 5].map(d => (
-              <button key={d} onClick={() => setDayOverride(d)} style={{
-                width: "44px", height: "44px", borderRadius: "16px", border: "none",
-                background: dayOverride === d ? AURA.secondary : "transparent",
-                color: dayOverride === d ? "#fff" : "rgba(255,255,255,0.5)",
-                fontSize: "16px", fontWeight: 900, cursor: "pointer", transition: "all 0.3s",
-                boxShadow: dayOverride === d ? `0 4px 15px ${AURA.secondary}66` : "none"
-              }}>{d}</button>
-            ))}
+            {[1, 2, 3, 4, 5].map(d => {
+              const occ = getNextOccurrence(d);
+              let label = "";
+              if (occ) {
+                const today = new Date();
+                const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+                label = occ.isoDate === todayIso ? "Today" : formatDateNicelyShort(occ.isoDate);
+              } else {
+                label = "N/A";
+              }
+              const isSelected = dayOverride === d;
+              return (
+                <button key={d} onClick={() => setDayOverride(d)} style={{
+                  padding: "6px 12px", minWidth: "64px", height: "54px", borderRadius: "16px", border: "none",
+                  background: isSelected ? `linear-gradient(135deg, ${AURA.secondary}ee, ${AURA.primary}ee)` : "transparent",
+                  color: isSelected ? "#fff" : "rgba(255,255,255,0.5)",
+                  display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                  cursor: "pointer", transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+                  boxShadow: isSelected ? `0 8px 24px ${AURA.secondary}44, inset 0 1px 1px rgba(255,255,255,0.2)` : "none",
+                  transform: isSelected ? "scale(1.05)" : "scale(1)"
+                }}>
+                  <div style={{ fontSize: "14px", fontWeight: 900, lineHeight: 1.1 }}>D{d}</div>
+                  <div style={{ fontSize: "9px", fontWeight: 700, opacity: isSelected ? 0.9 : 0.6, marginTop: "2px", letterSpacing: "0.02em" }}>{label}</div>
+                </button>
+              );
+            })}
          </div>
       </div>
     </div>
   );
 }
 
-function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule, studentInitials, onShowStudentInfo }: any) {
+function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule, studentInitials, onShowStudentInfo, setShowShareModal, todayInfo, getNextOccurrence }: any) {
   const currentMin = new Date().getHours() * 60 + new Date().getMinutes();
   const firstStart = classes[0] ? fmtTimeOnly(classes[0].startTime) : "";
   const lastEnd = classes[classes.length - 1] ? fmtTimeOnly(classes[classes.length - 1].endTime) : "";
@@ -682,30 +981,35 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
         PLANNER
       </div>
 
-      <main style={{ padding: "20px 24px", position: 'relative', zIndex: 1 }}>
+      <main style={{ padding: "110px 24px 160px", position: 'relative', zIndex: 1 }}>
         
         {/* Header with Batch Selector */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px", marginTop: "12px", background: "rgba(255,255,255,0.02)", padding: "16px 20px", borderRadius: "24px", border: "1px solid rgba(255,255,255,0.05)", backdropFilter: "blur(20px)" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px", marginTop: "28px", background: "rgba(255,255,255,0.02)", padding: "16px 20px", borderRadius: "24px", border: "1px solid rgba(255,255,255,0.05)", backdropFilter: "blur(20px)" }}>
            <div>
               <div style={{ fontSize: "9px", color: "#a8c200", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 900 }}>SEMESTER SCHEDULE</div>
               <div style={{ fontSize: "15px", fontWeight: 800, color: '#fff', marginTop: '2px' }}>Planner • Batch {batch}</div>
            </div>
            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
              <button 
-              onClick={handleShare}
-              disabled={sharing}
+              onClick={() => setShowShareModal(true)}
               className="btn-matrix"
-              style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 800, cursor: "pointer" }}
+              style={{ 
+                background: "#a8c200", 
+                border: "none", 
+                color: "#000", 
+                padding: "8px 14px", 
+                borderRadius: "12px", 
+                fontSize: "11px", 
+                fontWeight: 900, 
+                cursor: "pointer", 
+                boxShadow: "0 4px 15px rgba(168,194,0,0.3)",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px"
+              }}
              >
-               {sharing ? "..." : "DAY"}
-             </button>
-             <button 
-              onClick={handleFullShare}
-              disabled={fullSharing}
-              className="btn-matrix"
-              style={{ background: "#a8c200", border: "none", color: "#000", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 900, cursor: "pointer", boxShadow: "0 4px 15px rgba(168,194,0,0.3)" }}
-             >
-               {fullSharing ? "..." : "ALL"}
+               <Share2 size={12} color="#000" />
+               Export
              </button>
              <div style={{ display: "flex", background: "rgba(0,0,0,0.4)", borderRadius: "14px", padding: "4px", border: "1px solid rgba(255,255,255,0.08)" }}>
               {[1, 2].map(b => (
@@ -733,9 +1037,76 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
         </div>
 
         {/* Day Order Big Number */}
-        <div style={{ textAlign: "center", marginBottom: "36px", position: "relative" }}>
+        <div style={{ textAlign: "center", marginBottom: "24px", position: "relative" }}>
           <div style={{ fontSize: "9px", color: "#a8c200", textTransform: "uppercase", letterSpacing: "0.25em", fontWeight: 900, marginBottom: "4px" }}>DAY ORDER</div>
           <div style={{ fontSize: "120px", fontWeight: 900, lineHeight: 1, letterSpacing: "-0.06em", color: "#ffffff", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{dayOverride}</div>
+        </div>
+
+        {/* Today's Context Banner for Matrix */}
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: "36px" }}>
+          {todayInfo ? (
+            <div style={{
+              background: "rgba(168,194,0,0.02)",
+              border: "1px solid rgba(168,194,0,0.2)",
+              borderRadius: "16px",
+              padding: "12px 20px",
+              display: "flex",
+              alignItems: "center",
+              gap: "16px",
+              maxWidth: "500px",
+              width: "100%",
+              justifyContent: "space-between",
+              boxShadow: "inset 0 0 15px rgba(168,194,0,0.03)"
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <div style={{ 
+                  width: "6px", height: "6px", borderRadius: "50%", 
+                  background: todayInfo.isHoliday ? "#ff3366" : "#a8c200", 
+                  boxShadow: `0 0 8px ${todayInfo.isHoliday ? "#ff3366" : "#a8c200"}` 
+                }} />
+                <div style={{ textAlign: "left" }}>
+                  <div style={{ fontSize: "8px", color: "#888", fontWeight: 900, letterSpacing: "0.1em", textTransform: "uppercase" }}>CALENDAR STATUS</div>
+                  <div style={{ fontSize: "12px", fontWeight: 800, color: "#fff", marginTop: "2px" }}>
+                    {formatDateNicely(todayInfo.isoDate)} — {todayInfo.isHoliday ? `Holiday (${todayInfo.event || "No classes"})` : `Day Order ${todayInfo.dayOrder}`}
+                  </div>
+                </div>
+              </div>
+              {todayInfo.dayOrder && dayOverride !== todayInfo.dayOrder && (
+                <button 
+                  onClick={() => setDayOverride(todayInfo.dayOrder)}
+                  className="btn-matrix"
+                  style={{
+                    background: "rgba(168,194,0,0.1)", border: "1px solid rgba(168,194,0,0.3)",
+                    color: "#a8c200", padding: "6px 12px", borderRadius: "10px", fontSize: "10px", fontWeight: 900,
+                    cursor: "pointer", transition: "all 0.2s"
+                  }}
+                >
+                  GOTO TODAY
+                </button>
+              )}
+            </div>
+          ) : (
+            <div style={{
+              background: "rgba(255,51,102,0.02)",
+              border: "1px solid rgba(255,51,102,0.2)",
+              borderRadius: "16px",
+              padding: "12px 20px",
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              maxWidth: "500px",
+              width: "100%",
+              boxShadow: "inset 0 0 15px rgba(255,51,102,0.03)"
+            }}>
+              <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#ff3366", boxShadow: "0 0 8px #ff3366" }} />
+              <div style={{ textAlign: "left" }}>
+                <div style={{ fontSize: "8px", color: "#888", fontWeight: 900, letterSpacing: "0.1em", textTransform: "uppercase" }}>CALENDAR STATUS</div>
+                <div style={{ fontSize: "12px", fontWeight: 800, color: "#fff", marginTop: "2px" }}>
+                  {new Date().toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" })} — Weekend / Academic Holiday
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Day Overview Card */}
@@ -955,22 +1326,36 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
         {/* Day Switcher Bottom Overlay */}
         <div style={{ position: "fixed", bottom: "110px", left: "20px", right: "20px", display: "flex", justifyContent: "center", zIndex: 100 }}>
            <div style={{ background: "rgba(10,10,12,0.85)", backdropFilter: "blur(20px)", borderRadius: "24px", padding: "8px", display: "flex", gap: "8px", border: "1px solid #333", boxShadow: "0 20px 40px rgba(0,0,0,0.5)" }}>
-              {[1, 2, 3, 4, 5].map(d => (
-                <button 
-                  key={d} 
-                  onClick={() => setDayOverride(d)} 
-                  className="btn-matrix"
-                  style={{
-                    width: "44px", height: "44px", borderRadius: "16px", border: "none",
-                    background: dayOverride === d ? "#a8c200" : "transparent",
-                    color: dayOverride === d ? "#000" : "rgba(255,255,255,0.5)",
-                    fontSize: "16px", fontWeight: 900, cursor: "pointer", transition: "all 0.2s",
-                    boxShadow: dayOverride === d ? "0 4px 15px rgba(168,194,0,0.3)" : "none"
-                  }}
-                >
-                  {d}
-                </button>
-              ))}
+              {[1, 2, 3, 4, 5].map(d => {
+                const occ = getNextOccurrence(d);
+                let label = "";
+                if (occ) {
+                  const today = new Date();
+                  const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+                  label = occ.isoDate === todayIso ? "TODAY" : formatDateNicelyShort(occ.isoDate).toUpperCase();
+                } else {
+                  label = "N/A";
+                }
+                const isSelected = dayOverride === d;
+                return (
+                  <button 
+                    key={d} 
+                    onClick={() => setDayOverride(d)} 
+                    className="btn-matrix"
+                    style={{
+                      padding: "6px 12px", minWidth: "64px", height: "54px", borderRadius: "16px", border: "none",
+                      background: isSelected ? "#a8c200" : "transparent",
+                      color: isSelected ? "#000" : "rgba(255,255,255,0.5)",
+                      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                      cursor: "pointer", transition: "all 0.2s",
+                      boxShadow: isSelected ? "0 4px 15px rgba(168,194,0,0.3)" : "none"
+                    }}
+                  >
+                    <span style={{ fontSize: "14px", fontWeight: 900, lineHeight: 1.1 }}>D{d}</span>
+                    <span style={{ fontSize: "8.5px", fontWeight: 800, opacity: isSelected ? 0.9 : 0.5, marginTop: "2px", fontFamily: "'JetBrains Mono', monospace" }}>{label}</span>
+                  </button>
+                );
+              })}
            </div>
         </div>
       </main>
@@ -978,13 +1363,13 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
   );
 }
 
-function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule, studentInitials, onShowStudentInfo }: any) {
+function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule, studentInitials, onShowStudentInfo, setShowShareModal, todayInfo, getNextOccurrence }: any) {
   const currentMin = new Date().getHours() * 60 + new Date().getMinutes();
 
   return (
     <div style={{ background: "transparent", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>
       <Sidebar />
-      <main style={{ padding: "16px" }}>
+      <main style={{ padding: "100px 16px 100px" }}>
         
         {/* Header */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "24px 0 32px" }}>
@@ -993,11 +1378,24 @@ function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
             <div style={{ fontSize: "11px", color: "var(--text-secondary)", marginTop: "4px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Current Batch: {batch}</div>
           </div>
           <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-            <button onClick={handleShare} disabled={sharing} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 800, cursor: "pointer" }}>
-              {sharing ? "..." : "DAY"}
-            </button>
-            <button onClick={handleFullShare} disabled={fullSharing} style={{ background: "var(--accent)", border: "none", color: "#fff", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 800, cursor: "pointer" }}>
-              {fullSharing ? "..." : "ALL"}
+            <button 
+              onClick={() => setShowShareModal(true)} 
+              style={{ 
+                background: "var(--accent)", 
+                border: "none", 
+                color: "#fff", 
+                padding: "8px 14px", 
+                borderRadius: "12px", 
+                fontSize: "11px", 
+                fontWeight: 800, 
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px"
+              }}
+            >
+              <Share2 size={12} color="#fff" />
+              Export
             </button>
             <div style={{ display: "flex", background: "rgba(255,255,255,0.05)", borderRadius: "14px", padding: "4px", border: "1px solid rgba(255,255,255,0.1)" }}>
               {[1, 2].map(b => (
@@ -1021,21 +1419,93 @@ function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
           </div>
         </div>
 
+        {/* Today's Context Banner for Cosmos */}
+        {todayInfo ? (
+          <div style={{
+            background: "rgba(26, 117, 255, 0.02)",
+            border: "1px solid rgba(26, 117, 255, 0.15)",
+            borderRadius: "20px",
+            padding: "16px 20px",
+            marginBottom: "32px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "16px"
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <div style={{ 
+                width: "8px", height: "8px", borderRadius: "50%", 
+                background: todayInfo.isHoliday ? "#FF3B70" : "var(--accent)", 
+                boxShadow: `0 0 10px ${todayInfo.isHoliday ? "#FF3B70" : "var(--accent)"}` 
+              }} />
+              <div style={{ textAlign: "left" }}>
+                <span style={{ fontSize: "9px", color: "var(--text-muted)", fontWeight: 800, letterSpacing: "0.05em", textTransform: "uppercase" }}>STARDATE LOG</span>
+                <div style={{ fontSize: "13px", fontWeight: 800, color: "#fff", marginTop: "2px" }}>
+                  {formatDateNicely(todayInfo.isoDate)} — {todayInfo.isHoliday ? `Academic Holiday (${todayInfo.event || "Off-duty"})` : `Day Order ${todayInfo.dayOrder}`}
+                </div>
+              </div>
+            </div>
+            {todayInfo.dayOrder && dayOverride !== todayInfo.dayOrder && (
+              <button 
+                onClick={() => setDayOverride(todayInfo.dayOrder)}
+                style={{
+                  background: "rgba(255, 255, 255, 0.05)", border: "1px solid rgba(255,255,255,0.1)",
+                  color: "var(--accent)", padding: "6px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 800,
+                  cursor: "pointer", transition: "all 0.2s"
+                }}
+              >
+                Orbit Today
+              </button>
+            )}
+          </div>
+        ) : (
+          <div style={{
+            background: "rgba(255, 59, 112, 0.02)",
+            border: "1px solid rgba(255, 59, 112, 0.15)",
+            borderRadius: "20px",
+            padding: "16px 20px",
+            marginBottom: "32px",
+            display: "flex",
+            alignItems: "center",
+            gap: "12px"
+          }}>
+            <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#FF3B70", boxShadow: "0 0 10px #FF3B70" }} />
+            <div style={{ textAlign: "left" }}>
+              <span style={{ fontSize: "9px", color: "var(--text-muted)", fontWeight: 800, letterSpacing: "0.05em", textTransform: "uppercase" }}>STARDATE LOG</span>
+              <div style={{ fontSize: "13px", fontWeight: 800, color: "#fff", marginTop: "2px" }}>
+                {new Date().toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" })} — Standby Mode (Weekend/Holiday)
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Day Switcher */}
         <div style={{ display: "flex", gap: "10px", marginBottom: "40px", overflowX: "auto", paddingBottom: "8px", scrollbarWidth: "none" }}>
-          {[1, 2, 3, 4, 5].map(d => (
-            <button key={d} onClick={() => setDayOverride(d)} style={{
-              flexShrink: 0, width: "56px", height: "56px", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.05)",
-              background: dayOverride === d ? "var(--accent)" : "rgba(255,255,255,0.03)",
-              color: dayOverride === d ? "#fff" : "var(--text-secondary)",
-              display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-              transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)", cursor: "pointer",
-              boxShadow: dayOverride === d ? "0 8px 20px rgba(26, 117, 255, 0.3)" : "none"
-            }}>
-              <div style={{ fontSize: "10px", fontWeight: 800, opacity: 0.6, textTransform: "uppercase" }}>Day</div>
-              <div style={{ fontSize: "18px", fontWeight: 900 }}>{d}</div>
-            </button>
-          ))}
+          {[1, 2, 3, 4, 5].map(d => {
+            const occ = getNextOccurrence(d);
+            let label = "";
+            if (occ) {
+              const today = new Date();
+              const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+              label = occ.isoDate === todayIso ? "Today" : formatDateNicelyShort(occ.isoDate);
+            } else {
+              label = "N/A";
+            }
+            const isSelected = dayOverride === d;
+            return (
+              <button key={d} onClick={() => setDayOverride(d)} style={{
+                flexShrink: 0, width: "70px", height: "56px", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.05)",
+                background: isSelected ? "var(--accent)" : "rgba(255,255,255,0.03)",
+                color: isSelected ? "#fff" : "var(--text-secondary)",
+                display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)", cursor: "pointer",
+                boxShadow: isSelected ? "0 8px 20px rgba(26, 117, 255, 0.3)" : "none"
+              }}>
+                <div style={{ fontSize: "9px", fontWeight: 800, opacity: 0.6, textTransform: "uppercase" }}>Day {d}</div>
+                <div style={{ fontSize: "11px", fontWeight: 800, opacity: isSelected ? 0.95 : 0.5, marginTop: "2px" }}>{label}</div>
+              </button>
+            );
+          })}
         </div>
 
         {/* Timeline View */}

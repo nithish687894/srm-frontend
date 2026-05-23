@@ -10,6 +10,7 @@ import { useThemeStore } from "@/lib/themeStore";
 import { dataAPI } from "@/lib/api";
 import MatrixMarks from "@/components/MatrixMarks";
 import AuraMarks from "@/components/aura-theme/AuraMarks";
+import CosmosMarks from "@/components/CosmosMarks";
 import Sidebar from "@/components/Sidebar";
 
 const THEME = {
@@ -85,6 +86,20 @@ export default function MarksPage() {
       };
     }).filter(Boolean);
 
+    // Merge subjects from attendance that are missing in marks as placeholders
+    const marksCodes = new Set(processedMarks.map((m: any) => m.courseCode || m.code));
+    attendance.forEach((a: any) => {
+      if (a && a['Course Code'] && !marksCodes.has(a['Course Code'])) {
+        processedMarks.push({
+          courseCode: a['Course Code'],
+          code: a['Course Code'],
+          courseTitle: a['Course Title'] || a['title'] || 'Unknown Module',
+          title: a['Course Title'] || a['title'] || 'Unknown Module',
+          tests: []
+        });
+      }
+    });
+
     const scored = processedMarks.reduce((s:number, m:any) => s + (m.tests?.reduce((a:number, t:any) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
     const max = processedMarks.reduce((s:number, m:any) => s + (m.tests?.reduce((a:number, t:any) => a + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0), 0);
     const pct = max > 0 ? (scored / max) * 100 : 0;
@@ -97,6 +112,7 @@ export default function MarksPage() {
     switch (theme) {
       case "aura": return <AuraMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />;
       case "matrix": return <MatrixMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} router={router} />;
+      case "cosmos": return <CosmosMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />;
       default: return null;
     }
   }, [mounted, theme, marks, isSyncing, router]);
@@ -115,6 +131,8 @@ export default function MarksPage() {
           <MatrixMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} router={router} />
         ) : theme === "aura" ? (
           <AuraMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />
+        ) : theme === "cosmos" ? (
+          <CosmosMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />
         ) : (
           <div style={{ padding: "0 20px", paddingBottom: "140px" }}>
              <header style={{ padding: "60px 24px 20px", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "space-between", background: 'rgba(5,5,5,0.8)', backdropFilter: 'blur(20px)', zIndex: 100 }}>
@@ -151,24 +169,24 @@ export default function MarksPage() {
                    </div>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                    {marks.length > 0 ? marks.map((m: any, i: number) => {
                       const scored = m.tests?.reduce((s: number, t: any) => s + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0;
                       const max = m.tests?.reduce((s: number, t: any) => s + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0;
                       
                       return (
-                        <div key={i} style={{ background: THEME.surface, border: `1px solid ${THEME.border}`, borderRadius: '28px', padding: '24px' }}>
-                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
-                              <div style={{ flex: 1, paddingRight: '16px' }}>
-                                 <div style={{ fontSize: '9px', fontWeight: 900, color: 'rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.05)', padding: '2px 8px', borderRadius: '4px', display: 'inline-block', marginBottom: '8px' }}>{m.courseCode || m.code}</div>
-                                 <h3 style={{ fontSize: '15px', fontWeight: 800, color: '#fff', margin: 0, lineHeight: 1.3, textTransform: 'uppercase' }}>{m.title}</h3>
+                        <div key={i} style={{ background: THEME.surface, border: `1px solid ${THEME.border}`, borderRadius: '32px', padding: '30px', boxShadow: '0 20px 50px rgba(0, 0, 0, 0.25)' }}>
+                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px', gap: '20px', flexWrap: 'wrap' }}>
+                              <div style={{ flex: 1, minWidth: '200px' }}>
+                                 <div style={{ fontSize: '10px', fontWeight: 900, color: 'rgba(255,255,255,0.35)', background: 'rgba(255,255,255,0.03)', padding: '4px 10px', borderRadius: '999px', display: 'inline-block', marginBottom: '10px' }}>{m.courseCode || m.code}</div>
+                                 <h3 style={{ fontSize: '16px', fontWeight: 900, color: '#fff', margin: 0, lineHeight: 1.2, textTransform: 'uppercase' }}>{m.title}</h3>
                               </div>
-                              <div style={{ textAlign: 'right' }}>
-                                 <div style={{ fontSize: '28px', fontWeight: 900, color: THEME.accentCyan, lineHeight: 1 }}>{scored.toFixed(1)}</div>
-                                 <div style={{ fontSize: '11px', fontWeight: 800, color: 'rgba(255,255,255,0.2)', marginTop: '4px' }}>/{max}</div>
+                              <div style={{ textAlign: 'right', minWidth: '120px' }}>
+                                 <div style={{ fontSize: '34px', fontWeight: 900, color: THEME.accentCyan, lineHeight: 1 }}>{scored.toFixed(1)}</div>
+                                 <div style={{ fontSize: '12px', fontWeight: 800, color: 'rgba(255,255,255,0.35)', marginTop: '6px' }}>/{max}</div>
                               </div>
                            </div>
-                           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))', gap: '12px' }}>
                               {m.tests?.map((t: any, j: number) => (
                                 <TestBadge key={j} test={t.test} score={t.score} />
                               ))}

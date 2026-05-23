@@ -263,7 +263,7 @@ export default function AttendancePage() {
         ) : theme === "cosmos" ? (
           <CosmosAttendance {...themeProps} />
         ) : theme === "aura" ? (
-          <AuraAttendance attendance={att} handleSync={handleSync} isSyncing={isSyncing} />
+          <AuraAttendance attendance={att} handleSync={handleSync} isSyncing={isSyncing} {...themeProps} />
         ) : (
           <div className="page-content" data-section="Attendance" style={{ paddingBottom: "140px" }}>
             {/* Header */}

@@ -1,21 +1,13 @@
 "use client";
-import { useState, useMemo, useEffect } from "react";
-import { Activity, Zap, ShieldCheck, ShieldAlert, AlertTriangle, TrendingUp, Sparkles } from "lucide-react";
+import React, { useState, useMemo, useEffect } from "react";
+import { Activity, Zap, ShieldCheck, ShieldAlert, AlertTriangle, TrendingUp, Sparkles, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import confetti from "canvas-confetti";
+import { useAuraTheme } from "./system/useAuraTheme";
+import AuraBackground from "./effects/AuraBackground";
+import { AURA_COLORS as SHARED_AURA } from "./system/theme-tokens";
 
-const AURA_COLORS = {
-  bg: "#050508",
-  primary: "#FF75C3", // Pink
-  secondary: "#8F92FF", // Lavender
-  purple: "#BF5AF2", // Purple
-  cyan: "#00E5FF", // Cyan
-  accent: "#94FFD8", // Mint
-  red: "#FF2D55", // Red
-  amber: "#FF9500", // Amber
-  green: "#34C759", // Green
-  text: "#ffffff",
-  sub: "rgba(255, 255, 255, 0.4)",
-};
+const AURA_COLORS = SHARED_AURA;
 
 const getStatusDetails = (pct: number) => {
   if (pct >= 75) return { color: AURA_COLORS.green, label: "SAFE" };
@@ -25,16 +17,52 @@ const getStatusDetails = (pct: number) => {
 
 const DutyOrb = ({ label, value, subtext, color, bgTint }: any) => (
   <div style={{ 
-    background: bgTint, 
-    border: `1px solid ${color}30`,
-    borderBottom: `2px solid ${color}`,
-    borderRadius: '20px', padding: '16px 12px', minWidth: '85px', flex: 1,
-    textAlign: 'center', position: 'relative',
-    boxShadow: 'inset 0 4px 15px rgba(0,0,0,0.2)'
+    background: "rgba(0, 0, 0, 0.25)", 
+    backdropFilter: 'blur(20px)',
+    border: "1px solid rgba(255, 255, 255, 0.04)",
+    borderRadius: '20px', 
+    padding: '16px 12px', 
+    minWidth: '95px', 
+    flex: 1,
+    textAlign: 'center', 
+    position: 'relative',
+    boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.3)',
+    transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '8px'
   }}>
-    <p style={{ fontSize: '8px', fontWeight: 900, color: AURA_COLORS.sub, textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.1em' }}>{label}</p>
-    <div style={{ fontSize: '18px', fontWeight: 900, color: '#fff' }} className="tabular-nums">{value}</div>
-    {subtext && <div style={{ fontSize: '9px', fontWeight: 800, color: color, marginTop: '2px' }}>{subtext}</div>}
+    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+      <span style={{ 
+        width: '8px', 
+        height: '8px', 
+        borderRadius: '50%', 
+        background: color, 
+        boxShadow: `0 0 10px ${color}` 
+      }} />
+      <p style={{ fontSize: '11px', fontWeight: 900, color: AURA_COLORS.subBright, textTransform: 'uppercase', letterSpacing: '0.05em', margin: 0 }}>{label}</p>
+    </div>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
+      <div style={{ fontSize: '26px', fontWeight: 950, color: '#fff', textShadow: `0 0 12px ${color}20` }} className="tabular-nums">{value}</div>
+      {subtext && (
+        <div style={{ 
+          fontSize: '11px', 
+          fontWeight: 800, 
+          color: color, 
+          background: `${color}15`,
+          padding: '3px 10px',
+          borderRadius: '100px',
+          border: `1px solid ${color}25`,
+          marginTop: '4px',
+          maxWidth: '120px',
+          whiteSpace: 'normal',
+          lineHeight: 1.2
+        }} className="tabular-nums">
+          {subtext}
+        </div>
+      )}
+    </div>
   </div>
 );
 
@@ -51,36 +79,41 @@ const PulsingCore = ({ pct, attended, conducted, color }: any) => {
   return (
     <div style={{ position: 'relative', width: '80px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <div 
-        style={{ position: 'absolute', width: '100%', height: '100%', borderRadius: '50%', background: color, filter: 'blur(20px)', opacity: 0.15 }}
+        style={{ position: 'absolute', width: '100%', height: '100%', borderRadius: '50%', background: color, filter: 'blur(20px)', opacity: 0.3 }}
       />
       <svg width="80" height="80" style={{ position: 'relative', zIndex: 1, transform: 'rotate(-90deg)' }}>
-        <circle cx="40" cy="40" r={radius} fill="transparent" stroke="rgba(255,255,255,0.05)" strokeWidth="8" />
-        <circle cx="40" cy="40" r={radius} fill="transparent" stroke={color} strokeWidth="8" strokeDasharray={circum} strokeDashoffset={offset} strokeLinecap="round" style={{ transition: 'stroke-dashoffset 1s cubic-bezier(0.16, 1, 0.3, 1)', filter: `drop-shadow(0 0 8px ${color}80)` }} />
+        <circle cx="40" cy="40" r={radius} fill="transparent" stroke="rgba(255,255,255,0.06)" strokeWidth="6" />
+        <circle cx="40" cy="40" r={radius} fill="transparent" stroke={color} strokeWidth="6" strokeDasharray={circum} strokeDashoffset={offset} strokeLinecap="round" style={{ transition: 'stroke-dashoffset 1s cubic-bezier(0.16, 1, 0.3, 1)', filter: `drop-shadow(0 0 8px ${color}) drop-shadow(0 0 3px ${color})` }} />
       </svg>
       {/* End Dot */}
       {pct > 0 && (
         <div style={{
           position: 'absolute', left: `${dotX}px`, top: `${dotY}px`,
-          width: '8px', height: '8px', borderRadius: '50%', background: '#fff',
+          width: '10px', height: '10px', borderRadius: '50%', background: '#fff',
           transform: 'translate(-50%, -50%)', zIndex: 2,
-          boxShadow: `0 0 12px ${color}, 0 0 8px #fff`
+          boxShadow: `0 0 10px ${color}, 0 0 5px #fff`
         }} />
       )}
       <div style={{ position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 3 }}>
         <div style={{ display: 'flex', alignItems: 'baseline' }}>
-          <div style={{ fontSize: '16px', fontWeight: 900, color: color, lineHeight: 1 }} className="tabular-nums">{Math.round(pct)}</div>
-          <div style={{ fontSize: '8px', fontWeight: 900, color: color }}>%</div>
+          <div style={{ fontSize: '16px', fontWeight: 900, color: '#fff', lineHeight: 1 }} className="tabular-nums">{Math.round(pct)}</div>
+          <div style={{ fontSize: '8px', fontWeight: 900, color: color, marginLeft: '1px' }}>%</div>
         </div>
-        <div style={{ fontSize: '9px', fontWeight: 800, color: AURA_COLORS.sub, marginTop: '2px' }} className="tabular-nums">{attended}/{conducted}</div>
+        <div style={{ fontSize: '9px', fontWeight: 800, color: AURA_COLORS.subBright, marginTop: '2px' }} className="tabular-nums">{attended}/{conducted}</div>
       </div>
     </div>
   );
 };
 
-export default function AuraAttendance({ attendance, handleSync, isSyncing }: any) {
+export default function AuraAttendance({ 
+  attendance, handleSync, isSyncing,
+  showPredictor, setShowPredictor, next30Days, selectedDates, toggleDate, 
+  calculatePredictions, predictions, setSelectedDates, setPredictions
+}: any) {
   const router = useRouter();
   const [filter, setFilter] = useState("All");
   const [isScrolled, setIsScrolled] = useState(false);
+  const { activeTheme, stars } = useAuraTheme();
 
   useEffect(() => {
     const parentMain = document.getElementById("attendance-parent-scroll") || document.querySelector('main');
@@ -126,59 +159,68 @@ export default function AuraAttendance({ attendance, handleSync, isSyncing }: an
     return result;
   }, [processedAttendance, filter]);
 
-  return (
-    <div style={{ background: 'radial-gradient(circle at 50% 0%, #1e1e30 0%, #050508 100%)', minHeight: "100vh", display: "flex", flexDirection: "column", color: AURA_COLORS.text, fontFamily: "'Plus Jakarta Sans', sans-serif", position: 'relative' }}>
-      <style dangerouslySetInnerHTML={{ __html: `
-        
-        .aura-blob {
-          position: fixed; width: 600px; height: 600px;
-          border-radius: 50%; filter: blur(140px);
-          opacity: 0.15; z-index: 0; pointer-events: none;
-          animation: orbit 20s infinite linear;
-        }
-        @keyframes orbit {
-          from { transform: rotate(0deg) translate(100px) rotate(0deg); }
-          to { transform: rotate(360deg) translate(100px) rotate(-360deg); }
-        }
+  // Celebrate perfect 100% attendance subjects with a premium double-cannon confetti blast!
+  useEffect(() => {
+    if (processedAttendance && processedAttendance.length > 0) {
+      const hasPerfectAttendance = processedAttendance.some((a: any) => a.pct >= 100);
+      if (hasPerfectAttendance) {
+        const duration = 2.5 * 1000;
+        const animationEnd = Date.now() + duration;
+        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
 
-        .liquid-card {
-          background: rgba(255, 255, 255, 0.05);
-          backdrop-filter: blur(40px);
-          -webkit-backdrop-filter: blur(40px);
-          border: 1px solid rgba(191, 90, 242, 0.45);
-          box-shadow: inset 0 0 20px rgba(191, 90, 242, 0.05), 0 20px 40px rgba(0,0,0,0.4);
-          border-radius: 32px;
-          padding: 24px;
-          position: relative;
-          overflow: hidden;
-          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
+        const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
+
+        const interval: any = setInterval(function() {
+          const timeLeft = animationEnd - Date.now();
+
+          if (timeLeft <= 0) {
+            return clearInterval(interval);
+          }
+
+          const particleCount = 50 * (timeLeft / duration);
+          
+          confetti({ 
+            ...defaults, 
+            particleCount, 
+            origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+            colors: ['#00E5FF', '#BF5AF2', '#FF2D55', '#34C759', '#FF9500']
+          });
+          confetti({ 
+            ...defaults, 
+            particleCount, 
+            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+            colors: ['#00E5FF', '#BF5AF2', '#FF2D55', '#34C759', '#FF9500']
+          });
+        }, 250);
+
+        return () => clearInterval(interval);
+      }
+    }
+  }, [processedAttendance]);
+
+  return (
+    <AuraBackground theme={activeTheme} stars={stars}>
+      <style dangerouslySetInnerHTML={{ __html: `
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .floating { animation: floating 6s ease-in-out infinite; }
         @keyframes floating {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-10px); }
         }
 
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
         .tabular-nums { font-variant-numeric: tabular-nums; }
         
         .sticky-header {
           position: fixed; top: 72px; left: 16px; right: 16px; border-radius: 24px;
-          background: rgba(20,20,35,0.85); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-          padding: 16px 20px; border: 1px solid rgba(191,90,242,0.15);
+          background: rgba(10, 8, 16, 0.85); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+          padding: 16px 20px; border: 1px solid rgba(255, 255, 255, 0.06);
           display: flex; align-items: center; justify-content: space-between;
           z-index: 100; transform: translateY(-150%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
           box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         .sticky-header.visible { transform: translateY(0); }
       `}} />
-
-      {/* Animated Aura Blobs */}
-      <div className="aura-blob" style={{ background: AURA_COLORS.primary, top: '-200px', left: '-100px' }} />
-      <div className="aura-blob" style={{ background: AURA_COLORS.cyan, bottom: '-200px', right: '-100px', animationDelay: '-5s' }} />
 
       {/* Sticky Scroll Header */}
       <div className={`sticky-header ${isScrolled ? 'visible' : ''}`}>
@@ -193,7 +235,7 @@ export default function AuraAttendance({ attendance, handleSync, isSyncing }: an
         
         {/* Header Section */}
         <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-          <div className="floating" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(191,90,242,0.15)', padding: '6px 14px', borderRadius: '100px', border: '1px solid rgba(191,90,242,0.3)', marginBottom: '20px', boxShadow: '0 0 30px rgba(191,90,242,0.3)' }}>
+          <div className="floating" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(192, 132, 252, 0.08)', padding: '6px 14px', borderRadius: '100px', border: '1px solid rgba(192, 132, 252, 0.18)', marginBottom: '20px', boxShadow: '0 0 20px rgba(192, 132, 252, 0.06)' }}>
             <Sparkles size={14} color={AURA_COLORS.purple} />
             <span style={{ fontSize: "10px", fontWeight: 800, color: AURA_COLORS.purple, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Aura Mode Active</span>
           </div>
@@ -201,19 +243,19 @@ export default function AuraAttendance({ attendance, handleSync, isSyncing }: an
             Lumina <span style={{ color: AURA_COLORS.primary }}>Sync</span>
           </h1>
 
-          {/* Summary Strip */}
+          {/* Summary Strip - High Contrast Glowing Cards restored */}
           <div className="hide-scrollbar" style={{ display: 'flex', gap: '12px', overflowX: 'auto', padding: '0 24px', scrollSnapType: 'x mandatory' }}>
-             <div style={{ flex: '0 0 auto', background: '#1A1628', border: '1px solid rgba(191,90,242,0.45)', borderRadius: '24px', padding: '20px', minWidth: '150px', textAlign: 'left', scrollSnapAlign: 'start', position: 'relative', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>
+             <div className="aura-card" style={{ flex: '0 0 auto', borderRadius: '24px', padding: '20px', minWidth: '150px', textAlign: 'left', scrollSnapAlign: 'start', position: 'relative', overflow: 'hidden' }}>
                 <Activity size={24} color={AURA_COLORS.cyan} style={{ marginBottom: '16px' }} />
                 <div style={{ fontSize: '10px', fontWeight: 800, color: AURA_COLORS.sub, textTransform: 'uppercase', marginBottom: '8px' }}>Total Subjects</div>
                 <div style={{ fontSize: '32px', fontWeight: 900, color: '#fff' }} className="tabular-nums">{stats.totalSubs}</div>
              </div>
-             <div style={{ flex: '0 0 auto', background: '#1A1628', border: '1px solid rgba(191,90,242,0.45)', borderRadius: '24px', padding: '20px', minWidth: '150px', textAlign: 'left', scrollSnapAlign: 'start', position: 'relative', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>
+             <div className="aura-card" style={{ flex: '0 0 auto', borderRadius: '24px', padding: '20px', minWidth: '150px', textAlign: 'left', scrollSnapAlign: 'start', position: 'relative', overflow: 'hidden' }}>
                 <TrendingUp size={24} color={AURA_COLORS.primary} style={{ marginBottom: '16px' }} />
-                <div style={{ fontSize: '10px', fontWeight: 800, color: AURA_COLORS.sub, textTransform: 'uppercase', marginBottom: '8px' }}>Overall Average</div>
+                <div style={{ fontSize: '10px', fontWeight: 800, color: AURA_COLORS.sub, textTransform: 'uppercase', marginBottom: '8px' }}>Average Attendance</div>
                 <div style={{ fontSize: '32px', fontWeight: 900, color: '#fff' }} className="tabular-nums">{stats.overallAvg.toFixed(1)}%</div>
              </div>
-             <div style={{ flex: '0 0 auto', background: '#1A1628', border: `1px solid rgba(191,90,242,0.45)`, borderRadius: '24px', padding: '20px', minWidth: '150px', textAlign: 'left', scrollSnapAlign: 'start', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>
+             <div className="aura-card" style={{ flex: '0 0 auto', borderRadius: '24px', padding: '20px', minWidth: '150px', textAlign: 'left', scrollSnapAlign: 'start', position: 'relative', overflow: 'hidden' }}>
                 <AlertTriangle size={24} color={stats.atRisk > 0 ? AURA_COLORS.red : AURA_COLORS.purple} style={{ marginBottom: '16px' }} />
                 <div style={{ fontSize: '10px', fontWeight: 800, color: AURA_COLORS.sub, textTransform: 'uppercase', marginBottom: '8px' }}>At Risk</div>
                 <div style={{ fontSize: '32px', fontWeight: 900, color: stats.atRisk > 0 ? AURA_COLORS.red : '#fff' }} className="tabular-nums">{stats.atRisk} <span style={{ fontSize: '14px', fontWeight: 700, color: AURA_COLORS.sub }}>Subjects</span></div>
@@ -227,10 +269,10 @@ export default function AuraAttendance({ attendance, handleSync, isSyncing }: an
             <button 
               key={f} onClick={() => setFilter(f)}
               style={{ 
-                background: filter === f ? 'rgba(191,90,242,0.15)' : 'transparent',
-                border: `1px solid ${filter === f ? 'rgba(191,90,242,0.4)' : 'rgba(191,90,242,0.1)'}`,
+                background: filter === f ? 'rgba(192, 132, 252, 0.12)' : 'transparent',
+                border: `1px solid ${filter === f ? 'rgba(192, 132, 252, 0.25)' : 'rgba(255, 255, 255, 0.06)'}`,
                 color: filter === f ? AURA_COLORS.primary : AURA_COLORS.sub,
-                boxShadow: filter === f ? '0 0 15px rgba(191,90,242,0.2)' : 'none',
+                boxShadow: filter === f ? '0 0 15px rgba(192, 132, 252, 0.08)' : 'none',
                 padding: '8px 16px', borderRadius: '100px', fontSize: '11px', fontWeight: 800,
                 whiteSpace: 'nowrap', cursor: 'pointer', transition: 'all 0.2s ease',
                 WebkitTapHighlightColor: 'transparent', outline: 'none'
@@ -241,59 +283,409 @@ export default function AuraAttendance({ attendance, handleSync, isSyncing }: an
           ))}
         </div>
 
+        {/* Lumina Attendance Predictor Panel */}
+        {!showPredictor ? (
+          <div
+            onClick={() => setShowPredictor(true)}
+            style={{
+              background: "linear-gradient(135deg, rgba(192, 132, 252, 0.2) 0%, rgba(0, 229, 255, 0.12) 100%)",
+              backdropFilter: "blur(35px) saturate(180%)",
+              border: "1px solid rgba(192, 132, 252, 0.3)",
+              borderRadius: "28px",
+              padding: "24px",
+              margin: "0 24px 24px 24px",
+              cursor: "pointer",
+              transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 15px 30px rgba(192, 132, 252, 0.1)"
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "linear-gradient(135deg, rgba(192, 132, 252, 0.3) 0%, rgba(0, 229, 255, 0.18) 100%)";
+              e.currentTarget.style.borderColor = "rgba(192, 132, 252, 0.45)";
+              e.currentTarget.style.transform = "translateY(-4px)";
+              e.currentTarget.style.boxShadow = "inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 20px 40px rgba(192, 132, 252, 0.15), 0 0 20px rgba(192, 132, 252, 0.2)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "linear-gradient(135deg, rgba(192, 132, 252, 0.2) 0%, rgba(0, 229, 255, 0.12) 100%)";
+              e.currentTarget.style.borderColor = "rgba(192, 132, 252, 0.3)";
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 15px 30px rgba(192, 132, 252, 0.1)";
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+              <div
+                style={{
+                  width: "44px",
+                  height: "44px",
+                  borderRadius: "16px",
+                  background: "rgba(255, 255, 255, 0.08)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.1)",
+                  border: "1px solid rgba(255, 255, 255, 0.1)"
+                }}
+              >
+                <Zap size={20} color={AURA_COLORS.purple} className="floating" />
+              </div>
+              <div style={{ textAlign: 'left' }}>
+                <h3
+                  style={{
+                    fontSize: "14px",
+                    fontWeight: 900,
+                    color: "#ffffff",
+                    margin: "0 0 2px",
+                  }}
+                >
+                  Lumina Skip Predictor
+                </h3>
+                <p
+                  style={{
+                    fontSize: "11px",
+                    color: AURA_COLORS.subBright,
+                    margin: 0,
+                    fontWeight: 700,
+                  }}
+                >
+                  Forecast attendance margins before skipping
+                </p>
+              </div>
+            </div>
+            <ChevronRight size={16} color={AURA_COLORS.primary} />
+          </div>
+        ) : (
+          <div
+            style={{
+              background: "linear-gradient(135deg, rgba(22, 16, 36, 0.75) 0%, rgba(10, 8, 20, 0.65) 100%)",
+              backdropFilter: "blur(35px) saturate(210%)",
+              border: "1px solid rgba(255, 255, 255, 0.12)",
+              borderRadius: "28px",
+              padding: "24px",
+              margin: "0 24px 24px 24px",
+              boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 20px 40px rgba(0, 0, 0, 0.5)"
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: "20px",
+              }}
+            >
+              <div style={{ textAlign: 'left' }}>
+                <h3
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: 950,
+                    color: "#ffffff",
+                    margin: 0,
+                  }}
+                >
+                  Lumina Skip Predictor
+                </h3>
+                <p
+                  style={{
+                    fontSize: "11px",
+                    color: AURA_COLORS.subBright,
+                    margin: "4px 0 0",
+                    fontWeight: 700,
+                  }}
+                >
+                  Select dates you plan to skip
+                </p>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                {predictions && (
+                  <button
+                    onClick={() => {
+                      setSelectedDates(new Set());
+                      setPredictions(null);
+                    }}
+                    style={{
+                      background: "transparent",
+                      border: "none",
+                      color: AURA_COLORS.primary,
+                      cursor: "pointer",
+                      fontSize: "10px",
+                      fontWeight: 900,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.08em"
+                    }}
+                  >
+                    Reset
+                  </button>
+                )}
+                <button
+                  onClick={() => {
+                    setShowPredictor(false);
+                    setSelectedDates(new Set());
+                    setPredictions(null);
+                  }}
+                  style={{
+                    background: "rgba(255, 255, 255, 0.06)",
+                    border: "1px solid rgba(255, 255, 255, 0.1)",
+                    borderRadius: "50%",
+                    width: "28px",
+                    height: "28px",
+                    color: "#ffffff",
+                    cursor: "pointer",
+                    fontSize: "12px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            {/* Date Strip */}
+            <div
+              className="hide-scrollbar"
+              style={{
+                display: "flex",
+                overflowX: "auto",
+                gap: "8px",
+                paddingBottom: "16px",
+                marginBottom: "18px",
+                WebkitOverflowScrolling: "touch",
+              }}
+            >
+              {next30Days?.map((d: any) => {
+                const sel = selectedDates.has(d.iso);
+                const isWknd = [0, 6].includes(d.date.getDay());
+                return (
+                  <div
+                    key={d.iso}
+                    onClick={() => !isWknd && toggleDate(d.iso)}
+                    style={{
+                      flexShrink: 0,
+                      width: "48px",
+                      height: "64px",
+                      borderRadius: "16px",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      background: sel ? `linear-gradient(135deg, ${AURA_COLORS.red} 0%, rgba(255, 45, 85, 0.95) 100%)` : "rgba(255, 255, 255, 0.04)",
+                      border: `1px solid ${
+                        sel ? '#ff6b8b' : "rgba(255, 255, 255, 0.12)"
+                      }`,
+                      cursor: isWknd ? "not-allowed" : "pointer",
+                      opacity: isWknd ? 0.25 : 1,
+                      transition: "all 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
+                      boxShadow: sel ? `0 0 15px ${AURA_COLORS.red}60, inset 0 1px 0 rgba(255, 255, 255, 0.2)` : "inset 0 1px 0 rgba(255, 255, 255, 0.05)",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: "9px",
+                        color: sel ? "#ffffff" : AURA_COLORS.subBright,
+                        fontWeight: 900,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.05em",
+                        marginBottom: "4px"
+                      }}
+                    >
+                      {d.dayStr}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "18px",
+                        color: "#ffffff",
+                        fontWeight: 900,
+                      }}
+                      className="tabular-nums"
+                    >
+                      {d.dateNum}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <button
+              onClick={calculatePredictions}
+              style={{
+                width: "100%",
+                padding: "16px",
+                background: `linear-gradient(135deg, ${AURA_COLORS.purple} 0%, ${AURA_COLORS.primary} 100%)`,
+                borderRadius: "16px",
+                color: "#ffffff",
+                fontSize: "12px",
+                fontWeight: 950,
+                textTransform: "uppercase",
+                letterSpacing: "0.12em",
+                border: "none",
+                cursor: "pointer",
+                boxShadow: "0 8px 25px rgba(192, 132, 252, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
+                transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-3px)";
+                e.currentTarget.style.boxShadow = "0 12px 30px rgba(192, 132, 252, 0.45), 0 0 15px rgba(0, 229, 255, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(192, 132, 252, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)";
+              }}
+            >
+              Run Skip Forecast
+            </button>
+
+            {/* Predictions Display */}
+            {predictions && (
+              <div style={{ marginTop: "24px", display: "flex", flexDirection: "column", gap: "12px", textAlign: 'left' }}>
+                <h4
+                  style={{
+                    fontSize: "11px",
+                    fontWeight: 900,
+                    color: AURA_COLORS.subBright,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.08em",
+                    margin: "0 0 4px",
+                  }}
+                >
+                  Forecast Results
+                </h4>
+                {predictions.length === 0 ? (
+                  <div
+                    style={{
+                      background: "rgba(255, 255, 255, 0.02)",
+                      border: "1px solid rgba(255, 255, 255, 0.05)",
+                      borderRadius: "16px",
+                      padding: "16px",
+                      textAlign: "center",
+                      fontSize: "12px",
+                      color: AURA_COLORS.sub,
+                      fontWeight: 600
+                    }}
+                  >
+                    No skipped sessions on selected days.
+                  </div>
+                ) : (
+                  predictions.map((p: any, idx: number) => {
+                    const details = getStatusDetails(p.projPct);
+                    return (
+                      <div
+                        key={idx}
+                        style={{
+                          background: "rgba(0,0,0,0.25)",
+                          border: `1px solid rgba(255, 255, 255, 0.05)`,
+                          borderLeft: `3px solid ${details.color}`,
+                          borderRadius: "16px",
+                          padding: "14px 16px",
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                        }}
+                      >
+                        <div style={{ flex: 1, paddingRight: "16px" }}>
+                          <div
+                            style={{
+                              fontSize: "13px",
+                              fontWeight: 800,
+                              color: "#ffffff",
+                              marginBottom: "4px",
+                              textTransform: "capitalize"
+                            }}
+                          >
+                            {(p.title || "").toLowerCase()}
+                          </div>
+                          <div
+                            style={{
+                              fontSize: "10px",
+                              fontWeight: 700,
+                              color: details.color,
+                              textTransform: "uppercase",
+                              letterSpacing: "0.05em"
+                            }}
+                          >
+                            {p.marginLabel}
+                          </div>
+                        </div>
+                        <div style={{ textAlign: "right" }}>
+                          <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
+                            <span style={{ fontSize: '18px', fontWeight: 900, color: details.color }} className="tabular-nums">
+                              {p.projPct.toFixed(1)}%
+                            </span>
+                          </div>
+                          <div style={{ fontSize: "9px", color: AURA_COLORS.sub, fontWeight: 700, marginTop: '2px' }}>
+                            Current: {p.currentPct}%
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Cards Grid */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '0 24px' }}>
            {filteredAttendance.map((a: any, i: number) => {
               const { color: statusColor, label: statusLabel } = getStatusDetails(a.pct);
 
-              return (
-                <div key={i} className="liquid-card">
-                   <div style={{ 
-                     position: 'absolute', top: '-50px', right: '-50px', width: '200px', height: '200px', 
-                     background: `radial-gradient(circle, ${statusColor}15 0%, transparent 70%)`,
-                     filter: 'blur(40px)', zIndex: 0, pointerEvents: 'none'
-                   }} />
-
-                   <div style={{ position: 'relative', zIndex: 1 }}>
-                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
-                        <div style={{ flex: 1, paddingRight: '20px' }}>
-                           <div style={{ fontSize: '9px', fontWeight: 900, color: AURA_COLORS.sub, background: 'rgba(191,90,242,0.1)', border: '1px solid rgba(191,90,242,0.2)', padding: '4px 12px', borderRadius: '100px', display: 'inline-block', marginBottom: '12px' }}>
-                             {a["Course Code"]}
-                           </div>
-                           <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', textTransform: 'capitalize', lineHeight: 1.3, margin: 0 }}>
-                             {a["Course Title"]?.toLowerCase()}
-                           </h3>
-                        </div>
-                        <PulsingCore pct={a.pct} attended={a.attended} conducted={a.conducted} color={statusColor} />
-                     </div>
-
-                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                        <DutyOrb label="PRESENT" value={a.attended} color={AURA_COLORS.green} bgTint="rgba(52,199,89,0.08)" />
-                        <DutyOrb label="ABSENT" value={a.absent} color={AURA_COLORS.red} bgTint="rgba(255,45,85,0.08)" />
-                        <DutyOrb 
-                          label="BUFFER" 
-                          value={a.pct >= 75 ? a.skipBuffer : a.requiredToPass} 
-                          subtext={a.pct >= 75 ? (a.skipBuffer === 1 ? `Can miss 1 more` : `Can miss ${a.skipBuffer} more`) : (a.requiredToPass === 1 ? `Attend next 1` : `Attend next ${a.requiredToPass}`)} 
-                          color={AURA_COLORS.amber} 
-                          bgTint="rgba(255,149,0,0.08)" 
-                        />
-                     </div>
-                     
-                     <div style={{ 
-                       marginTop: '20px', display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 16px', 
-                       background: `${statusColor}15`, borderRadius: '16px', border: `1px solid ${statusColor}30` 
-                     }}>
-                        {a.pct >= 75 ? <ShieldCheck size={14} color={statusColor} /> : <ShieldAlert size={14} color={statusColor} />}
-                        <span style={{ fontSize: '10px', fontWeight: 800, color: statusColor, textTransform: 'uppercase' }}>
-                          {a.pct >= 75 ? `SAFE · Can miss ${a.skipBuffer} more classes` : (a.pct >= 65 ? `WARNING · Attend next ${a.requiredToPass} to stay safe` : `CRITICAL · Attend next ${a.requiredToPass} to recover`)}
-                        </span>
-                     </div>
+            return (
+              <div 
+                key={i} 
+                className="liquid-card"
+                style={{
+                  padding: '28px',
+                  borderRadius: '32px',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  border: '1px solid rgba(255, 255, 255, 0.06)',
+                  boxShadow: `0 20px 40px rgba(0,0,0,0.5), 0 0 35px ${statusColor}0a, inset 0 1px 0 rgba(255,255,255,0.06)`,
+                  transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+                }}
+              >
+                 <div style={{ position: 'relative', zIndex: 1 }}>
+                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
+                      <div style={{ flex: 1, paddingRight: '20px' }}>
+                         <div style={{ fontSize: '9px', fontWeight: 900, color: AURA_COLORS.sub, background: 'rgba(192, 132, 252, 0.06)', border: '1px solid rgba(192, 132, 252, 0.15)', padding: '4px 12px', borderRadius: '100px', display: 'inline-block', marginBottom: '12px' }}>
+                           {a["Course Code"]}
+                         </div>
+                         <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', textTransform: 'capitalize', lineHeight: 1.3, margin: 0 }}>
+                           {a["Course Title"]?.toLowerCase()}
+                         </h3>
+                      </div>
+                      <PulsingCore pct={a.pct} attended={a.attended} conducted={a.conducted} color={statusColor} />
                    </div>
-                </div>
-              );
-           })}
-        </div>
+
+                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                      <DutyOrb label="PRESENT" value={a.attended} color={AURA_COLORS.green} bgTint="rgba(52,199,89,0.08)" />
+                      <DutyOrb label="ABSENT" value={a.absent} color={AURA_COLORS.red} bgTint="rgba(255,45,85,0.08)" />
+                      <DutyOrb 
+                        label="BUFFER" 
+                        value={a.pct >= 75 ? a.skipBuffer : a.requiredToPass} 
+                        subtext={a.pct >= 75 ? (a.skipBuffer === 1 ? `Can miss 1 more` : `Can miss ${a.skipBuffer} more`) : (a.requiredToPass === 1 ? `Attend next 1` : `Attend next ${a.requiredToPass}`)} 
+                        color={AURA_COLORS.amber} 
+                        bgTint="rgba(255,149,0,0.08)" 
+                      />
+                   </div>
+                   
+                   <div style={{ 
+                     marginTop: '20px', display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 16px', 
+                     background: `${statusColor}15`, borderRadius: '16px', border: `1px solid ${statusColor}30` 
+                   }}>
+                      {a.pct >= 75 ? <ShieldCheck size={14} color={statusColor} /> : <ShieldAlert size={14} color={statusColor} />}
+                      <span style={{ fontSize: '10px', fontWeight: 800, color: statusColor, textTransform: 'uppercase' }}>
+                        {a.pct >= 75 ? `SAFE · Can miss ${a.skipBuffer} more classes` : (a.pct >= 65 ? `WARNING · Attend next ${a.requiredToPass} to stay safe` : `CRITICAL · Attend next ${a.requiredToPass} to recover`)}
+                      </span>
+                   </div>
+                 </div>
+              </div>
+            );
+         })}
       </div>
     </div>
-  );
+  </AuraBackground>
+);
 }

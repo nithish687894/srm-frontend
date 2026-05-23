@@ -5,13 +5,15 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { authAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
-import { Home, BarChart2, CheckCircle, Clock, Calendar, Wrench, Sparkles, Shield, MoreHorizontal, Settings, Share2, LogOut, Wifi, WifiOff } from "lucide-react";
+import { useThemeStore } from "@/lib/themeStore";
+import { Home, BarChart2, CheckCircle, Clock, Calendar, Wrench, Sparkles, Shield, MoreHorizontal, Settings, Share2, LogOut, Wifi, WifiOff, MessageSquare } from "lucide-react";
 
 export default function BottomNavigation() {
   const path = usePathname();
   const router = useRouter();
   const [moreOpen, setMoreOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const { theme } = useThemeStore();
 
   const { profile, email, studentPortalConnected } = useAuthStore();
   const ADMIN_EMAILS = ["ns4770@srmist.edu.in", "ts0014@srmist.edu.in"];
@@ -20,20 +22,23 @@ export default function BottomNavigation() {
 
   // Main navigation items (always visible)
   const NAV_MAIN = [
-    { href: "/dashboard", label: "Home", icon: Home },
+    { href: "/dashboard", label: "Nexus", icon: Home },
     { href: "/marks", label: "Marks", icon: BarChart2 },
-    { href: "/attendance", label: "Attnd", icon: CheckCircle },
-    { href: "/timetable", label: "Time", icon: Clock },
+    { href: "/attendance", label: "Attendance", icon: CheckCircle },
+    { href: "/timetable", label: "Timetable", icon: Clock },
   ];
 
   // More navigation items (in bottom sheet)
   const NAV_MORE = [
-    { href: "/calendar", label: "Cal", icon: Calendar },
+    { href: "/chat", label: "Chat", icon: MessageSquare },
+    { href: "/calendar", label: "Calendar", icon: Calendar },
     { href: "/app-tools", label: "Tools", icon: Wrench },
     { href: "/ai", label: "AI", icon: Sparkles },
     ...(isAdmin ? [{ href: "/admin", label: "Admin", icon: Shield }] : []),
     { href: "/settings", label: "Settings", icon: Settings },
   ];
+
+  const isMoreActive = NAV_MORE.some(item => path === item.href);
 
   useEffect(() => {
     setMounted(true);
@@ -72,7 +77,7 @@ export default function BottomNavigation() {
 
             {/* Sheet */}
             <div
-              className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-xl border-t border-white/10 z-50 rounded-t-3xl"
+              className={`fixed bottom-0 left-0 right-0 backdrop-blur-xl border-t z-50 rounded-t-3xl ${theme === 'aura' ? 'bg-[#110c1e]/95 border-[rgba(255,117,195,0.1)]' : 'bg-black/95 border-white/10'}`}
               style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
             >
               <div className="p-6">
@@ -95,16 +100,16 @@ export default function BottomNavigation() {
                         onClick={() => setMoreOpen(false)}
                         className={`flex flex-col items-center gap-2 p-4 rounded-2xl transition-all duration-200 ${
                           isActive
-                            ? "bg-green-500/20 border border-green-500/30"
+                            ? theme === 'aura' ? "bg-pink-500/20 border border-pink-500/30" : "bg-green-500/20 border border-green-500/30"
                             : "bg-white/5 border border-white/10 hover:bg-white/10"
                         }`}
                       >
                         <item.icon
                           size={24}
-                          className={isActive ? "text-green-400" : "text-white/70"}
+                          className={isActive ? (theme === 'aura' ? "text-pink-400" : "text-green-400") : "text-white/70"}
                         />
-                        <span className={`text-xs font-medium uppercase tracking-wide ${
-                          isActive ? "text-green-400" : "text-white/70"
+                        <span className={`text-xs font-medium tracking-wide ${
+                          isActive ? (theme === 'aura' ? "text-pink-400" : "text-green-400") : "text-white/70"
                         }`}>
                           {item.label}
                         </span>
@@ -122,7 +127,7 @@ export default function BottomNavigation() {
                   className="w-full flex items-center justify-center gap-3 p-4 bg-red-500/20 border border-red-500/30 rounded-2xl hover:bg-red-500/30 transition-colors"
                 >
                   <LogOut size={20} className="text-red-400" />
-                  <span className="text-red-400 font-medium uppercase tracking-wide text-sm">
+                  <span className="text-red-400 font-medium tracking-wide text-sm">
                     Logout
                   </span>
                 </button>
@@ -175,7 +180,7 @@ export default function BottomNavigation() {
       {/* More Button */}
       <button
         onClick={() => setMoreOpen(true)}
-        className={`nav-item ${moreOpen ? "active" : ""}`}
+        className={`nav-item ${moreOpen || isMoreActive ? "active" : ""}`}
       >
         <MoreHorizontal size={20} />
         <span>More</span>
@@ -263,7 +268,6 @@ export default function BottomNavigation() {
           color: #666;
           font-family: 'Space Mono', monospace;
           font-size: 10px;
-          text-transform: uppercase;
           position: relative;
           cursor: pointer;
           transition: color 0.2s ease, text-shadow 0.2s ease;
@@ -279,6 +283,11 @@ export default function BottomNavigation() {
         .nav-item.active {
           color: #a8c200;
           text-shadow: 0 0 10px rgba(168, 194, 0, 0.8);
+        }
+
+        .theme-aura .nav-item.active {
+          color: #FF75C3;
+          text-shadow: 0 0 12px rgba(255, 117, 195, 0.7);
         }
 
         .theme-matrix .nav-item.active {

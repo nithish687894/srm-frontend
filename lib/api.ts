@@ -110,4 +110,11 @@ export const dataAPI = {
     API.get(`/api/v1/unsplash?query=${encodeURIComponent(query)}`).then((r) => r.data),
 };
 
+export const chatAPI = {
+  getHistory: (room: string, before?: string) =>
+    API.get(`/api/v1/chat/history?room=${room}${before ? `&before=${before}` : ""}`).then((r) => r.data),
+  getCohorts: () =>
+    API.get("/api/v1/chat/cohorts").then((r) => r.data),
+};
+
 export { API };

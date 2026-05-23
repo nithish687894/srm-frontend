@@ -173,6 +173,16 @@ export default function DashboardPage() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
 
+  // Loading logs hydration
+  const [loadingLogIndex, setLoadingLogIndex] = useState(0);
+  useEffect(() => {
+    if (!loading) return;
+    const interval = setInterval(() => {
+      setLoadingLogIndex(prev => (prev < 5 ? prev + 1 : 0));
+    }, 700);
+    return () => clearInterval(interval);
+  }, [loading]);
+
   const formatLastSynced = (dateInput: any) => {
     if (!dateInput) return "Never";
     try {
@@ -411,12 +421,17 @@ export default function DashboardPage() {
     dataAPI.getBroadcast().then(d => setBroadcast(d)).catch(() => { });
   }, [ready, batch]);
 
-  const att = data?.attendance || [];
-  const marks = data?.marks || [];
+  const att = data?.attendance?.length ? data.attendance : (data?.studentPortal?.attendance || studentPortalData?.attendance || []);
+  const marks = data?.marks?.length ? data.marks : (data?.studentPortal?.marks || studentPortalData?.marks || []);
 
   // Calculate top stats
   const totalCourses = att.length;
-  const avgAtt = att.length ? (att.reduce((s: number, c: any) => s + parseFloat(c["Attn %"] || 0), 0) / att.length).toFixed(1) : "—";
+  const avgAtt = (() => {
+    if (!att.length) return "—";
+    const totalH = att.reduce((s: number, c: any) => s + (parseInt(c["Hours Conducted"]) || 0), 0);
+    const presentH = att.reduce((s: number, c: any) => s + (parseInt(c["Hours Attended"]) || Math.max(0, (parseInt(c["Hours Conducted"]) || 0) - (parseInt(c["Hours Absent"]) || 0))), 0);
+    return totalH > 0 ? ((presentH / totalH) * 100).toFixed(1) : "—";
+  })();
   const riskCount = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
 
   // Aggregate Hours
@@ -623,8 +638,8 @@ export default function DashboardPage() {
       case "cosmos": return <CosmosDashboard {...themeProps} />;
       default: return (
         <AuraDashboard 
-          data={data} avgAtt={avgAtt} avgMarks={avgMarks} firstName={firstName} 
-          nextClass={nextClass} onShowStudentInfo={() => setShowStudentInfo(true)}
+          data={data} marks={data?.marks || []} avgAtt={avgAtt} avgMarks={avgMarks} firstName={firstName} 
+          nextClass={nextClass} targetClasses={targetClasses} onShowStudentInfo={() => setShowStudentInfo(true)}
           broadcast={broadcast} renderAcademicIntegrityHub={renderAcademicIntegrityHub}
           upcomingEvents={upcomingEvents}
         />
@@ -638,42 +653,522 @@ export default function DashboardPage() {
     );
   }
 
-  if (loading && !data) return (
-    <div className="page-root" style={{ 
-      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", 
-      background: "#000", position: "fixed", inset: 0, zIndex: 1000, overflow: 'hidden'
-    }}>
-      {/* Background Neural Field */}
-      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
-        <div 
-          style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at center, #111 0%, #000 100%)' }}
-        />
-      </div>
+  if (loading && !data) {
+    const loadingSteps = [
+      "INITIALIZING_AURA_SPACE",
+      "ESTABLISHING_SRM_GATEWAY",
+      "DECRYPTING_NEURAL_RECORDS",
+      "SYNCING_ACADEMIC_NEBULA",
+      "OPTIMIZING_QUANTUM_UI_PORT",
+      "ESTABLISHING_SECURE_TUNNEL"
+    ];
 
-      {/* Animated Aura Blobs for Loading */}
-      <div 
-        style={{ position: 'absolute', width: '400px', height: '400px', borderRadius: '50%', background: '#FF75C3', filter: 'blur(100px)', zIndex: 0, opacity: 0.15 }}
-      />
-      <div 
-        style={{ position: 'absolute', width: '500px', height: '500px', borderRadius: '50%', background: '#8F92FF', filter: 'blur(120px)', zIndex: 0, opacity: 0.15 }}
-      />
+    // Compute rolling active terminal logs for dashboard space loader
+    const rollingSteps = [];
+    const startIdx = Math.max(0, loadingLogIndex - 2);
+    const hexCodes = ["0x00A4", "0x1F2B", "0x8C92", "0x7E3A", "0x90BF", "0x4E7C"];
+    const prefixes = ["[ BOOT ]", "[ SECURE ]", "[ AUTH ]", "[ SYNC ]", "[ DATA ]", "[ READY ]"];
+    for (let i = startIdx; i <= loadingLogIndex; i++) {
+      rollingSteps.push({
+        index: i,
+        hex: hexCodes[i] || "0x0000",
+        prefix: prefixes[i] || "[ SYS ]",
+        text: loadingSteps[i],
+        isLatest: i === loadingLogIndex
+      });
+    }
 
-      <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
-        <div
-          style={{ width: "80px", height: "80px", borderRadius: "24px", background: "rgba(255,255,255,0.05)", backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.1)', display: "flex", alignItems: "center", justifyContent: "center", margin: '0 auto 32px', boxShadow: '0 0 30px rgba(143, 146, 255, 0.2)' }}
-        >
-          <img src="/nexus-logo.png" alt="Logo" style={{ width: "40px", height: "40px", filter: 'drop-shadow(0 0 10px #8F92FF)' }} />
+    return (
+      <div className="page-root" style={{ 
+        display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", 
+        background: "#020204", position: "fixed", inset: 0, zIndex: 1000, overflow: 'hidden'
+      }}>
+        {/* Dynamic Keyframes injected locally */}
+        <style>{`
+          @keyframes aura-spin-glow {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+          }
+          @keyframes aura-breath-glow {
+            0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.9) rotate(0deg); }
+            50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.08) rotate(180deg); }
+            100% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.9) rotate(360deg); }
+          }
+          @keyframes aura-logo-float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-8px) scale(1.02); }
+          }
+          @keyframes aura-rotate-cw {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+          }
+          @keyframes aura-rotate-ccw {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(-360deg); }
+          }
+          @keyframes aura-terminal-pulse {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+          }
+          @keyframes aura-shimmer {
+            100% { transform: translateX(100%); }
+          }
+          @keyframes aura-gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+          @keyframes aura-fade-in {
+            from { opacity: 0; filter: blur(5px); transform: translateY(5px); }
+            to { opacity: 1; filter: blur(0); transform: translateY(0); }
+          }
+          @keyframes aura-laser-scan {
+            0%, 100% { top: 0%; opacity: 0.1; }
+            50% { top: 100%; opacity: 1; filter: drop-shadow(0 0 6px #00E5FF); }
+          }
+          @keyframes aura-gloss-sweep {
+            0% { left: -150%; }
+            50% { left: 150%; }
+            100% { left: 150%; }
+          }
+          @keyframes aura-pulse-halo {
+            0%, 100% { transform: scale(0.95); opacity: 0.2; }
+            50% { transform: scale(1.05); opacity: 0.5; }
+          }
+          @keyframes aura-pulse-shadow {
+            0%, 100% { filter: drop-shadow(0 0 25px rgba(255, 45, 85, 0.45)) drop-shadow(0 0 5px rgba(255, 45, 85, 0.2)); }
+            50% { filter: drop-shadow(0 0 40px rgba(0, 229, 255, 0.6)) drop-shadow(0 0 10px rgba(0, 229, 255, 0.3)); }
+          }
+          @keyframes aura-pulse-dot {
+            0%, 100% { opacity: 0.4; transform: scale(0.85); }
+            50% { opacity: 1; transform: scale(1.15); }
+          }
+          @keyframes aura-particle-float {
+            0% { transform: translateY(0px) scale(0.5); opacity: 0; }
+            20% { opacity: 0.6; }
+            80% { opacity: 0.6; }
+            100% { transform: translateY(-120px) scale(1.2); opacity: 0; }
+          }
+          @keyframes aura-cursor-blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+          }
+          .aura-loading-text {
+            font-size: 26px; 
+            font-weight: 950; 
+            background: linear-gradient(90deg, #ffffff, #FF2D55, #BF5AF2, #00E5FF, #ffffff);
+            background-size: 200% auto;
+            color: transparent; 
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: aura-text-shimmer 4s linear infinite;
+            margin-bottom: 4px; 
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            text-shadow: 0 0 35px rgba(191, 90, 242, 0.35);
+          }
+          @keyframes aura-text-shimmer {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+          }
+          .aura-badge {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 100px;
+            padding: 8px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.03);
+            font-size: 8.5px;
+            font-family: monospace;
+            color: rgba(255, 255, 255, 0.75);
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+          }
+          .aura-star {
+            position: absolute;
+            background: #ffffff;
+            border-radius: 50%;
+            filter: drop-shadow(0 0 4px #00E5FF);
+            animation: aura-particle-float linear infinite;
+            opacity: 0;
+            pointer-events: none;
+          }
+          .aura-rolling-log {
+            animation: aura-fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            margin-bottom: 5px;
+            line-height: 1.3;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        `}</style>
+
+        {/* Ambient Top Diagnostics Bar */}
+        <div style={{
+          position: 'absolute',
+          top: '24px',
+          left: '20px',
+          right: '20px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          zIndex: 15
+        }}>
+          <div className="aura-badge">
+            <span style={{
+              width: '6px',
+              height: '6px',
+              borderRadius: '50%',
+              background: '#00E5FF',
+              boxShadow: '0 0 8px #00E5FF',
+              animation: 'aura-pulse-dot 1.5s infinite'
+            }} />
+            <span>Secure Gateway</span>
+          </div>
+
+          <div className="aura-badge">
+            <span style={{
+              width: '5px',
+              height: '5px',
+              borderRadius: '50%',
+              background: '#34C759',
+              boxShadow: '0 0 8px #34C759',
+              animation: 'aura-pulse-dot 1.8s infinite'
+            }} />
+            <span>Aura Space Initialization</span>
+          </div>
         </div>
 
-        <div
-          style={{ fontSize: "10px", fontWeight: 900, letterSpacing: "0.5em", color: "#fff", textTransform: "uppercase", marginBottom: "8px" }}
-        >
-          Initializing Aura Space
+        {/* Background Neural Fields & Star particles */}
+        <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+          {/* Static random styling for stars in loading block */}
+          {Array.from({ length: 12 }).map((_, i) => (
+            <div
+              key={i}
+              className="aura-star"
+              style={{
+                left: `${(i * 17) % 100}%`,
+                bottom: `${(i * 23) % 100}%`,
+                width: `${(i % 3) + 1.5}px`,
+                height: `${(i % 3) + 1.5}px`,
+                animationDelay: `${(i * 0.4) % 4}s`,
+                animationDuration: `${((i * 1.5) % 5) + 6}s`,
+              }}
+            />
+          ))}
+
+          {/* Drifting HSL Conic Backdrop */}
+          <div 
+            style={{
+              position: "absolute", top: "50%", left: "50%",
+              width: "130vw", height: "130vw", borderRadius: "50%",
+              background: "conic-gradient(from 0deg, #FF2D55 0%, #BF5AF2 25%, #00E5FF 50%, #FF2D55 100%)",
+              filter: "blur(140px)",
+              animation: "aura-spin-glow 24s linear infinite, aura-breath-glow 12s ease-in-out infinite",
+              willChange: "transform, opacity",
+            }}
+          />
+
+          {/* Tech Grid Overlay */}
+          <div 
+            style={{
+              position: "absolute", inset: 0,
+              backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px)",
+              backgroundSize: "36px 36px",
+              backgroundPosition: "center",
+              maskImage: "radial-gradient(circle at center, black 30%, transparent 80%)",
+              WebkitMaskImage: "radial-gradient(circle at center, black 30%, transparent 80%)",
+              opacity: 0.65,
+            }}
+          />
+          <div style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at center, transparent 10%, #020204 85%)" }} />
         </div>
-        <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)', fontWeight: 600 }}>Syncing academic nebula...</div>
+
+        <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: '380px', padding: '0 24px' }}>
+          
+          {/* Concentric Rotating Science HUD rings */}
+          <div 
+            style={{ 
+              position: 'relative', 
+              marginBottom: '42px',
+              width: '144px',
+              height: '144px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              animation: "aura-logo-float 4.5s ease-in-out infinite",
+              willChange: "transform"
+            }}
+          >
+            {/* Outermost Dashed Cyan Tech Ring */}
+            <div 
+              style={{ 
+                position: 'absolute', 
+                width: '144px',
+                height: '144px',
+                borderRadius: '50%', 
+                border: '1.2px dashed rgba(0, 229, 255, 0.35)',
+                animation: "aura-rotate-cw 18s linear infinite" 
+              }}
+            />
+
+            {/* Middle Pink Tech Compass Ring */}
+            <div 
+              style={{ 
+                position: 'absolute', 
+                width: '124px',
+                height: '124px',
+                borderRadius: '50%', 
+                border: '1.5px dashed rgba(255, 45, 85, 0.2)',
+                borderTop: '2px solid rgba(255, 45, 85, 0.75)',
+                borderBottom: '2px solid rgba(191, 90, 242, 0.75)',
+                animation: "aura-rotate-ccw 9s linear infinite" 
+              }}
+            />
+
+            {/* Pulsing Solid Tech Halo */}
+            <div 
+              style={{ 
+                position: 'absolute', 
+                width: '104px',
+                height: '104px',
+                borderRadius: '50%', 
+                background: 'radial-gradient(circle, rgba(191, 90, 242, 0.05) 0%, transparent 70%)',
+                border: '1px solid rgba(191, 90, 242, 0.15)',
+                animation: "aura-pulse-halo 4s ease-in-out infinite"
+              }}
+            />
+
+            {/* Cybernetic Radar Sweeper Line */}
+            <div 
+              style={{
+                position: 'absolute',
+                width: '104px',
+                height: '104px',
+                borderRadius: '50%',
+                background: 'conic-gradient(from 0deg, rgba(0, 229, 255, 0.15) 0%, transparent 40%)',
+                animation: "aura-rotate-cw 4s linear infinite",
+                pointerEvents: 'none',
+                zIndex: 2
+              }}
+            />
+            
+            {/* Premium Glossy Squircle Glass Logo Box */}
+            <div
+              style={{ 
+                position: 'relative',
+                width: '84px',
+                height: '84px',
+                borderRadius: '24px',
+                background: 'rgba(5, 5, 8, 0.65)',
+                backdropFilter: 'blur(20px)',
+                border: '1.5px solid rgba(255,255,255,0.07)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 20px 45px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.05)',
+                overflow: 'hidden',
+                zIndex: 3
+              }}
+            >
+              {/* Cybernetic Laser scanning line */}
+              <div style={{
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                height: '2px',
+                background: 'linear-gradient(90deg, transparent, #00E5FF 30%, #00E5FF 70%, transparent)',
+                animation: 'aura-laser-scan 2.5s ease-in-out infinite',
+                pointerEvents: 'none',
+                zIndex: 10
+              }} />
+
+              {/* Glass Gloss Sweeper glint */}
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                bottom: 0,
+                width: '35%',
+                background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent)',
+                transform: 'skewX(-25deg)',
+                animation: 'aura-gloss-sweep 3.5s ease-in-out infinite',
+                pointerEvents: 'none',
+                zIndex: 5
+              }} />
+
+              <img src="/nexus-logo.png" alt="Logo" style={{ width: "48px", height: "48px", filter: 'drop-shadow(0 0 10px rgba(0, 229, 255, 0.45))', zIndex: 4 }} />
+            </div>
+          </div>
+
+          {/* Glowing Status Text */}
+          <div className="aura-loading-text">
+            SRM NEXUS
+          </div>
+          <div style={{
+            fontSize: '8.5px',
+            fontWeight: 900,
+            color: 'rgba(255,255,255,0.4)',
+            letterSpacing: '0.38em',
+            textTransform: 'uppercase',
+            marginBottom: '32px'
+          }}>
+            Academic Intelligence Suite
+          </div>
+
+          {/* Progress bar info layout */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'baseline',
+            width: '200px',
+            margin: '0 auto 8px',
+            fontFamily: 'monospace',
+            fontSize: '9.5px',
+            fontWeight: 900,
+            letterSpacing: '0.05em'
+          }}>
+            <span style={{ color: 'rgba(255,255,255,0.3)' }}>CONNECTING</span>
+            <span style={{ color: '#00E5FF', textShadow: '0 0 8px rgba(0, 229, 255, 0.4)' }} className="tabular-nums">
+              {Math.round(((loadingLogIndex + 1) / loadingSteps.length) * 100)}%
+            </span>
+          </div>
+          
+          {/* Smooth Shimmering Progress Bar Capacitor */}
+          <div 
+            style={{ 
+              width: '200px', 
+              height: '5px', 
+              background: 'rgba(255,255,255,0.03)', 
+              borderRadius: '100px', 
+              margin: '0 auto 28px', 
+              overflow: 'visible',
+              position: 'relative',
+              boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.6)',
+              border: '0.8px solid rgba(255,255,255,0.04)'
+            }}
+          >
+            <div 
+              style={{ 
+                height: '100%', 
+                background: 'linear-gradient(90deg, #FF2D55, #BF5AF2, #00E5FF, #FF2D55)', 
+                backgroundSize: '300% 100%',
+                width: `${((loadingLogIndex + 1) / loadingSteps.length) * 100}%`,
+                transition: "width 500ms cubic-bezier(0.25, 0.8, 0.25, 1)",
+                position: "relative",
+                borderRadius: '100px',
+                boxShadow: '0 0 12px rgba(0, 229, 255, 0.65)',
+                animation: "aura-gradient-shift 4s ease infinite"
+              }}
+            >
+              {/* Glowing Leading edge Pointer Spark */}
+              <div 
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  right: '-4px',
+                  transform: 'translateY(-50%)',
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  background: '#ffffff',
+                  boxShadow: '0 0 12px #00E5FF, 0 0 4px #ffffff',
+                  animation: 'aura-terminal-pulse 0.4s alternate infinite'
+                }}
+              />
+
+              {/* Shimmer overlay */}
+              <div 
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent)',
+                  animation: 'aura-shimmer 2.2s infinite',
+                  transform: 'translateX(-100%)'
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Cyberpunk Stacked Scrolling Terminal Console */}
+          <div style={{
+            width: '240px',
+            height: '76px',
+            background: 'rgba(5, 5, 8, 0.5)',
+            backdropFilter: 'blur(20px)',
+            border: '1.2px solid rgba(191, 90, 242, 0.15)',
+            borderRadius: '16px',
+            padding: '12px 16px',
+            margin: '0 auto',
+            textAlign: 'left',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-end',
+            boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.8)'
+          }}>
+            {rollingSteps.map((log) => (
+              <div 
+                key={log.index} 
+                className="aura-rolling-log"
+                style={{
+                  fontSize: '9px',
+                  fontFamily: 'monospace',
+                  fontWeight: 800,
+                  letterSpacing: '0.04em',
+                  color: log.isLatest ? '#ffffff' : 'rgba(255,255,255,0.3)',
+                  opacity: log.isLatest ? 1 : log.index === loadingLogIndex - 1 ? 0.55 : 0.25,
+                  transition: 'all 0.3s'
+                }}
+              >
+                <span style={{ color: log.isLatest ? '#FF2D55' : 'rgba(255, 45, 85, 0.45)', marginRight: '6px' }}>
+                  {log.hex}
+                </span>
+                <span style={{ color: log.isLatest ? '#00E5FF' : 'rgba(0, 229, 255, 0.45)', marginRight: '8px' }}>
+                  {log.prefix}
+                </span>
+                <span style={{ color: log.isLatest ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.4)' }}>
+                  {log.text}
+                </span>
+                {log.isLatest ? (
+                  <span style={{
+                    display: 'inline-block',
+                    width: '5px',
+                    height: '9px',
+                    background: '#00E5FF',
+                    marginLeft: '4px',
+                    verticalAlign: 'middle',
+                    animation: 'aura-cursor-blink 0.8s infinite'
+                  }} />
+                ) : (
+                  <span style={{ color: '#34C759', marginLeft: '6px', fontSize: '8px' }}>
+                    ✓
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom Holographic Version readouts */}
+        <div style={{
+          position: 'absolute',
+          bottom: '24px',
+          fontSize: '8px',
+          fontFamily: 'monospace',
+          color: 'rgba(255,255,255,0.18)',
+          letterSpacing: '0.25em',
+          fontWeight: 900,
+          textTransform: 'uppercase'
+        }}>
+          SRM_NEBULA_SECURE_v2.0_SYS_ACTIVE
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 
   return (
     <div style={{ height: "100vh", width: "100vw", background: "#000", display: "flex", flexDirection: "column", overflow: "hidden" }}>

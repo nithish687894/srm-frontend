@@ -1,22 +1,12 @@
 "use client";
-import { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Award, Sparkles, AlertTriangle, TrendingUp, Activity, Flame } from "lucide-react";
+import { useAuraTheme } from "./system/useAuraTheme";
+import AuraBackground from "./effects/AuraBackground";
+import AuraCard from "./ui/AuraCard";
+import { AURA_COLORS as SHARED_AURA } from "./system/theme-tokens";
 
-const AURA_COLORS = {
-  bg: "#050508",
-  primary: "#FF75C3", // Pink
-  secondary: "#8F92FF", // Lavender
-  purple: "#BF5AF2", // Purple
-  cyan: "#00E5FF", // Cyan
-  accent: "#94FFD8", // Mint
-  red: "#FF2D55", // Red
-  amber: "#FF9500", // Amber
-  green: "#34C759", // Green
-  text: "#ffffff",
-  sub: "rgba(255, 255, 255, 0.4)",
-  card: "rgba(255, 255, 255, 0.02)",
-  border: "rgba(255, 255, 255, 0.08)",
-};
+const AURA_COLORS = SHARED_AURA;
 
 const getStatusColor = (pct: number) => {
   if (pct === 0) return AURA_COLORS.sub;
@@ -34,45 +24,88 @@ const getStatusLabel = (pct: number) => {
   return "STRONG";
 };
 
+const getProgressBarGradient = (pct: number) => {
+  if (pct < 40) return `linear-gradient(90deg, rgba(255, 107, 139, 0.4) 0%, ${AURA_COLORS.red} 100%)`;
+  if (pct < 65) return `linear-gradient(90deg, rgba(251, 191, 36, 0.4) 0%, ${AURA_COLORS.amber} 100%)`;
+  if (pct < 80) return `linear-gradient(90deg, rgba(56, 189, 248, 0.4) 0%, ${AURA_COLORS.cyan} 100%)`;
+  return `linear-gradient(90deg, rgba(167, 139, 250, 0.4) 0%, ${AURA_COLORS.purple} 100%)`;
+};
+
 const CrystalOrb = ({ test, score, tests }: any) => {
   const parts = (test || "T/100").split('/');
   const label = parts[0];
   const max = parseFloat(parts[1]) || 100;
   
-  // If score is empty or null, it's not uploaded yet
   const isUploaded = score !== undefined && score !== null && score !== "";
   const sc = score === "Abs" ? 0 : (parseFloat(score) || 0);
   const pct = (isUploaded && max > 0) ? (sc / max) * 100 : 0;
   
-  // Strict binary color logic: Below 50% is weak (red), above is normal (purple/pink)
-  const isWeak = isUploaded && pct < 50;
-  const borderColor = isWeak ? AURA_COLORS.red : AURA_COLORS.purple;
-  const percentColor = isWeak ? AURA_COLORS.red : AURA_COLORS.primary; // primary is Pink
+  const statusColor = getStatusColor(pct);
   
-  // Use a dark translucent inset to match the glassmorphism theme
-  const bgTint = isWeak ? "rgba(255,45,85,0.08)" : "rgba(0,0,0,0.25)"; 
-
   return (
     <div style={{ 
-      background: bgTint, 
-      backdropFilter: 'blur(15px)',
-      border: `1px solid ${isWeak ? "rgba(255,45,85,0.2)" : "rgba(191,90,242,0.15)"}`,
-      borderBottom: `2px solid ${isUploaded ? borderColor : "rgba(255,255,255,0.05)"}`,
-      borderRadius: '20px', padding: '16px 12px', minWidth: '85px', flex: 1,
-      textAlign: 'center', position: 'relative',
-      boxShadow: 'inset 0 4px 15px rgba(0,0,0,0.2)'
+      background: "linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%)", 
+      backdropFilter: 'blur(20px)',
+      border: "1px solid rgba(255, 255, 255, 0.05)",
+      borderRadius: '20px', 
+      padding: '16px 12px', 
+      minWidth: '95px', 
+      flex: 1,
+      textAlign: 'center', 
+      position: 'relative',
+      boxShadow: `inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 15px ${isUploaded ? statusColor + '0a' : 'transparent'}`,
+      transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: '8px'
     }}>
-      <p style={{ fontSize: '8px', fontWeight: 900, color: AURA_COLORS.sub, textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.1em' }}>{label}</p>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        {isUploaded && (
+          <span style={{ 
+            width: '6px', 
+            height: '6px', 
+            borderRadius: '50%', 
+            background: statusColor, 
+            boxShadow: `0 0 8px ${statusColor}` 
+          }} />
+        )}
+        <p style={{ fontSize: '11px', fontWeight: 900, color: AURA_COLORS.subBright, textTransform: 'uppercase', letterSpacing: '0.05em', margin: 0 }}>{label}</p>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: '2px' }}>
-          <span style={{ fontSize: '18px', fontWeight: 900, color: score === "Abs" ? AURA_COLORS.red : (isUploaded ? '#fff' : AURA_COLORS.sub) }} className="tabular-nums">
-            {score === "Abs" ? "ABS" : (isUploaded ? sc.toFixed(1) : "--")}
+          <span style={{ fontSize: '22px', fontWeight: 950, color: score === "Abs" ? AURA_COLORS.red : (isUploaded ? '#fff' : AURA_COLORS.sub), textShadow: isUploaded ? `0 0 10px ${statusColor}18` : 'none' }} className="tabular-nums">
+            {score === "Abs" ? "ABS" : (isUploaded ? (sc % 1 === 0 ? sc.toFixed(0) : sc.toFixed(1)) : "--")}
           </span>
-          <span style={{ fontSize: '9px', color: 'rgba(255,255,255,0.2)', fontWeight: 800 }}>/{max}</span>
+          <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)', fontWeight: 800 }}>/{max}</span>
         </div>
-        <div style={{ fontSize: '9px', fontWeight: 800, color: isUploaded ? percentColor : AURA_COLORS.sub, marginTop: '2px' }} className="tabular-nums">
-          {isUploaded ? `${pct.toFixed(0)}%` : "N/A"}
-        </div>
+        {isUploaded ? (
+          <div style={{ 
+            fontSize: '10px', 
+            fontWeight: 900, 
+            color: statusColor, 
+            background: `${statusColor}12`,
+            padding: '3px 8px',
+            borderRadius: '100px',
+            border: `1px solid ${statusColor}20`,
+            marginTop: '2px'
+          }} className="tabular-nums">
+            {pct.toFixed(0)}%
+          </div>
+        ) : (
+          <div style={{ 
+            fontSize: '10px', 
+            fontWeight: 900, 
+            color: AURA_COLORS.sub, 
+            background: 'rgba(255,255,255,0.02)',
+            padding: '3px 8px',
+            borderRadius: '100px',
+            border: '1px solid rgba(255,255,255,0.04)',
+            marginTop: '2px' 
+          }} className="tabular-nums">
+            N/A
+          </div>
+        )}
       </div>
     </div>
   );
@@ -81,6 +114,7 @@ const CrystalOrb = ({ test, score, tests }: any) => {
 export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
   const [filter, setFilter] = useState("All");
   const [isScrolled, setIsScrolled] = useState(false);
+  const { activeTheme, stars } = useAuraTheme();
 
   useEffect(() => {
     const mainEl = document.querySelector('main');
@@ -157,113 +191,84 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
   }, [processedMarks, filter]);
 
   return (
-    <div style={{ background: 'radial-gradient(circle at 50% 0%, #1e1e30 0%, #050508 100%)', minHeight: "100%", display: "flex", flexDirection: "column", color: AURA_COLORS.text, fontFamily: "'Plus Jakarta Sans', sans-serif", position: 'relative' }}>
+    <AuraBackground theme={activeTheme} stars={stars}>
       <style dangerouslySetInnerHTML={{ __html: `
-        
-        .aura-blob {
-          position: fixed; width: 600px; height: 600px;
-          border-radius: 50%; filter: blur(140px);
-          opacity: 0.15; z-index: 0; pointer-events: none;
-          animation: orbit 20s infinite linear;
-        }
-        @keyframes orbit {
-          from { transform: rotate(0deg) translate(100px) rotate(0deg); }
-          to { transform: rotate(360deg) translate(100px) rotate(-360deg); }
-        }
-
-        .liquid-card {
-          background: rgba(255, 255, 255, 0.05);
-          backdrop-filter: blur(40px);
-          -webkit-backdrop-filter: blur(40px);
-          border: 1px solid rgba(191, 90, 242, 0.45);
-          box-shadow: inset 0 0 20px rgba(191, 90, 242, 0.05), 0 20px 40px rgba(0,0,0,0.4);
-          border-radius: 32px;
-          padding: 24px;
-          position: relative;
-          overflow: hidden;
-          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .floating { animation: floating 6s ease-in-out infinite; }
-        @keyframes floating {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
-        }
-
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
         .sticky-header {
           position: fixed; top: 72px; left: 16px; right: 16px; border-radius: 24px;
-          background: rgba(20,20,35,0.85); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-          padding: 16px 20px; border: 1px solid rgba(191,90,242,0.15);
+          background: rgba(10, 8, 16, 0.85); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+          padding: 16px 20px; border: 1px solid rgba(255, 255, 255, 0.06);
           display: flex; align-items: center; justify-content: space-between;
           z-index: 100; transform: translateY(-150%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
           box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         .sticky-header.visible { transform: translateY(0); }
-        
-        .tabular-nums { font-variant-numeric: tabular-nums; }
       `}} />
 
-      {/* Animated Aura Blobs */}
-      <div className="aura-blob" style={{ background: AURA_COLORS.primary, top: '-200px', left: '-100px' }} />
-      <div className="aura-blob" style={{ background: AURA_COLORS.cyan, bottom: '-200px', right: '-100px', animationDelay: '-5s' }} />
-
-      {/* Sticky Scroll Header */}
       <div className={`sticky-header ${isScrolled ? 'visible' : ''}`}>
         <span style={{ fontSize: '13px', fontWeight: 900, color: '#fff' }}>Marks Registry</span>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-          <span style={{ fontSize: '11px', fontWeight: 800, color: AURA_COLORS.sub }}>AVG <span style={{color: AURA_COLORS.primary}}>{stats.overallAvg.toFixed(1)}%</span></span>
+          <span style={{ fontSize: '11px', fontWeight: 800, color: AURA_COLORS.sub }}>AVG <span style={{color: AURA_COLORS.purple}}>{stats.overallAvg.toFixed(1)}%</span></span>
           {stats.atRisk > 0 && <span style={{ fontSize: '10px', background: 'rgba(255,45,85,0.1)', border: '1px solid rgba(255,45,85,0.2)', color: AURA_COLORS.red, padding: '4px 8px', borderRadius: '100px', fontWeight: 900 }}>{stats.atRisk} AT RISK</span>}
         </div>
       </div>
 
       <div style={{ position: 'relative', zIndex: 1, paddingTop: '100px', paddingBottom: '140px' }}>
         
-        {/* Header Section */}
         <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-          <div className="floating" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(191,90,242,0.15)', padding: '6px 14px', borderRadius: '100px', border: '1px solid rgba(191,90,242,0.3)', marginBottom: '20px', boxShadow: '0 0 30px rgba(191,90,242,0.3)' }}>
+          <div className="floating" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(192, 132, 252, 0.08)', padding: '6px 14px', borderRadius: '100px', border: '1px solid rgba(192, 132, 252, 0.18)', marginBottom: '20px', boxShadow: '0 0 20px rgba(192, 132, 252, 0.06)' }}>
             <Sparkles size={14} color={AURA_COLORS.purple} />
             <span style={{ fontSize: "10px", fontWeight: 800, color: AURA_COLORS.purple, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Aura Mode Active</span>
           </div>
           <h1 style={{ fontSize: "42px", fontWeight: 900, margin: '0 0 24px', letterSpacing: '-2px', lineHeight: 1 }}>
-            Marks <span style={{ color: AURA_COLORS.primary }}>Registry</span>
+            Marks <span style={{ color: AURA_COLORS.purple }}>Registry</span>
           </h1>
 
-          {/* Summary Strip */}
           <div className="hide-scrollbar" style={{ display: 'flex', gap: '12px', overflowX: 'auto', padding: '0 24px', scrollSnapType: 'x mandatory' }}>
-             <div style={{ flex: '0 0 auto', background: '#1A1628', border: '1px solid rgba(191,90,242,0.45)', borderRadius: '24px', padding: '20px', minWidth: '150px', textAlign: 'left', scrollSnapAlign: 'start', position: 'relative', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>
-                <Activity size={24} color={AURA_COLORS.cyan} style={{ marginBottom: '16px' }} />
-                <div style={{ fontSize: '10px', fontWeight: 800, color: AURA_COLORS.sub, textTransform: 'uppercase', marginBottom: '8px' }}>Total Subjects</div>
-                <div style={{ fontSize: '32px', fontWeight: 900, color: '#fff' }} className="tabular-nums">{stats.totalSubs}</div>
+             <div className="premium-card" style={{ flex: '0 0 auto', borderRadius: '24px', padding: '20px', minWidth: '150px', textAlign: 'left', scrollSnapAlign: 'start', position: 'relative', overflow: 'hidden', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.03), 0 20px 40px rgba(0,0,0,0.5), 0 0 20px rgba(56, 189, 248, 0.05)' }}>
+                <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(56, 189, 248, 0.08)', filter: 'blur(20px)', pointerEvents: 'none' }} />
+                <Activity size={24} color={AURA_COLORS.cyan} style={{ marginBottom: '16px', position: 'relative', zIndex: 1 }} />
+                <div style={{ fontSize: '10px', fontWeight: 800, color: AURA_COLORS.sub, textTransform: 'uppercase', marginBottom: '8px', position: 'relative', zIndex: 1 }}>Total Subjects</div>
+                <div style={{ fontSize: '32px', fontWeight: 900, color: '#fff', position: 'relative', zIndex: 1 }} className="tabular-nums">{stats.totalSubs}</div>
              </div>
-             <div style={{ flex: '0 0 auto', background: '#1A1628', border: '1px solid rgba(191,90,242,0.45)', borderRadius: '24px', padding: '20px', minWidth: '150px', textAlign: 'left', scrollSnapAlign: 'start', position: 'relative', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>
-                <TrendingUp size={24} color={AURA_COLORS.primary} style={{ marginBottom: '16px' }} />
-                <div style={{ fontSize: '10px', fontWeight: 800, color: AURA_COLORS.sub, textTransform: 'uppercase', marginBottom: '8px' }}>Overall Average</div>
-                <div style={{ fontSize: '32px', fontWeight: 900, color: '#fff' }} className="tabular-nums">{stats.overallAvg.toFixed(1)}%</div>
+             <div className="premium-card" style={{ flex: '0 0 auto', borderRadius: '24px', padding: '20px', minWidth: '150px', textAlign: 'left', scrollSnapAlign: 'start', position: 'relative', overflow: 'hidden', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.03), 0 20px 40px rgba(0,0,0,0.5), 0 0 20px rgba(192, 132, 252, 0.05)' }}>
+                <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(192, 132, 252, 0.08)', filter: 'blur(20px)', pointerEvents: 'none' }} />
+                <TrendingUp size={24} color={AURA_COLORS.purple} style={{ marginBottom: '16px', position: 'relative', zIndex: 1 }} />
+                <div style={{ fontSize: '10px', fontWeight: 800, color: AURA_COLORS.sub, textTransform: 'uppercase', marginBottom: '8px', position: 'relative', zIndex: 1 }}>Overall Average</div>
+                <div style={{ fontSize: '32px', fontWeight: 900, color: '#fff', position: 'relative', zIndex: 1 }} className="tabular-nums">{stats.overallAvg.toFixed(1)}%</div>
              </div>
-             <div style={{ flex: '0 0 auto', background: '#1A1628', border: `1px solid rgba(191,90,242,0.45)`, borderRadius: '24px', padding: '20px', minWidth: '150px', textAlign: 'left', scrollSnapAlign: 'start', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>
-                <AlertTriangle size={24} color={stats.atRisk > 0 ? AURA_COLORS.red : AURA_COLORS.purple} style={{ marginBottom: '16px' }} />
-                <div style={{ fontSize: '10px', fontWeight: 800, color: AURA_COLORS.sub, textTransform: 'uppercase', marginBottom: '8px' }}>At Risk</div>
-                <div style={{ fontSize: '32px', fontWeight: 900, color: stats.atRisk > 0 ? AURA_COLORS.red : '#fff' }} className="tabular-nums">{stats.atRisk} <span style={{ fontSize: '14px', fontWeight: 700, color: AURA_COLORS.sub }}>Subjects</span></div>
+             <div className="premium-card" style={{ flex: '0 0 auto', borderRadius: '24px', padding: '20px', minWidth: '150px', textAlign: 'left', scrollSnapAlign: 'start', position: 'relative', overflow: 'hidden', boxShadow: `inset 0 1px 0 rgba(255,255,255,0.03), 0 20px 40px rgba(0,0,0,0.5), 0 0 20px ${stats.atRisk > 0 ? 'rgba(255, 107, 139, 0.08)' : 'rgba(192, 132, 252, 0.05)'}` }}>
+                <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '80px', height: '80px', borderRadius: '50%', background: stats.atRisk > 0 ? 'rgba(255, 107, 139, 0.08)' : 'rgba(192, 132, 252, 0.05)', filter: 'blur(20px)', pointerEvents: 'none' }} />
+                <AlertTriangle size={24} color={stats.atRisk > 0 ? AURA_COLORS.red : AURA_COLORS.purple} style={{ marginBottom: '16px', position: 'relative', zIndex: 1 }} />
+                <div style={{ fontSize: '10px', fontWeight: 800, color: AURA_COLORS.sub, textTransform: 'uppercase', marginBottom: '8px', position: 'relative', zIndex: 1 }}>At Risk</div>
+                <div style={{ fontSize: '32px', fontWeight: 900, color: stats.atRisk > 0 ? AURA_COLORS.red : '#fff', position: 'relative', zIndex: 1 }} className="tabular-nums">{stats.atRisk} <span style={{ fontSize: '14px', fontWeight: 700, color: AURA_COLORS.sub }}>Subjects</span></div>
              </div>
           </div>
         </div>
 
-        {/* Sort and Filter Bar */}
         <div className="hide-scrollbar" style={{ display: 'flex', gap: '8px', overflowX: 'auto', padding: '0 24px', marginBottom: '24px' }}>
           {["All", "At Risk", "Lowest Score", "Highest Score", "Alphabetical"].map(f => (
             <button 
               key={f} onClick={() => setFilter(f)}
               style={{ 
-                background: filter === f ? 'rgba(191,90,242,0.15)' : 'transparent',
-                border: `1px solid ${filter === f ? 'rgba(191,90,242,0.4)' : 'rgba(191,90,242,0.1)'}`,
-                color: filter === f ? AURA_COLORS.primary : AURA_COLORS.sub,
-                boxShadow: filter === f ? '0 0 15px rgba(191,90,242,0.2)' : 'none',
-                padding: '8px 16px', borderRadius: '100px', fontSize: '11px', fontWeight: 800,
-                whiteSpace: 'nowrap', cursor: 'pointer', transition: 'all 0.2s ease',
+                background: filter === f ? 'linear-gradient(135deg, rgba(192, 132, 252, 0.3) 0%, rgba(255, 94, 126, 0.15) 100%)' : 'rgba(255, 255, 255, 0.03)',
+                border: filter === f ? '1px solid rgba(192, 132, 252, 0.6)' : '1px solid rgba(255, 255, 255, 0.06)',
+                color: filter === f ? '#ffffff' : AURA_COLORS.subBright,
+                boxShadow: filter === f ? '0 8px 24px rgba(192, 132, 252, 0.25), inset 0 1px 0 rgba(255,255,255,0.1)' : 'none',
+                padding: '8px 18px', borderRadius: '100px', fontSize: '11px', fontWeight: 900,
+                whiteSpace: 'nowrap', cursor: 'pointer', transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
                 WebkitTapHighlightColor: 'transparent', outline: 'none'
+              }}
+              onMouseEnter={(e) => {
+                if (filter !== f) {
+                  e.currentTarget.style.borderColor = 'rgba(192, 132, 252, 0.4)';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (filter !== f) {
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.06)';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
+                }
               }}
             >
               {f}
@@ -277,28 +282,50 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
               const statusColor = getStatusColor(m.pct);
               const statusLabel = getStatusLabel(m.pct);
               
-              if (!m.tests || m.tests.length === 0) {
-                 return (
-                   <div key={i} className="liquid-card" style={{ padding: '24px', borderStyle: 'dashed', textAlign: 'center', opacity: 0.6 }}>
-                      <div style={{ fontSize: '9px', fontWeight: 900, color: AURA_COLORS.primary, background: 'rgba(255,117,195,0.05)', padding: '4px 12px', borderRadius: '100px', display: 'inline-block', marginBottom: '12px' }}>{m.courseCode || m.code}</div>
-                      <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', margin: '0 0 12px', textTransform: 'capitalize', lineHeight: 1.2 }}>{m.title?.toLowerCase()}</h3>
-                      <div style={{ fontSize: '12px', fontWeight: 600, color: AURA_COLORS.sub }}>Marks not uploaded yet</div>
-                   </div>
-                 );
-              }
+               if (!m.tests || m.tests.length === 0) {
+                  return (
+                    <div key={i} className="liquid-card" style={{ padding: '28px', borderRadius: '32px', border: '1px dashed rgba(255, 255, 255, 0.15)', textAlign: 'center', opacity: 0.6 }}>
+                       <div style={{ fontSize: '9px', fontWeight: 900, color: AURA_COLORS.purple, background: 'rgba(192,132,252,0.05)', padding: '4px 12px', borderRadius: '100px', display: 'inline-block', marginBottom: '12px' }}>{m.courseCode || m.code}</div>
+                       <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', margin: '0 0 12px', textTransform: 'capitalize', lineHeight: 1.2 }}>{m.title?.toLowerCase()}</h3>
+                       <div style={{ fontSize: '12px', fontWeight: 600, color: AURA_COLORS.sub }}>Marks not uploaded yet</div>
+                    </div>
+                  );
+               }
 
-              return (
-                <div key={i} className="liquid-card">
-                   <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '150px', height: '150px', 
-                     background: `radial-gradient(circle, ${statusColor}15 0%, transparent 70%)`,
-                     filter: 'blur(30px)', zIndex: 0, pointerEvents: 'none'
+               return (
+                <div 
+                  key={i} 
+                  className="liquid-card"
+                  style={{
+                    padding: '28px',
+                    borderRadius: '32px',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    border: '1px solid rgba(255, 255, 255, 0.05)',
+                    boxShadow: `0 20px 40px rgba(0,0,0,0.6), 0 0 35px ${statusColor}12, inset 0 1px 0 rgba(255,255,255,0.03)`,
+                    transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+                  }}
+                >
+                   {/* Dynamic glow orb inside card */}
+                   <div style={{ 
+                      position: 'absolute', 
+                      top: '-30px', 
+                      right: '-30px', 
+                      width: '120px', 
+                      height: '120px', 
+                      borderRadius: '50%', 
+                      background: statusColor, 
+                      filter: 'blur(45px)', 
+                      opacity: 0.06, 
+                      pointerEvents: 'none',
+                      zIndex: 0
                    }} />
                    
                    <div style={{ position: 'relative', zIndex: 1 }}>
                      {/* Row 1: Code and Badge */}
                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                        <div style={{ fontSize: '9px', fontWeight: 900, color: AURA_COLORS.sub, background: 'rgba(255,255,255,0.05)', padding: '4px 12px', borderRadius: '100px' }}>{m.courseCode || m.code}</div>
-                        <div style={{ fontSize: '9px', fontWeight: 900, color: statusColor, background: `${statusColor}15`, border: `1px solid ${statusColor}30`, padding: '4px 12px', borderRadius: '100px', letterSpacing: '0.1em' }}>{statusLabel}</div>
+                        <div style={{ fontSize: '9px', fontWeight: 900, color: AURA_COLORS.sub, background: 'rgba(255,255,255,0.04)', padding: '4px 12px', borderRadius: '100px' }}>{m.courseCode || m.code}</div>
+                        <div style={{ fontSize: '9px', fontWeight: 900, color: statusColor, background: `${statusColor}12`, border: `1px solid ${statusColor}22`, padding: '4px 12px', borderRadius: '100px', letterSpacing: '0.1em' }}>{statusLabel}</div>
                      </div>
                      
                      {/* Row 2: Name and Total */}
@@ -306,25 +333,26 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
                         <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', margin: 0, textTransform: 'capitalize', lineHeight: 1.3, flex: 1 }}>{m.title?.toLowerCase()}</h3>
                         <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
                            <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-                              <span style={{ fontSize: '24px', fontWeight: 900, color: AURA_COLORS.primary, lineHeight: 1 }} className="tabular-nums">{m.totalScored.toFixed(1)}</span>
+                              <span style={{ fontSize: '28px', fontWeight: 950, color: statusColor, lineHeight: 1, textShadow: `0 0 15px ${statusColor}22` }} className="tabular-nums">{m.totalScored.toFixed(1)}</span>
                               <span style={{ fontSize: '12px', color: AURA_COLORS.sub, fontWeight: 800 }}>/{m.maxPossible}</span>
                            </div>
-                           <div style={{ fontSize: '10px', fontWeight: 900, color: statusColor, background: `${statusColor}15`, border: `1px solid ${statusColor}30`, padding: '4px 10px', borderRadius: '100px' }}>{m.pct.toFixed(0)}%</div>
+                           <div style={{ fontSize: '10px', fontWeight: 900, color: statusColor, background: `${statusColor}12`, border: `1px solid ${statusColor}22`, padding: '4px 10px', borderRadius: '100px' }}>{m.pct.toFixed(0)}%</div>
                         </div>
                      </div>
 
                      {/* Row 3: Progress Bar */}
-                     <div style={{ height: '4px', background: 'rgba(255,255,255,0.05)', borderRadius: '4px', position: 'relative', marginBottom: '24px' }}>
+                     <div style={{ height: '6px', background: 'rgba(255,255,255,0.04)', borderRadius: '6px', position: 'relative', marginBottom: '24px', overflow: 'visible', boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.4)' }}>
                         <div style={{ 
-                          position: 'absolute', left: 0, top: 0, bottom: 0, 
-                          width: `${m.pct}%`, 
-                          background: `linear-gradient(90deg, ${AURA_COLORS.purple}, ${AURA_COLORS.primary})`, 
-                          borderRadius: '4px', transition: 'width 1s cubic-bezier(0.16, 1, 0.3, 1)' 
+                           position: 'absolute', left: 0, top: 0, bottom: 0, 
+                           width: `${m.pct}%`, 
+                           background: getProgressBarGradient(m.pct), 
+                           borderRadius: '6px', transition: 'width 1.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                           boxShadow: `0 0 12px ${statusColor}40`
                         }}>
                            <div style={{ 
                              position: 'absolute', right: 0, top: '50%', transform: 'translate(50%, -50%)', 
-                             width: '8px', height: '8px', borderRadius: '50%', background: '#fff', 
-                             boxShadow: `0 0 12px ${AURA_COLORS.primary}, 0 0 8px #fff` 
+                             width: '10px', height: '10px', borderRadius: '50%', background: '#fff', 
+                             boxShadow: `0 0 14px ${statusColor}, 0 0 4px #fff` 
                            }} />
                         </div>
                      </div>
@@ -335,16 +363,16 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
                      {/* Test Score Boxes */}
                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '20px' }}>
                         {m.tests?.map((t: any, j: number) => (
-                          <CrystalOrb key={j} test={t.test} score={t.score} tests={m.tests} />
+                           <CrystalOrb key={j} test={t.test} score={t.score} tests={m.tests} />
                         ))}
                      </div>
 
                      {/* Footer */}
                      {(m.bestTest || m.weakestTest) && (
-                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(191,90,242,0.03)', padding: '12px 16px', borderRadius: '16px', border: '1px solid rgba(191,90,242,0.08)' }}>
+                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255, 255, 255, 0.01)', padding: '12px 16px', borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.04)' }}>
                           {m.bestTest && (
                             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                               <Flame size={12} color={AURA_COLORS.primary} />
+                               <Flame size={12} color={AURA_COLORS.purple} />
                                <span style={{ fontSize: '10px', color: AURA_COLORS.sub, fontWeight: 700 }}>BEST: <strong style={{color: '#fff'}}>{(m.bestTest.test || "T").split('/')[0]} · {m.bestTest.score}/{(m.bestTest.test || "/100").split('/')[1]}</strong></span>
                             </div>
                           )}
@@ -362,6 +390,6 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
            })}
         </div>
       </div>
-    </div>
+    </AuraBackground>
   );
 }

@@ -20,7 +20,14 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
   useEffect(() => {
     if (!mounted) return;
     document.body.className = `theme-${currentTheme}`;
-    document.body.style.background = currentTheme === 'matrix' ? '#000' : '#050508'; 
+    // Set initial background — detailed background is in globals.css body.theme-* rules
+    if (currentTheme === 'matrix') {
+      document.body.style.background = '#000';
+    } else if (currentTheme === 'aura') {
+      document.body.style.background = '#050508';
+    } else {
+      document.body.style.background = '#0A061F';
+    }
   }, [currentTheme, mounted]);
 
   return (
@@ -28,7 +35,7 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
       <style dangerouslySetInnerHTML={{ __html: `
         body { background: #050508; margin: 0; padding: 0; }
         .theme-matrix { --bg: #000000; --text-primary: #ffffff; --accent: #a8c200; }
-        .theme-aura { --bg: #050508; --text-primary: #ffffff; --accent: #FF75C3; }
+        .theme-aura { --bg: #050508; --text-primary: #ffffff; --accent: #FF75C3; --accent-secondary: #8F92FF; --accent-purple: #BF5AF2; --accent-cyan: #00E5FF; }
         .theme-cosmos { --bg: #0f0f13; --text-primary: #f0f0ff; --accent: #7c3aed; }
       `}} />
       
