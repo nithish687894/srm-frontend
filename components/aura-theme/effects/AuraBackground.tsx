@@ -48,18 +48,18 @@ export default function AuraBackground({ theme, stars, children, style = {} }: A
         }
         
         .aura-card, .premium-card, .liquid-card {
-          background: rgba(10, 11, 23, 0.65);
-          backdrop-filter: blur(40px) saturate(240%);
-          -webkit-backdrop-filter: blur(40px) saturate(240%);
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 20px 40px rgba(0, 0, 0, 0.6);
+          background: rgba(4, 4, 6, 0.72);
+          backdrop-filter: blur(40px) saturate(220%);
+          -webkit-backdrop-filter: blur(40px) saturate(220%);
+          border: 1px solid rgba(255, 255, 255, 0.04);
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02), 0 20px 40px rgba(0, 0, 0, 0.65);
           transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .aura-card:hover, .premium-card:hover, .liquid-card:hover {
           transform: translateY(-4px);
-          background: rgba(255, 255, 255, 0.08);
-          border-color: rgba(192, 132, 252, 0.35);
-          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 30px 60px rgba(0, 0, 0, 0.7), 0 0 25px rgba(192, 132, 252, 0.12);
+          background: rgba(12, 12, 16, 0.8);
+          border-color: rgba(255, 255, 255, 0.08);
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 30px 60px rgba(0, 0, 0, 0.75), 0 0 30px rgba(99, 102, 241, 0.03);
         }
         .aura-card:active, .premium-card:active, .liquid-card:active { transform: scale(0.99); }
         
