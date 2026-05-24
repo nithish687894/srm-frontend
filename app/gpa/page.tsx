@@ -78,8 +78,8 @@ const THEME_CONFIG = {
 };
 
 export default function GPAPage() {
-  const [attendance, setAttendance] = useState<any[]>([]);
-  const [marks, setMarks] = useState<any[]>([]);
+  const [attendance, setAttendance] = useState<AnyValue[]>([]);
+  const [marks, setMarks] = useState<AnyValue[]>([]);
   const [loading, setLoading] = useState(true);
   const [internals, setInternals] = useState<Record<string, number>>({});
   const [externals, setExternals] = useState<Record<string, number>>({});
@@ -107,15 +107,12 @@ export default function GPAPage() {
       : (studentPortalData?.marks || []);
 
     if (cachedAttendance.length > 0) {
-      setAttendance(cachedAttendance);
-      setMarks(cachedMarks);
-      
       const initInt: Record<string, number> = {};
       const initExt: Record<string, number> = {};
       
-      cachedMarks.forEach((mk: any) => {
-        const scored = mk.tests?.reduce((s: number, t: any) => s + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0;
-        const maxTotal = mk.tests?.reduce((s: number, t: any) => { const [, mx] = t.test.split("/"); return s + (parseFloat(mx) || 0); }, 0) || 0;
+      cachedMarks.forEach((mk: AnyValue) => {
+        const scored = mk.tests?.reduce((s: number, t: AnyValue) => s + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0;
+        const maxTotal = mk.tests?.reduce((s: number, t: AnyValue) => { const [, mx] = t.test.split("/"); return s + (parseFloat(mx) || 0); }, 0) || 0;
         if (maxTotal > 0) {
           // SRM scale internals to 60 marks
           initInt[mk.courseCode] = Math.min(60, Math.round((scored / maxTotal) * 60));
@@ -125,9 +122,13 @@ export default function GPAPage() {
         initExt[mk.courseCode] = 55; // sensible default external (out of 75)
       });
       
-      setInternals(initInt);
-      setExternals(initExt);
-      setLoading(false);
+      setTimeout(() => {
+        setAttendance(cachedAttendance);
+        setMarks(cachedMarks);
+        setInternals(initInt);
+        setExternals(initExt);
+        setLoading(false);
+      }, 0);
     }
 
     // Phase 2: Background refresh for real-time correctness
@@ -142,9 +143,9 @@ export default function GPAPage() {
         const initInt: Record<string, number> = {};
         const initExt: Record<string, number> = {};
         
-        freshMarks.forEach((mk: any) => {
-          const scored = mk.tests?.reduce((s: number, t: any) => s + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0;
-          const maxTotal = mk.tests?.reduce((s: number, t: any) => { const [, mx] = t.test.split("/"); return s + (parseFloat(mx) || 0); }, 0) || 0;
+        freshMarks.forEach((mk: AnyValue) => {
+          const scored = mk.tests?.reduce((s: number, t: AnyValue) => s + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0;
+          const maxTotal = mk.tests?.reduce((s: number, t: AnyValue) => { const [, mx] = t.test.split("/"); return s + (parseFloat(mx) || 0); }, 0) || 0;
           if (maxTotal > 0) {
             initInt[mk.courseCode] = Math.min(60, Math.round((scored / maxTotal) * 60));
           } else {
@@ -154,7 +155,7 @@ export default function GPAPage() {
         });
 
         // Set fallbacks for courses not in marks list
-        freshAttendance.forEach((c: any) => {
+        freshAttendance.forEach((c: AnyValue) => {
           const code = c["Course Code"];
           if (c["Category"] === "Theory") {
             if (initInt[code] === undefined) initInt[code] = internals[code] ?? 45;
@@ -253,7 +254,7 @@ export default function GPAPage() {
 
     const maxPoints = n * 10;
     const dp: number[][] = Array(n + 1).fill(0).map(() => Array(maxPoints + 1).fill(Infinity));
-    const parent: any[][] = Array(n + 1).fill(0).map(() => Array(maxPoints + 1).fill(null));
+    const parent: AnyValue[][] = Array(n + 1).fill(0).map(() => Array(maxPoints + 1).fill(null));
     
     dp[0][0] = 0;
     
@@ -318,7 +319,7 @@ export default function GPAPage() {
   const applyOptimalSimulation = () => {
     if (!solvedResult || !solvedResult.feasible) return;
     const nextExt: Record<string, number> = {};
-    const recommendations = (solvedResult.recommendations || {}) as Record<string, any>;
+    const recommendations = (solvedResult.recommendations || {}) as Record<string, AnyValue>;
     Object.keys(recommendations).forEach(code => {
       nextExt[code] = recommendations[code].extNeeded;
     });
@@ -753,7 +754,7 @@ export default function GPAPage() {
               </div>
 
               {rows.map((r) => {
-                const reco = (solvedResult?.recommendations as Record<string, any>)?.[r.code];
+                const reco = (solvedResult?.recommendations as Record<string, AnyValue>)?.[r.code];
                 
                 return (
                   <div 

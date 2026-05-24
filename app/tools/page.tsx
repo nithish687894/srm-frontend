@@ -28,7 +28,7 @@ export default function ToolsHubPage() {
   const { theme } = useThemeStore();
   const isAura = theme === "aura";
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
   if (!mounted) return <div style={{ background: '#050505', height: '100vh' }} />;
 

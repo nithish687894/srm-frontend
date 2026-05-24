@@ -69,23 +69,23 @@ interface ScheduleItem {
   facultyName: string; roomNo: string;
 }
 
-function buildSlotToCourseMap(myTT: any[]) {
-  const map: Record<string, any> = {};
+function buildSlotToCourseMap(myTT: AnyValue[]) {
+  const map: Record<string, AnyValue> = {};
   myTT.forEach(c => { (c.slots || []).forEach((s: string) => { if (s) map[s.toUpperCase()] = c; }); });
   return map;
 }
 
-function buildSchedule(gridRows: any[], slotMap: Record<string, any>): { day: string; classes: ScheduleItem[] }[] {
-  const timeRow = gridRows.find((r: any) => r[0] === "FROM");
+function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>): { day: string; classes: ScheduleItem[] }[] {
+  const timeRow = gridRows.find((r: AnyValue) => r[0] === "FROM");
   const timeStrings: string[] = timeRow ? timeRow.slice(1).map((t: string) => t.replace(/\t/g, "").trim().replace(/\n+/g, " ")) : [];
-  const dayRows = gridRows.filter((r: any) => typeof r[0] === "string" && r[0].startsWith("Day"));
+  const dayRows = gridRows.filter((r: AnyValue) => typeof r[0] === "string" && r[0].startsWith("Day"));
 
-  return dayRows.map((row: any) => {
+  return dayRows.map((row: AnyValue) => {
     const cells: string[] = row.slice(1);
     const classes: ScheduleItem[] = [];
     const seenCourses = new Set<string>();
 
-    const labCells: { idx: number; slot: string; course: any }[] = [];
+    const labCells: { idx: number; slot: string; course: AnyValue }[] = [];
     cells.forEach((cell, ci) => {
       const s = cell?.trim();
       const up = s?.toUpperCase() || "";
@@ -96,7 +96,7 @@ function buildSchedule(gridRows: any[], slotMap: Record<string, any>): { day: st
       if (course) labCells.push({ idx: ci, slot: slotCode, course });
     });
 
-    const labGroups: { cells: { idx: number; slot: string; course: any }[] }[] = [];
+    const labGroups: { cells: { idx: number; slot: string; course: AnyValue }[] }[] = [];
     for (let i = 0; i < labCells.length; i++) {
       const cell = labCells[i];
       const prev = i > 0 ? labCells[i - 1] : null;
@@ -109,7 +109,7 @@ function buildSchedule(gridRows: any[], slotMap: Record<string, any>): { day: st
       const course = group.cells[0].course;
       const startRange = parseTimeRange(timeStrings[group.cells[0].idx] || "");
       const endRange = parseTimeRange(timeStrings[group.cells[group.cells.length - 1].idx] || "");
-      classes.push({ slot: group.cells.map((c: any) => c.slot).join("-"), startTime: startRange.start, endTime: endRange.end, courseTitle: course.courseTitle, courseCode: course.courseCode, courseType: course.courseType, facultyName: course.facultyName, roomNo: course.roomNo });
+      classes.push({ slot: group.cells.map((c: AnyValue) => c.slot).join("-"), startTime: startRange.start, endTime: endRange.end, courseTitle: course.courseTitle, courseCode: course.courseCode, courseType: course.courseType, facultyName: course.facultyName, roomNo: course.roomNo });
     });
 
     cells.forEach((cell, ci) => {
@@ -146,7 +146,7 @@ function buildSchedule(gridRows: any[], slotMap: Record<string, any>): { day: st
 
 function insertBreaks(classes: ScheduleItem[]) {
   if (!classes.length) return [];
-  const res: any[] = [];
+  const res: AnyValue[] = [];
   for (let i = 0; i < classes.length; i++) {
     res.push({ ...classes[i], isBreak: false });
     if (i < classes.length - 1) {
@@ -291,7 +291,7 @@ export default function TimetablePage() {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       
-      const occurrences: any[] = [];
+      const occurrences: AnyValue[] = [];
       calendarIndex.byDate.forEach((info) => {
         if (info.dayOrder === dayOrderNum) {
           const parts = info.isoDate.split("-");
@@ -402,7 +402,7 @@ export default function TimetablePage() {
             <div>
               <div style={{ fontSize: "12px", fontWeight: 800, color: "var(--accent)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>Advisors</div>
               <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                {Object.entries(studentInfo.advisors).map(([key, lines]: any) => {
+                {Object.entries(studentInfo.advisors).map(([key, lines]: AnyValue) => {
                   if (!lines || lines.length === 0) return null;
                   return (
                     <div key={key} style={{ background: "rgba(255,255,255,0.03)", padding: "16px", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.05)" }}>
@@ -605,7 +605,7 @@ export default function TimetablePage() {
 
 }
 
-function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, classesWithBreaks, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule, studentInitials, onShowStudentInfo, setShowShareModal, todayInfo, getNextOccurrence }: any) {
+function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, classesWithBreaks, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule, studentInitials, onShowStudentInfo, setShowShareModal, todayInfo, getNextOccurrence }: AnyValue) {
   const currentMin = new Date().getHours() * 60 + new Date().getMinutes();
   const firstStart = classes[0] ? fmt12(classes[0].startTime) : "";
   const lastEnd = classes[classes.length - 1] ? fmt12(classes[classes.length - 1].endTime) : "";
@@ -719,7 +719,7 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
                   boxShadow: `0 0 10px ${todayInfo.isHoliday ? "#FF7597" : AURA.accent}` 
                 }} />
                 <div>
-                  <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.4)", fontWeight: 800, letterSpacing: "0.05em" }}>TODAY'S CALENDAR</span>
+                  <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.4)", fontWeight: 800, letterSpacing: "0.05em" }}>TODAY&apos;S CALENDAR</span>
                   <div style={{ fontSize: "13px", fontWeight: 800, color: "#fff", marginTop: "2px" }}>
                     {formatDateNicely(todayInfo.isoDate)} — {todayInfo.isHoliday ? `Holiday (${todayInfo.event || "No classes"})` : `Day Order ${todayInfo.dayOrder}`}
                   </div>
@@ -744,7 +744,7 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#FF7597", boxShadow: "0 0 10px #FF7597" }} />
               <div>
-                <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.4)", fontWeight: 800, letterSpacing: "0.05em" }}>TODAY'S CALENDAR</span>
+                <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.4)", fontWeight: 800, letterSpacing: "0.05em" }}>TODAY&apos;S CALENDAR</span>
                 <div style={{ fontSize: "13px", fontWeight: 800, color: "#fff", marginTop: "2px" }}>
                   {new Date().toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" })} — Weekend / Holiday (No classes)
                 </div>
@@ -779,7 +779,7 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
           <div style={{ position: "relative", paddingLeft: "16px", display: "flex", flexDirection: "column", gap: "20px" }}>
             <div style={{ position: "absolute", left: "0", top: "20px", bottom: "20px", width: "2px", background: "linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,255,255,0.02))" }} />
             
-            {classesWithBreaks.map((item: any, i: number) => {
+            {classesWithBreaks.map((item: AnyValue, i: number) => {
               if (item.isBreak) {
                 return (
                   <div key={`break-${i}`} style={{ display: "flex", alignItems: "center", gap: "16px", position: "relative", opacity: 0.7 }}>
@@ -853,7 +853,7 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                 {classesWithBreaks.map((item: any, i: number) => {
+                 {classesWithBreaks.map((item: AnyValue, i: number) => {
                     if (item.isBreak) return null;
                     return (
                        <div key={i} style={{ display: "flex", gap: "16px", alignItems: "center" }}>
@@ -891,7 +891,7 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
                     <div key={d} style={{ background: "rgba(255,255,255,0.02)", borderRadius: "24px", padding: "20px", border: "1px solid rgba(255,255,255,0.05)" }}>
                        <div style={{ fontSize: "14px", color: AURA.primary, fontWeight: 900, marginBottom: "20px", textTransform: "uppercase", letterSpacing: "0.1em", textAlign: "center" }}>Day Order {d}</div>
                        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                          {(schedule[d - 1]?.classes || []).map((cls: any, i: number) => (
+                          {(schedule[d - 1]?.classes || []).map((cls: AnyValue, i: number) => (
                              <div key={i} style={{ background: "rgba(255,255,255,0.03)", padding: "10px 12px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.05)" }}>
                                 <div style={{ fontSize: "11px", fontWeight: 900, color: "#fff", marginBottom: "4px", textTransform: "capitalize" }}>{cls.courseTitle.toLowerCase()}</div>
                                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: "9px", color: "rgba(255,255,255,0.5)", fontWeight: 700 }}>
@@ -943,7 +943,7 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
   );
 }
 
-function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule, studentInitials, onShowStudentInfo, setShowShareModal, todayInfo, getNextOccurrence }: any) {
+function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule, studentInitials, onShowStudentInfo, setShowShareModal, todayInfo, getNextOccurrence }: AnyValue) {
   const currentMin = new Date().getHours() * 60 + new Date().getMinutes();
   const firstStart = classes[0] ? fmtTimeOnly(classes[0].startTime) : "";
   const lastEnd = classes[classes.length - 1] ? fmtTimeOnly(classes[classes.length - 1].endTime) : "";
@@ -1141,7 +1141,7 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
                {PERIODS.map((p, pi) => {
                  const pStart = parseStart(p.start);
                  const pEnd = parseEnd(p.end);
-                 const cls = classes.find((c: any) => {
+                 const cls = classes.find((c: AnyValue) => {
                    const cs = parseStart(c.startTime);
                    const ce = parseEnd(c.endTime);
                    return cs < pEnd && ce > pStart;
@@ -1237,7 +1237,7 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
                  {PERIODS.map((p, pi) => {
                     const pStart = parseStart(p.start);
                     const pEnd = parseEnd(p.end);
-                    const cls = classes.find((c: any) => {
+                    const cls = classes.find((c: AnyValue) => {
                       const cs = parseStart(c.startTime);
                       const ce = parseEnd(c.endTime);
                       return cs < pEnd && ce > pStart;
@@ -1292,7 +1292,7 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
                              const pStart = parseStart(p.start);
                              const pEnd = parseEnd(p.end);
                              const dayClasses = schedule[d - 1]?.classes || [];
-                             const cls = dayClasses.find((c: any) => {
+                             const cls = dayClasses.find((c: AnyValue) => {
                                const cs = parseStart(c.startTime);
                                const ce = parseEnd(c.endTime);
                                return cs < pEnd && ce > pStart;
@@ -1363,7 +1363,7 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
   );
 }
 
-function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule, studentInitials, onShowStudentInfo, setShowShareModal, todayInfo, getNextOccurrence }: any) {
+function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule, studentInitials, onShowStudentInfo, setShowShareModal, todayInfo, getNextOccurrence }: AnyValue) {
   const currentMin = new Date().getHours() * 60 + new Date().getMinutes();
 
   return (
@@ -1521,7 +1521,7 @@ function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
             {PERIODS.map((p, pi) => {
               const pStart = parseStart(p.start);
               const pEnd = parseEnd(p.end);
-              const cls = classes.find((c: any) => {
+              const cls = classes.find((c: AnyValue) => {
                 const cs = parseStart(c.startTime);
                 const ce = parseEnd(c.endTime);
                 return cs < pEnd && ce > pStart;

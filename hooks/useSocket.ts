@@ -9,6 +9,7 @@ const SOCKET_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 export function useSocket() {
   const { authToken } = useAuthStore();
   const [connected, setConnected] = useState(false);
+  const [socket, setSocket] = useState<Socket | null>(null);
   const socketRef = useRef<Socket | null>(null);
 
   useEffect(() => {
@@ -16,7 +17,10 @@ export function useSocket() {
       if (socketRef.current) {
         socketRef.current.disconnect();
         socketRef.current = null;
-        setConnected(false);
+        setTimeout(() => {
+          setSocket(null);
+          setConnected(false);
+        }, 0);
       }
       return;
     }
@@ -32,6 +36,7 @@ export function useSocket() {
     });
 
     socketRef.current = socket;
+    setTimeout(() => setSocket(socket), 0);
 
     socket.on("connect", () => {
       setConnected(true);
@@ -49,12 +54,13 @@ export function useSocket() {
     return () => {
       socket.disconnect();
       socketRef.current = null;
+      setSocket(null);
       setConnected(false);
     };
   }, [authToken]);
 
   return {
-    socket: socketRef.current,
+    socket,
     connected,
   };
 }

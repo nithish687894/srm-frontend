@@ -172,7 +172,7 @@ export default function PortalSyncModal({
         onSuccess(); // This calls window.location.reload() in parent
         onClose();
       }, 2000);
-    } catch (e: any) {
+    } catch (e: AnyValue) {
       setError(e.response?.data?.error || "ACCESS DENIED");
       setCaptchaAnswer("");
       fetchCaptcha();

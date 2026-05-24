@@ -15,7 +15,7 @@ const getStatusDetails = (pct: number) => {
   return { color: AURA_COLORS.red, label: "CRITICAL" };
 };
 
-const DutyOrb = ({ label, value, subtext, color, bgTint }: any) => (
+const DutyOrb = ({ label, value, subtext, color, bgTint }: AnyValue) => (
   <div style={{ 
     background: "rgba(0, 0, 0, 0.25)", 
     backdropFilter: 'blur(20px)',
@@ -66,7 +66,7 @@ const DutyOrb = ({ label, value, subtext, color, bgTint }: any) => (
   </div>
 );
 
-const PulsingCore = ({ pct, attended, conducted, color }: any) => {
+const PulsingCore = ({ pct, attended, conducted, color }: AnyValue) => {
   const radius = 28;
   const circum = 2 * Math.PI * radius;
   const offset = circum - (pct / 100) * circum;
@@ -109,7 +109,7 @@ export default function AuraAttendance({
   attendance, handleSync, isSyncing,
   showPredictor, setShowPredictor, next30Days, selectedDates, toggleDate, 
   calculatePredictions, predictions, setSelectedDates, setPredictions
-}: any) {
+}: AnyValue) {
   const router = useRouter();
   const [filter, setFilter] = useState("All");
   const [isScrolled, setIsScrolled] = useState(false);
@@ -131,7 +131,7 @@ export default function AuraAttendance({
 
   const processedAttendance = useMemo(() => {
     if (!attendance || !attendance.length) return [];
-    return attendance.map((a: any) => {
+    return attendance.map((a: AnyValue) => {
       const conducted = parseInt(a["Hours Conducted"]) || 0;
       const absent = parseInt(a["Hours Absent"]) || 0;
       const attended = parseInt(a["Hours Attended"]) || Math.max(0, conducted - absent);
@@ -144,25 +144,25 @@ export default function AuraAttendance({
 
   const stats = useMemo(() => {
     const totalSubs = processedAttendance.length;
-    const totalAttended = processedAttendance.reduce((sum: number, a: any) => sum + a.attended, 0);
-    const totalConducted = processedAttendance.reduce((sum: number, a: any) => sum + a.conducted, 0);
+    const totalAttended = processedAttendance.reduce((sum: number, a: AnyValue) => sum + a.attended, 0);
+    const totalConducted = processedAttendance.reduce((sum: number, a: AnyValue) => sum + a.conducted, 0);
     const overallAvg = totalConducted > 0 ? (totalAttended / totalConducted) * 100 : 0;
-    const atRisk = processedAttendance.filter((a: any) => a.pct < 75).length;
+    const atRisk = processedAttendance.filter((a: AnyValue) => a.pct < 75).length;
     return { totalSubs, overallAvg, atRisk };
   }, [processedAttendance]);
 
   const filteredAttendance = useMemo(() => {
     let result = [...processedAttendance];
-    if (filter === "At Risk") result = result.filter((a: any) => a.pct < 75);
-    else if (filter === "Highest") result.sort((a: any, b: any) => b.pct - a.pct);
-    else if (filter === "Lowest") result.sort((a: any, b: any) => a.pct - b.pct);
+    if (filter === "At Risk") result = result.filter((a: AnyValue) => a.pct < 75);
+    else if (filter === "Highest") result.sort((a: AnyValue, b: AnyValue) => b.pct - a.pct);
+    else if (filter === "Lowest") result.sort((a: AnyValue, b: AnyValue) => a.pct - b.pct);
     return result;
   }, [processedAttendance, filter]);
 
   // Celebrate perfect 100% attendance subjects with a premium double-cannon confetti blast!
   useEffect(() => {
     if (processedAttendance && processedAttendance.length > 0) {
-      const hasPerfectAttendance = processedAttendance.some((a: any) => a.pct >= 100);
+      const hasPerfectAttendance = processedAttendance.some((a: AnyValue) => a.pct >= 100);
       if (hasPerfectAttendance) {
         const duration = 2.5 * 1000;
         const animationEnd = Date.now() + duration;
@@ -170,7 +170,7 @@ export default function AuraAttendance({
 
         const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
 
-        const interval: any = setInterval(function() {
+        const interval: AnyValue = setInterval(function() {
           const timeLeft = animationEnd - Date.now();
 
           if (timeLeft <= 0) {
@@ -455,7 +455,7 @@ export default function AuraAttendance({
                 WebkitOverflowScrolling: "touch",
               }}
             >
-              {next30Days?.map((d: any) => {
+              {next30Days?.map((d: AnyValue) => {
                 const sel = selectedDates.has(d.iso);
                 const isWknd = [0, 6].includes(d.date.getDay());
                 return (
@@ -568,7 +568,7 @@ export default function AuraAttendance({
                     No skipped sessions on selected days.
                   </div>
                 ) : (
-                  predictions.map((p: any, idx: number) => {
+                  predictions.map((p: AnyValue, idx: number) => {
                     const details = getStatusDetails(p.projPct);
                     return (
                       <div
@@ -629,7 +629,7 @@ export default function AuraAttendance({
 
         {/* Cards Grid */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '0 24px' }}>
-           {filteredAttendance.map((a: any, i: number) => {
+           {filteredAttendance.map((a: AnyValue, i: number) => {
               const { color: statusColor, label: statusLabel } = getStatusDetails(a.pct);
 
             return (

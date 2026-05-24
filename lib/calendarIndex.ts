@@ -82,7 +82,7 @@ function isHolidayLike(dayOrder: string, day: string): boolean {
  * Each entry: { date, day, dayOrder, event, month, isHoliday, isWorkingDay }
  * The `month` field is the parsed month label, e.g. "January '26".
  */
-export function buildCalendarIndex(raw: any): {
+export function buildCalendarIndex(raw: AnyValue): {
   byDate: Map<string, CalendarDayInfo>;
   months: Record<Semester, { name: string; days: CalendarDayInfo[] }[]>;
 } {
@@ -98,7 +98,7 @@ export function buildCalendarIndex(raw: any): {
   const maybeData = raw?.data ?? raw;
   if (!maybeData || typeof maybeData !== "object") return { byDate, months: monthsOut };
 
-  const semData: Record<Semester, any[]> = {
+  const semData: Record<Semester, AnyValue[]> = {
     EVEN: Array.isArray(maybeData.EVEN) ? maybeData.EVEN : [],
     ODD: Array.isArray(maybeData.ODD) ? maybeData.ODD : [],
   };
@@ -107,7 +107,7 @@ export function buildCalendarIndex(raw: any): {
     const entries = semData[sem];
     const monthGroups = new Map<string, { name: string; days: CalendarDayInfo[] }>();
 
-    entries.forEach((entry: any) => {
+    entries.forEach((entry: AnyValue) => {
       if (!entry || typeof entry !== "object") return;
 
       const dateNum = parseInt(String(entry.date ?? ""), 10);

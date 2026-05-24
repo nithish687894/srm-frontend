@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Share, PlusSquare, X } from "lucide-react";
 
 export default function InstallPWA() {
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState<AnyValue>(null);
   const [showPopup, setShowPopup] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
 
@@ -22,8 +22,8 @@ export default function InstallPWA() {
 
   useEffect(() => {
     // Check if already installed
-    if (window.matchMedia("(display-mode: standalone)").matches || (window.navigator as any).standalone === true) {
-      setIsStandalone(true);
+    if (window.matchMedia("(display-mode: standalone)").matches || (window.navigator as AnyValue).standalone === true) {
+      setTimeout(() => setIsStandalone(true), 0);
       return;
     }
 
@@ -32,7 +32,7 @@ export default function InstallPWA() {
     }
 
     // For Android/Chrome
-    const handler = (e: any) => {
+    const handler = (e: AnyValue) => {
       e.preventDefault();
       setDeferredPrompt(e);
       setTimeout(() => setShowPopup(true), 3000);

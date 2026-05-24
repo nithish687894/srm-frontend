@@ -28,7 +28,7 @@ export default function AuraBackground({ theme, stars, children, style = {} }: A
         overflow: 'hidden',
         width: '100%',
         // Pass card border dynamically as a CSS variable for unified theme-to-card bounds
-        ["--card-border" as any]: theme.cardBorder,
+        ["--card-border" as AnyValue]: theme.cardBorder,
         ...style
       }}
     >

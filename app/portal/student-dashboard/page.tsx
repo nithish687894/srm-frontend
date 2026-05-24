@@ -19,7 +19,7 @@ const THEME = {
 
 /* ── Smart Data Extractor ────────────────────────────────────────────────── */
 
-const extract = (val: any) => {
+const extract = (val: AnyValue) => {
   if (!val) return null;
   if (typeof val === 'string') return val;
   if (typeof val === 'object') {
@@ -28,14 +28,14 @@ const extract = (val: any) => {
   return String(val);
 };
 
-const Parameter = ({ label, value, width = "50%" }: any) => (
+const Parameter = ({ label, value, width = "50%" }: AnyValue) => (
   <div style={{ width, marginBottom: "20px" }}>
     <p style={{ fontSize: '9px', fontWeight: 800, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '6px' }}>{label}</p>
     <p style={{ fontSize: '16px', fontWeight: 800, color: '#fff', margin: 0 }}>{extract(value) || "—"}</p>
   </div>
 );
 
-const SectionHeader = ({ icon: Icon, title, color = THEME.accentPurple }: any) => (
+const SectionHeader = ({ icon: Icon, title, color = THEME.accentPurple }: AnyValue) => (
   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '32px 0 16px', paddingLeft: '4px' }}>
     <div style={{ width: '32px', height: '32px', borderRadius: '10px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', color }}>
       <Icon size={16} />
@@ -77,7 +77,7 @@ export default function StudentDashboardPage() {
   const parent = profile.parentDetails || {};
   const contact = profile.contact || {};
 
-  const getV = (key: string, subObj?: any) => {
+  const getV = (key: string, subObj?: AnyValue) => {
     return extract(subObj?.[key]) || extract(profile[key]);
   };
 

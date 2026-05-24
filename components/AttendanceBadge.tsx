@@ -9,12 +9,12 @@ export default function AttendanceBadge() {
     if (!academicData || !("setAppBadge" in navigator)) return;
 
     const att = academicData.attendance || [];
-    const riskCount = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
+    const riskCount = att.filter((c: AnyValue) => parseFloat(c["Attn %"]) < 75).length;
 
     if (riskCount > 0) {
-      (navigator as any).setAppBadge(riskCount).catch((e: any) => console.error("Badge error", e));
+      (navigator as AnyValue).setAppBadge(riskCount).catch((e: AnyValue) => console.error("Badge error", e));
     } else {
-      (navigator as any).clearAppBadge().catch((e: any) => console.error("Badge clear error", e));
+      (navigator as AnyValue).clearAppBadge().catch((e: AnyValue) => console.error("Badge clear error", e));
     }
   }, [academicData]);
 

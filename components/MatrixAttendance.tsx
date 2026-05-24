@@ -2,7 +2,7 @@
 import { ArrowLeft, RefreshCcw } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export default function MatrixAttendance({ attendance, handleSync, isSyncing }: any) {
+export default function MatrixAttendance({ attendance, handleSync, isSyncing }: AnyValue) {
   const router = useRouter();
 
   return (
@@ -76,7 +76,7 @@ export default function MatrixAttendance({ attendance, handleSync, isSyncing }: 
 
       <main style={{ padding: "24px 20px" }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-           {attendance?.map((course: any, i: number) => {
+           {attendance?.map((course: AnyValue, i: number) => {
               const pct = parseFloat(course["Attn %"]) || 0;
               const isCritical = pct < 75;
               

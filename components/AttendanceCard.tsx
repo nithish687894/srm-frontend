@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-export default function AttendanceCard({ course }: { course: any }) {
+export default function AttendanceCard({ course }: { course: AnyValue }) {
   const pct = parseFloat(course["Attn %"]) || 0;
   const conducted = parseInt(course["Hours Conducted"]) || 0;
   const absent = parseInt(course["Hours Absent"]) || 0;

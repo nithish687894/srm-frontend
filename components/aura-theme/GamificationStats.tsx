@@ -12,7 +12,7 @@ const AURA = {
   subBright: "rgba(255, 255, 255, 0.6)",
 };
 
-export function GamificationStats({ attendance, marks }: any) {
+export function GamificationStats({ attendance, marks }: AnyValue) {
   // Calculate attendance streak (consecutive days with attendance)
   const attendanceStreak = 7; // Mock: would be calculated from actual data
   

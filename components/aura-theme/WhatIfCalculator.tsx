@@ -36,8 +36,8 @@ const getGradeLetter = (pct: number) => {
   return { letter: "F", label: "Fail / Arrear", color: AURA.red };
 };
 
-function buildSlotToCourseMap(myTT: any[]) {
-  const map: Record<string, any> = {};
+function buildSlotToCourseMap(myTT: AnyValue[]) {
+  const map: Record<string, AnyValue> = {};
   myTT.forEach(c => { 
     (c.slots || []).forEach((s: string) => { 
       if (s) map[s.toUpperCase()] = c; 
@@ -46,7 +46,7 @@ function buildSlotToCourseMap(myTT: any[]) {
   return map;
 }
 
-export function WhatIfCalculator({ marks: initialMarks }: any) {
+export function WhatIfCalculator({ marks: initialMarks }: AnyValue) {
   // 1. Core Zustand Integrations for zero-lag hydration
   const academicData = useAuthStore((state) => state.academicData);
   const studentPortalData = useAuthStore((state) => state.studentPortalData);
@@ -64,7 +64,7 @@ export function WhatIfCalculator({ marks: initialMarks }: any) {
   const [activeTab, setActiveTab] = useState<"marks" | "attendance">("marks");
   
   // Marks forecasting state
-  const [selectedSubject, setSelectedSubject] = useState<any>(null);
+  const [selectedSubject, setSelectedSubject] = useState<AnyValue>(null);
   const [hypotheticalScores, setHypotheticalScores] = useState<Record<string, number>>({});
   const [targetSubjectAverage, setTargetSubjectAverage] = useState<number>(80);
   const [endSemEstimate, setEndSemEstimate] = useState<number | "">("");
@@ -73,17 +73,17 @@ export function WhatIfCalculator({ marks: initialMarks }: any) {
   const [targetAttendancePercent, setTargetAttendancePercent] = useState<number>(75);
   
   // Calendar data states for autonomous skip computations
-  const [calData, setCalData] = useState<any>(null);
-  const [ttData, setTTData] = useState<any>(null);
+  const [calData, setCalData] = useState<AnyValue>(null);
+  const [ttData, setTTData] = useState<AnyValue>(null);
   const [selectedDates, setSelectedDates] = useState<Set<string>>(new Set());
-  const [calendarPredictions, setCalendarPredictions] = useState<any[] | null>(null);
+  const [calendarPredictions, setCalendarPredictions] = useState<AnyValue[] | null>(null);
   const [isCalSyncing, setIsCalSyncing] = useState(false);
 
-  // Load calendar index & timetables asynchronously if not provided (allows tool to work on any page)
+  // Load calendar index & timetables asynchronously if not provided (allows tool to work on AnyValue page)
   useEffect(() => {
     if (!isOpen) return;
     
-    setIsCalSyncing(true);
+    const syncId = setTimeout(() => setIsCalSyncing(true), 0);
     const rawBatch = academicData?.profile?.["Combo / Batch"] || "";
     const batchNum = parseInt(rawBatch.match(/\d+/)?.[0] || "1");
 
@@ -99,6 +99,8 @@ export function WhatIfCalculator({ marks: initialMarks }: any) {
       })
       .catch(err => console.warn("Academic timeline indexing skipped or offline:", err))
       .finally(() => setIsCalSyncing(false));
+
+    return () => clearTimeout(syncId);
   }, [isOpen, academicData?.profile]);
 
   const calIndex = useMemo(() => {
@@ -134,12 +136,12 @@ export function WhatIfCalculator({ marks: initialMarks }: any) {
   // 3. Subject memo parsers
   const marksSubjects = useMemo(() => {
     if (!marks || !Array.isArray(marks)) return [];
-    return marks.filter((m: any) => m.tests && m.tests.length > 0);
+    return marks.filter((m: AnyValue) => m.tests && m.tests.length > 0);
   }, [marks]);
 
   const attendanceSubjects = useMemo(() => {
     if (!attendance || !Array.isArray(attendance)) return [];
-    return attendance.map((a: any) => {
+    return attendance.map((a: AnyValue) => {
       const conducted = parseInt(a["Hours Conducted"]) || 0;
       const absent = parseInt(a["Hours Absent"]) || 0;
       const attended = parseInt(a["Hours Attended"]) || Math.max(0, conducted - absent);
@@ -156,7 +158,7 @@ export function WhatIfCalculator({ marks: initialMarks }: any) {
     let totalCompMax = 0;
     let totalPendMax = 0;
 
-    const testCategories = selectedSubject.tests?.map((test: any, idx: number) => {
+    const testCategories = selectedSubject.tests?.map((test: AnyValue, idx: number) => {
       const max = parseFloat((test.test || "T/100").split("/")[1]) || 100;
       // Define a test as completed if it has an actual numerical value or "Abs"
       const isCompleted = test.score !== undefined && test.score !== null && test.score !== "" && test.score !== "—" && test.score !== "— ";
@@ -186,9 +188,9 @@ export function WhatIfCalculator({ marks: initialMarks }: any) {
     const totalMax = totalCompMax + totalPendMax; // e.g. 60
     const endSemWeight = Math.max(0, 100 - totalMax); // e.g. 40
 
-    // Sum of hypothetical scores for pending internals (if any)
+    // Sum of hypothetical scores for pending internals (if AnyValue)
     let totalPendHypothetical = 0;
-    testCategories.forEach((test: any) => {
+    testCategories.forEach((test: AnyValue) => {
       if (!test.isCompleted) {
         totalPendHypothetical += hypotheticalScores[`test_${test.index}`] ?? 0;
       }
@@ -208,7 +210,7 @@ export function WhatIfCalculator({ marks: initialMarks }: any) {
     }
 
     // Projected subject average based on sliders
-    let projectedTotal = totalCompScored + totalPendHypothetical;
+    const projectedTotal = totalCompScored + totalPendHypothetical;
 
     if (isEndSemEntered) {
       if (endSemWeight > 0) {
@@ -275,7 +277,7 @@ export function WhatIfCalculator({ marks: initialMarks }: any) {
 
   // 5. Attendance skip buffers & recovery targets memo
   const attendanceForecasts = useMemo(() => {
-    return attendanceSubjects.map((sub: any) => {
+    return attendanceSubjects.map((sub: AnyValue) => {
       const { conducted, attended, absent, pct } = sub;
       const targetDec = targetAttendancePercent / 100;
 
@@ -306,9 +308,9 @@ export function WhatIfCalculator({ marks: initialMarks }: any) {
     
     const doToCourses: Record<number, string[]> = {};
     const slotMap = buildSlotToCourseMap(ttData.myTT);
-    const dayRows = ttData.rows.filter((r: any) => typeof r[0] === "string" && r[0].startsWith("Day"));
+    const dayRows = ttData.rows.filter((r: AnyValue) => typeof r[0] === "string" && r[0].startsWith("Day"));
     
-    dayRows.forEach((row: any) => {
+    dayRows.forEach((row: AnyValue) => {
       const header = String(row[0] || "");
       const dOrder = parseInt(header.match(/\d+/)?.[0] || "0");
       if (dOrder === 0) return;
@@ -347,7 +349,7 @@ export function WhatIfCalculator({ marks: initialMarks }: any) {
       }
     });
 
-    const results = attendanceSubjects.map((c: any) => {
+    const results = attendanceSubjects.map((c: AnyValue) => {
       const code = c["Course Code"];
       const cond = c.conducted;
       const abs = c.absent;
@@ -588,12 +590,12 @@ export function WhatIfCalculator({ marks: initialMarks }: any) {
                 </div>
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '250px', overflowY: 'auto', paddingRight: '4px' }} className="hide-scrollbar">
-                  {marksSubjects.map((sub: any, idx: number) => {
+                  {marksSubjects.map((sub: AnyValue, idx: number) => {
                     // Quick calculate score metrics
-                    const completedTests = sub.tests?.filter((t: any) => t.score !== undefined && t.score !== null && t.score !== "" && t.score !== "—" && t.score !== "— ") || [];
+                    const completedTests = sub.tests?.filter((t: AnyValue) => t.score !== undefined && t.score !== null && t.score !== "" && t.score !== "—" && t.score !== "— ") || [];
                     const hasPending = (sub.tests?.length || 0) > completedTests.length;
-                    const totalScored = completedTests.reduce((acc: number, t: any) => acc + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0);
-                    const totalMax = completedTests.reduce((acc: number, t: any) => acc + (parseFloat((t.test || "T/100").split("/")[1]) || 100), 0);
+                    const totalScored = completedTests.reduce((acc: number, t: AnyValue) => acc + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0);
+                    const totalMax = completedTests.reduce((acc: number, t: AnyValue) => acc + (parseFloat((t.test || "T/100").split("/")[1]) || 100), 0);
                     const avg = totalMax > 0 ? (totalScored / totalMax) * 100 : 0;
 
                     return (
@@ -682,7 +684,7 @@ export function WhatIfCalculator({ marks: initialMarks }: any) {
 
               {/* Grid: Live Simulation Slider controls */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '24px' }}>
-                {marksForecaster?.testCategories.map((test: any) => {
+                {marksForecaster?.testCategories.map((test: AnyValue) => {
                   if (test.isCompleted) {
                     return (
                       <div 
@@ -996,7 +998,7 @@ export function WhatIfCalculator({ marks: initialMarks }: any) {
 
               {/* List of subjects and safe buffers */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '250px', overflowY: 'auto', paddingRight: '4px' }} className="hide-scrollbar">
-                {attendanceForecasts.map((sub: any, idx: number) => {
+                {attendanceForecasts.map((sub: AnyValue, idx: number) => {
                   const isSafe = sub.pct >= targetAttendancePercent;
                   const indicatorColor = isSafe ? AURA.emerald : AURA.red;
 
@@ -1098,7 +1100,7 @@ export function WhatIfCalculator({ marks: initialMarks }: any) {
                       WebkitOverflowScrolling: "touch",
                     }}
                   >
-                    {next30Days.map((d: any) => {
+                    {next30Days.map((d: AnyValue) => {
                       const sel = selectedDates.has(d.iso);
                       const isWknd = [0, 6].includes(d.date.getDay());
                       if (isWknd) return null; // Filter out weekends visually to save space
@@ -1188,7 +1190,7 @@ export function WhatIfCalculator({ marks: initialMarks }: any) {
                           No skipped sessions on selected days.
                         </div>
                       ) : (
-                        calendarPredictions.map((p: any, idx: number) => {
+                        calendarPredictions.map((p: AnyValue, idx: number) => {
                           const isProjectedSafe = p.projPct >= 75;
                           const indicatorColor = isProjectedSafe ? AURA.cyan : AURA.red;
 

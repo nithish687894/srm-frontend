@@ -11,9 +11,7 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
   // Initialize device-specific performance parameters on application load
   usePerfGuard();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
   const currentTheme = mounted ? theme : "aura";
 

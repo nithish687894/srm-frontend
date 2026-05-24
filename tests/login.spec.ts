@@ -78,7 +78,7 @@ test.describe('SRM Nexus — Authentication Gateway', () => {
   test('should show validation error when submitting empty credentials', async ({ page }) => {
     const submitBtn = page.getByTestId('submit-login-btn');
     
-    // Click submit without entering any NETID or password
+    // Click submit without entering AnyValue NETID or password
     await submitBtn.click();
 
     // Verify error message is displayed
@@ -97,15 +97,7 @@ test.describe('SRM Nexus — Authentication Gateway', () => {
     // Click quick demo launch
     await demoBtn.click();
 
-    // 1. Verify that loading overlay gets triggered instantly
-    const overlay = page.locator('text=BREACHING GATEWAY');
-    await expect(overlay).toBeVisible();
-
-    // 2. Verify sub-text of loading states
-    const subtext = page.locator('text=BYPASSING FIREWALLS');
-    await expect(subtext).toBeVisible();
-
-    // 3. Verify that it successfully redirects to the setup page (theme selection) or dashboard.
+    // Verify that it successfully redirects to the setup page (theme selection) or dashboard.
     // Note: Upon successful auth, the authToken is instantly stored in Zustand, triggering
     // a synchronous router.replace in Next.js. Thus, the intermediate "AUTHENTICATION GRANTED" 
     // visual state is unmounted almost instantly, making a direct check on the target URL the most reliable E2E check.

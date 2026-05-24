@@ -15,7 +15,7 @@ export default function AuraDashboard({
   data, avgAtt, avgMarks, firstName, nextClass, targetClasses,
   onShowStudentInfo, broadcast, renderAcademicIntegrityHub,
   upcomingEvents, marks
-}: any) {
+}: AnyValue) {
   const router = useRouter();
   const { activeTheme, stars } = useAuraTheme();
 
@@ -190,7 +190,7 @@ export default function AuraDashboard({
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                  {upcomingEvents?.length > 0 ? (
-                    upcomingEvents.map((event: any, idx: number) => (
+                    upcomingEvents.map((event: AnyValue, idx: number) => (
                        <div key={idx} className="premium-card" style={{ 
                           display: 'flex', alignItems: 'center', gap: '16px', 
                           padding: '16px', borderRadius: '24px', position: 'relative'

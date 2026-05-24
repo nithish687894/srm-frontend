@@ -10,7 +10,6 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
   const [needsUpdate, setNeedsUpdate] = useState(false);
   const [latestVersion, setLatestVersion] = useState("");
   const [minVersion, setMinVersion] = useState("");
-  const [particles, setParticles] = useState<{ id: number; x: number; y: number; size: number; delay: number; duration: number }[]>([]);
 
   const statusLogs = [
     "BOOTING_NEURAL_CORE",
@@ -25,20 +24,23 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
   const prefixes = ["[ BOOT ]", "[ SECURE ]", "[ AUTH ]", "[ SYNC ]", "[ DATA ]", "[ READY ]"];
   const latencies = ["12ms", "45ms", "22ms", "88ms", "5ms", "0ms"];
   const results = ["OK", "SECURED", "PARSED", "SYNCHRONIZED", "COMPLETED", "ACTIVE"];
+  const particles = useMemo(() => Array.from({ length: 15 }).map((_, i) => {
+    const value = (salt: number) => {
+      const x = Math.sin(i * 12.9898 + salt * 78.233) * 43758.5453;
+      return x - Math.floor(x);
+    };
+    return {
+      id: i,
+      x: value(1) * 100,
+      y: value(2) * 100,
+      size: value(3) * 3 + 1,
+      delay: value(4) * 5,
+      duration: value(5) * 8 + 6,
+    };
+  }), []);
 
   useEffect(() => {
-    setMounted(true);
-    
-    // Generate 15 premium background floating star elements
-    const generated = Array.from({ length: 15 }).map((_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 3 + 1, // 1px to 4px
-      delay: Math.random() * 5,
-      duration: Math.random() * 8 + 6,
-    }));
-    setParticles(generated);
+    const mountedTimer = setTimeout(() => setMounted(true), 0);
 
     // Safety recovery timer: ensures splash screen disappears after 6 seconds even if something fails
     const recoveryTimer = setTimeout(() => {
@@ -100,6 +102,7 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
     checkVersionAndRun();
 
     return () => {
+      clearTimeout(mountedTimer);
       clearTimeout(recoveryTimer);
     };
   }, []);

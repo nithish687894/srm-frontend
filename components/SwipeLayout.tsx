@@ -17,6 +17,7 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
   const [pullDist, setPullDist] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [offset, setOffset] = useState(0);
+  const [isGestureActive, setIsGestureActive] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   // Gesture tracking refs (non-reactive for perf)
@@ -25,10 +26,14 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
   const lastNavTime = useRef(0);
 
   useEffect(() => {
-    setOffset(0);
-    setPullDist(0);
+    const id = setTimeout(() => {
+      setOffset(0);
+      setPullDist(0);
+      setIsGestureActive(false);
+    }, 0);
     touchRef.current = null;
     gestureRef.current = "none";
+    return () => clearTimeout(id);
   }, [pathname]);
 
   // Thresholds — much higher to prevent accidental triggers
@@ -48,6 +53,7 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
       y: e.targetTouches[0].clientY
     };
     gestureRef.current = "none";
+    setIsGestureActive(true);
   };
 
   const onTouchMove = (e: TouchEvent) => {
@@ -113,6 +119,7 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
     if (!touchRef.current || !isTabPage) {
       setOffset(0);
       setPullDist(0);
+      setIsGestureActive(false);
       gestureRef.current = "none";
       return;
     }
@@ -153,16 +160,15 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
 
     touchRef.current = null;
     gestureRef.current = "none";
+    setIsGestureActive(false);
   };
-
-  const isActive = touchRef.current !== null && gestureRef.current !== "vertical";
 
   const style = {
     transform: `translate3d(${offset}px, ${pullDist}px, 0)`,
-    transition: isActive ? "none" : "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+    transition: isGestureActive ? "none" : "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
     opacity: 1 - Math.min(Math.abs(offset) / winWidth, 0.4),
     width: "100%",
-    willChange: isActive ? "transform, opacity" : "auto"
+    willChange: isGestureActive ? "transform, opacity" : "auto"
   };
 
   return (
@@ -181,7 +187,7 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
           left: '50%',
           transform: 'translateX(-50%)',
           opacity: Math.min(pullDist / PULL_REFRESH_THRESHOLD, 1),
-          transition: isActive ? 'none' : 'all 0.3s ease',
+          transition: isGestureActive ? 'none' : 'all 0.3s ease',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -200,7 +206,7 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
             alignItems: 'center',
             justifyContent: 'center',
             transform: `rotate(${pullDist * 3}deg)`,
-            transition: isActive ? 'none' : 'transform 0.3s ease'
+            transition: isGestureActive ? 'none' : 'transform 0.3s ease'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={pullDist > PULL_REFRESH_THRESHOLD ? "#4ade80" : "rgba(255,255,255,0.6)"} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M1 4v6h6" /><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />

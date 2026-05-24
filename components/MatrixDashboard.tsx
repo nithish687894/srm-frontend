@@ -10,7 +10,7 @@ export default function MatrixDashboard({
   setIsSyncModalOpen, renderAcademicIntegrityHub, 
   userBatch, totalHours, presentHours, absentHours,
   fmtTimeOnly, parseStart, parseEnd, isNowIn, BATCH_PERIODS, BroadcastBanner
-}: any) {
+}: AnyValue) {
   const PERIODS = BATCH_PERIODS[userBatch as keyof typeof BATCH_PERIODS] || BATCH_PERIODS[1];
   const router = useRouter();
   const profile = data?.profile || {};
@@ -18,7 +18,7 @@ export default function MatrixDashboard({
   const batchDisplay = profile["Combo / Batch"] || profile["Batch"] || (userBatch ? `Batch ${userBatch}` : "N/A");
 
   // Find best attendance
-  const bestAtt = data?.attendance?.length ? [...data.attendance].sort((a: any, b: any) => parseFloat(b["Attn %"]) - parseFloat(a["Attn %"]))[0] : null;
+  const bestAtt = data?.attendance?.length ? [...data.attendance].sort((a: AnyValue, b: AnyValue) => parseFloat(b["Attn %"]) - parseFloat(a["Attn %"]))[0] : null;
 
   return (
     <div style={{ background: "#000000", height: "100vh", display: "flex", flexDirection: "column", color: "#ffffff", fontFamily: "'Inter', sans-serif", overflow: "hidden" }}>
@@ -87,8 +87,8 @@ export default function MatrixDashboard({
         <BroadcastBanner broadcast={broadcast} />
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px" }}>
           <div style={{ display: "flex", gap: "16px" }}>
-            <button onClick={() => setDayOffset((o: any) => o - 1)} style={{ background: "#1c1c1c", border: "1px solid #333", color: "#fff", width: "44px", height: "44px", borderRadius: "14px", fontSize: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>‹</button>
-            <button onClick={() => setDayOffset((o: any) => o + 1)} style={{ background: "#1c1c1c", border: "1px solid #333", color: "#fff", width: "44px", height: "44px", borderRadius: "14px", fontSize: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>›</button>
+            <button onClick={() => setDayOffset((o: AnyValue) => o - 1)} style={{ background: "#1c1c1c", border: "1px solid #333", color: "#fff", width: "44px", height: "44px", borderRadius: "14px", fontSize: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>‹</button>
+            <button onClick={() => setDayOffset((o: AnyValue) => o + 1)} style={{ background: "#1c1c1c", border: "1px solid #333", color: "#fff", width: "44px", height: "44px", borderRadius: "14px", fontSize: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>›</button>
           </div>
           <div style={{ textAlign: "right" }}>
             <div style={{ fontSize: "10px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800 }}>{dayOffset === 0 ? "TODAY" : "SCHEDULE"}</div>
@@ -104,10 +104,10 @@ export default function MatrixDashboard({
             {(() => {
               if (isHoliday) return <div style={{ padding: "40px 0", color: "#444", fontWeight: 700, textAlign: "center" }}>No classes - Holiday</div>;
               
-              return PERIODS.map((p: any, pi: number) => {
+              return PERIODS.map((p: AnyValue, pi: number) => {
                 const pStart = parseStart(p.start);
                 const pEnd = parseEnd(p.end);
-                const cls = targetClasses.find((c: any) => {
+                const cls = targetClasses.find((c: AnyValue) => {
                   const cs = parseStart(c.startTime);
                   const ce = parseEnd(c.endTime);
                   return cs < pEnd && ce > pStart;

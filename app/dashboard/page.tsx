@@ -60,23 +60,23 @@ const BATCH_PERIODS = {
 
 interface ScheduleItem { slot: string; startTime: string; endTime: string; courseTitle: string; courseCode: string; roomNo: string; facultyName: string; courseType: string; }
 
-function buildSlotToCourseMap(myTT: any[]) {
-  const map: Record<string, any> = {};
+function buildSlotToCourseMap(myTT: AnyValue[]) {
+  const map: Record<string, AnyValue> = {};
   myTT.forEach(c => { (c.slots || []).forEach((s: string) => { if (s) map[s.toUpperCase()] = c; }); });
   return map;
 }
 
-function buildSchedule(gridRows: any[], slotMap: Record<string, any>, attendance: any[] = []): { day: string; classes: ScheduleItem[] }[] {
-  const timeRow = gridRows.find((r: any) => r[0] === "FROM");
+function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>, attendance: AnyValue[] = []): { day: string; classes: ScheduleItem[] }[] {
+  const timeRow = gridRows.find((r: AnyValue) => r[0] === "FROM");
   const times: string[] = timeRow ? timeRow.slice(1).map((t: string) => t.replace(/\t/g, "").trim().replace(/\n+/g, " ")) : [];
-  const dayRows = gridRows.filter((r: any) => typeof r[0] === "string" && r[0].startsWith("Day"));
+  const dayRows = gridRows.filter((r: AnyValue) => typeof r[0] === "string" && r[0].startsWith("Day"));
 
-  return dayRows.map((row: any) => {
+  return dayRows.map((row: AnyValue) => {
     const cells: string[] = row.slice(1);
     const classes: ScheduleItem[] = [];
     const seenCourses = new Set<string>();
 
-    const labCells: { idx: number; slot: string; course: any }[] = [];
+    const labCells: { idx: number; slot: string; course: AnyValue }[] = [];
     cells.forEach((cell, ci) => {
       const s = cell?.trim();
       const up = s?.toUpperCase() || "";
@@ -85,7 +85,7 @@ function buildSchedule(gridRows: any[], slotMap: Record<string, any>, attendance
       if (course) labCells.push({ idx: ci, slot: up, course });
     });
 
-    const labGroups: { cells: { idx: number; slot: string; course: any }[] }[] = [];
+    const labGroups: { cells: { idx: number; slot: string; course: AnyValue }[] }[] = [];
     for (let i = 0; i < labCells.length; i++) {
       const cell = labCells[i];
       const prev = i > 0 ? labCells[i - 1] : null;
@@ -127,7 +127,7 @@ function buildSchedule(gridRows: any[], slotMap: Record<string, any>, attendance
   });
 }
 
-function MiniGridTile({ slot }: { slot: any }) {
+function MiniGridTile({ slot }: { slot: AnyValue }) {
   if (!slot || slot.isEmpty) return <div style={{ background: "transparent", borderRadius: "16px", height: "88px", border: "1px dashed #333333" }} />;
   const isActive = isNowIn(slot.startTime, slot.endTime);
   const isNso = slot.courseCode.includes("NSO") || slot.courseType.toLowerCase().includes("practical");
@@ -163,15 +163,16 @@ export default function DashboardPage() {
   const setStudentPortalConnected = useAuthStore((state) => state.setStudentPortalConnected);
   const setStudentPortalData = useAuthStore((state) => state.setStudentPortalData);
   const studentPortalData = useAuthStore((state) => state.studentPortalData);
-  const [data, setData] = useState<any>(academicData || null);
+  const [data, setData] = useState<AnyValue>(academicData || null);
   const [loading, setLoading] = useState(!academicData);
-  const [ttData, setTTData] = useState<any>(null);
-  const [myTTData, setMyTTData] = useState<any>(null);
-  const [calData, setCalData] = useState<any>(null);
+  const [ttData, setTTData] = useState<AnyValue>(null);
+  const [myTTData, setMyTTData] = useState<AnyValue>(null);
+  const [calData, setCalData] = useState<AnyValue>(null);
   const [dayOffset, setDayOffset] = useState(0);
   const [syncError, setSyncError] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
+  const [currentTime] = useState(() => Date.now());
+  useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
   // Loading logs hydration
   const [loadingLogIndex, setLoadingLogIndex] = useState(0);
@@ -183,13 +184,13 @@ export default function DashboardPage() {
     return () => clearInterval(interval);
   }, [loading]);
 
-  const formatLastSynced = (dateInput: any) => {
+  const formatLastSynced = (dateInput: AnyValue) => {
     if (!dateInput) return "Never";
     try {
       const d = new Date(dateInput);
       if (isNaN(d.getTime())) return "Recently";
       
-      const seconds = Math.floor((Date.now() - d.getTime()) / 1000);
+      const seconds = Math.floor((currentTime - d.getTime()) / 1000);
       if (seconds < 60) return "Just now";
       
       const minutes = Math.floor(seconds / 60);
@@ -401,7 +402,7 @@ export default function DashboardPage() {
   };
   const [showStudentInfo, setShowStudentInfo] = useState(false);
   const [isSyncModalOpen, setIsSyncModalOpen] = useState(false);
-  const [broadcast, setBroadcast] = useState<any>(null);
+  const [broadcast, setBroadcast] = useState<AnyValue>(null);
   const [batch, setBatch] = useState<number>(() => {
     const raw = academicData?.profile?.["Combo / Batch"] || "";
     return extractBatch(raw);
@@ -471,26 +472,26 @@ export default function DashboardPage() {
   const totalCourses = att.length;
   const avgAtt = (() => {
     if (!att.length) return "—";
-    const totalH = att.reduce((s: number, c: any) => s + (parseInt(c["Hours Conducted"]) || 0), 0);
-    const presentH = att.reduce((s: number, c: any) => s + (parseInt(c["Hours Attended"]) || Math.max(0, (parseInt(c["Hours Conducted"]) || 0) - (parseInt(c["Hours Absent"]) || 0))), 0);
+    const totalH = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Conducted"]) || 0), 0);
+    const presentH = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Attended"]) || Math.max(0, (parseInt(c["Hours Conducted"]) || 0) - (parseInt(c["Hours Absent"]) || 0))), 0);
     return totalH > 0 ? ((presentH / totalH) * 100).toFixed(1) : "—";
   })();
-  const riskCount = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
+  const riskCount = att.filter((c: AnyValue) => parseFloat(c["Attn %"]) < 75).length;
 
   // Aggregate Hours
-  const totalHours = att.reduce((s: number, c: any) => s + (parseInt(c["Hours Conducted"]) || 0), 0);
-  const presentHours = att.reduce((s: number, c: any) => s + (parseInt(c["Hours Attended"]) || (parseInt(c["Hours Conducted"]) - parseInt(c["Hours Absent"])) || 0), 0);
-  const absentHours = att.reduce((s: number, c: any) => s + (parseInt(c["Hours Absent"]) || 0), 0);
+  const totalHours = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Conducted"]) || 0), 0);
+  const presentHours = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Attended"]) || (parseInt(c["Hours Conducted"]) - parseInt(c["Hours Absent"])) || 0), 0);
+  const absentHours = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Absent"]) || 0), 0);
 
   // Calculate average marks
-  const totalScored = marks.reduce((s: number, m: any) => s + (m.tests?.reduce((a: number, t: any) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
-  const totalMax = marks.reduce((s: number, m: any) => s + (m.tests?.reduce((a: number, t: any) => { const [, mx] = t.test.split("/"); return a + (parseFloat(mx) || 0); }, 0) || 0), 0);
+  const totalScored = marks.reduce((s: number, m: AnyValue) => s + (m.tests?.reduce((a: number, t: AnyValue) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
+  const totalMax = marks.reduce((s: number, m: AnyValue) => s + (m.tests?.reduce((a: number, t: AnyValue) => { const [, mx] = t.test.split("/"); return a + (parseFloat(mx) || 0); }, 0) || 0), 0);
   const avgMarks = totalMax > 0 ? ((totalScored / totalMax) * 100).toFixed(1) : "—";
 
   // Recent 5 marks without 0 place holders
-  const recentMarksList: any[] = [];
-  marks.forEach((m: any) => {
-    m.tests?.forEach((t: any) => {
+  const recentMarksList: AnyValue[] = [];
+  marks.forEach((m: AnyValue) => {
+    m.tests?.forEach((t: AnyValue) => {
       const sc = parseFloat(t.score);
       const mx = parseFloat(t.test.split("/")[1] || "100");
       if (!isNaN(sc) && sc > 0 && t.score !== "Abs") {
@@ -510,8 +511,8 @@ export default function DashboardPage() {
   }, [calData]);
 
   const upcomingEvents = useMemo(() => {
-    const events: any[] = [];
-    const sortedDays = Array.from(byDate.values()).sort((a: any, b: any) => a.isoDate.localeCompare(b.isoDate));
+    const events: AnyValue[] = [];
+    const sortedDays = Array.from(byDate.values()).sort((a: AnyValue, b: AnyValue) => a.isoDate.localeCompare(b.isoDate));
     const now = new Date();
     const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
     
@@ -526,7 +527,7 @@ export default function DashboardPage() {
         const isNextAcademicDay = d.dayOrder && events.length === 0 && d.semester === activeSem; 
         
         if (isSignificant || isNextAcademicDay) {
-          let eventTitle = d.event && d.event !== "-" ? d.event : d.isHoliday ? "University Holiday" : `Academic Cycle: Day Order ${d.dayOrder}`;
+          const eventTitle = d.event && d.event !== "-" ? d.event : d.isHoliday ? "University Holiday" : `Academic Cycle: Day Order ${d.dayOrder}`;
           
           events.push({
             ...d,
@@ -572,7 +573,7 @@ export default function DashboardPage() {
 
   const gridSlots = useMemo(() => {
     if (!ttData?.data?.rows || targetClasses.length === 0) return Array(10).fill(null);
-    const timeRow = ttData.data.rows.find((r: any) => r[0] === "FROM");
+    const timeRow = ttData.data.rows.find((r: AnyValue) => r[0] === "FROM");
     const timesList = timeRow ? timeRow.slice(1).map((t: string) => t.replace(/\t/g, "").trim().replace(/\n+/g, " ")) : [];
 
     // Create exactly 10 slots map
@@ -641,7 +642,7 @@ export default function DashboardPage() {
             <div>
               <div style={{ fontSize: "12px", fontWeight: 900, color: "#FF75C3", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>Advisors</div>
               <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                {Object.entries(studentInfo.advisors).map(([key, lines]: any) => {
+                {Object.entries(studentInfo.advisors).map(([key, lines]: AnyValue) => {
                   if (!lines || lines.length === 0) return null;
                   return (
                     <div key={key} style={{ background: "rgba(255,255,255,0.02)", padding: "16px", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.05)" }}>
@@ -664,7 +665,7 @@ export default function DashboardPage() {
     );
   };
 
-  const themeProps = useMemo(() => ({ 
+  const themeProps = { 
     data, riskCount, avgAtt, avgMarks, totalCourses, 
     targetClasses, nextClass, recentTop5, initials, 
     firstName, dayOrder, isHoliday, dayOffset, setDayOffset,
@@ -672,9 +673,9 @@ export default function DashboardPage() {
     broadcast, setIsSyncModalOpen, renderAcademicIntegrityHub,
     userBatch: batch, totalHours, presentHours, absentHours, nowMin,
     fmtTimeOnly, fmt12, parseStart, parseEnd, isNowIn, BATCH_PERIODS, BroadcastBanner
-  }), [data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, recentTop5, initials, firstName, dayOrder, isHoliday, dayOffset, broadcast, batch, totalHours, presentHours, absentHours, nowMin]);
+  };
 
-  const activeDashboard = useMemo(() => {
+  const activeDashboard = (() => {
     if (!mounted) return null;
     switch (theme) {
       case "matrix": return <MatrixDashboard {...themeProps} />;
@@ -688,7 +689,7 @@ export default function DashboardPage() {
         />
       );
     }
-  }, [mounted, theme, data, themeProps, upcomingEvents, firstName, nextClass, broadcast]);
+  })();
 
   if (!mounted) {
     return (
@@ -1225,7 +1226,7 @@ export default function DashboardPage() {
   );
 }
 
-function BroadcastBanner({ broadcast }: any) {
+function BroadcastBanner({ broadcast }: AnyValue) {
   if (!broadcast || !broadcast.active || !broadcast.message) return null;
   const colors: Record<string, { bg: string, text: string, border: string }> = {
     info: { bg: "rgba(59, 130, 246, 0.1)", text: "#3b82f6", border: "rgba(59, 130, 246, 0.2)" },

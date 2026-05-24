@@ -1,11 +1,10 @@
 "use client";
 // Deployment Trigger: 2026-05-15
-import { useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { authAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
-import { Eye, EyeOff, Shield, Zap, Target } from "lucide-react";
-import Link from "next/link";
+import { Eye, EyeOff, Shield, Zap } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -15,9 +14,9 @@ export default function LoginPage() {
   const [loginPhase, setLoginPhase] = useState<"idle" | "auth" | "success">("idle");
   const [error, setError] = useState("");
   
-  const [connector, setConnector] = useState<"academia" | "student-portal">("academia");
+  const [connector] = useState<"academia" | "student-portal">("academia");
   const [captchaData, setCaptchaData] = useState<{ captcha: string; captchaToken: string } | null>(null);
-  const [captchaAnswer, setCaptchaAnswer] = useState("");
+  const [captchaAnswer] = useState("");
 
   const router = useRouter();
   
@@ -26,6 +25,15 @@ export default function LoginPage() {
   const authToken = useAuthStore((state) => state.authToken);
   const _hasHydrated = useAuthStore((state) => state._hasHydrated);
   const hasChosenTheme = useAuthStore((state) => state.hasChosenTheme);
+
+   const fetchCaptcha = useCallback(async () => {
+     try {
+       const data = await authAPI.initAuth("student-portal");
+       setCaptchaData(data);
+     } catch {
+       setError("FAILED TO LOAD CAPTCHA");
+     }
+   }, []);
  
    useEffect(() => {
      if (!_hasHydrated) return;
@@ -37,23 +45,17 @@ export default function LoginPage() {
 
    useEffect(() => {
      if (connector === "student-portal" && !captchaData) {
-       fetchCaptcha();
+       const id = setTimeout(() => fetchCaptcha(), 0);
+       return () => clearTimeout(id);
      }
-   }, [connector, captchaData]);
-
-   async function fetchCaptcha() {
-     try {
-       const data = await authAPI.initAuth("student-portal");
-       setCaptchaData(data);
-     } catch (e) {
-       setError("FAILED TO LOAD CAPTCHA");
-     }
-   }
+   }, [connector, captchaData, fetchCaptcha]);
  
     async function handleLogin() {
       if (!email || !password) return setError("PROVIDE CREDENTIALS");
-      setLoading(true); 
-      setLoginPhase("auth");
+      setTimeout(() => {
+        setLoading(true);
+        setLoginPhase("auth");
+      }, 0);
       setError("");
       const finalEmail = email.includes("@") ? email : `${email.trim()}@srmist.edu.in`;
       
@@ -71,7 +73,7 @@ export default function LoginPage() {
           if (hasChosenTheme) router.push("/dashboard");
           else router.push("/setup/theme");
         }, 1200);
-     } catch (e: any) {
+     } catch (e: AnyValue) {
        setLoading(false);
        setLoginPhase("idle");
        setError(e?.response?.data?.error || "LOGIN FAILED");
@@ -95,7 +97,7 @@ export default function LoginPage() {
          if (hasChosenTheme) router.push("/dashboard");
          else router.push("/setup/theme");
        }, 1200);
-     } catch (e: any) {
+     } catch (e: AnyValue) {
        setLoading(false);
        setLoginPhase("idle");
        setError(e?.response?.data?.error || "DEMO LOGIN FAILED");

@@ -17,12 +17,12 @@ export default function AIPage() {
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [localAcademicData, setLocalAcademicData] = useState<any>(academicData);
+  const [localAcademicData, setLocalAcademicData] = useState<AnyValue>(academicData);
   const bottomRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const [remaining, setRemaining] = useState<number | null>(null);
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
   useEffect(() => {
     if (!localStorage.getItem("authToken")) { router.push("/"); return; }
@@ -33,9 +33,9 @@ export default function AIPage() {
     ]).then(([allData, myTT, calData]) => {
       const calendarRows = calData?.data || [];
       const todayIso = new Date().toISOString().split('T')[0];
-      const todayEvent = calendarRows.find((c: any) => todayIso && c.date === todayIso);
+      const todayEvent = calendarRows.find((c: AnyValue) => todayIso && c.date === todayIso);
       const tomorrowIso = new Date(Date.now() + 86400000).toISOString().split('T')[0];
-      const tomorrowEvent = calendarRows.find((c: any) => tomorrowIso && c.date === tomorrowIso);
+      const tomorrowEvent = calendarRows.find((c: AnyValue) => tomorrowIso && c.date === tomorrowIso);
 
       let calendarStr = "";
       if (todayEvent) calendarStr += `Today (${todayIso}): Day Order ${todayEvent.dayOrder || "N/A"} - ${todayEvent.event || "No event"}\n`;
@@ -64,7 +64,7 @@ export default function AIPage() {
       
       setMessages(prev => [...prev, { role: "assistant", content: res.reply }]);
       if (res.remaining !== undefined) setRemaining(res.remaining);
-    } catch (err: any) {
+    } catch (err: AnyValue) {
       console.error(err);
       const errorMsg = err.response?.data?.error || "CONNECTION FAILED.";
       setMessages(prev => [...prev, { role: "assistant", content: `ERROR: ${errorMsg}` }]);

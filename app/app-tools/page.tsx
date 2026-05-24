@@ -2,9 +2,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  Home, Award, Activity, MoreHorizontal, IdCard, Calendar, Wrench, 
+  IdCard, Calendar, Wrench,
   Sparkles, Calculator, ShieldAlert, GraduationCap, 
-  LayoutTemplate, LifeBuoy, ChevronRight, User
+  LayoutTemplate, LifeBuoy, ChevronRight
 } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
 import Sidebar from "@/components/Sidebar";
@@ -27,7 +27,7 @@ const AURA_COLORS = {
   sub: "rgba(255, 255, 255, 0.4)",
 };
 
-const MenuIcon = ({ icon: Icon, label, color = THEME.accentCyan, onClick }: any) => (
+const MenuIcon = ({ icon: Icon, label, color = THEME.accentCyan, onClick }: AnyValue) => (
   <button 
     onClick={onClick}
     style={{ 
@@ -51,7 +51,7 @@ const MenuIcon = ({ icon: Icon, label, color = THEME.accentCyan, onClick }: any)
   </button>
 );
 
-const ActionCard = ({ icon: Icon, title, subtitle, color = THEME.accentPurple, onClick }: any) => (
+const ActionCard = ({ icon: Icon, title, subtitle, color = THEME.accentPurple, onClick }: AnyValue) => (
   <button 
     onClick={onClick}
     style={{ 
@@ -85,7 +85,7 @@ export default function AppToolsPage() {
   const { theme } = useThemeStore();
   const isAura = theme === "aura";
   
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
   if (!mounted) return <div style={{ background: '#050505', height: '100vh' }} />;
 
@@ -93,7 +93,7 @@ export default function AppToolsPage() {
   const isAdmin = email && ADMIN_EMAILS.some((e) => e.toLowerCase() === email.toLowerCase());
 
   const profile = studentPortalData?.profile || {};
-  const initials = profile.name ? profile.name.split(' ').filter(Boolean).map((n:any)=>n[0]).join('').slice(0,2).toUpperCase() : "NK";
+  const initials = profile.name ? profile.name.split(' ').filter(Boolean).map((n:AnyValue)=>n[0]).join('').slice(0,2).toUpperCase() : "NK";
 
   return (
     <div style={{ height: "100vh", width: "100vw", background: isAura ? AURA_COLORS.bg : THEME.bg, color: "#fff", display: "flex", flexDirection: "column", overflow: "hidden" }}>

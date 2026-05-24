@@ -1,6 +1,4 @@
 "use client";
-import { useThemeStore } from "@/lib/themeStore";
-
 interface GaugeProps {
   value: number;
   size?: number;
@@ -8,7 +6,6 @@ interface GaugeProps {
 }
 
 export default function DynamicGauge({ value, size = 120, strokeWidth = 8 }: GaugeProps) {
-  const { theme } = useThemeStore();
   const percentage = Math.min(100, Math.max(0, value));
 
   // Circular Ring for both Matrix and Editorial (styled via CSS variables)

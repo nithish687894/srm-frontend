@@ -42,7 +42,7 @@ export function useUnsplash(query: string) {
           memoryCache.set(query, result);
           setData(result);
         }
-      } catch (e: any) {
+      } catch (e: AnyValue) {
         if (!controller.signal.aborted) {
           setError(e?.message ?? "Failed to load background");
           console.warn("[useUnsplash] Failed:", query, e?.message);

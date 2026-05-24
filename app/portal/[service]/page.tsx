@@ -1,5 +1,4 @@
 "use client";
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ShieldCheck, Cpu } from "lucide-react";
 import Sidebar from "@/components/Sidebar";

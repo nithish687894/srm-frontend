@@ -25,10 +25,17 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Network-First strategy to ensure updates are seen immediately
+  const url = new URL(event.request.url);
+
+  if (url.pathname.startsWith('/api/') || event.request.method !== 'GET') {
+    event.respondWith(fetch(event.request));
+    return;
+  }
+
+  // Network-First strategy for public/static app shell assets only.
   event.respondWith(
     fetch(event.request).then((networkResponse) => {
-      if (networkResponse && networkResponse.status === 200 && event.request.method === 'GET') {
+      if (networkResponse && networkResponse.status === 200) {
         const resClone = networkResponse.clone();
         caches.open(CACHE_NAME).then((cache) => {
           cache.put(event.request, resClone);

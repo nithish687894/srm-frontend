@@ -1,6 +1,6 @@
 "use client";
-import { useState, useMemo, useEffect } from "react";
-import { Award, Sparkles, AlertTriangle, TrendingUp, Activity, BarChart3, RefreshCcw, ArrowLeft } from "lucide-react";
+import { useState, useMemo } from "react";
+import { RefreshCcw, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const COSMOS_COLORS = {
@@ -34,7 +34,7 @@ const getStatusLabel = (pct: number) => {
   return "EXCELLENT";
 };
 
-const CosmicTestBadge = ({ test, score }: any) => {
+const CosmicTestBadge = ({ test, score }: AnyValue) => {
   const parts = (test || "T/100").split('/');
   const label = parts[0];
   const max = parseFloat(parts[1]) || 100;
@@ -75,16 +75,16 @@ const CosmicTestBadge = ({ test, score }: any) => {
   );
 };
 
-export default function CosmosMarks({ marks, handleSync, isSyncing }: any) {
+export default function CosmosMarks({ marks, handleSync, isSyncing }: AnyValue) {
   const router = useRouter();
   const [filter, setFilter] = useState("All");
 
   const processedMarks = useMemo(() => {
     if (!marks || !marks.length) return [];
-    return marks.map((m: any) => {
+    return marks.map((m: AnyValue) => {
       const tests = m.tests || [];
-      const totalScored = tests.reduce((s: number, t: any) => s + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0);
-      const maxPossible = tests.reduce((s: number, t: any) => s + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0);
+      const totalScored = tests.reduce((s: number, t: AnyValue) => s + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0);
+      const maxPossible = tests.reduce((s: number, t: AnyValue) => s + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0);
       const pct = maxPossible > 0 ? (totalScored / maxPossible) * 100 : 0;
       
       let bestTest = null;
@@ -110,31 +110,31 @@ export default function CosmosMarks({ marks, handleSync, isSyncing }: any) {
 
   const stats = useMemo(() => {
     const totalSubs = processedMarks.length;
-    const totalS = processedMarks.reduce((a: number, b: any) => a + b.totalScored, 0);
-    const totalM = processedMarks.reduce((a: number, b: any) => a + b.maxPossible, 0);
+    const totalS = processedMarks.reduce((a: number, b: AnyValue) => a + b.totalScored, 0);
+    const totalM = processedMarks.reduce((a: number, b: AnyValue) => a + b.maxPossible, 0);
     const overallAvg = totalM > 0 ? (totalS / totalM) * 100 : 0;
-    const atRisk = processedMarks.filter((m: any) => m.pct > 0 && m.pct < 40).length;
+    const atRisk = processedMarks.filter((m: AnyValue) => m.pct > 0 && m.pct < 40).length;
     return { totalSubs, overallAvg, atRisk };
   }, [processedMarks]);
 
   const filteredMarks = useMemo(() => {
     let result = [...processedMarks];
     if (filter === "At Risk") {
-      result = result.filter((m: any) => m.pct > 0 && m.pct < 40);
+      result = result.filter((m: AnyValue) => m.pct > 0 && m.pct < 40);
     } else if (filter === "Lowest Score") {
-      result.sort((a: any, b: any) => {
+      result.sort((a: AnyValue, b: AnyValue) => {
         if (a.pct === 0 && b.pct !== 0) return 1;
         if (b.pct === 0 && a.pct !== 0) return -1;
         return a.pct - b.pct;
       });
     } else if (filter === "Highest Score") {
-      result.sort((a: any, b: any) => {
+      result.sort((a: AnyValue, b: AnyValue) => {
         if (a.pct === 0 && b.pct !== 0) return 1;
         if (b.pct === 0 && a.pct !== 0) return -1;
         return b.pct - a.pct;
       });
     } else if (filter === "Alphabetical") {
-      result.sort((a: any, b: any) => (a.title || "").localeCompare(b.title || ""));
+      result.sort((a: AnyValue, b: AnyValue) => (a.title || "").localeCompare(b.title || ""));
     }
     return result;
   }, [processedMarks, filter]);
@@ -283,7 +283,7 @@ export default function CosmosMarks({ marks, handleSync, isSyncing }: any) {
 
       {/* Subject cards grid */}
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-        {filteredMarks.map((m: any, i: number) => {
+        {filteredMarks.map((m: AnyValue, i: number) => {
           const statusColor = getStatusColor(m.pct);
           const statusLabel = getStatusLabel(m.pct);
           
@@ -330,7 +330,7 @@ export default function CosmosMarks({ marks, handleSync, isSyncing }: any) {
 
               {/* Tests Grid */}
               <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "16px" }}>
-                {m.tests?.map((t: any, j: number) => (
+                {m.tests?.map((t: AnyValue, j: number) => (
                   <CosmicTestBadge key={j} test={t.test} score={t.score} />
                 ))}
               </div>

@@ -36,7 +36,7 @@ const GradeBadge = ({ grade }: { grade: string }) => {
   );
 };
 
-const RecordCard = ({ m }: { m: any }) => {
+const RecordCard = ({ m }: { m: AnyValue }) => {
   return (
     <div style={{ 
       background: THEME.surface, border: `1px solid ${THEME.border}`, borderRadius: '24px',
@@ -71,13 +71,14 @@ export default function GradeMarkCreditPage() {
   const { studentPortalData, setStudentPortalData } = useAuthStore();
   
   useEffect(() => {
-    setMounted(true);
+    const id = setTimeout(() => setMounted(true), 0);
     if (!studentPortalData?.marks) {
       dataAPI.getUnified().then(res => {
         if (res.studentPortal) setStudentPortalData(res.studentPortal);
       });
     }
-  }, []);
+    return () => clearTimeout(id);
+  }, [setStudentPortalData, studentPortalData?.marks]);
 
   if (!mounted) return <div style={{ background: '#050505', height: '100vh' }} />;
 
@@ -145,7 +146,7 @@ export default function GradeMarkCreditPage() {
 
           {/* RECORDS LIST */}
           {displayMarks.length > 0 ? (
-            displayMarks.map((m: any, i: number) => <RecordCard key={i} m={m} />)
+            displayMarks.map((m: AnyValue, i: number) => <RecordCard key={i} m={m} />)
           ) : (
             <div style={{ textAlign: 'center', padding: '60px 20px', color: 'rgba(255,255,255,0.2)' }}>
               <Award size={48} strokeWidth={1} style={{ marginBottom: '16px' }} />

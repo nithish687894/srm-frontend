@@ -23,7 +23,7 @@ const THEME = {
   accentRed: "#ff3b3b",
 };
 
-const TestBadge = ({ test, score }: any) => {
+const TestBadge = ({ test, score }: AnyValue) => {
   const parts = (test || "Test/100").split('/');
   const label = parts[0];
   const max = parseFloat(parts[1]) || 100;
@@ -77,9 +77,9 @@ export default function MarksPage() {
     const rawMarks = Array.isArray(academicData?.marks) ? academicData.marks : [];
     const attendance = Array.isArray(academicData?.attendance) ? academicData.attendance : [];
 
-    const processedMarks = rawMarks.map((m: any) => {
+    const processedMarks = rawMarks.map((m: AnyValue) => {
       if (!m) return null;
-      const attnMatch = attendance.find((a: any) => a && (a['Course Code'] === m.courseCode || a['Course Code'] === m.code));
+      const attnMatch = attendance.find((a: AnyValue) => a && (a['Course Code'] === m.courseCode || a['Course Code'] === m.code));
       return {
         ...m,
         title: m.courseTitle || m.description || attnMatch?.['Course Title'] || attnMatch?.['title'] || "Unknown Module"
@@ -87,8 +87,8 @@ export default function MarksPage() {
     }).filter(Boolean);
 
     // Merge subjects from attendance that are missing in marks as placeholders
-    const marksCodes = new Set(processedMarks.map((m: any) => m.courseCode || m.code));
-    attendance.forEach((a: any) => {
+    const marksCodes = new Set(processedMarks.map((m: AnyValue) => m.courseCode || m.code));
+    attendance.forEach((a: AnyValue) => {
       if (a && a['Course Code'] && !marksCodes.has(a['Course Code'])) {
         processedMarks.push({
           courseCode: a['Course Code'],
@@ -100,8 +100,8 @@ export default function MarksPage() {
       }
     });
 
-    const scored = processedMarks.reduce((s:number, m:any) => s + (m.tests?.reduce((a:number, t:any) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
-    const max = processedMarks.reduce((s:number, m:any) => s + (m.tests?.reduce((a:number, t:any) => a + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0), 0);
+    const scored = processedMarks.reduce((s:number, m:AnyValue) => s + (m.tests?.reduce((a:number, t:AnyValue) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
+    const max = processedMarks.reduce((s:number, m:AnyValue) => s + (m.tests?.reduce((a:number, t:AnyValue) => a + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0), 0);
     const pct = max > 0 ? (scored / max) * 100 : 0;
 
     return { marks: processedMarks, totalScored: scored, totalMax: max, avgPct: pct };
@@ -170,9 +170,9 @@ export default function MarksPage() {
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                   {marks.length > 0 ? marks.map((m: any, i: number) => {
-                      const scored = m.tests?.reduce((s: number, t: any) => s + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0;
-                      const max = m.tests?.reduce((s: number, t: any) => s + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0;
+                   {marks.length > 0 ? marks.map((m: AnyValue, i: number) => {
+                      const scored = m.tests?.reduce((s: number, t: AnyValue) => s + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0;
+                      const max = m.tests?.reduce((s: number, t: AnyValue) => s + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0;
                       
                       return (
                         <div key={i} style={{ background: THEME.surface, border: `1px solid ${THEME.border}`, borderRadius: '32px', padding: '30px', boxShadow: '0 20px 50px rgba(0, 0, 0, 0.25)' }}>
@@ -187,7 +187,7 @@ export default function MarksPage() {
                               </div>
                            </div>
                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))', gap: '12px' }}>
-                              {m.tests?.map((t: any, j: number) => (
+                              {m.tests?.map((t: AnyValue, j: number) => (
                                 <TestBadge key={j} test={t.test} score={t.score} />
                               ))}
                            </div>

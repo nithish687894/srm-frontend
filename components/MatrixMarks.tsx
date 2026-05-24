@@ -3,14 +3,14 @@ import { useMemo } from "react";
 import { ArrowLeft, RefreshCcw } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export default function MatrixMarks({ marks, handleSync, isSyncing }: any) {
+export default function MatrixMarks({ marks, handleSync, isSyncing }: AnyValue) {
   const router = useRouter();
 
   // Process overall analytics
   const { totalScored, totalMax, avgPct } = useMemo(() => {
     const rawMarks = Array.isArray(marks) ? marks : [];
-    const scored = rawMarks.reduce((s: number, m: any) => s + (m.tests?.reduce((a: number, t: any) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
-    const max = rawMarks.reduce((s: number, m: any) => s + (m.tests?.reduce((a: number, t: any) => a + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0), 0);
+    const scored = rawMarks.reduce((s: number, m: AnyValue) => s + (m.tests?.reduce((a: number, t: AnyValue) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
+    const max = rawMarks.reduce((s: number, m: AnyValue) => s + (m.tests?.reduce((a: number, t: AnyValue) => a + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0), 0);
     const pct = max > 0 ? (scored / max) * 100 : 0;
     return { totalScored: scored, totalMax: max, avgPct: pct };
   }, [marks]);
@@ -206,9 +206,9 @@ export default function MatrixMarks({ marks, handleSync, isSyncing }: any) {
 
         {/* SUBJECT CARDS */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-           {marks?.map((m: any, i: number) => {
-              const scored = m.tests?.reduce((s: number, t: any) => s + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0;
-              const max = m.tests?.reduce((s: number, t: any) => s + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0;
+           {marks?.map((m: AnyValue, i: number) => {
+              const scored = m.tests?.reduce((s: number, t: AnyValue) => s + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0;
+              const max = m.tests?.reduce((s: number, t: AnyValue) => s + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0;
               const subjectPct = max > 0 ? (scored / max) * 100 : 0;
 
               // Subject status configuration
@@ -268,7 +268,7 @@ export default function MatrixMarks({ marks, handleSync, isSyncing }: any) {
                    )}
 
                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))', gap: '10px', position: 'relative' }}>
-                      {m.tests?.map((t: any, j: number) => {
+                      {m.tests?.map((t: AnyValue, j: number) => {
                         const parts = (t.test || "T/100").split('/');
                         const label = parts[0];
                         const maxScore = parseFloat(parts[1]) || 100;

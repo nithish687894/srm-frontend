@@ -6,7 +6,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useSocket } from "@/hooks/useSocket";
 import Sidebar from "@/components/Sidebar";
 import { chatAPI } from "@/lib/api";
-import { MessageSquare, Users, Sparkles, Send, Keyboard, ShieldAlert, ArrowLeft, Loader2, HelpCircle, Lock, Smile, Mic } from "lucide-react";
+import { MessageSquare, Users, Sparkles, Send, Keyboard, ArrowLeft, Loader2, HelpCircle, Lock, Smile, Mic } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
 
 interface Message {
@@ -21,6 +21,8 @@ interface Message {
   isAudio?: boolean;
   audioDuration?: string;
 }
+
+const MOCK_VOICE_NOTE_CREATED_AT = "2026-01-01T00:00:00.000Z";
 
 export default function ChatPage() {
   const { ready } = useAuth();
@@ -51,6 +53,13 @@ export default function ChatPage() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Scroll to bottom helper
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
+
   // 1. Fetch user cohort room metadata
   useEffect(() => {
     if (!ready) return;
@@ -72,7 +81,7 @@ export default function ChatPage() {
     socket.emit("join_room", activeRoom);
 
     // Load room message history
-    setIsLoadingHistory(true);
+    setTimeout(() => setIsLoadingHistory(true), 0);
     chatAPI.getHistory(activeRoom)
       .then((res) => {
         if (res.success) {
@@ -81,7 +90,7 @@ export default function ChatPage() {
       })
       .catch((err) => console.error("Failed to load chat history", err))
       .finally(() => {
-        setIsLoadingHistory(false);
+        setTimeout(() => setIsLoadingHistory(false), 0);
         scrollToBottom();
       });
 
@@ -114,13 +123,6 @@ export default function ChatPage() {
       socket.off("user_typing");
     };
   }, [socket, connected, activeRoom, cohorts]);
-
-  // Scroll to bottom helper
-  const scrollToBottom = () => {
-    setTimeout(() => {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
-  };
 
   useEffect(() => {
     scrollToBottom();
@@ -378,7 +380,7 @@ export default function ChatPage() {
                 /* Bottom-aligned message list */
                 <div className="min-h-full flex flex-col justify-end space-y-1 pb-[120px] md:pb-4">
                   {(() => {
-                    let listToRender = [...messages];
+                    const listToRender = [...messages];
                     if (activeRoom === "global:doubts" && !listToRender.some(m => m._id === "mock-voice-note")) {
                       listToRender.unshift({
                         _id: "mock-voice-note",
@@ -388,10 +390,10 @@ export default function ChatPage() {
                         senderInitials: "JO",
                         senderDept: "Computer Science",
                         content: "[Voice Note]",
-                        createdAt: new Date(Date.now() - 3600000).toISOString(),
+                        createdAt: MOCK_VOICE_NOTE_CREATED_AT,
                         isAudio: true,
                         audioDuration: "0:35"
-                      } as any);
+                      } as AnyValue);
                     }
                     return listToRender.map((msg, index) => {
                       const isMe = msg.senderId === email || msg.senderId === cohorts?.userId || msg.senderId === profile?.["Registration Number"] || msg.senderId === profile?.RegNo;

@@ -57,7 +57,7 @@ export default function Sidebar() {
   const userEmail = (email || profile?.Email || "").toLowerCase();
   const isAdmin = ADMIN_EMAILS.some((e) => e.toLowerCase() === userEmail);
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
   const handleLogout = useCallback(async () => {
     try { await authAPI.logout(); } catch { /* swallow */ }
@@ -67,7 +67,8 @@ export default function Sidebar() {
 
   // Close the drawer if the route changes
   useEffect(() => {
-    setMoreOpen(false);
+    const id = setTimeout(() => setMoreOpen(false), 0);
+    return () => clearTimeout(id);
   }, [path]);
 
   // User profile details for the More drawer
@@ -85,12 +86,12 @@ export default function Sidebar() {
   const att = academicData?.attendance || [];
   const avgAtt = (() => {
     if (!att.length) return "89.3";
-    const totalH = att.reduce((s: number, c: any) => s + (parseInt(c["Hours Conducted"]) || 0), 0);
-    const presentH = att.reduce((s: number, c: any) => s + (parseInt(c["Hours Attended"]) || Math.max(0, (parseInt(c["Hours Conducted"]) || 0) - (parseInt(c["Hours Absent"]) || 0))), 0);
+    const totalH = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Conducted"]) || 0), 0);
+    const presentH = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Attended"]) || Math.max(0, (parseInt(c["Hours Conducted"]) || 0) - (parseInt(c["Hours Absent"]) || 0))), 0);
     return totalH > 0 ? ((presentH / totalH) * 100).toFixed(1) : "89.3";
   })();
   const riskCount = att.length
-    ? att.filter((c: any) => parseFloat(c["Attn %"] || 0) < 75).length
+    ? att.filter((c: AnyValue) => parseFloat(c["Attn %"] || 0) < 75).length
     : 0;
 
   // ── Contextual Intelligence Engine ──
@@ -110,7 +111,7 @@ export default function Sidebar() {
       else if (riskCount === 1) insights.push(`1 subject flagged below 75% threshold`);
       else insights.push(`${riskCount} subjects require attendance intervention`);
 
-      const lowSubs = att.filter((c: any) => {
+      const lowSubs = att.filter((c: AnyValue) => {
         const pct = parseFloat(c["Attn %"] || 0);
         return pct >= 75 && pct < 80;
       });

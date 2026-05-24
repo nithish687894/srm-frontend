@@ -3,11 +3,11 @@ import { persist } from "zustand/middleware";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 export interface StudentPortalData {
-  marks?: any;
-  absent?: any;
-  malpractice?: any;
-  profile?: any;
-  [key: string]: any;
+  marks?: AnyValue;
+  absent?: AnyValue;
+  malpractice?: AnyValue;
+  profile?: AnyValue;
+  [key: string]: AnyValue;
 }
 
 export interface AuthStore {
@@ -20,8 +20,8 @@ export interface AuthStore {
 
   // Academia (Zoho SSO data)
   academiaConnected: boolean;
-  academicData: any | null;      // legacy name kept for compat across all pages
-  profile: any | null;
+  academicData: AnyValue | null;      // legacy name kept for compat across all pages
+  profile: AnyValue | null;
 
   // Student Portal (captcha-based)
   studentPortalConnected: boolean;
@@ -33,8 +33,8 @@ export interface AuthStore {
   setRefreshToken: (refreshToken: string) => void;
 
   // Profile / Academia
-  setProfile: (profile: any) => void;
-  setAcademicData: (data: any) => void;
+  setProfile: (profile: AnyValue) => void;
+  setAcademicData: (data: AnyValue) => void;
 
   // Student Portal
   setStudentPortalConnected: (val: boolean) => void;

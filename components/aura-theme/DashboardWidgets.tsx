@@ -14,7 +14,7 @@ const AURA = {
   subBright: "rgba(255, 255, 255, 0.6)",
 };
 
-export function ActionWidgets({ data }: any) {
+export function ActionWidgets({ data }: AnyValue) {
   const router = useRouter();
 
   return (
@@ -177,7 +177,7 @@ export function ActionWidgets({ data }: any) {
               fontWeight: 500,
             }}
           >
-            From today's 1PM & 3PM classes
+            From today&apos;s 1PM & 3PM classes
           </p>
         </div>
       </div>

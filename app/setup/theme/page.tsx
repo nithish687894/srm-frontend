@@ -4,14 +4,12 @@ import { ThemeType, useThemeStore } from "@/lib/themeStore";
 import { useAuthStore } from "@/lib/store";
 import { useEffect, useState } from "react";
 export default function ThemeOnboarding() {
-  const { setTheme, theme } = useThemeStore();
+  const { setTheme } = useThemeStore();
   const { setHasChosenTheme, authToken, _hasHydrated } = useAuthStore();
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
   useEffect(() => {
     if (_hasHydrated && !authToken) {

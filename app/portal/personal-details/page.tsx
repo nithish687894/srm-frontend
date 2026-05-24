@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Settings, User, Map, Users, Mail, Phone, Home, FileText, Droplet, Flag, Award, Layers, AlertCircle, RefreshCcw } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
@@ -9,7 +9,7 @@ const STYLES = `
   .glow-card { position: relative; background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1.875rem; backdrop-filter: blur(80px); overflow: hidden; }
 `;
 
-const NavItem = ({ icon: Icon, label, active, onClick }: any) => (
+const NavItem = ({ icon: Icon, label, active, onClick }: AnyValue) => (
   <button
     onClick={onClick}
     className={`flex flex-col items-center gap-1.5 px-4 py-2 rounded-2xl transition-all duration-300 active:scale-95 ${
@@ -21,42 +21,32 @@ const NavItem = ({ icon: Icon, label, active, onClick }: any) => (
   </button>
 );
 
-export default function PersonalDetailsPage() {
-  const router = useRouter();
-  const [mounted, setMounted] = useState(false);
-  const [activeNav, setActiveNav] = useState('records');
-  const { studentPortalData, studentPortalConnected } = useAuthStore();
+function DetailCard({ title, icon, children, variant = "blue" }: { title: string; icon: string; children: ReactNode; delay?: number; variant?: "blue" | "purple" }) {
+  const accents = variant === "purple" ? "from-purple-500/10" : "from-blue-500/10";
+  const borderColor = variant === "purple" ? "group-hover:border-purple-500/30" : "group-hover:border-blue-500/30";
 
-  useEffect(() => { setMounted(true); }, []);
-  if (!mounted) return null;
-
-  const profile = studentPortalData?.profile;
-
-  const DetailCard = ({ title, icon, children, delay = 0, variant = "blue" }: any) => {
-    const accents = variant === "purple" ? "from-purple-500/10" : "from-blue-500/10";
-    const borderColor = variant === "purple" ? "group-hover:border-purple-500/30" : "group-hover:border-blue-500/30";
-
-    return (
-      <div 
-        className={`glow-card p-0 ${borderColor} transition-all duration-500 group`}
-      >
-        <div className={`absolute inset-0 bg-gradient-to-br ${accents} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`} />
-        
-        <div className="px-8 py-5 border-b border-white/5 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/5 group-hover:scale-110 transition-transform duration-500">
-            <span className="text-xl">{icon}</span>
-          </div>
-          <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.4em]">{title}</span>
+  return (
+    <div 
+      className={`glow-card p-0 ${borderColor} transition-all duration-500 group`}
+    >
+      <div className={`absolute inset-0 bg-gradient-to-br ${accents} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`} />
+      
+      <div className="px-8 py-5 border-b border-white/5 flex items-center gap-4">
+        <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/5 group-hover:scale-110 transition-transform duration-500">
+          <span className="text-xl">{icon}</span>
         </div>
-        
-        <div className="p-8 space-y-6">
-          {children}
-        </div>
+        <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.4em]">{title}</span>
       </div>
-    );
-  };
+      
+      <div className="p-8 space-y-6">
+        {children}
+      </div>
+    </div>
+  );
+}
 
-  const Row = ({ label, value }: { label: string, value: string }) => (
+function Row({ label, value }: { label: string; value?: string }) {
+  return (
     <div className="flex flex-col gap-2">
       <span className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em]">{label}</span>
       <span className="text-[15px] font-black text-white/90 leading-tight tracking-tight break-words">
@@ -64,6 +54,18 @@ export default function PersonalDetailsPage() {
       </span>
     </div>
   );
+}
+
+export default function PersonalDetailsPage() {
+  const router = useRouter();
+  const [mounted, setMounted] = useState(false);
+  const [activeNav, setActiveNav] = useState('records');
+  const { studentPortalData, studentPortalConnected } = useAuthStore();
+
+  useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
+  if (!mounted) return null;
+
+  const profile = studentPortalData?.profile;
 
   return (
     <>

@@ -1,9 +1,7 @@
 "use client";
 import { useState, useMemo, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import { 
-  Home, Award, Activity, MoreHorizontal, Calendar as CalendarIcon, 
   ChevronLeft, ChevronRight, Zap, Target
 } from "lucide-react";
 import { dataAPI } from "@/lib/api";
@@ -14,11 +12,8 @@ import { useThemeStore } from "@/lib/themeStore";
 export default function CalendarPage() {
   const [monthIdx, setMonthIdx] = useState(0);
   const [sem, setSem] = useState<Semester>("ODD");
-  const [selectedHoliday, setSelectedHoliday] = useState<any | null>(null);
-  const router = useRouter();
+  const [selectedHoliday, setSelectedHoliday] = useState<AnyValue | null>(null);
   const { theme } = useThemeStore();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
 
   const isCosmos = theme === "cosmos";
   const isAura = theme === "aura";
@@ -47,8 +42,11 @@ export default function CalendarPage() {
   // Set month to current automatically
   useEffect(() => {
     if (semMonths.length > 0) {
-      const idx = semMonths.findIndex(m => m.days.some((d: any) => d.isoDate === todayIso));
-      if (idx !== -1) setMonthIdx(idx);
+      const idx = semMonths.findIndex(m => m.days.some((d: AnyValue) => d.isoDate === todayIso));
+      if (idx !== -1) {
+        const id = setTimeout(() => setMonthIdx(idx), 0);
+        return () => clearTimeout(id);
+      }
     }
   }, [semMonths, todayIso]);
 
@@ -58,13 +56,13 @@ export default function CalendarPage() {
 
   const weekDays = ["M", "T", "W", "T", "F", "S", "S"];
 
-  const gridCells: any[] = [];
+  const gridCells: AnyValue[] = [];
   if (current) {
     const firstDate = new Date(`1 ${current.name}`);
-    let startDay = firstDate.getDay(); // 0(Sun) - 6(Sat)
-    let offset = (startDay + 6) % 7; // Monday = 0
+    const startDay = firstDate.getDay(); // 0(Sun) - 6(Sat)
+    const offset = (startDay + 6) % 7; // Monday = 0
     for (let i = 0; i < offset; i++) gridCells.push(null);
-    current.days.forEach((d: any) => gridCells.push(d));
+    current.days.forEach((d: AnyValue) => gridCells.push(d));
     while (gridCells.length % 7 !== 0) gridCells.push(null);
   }
 
@@ -223,10 +221,10 @@ export default function CalendarPage() {
                  </div>
 
                  <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                    {current?.days.filter((d: any) => d.event).length === 0 ? (
+                    {current?.days.filter((d: AnyValue) => d.event).length === 0 ? (
                        <div style={{ padding: '40px', textAlign: 'center', background: 'rgba(255,255,255,0.02)', borderRadius: '28px', border: '1px dashed rgba(255,255,255,0.1)', color: AURA_COLORS.sub, fontSize: '11px', fontWeight: 800 }}>NO_SCHEDULED_EVENTS</div>
                     ) : (
-                       current?.days.filter((d: any) => d.event).map((d: any, idx: number) => (
+                       current?.days.filter((d: AnyValue) => d.event).map((d: AnyValue, idx: number) => (
                           <div 
                              key={idx}
                              className="shard-hover"
@@ -302,7 +300,7 @@ export default function CalendarPage() {
                     </div>
                     <div style={{ display: "flex", gap: "12px" }}>
                       <button onClick={() => setMonthIdx(i => Math.max(0, i - 1))} style={{ background: "none", border: "none", color: "#ffffff", fontSize: "24px", cursor: "pointer", display: "flex", alignItems: "center" }}>‹</button>
-                      <button onClick={() => setMonthIdx(semMonths.findIndex(m => m.days.some((d: any) => d.isoDate === todayIso)) || 0)} style={{ background: "none", border: "none", color: isCosmos ? "#8FD3FF" : "#ffffff", fontSize: "16px", cursor: "pointer", display: "flex", alignItems: "center" }}>◎</button>
+                      <button onClick={() => setMonthIdx(semMonths.findIndex(m => m.days.some((d: AnyValue) => d.isoDate === todayIso)) || 0)} style={{ background: "none", border: "none", color: isCosmos ? "#8FD3FF" : "#ffffff", fontSize: "16px", cursor: "pointer", display: "flex", alignItems: "center" }}>◎</button>
                       <button onClick={() => setMonthIdx(i => Math.min(semMonths.length - 1, i + 1))} style={{ background: "none", border: "none", color: "#ffffff", fontSize: "24px", cursor: "pointer", display: "flex", alignItems: "center" }}>›</button>
                     </div>
                   </div>
@@ -390,12 +388,12 @@ export default function CalendarPage() {
                   </div>
 
                   <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                    {current.days.filter((d: any) => d.event).length === 0 ? (
+                    {current.days.filter((d: AnyValue) => d.event).length === 0 ? (
                       <div style={{ padding: "40px", textAlign: "center", background: "rgba(255,255,255,0.02)", borderRadius: "20px", border: "1px dashed rgba(255,255,255,0.1)", color: "#666", fontSize: "13px" }}>
                         No specific events or holidays recorded for this month.
                       </div>
                     ) : (
-                      current.days.filter((d: any) => d.event).map((d: any, idx: number) => {
+                      current.days.filter((d: AnyValue) => d.event).map((d: AnyValue, idx: number) => {
                         const isHoliday = d.isHoliday;
                         const dateObj = new Date(d.isoDate);
                         const dayStr = dateObj.toLocaleDateString("en-US", { weekday: "short" });

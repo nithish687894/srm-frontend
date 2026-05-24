@@ -28,7 +28,7 @@ export default function Error({
       fontFamily: 'sans-serif'
     }}>
       <div style={{ fontSize: '48px', marginBottom: '24px' }}>⚠️</div>
-      <h2 style={{ fontSize: '24px', fontWeight: 800, marginBottom: '12px' }}>This page couldn't load</h2>
+      <h2 style={{ fontSize: '24px', fontWeight: 800, marginBottom: '12px' }}>This page couldn&apos;t load</h2>
       <p style={{ color: 'rgba(255,255,255,0.4)', marginBottom: '32px', fontSize: '14px' }}>
         Reload to try again, or go back.
       </p>

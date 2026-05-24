@@ -5,7 +5,7 @@ import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { useAuth } from "@/hooks/useAuth";
-import { Clipboard, Download, Trash2, RefreshCw, Search, Users, ShieldCheck, Activity, ChevronUp, ChevronDown, CheckCircle, Megaphone, Send, ToggleLeft, ToggleRight, MessageSquare, Reply } from "lucide-react";
+import { Clipboard, RefreshCw, Search, Users, Activity, CheckCircle, Megaphone, Send, ToggleLeft, ToggleRight, MessageSquare, Reply } from "lucide-react";
 
 const ADMIN_EMAILS = ["ns4770@srmist.edu.in", "ts0014@srmist.edu.in"];
 
@@ -20,9 +20,9 @@ export default function AdminPage() {
   const [activeTab, setActiveTab] = useState<"users" | "broadcast" | "feedback" | "logs">("users");
 
   // Data States
-  const [logs, setLogs] = useState<any[]>([]);
-  const [users, setUsers] = useState<any[]>([]);
-  const [feedback, setFeedback] = useState<any[]>([]);
+  const [logs, setLogs] = useState<AnyValue[]>([]);
+  const [users, setUsers] = useState<AnyValue[]>([]);
+  const [feedback, setFeedback] = useState<AnyValue[]>([]);
   
   // Broadcast State
   const [bcMsg, setBcMsg] = useState("");
@@ -81,7 +81,7 @@ export default function AdminPage() {
     try {
       await dataAPI.updateBroadcast({ message: bcMsg, type: bcType, active: bcActive });
       showToast("System broadcast updated!");
-    } catch (e) {
+    } catch (_e) {
       showToast("Update failed", "error");
     } finally {
       setBcLoading(false);
@@ -94,7 +94,7 @@ export default function AdminPage() {
       await dataAPI.replyToFeedback(id, replyText[id], "resolved");
       showToast("Reply sent successfully");
       fetchData(); // Refresh list
-    } catch (e) {
+    } catch (_e) {
       showToast("Failed to reply", "error");
     }
   };
@@ -174,7 +174,7 @@ export default function AdminPage() {
               return (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id as any)}
+                  onClick={() => setActiveTab(tab.id as AnyValue)}
                   style={{
                     background: active ? "var(--accent)" : "rgba(255,255,255,0.03)",
                     color: active ? "#000" : "var(--text-secondary)",
@@ -297,7 +297,7 @@ export default function AdminPage() {
                 />
                 <div style={{ display: "flex", gap: "12px" }}>
                   {["info", "success", "warning"].map(type => (
-                    <button key={type} onClick={() => setBcType(type as any)} style={{ flex: 1, padding: "16px", borderRadius: "12px", border: bcType === type ? `2px solid var(--accent)` : "1px solid var(--border)", background: bcType === type ? "rgba(168, 194, 0, 0.05)" : "rgba(255,255,255,0.02)", color: bcType === type ? "var(--text-primary)" : "var(--text-secondary)", fontWeight: 800, textTransform: "capitalize", cursor: "pointer" }}>
+                    <button key={type} onClick={() => setBcType(type as AnyValue)} style={{ flex: 1, padding: "16px", borderRadius: "12px", border: bcType === type ? `2px solid var(--accent)` : "1px solid var(--border)", background: bcType === type ? "rgba(168, 194, 0, 0.05)" : "rgba(255,255,255,0.02)", color: bcType === type ? "var(--text-primary)" : "var(--text-secondary)", fontWeight: 800, textTransform: "capitalize", cursor: "pointer" }}>
                       {type} Theme
                     </button>
                   ))}
