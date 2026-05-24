@@ -383,10 +383,10 @@ export default function LoginPage() {
                 <div
                   style={{ fontSize: "17px", fontWeight: 950, letterSpacing: "0.08em", color: "#fff", textTransform: "uppercase", marginBottom: "18px" }}
                 >
-                  {loginPhase === "success" ? "AUTHENTICATION GRANTED" : "BREACHING GATEWAY"}
+                  {loginPhase === "success" ? "AUTHENTICATION GRANTED" : "INITIALIZING SECURE LINK"}
                 </div>
                 <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.45)", letterSpacing: "0.18em", fontWeight: 600, textTransform: "uppercase" }}>
-                  {loginPhase === "success" ? "INITIATING NEBULA HANDSHAKE..." : "BYPASSING FIREWALLS / SYNCHRONIZING CORE..."}
+                  {loginPhase === "success" ? "ESTABLISHING SECURE CONNECTION..." : "VERIFYING CREDENTIALS / RETRIEVING SESSION..."}
                 </div>
               </div>
             </div>

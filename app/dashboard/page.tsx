@@ -698,12 +698,12 @@ export default function DashboardPage() {
 
   if (loading && !data) {
     const loadingSteps = [
-      "INITIALIZING_AURA_SPACE",
-      "ESTABLISHING_SRM_GATEWAY",
-      "DECRYPTING_NEURAL_RECORDS",
-      "SYNCING_ACADEMIC_NEBULA",
-      "OPTIMIZING_QUANTUM_UI_PORT",
-      "ESTABLISHING_SECURE_TUNNEL"
+      "INITIALIZING_SECURE_SESSION",
+      "CONNECTING_TO_ACADEMIA_PORTAL",
+      "ESTABLISHING_ENCRYPTED_TUNNEL",
+      "RETRIEVING_ACADEMIC_RECORDS",
+      "OPTIMIZING_TIMETABLE_CACHE",
+      "READY_FOR_ACADEMIC_OS"
     ];
 
     // Compute rolling active terminal logs for dashboard space loader

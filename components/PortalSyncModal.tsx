@@ -589,7 +589,7 @@ export default function PortalSyncModal({
                     lineHeight: 1.6
                   }}
                 >
-                  Establishing secure tunnel and retrieving your academic intelligence records...
+                  Establishing secure connection and retrieving official academic records...
                 </p>
               </div>
             ) : (
