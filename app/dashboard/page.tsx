@@ -211,7 +211,9 @@ export default function DashboardPage() {
     const rawSpData = data?.studentPortal;
     const fallbackSpData = studentPortalData;
     const spData = (rawSpData && rawSpData.marks && rawSpData.profile) ? rawSpData : fallbackSpData;
-    const hasData = !!spData && !!spData.marks && !!spData.profile;
+    const hasSpData = !!spData && !!spData.marks && !!spData.profile;
+    const primaryColor = isAura ? "#FF75C3" : isMatrix ? "#a8c200" : "#00ff88";
+
     return (
       <div style={{ 
         background: isAura ? "rgba(255, 255, 255, 0.02)" : isMatrix ? "#1c1c1c" : "linear-gradient(135deg, rgba(0, 255, 136, 0.03) 0%, rgba(59, 130, 246, 0.03) 100%)",
@@ -223,12 +225,18 @@ export default function DashboardPage() {
       }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
           <div>
-            <div style={{ fontSize: "10px", fontWeight: 900, color: isAura ? "#FF75C3" : isMatrix ? "#a8c200" : "#00ff88", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "4px" }}>Official Performance</div>
+            <div style={{ fontSize: "10px", fontWeight: 900, color: primaryColor, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "4px" }}>Official Performance</div>
             <h3 style={{ fontSize: "18px", fontWeight: "bold", color: "#fff" }}>Academic Intelligence Hub</h3>
-            {hasData && (
+            {hasSpData && (
               <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.4)", fontWeight: 700, display: "flex", alignItems: "center", gap: "4px", marginTop: "4px" }}>
-                <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: studentPortalConnected ? (isAura ? "#FF75C3" : isMatrix ? "#a8c200" : "#00ff88") : "rgba(255,255,255,0.2)" }} />
+                <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: studentPortalConnected ? primaryColor : "rgba(255,255,255,0.2)" }} />
                 <span>Synced {formatLastSynced(spData?.lastSyncedAt)}</span>
+              </div>
+            )}
+            {!hasSpData && (
+              <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.4)", fontWeight: 700, display: "flex", alignItems: "center", gap: "4px", marginTop: "4px" }}>
+                <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: primaryColor }} />
+                <span>Academia OS Active</span>
               </div>
             )}
           </div>
@@ -237,7 +245,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {hasData && !studentPortalConnected && (
+        {hasSpData && !studentPortalConnected && (
           <div style={{
             display: "flex",
             alignItems: "center",
@@ -311,47 +319,82 @@ export default function DashboardPage() {
           </div>
         )}
 
-        {hasData ? (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "12px" }}>
-            <div style={{ background: "rgba(0,0,0,0.2)", padding: "16px", borderRadius: "16px" }}>
-              <div style={{ fontSize: "20px", fontWeight: "900", color: "#fff" }}>{spData?.marks?.failed?.length || 0}</div>
-              <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase" }}>Arrears</div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "12px", marginBottom: !hasSpData ? "20px" : "0px" }}>
+          <div style={{ background: "rgba(0,0,0,0.2)", padding: "16px", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.02)" }}>
+            <div style={{ fontSize: "20px", fontWeight: "900", color: "#fff" }}>
+              {hasSpData ? (spData?.marks?.failed?.length || 0) : "—"}
             </div>
-            <div style={{ background: "rgba(0,0,0,0.2)", padding: "16px", borderRadius: "16px" }}>
-              <div style={{ fontSize: "20px", fontWeight: "900", color: "#fff" }}>{spData?.marks?.marks?.length || 0}</div>
-              <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase" }}>Grades Logged</div>
-            </div>
-            <div style={{ background: "rgba(0,0,0,0.2)", padding: "16px", borderRadius: "16px" }}>
-              <div style={{ fontSize: "20px", fontWeight: "900", color: isAura ? "#FF75C3" : isMatrix ? "#a8c200" : "#00ff88" }}>{spData?.marks?.sgpa || spData?.marks?.SGPA || data?.academia?.profile?.["SGPA"] || "—"}</div>
-              <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase" }}>SGPA</div>
-            </div>
-            <div style={{ background: "rgba(0,0,0,0.2)", padding: "16px", borderRadius: "16px" }}>
-              <div style={{ fontSize: "20px", fontWeight: "900", color: isAura ? "#FF75C3" : isMatrix ? "#a8c200" : "#00ff88" }}>{spData?.marks?.cgpa || spData?.marks?.CGPA || data?.academia?.profile?.["CGPA"] || "—"}</div>
-              <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase" }}>CGPA</div>
+            <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase", marginTop: "2px" }}>
+              Arrears {!hasSpData && "(Portal Link)"}
             </div>
           </div>
-        ) : studentPortalConnected ? (
-          <div style={{ padding: "32px", textAlign: "center" }}>
-            {syncError ? (
-              <>
-                <div style={{ fontSize: "14px", fontWeight: 700, color: "#EF4444", marginBottom: "8px" }}>Sync Failed</div>
-                <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.4)", marginBottom: "16px" }}>{syncError}</div>
-                <button 
-                  onClick={() => setIsSyncModalOpen(true)}
-                  style={{ padding: "8px 16px", borderRadius: "8px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontSize: "12px", cursor: "pointer" }}
-                >
-                  Retry Unlock
-                </button>
-              </>
-            ) : (
-              <>
-                <div style={{ fontSize: "14px", fontWeight: 700, color: "#fff", marginBottom: "8px" }}>Synchronizing Portal...</div>
-                <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.4)" }}>Updating academic intelligence hub...</div>
-              </>
-            )}
+          <div style={{ background: "rgba(0,0,0,0.2)", padding: "16px", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.02)" }}>
+            <div style={{ fontSize: "20px", fontWeight: "900", color: "#fff" }}>
+              {hasSpData ? (spData?.marks?.marks?.length || 0) : (marks?.length || 0)}
+            </div>
+            <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase", marginTop: "2px" }}>
+              Grades Logged
+            </div>
           </div>
-        ) : (
-          <StudentPortalPrompt inline onConnect={() => setIsSyncModalOpen(true)} />
+          <div style={{ background: "rgba(0,0,0,0.2)", padding: "16px", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.02)" }}>
+            <div style={{ fontSize: "20px", fontWeight: "900", color: isAura ? "#FF75C3" : isMatrix ? "#a8c200" : "#00ff88" }}>
+              {spData?.marks?.sgpa || spData?.marks?.SGPA || data?.profile?.["SGPA"] || data?.profile?.["sgpa"] || "—"}
+            </div>
+            <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase", marginTop: "2px" }}>SGPA</div>
+          </div>
+          <div style={{ background: "rgba(0,0,0,0.2)", padding: "16px", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.02)" }}>
+            <div style={{ fontSize: "20px", fontWeight: "900", color: isAura ? "#FF75C3" : isMatrix ? "#a8c200" : "#00ff88" }}>
+              {spData?.marks?.cgpa || spData?.marks?.CGPA || data?.profile?.["CGPA"] || data?.profile?.["cgpa"] || "—"}
+            </div>
+            <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase", marginTop: "2px" }}>CGPA</div>
+          </div>
+        </div>
+
+        {!hasSpData && (
+          <div style={{
+            marginTop: "12px",
+            background: isAura 
+              ? "linear-gradient(135deg, rgba(255,117,195,0.08) 0%, rgba(167,139,250,0.05) 100%)" 
+              : isMatrix 
+                ? "rgba(168, 194, 0, 0.05)" 
+                : "linear-gradient(135deg, rgba(0, 255, 136, 0.05) 0%, rgba(56, 189, 248, 0.05) 100%)",
+            border: `1px solid ${
+              isAura 
+                ? "rgba(255, 117, 195, 0.15)" 
+                : isMatrix 
+                  ? "rgba(168, 194, 0, 0.2)" 
+                  : "rgba(0, 255, 136, 0.15)"
+            }`,
+            borderRadius: "16px",
+            padding: "16px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+            alignItems: "center",
+            textAlign: "center"
+          }}>
+            <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.6)", fontWeight: 600, lineHeight: 1.4 }}>
+              Link your <strong>SRM Student Portal</strong> (optional) to unlock historical Arrears tracking and official semester grade logs.
+            </span>
+            <button
+              onClick={() => setIsSyncModalOpen(true)}
+              style={{
+                background: isAura ? "linear-gradient(135deg, #FF75C3 0%, #A78BFA 100%)" : isMatrix ? "#a8c200" : "#00ff88",
+                color: "#000",
+                border: "none",
+                padding: "8px 18px",
+                borderRadius: "10px",
+                fontSize: "10px",
+                fontWeight: 900,
+                cursor: "pointer",
+                textTransform: "uppercase",
+                letterSpacing: "0.08em",
+                boxShadow: `0 4px 15px rgba(${isAura ? "255, 117, 195" : isMatrix ? "168, 194, 0" : "0, 255, 136"}, 0.2)`
+              }}
+            >
+              Link Student Portal
+            </button>
+          </div>
         )}
       </div>
     );
