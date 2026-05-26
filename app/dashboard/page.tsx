@@ -1045,13 +1045,13 @@ export default function DashboardPage() {
                 zIndex: 5
               }} />
 
-              <img src="/nexus-logo.png" alt="Logo" style={{ width: "48px", height: "48px", filter: 'drop-shadow(0 0 10px rgba(0, 229, 255, 0.45))', zIndex: 4 }} />
+              <img src="/nexus-logo.png" alt="Logo" style={{ width: "56px", height: "56px", filter: 'drop-shadow(0 0 10px rgba(0, 229, 255, 0.45))', zIndex: 4 }} />
             </div>
           </div>
 
           {/* Glowing Status Text */}
-          <div className="aura-loading-text">
-            SRM NEXUS
+          <div className="aura-loading-text" style={{ fontSize: "28px", letterSpacing: "0.08em", background: "none", color: "initial", textShadow: "none", display: "flex", gap: "10px", justifyContent: "center" }}>
+            <span style={{ background: "linear-gradient(135deg, #FF75C3 0%, #CD93FF 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", fontWeight: 950, textShadow: "0 0 40px rgba(255, 117, 195, 0.45)" }}>SRM</span> <span style={{ background: "linear-gradient(135deg, #00E5FF 0%, #ffffff 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", fontWeight: 950, textShadow: "0 0 40px rgba(0, 229, 255, 0.45)" }}>NEXUS</span>
           </div>
           <div style={{
             fontSize: '8.5px',
@@ -1061,7 +1061,7 @@ export default function DashboardPage() {
             textTransform: 'uppercase',
             marginBottom: '32px'
           }}>
-            Academic Intelligence Suite
+            ACADEMIC INTELLIGENCE SUITE
           </div>
 
           {/* Progress bar info layout */}
@@ -1069,7 +1069,7 @@ export default function DashboardPage() {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'baseline',
-            width: '200px',
+            width: '280px',
             margin: '0 auto 8px',
             fontFamily: 'monospace',
             fontSize: '9.5px',
@@ -1077,7 +1077,7 @@ export default function DashboardPage() {
             letterSpacing: '0.05em'
           }}>
             <span style={{ color: 'rgba(255,255,255,0.3)' }}>CONNECTING</span>
-            <span style={{ color: '#00E5FF', textShadow: '0 0 8px rgba(0, 229, 255, 0.4)' }} className="tabular-nums">
+            <span style={{ color: '#00E5FF', textShadow: '0 0 8px rgba(0, 229, 255, 0.4)', fontWeight: "bold" }} className="tabular-nums">
               {Math.round(((loadingLogIndex + 1) / loadingSteps.length) * 100)}%
             </span>
           </div>
@@ -1085,7 +1085,7 @@ export default function DashboardPage() {
           {/* Smooth Shimmering Progress Bar Capacitor */}
           <div 
             style={{ 
-              width: '200px', 
+              width: '280px', 
               height: '5px', 
               background: 'rgba(255,255,255,0.03)', 
               borderRadius: '100px', 
@@ -1140,7 +1140,7 @@ export default function DashboardPage() {
 
           {/* Cyberpunk Stacked Scrolling Terminal Console */}
           <div style={{
-            width: '240px',
+            width: '280px',
             height: '76px',
             background: 'rgba(5, 5, 8, 0.5)',
             backdropFilter: 'blur(20px)',
@@ -1163,18 +1163,18 @@ export default function DashboardPage() {
                   fontFamily: 'monospace',
                   fontWeight: 800,
                   letterSpacing: '0.04em',
-                  color: log.isLatest ? '#ffffff' : 'rgba(255,255,255,0.3)',
-                  opacity: log.isLatest ? 1 : log.index === loadingLogIndex - 1 ? 0.55 : 0.25,
+                  color: log.isLatest ? '#ffffff' : 'rgba(255,255,255,0.7)',
+                  opacity: 1,
                   transition: 'all 0.3s'
                 }}
               >
-                <span style={{ color: log.isLatest ? '#FF2D55' : 'rgba(255, 45, 85, 0.45)', marginRight: '6px' }}>
+                <span style={{ color: log.isLatest ? '#FF2D55' : 'rgba(255, 45, 85, 0.75)', marginRight: '6px' }}>
                   {log.hex}
                 </span>
-                <span style={{ color: log.isLatest ? '#00E5FF' : 'rgba(0, 229, 255, 0.45)', marginRight: '8px' }}>
+                <span style={{ color: log.isLatest ? '#00E5FF' : 'rgba(0, 229, 255, 0.75)', marginRight: '8px' }}>
                   {log.prefix}
                 </span>
-                <span style={{ color: log.isLatest ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.4)' }}>
+                <span style={{ color: log.isLatest ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.65)' }}>
                   {log.text}
                 </span>
                 {log.isLatest ? (
@@ -1208,7 +1208,7 @@ export default function DashboardPage() {
           fontWeight: 900,
           textTransform: 'uppercase'
         }}>
-          SRM_NEBULA_SECURE_v2.0_SYS_ACTIVE
+          SRM_NEBULA_SECURE_V2.0_SYS_ACTIVE
         </div>
       </div>
     );
