@@ -1,10 +1,10 @@
 "use client";
 // Deployment Trigger: 2026-05-15
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { authAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
-import { Eye, EyeOff, Shield, Zap } from "lucide-react";
+import { Eye, EyeOff, MonitorPlay, Shield, Zap } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -17,6 +17,7 @@ export default function LoginPage() {
   const [connector] = useState<"academia" | "student-portal">("academia");
   const [captchaData, setCaptchaData] = useState<{ captcha: string; captchaToken: string } | null>(null);
   const [captchaAnswer] = useState("");
+  const heroVideoRef = useRef<HTMLVideoElement | null>(null);
 
   const router = useRouter();
   
@@ -49,6 +50,12 @@ export default function LoginPage() {
        return () => clearTimeout(id);
      }
    }, [connector, captchaData, fetchCaptcha]);
+
+   useEffect(() => {
+     heroVideoRef.current?.play().catch(() => {
+       // Muted inline autoplay can still be paused by some mobile browser policies.
+     });
+   }, []);
  
     async function handleLogin() {
       if (!email || !password) return setError("PROVIDE CREDENTIALS");
@@ -288,6 +295,126 @@ export default function LoginPage() {
           border-color: rgba(255, 255, 255, 0.15);
           transform: translateY(-10px);
           box-shadow: 0 20px 40px rgba(139, 92, 246, 0.1);
+        }
+
+        .video-showcase {
+          width: 100%;
+          margin-bottom: 40px;
+          border-radius: 28px;
+          overflow: hidden;
+          position: relative;
+          background:
+            radial-gradient(circle at 24% 20%, rgba(255, 117, 195, 0.16), transparent 32%),
+            radial-gradient(circle at 78% 82%, rgba(0, 255, 136, 0.12), transparent 34%),
+            rgba(255, 255, 255, 0.035);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          box-shadow: 0 28px 80px rgba(0, 0, 0, 0.46), 0 0 48px rgba(139, 92, 246, 0.08);
+          isolation: isolate;
+        }
+
+        .video-showcase::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          z-index: 2;
+          pointer-events: none;
+          background:
+            linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, transparent 18%),
+            linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, transparent 34%);
+          opacity: 0.42;
+        }
+
+        .video-showcase::after {
+          content: "";
+          position: absolute;
+          inset: auto 18px 18px 18px;
+          height: 1px;
+          z-index: 2;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.42), transparent);
+        }
+
+        .video-showcase video {
+          display: block;
+          width: 100%;
+          aspect-ratio: 16 / 9;
+          object-fit: cover;
+          opacity: 0.92;
+          filter: saturate(1.12) contrast(1.05);
+        }
+
+        .video-badge {
+          position: absolute;
+          left: 18px;
+          top: 18px;
+          z-index: 3;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 9px 12px;
+          border-radius: 999px;
+          background: rgba(3, 3, 8, 0.62);
+          border: 1px solid rgba(255, 255, 255, 0.14);
+          backdrop-filter: blur(18px);
+          -webkit-backdrop-filter: blur(18px);
+          color: rgba(255, 255, 255, 0.78);
+          font-size: 10px;
+          font-weight: 900;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+        }
+
+        .video-status {
+          width: 7px;
+          height: 7px;
+          border-radius: 999px;
+          background: #00ff88;
+          box-shadow: 0 0 18px rgba(0, 255, 136, 0.84);
+          animation: pulse 1.8s ease-in-out infinite;
+        }
+
+        .video-caption {
+          position: absolute;
+          right: 18px;
+          bottom: 18px;
+          z-index: 3;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 12px;
+          border-radius: 14px;
+          background: rgba(3, 3, 8, 0.56);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(18px);
+          -webkit-backdrop-filter: blur(18px);
+          color: rgba(255, 255, 255, 0.72);
+          font-size: 11px;
+          font-weight: 800;
+        }
+
+        @media (max-width: 640px) {
+          .video-showcase {
+            margin-bottom: 32px;
+            border-radius: 22px;
+          }
+
+          .video-badge {
+            left: 12px;
+            top: 12px;
+            font-size: 9px;
+            padding: 8px 10px;
+          }
+
+          .video-caption {
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
+            justify-content: center;
+          }
+
+          .hero-title {
+            font-size: 36px !important;
+            letter-spacing: -0.035em !important;
+          }
         }
 
         .compare-table {
@@ -549,12 +676,35 @@ export default function LoginPage() {
                 <span style={{ padding: "8px 14px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "99px", fontSize: "10px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(255,255,255,0.6)" }}>v2.0 PRODUCTION</span>
                 <span style={{ padding: "8px 14px", background: "rgba(0,255,136,0.12)", border: "1px solid rgba(0,255,136,0.3)", color: "#00FF88", borderRadius: "99px", fontSize: "10px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em" }}>SYSTEMS ONLINE</span>
               </div>
-              <h1 style={{ fontSize: "clamp(42px, 9vw, 88px)", fontWeight: 950, letterSpacing: "-0.06em", lineHeight: 1, marginBottom: "36px" }}>
+              <h1 className="hero-title" style={{ fontSize: "clamp(42px, 9vw, 88px)", fontWeight: 950, letterSpacing: "-0.06em", lineHeight: 1, marginBottom: "36px" }}>
                 Dominate Your <span style={{ color: "rgba(255,255,255,0.35)", display: "block" }}>Academic Journey.</span>
               </h1>
               <p style={{ fontSize: "18px", color: "rgba(255,255,255,0.55)", lineHeight: 1.7, marginBottom: "56px", fontWeight: 500 }}>
                 Experience the next generation of student intelligence. Precision metrics, AI-driven predictions, and zero-latency synchronization.
               </p>
+
+              <div className="video-showcase" aria-label="SRM Nexus product launch trailer">
+                <video
+                  ref={heroVideoRef}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  poster="/nexus-logo.png"
+                >
+                  <source src="/videos/srm-nexus-ad.mp4" type="video/mp4" />
+                  <source src="/videos/srm-nexus-ad.webm" type="video/webm" />
+                </video>
+                <div className="video-badge">
+                  <span className="video-status" />
+                  Launch trailer
+                </div>
+                <div className="video-caption">
+                  <MonitorPlay size={14} />
+                  Your Academic OS
+                </div>
+              </div>
               
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
                 <div className="feature-card">
