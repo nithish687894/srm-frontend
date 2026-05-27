@@ -27,6 +27,17 @@ export default function LoginPage() {
   const _hasHydrated = useAuthStore((state) => state._hasHydrated);
   const hasChosenTheme = useAuthStore((state) => state.hasChosenTheme);
 
+  const routeAfterAuth = useCallback(() => {
+    const target = hasChosenTheme ? "/dashboard" : "/setup/theme";
+    router.replace(target);
+
+    window.setTimeout(() => {
+      if (window.location.pathname === "/") {
+        window.location.assign(target);
+      }
+    }, 1800);
+  }, [hasChosenTheme, router]);
+
    const fetchCaptcha = useCallback(async () => {
      try {
        const data = await authAPI.initAuth("student-portal");
@@ -76,10 +87,7 @@ export default function LoginPage() {
         setAuthData(res.token, res.refreshToken, finalEmail);
         setLoginPhase("success");
         
-        setTimeout(() => {
-          if (hasChosenTheme) router.push("/dashboard");
-          else router.push("/setup/theme");
-        }, 1200);
+        setTimeout(routeAfterAuth, 700);
      } catch (e: AnyValue) {
        setLoading(false);
        setLoginPhase("idle");
@@ -100,10 +108,7 @@ export default function LoginPage() {
        setAuthData(res.token, res.refreshToken, demoEmail);
        setLoginPhase("success");
        
-       setTimeout(() => {
-         if (hasChosenTheme) router.push("/dashboard");
-         else router.push("/setup/theme");
-       }, 1200);
+       setTimeout(routeAfterAuth, 700);
      } catch (e: AnyValue) {
        setLoading(false);
        setLoginPhase("idle");
@@ -161,7 +166,7 @@ export default function LoginPage() {
         }
 
         .hero-section {
-          padding: 60px 20px;
+          padding: 48px 20px 64px;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -180,21 +185,32 @@ export default function LoginPage() {
             flex-direction: row;
             text-align: left;
             justify-content: space-between;
-            gap: 60px;
-            padding: 60px 40px;
+            align-items: center;
+            gap: 44px;
+            padding: 40px 40px 56px;
           }
         }
 
         @media (min-width: 1024px) {
           .hero-section {
-            min-height: 100vh;
-            padding: 80px 60px;
-            gap: 80px;
+            min-height: 100svh;
+            padding: 36px 56px 48px;
+            gap: 56px;
+          }
+        }
+
+        @media (min-width: 1280px) {
+          .hero-section {
+            padding-inline: 72px;
+            gap: 72px;
           }
         }
 
         .hero-login {
           animation: slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+          width: 100%;
+          max-width: 440px;
+          flex: 0 0 min(440px, 35vw);
         }
 
         .login-container {
@@ -209,6 +225,28 @@ export default function LoginPage() {
           box-shadow: 0 50px 150px rgba(0, 0, 0, 0.9);
           position: relative;
           z-index: 2;
+        }
+
+        .hero-content {
+          width: 100%;
+          min-width: 0;
+        }
+
+        @media (min-width: 1024px) {
+          .login-container {
+            max-width: 400px;
+            padding: 30px;
+            border-radius: 26px;
+          }
+
+          .hero-content {
+            max-width: 560px !important;
+          }
+
+          .login-container h2 {
+            font-size: 28px !important;
+            margin-top: 20px !important;
+          }
         }
 
         @media (max-width: 480px) {
@@ -295,6 +333,12 @@ export default function LoginPage() {
           border-color: rgba(255, 255, 255, 0.15);
           transform: translateY(-10px);
           box-shadow: 0 20px 40px rgba(139, 92, 246, 0.1);
+        }
+
+        .feature-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 24px;
         }
 
         .video-showcase {
@@ -415,6 +459,36 @@ export default function LoginPage() {
             font-size: 36px !important;
             letter-spacing: -0.035em !important;
           }
+
+          .feature-grid {
+            grid-template-columns: 1fr;
+            gap: 16px;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .hero-title {
+            font-size: clamp(52px, 5.7vw, 76px) !important;
+            margin-bottom: 24px !important;
+          }
+
+          .hero-content p {
+            margin-bottom: 28px !important;
+          }
+
+          .video-showcase {
+            margin-bottom: 24px;
+            border-radius: 22px;
+          }
+
+          .feature-card {
+            padding: 22px;
+            border-radius: 20px;
+          }
+
+          .feature-grid {
+            gap: 16px;
+          }
         }
 
         .compare-table {
@@ -453,6 +527,31 @@ export default function LoginPage() {
         @media (max-width: 768px) {
           .compare-table { border-spacing: 0 12px; }
           .compare-table td { padding: 20px; font-size: 14px; }
+        }
+
+        @media (max-width: 640px) {
+          .compare-table,
+          .compare-table tbody,
+          .compare-table tr,
+          .compare-table td {
+            display: block;
+            width: 100%;
+          }
+
+          .compare-table tr {
+            border-radius: 18px;
+            overflow: hidden;
+          }
+
+          .compare-table td {
+            border-radius: 0 !important;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 0;
+          }
+
+          .compare-table td:last-child {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+          }
         }
       `}</style>
 
@@ -706,7 +805,7 @@ export default function LoginPage() {
                 </div>
               </div>
               
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
+              <div className="feature-grid">
                 <div className="feature-card">
                   <Shield size={28} style={{ marginBottom: "20px", color: "#FF75C3" }} />
                   <div style={{ fontWeight: 950, marginBottom: "12px", fontSize: "16px" }}>SECURE SYNC</div>

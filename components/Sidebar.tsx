@@ -259,14 +259,25 @@ export default function Sidebar() {
 
         @media (min-width: 768px) {
           main, .page-main, .swipe-wrapper > div:last-child {
-            padding-left: 310px !important;
-            padding-right: 40px !important;
+            padding-left: 288px !important;
+            padding-right: 32px !important;
           }
           .fixed.top-12 {
-            left: 310px !important;
+            left: 288px !important;
           }
           .fixed.top-12 button {
             display: none !important;
+          }
+        }
+
+        @media (min-width: 1180px) {
+          main, .page-main, .swipe-wrapper > div:last-child {
+            padding-left: 320px !important;
+            padding-right: 48px !important;
+          }
+          .fixed.top-12 {
+            left: 320px !important;
+            right: 48px !important;
           }
         }
 
@@ -330,12 +341,12 @@ export default function Sidebar() {
 
       {/* DESKTOP SIDEBAR NAVIGATION */}
       <div className="desktop-sidebar" style={{
-        position: "fixed", left: "24px", top: "24px", bottom: "24px", width: "260px",
+        position: "fixed", left: "24px", top: "24px", bottom: "24px", width: "248px",
         background: theme === "matrix" ? "rgba(5,7,5,0.85)" : theme === "aura" ? "rgba(20,15,35,0.85)" : "rgba(10,10,12,0.85)",
         backdropFilter: "blur(40px)",
         borderRadius: "32px", border: `1.5px solid ${hubCardBorder}`,
         boxShadow: `0 20px 40px rgba(0,0,0,0.5), 0 0 30px ${hubAccentGlow}`,
-        padding: "24px", flexDirection: "column",
+        padding: "22px", flexDirection: "column",
         zIndex: 99999, overflowY: "auto"
       }}>
          {/* Top Profile Area */}

@@ -753,17 +753,35 @@ h4 { font-weight: 740; }
 /* Tablets (768px-1023px) */
 @media (min-width: 768px) and (max-width: 1023px) {
   .page-content {
-    padding: 24px 32px calc(100px + env(safe-area-inset-bottom));
-    max-width: 720px;
+    padding: 28px 36px calc(100px + env(safe-area-inset-bottom));
+    max-width: 840px;
     margin: 0 auto;
   }
 }
 
 /* Desktop (1024px+) */
 @media (min-width: 1024px) {
+  .page-main {
+    padding-top: 36px;
+    padding-bottom: 48px;
+  }
+
   .page-content {
-    max-width: 900px;
+    width: min(100%, 1180px);
+    max-width: 1180px;
+    padding: 32px 44px 72px;
     margin: 0 auto;
+  }
+
+  .page-content > * {
+    content-visibility: visible;
+    contain-intrinsic-size: auto;
+  }
+}
+
+@media (min-width: 1440px) {
+  .page-content {
+    max-width: 1320px;
   }
 }
 
@@ -1001,6 +1019,13 @@ h4 { font-weight: 740; }
 .page-content > * {
   content-visibility: auto;
   contain-intrinsic-size: 0 200px;
+}
+
+@media (min-width: 1024px) {
+  .page-content > * {
+    content-visibility: visible;
+    contain-intrinsic-size: auto;
+  }
 }
 
 /* ── Low-end mobile performance mode ──
