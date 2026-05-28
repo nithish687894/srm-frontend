@@ -22,7 +22,7 @@ export default function CalendarPage() {
   useEffect(() => { setMounted(true); }, []);
 
   const isCosmos = theme === "cosmos";
-  const isAura = theme === "aura";
+  const isAura = true;
   const AURA_COLORS = {
     primary: "#FF75C3",
     secondary: "#8F92FF",

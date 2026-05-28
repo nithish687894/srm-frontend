@@ -25,7 +25,7 @@ export default function ToolsHubPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const { theme } = useThemeStore();
-  const isAura = theme === "aura";
+  const isAura = true;
 
   useEffect(() => { setMounted(true); }, []);
 

@@ -273,35 +273,7 @@ export default function ThemeOnboarding() {
             <button className="select-btn" style={{ background: "linear-gradient(90deg, #FF75C3, #CD93FF)", color: "#fff" }}>Initialize Aura</button>
           </motion.div>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="theme-card" onClick={() => handleSelect("matrix")}
-          >
-            <div className="theme-name">Matrix</div>
-            <p className="theme-desc">Industrial efficiency. Minimalist carbon design with tactical cyber-green accents.</p>
-            <div className="preview-box matrix-preview">
-              <div className="matrix-line" />
-            </div>
-            <button className="select-btn" style={{ background: "#a8c200", color: "#000" }}>Initialize Matrix</button>
-          </motion.div>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="theme-card" onClick={() => handleSelect("cosmos")}
-          >
-            <div className="theme-name">EduVerse</div>
-            <p className="theme-desc">Deep space productivity. Dark cosmic navy with vibrant neon highlights.</p>
-            <div className="preview-box cosmos-preview">
-              <div className="cosmos-orbit">
-                <div className="cosmos-core" />
-              </div>
-            </div>
-            <button className="select-btn" style={{ background: "linear-gradient(90deg, #2f63f2, #4d7dff)", color: "#fff" }}>Initialize EduVerse</button>
-          </motion.div>
         </div>
 
         <motion.p 

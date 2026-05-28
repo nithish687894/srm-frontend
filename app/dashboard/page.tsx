@@ -169,11 +169,11 @@ export default function DashboardPage() {
     const spData = data?.studentPortal || studentPortalData;
     const hasData = studentPortalConnected && !!spData && !!spData.marks && !!spData.profile;
     return (
-      <div style={{ 
+      <div style={{
         background: isAura ? "rgba(255, 255, 255, 0.02)" : isMatrix ? "#1c1c1c" : "linear-gradient(135deg, rgba(0, 255, 136, 0.03) 0%, rgba(59, 130, 246, 0.03) 100%)",
         backdropFilter: isAura ? "blur(40px)" : "none",
         WebkitBackdropFilter: isAura ? "blur(40px)" : "none",
-        border: isAura || isMatrix ? `1px solid ${isAura ? "rgba(255, 255, 255, 0.08)" : "#333"}` : "1px solid rgba(255, 255, 255, 0.05)", 
+        border: isAura || isMatrix ? `1px solid ${isAura ? "rgba(255, 255, 255, 0.08)" : "#333"}` : "1px solid rgba(255, 255, 255, 0.05)",
         borderRadius: "32px", padding: "24px", marginBottom: "32px",
         position: "relative", overflow: "hidden"
       }}>
@@ -212,7 +212,7 @@ export default function DashboardPage() {
               <>
                 <div style={{ fontSize: "14px", fontWeight: 700, color: "#EF4444", marginBottom: "8px" }}>Sync Failed</div>
                 <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.4)", marginBottom: "16px" }}>{syncError}</div>
-                <button 
+                <button
                   onClick={() => setIsSyncModalOpen(true)}
                   style={{ padding: "8px 16px", borderRadius: "8px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontSize: "12px", cursor: "pointer" }}
                 >
@@ -253,7 +253,7 @@ export default function DashboardPage() {
           };
           setData(mergedData);
           setAcademicData(mergedData);
-          
+
           if (d.studentPortal) {
             setStudentPortalData(d.studentPortal);
             if (!d.studentPortal.profile || !d.studentPortal.marks) {
@@ -262,7 +262,7 @@ export default function DashboardPage() {
               setSyncError(null);
             }
           }
-          
+
           if (d.academia?.profile) {
             setProfile(d.academia.profile);
             const b = extractBatch(d.academia.profile["Combo / Batch"] || "");
@@ -330,7 +330,7 @@ export default function DashboardPage() {
     const sortedDays = Array.from(byDate.values()).sort((a: any, b: any) => a.isoDate.localeCompare(b.isoDate));
     const now = new Date();
     const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-    
+
     // Find the current active semester based on today's date
     const currentMonth = now.getMonth();
     const activeSem = (currentMonth >= 6) ? "ODD" : "EVEN";
@@ -339,11 +339,11 @@ export default function DashboardPage() {
       if (d.isoDate >= todayStr) {
         const isSignificant = (d.event && d.event !== "-") || d.isHoliday;
         // Significant event OR it's the very next academic day of the ACTIVE semester
-        const isNextAcademicDay = d.dayOrder && events.length === 0 && d.semester === activeSem; 
-        
+        const isNextAcademicDay = d.dayOrder && events.length === 0 && d.semester === activeSem;
+
         if (isSignificant || isNextAcademicDay) {
           let eventTitle = d.event && d.event !== "-" ? d.event : d.isHoliday ? "University Holiday" : `Academic Cycle: Day Order ${d.dayOrder}`;
-          
+
           events.push({
             ...d,
             event: eventTitle
@@ -419,7 +419,7 @@ export default function DashboardPage() {
   const renderStudentInfoModal = () => {
     if (!showStudentInfo || !studentInfo) return null;
     return (
-      <div 
+      <div
         onClick={() => setShowStudentInfo(false)}
         style={{
           position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
@@ -436,7 +436,7 @@ export default function DashboardPage() {
             <div style={{ fontSize: "16px", fontWeight: 800, color: "var(--text-primary)" }}>Student Details</div>
             <button onClick={() => setShowStudentInfo(false)} style={{ background: "transparent", border: "none", color: "var(--text-muted)", fontSize: "20px", cursor: "pointer" }}>×</button>
           </div>
-          
+
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "24px" }}>
             {["Registration Number", "Name", "Combo / Batch", "Program", "Department", "Semester", "Class Room"].map(key => {
               if (!studentInfo[key]) return null;
@@ -458,11 +458,11 @@ export default function DashboardPage() {
                   return (
                     <div key={key} style={{ background: "rgba(255,255,255,0.03)", padding: "16px", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.05)" }}>
                       {lines.map((line: string, i: number) => (
-                        <div key={i} style={{ 
-                          fontSize: i === 0 ? "14px" : "12px", 
-                          fontWeight: i === 0 ? 800 : 600, 
+                        <div key={i} style={{
+                          fontSize: i === 0 ? "14px" : "12px",
+                          fontWeight: i === 0 ? 800 : 600,
                           color: i === 0 ? "var(--text-primary)" : "var(--text-secondary)",
-                          marginBottom: i === 0 ? "4px" : "2px" 
+                          marginBottom: i === 0 ? "4px" : "2px"
                         }}>{line}</div>
                       ))}
                     </div>
@@ -476,9 +476,9 @@ export default function DashboardPage() {
     );
   };
 
-  const themeProps = useMemo(() => ({ 
-    data, riskCount, avgAtt, avgMarks, totalCourses, 
-    targetClasses, nextClass, recentTop5, initials, 
+  const themeProps = useMemo(() => ({
+    data, riskCount, avgAtt, avgMarks, totalCourses,
+    targetClasses, nextClass, recentTop5, initials,
     firstName, dayOrder, isHoliday, dayOffset, setDayOffset,
     onShowStudentInfo: () => setShowStudentInfo(true),
     broadcast, setIsSyncModalOpen, renderAcademicIntegrityHub,
@@ -492,8 +492,8 @@ export default function DashboardPage() {
       case "matrix": return <MatrixDashboard {...themeProps} />;
       case "cosmos": return <CosmosDashboard {...themeProps} />;
       default: return (
-        <AuraDashboard 
-          data={data} avgAtt={avgAtt} avgMarks={avgMarks} firstName={firstName} 
+        <AuraDashboard
+          data={data} avgAtt={avgAtt} avgMarks={avgMarks} firstName={firstName}
           nextClass={nextClass} onShowStudentInfo={() => setShowStudentInfo(true)}
           broadcast={broadcast} renderAcademicIntegrityHub={renderAcademicIntegrityHub}
           upcomingEvents={upcomingEvents}
@@ -509,13 +509,13 @@ export default function DashboardPage() {
   }
 
   if (loading && !data) return (
-    <div className="page-root" style={{ 
-      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", 
+    <div className="page-root" style={{
+      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
       background: "#000", position: "fixed", inset: 0, zIndex: 1000, overflow: 'hidden'
     }}>
       {/* Background Neural Field */}
       <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
-        <motion.div 
+        <motion.div
           animate={{ scale: [1, 1.2, 1], opacity: [0.05, 0.1, 0.05] }}
           transition={{ duration: 10, repeat: Infinity }}
           style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at center, #111 0%, #000 100%)' }}
@@ -523,12 +523,12 @@ export default function DashboardPage() {
       </div>
 
       {/* Animated Aura Blobs for Loading */}
-      <motion.div 
+      <motion.div
         animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.25, 0.15], rotate: [0, 180, 360] }}
         transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
         style={{ position: 'absolute', width: '400px', height: '400px', borderRadius: '50%', background: '#FF75C3', filter: 'blur(100px)', zIndex: 0 }}
       />
-      <motion.div 
+      <motion.div
         animate={{ scale: [1.2, 1, 1.2], opacity: [0.1, 0.2, 0.1], rotate: [360, 180, 0] }}
         transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
         style={{ position: 'absolute', width: '500px', height: '500px', borderRadius: '50%', background: '#8F92FF', filter: 'blur(120px)', zIndex: 0 }}
@@ -560,7 +560,7 @@ export default function DashboardPage() {
       <Sidebar />
       <main style={{ flex: 1, overflowY: "auto", WebkitOverflowScrolling: "touch" }}>
         {activeDashboard}
-        <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => {}} netId="" />
+        <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => { }} netId="" />
         {renderStudentInfoModal()}
       </main>
     </div>
