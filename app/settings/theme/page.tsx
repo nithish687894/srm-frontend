@@ -21,8 +21,11 @@ export default function ThemeSettingsPage() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-    setSelected(theme);
+    const id = setTimeout(() => {
+      setMounted(true);
+      setSelected(theme);
+    }, 0);
+    return () => clearTimeout(id);
   }, [theme]);
 
   const handleApply = () => {

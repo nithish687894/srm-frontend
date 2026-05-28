@@ -9,6 +9,7 @@ import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import { dataAPI } from "@/lib/api";
 import AuraMarks from "@/components/aura-theme/AuraMarks";
+import CosmosMarks from "@/components/CosmosMarks";
 import Sidebar from "@/components/Sidebar";
 
 const THEME = {
@@ -21,7 +22,7 @@ const THEME = {
   accentRed: "#ff3b3b",
 };
 
-const TestBadge = ({ test, score }: any) => {
+const TestBadge = ({ test, score }: AnyValue) => {
   const parts = (test || "Test/100").split('/');
   const label = parts[0];
   const max = parseFloat(parts[1]) || 100;
@@ -48,7 +49,9 @@ export default function MarksPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
-  const { academicData, setAcademicData } = useAuthStore();
+  // Enforce granular Zustand selectors to eliminate main-thread render lags
+  const academicData = useAuthStore((state) => state.academicData);
+  const setAcademicData = useAuthStore((state) => state.setAcademicData);
   const { theme } = useThemeStore();
   
   useEffect(() => {
@@ -73,17 +76,31 @@ export default function MarksPage() {
     const rawMarks = Array.isArray(academicData?.marks) ? academicData.marks : [];
     const attendance = Array.isArray(academicData?.attendance) ? academicData.attendance : [];
 
-    const processedMarks = rawMarks.map((m: any) => {
+    const processedMarks = rawMarks.map((m: AnyValue) => {
       if (!m) return null;
-      const attnMatch = attendance.find((a: any) => a && (a['Course Code'] === m.courseCode || a['Course Code'] === m.code));
+      const attnMatch = attendance.find((a: AnyValue) => a && (a['Course Code'] === m.courseCode || a['Course Code'] === m.code));
       return {
         ...m,
         title: m.courseTitle || m.description || attnMatch?.['Course Title'] || attnMatch?.['title'] || "Unknown Module"
       };
     }).filter(Boolean);
 
-    const scored = processedMarks.reduce((s:number, m:any) => s + (m.tests?.reduce((a:number, t:any) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
-    const max = processedMarks.reduce((s:number, m:any) => s + (m.tests?.reduce((a:number, t:any) => a + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0), 0);
+    // Merge subjects from attendance that are missing in marks as placeholders
+    const marksCodes = new Set(processedMarks.map((m: AnyValue) => m.courseCode || m.code));
+    attendance.forEach((a: AnyValue) => {
+      if (a && a['Course Code'] && !marksCodes.has(a['Course Code'])) {
+        processedMarks.push({
+          courseCode: a['Course Code'],
+          code: a['Course Code'],
+          courseTitle: a['Course Title'] || a['title'] || 'Unknown Module',
+          title: a['Course Title'] || a['title'] || 'Unknown Module',
+          tests: []
+        });
+      }
+    });
+
+    const scored = processedMarks.reduce((s:number, m:AnyValue) => s + (m.tests?.reduce((a:number, t:AnyValue) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
+    const max = processedMarks.reduce((s:number, m:AnyValue) => s + (m.tests?.reduce((a:number, t:AnyValue) => a + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0), 0);
     const pct = max > 0 ? (scored / max) * 100 : 0;
 
     return { marks: processedMarks, totalScored: scored, totalMax: max, avgPct: pct };
@@ -98,9 +115,8 @@ export default function MarksPage() {
   }, [mounted, theme, marks, isSyncing, router]);
 
   return (
-    <div style={{ height: "100vh", width: "100vw", background: THEME.bg, color: "#fff", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+    <div style={{ minHeight: "100vh", width: "100%", background: THEME.bg, color: "#fff", display: "flex", flexDirection: "column", position: "relative" }}>
       <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
         * { box-sizing: border-box; }
         body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background: ${THEME.bg}; }
         .animate-spin { animation: spin 2s linear infinite; }
@@ -110,6 +126,8 @@ export default function MarksPage() {
       <main style={{ flex: 1, overflowY: "auto", paddingBottom: "140px", WebkitOverflowScrolling: "touch" }}>
         {theme === "aura" ? (
           <AuraMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />
+        ) : theme === "cosmos" ? (
+          <CosmosMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />
         ) : (
           <div style={{ padding: "0 20px", paddingBottom: "140px" }}>
              <header style={{ padding: "60px 24px 20px", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "space-between", background: 'rgba(5,5,5,0.8)', backdropFilter: 'blur(20px)', zIndex: 100 }}>
@@ -146,25 +164,25 @@ export default function MarksPage() {
                    </div>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                   {marks.length > 0 ? marks.map((m: any, i: number) => {
-                      const scored = m.tests?.reduce((s: number, t: any) => s + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0;
-                      const max = m.tests?.reduce((s: number, t: any) => s + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0;
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                   {marks.length > 0 ? marks.map((m: AnyValue, i: number) => {
+                      const scored = m.tests?.reduce((s: number, t: AnyValue) => s + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0;
+                      const max = m.tests?.reduce((s: number, t: AnyValue) => s + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0;
                       
                       return (
-                        <div key={i} style={{ background: THEME.surface, border: `1px solid ${THEME.border}`, borderRadius: '28px', padding: '24px' }}>
-                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
-                              <div style={{ flex: 1, paddingRight: '16px' }}>
-                                 <div style={{ fontSize: '9px', fontWeight: 900, color: 'rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.05)', padding: '2px 8px', borderRadius: '4px', display: 'inline-block', marginBottom: '8px' }}>{m.courseCode || m.code}</div>
-                                 <h3 style={{ fontSize: '15px', fontWeight: 800, color: '#fff', margin: 0, lineHeight: 1.3, textTransform: 'uppercase' }}>{m.title}</h3>
+                        <div key={i} style={{ background: THEME.surface, border: `1px solid ${THEME.border}`, borderRadius: '32px', padding: '30px', boxShadow: '0 20px 50px rgba(0, 0, 0, 0.25)' }}>
+                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px', gap: '20px', flexWrap: 'wrap' }}>
+                              <div style={{ flex: 1, minWidth: '200px' }}>
+                                 <div style={{ fontSize: '10px', fontWeight: 900, color: 'rgba(255,255,255,0.35)', background: 'rgba(255,255,255,0.03)', padding: '4px 10px', borderRadius: '999px', display: 'inline-block', marginBottom: '10px' }}>{m.courseCode || m.code}</div>
+                                 <h3 style={{ fontSize: '16px', fontWeight: 900, color: '#fff', margin: 0, lineHeight: 1.2, textTransform: 'uppercase' }}>{m.title}</h3>
                               </div>
-                              <div style={{ textAlign: 'right' }}>
-                                 <div style={{ fontSize: '28px', fontWeight: 900, color: THEME.accentCyan, lineHeight: 1 }}>{scored.toFixed(1)}</div>
-                                 <div style={{ fontSize: '11px', fontWeight: 800, color: 'rgba(255,255,255,0.2)', marginTop: '4px' }}>/{max}</div>
+                              <div style={{ textAlign: 'right', minWidth: '120px' }}>
+                                 <div style={{ fontSize: '34px', fontWeight: 900, color: THEME.accentCyan, lineHeight: 1 }}>{scored.toFixed(1)}</div>
+                                 <div style={{ fontSize: '12px', fontWeight: 800, color: 'rgba(255,255,255,0.35)', marginTop: '6px' }}>/{max}</div>
                               </div>
                            </div>
-                           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                              {m.tests?.map((t: any, j: number) => (
+                           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))', gap: '12px' }}>
+                              {m.tests?.map((t: AnyValue, j: number) => (
                                 <TestBadge key={j} test={t.test} score={t.score} />
                               ))}
                            </div>

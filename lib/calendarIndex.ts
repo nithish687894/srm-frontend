@@ -82,7 +82,7 @@ function isHolidayLike(dayOrder: string, day: string): boolean {
  * Each entry: { date, day, dayOrder, event, month, isHoliday, isWorkingDay }
  * The `month` field is the parsed month label, e.g. "January '26".
  */
-export function buildCalendarIndex(raw: any): {
+export function buildCalendarIndex(raw: AnyValue): {
   byDate: Map<string, CalendarDayInfo>;
   months: Record<Semester, { name: string; days: CalendarDayInfo[] }[]>;
 } {
@@ -98,16 +98,26 @@ export function buildCalendarIndex(raw: any): {
   const maybeData = raw?.data ?? raw;
   if (!maybeData || typeof maybeData !== "object") return { byDate, months: monthsOut };
 
-  const semData: Record<Semester, any[]> = {
-    EVEN: Array.isArray(maybeData.EVEN) ? maybeData.EVEN : [],
-    ODD: Array.isArray(maybeData.ODD) ? maybeData.ODD : [],
+  // Dynamically extract all available arrays (EVEN, ODD, EVEN_OLD, ODD_OLD, etc.)
+  const semData: Record<string, AnyValue[]> = {};
+  Object.keys(maybeData).forEach((key) => {
+    if (Array.isArray(maybeData[key])) {
+      semData[key] = maybeData[key];
+    }
+  });
+
+  const monthGroupsRecord: Record<Semester, Map<string, { name: string; days: CalendarDayInfo[] }>> = {
+    EVEN: new Map(),
+    ODD: new Map(),
   };
 
-  (Object.keys(semData) as Semester[]).forEach((sem) => {
-    const entries = semData[sem];
-    const monthGroups = new Map<string, { name: string; days: CalendarDayInfo[] }>();
+  Object.keys(semData).forEach((key) => {
+    // Map key to either EVEN or ODD semester category
+    const sem: Semester = key.toUpperCase().includes("EVEN") ? "EVEN" : "ODD";
+    const entries = semData[key];
+    const monthGroups = monthGroupsRecord[sem];
 
-    entries.forEach((entry: any) => {
+    entries.forEach((entry: AnyValue) => {
       if (!entry || typeof entry !== "object") return;
 
       const dateNum = parseInt(String(entry.date ?? ""), 10);
@@ -118,9 +128,25 @@ export function buildCalendarIndex(raw: any): {
       let event = String(entry.event ?? "").trim();
       const monthLabel = String(entry.month ?? "").trim();
 
+      // Trust backend's isHoliday if present, else derive it
+      const holiday =
+        typeof entry.isHoliday === "boolean"
+          ? entry.isHoliday
+          : isHolidayLike(dayOrder, day);
+
+      if (event === "-") event = "";
+
       // If event is empty, check if dayOrder contains the holiday name (common in some exports)
       if (!event && dayOrder && !/^[1-5]$/.test(dayOrder) && !/^(h|hd|gh|fh|sh|nh|oh|holiday)/i.test(dayOrder)) {
         event = dayOrder;
+      }
+
+      // If event is still empty, and it is a holiday, and day contains a descriptive holiday name
+      if (!event && holiday && day) {
+        const isStandardWeekday = /^(mon|tue|wed|thu|fri|sat|sun|monday|tuesday|wednesday|thursday|friday|saturday|sunday)$/i.test(day);
+        if (!isStandardWeekday) {
+          event = day;
+        }
       }
 
       // Use the month label the backend already sends with each entry
@@ -135,12 +161,6 @@ export function buildCalendarIndex(raw: any): {
 
       const isoDate = `${year}-${pad2(month + 1)}-${pad2(dateNum)}`;
 
-      // Trust backend's isHoliday if present, else derive it
-      const holiday =
-        typeof entry.isHoliday === "boolean"
-          ? entry.isHoliday
-          : isHolidayLike(dayOrder, day);
-
       const dayOrderNum =
         !holiday && /^[1-5]$/.test(dayOrder) ? parseInt(dayOrder, 10) : null;
 
@@ -151,9 +171,18 @@ export function buildCalendarIndex(raw: any): {
         dateNum,
         weekdayLabel: day,
         dayOrder: dayOrderNum,
-        event: event === "-" ? "" : event,
+        event: event,
         isHoliday: holiday,
       };
+
+      // Avoid duplicate entries for the exact same ISO date
+      if (byDate.has(isoDate)) {
+        const existing = byDate.get(isoDate)!;
+        // If existing has a descriptive event, keep it
+        if (existing.event && !info.event) {
+          return;
+        }
+      }
 
       byDate.set(isoDate, info);
 
@@ -164,11 +193,27 @@ export function buildCalendarIndex(raw: any): {
           days: [],
         });
       }
-      monthGroups.get(monthKey)!.days.push(info);
-    });
 
-    // Sort months chronologically, days within each month numerically
-    monthsOut[sem] = [...monthGroups.entries()]
+      const daysArr = monthGroups.get(monthKey)!.days;
+      const existingDayIndex = daysArr.findIndex((d) => d.dateNum === dateNum);
+      if (existingDayIndex !== -1) {
+        const existing = daysArr[existingDayIndex];
+        if (existing.event && !info.event) {
+          // Keep existing
+          return;
+        } else {
+          // Overwrite with newer/more descriptive event
+          daysArr[existingDayIndex] = info;
+        }
+      } else {
+        daysArr.push(info);
+      }
+    });
+  });
+
+  // Sort months chronologically, days within each month numerically
+  (Object.keys(monthGroupsRecord) as Semester[]).forEach((sem) => {
+    monthsOut[sem] = [...monthGroupsRecord[sem].entries()]
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([, v]) => {
         v.days.sort((a, b) => a.dateNum - b.dateNum);

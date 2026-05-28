@@ -1,6 +1,6 @@
 "use client";
-import { motion } from "framer-motion";
 import { ShieldCheck } from "lucide-react";
+import { useThemeStore } from "@/lib/themeStore";
 
 interface StudentPortalPromptProps {
   onConnect: () => void;
@@ -18,6 +18,15 @@ export default function StudentPortalPrompt({
   onConnect,
   inline = false,
 }: StudentPortalPromptProps) {
+  const { theme } = useThemeStore();
+  const isAura = theme === "aura";
+  const isMatrix = theme === "matrix";
+
+  // Theme-aware accent colors
+  const accent = isAura ? "#FF75C3" : isMatrix ? "#a8c200" : "#00ff88";
+  const accentRgb = isAura ? "255, 117, 195" : isMatrix ? "168, 194, 0" : "0, 255, 136";
+  const btnTextColor = "#000";
+
   if (inline) {
     // Simple text + button — NO card wrapper, NO header (parent provides those)
     return (
@@ -25,7 +34,7 @@ export default function StudentPortalPrompt({
         <p
           style={{
             fontSize: "13px",
-            color: "#666",
+            color: "rgba(255,255,255,0.45)",
             marginBottom: "16px",
             lineHeight: 1.5,
           }}
@@ -36,8 +45,8 @@ export default function StudentPortalPrompt({
         <button
           onClick={onConnect}
           style={{
-            background: "#00ff88",
-            color: "#000",
+            background: accent,
+            color: btnTextColor,
             padding: "10px 20px",
             borderRadius: "12px",
             fontSize: "12px",
@@ -46,6 +55,7 @@ export default function StudentPortalPrompt({
             border: "none",
             cursor: "pointer",
             transition: "transform 0.2s",
+            boxShadow: `0 0 20px rgba(${accentRgb}, 0.25)`,
           }}
         >
           Unlock Performance Records
@@ -55,9 +65,7 @@ export default function StudentPortalPrompt({
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.98 }}
-      animate={{ opacity: 1, scale: 1 }}
+    <div
       style={{
         textAlign: "center",
         padding: "40px 20px",
@@ -72,14 +80,14 @@ export default function StudentPortalPrompt({
           width: "80px",
           height: "80px",
           borderRadius: "24px",
-          background: "rgba(0, 255, 136, 0.1)",
-          border: "1px solid rgba(0, 255, 136, 0.2)",
+          background: `rgba(${accentRgb}, 0.1)`,
+          border: `1px solid rgba(${accentRgb}, 0.2)`,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <ShieldCheck size={36} color="#00ff88" />
+        <ShieldCheck size={36} color={accent} />
       </div>
       <div>
         <h3
@@ -95,7 +103,7 @@ export default function StudentPortalPrompt({
         <p
           style={{
             fontSize: "14px",
-            color: "#888",
+            color: "rgba(255,255,255,0.45)",
             maxWidth: "320px",
             lineHeight: 1.5,
           }}
@@ -107,8 +115,8 @@ export default function StudentPortalPrompt({
       <button
         onClick={onConnect}
         style={{
-          background: "#00ff88",
-          color: "#000",
+          background: accent,
+          color: btnTextColor,
           padding: "14px 28px",
           borderRadius: "99px",
           fontSize: "13px",
@@ -117,11 +125,11 @@ export default function StudentPortalPrompt({
           letterSpacing: "0.1em",
           border: "none",
           cursor: "pointer",
-          boxShadow: "0 0 20px rgba(0, 255, 136, 0.3)",
+          boxShadow: `0 0 20px rgba(${accentRgb}, 0.3)`,
         }}
       >
         Connect Student Portal
       </button>
-    </motion.div>
+    </div>
   );
 }

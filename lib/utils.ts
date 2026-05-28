@@ -19,7 +19,7 @@ export function extractBatch(batchStr: string): number {
   const batchMatch = s.match(/BATCH\s*(\d+)/i) || s.match(/B\s*(\d+)/i);
   if (batchMatch) return parseInt(batchMatch[1]);
   
-  // Fallback: search for any standalone digit
+  // Fallback: search for AnyValue standalone digit
   const digitMatch = s.match(/\b(\d+)\b/);
   if (digitMatch) return parseInt(digitMatch[1]);
   

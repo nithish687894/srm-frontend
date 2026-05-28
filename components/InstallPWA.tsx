@@ -1,28 +1,50 @@
 "use client";
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Share, PlusSquare, X } from "lucide-react";
 
 export default function InstallPWA() {
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState<AnyValue>(null);
   const [showPopup, setShowPopup] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
 
+  function isIOS() {
+    return [
+      'iPad Simulator',
+      'iPhone Simulator',
+      'iPod Simulator',
+      'iPad',
+      'iPhone',
+      'iPod'
+    ].includes(navigator.platform)
+    // iPad on iOS 13 detection
+    || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+  }
+
   useEffect(() => {
     // Check if already installed
-    if (window.matchMedia("(display-mode: standalone)").matches) {
-      setIsStandalone(true);
+    if (window.matchMedia("(display-mode: standalone)").matches || (window.navigator as AnyValue).standalone === true) {
+      setTimeout(() => setIsStandalone(true), 0);
       return;
     }
 
-    const handler = (e: any) => {
+    if (localStorage.getItem("srmx_pwa_dismissed") === "true") {
+      return;
+    }
+
+    // For Android/Chrome
+    const handler = (e: AnyValue) => {
       e.preventDefault();
       setDeferredPrompt(e);
-      // Show popup after a small delay on dashboard/landing
       setTimeout(() => setShowPopup(true), 3000);
     };
 
     window.addEventListener("beforeinstallprompt", handler);
+    
+    // For iOS where beforeinstallprompt doesn't fire
+    if (isIOS()) {
+      setTimeout(() => setShowPopup(true), 3000);
+    }
+
     return () => window.removeEventListener("beforeinstallprompt", handler);
   }, []);
 
@@ -36,28 +58,12 @@ export default function InstallPWA() {
     }
   };
 
-  const isIOS = () => {
-    return [
-      'iPad Simulator',
-      'iPhone Simulator',
-      'iPod Simulator',
-      'iPad',
-      'iPhone',
-      'iPod'
-    ].includes(navigator.platform)
-    // iPad on iOS 13 detection
-    || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
-  };
-
   if (isStandalone) return null;
 
   return (
-    <AnimatePresence>
+    <>
       {showPopup && (
-        <motion.div
-          initial={{ opacity: 0, y: 100 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 100 }}
+        <div
           style={{
             position: "fixed",
             bottom: "100px",
@@ -79,7 +85,10 @@ export default function InstallPWA() {
             position: "relative"
           }}>
             <button 
-              onClick={() => setShowPopup(false)}
+              onClick={() => {
+                localStorage.setItem("srmx_pwa_dismissed", "true");
+                setShowPopup(false);
+              }}
               style={{ position: "absolute", top: "12px", right: "12px", background: "none", border: "none", color: "#666", cursor: "pointer" }}
             >
               <X size={18} />
@@ -130,8 +139,8 @@ export default function InstallPWA() {
               </button>
             )}
           </div>
-        </motion.div>
+        </div>
       )}
-    </AnimatePresence>
+    </>
   );
 }

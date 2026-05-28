@@ -4,7 +4,7 @@ import { dataAPI } from "@/lib/api";
 import { Megaphone, X } from "lucide-react";
 
 export default function BroadcastBanner() {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<AnyValue>(null);
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {

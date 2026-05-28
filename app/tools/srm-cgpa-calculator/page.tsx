@@ -70,7 +70,7 @@ export default function CGPACalculator() {
     }));
   };
 
-  const updateSubject = (semId: string, subId: string, field: keyof Subject, value: any) => {
+  const updateSubject = (semId: string, subId: string, field: keyof Subject, value: AnyValue) => {
     setSemesters(semesters.map(sem => {
       if (sem.id === semId) {
         return {

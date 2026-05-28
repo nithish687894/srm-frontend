@@ -1,7 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
 import { ArrowLeft, ShieldCheck, Cpu } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import CyberBackground from "@/components/UnsplashBackground";
@@ -36,10 +34,7 @@ export default function PortalServicePage({ params }: { params: { service: strin
 
         {/* Content */}
         <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "20px", textAlign: "center", paddingBottom: "100px" }}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ type: "spring", damping: 20, stiffness: 100 }}
+          <div
             style={{ background: "rgba(0,0,0,0.6)", backdropFilter: "blur(24px)", border: "1px solid rgba(59, 130, 246, 0.2)", borderRadius: "32px", padding: "40px", maxWidth: "400px", width: "100%", position: "relative", overflow: "hidden", boxShadow: "0 20px 50px rgba(0,0,0,0.5)" }}
           >
             {/* Grid overlay */}
@@ -47,9 +42,7 @@ export default function PortalServicePage({ params }: { params: { service: strin
             
             <div style={{ width: "80px", height: "80px", borderRadius: "24px", background: "rgba(59, 130, 246, 0.1)", border: "1px solid rgba(59, 130, 246, 0.3)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px", position: "relative" }}>
               <Cpu size={36} color="#3b82f6" />
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+              <div
                 style={{ position: "absolute", inset: "-4px", borderRadius: "inherit", border: "1px dashed rgba(59, 130, 246, 0.4)" }}
               />
             </div>
@@ -66,7 +59,7 @@ export default function PortalServicePage({ params }: { params: { service: strin
                 <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.6)", fontWeight: 600 }}>End-to-end encryption established</div>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </main>
     </div>

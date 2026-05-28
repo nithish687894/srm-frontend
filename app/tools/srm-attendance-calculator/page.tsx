@@ -161,7 +161,7 @@ export default function AttendanceCalculator() {
 
         {/* SEO Content Section */}
         <section style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: "48px", marginTop: "48px" }}>
-          <h2 style={{ fontSize: "28px", fontWeight: 800, marginBottom: "24px" }}>SRM's 75% Attendance Rule — Explained</h2>
+          <h2 style={{ fontSize: "28px", fontWeight: 800, marginBottom: "24px" }}>SRM&apos;s 75% Attendance Rule — Explained</h2>
           
           <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
             <div>

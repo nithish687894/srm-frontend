@@ -13,8 +13,8 @@ import AuraAttendance from "@/components/aura-theme/AuraAttendance";
 import CosmosAttendance from "@/components/CosmosAttendance";
 import { RefreshCcw } from "lucide-react";
 
-function buildSlotToCourseMap(myTT: any[]) {
-  const map: Record<string, any> = {};
+function buildSlotToCourseMap(myTT: AnyValue[]) {
+  const map: Record<string, AnyValue> = {};
   myTT.forEach(c => { (c.slots || []).forEach((s: string) => { if (s) map[s.toUpperCase()] = c; }); });
   return map;
 }
@@ -22,8 +22,10 @@ function buildSlotToCourseMap(myTT: any[]) {
 export default function AttendancePage() {
   const { ready } = useAuth();
   const { theme } = useThemeStore();
-  const { academicData, setAcademicData } = useAuthStore();
-  const [att, setAtt] = useState<any[]>(academicData?.attendance || []);
+  // Optimize Zustand subscriptions to eliminate main-thread render lags
+  const academicData = useAuthStore((state) => state.academicData);
+  const setAcademicData = useAuthStore((state) => state.setAcademicData);
+  const [att, setAtt] = useState<AnyValue[]>(academicData?.attendance || []);
   const [loading, setLoading] = useState(!academicData?.attendance);
   const [isSyncing, setIsSyncing] = useState(false);
 
@@ -41,16 +43,16 @@ export default function AttendancePage() {
     }
   };
 
-  const [calData, setCalData] = useState<any>(null);
-  const [ttData, setTTData] = useState<any>(null);
+  const [calData, setCalData] = useState<AnyValue>(null);
+  const [ttData, setTTData] = useState<AnyValue>(null);
   
   const [showPredictor, setShowPredictor] = useState(false);
   const [selectedDates, setSelectedDates] = useState<Set<string>>(new Set());
-  const [predictions, setPredictions] = useState<any[] | null>(null);
+  const [predictions, setPredictions] = useState<AnyValue[] | null>(null);
   const [showRiskOnly, setShowRiskOnly] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
   const [now, setNow] = useState(Date.now());
   useEffect(() => {
@@ -132,9 +134,9 @@ export default function AttendancePage() {
     // 1. Map DayOrder -> list of course codes
     const doToCourses: Record<number, string[]> = {};
     const slotMap = buildSlotToCourseMap(ttData.myTT);
-    const dayRows = ttData.rows.filter((r: any) => typeof r[0] === "string" && r[0].startsWith("Day"));
+    const dayRows = ttData.rows.filter((r: AnyValue) => typeof r[0] === "string" && r[0].startsWith("Day"));
     
-    dayRows.forEach((row: any) => {
+    dayRows.forEach((row: AnyValue) => {
       const header = String(row[0] || "");
       const dOrder = parseInt(header.match(/\d+/)?.[0] || "0");
       if (dOrder === 0) return;
@@ -175,7 +177,7 @@ export default function AttendancePage() {
     });
 
     // 3. Compute for all subjects
-    const results = att.map((c: any) => {
+    const results = att.map((c: AnyValue) => {
       const code = c["Course Code"];
       const cond = parseInt(c["Hours Conducted"]) || 0;
       const abs = parseInt(c["Hours Absent"]) || 0;
@@ -188,7 +190,7 @@ export default function AttendancePage() {
       
       let marginLabel = "";
       let marginSafe = false;
-      let alreadyRisk = currentPct < 75;
+      const alreadyRisk = currentPct < 75;
 
       if (projPct >= 75) {
         // Can miss how many more?
@@ -253,15 +255,15 @@ export default function AttendancePage() {
   };
 
   return (
-    <div style={{ height: "100vh", width: "100vw", background: "#050505", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+    <div style={{ minHeight: "100vh", width: "100%", background: "#050505", display: "flex", flexDirection: "column", position: "relative" }}>
       <Sidebar />
-      <main style={{ flex: 1, overflowY: "auto", paddingBottom: "100px", WebkitOverflowScrolling: "touch" }}>
+      <main id="attendance-parent-scroll" style={{ flex: 1, paddingBottom: "100px" }}>
         {theme === "matrix" ? (
           <MatrixAttendance {...themeProps} attendance={att} />
         ) : theme === "cosmos" ? (
           <CosmosAttendance {...themeProps} />
         ) : theme === "aura" ? (
-          <AuraAttendance attendance={att} handleSync={handleSync} isSyncing={isSyncing} />
+          <AuraAttendance attendance={att} handleSync={handleSync} isSyncing={isSyncing} {...themeProps} />
         ) : (
           <div className="page-content" data-section="Attendance" style={{ paddingBottom: "140px" }}>
             {/* Header */}
@@ -334,7 +336,7 @@ export default function AttendancePage() {
             )}
 
             <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-              {displayAtt.map((c: any, i: number) => {
+              {displayAtt.map((c: AnyValue, i: number) => {
                 const attn = parseFloat(c["Attn %"]) || 0;
                 const isRisk = attn < 75;
                 const cond = parseInt(c["Hours Conducted"]) || 0;

@@ -1,0 +1,1177 @@
+﻿diff --git a/components/aura-theme/AuraAttendance.tsx b/components/aura-theme/AuraAttendance.tsx
+index 815e669..e891fe3 100644
+--- a/components/aura-theme/AuraAttendance.tsx
++++ b/components/aura-theme/AuraAttendance.tsx
+@@ -1,21 +1,14 @@
+ "use client";
+-import { useState, useMemo, useEffect } from "react";
+-import { Activity, Zap, ShieldCheck, ShieldAlert, AlertTriangle, TrendingUp, Sparkles } from "lucide-react";
++import React, { useState, useMemo, useEffect } from "react";
++import { Activity, Zap, ShieldCheck, ShieldAlert, AlertTriangle, TrendingUp, Sparkles, ChevronRight } from "lucide-react";
+ import { useRouter } from "next/navigation";
++import confetti from "canvas-confetti";
++import { useAuraTheme } from "./system/useAuraTheme";
++import AuraBackground from "./effects/AuraBackground";
++import AuraCard from "./ui/AuraCard";
++import { AURA_COLORS as SHARED_AURA } from "./system/theme-tokens";
+ 
+-const AURA_COLORS = {
+-  bg: "#050508",
+-  primary: "#FF75C3", // Pink
+-  secondary: "#8F92FF", // Lavender
+-  purple: "#BF5AF2", // Purple
+-  cyan: "#00E5FF", // Cyan
+-  accent: "#94FFD8", // Mint
+-  red: "#FF2D55", // Red
+-  amber: "#FF9500", // Amber
+-  green: "#34C759", // Green
+-  text: "#ffffff",
+-  sub: "rgba(255, 255, 255, 0.4)",
+-};
++const AURA_COLORS = SHARED_AURA;
+ 
+ const getStatusDetails = (pct: number) => {
+   if (pct >= 75) return { color: AURA_COLORS.green, label: "SAFE" };
+@@ -77,10 +70,15 @@ const PulsingCore = ({ pct, attended, conducted, color }: any) => {
+   );
+ };
+ 
+-export default function AuraAttendance({ attendance, handleSync, isSyncing }: any) {
++export default function AuraAttendance({ 
++  attendance, handleSync, isSyncing,
++  showPredictor, setShowPredictor, next30Days, selectedDates, toggleDate, 
++  calculatePredictions, predictions, setSelectedDates, setPredictions
++}: any) {
+   const router = useRouter();
+   const [filter, setFilter] = useState("All");
+   const [isScrolled, setIsScrolled] = useState(false);
++  const { activeTheme, stars } = useAuraTheme();
+ 
+   useEffect(() => {
+     const parentMain = document.getElementById("attendance-parent-scroll") || document.querySelector('main');
+@@ -126,49 +124,55 @@ export default function AuraAttendance({ attendance, handleSync, isSyncing }: an
+     return result;
+   }, [processedAttendance, filter]);
+ 
+-  return (
+-    <div style={{ background: 'radial-gradient(circle at 50% 0%, #1e1e30 0%, #050508 100%)', minHeight: "100vh", display: "flex", flexDirection: "column", color: AURA_COLORS.text, fontFamily: "'Plus Jakarta Sans', sans-serif", position: 'relative' }}>
+-      <style dangerouslySetInnerHTML={{ __html: `
+-        
+-        .aura-blob {
+-          position: fixed; width: 600px; height: 600px;
+-          border-radius: 50%; filter: blur(140px);
+-          opacity: 0.15; z-index: 0; pointer-events: none;
+-          animation: orbit 20s infinite linear;
+-        }
+-        @keyframes orbit {
+-          from { transform: rotate(0deg) translate(100px) rotate(0deg); }
+-          to { transform: rotate(360deg) translate(100px) rotate(-360deg); }
+-        }
++  // Celebrate perfect 100% attendance subjects with a premium double-cannon confetti blast!
++  useEffect(() => {
++    if (processedAttendance && processedAttendance.length > 0) {
++      const hasPerfectAttendance = processedAttendance.some((a: any) => a.pct >= 100);
++      if (hasPerfectAttendance) {
++        const duration = 2.5 * 1000;
++        const animationEnd = Date.now() + duration;
++        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+ 
+-        .liquid-card {
+-          background: rgba(255, 255, 255, 0.05);
+-          backdrop-filter: blur(40px);
+-          -webkit-backdrop-filter: blur(40px);
+-          border: 1px solid rgba(191, 90, 242, 0.45);
+-          box-shadow: inset 0 0 20px rgba(191, 90, 242, 0.05), 0 20px 40px rgba(0,0,0,0.4);
+-          border-radius: 32px;
+-          padding: 24px;
+-          position: relative;
+-          overflow: hidden;
+-          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+-        }
+-        
+-        .floating { animation: floating 6s ease-in-out infinite; }
+-        @keyframes floating {
+-          0%, 100% { transform: translateY(0); }
+-          50% { transform: translateY(-10px); }
+-        }
++        const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
++
++        const interval: any = setInterval(function() {
++          const timeLeft = animationEnd - Date.now();
+ 
++          if (timeLeft <= 0) {
++            return clearInterval(interval);
++          }
++
++          const particleCount = 50 * (timeLeft / duration);
++          
++          confetti({ 
++            ...defaults, 
++            particleCount, 
++            origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
++            colors: ['#00E5FF', '#BF5AF2', '#FF2D55', '#34C759', '#FF9500']
++          });
++          confetti({ 
++            ...defaults, 
++            particleCount, 
++            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
++            colors: ['#00E5FF', '#BF5AF2', '#FF2D55', '#34C759', '#FF9500']
++          });
++        }, 250);
++
++        return () => clearInterval(interval);
++      }
++    }
++  }, [processedAttendance]);
++
++  return (
++    <AuraBackground theme={activeTheme} stars={stars}>
++      <style dangerouslySetInnerHTML={{ __html: `
+         .hide-scrollbar::-webkit-scrollbar { display: none; }
+         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+         
+-        .tabular-nums { font-variant-numeric: tabular-nums; }
+-        
+         .sticky-header {
+           position: fixed; top: 72px; left: 16px; right: 16px; border-radius: 24px;
+           background: rgba(20,20,35,0.85); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+-          padding: 16px 20px; border: 1px solid rgba(191,90,242,0.15);
++          padding: 16px 20px; border: 1px solid var(--card-border);
+           display: flex; align-items: center; justify-content: space-between;
+           z-index: 100; transform: translateY(-150%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+           box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+@@ -176,10 +180,6 @@ export default function AuraAttendance({ attendance, handleSync, isSyncing }: an
+         .sticky-header.visible { transform: translateY(0); }
+       `}} />
+ 
+-      {/* Animated Aura Blobs */}
+-      <div className="aura-blob" style={{ background: AURA_COLORS.primary, top: '-200px', left: '-100px' }} />
+-      <div className="aura-blob" style={{ background: AURA_COLORS.cyan, bottom: '-200px', right: '-100px', animationDelay: '-5s' }} />
+-
+       {/* Sticky Scroll Header */}
+       <div className={`sticky-header ${isScrolled ? 'visible' : ''}`}>
+         <span style={{ fontSize: '13px', fontWeight: 900, color: '#fff' }}>Lumina Sync</span>
+@@ -203,21 +203,21 @@ export default function AuraAttendance({ attendance, handleSync, isSyncing }: an
+ 
+           {/* Summary Strip */}
+           <div className="hide-scrollbar" style={{ display: 'flex', gap: '12px', overflowX: 'auto', padding: '0 24px', scrollSnapType: 'x mandatory' }}>
+-             <div style={{ flex: '0 0 auto', background: '#1A1628', border: '1px solid rgba(191,90,242,0.45)', borderRadius: '24px', padding: '20px', minWidth: '150px', textAlign: 'left', scrollSnapAlign: 'start', position: 'relative', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>
++             <AuraCard style={{ flex: '0 0 auto', padding: '20px', minWidth: '150px', scrollSnapAlign: 'start', overflow: 'hidden' }}>
+                 <Activity size={24} color={AURA_COLORS.cyan} style={{ marginBottom: '16px' }} />
+                 <div style={{ fontSize: '10px', fontWeight: 800, color: AURA_COLORS.sub, textTransform: 'uppercase', marginBottom: '8px' }}>Total Subjects</div>
+                 <div style={{ fontSize: '32px', fontWeight: 900, color: '#fff' }} className="tabular-nums">{stats.totalSubs}</div>
+-             </div>
+-             <div style={{ flex: '0 0 auto', background: '#1A1628', border: '1px solid rgba(191,90,242,0.45)', borderRadius: '24px', padding: '20px', minWidth: '150px', textAlign: 'left', scrollSnapAlign: 'start', position: 'relative', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>
++             </AuraCard>
++             <AuraCard style={{ flex: '0 0 auto', padding: '20px', minWidth: '150px', scrollSnapAlign: 'start', overflow: 'hidden' }}>
+                 <TrendingUp size={24} color={AURA_COLORS.primary} style={{ marginBottom: '16px' }} />
+-                <div style={{ fontSize: '10px', fontWeight: 800, color: AURA_COLORS.sub, textTransform: 'uppercase', marginBottom: '8px' }}>Overall Average</div>
++                <div style={{ fontSize: '10px', fontWeight: 800, color: AURA_COLORS.sub, textTransform: 'uppercase', marginBottom: '8px' }}>Average Attendance</div>
+                 <div style={{ fontSize: '32px', fontWeight: 900, color: '#fff' }} className="tabular-nums">{stats.overallAvg.toFixed(1)}%</div>
+-             </div>
+-             <div style={{ flex: '0 0 auto', background: '#1A1628', border: `1px solid rgba(191,90,242,0.45)`, borderRadius: '24px', padding: '20px', minWidth: '150px', textAlign: 'left', scrollSnapAlign: 'start', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>
++             </AuraCard>
++             <AuraCard style={{ flex: '0 0 auto', padding: '20px', minWidth: '150px', scrollSnapAlign: 'start', overflow: 'hidden' }}>
+                 <AlertTriangle size={24} color={stats.atRisk > 0 ? AURA_COLORS.red : AURA_COLORS.purple} style={{ marginBottom: '16px' }} />
+                 <div style={{ fontSize: '10px', fontWeight: 800, color: AURA_COLORS.sub, textTransform: 'uppercase', marginBottom: '8px' }}>At Risk</div>
+                 <div style={{ fontSize: '32px', fontWeight: 900, color: stats.atRisk > 0 ? AURA_COLORS.red : '#fff' }} className="tabular-nums">{stats.atRisk} <span style={{ fontSize: '14px', fontWeight: 700, color: AURA_COLORS.sub }}>Subjects</span></div>
+-             </div>
++             </AuraCard>
+           </div>
+         </div>
+ 
+@@ -241,59 +241,397 @@ export default function AuraAttendance({ attendance, handleSync, isSyncing }: an
+           ))}
+         </div>
+ 
++        {/* Lumina Attendance Predictor Panel */}
++        {!showPredictor ? (
++          <div
++            onClick={() => setShowPredictor(true)}
++            style={{
++              background: "linear-gradient(135deg, rgba(191, 90, 242, 0.12) 0%, rgba(0, 229, 255, 0.08) 100%)",
++              backdropFilter: "blur(40px)",
++              border: "1px solid rgba(191, 90, 242, 0.25)",
++              borderRadius: "28px",
++              padding: "20px 24px",
++              margin: "0 24px 24px 24px",
++              cursor: "pointer",
++              transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
++              display: "flex",
++              alignItems: "center",
++              justifyContent: "space-between",
++              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.03)"
++            }}
++            onMouseEnter={(e) => {
++              e.currentTarget.style.background = "linear-gradient(135deg, rgba(191, 90, 242, 0.2) 0%, rgba(0, 229, 255, 0.15) 100%)";
++              e.currentTarget.style.borderColor = "rgba(191, 90, 242, 0.4)";
++              e.currentTarget.style.transform = "translateY(-3px)";
++            }}
++            onMouseLeave={(e) => {
++              e.currentTarget.style.background = "linear-gradient(135deg, rgba(191, 90, 242, 0.12) 0%, rgba(0, 229, 255, 0.08) 100%)";
++              e.currentTarget.style.borderColor = "rgba(191, 90, 242, 0.25)";
++              e.currentTarget.style.transform = "translateY(0)";
++            }}
++          >
++            <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
++              <div
++                style={{
++                  width: "44px",
++                  height: "44px",
++                  borderRadius: "16px",
++                  background: "rgba(255, 255, 255, 0.04)",
++                  display: "flex",
++                  alignItems: "center",
++                  justifyContent: "center",
++                  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.05)"
++                }}
++              >
++                <Zap size={20} color={AURA_COLORS.purple} className="floating" />
++              </div>
++              <div style={{ textAlign: 'left' }}>
++                <h3
++                  style={{
++                    fontSize: "13px",
++                    fontWeight: 900,
++                    color: AURA_COLORS.text,
++                    margin: "0 0 2px",
++                  }}
++                >
++                  Lumina Skip Predictor
++                </h3>
++                <p
++                  style={{
++                    fontSize: "11px",
++                    color: AURA_COLORS.sub,
++                    margin: 0,
++                    fontWeight: 600,
++                  }}
++                >
++                  Forecast attendance margins before skipping
++                </p>
++              </div>
++            </div>
++            <ChevronRight size={16} color={AURA_COLORS.primary} />
++          </div>
++        ) : (
++          <div
++            style={{
++              background: "rgba(255, 255, 255, 0.02)",
++              backdropFilter: "blur(40px)",
++              border: "1px solid rgba(191, 90, 242, 0.2)",
++              borderRadius: "28px",
++              padding: "24px",
++              margin: "0 24px 24px 24px",
++              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.03)"
++            }}
++          >
++            <div
++              style={{
++                display: "flex",
++                alignItems: "center",
++                justifyContent: "space-between",
++                marginBottom: "20px",
++              }}
++            >
++              <div style={{ textAlign: 'left' }}>
++                <h3
++                  style={{
++                    fontSize: "15px",
++                    fontWeight: 900,
++                    color: AURA_COLORS.text,
++                    margin: 0,
++                  }}
++                >
++                  Lumina Skip Predictor
++                </h3>
++                <p
++                  style={{
++                    fontSize: "11px",
++                    color: AURA_COLORS.sub,
++                    margin: "4px 0 0",
++                    fontWeight: 600,
++                  }}
++                >
++                  Select dates you plan to skip
++                </p>
++              </div>
++              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
++                {predictions && (
++                  <button
++                    onClick={() => {
++                      setSelectedDates(new Set());
++                      setPredictions(null);
++                    }}
++                    style={{
++                      background: "transparent",
++                      border: "none",
++                      color: AURA_COLORS.primary,
++                      cursor: "pointer",
++                      fontSize: "10px",
++                      fontWeight: 900,
++                      textTransform: "uppercase",
++                      letterSpacing: "0.08em"
++                    }}
++                  >
++                    Reset
++                  </button>
++                )}
++                <button
++                  onClick={() => {
++                    setShowPredictor(false);
++                    setSelectedDates(new Set());
++                    setPredictions(null);
++                  }}
++                  style={{
++                    background: "transparent",
++                    border: "none",
++                    color: AURA_COLORS.sub,
++                    cursor: "pointer",
++                    fontSize: "20px",
++                    padding: 0,
++                    display: "flex",
++                    alignItems: "center",
++                    justifyContent: "center"
++                  }}
++                >
++                  Γ£ò
++                </button>
++              </div>
++            </div>
++
++            {/* Date Strip */}
++            <div
++              className="hide-scrollbar"
++              style={{
++                display: "flex",
++                overflowX: "auto",
++                gap: "8px",
++                paddingBottom: "16px",
++                marginBottom: "18px",
++                WebkitOverflowScrolling: "touch",
++              }}
++            >
++              {next30Days?.map((d: any) => {
++                const sel = selectedDates.has(d.iso);
++                const isWknd = [0, 6].includes(d.date.getDay());
++                return (
++                  <div
++                    key={d.iso}
++                    onClick={() => !isWknd && toggleDate(d.iso)}
++                    style={{
++                      flexShrink: 0,
++                      width: "48px",
++                      height: "64px",
++                      borderRadius: "16px",
++                      display: "flex",
++                      flexDirection: "column",
++                      alignItems: "center",
++                      justifyContent: "center",
++                      background: sel
++                        ? `linear-gradient(135deg, ${AURA_COLORS.red}, #b31032)`
++                        : "rgba(255, 255, 255, 0.03)",
++                      border: `1px solid ${
++                        sel ? AURA_COLORS.red : "rgba(255, 255, 255, 0.08)"
++                      }`,
++                      cursor: isWknd ? "not-allowed" : "pointer",
++                      opacity: isWknd ? 0.25 : 1,
++                      transition: "all 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
++                      boxShadow: sel ? `0 0 15px rgba(255, 45, 85, 0.35)` : "none",
++                    }}
++                  >
++                    <div
++                      style={{
++                        fontSize: "9px",
++                        color: sel ? "#ffffff" : AURA_COLORS.sub,
++                        fontWeight: 900,
++                        textTransform: "uppercase",
++                        letterSpacing: "0.05em",
++                        marginBottom: "4px"
++                      }}
++                    >
++                      {d.dayStr}
++                    </div>
++                    <div
++                      style={{
++                        fontSize: "18px",
++                        color: "#ffffff",
++                        fontWeight: 900,
++                      }}
++                      className="tabular-nums"
++                    >
++                      {d.dateNum}
++                    </div>
++                  </div>
++                );
++              })}
++            </div>
++
++            <button
++              onClick={calculatePredictions}
++              style={{
++                width: "100%",
++                padding: "16px",
++                background: `linear-gradient(135deg, ${AURA_COLORS.purple} 0%, ${AURA_COLORS.primary} 100%)`,
++                borderRadius: "16px",
++                color: "#ffffff",
++                fontSize: "12px",
++                fontWeight: 900,
++                textTransform: "uppercase",
++                letterSpacing: "0.1em",
++                border: "none",
++                cursor: "pointer",
++                boxShadow: "0 10px 25px rgba(191, 90, 242, 0.25)",
++                transition: "transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)"
++              }}
++              onMouseEnter={(e) => {
++                e.currentTarget.style.transform = "translateY(-2px)";
++              }}
++              onMouseLeave={(e) => {
++                e.currentTarget.style.transform = "translateY(0)";
++              }}
++            >
++              Run Skip Forecast
++            </button>
++
++            {/* Predictions Display */}
++            {predictions && (
++              <div style={{ marginTop: "24px", display: "flex", flexDirection: "column", gap: "12px", textAlign: 'left' }}>
++                <h4
++                  style={{
++                    fontSize: "11px",
++                    fontWeight: 900,
++                    color: AURA_COLORS.subBright,
++                    textTransform: "uppercase",
++                    letterSpacing: "0.08em",
++                    margin: "0 0 4px",
++                  }}
++                >
++                  Forecast Results
++                </h4>
++                {predictions.length === 0 ? (
++                  <div
++                    style={{
++                      background: "rgba(255, 255, 255, 0.02)",
++                      border: "1px solid rgba(255, 255, 255, 0.05)",
++                      borderRadius: "16px",
++                      padding: "16px",
++                      textAlign: "center",
++                      fontSize: "12px",
++                      color: AURA_COLORS.sub,
++                      fontWeight: 600
++                    }}
++                  >
++                    No skipped sessions on selected days.
++                  </div>
++                ) : (
++                  predictions.map((p: any, idx: number) => {
++                    const details = getStatusDetails(p.projPct);
++                    return (
++                      <div
++                        key={idx}
++                        style={{
++                          background: "rgba(0,0,0,0.25)",
++                          border: `1px solid rgba(255, 255, 255, 0.05)`,
++                          borderLeft: `3px solid ${details.color}`,
++                          borderRadius: "16px",
++                          padding: "14px 16px",
++                          display: "flex",
++                          justifyContent: "space-between",
++                          alignItems: "center",
++                        }}
++                      >
++                        <div style={{ flex: 1, paddingRight: "16px" }}>
++                          <div
++                            style={{
++                              fontSize: "13px",
++                              fontWeight: 800,
++                              color: "#ffffff",
++                              marginBottom: "4px"
++                            }}
++                          >
++                            {(p.title || "").split(/\s+/).map((w: string) => w.length <= 4 && /^[A-Z0-9]+$/.test(w) ? w : w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(" ")}
++                          </div>
++                          <div
++                            style={{
++                              fontSize: "10px",
++                              fontWeight: 700,
++                              color: details.color,
++                              textTransform: "uppercase",
++                              letterSpacing: "0.05em"
++                            }}
++                          >
++                            {p.marginLabel}
++                          </div>
++                        </div>
++                        <div style={{ textAlign: "right" }}>
++                          <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
++                            <span style={{ fontSize: '18px', fontWeight: 900, color: details.color }} className="tabular-nums">
++                              {p.projPct.toFixed(1)}%
++                            </span>
++                          </div>
++                          <div style={{ fontSize: "9px", color: AURA_COLORS.sub, fontWeight: 700, marginTop: '2px' }}>
++                            Current: {p.currentPct}%
++                          </div>
++                        </div>
++                      </div>
++                    );
++                  })
++                )}
++              </div>
++            )}
++          </div>
++        )}
++
+         {/* Cards Grid */}
+         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '0 24px' }}>
+            {filteredAttendance.map((a: any, i: number) => {
+               const { color: statusColor, label: statusLabel } = getStatusDetails(a.pct);
+ 
+-              return (
+-                <div key={i} className="liquid-card">
+-                   <div style={{ 
+-                     position: 'absolute', top: '-50px', right: '-50px', width: '200px', height: '200px', 
+-                     background: `radial-gradient(circle, ${statusColor}15 0%, transparent 70%)`,
+-                     filter: 'blur(40px)', zIndex: 0, pointerEvents: 'none'
+-                   }} />
++            return (
++              <AuraCard key={i} style={{ overflow: "hidden" }}>
++                 <div style={{ 
++                   position: 'absolute', top: '-50px', right: '-50px', width: '200px', height: '200px', 
++                   background: `radial-gradient(circle, ${statusColor}15 0%, transparent 70%)`,
++                   filter: 'blur(40px)', zIndex: 0, pointerEvents: 'none'
++                 }} />
+ 
+-                   <div style={{ position: 'relative', zIndex: 1 }}>
+-                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
+-                        <div style={{ flex: 1, paddingRight: '20px' }}>
+-                           <div style={{ fontSize: '9px', fontWeight: 900, color: AURA_COLORS.sub, background: 'rgba(191,90,242,0.1)', border: '1px solid rgba(191,90,242,0.2)', padding: '4px 12px', borderRadius: '100px', display: 'inline-block', marginBottom: '12px' }}>
+-                             {a["Course Code"]}
+-                           </div>
+-                           <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', textTransform: 'capitalize', lineHeight: 1.3, margin: 0 }}>
+-                             {a["Course Title"]?.toLowerCase()}
+-                           </h3>
+-                        </div>
+-                        <PulsingCore pct={a.pct} attended={a.attended} conducted={a.conducted} color={statusColor} />
+-                     </div>
++                 <div style={{ position: 'relative', zIndex: 1 }}>
++                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
++                      <div style={{ flex: 1, paddingRight: '20px' }}>
++                         <div style={{ fontSize: '9px', fontWeight: 900, color: AURA_COLORS.sub, background: 'rgba(191,90,242,0.1)', border: '1px solid rgba(191,90,242,0.2)', padding: '4px 12px', borderRadius: '100px', display: 'inline-block', marginBottom: '12px' }}>
++                           {a["Course Code"]}
++                         </div>
++                         <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', lineHeight: 1.3, margin: 0 }}>
++                           {(a["Course Title"] || "").split(/\s+/).map((w: string) => w.length <= 4 && /^[A-Z0-9]+$/.test(w) ? w : w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(" ")}
++                         </h3>
++                      </div>
++                      <PulsingCore pct={a.pct} attended={a.attended} conducted={a.conducted} color={statusColor} />
++                   </div>
+ 
+-                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+-                        <DutyOrb label="PRESENT" value={a.attended} color={AURA_COLORS.green} bgTint="rgba(52,199,89,0.08)" />
+-                        <DutyOrb label="ABSENT" value={a.absent} color={AURA_COLORS.red} bgTint="rgba(255,45,85,0.08)" />
+-                        <DutyOrb 
+-                          label="BUFFER" 
+-                          value={a.pct >= 75 ? a.skipBuffer : a.requiredToPass} 
+-                          subtext={a.pct >= 75 ? (a.skipBuffer === 1 ? `Can miss 1 more` : `Can miss ${a.skipBuffer} more`) : (a.requiredToPass === 1 ? `Attend next 1` : `Attend next ${a.requiredToPass}`)} 
+-                          color={AURA_COLORS.amber} 
+-                          bgTint="rgba(255,149,0,0.08)" 
+-                        />
+-                     </div>
+-                     
+-                     <div style={{ 
+-                       marginTop: '20px', display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 16px', 
+-                       background: `${statusColor}15`, borderRadius: '16px', border: `1px solid ${statusColor}30` 
+-                     }}>
+-                        {a.pct >= 75 ? <ShieldCheck size={14} color={statusColor} /> : <ShieldAlert size={14} color={statusColor} />}
+-                        <span style={{ fontSize: '10px', fontWeight: 800, color: statusColor, textTransform: 'uppercase' }}>
+-                          {a.pct >= 75 ? `SAFE ┬╖ Can miss ${a.skipBuffer} more classes` : (a.pct >= 65 ? `WARNING ┬╖ Attend next ${a.requiredToPass} to stay safe` : `CRITICAL ┬╖ Attend next ${a.requiredToPass} to recover`)}
+-                        </span>
+-                     </div>
++                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
++                      <DutyOrb label="PRESENT" value={a.attended} color={AURA_COLORS.green} bgTint="rgba(52,199,89,0.08)" />
++                      <DutyOrb label="ABSENT" value={a.absent} color={AURA_COLORS.red} bgTint="rgba(255,45,85,0.08)" />
++                      <DutyOrb 
++                        label="BUFFER" 
++                        value={a.pct >= 75 ? a.skipBuffer : a.requiredToPass} 
++                        subtext={a.pct >= 75 ? (a.skipBuffer === 1 ? `Can miss 1 more` : `Can miss ${a.skipBuffer} more`) : (a.requiredToPass === 1 ? `Attend next 1` : `Attend next ${a.requiredToPass}`)} 
++                        color={AURA_COLORS.amber} 
++                        bgTint="rgba(255,149,0,0.08)" 
++                      />
+                    </div>
+-                </div>
+-              );
+-           })}
+-        </div>
++                   
++                   <div style={{ 
++                     marginTop: '20px', display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 16px', 
++                     background: `${statusColor}15`, borderRadius: '16px', border: `1px solid ${statusColor}30` 
++                   }}>
++                      {a.pct >= 75 ? <ShieldCheck size={14} color={statusColor} /> : <ShieldAlert size={14} color={statusColor} />}
++                      <span style={{ fontSize: '10px', fontWeight: 800, color: statusColor, textTransform: 'uppercase' }}>
++                        {a.pct >= 75 ? `SAFE ┬╖ Can miss ${a.skipBuffer} more classes` : (a.pct >= 65 ? `WARNING ┬╖ Attend next ${a.requiredToPass} to stay safe` : `CRITICAL ┬╖ Attend next ${a.requiredToPass} to recover`)}
++                      </span>
++                   </div>
++                 </div>
++              </AuraCard>
++            );
++         })}
+       </div>
+     </div>
+-  );
++  </AuraBackground>
++);
+ }
+diff --git a/components/aura-theme/AuraDashboard.tsx b/components/aura-theme/AuraDashboard.tsx
+index 8fdac4c..dcfb4b4 100644
+--- a/components/aura-theme/AuraDashboard.tsx
++++ b/components/aura-theme/AuraDashboard.tsx
+@@ -1,130 +1,34 @@
+ "use client";
++import React from "react";
+ import { 
+   Sparkles, Activity, Award, Calendar, Compass, User, Zap, Coffee, ChevronRight, Fingerprint
+ } from "lucide-react";
+ import { useRouter } from "next/navigation";
++import { WhatIfCalculator } from "./WhatIfCalculator";
++import { useAuraTheme } from "./system/useAuraTheme";
++import AuraBackground from "./effects/AuraBackground";
++import AuraCard from "./ui/AuraCard";
++import { AURA_COLORS } from "./system/theme-tokens";
+ 
+-const AURA = {
+-  bg: "#050508",
+-  cyan: "#00E5FF",    // Attendance
+-  pink: "#FF2D55",    // Academic
+-  amber: "#FF9500",   // Warnings
+-  emerald: "#34C759", // Success
+-  purple: "#BF5AF2",  // AI
+-  text: "#ffffff",
+-  sub: "rgba(255, 255, 255, 0.4)",
+-};
++const AURA = AURA_COLORS;
+ 
+ export default function AuraDashboard({ 
+   data, avgAtt, avgMarks, firstName, nextClass, 
+   onShowStudentInfo, broadcast, renderAcademicIntegrityHub,
+-  upcomingEvents
++  upcomingEvents, marks
+ }: any) {
+   const router = useRouter();
+-
+-  const getGreeting = () => {
+-    const hour = new Date().getHours();
+-    if (hour < 12) return "Good Morning";
+-    if (hour < 18) return "Good Afternoon";
+-    return "Good Evening";
+-  };
++  const { activeTheme, stars } = useAuraTheme();
+ 
+   return (
+-    <div style={{ 
+-      background: 'radial-gradient(circle at 50% 0%, #1e1e30 0%, #050508 100%)', 
+-      minHeight: "100%", display: "flex", flexDirection: "column", 
+-      color: AURA.text, fontFamily: "'Plus Jakarta Sans', sans-serif", 
+-      position: 'relative'
+-    }}>
+-      <style dangerouslySetInnerHTML={{ __html: `
+-        
+-        .aura-blob {
+-          position: fixed; width: 600px; height: 600px;
+-          border-radius: 50%; filter: blur(140px);
+-          opacity: 0.15; z-index: 0; pointer-events: none;
+-          animation: orbit 20s infinite linear;
+-        }
+-        @keyframes orbit {
+-          from { transform: rotate(0deg) translate(100px) rotate(0deg); }
+-          to { transform: rotate(360deg) translate(100px) rotate(-360deg); }
+-        }
+-        
+-        .premium-card {
+-          background: rgba(255, 255, 255, 0.02);
+-          backdrop-filter: blur(40px);
+-          -webkit-backdrop-filter: blur(40px);
+-          border: 1px solid rgba(255, 255, 255, 0.08);
+-          box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.02), 0 20px 40px rgba(0,0,0,0.4);
+-          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+-        }
+-        .premium-card:hover {
+-          transform: translateY(-4px);
+-          border-color: rgba(255, 255, 255, 0.15);
+-          box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.05), 0 30px 50px rgba(0,0,0,0.5);
+-        }
+-        .premium-card:active { transform: scale(0.98); }
+-        
+-        .ai-border {
+-          position: absolute; inset: 0; border-radius: inherit;
+-          padding: 1px;
+-          background: linear-gradient(45deg, transparent, rgba(191,90,242,0.3), transparent);
+-          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+-          -webkit-mask-composite: xor;
+-          mask-composite: exclude;
+-          pointer-events: none;
+-          animation: border-breathe 4s ease-in-out infinite;
+-        }
+-        
+-        @keyframes border-breathe {
+-          0%, 100% { opacity: 0.3; }
+-          50% { opacity: 1; }
+-        }
+-
+-        .floating { animation: floating 6s ease-in-out infinite; }
+-        @keyframes floating {
+-          0%, 100% { transform: translateY(0); }
+-          50% { transform: translateY(-10px); }
+-        }
+-
+-        @keyframes shimmer {
+-          0% { background-position: 200% center; }
+-          100% { background-position: -200% center; }
+-        }
+-
+-        .shimmer-text {
+-          background: linear-gradient(90deg, #fff 0%, rgba(255,255,255,0.4) 50%, #fff 100%);
+-          background-size: 200% auto;
+-          color: transparent;
+-          -webkit-background-clip: text;
+-          background-clip: text;
+-          animation: shimmer 3s linear infinite;
+-        }
+-
+-        .tabular-nums {
+-          font-variant-numeric: tabular-nums;
+-        }
+-      `}} />
+-
+-      {/* SVG Noise Texture */}
+-      <svg style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, opacity: 0.04, pointerEvents: 'none' }}>
+-        <filter id="noise">
+-          <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
+-        </filter>
+-        <rect width="100%" height="100%" filter="url(#noise)"/>
+-      </svg>
+-
+-      {/* Cinematic Blur Orbs */}
+-      <div className="aura-blob" style={{ background: AURA.purple, top: '-10%', left: '-10%' }} />
+-      <div className="aura-blob" style={{ background: AURA.cyan, bottom: '20%', right: '-10%', animationDelay: '-5s' }} />
+-      <div className="aura-blob" style={{ background: AURA.pink, top: '40%', right: '-20%', animationDelay: '-10s' }} />
+-
++    <AuraBackground theme={activeTheme} stars={stars}>
+       <main style={{ flex: 1, padding: "120px 24px 140px", position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: '24px' }}>
+         
+         {/* ONE Large AI Hero Card */}
+-        <div className="premium-card" style={{ padding: '32px', borderRadius: '32px', position: 'relative', display: 'flex', flexDirection: 'column' }}>
++        <AuraCard style={{ padding: '32px', borderRadius: '32px', display: 'flex', flexDirection: 'column' }}>
+           <div className="ai-border" />
+           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px', position: 'relative', zIndex: 2 }}>
+-            <div style={{ padding: '8px 16px', background: 'rgba(191,90,242,0.1)', borderRadius: '100px', display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid rgba(191,90,242,0.2)' }}>
++            <div style={{ padding: '8px 16px', background: 'rgba(191,90,242,0.1)', borderRadius: '100px', display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 0 12px rgba(191,90,242,0.15)' }}>
+               <Sparkles size={14} color={AURA.purple} className="floating" />
+               <span style={{ fontSize: "10px", fontWeight: 900, color: AURA.purple, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Lumina OS v2.0</span>
+             </div>
+@@ -132,20 +36,20 @@ export default function AuraDashboard({
+           </div>
+           
+           <h1 style={{ fontSize: "32px", fontWeight: 900, margin: '0 0 8px', letterSpacing: '-1px', lineHeight: 1.1, color: '#ffffff', position: 'relative', zIndex: 2 }}>
+-            {getGreeting()},<br/><span className="shimmer-text">{firstName || "Explorer"}</span>
++            {activeTheme.greeting},<br/><span className="shimmer-text">{firstName || "Explorer"}</span>
+           </h1>
+           
+-          {/* Daily Briefing Insight */}
+-          <div style={{ marginTop: '24px', padding: '20px', background: 'rgba(0,0,0,0.2)', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.05)', position: 'relative', zIndex: 2 }}>
+-            <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.8)', fontWeight: 600, lineHeight: 1.5, margin: 0 }}>
+-              Your academic trajectory is stable. You have <strong style={{color: AURA.cyan}}>{avgAtt}%</strong> attendance and <strong style={{color: AURA.pink}}>{avgMarks}%</strong> academic score. {nextClass ? `Your next session is ${nextClass.courseTitle}.` : "No active sessions today."} Keep up the momentum.
++          {/* Daily Briefing Insight - Improved Contrast */}
++          <div style={{ marginTop: '24px', padding: '24px', background: 'rgba(0,0,0,0.3)', borderRadius: '24px', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.05)', position: 'relative', zIndex: 2, border: '1px solid rgba(255,255,255,0.08)' }}>
++            <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.9)', fontWeight: 600, lineHeight: 1.6, margin: 0 }}>
++              Your academic trajectory is stable. You have <strong style={{color: AURA.cyan, fontWeight: 900}}>{avgAtt}%</strong> attendance and <strong style={{color: AURA.pink, fontWeight: 900}}>{avgMarks}%</strong> academic score. {nextClass ? `Your next session is ${nextClass.courseTitle}.` : "No active sessions today."} Keep up the momentum.
+             </p>
+           </div>
+-        </div>
++        </AuraCard>
+ 
+         {/* Analytics Grid */}
+         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+-          <div onClick={() => router.push('/attendance')} className="premium-card" style={{ padding: '24px', borderRadius: '32px', cursor: 'pointer' }}>
++          <AuraCard onClick={() => router.push('/attendance')} style={{ padding: '24px', borderRadius: '32px', cursor: 'pointer' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                 <div style={{ width: '40px', height: '40px', borderRadius: '16px', background: 'rgba(0, 229, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Activity size={18} color={AURA.cyan} />
+@@ -153,24 +57,24 @@ export default function AuraDashboard({
+                 <ChevronRight size={16} color={AURA.sub} />
+              </div>
+              <div style={{ fontSize: '32px', fontWeight: 900, color: '#fff' }} className="tabular-nums">{avgAtt}%</div>
+-             <div style={{ fontSize: '11px', color: AURA.sub, marginTop: '4px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Attendance</div>
+-          </div>
++             <div style={{ fontSize: '11px', color: AURA.subBright, marginTop: '6px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Attendance</div>
++          </AuraCard>
+ 
+-          <div onClick={() => router.push('/marks')} className="premium-card" style={{ padding: '24px', borderRadius: '32px', cursor: 'pointer' }}>
++          <AuraCard onClick={() => router.push('/marks')} style={{ padding: '24px', borderRadius: '32px', cursor: 'pointer' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                 <div style={{ width: '40px', height: '40px', borderRadius: '16px', background: 'rgba(255, 45, 85, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Award size={18} color={AURA.pink} />
+                 </div>
+-                <ChevronRight size={16} color={AURA.sub} />
++                <ChevronRight size={16} color={AURA.subBright} />
+              </div>
+              <div style={{ fontSize: '32px', fontWeight: 900, color: '#fff' }} className="tabular-nums">{avgMarks}%</div>
+-             <div style={{ fontSize: '11px', color: AURA.sub, marginTop: '4px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Academic</div>
+-          </div>
++             <div style={{ fontSize: '11px', color: AURA.subBright, marginTop: '6px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Academic</div>
++          </AuraCard>
+         </div>
+ 
+         {/* Current Schedule */}
+         {nextClass ? (
+-          <div className="premium-card" style={{ padding: '24px', borderRadius: '32px', position: 'relative' }}>
++          <AuraCard style={{ padding: '24px', borderRadius: '32px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: AURA.emerald, boxShadow: `0 0 10px ${AURA.emerald}` }} />
+@@ -179,31 +83,33 @@ export default function AuraDashboard({
+                 <div style={{ fontSize: '11px', fontWeight: 800, color: AURA.sub, padding: '6px 12px', background: 'rgba(255,255,255,0.05)', borderRadius: '12px' }}>{nextClass.startTime}</div>
+              </div>
+              <h2 style={{ fontSize: '20px', fontWeight: 900, margin: '0 0 8px', lineHeight: 1.2 }}>{nextClass.courseTitle}</h2>
+-             <div style={{ display: 'flex', gap: '12px', fontSize: '12px', color: AURA.sub, fontWeight: 700 }}>
+-                <span style={{color: '#fff'}}>Room {nextClass.roomNo}</span>
++             <div style={{ display: 'flex', gap: '12px', fontSize: '13px', color: AURA.subBright, fontWeight: 600 }}>
++                <span style={{color: '#fff', fontWeight: 800}}>Room {nextClass.roomNo}</span>
+                 <span style={{ opacity: 0.3 }}>ΓÇó</span>
+                 <span>ID {nextClass.courseCode}</span>
+              </div>
+-          </div>
++          </AuraCard>
+         ) : (
+-          <div className="premium-card" style={{ padding: '32px 24px', borderRadius: '32px', textAlign: 'center' }}>
++          <AuraCard style={{ padding: '32px 24px', borderRadius: '32px', textAlign: 'center' }}>
+              <Coffee size={28} color={AURA.sub} style={{ margin: '0 auto 16px' }} />
+              <div style={{ fontSize: '14px', fontWeight: 800, color: '#fff' }}>System Rest Active</div>
+-             <div style={{ fontSize: '12px', fontWeight: 600, color: AURA.sub, marginTop: '4px' }}>No further sessions scheduled for today.</div>
+-          </div>
++             <div style={{ fontSize: '13px', fontWeight: 600, color: AURA.subBright, marginTop: '6px' }}>No further sessions scheduled for today.</div>
++          </AuraCard>
+         )}
+ 
++        {/* What-If Grade Calculator */}
++        {marks && <WhatIfCalculator marks={marks} />}
++
+         {/* Official Hub Integration */}
+         {renderAcademicIntegrityHub && renderAcademicIntegrityHub("aura")}
+ 
+         {/* Holographic Identity Passport */}
+-        <button 
++        <AuraCard 
+           onClick={onShowStudentInfo} 
+-          className="premium-card" 
+           style={{ 
+             width: '100%', padding: '24px', borderRadius: '32px', 
+             display: 'flex', flexDirection: 'column', gap: '20px', 
+-            textAlign: 'left', position: 'relative', overflow: 'hidden',
++            textAlign: 'left', overflow: 'hidden',
+             cursor: 'pointer'
+           }}
+         >
+@@ -217,26 +123,26 @@ export default function AuraDashboard({
+             }}
+           />
+ 
+-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
++          <div style={{ display: 'flex', alignItems: 'center', zIndex: 2, justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+-                <div style={{ width: '48px', height: '48px', borderRadius: '16px', background: 'linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02))', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(255,255,255,0.1)' }}>
++                <div style={{ width: '48px', height: '48px', borderRadius: '16px', background: 'linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02))', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.06)' }}>
+                    <Fingerprint size={24} color={AURA.text} />
+                 </div>
+                 <div>
+                    <div style={{ fontSize: '16px', fontWeight: 900, color: '#fff' }}>Identity Passport</div>
+-                   <div style={{ fontSize: '10px', color: AURA.emerald, fontWeight: 800, letterSpacing: '0.05em' }}>VERIFIED_CORE</div>
++                   <div style={{ fontSize: '10px', color: AURA.pink, fontWeight: 900, letterSpacing: '0.08em' }}>Γ£ô VERIFIED_CORE</div>
+                 </div>
+              </div>
+              <Compass size={20} color={AURA.sub} />
+           </div>
+ 
+-          <div style={{ display: 'flex', gap: '12px' }}>
+-             <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px 16px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)', flex: 1 }}>
++          <div style={{ display: 'flex', gap: '12px', zIndex: 2 }}>
++             <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px 16px', borderRadius: '16px', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.03)', flex: 1 }}>
+                 <div style={{ fontSize: '9px', fontWeight: 900, color: AURA.sub, marginBottom: '4px', letterSpacing: '0.05em' }}>ID_TOKEN</div>
+                 <div style={{ fontSize: '13px', fontWeight: 800, color: '#fff' }} className="tabular-nums">{data?.profile?.["Registration Number"] || "LOCKED"}</div>
+              </div>
+           </div>
+-        </button>
++        </AuraCard>
+ 
+         {/* Strategic Timeline */}
+         <section style={{ marginTop: '16px' }}>
+@@ -258,9 +164,9 @@ export default function AuraDashboard({
+               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  {upcomingEvents?.length > 0 ? (
+                     upcomingEvents.map((event: any, idx: number) => (
+-                       <div key={idx} className="premium-card" style={{ 
++                       <AuraCard key={idx} style={{ 
+                           display: 'flex', alignItems: 'center', gap: '16px', 
+-                          padding: '16px', borderRadius: '24px', position: 'relative'
++                          padding: '16px', borderRadius: '24px'
+                        }}>
+                           {/* Timeline Dot */}
+                           <div style={{ position: 'absolute', left: '-21px', top: '50%', transform: 'translateY(-50%)', width: '10px', height: '10px', borderRadius: '50%', background: AURA.purple, boxShadow: `0 0 10px ${AURA.purple}` }} />
+@@ -273,24 +179,23 @@ export default function AuraDashboard({
+                              <div style={{ fontSize: '14px', fontWeight: 800, color: '#fff' }}>{event.event}</div>
+                              <div style={{ fontSize: '11px', fontWeight: 700, color: AURA.sub, marginTop: '2px' }}>{event.weekdayLabel}</div>
+                           </div>
+-                       </div>
++                       </AuraCard>
+                     ))
+                  ) : (
+-                    <div className="premium-card" style={{ padding: '32px 24px', borderRadius: '32px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
+-                       <div className="floating" style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(0, 229, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(0, 229, 255, 0.2)' }}>
++                    <AuraCard style={{ padding: '32px 24px', borderRadius: '32px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
++                       <div className="floating" style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(0, 229, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 15px rgba(0, 229, 255, 0.15)' }}>
+                           <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: AURA.cyan, boxShadow: `0 0 20px ${AURA.cyan}`, animation: 'border-breathe 2s infinite' }} />
+                        </div>
+                        <div>
+                           <div style={{ fontSize: '12px', fontWeight: 900, color: '#fff', letterSpacing: '0.15em', textTransform: 'uppercase' }}>All Systems Clear</div>
+                           <div style={{ fontSize: '12px', fontWeight: 600, color: AURA.sub, marginTop: '4px' }}>No immediate academic threats detected.</div>
+                        </div>
+-                    </div>
++                    </AuraCard>
+                  )}
+               </div>
+            </div>
+         </section>
+-
+       </main>
+-    </div>
++    </AuraBackground>
+   );
+ }
+diff --git a/components/aura-theme/AuraMarks.tsx b/components/aura-theme/AuraMarks.tsx
+index aa00b14..eb8abf1 100644
+--- a/components/aura-theme/AuraMarks.tsx
++++ b/components/aura-theme/AuraMarks.tsx
+@@ -1,22 +1,12 @@
+ "use client";
+-import { useState, useMemo, useEffect } from "react";
++import React, { useState, useMemo, useEffect } from "react";
+ import { Award, Sparkles, AlertTriangle, TrendingUp, Activity, Flame } from "lucide-react";
++import { useAuraTheme } from "./system/useAuraTheme";
++import AuraBackground from "./effects/AuraBackground";
++import AuraCard from "./ui/AuraCard";
++import { AURA_COLORS as SHARED_AURA } from "./system/theme-tokens";
+ 
+-const AURA_COLORS = {
+-  bg: "#050508",
+-  primary: "#FF75C3", // Pink
+-  secondary: "#8F92FF", // Lavender
+-  purple: "#BF5AF2", // Purple
+-  cyan: "#00E5FF", // Cyan
+-  accent: "#94FFD8", // Mint
+-  red: "#FF2D55", // Red
+-  amber: "#FF9500", // Amber
+-  green: "#34C759", // Green
+-  text: "#ffffff",
+-  sub: "rgba(255, 255, 255, 0.4)",
+-  card: "rgba(255, 255, 255, 0.02)",
+-  border: "rgba(255, 255, 255, 0.08)",
+-};
++const AURA_COLORS = SHARED_AURA;
+ 
+ const getStatusColor = (pct: number) => {
+   if (pct === 0) return AURA_COLORS.sub;
+@@ -39,17 +29,14 @@ const CrystalOrb = ({ test, score, tests }: any) => {
+   const label = parts[0];
+   const max = parseFloat(parts[1]) || 100;
+   
+-  // If score is empty or null, it's not uploaded yet
+   const isUploaded = score !== undefined && score !== null && score !== "";
+   const sc = score === "Abs" ? 0 : (parseFloat(score) || 0);
+   const pct = (isUploaded && max > 0) ? (sc / max) * 100 : 0;
+   
+-  // Strict binary color logic: Below 50% is weak (red), above is normal (purple/pink)
+   const isWeak = isUploaded && pct < 50;
+   const borderColor = isWeak ? AURA_COLORS.red : AURA_COLORS.purple;
+-  const percentColor = isWeak ? AURA_COLORS.red : AURA_COLORS.primary; // primary is Pink
++  const percentColor = isWeak ? AURA_COLORS.red : AURA_COLORS.primary; 
+   
+-  // Use a dark translucent inset to match the glassmorphism theme
+   const bgTint = isWeak ? "rgba(255,45,85,0.08)" : "rgba(0,0,0,0.25)"; 
+ 
+   return (
+@@ -81,6 +68,7 @@ const CrystalOrb = ({ test, score, tests }: any) => {
+ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
+   const [filter, setFilter] = useState("All");
+   const [isScrolled, setIsScrolled] = useState(false);
++  const { activeTheme, stars } = useAuraTheme();
+ 
+   useEffect(() => {
+     const mainEl = document.querySelector('main');
+@@ -157,60 +145,19 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
+   }, [processedMarks, filter]);
+ 
+   return (
+-    <div style={{ background: 'radial-gradient(circle at 50% 0%, #1e1e30 0%, #050508 100%)', minHeight: "100%", display: "flex", flexDirection: "column", color: AURA_COLORS.text, fontFamily: "'Plus Jakarta Sans', sans-serif", position: 'relative' }}>
++    <AuraBackground theme={activeTheme} stars={stars}>
+       <style dangerouslySetInnerHTML={{ __html: `
+-        
+-        .aura-blob {
+-          position: fixed; width: 600px; height: 600px;
+-          border-radius: 50%; filter: blur(140px);
+-          opacity: 0.15; z-index: 0; pointer-events: none;
+-          animation: orbit 20s infinite linear;
+-        }
+-        @keyframes orbit {
+-          from { transform: rotate(0deg) translate(100px) rotate(0deg); }
+-          to { transform: rotate(360deg) translate(100px) rotate(-360deg); }
+-        }
+-
+-        .liquid-card {
+-          background: rgba(255, 255, 255, 0.05);
+-          backdrop-filter: blur(40px);
+-          -webkit-backdrop-filter: blur(40px);
+-          border: 1px solid rgba(191, 90, 242, 0.45);
+-          box-shadow: inset 0 0 20px rgba(191, 90, 242, 0.05), 0 20px 40px rgba(0,0,0,0.4);
+-          border-radius: 32px;
+-          padding: 24px;
+-          position: relative;
+-          overflow: hidden;
+-          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+-        }
+-        
+-        .floating { animation: floating 6s ease-in-out infinite; }
+-        @keyframes floating {
+-          0%, 100% { transform: translateY(0); }
+-          50% { transform: translateY(-10px); }
+-        }
+-
+-        .hide-scrollbar::-webkit-scrollbar { display: none; }
+-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+-        
+         .sticky-header {
+           position: fixed; top: 72px; left: 16px; right: 16px; border-radius: 24px;
+           background: rgba(20,20,35,0.85); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+-          padding: 16px 20px; border: 1px solid rgba(191,90,242,0.15);
++          padding: 16px 20px; border: 1px solid var(--card-border);
+           display: flex; align-items: center; justify-content: space-between;
+           z-index: 100; transform: translateY(-150%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+           box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+         }
+         .sticky-header.visible { transform: translateY(0); }
+-        
+-        .tabular-nums { font-variant-numeric: tabular-nums; }
+       `}} />
+ 
+-      {/* Animated Aura Blobs */}
+-      <div className="aura-blob" style={{ background: AURA_COLORS.primary, top: '-200px', left: '-100px' }} />
+-      <div className="aura-blob" style={{ background: AURA_COLORS.cyan, bottom: '-200px', right: '-100px', animationDelay: '-5s' }} />
+-
+-      {/* Sticky Scroll Header */}
+       <div className={`sticky-header ${isScrolled ? 'visible' : ''}`}>
+         <span style={{ fontSize: '13px', fontWeight: 900, color: '#fff' }}>Marks Registry</span>
+         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+@@ -221,7 +168,6 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
+ 
+       <div style={{ position: 'relative', zIndex: 1, paddingTop: '100px', paddingBottom: '140px' }}>
+         
+-        {/* Header Section */}
+         <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+           <div className="floating" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(191,90,242,0.15)', padding: '6px 14px', borderRadius: '100px', border: '1px solid rgba(191,90,242,0.3)', marginBottom: '20px', boxShadow: '0 0 30px rgba(191,90,242,0.3)' }}>
+             <Sparkles size={14} color={AURA_COLORS.purple} />
+@@ -231,27 +177,25 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
+             Marks <span style={{ color: AURA_COLORS.primary }}>Registry</span>
+           </h1>
+ 
+-          {/* Summary Strip */}
+           <div className="hide-scrollbar" style={{ display: 'flex', gap: '12px', overflowX: 'auto', padding: '0 24px', scrollSnapType: 'x mandatory' }}>
+-             <div style={{ flex: '0 0 auto', background: '#1A1628', border: '1px solid rgba(191,90,242,0.45)', borderRadius: '24px', padding: '20px', minWidth: '150px', textAlign: 'left', scrollSnapAlign: 'start', position: 'relative', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>
++             <AuraCard style={{ flex: '0 0 auto', padding: '20px', minWidth: '150px', scrollSnapAlign: 'start', overflow: 'hidden' }}>
+                 <Activity size={24} color={AURA_COLORS.cyan} style={{ marginBottom: '16px' }} />
+                 <div style={{ fontSize: '10px', fontWeight: 800, color: AURA_COLORS.sub, textTransform: 'uppercase', marginBottom: '8px' }}>Total Subjects</div>
+                 <div style={{ fontSize: '32px', fontWeight: 900, color: '#fff' }} className="tabular-nums">{stats.totalSubs}</div>
+-             </div>
+-             <div style={{ flex: '0 0 auto', background: '#1A1628', border: '1px solid rgba(191,90,242,0.45)', borderRadius: '24px', padding: '20px', minWidth: '150px', textAlign: 'left', scrollSnapAlign: 'start', position: 'relative', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>
++             </AuraCard>
++             <AuraCard style={{ flex: '0 0 auto', padding: '20px', minWidth: '150px', scrollSnapAlign: 'start', overflow: 'hidden' }}>
+                 <TrendingUp size={24} color={AURA_COLORS.primary} style={{ marginBottom: '16px' }} />
+                 <div style={{ fontSize: '10px', fontWeight: 800, color: AURA_COLORS.sub, textTransform: 'uppercase', marginBottom: '8px' }}>Overall Average</div>
+                 <div style={{ fontSize: '32px', fontWeight: 900, color: '#fff' }} className="tabular-nums">{stats.overallAvg.toFixed(1)}%</div>
+-             </div>
+-             <div style={{ flex: '0 0 auto', background: '#1A1628', border: `1px solid rgba(191,90,242,0.45)`, borderRadius: '24px', padding: '20px', minWidth: '150px', textAlign: 'left', scrollSnapAlign: 'start', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>
++             </AuraCard>
++             <AuraCard style={{ flex: '0 0 auto', padding: '20px', minWidth: '150px', scrollSnapAlign: 'start', overflow: 'hidden' }}>
+                 <AlertTriangle size={24} color={stats.atRisk > 0 ? AURA_COLORS.red : AURA_COLORS.purple} style={{ marginBottom: '16px' }} />
+                 <div style={{ fontSize: '10px', fontWeight: 800, color: AURA_COLORS.sub, textTransform: 'uppercase', marginBottom: '8px' }}>At Risk</div>
+                 <div style={{ fontSize: '32px', fontWeight: 900, color: stats.atRisk > 0 ? AURA_COLORS.red : '#fff' }} className="tabular-nums">{stats.atRisk} <span style={{ fontSize: '14px', fontWeight: 700, color: AURA_COLORS.sub }}>Subjects</span></div>
+-             </div>
++             </AuraCard>
+           </div>
+         </div>
+ 
+-        {/* Sort and Filter Bar */}
+         <div className="hide-scrollbar" style={{ display: 'flex', gap: '8px', overflowX: 'auto', padding: '0 24px', marginBottom: '24px' }}>
+           {["All", "At Risk", "Lowest Score", "Highest Score", "Alphabetical"].map(f => (
+             <button 
+@@ -277,18 +221,18 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
+               const statusColor = getStatusColor(m.pct);
+               const statusLabel = getStatusLabel(m.pct);
+               
+-              if (!m.tests || m.tests.length === 0) {
+-                 return (
+-                   <div key={i} className="liquid-card" style={{ padding: '24px', borderStyle: 'dashed', textAlign: 'center', opacity: 0.6 }}>
+-                      <div style={{ fontSize: '9px', fontWeight: 900, color: AURA_COLORS.primary, background: 'rgba(255,117,195,0.05)', padding: '4px 12px', borderRadius: '100px', display: 'inline-block', marginBottom: '12px' }}>{m.courseCode || m.code}</div>
+-                      <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', margin: '0 0 12px', textTransform: 'capitalize', lineHeight: 1.2 }}>{m.title?.toLowerCase()}</h3>
+-                      <div style={{ fontSize: '12px', fontWeight: 600, color: AURA_COLORS.sub }}>Marks not uploaded yet</div>
+-                   </div>
+-                 );
+-              }
++               if (!m.tests || m.tests.length === 0) {
++                  return (
++                    <AuraCard key={i} style={{ padding: '24px', borderStyle: 'dashed', textAlign: 'center', opacity: 0.6 }}>
++                       <div style={{ fontSize: '9px', fontWeight: 900, color: AURA_COLORS.primary, background: 'rgba(255,117,195,0.05)', padding: '4px 12px', borderRadius: '100px', display: 'inline-block', marginBottom: '12px' }}>{m.courseCode || m.code}</div>
++                       <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', margin: '0 0 12px', lineHeight: 1.2 }}>{(m.title || "").split(/\s+/).map((w: string) => w.length <= 4 && /^[A-Z0-9]+$/.test(w) ? w : w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(" ")}</h3>
++                       <div style={{ fontSize: '12px', fontWeight: 600, color: AURA_COLORS.sub }}>Marks not uploaded yet</div>
++                    </AuraCard>
++                  );
++               }
+ 
+-              return (
+-                <div key={i} className="liquid-card">
++               return (
++                <AuraCard key={i} style={{ overflow: 'hidden' }}>
+                    <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '150px', height: '150px', 
+                      background: `radial-gradient(circle, ${statusColor}15 0%, transparent 70%)`,
+                      filter: 'blur(30px)', zIndex: 0, pointerEvents: 'none'
+@@ -303,7 +247,7 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
+                      
+                      {/* Row 2: Name and Total */}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px', gap: '16px' }}>
+-                        <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', margin: 0, textTransform: 'capitalize', lineHeight: 1.3, flex: 1 }}>{m.title?.toLowerCase()}</h3>
++                        <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', margin: 0, lineHeight: 1.3, flex: 1 }}>{(m.title || "").split(/\s+/).map((w: string) => w.length <= 4 && /^[A-Z0-9]+$/.test(w) ? w : w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(" ")}</h3>
+                         <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
+                            <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
+                               <span style={{ fontSize: '24px', fontWeight: 900, color: AURA_COLORS.primary, lineHeight: 1 }} className="tabular-nums">{m.totalScored.toFixed(1)}</span>
+@@ -335,7 +279,7 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
+                      {/* Test Score Boxes */}
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '20px' }}>
+                         {m.tests?.map((t: any, j: number) => (
+-                          <CrystalOrb key={j} test={t.test} score={t.score} tests={m.tests} />
++                           <CrystalOrb key={j} test={t.test} score={t.score} tests={m.tests} />
+                         ))}
+                      </div>
+ 
+@@ -357,11 +301,11 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: any) {
+                        </div>
+                      )}
+                    </div>
+-                </div>
++                </AuraCard>
+               );
+            })}
+         </div>
+       </div>
+-    </div>
++    </AuraBackground>
+   );
+ }

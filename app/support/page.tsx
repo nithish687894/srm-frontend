@@ -6,7 +6,7 @@ import { Send, MessageSquare, Clock, CheckCircle } from "lucide-react";
 
 export default function SupportPage() {
   const [message, setMessage] = useState("");
-  const [feedbackList, setFeedbackList] = useState<any[]>([]);
+  const [feedbackList, setFeedbackList] = useState<AnyValue[]>([]);
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
 

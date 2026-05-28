@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   ArrowLeft, Home, Award, MoreHorizontal, IdCard, User, Mail, MapPin, 
-  RefreshCcw, Shield, Phone, GraduationCap, Users, BookOpen, Briefcase, Hash
+  RefreshCcw, Shield, Phone, GraduationCap, Users, BookOpen, Briefcase, Hash, AlertCircle
 } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import { useAuthStore } from "@/lib/store";
@@ -19,7 +19,7 @@ const THEME = {
 
 /* ── Smart Data Extractor ────────────────────────────────────────────────── */
 
-const extract = (val: any) => {
+const extract = (val: AnyValue) => {
   if (!val) return null;
   if (typeof val === 'string') return val;
   if (typeof val === 'object') {
@@ -28,14 +28,14 @@ const extract = (val: any) => {
   return String(val);
 };
 
-const Parameter = ({ label, value, width = "50%" }: any) => (
+const Parameter = ({ label, value, width = "50%" }: AnyValue) => (
   <div style={{ width, marginBottom: "20px" }}>
     <p style={{ fontSize: '9px', fontWeight: 800, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '6px' }}>{label}</p>
     <p style={{ fontSize: '16px', fontWeight: 800, color: '#fff', margin: 0 }}>{extract(value) || "—"}</p>
   </div>
 );
 
-const SectionHeader = ({ icon: Icon, title, color = THEME.accentPurple }: any) => (
+const SectionHeader = ({ icon: Icon, title, color = THEME.accentPurple }: AnyValue) => (
   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '32px 0 16px', paddingLeft: '4px' }}>
     <div style={{ width: '32px', height: '32px', borderRadius: '10px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', color }}>
       <Icon size={16} />
@@ -49,7 +49,7 @@ export default function StudentDashboardPage() {
   const [mounted, setMounted] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
   
-  const { studentPortalData, _hasHydrated, setStudentPortalData, setAcademicData } = useAuthStore();
+  const { studentPortalData, _hasHydrated, setStudentPortalData, setAcademicData, studentPortalConnected } = useAuthStore();
 
   useEffect(() => {
     setMounted(true);
@@ -77,14 +77,13 @@ export default function StudentDashboardPage() {
   const parent = profile.parentDetails || {};
   const contact = profile.contact || {};
 
-  const getV = (key: string, subObj?: any) => {
+  const getV = (key: string, subObj?: AnyValue) => {
     return extract(subObj?.[key]) || extract(profile[key]);
   };
 
   return (
     <div style={{ height: "100vh", width: "100vw", background: THEME.bg, color: "#fff", display: "flex", flexDirection: "column", overflow: "hidden" }}>
       <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
         * { box-sizing: border-box; }
         body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background: ${THEME.bg}; }
         .vault-card { background: ${THEME.surface}; border: 1px solid ${THEME.border}; border-radius: 16px; padding: 20px; }
@@ -121,6 +120,49 @@ export default function StudentDashboardPage() {
                 <p style={{ fontSize: "11px", color: THEME.accentCyan, fontWeight: 700, marginTop: "4px" }}>{getV('registerNo')}</p>
              </div>
           </div>
+
+          {!studentPortalConnected && (
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              background: "rgba(255, 149, 0, 0.05)",
+              border: "1px solid rgba(255, 149, 0, 0.15)",
+              borderRadius: "16px",
+              padding: "12px 16px",
+              marginBottom: "24px",
+              gap: "12px"
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", flex: 1 }}>
+                <AlertCircle size={16} color="#FF9500" style={{ flexShrink: 0 }} />
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <div style={{ fontSize: "10px", fontWeight: 900, color: "#FF9500", textTransform: "uppercase", letterSpacing: "0.05em" }}>Offline Cache</div>
+                  <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.5)", fontWeight: 600, marginTop: "2px" }}>Viewing cached records. Reconnect to sync updates.</div>
+                </div>
+              </div>
+              <button
+                onClick={() => router.push('/dashboard?sync=1')}
+                style={{
+                  background: "#FF9500",
+                  color: "#000",
+                  border: "none",
+                  padding: "6px 14px",
+                  borderRadius: "10px",
+                  fontSize: "10px",
+                  fontWeight: 900,
+                  cursor: "pointer",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "4px"
+                }}
+              >
+                <RefreshCcw size={10} className="stroke-[3]" />
+                <span>Sync</span>
+              </button>
+            </div>
+          )}
 
           <SectionHeader icon={User} title="Primary Parameters" />
           <div className="vault-card">

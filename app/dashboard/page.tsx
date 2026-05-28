@@ -7,11 +7,10 @@ import { useAuthStore } from "@/lib/store";
 import { useAuth } from "@/hooks/useAuth";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
 import { useThemeStore } from "@/lib/themeStore";
-import { motion } from "framer-motion";
 import { extractBatch } from "@/lib/utils";
 import PortalSyncModal from "@/components/PortalSyncModal";
 import StudentPortalPrompt from "@/components/StudentPortalPrompt";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, AlertCircle, RefreshCw } from "lucide-react";
 import dynamic from "next/dynamic";
 import AuraDashboard from "@/components/aura-theme/AuraDashboard";
 
@@ -61,23 +60,23 @@ const BATCH_PERIODS = {
 
 interface ScheduleItem { slot: string; startTime: string; endTime: string; courseTitle: string; courseCode: string; roomNo: string; facultyName: string; courseType: string; }
 
-function buildSlotToCourseMap(myTT: any[]) {
-  const map: Record<string, any> = {};
+function buildSlotToCourseMap(myTT: AnyValue[]) {
+  const map: Record<string, AnyValue> = {};
   myTT.forEach(c => { (c.slots || []).forEach((s: string) => { if (s) map[s.toUpperCase()] = c; }); });
   return map;
 }
 
-function buildSchedule(gridRows: any[], slotMap: Record<string, any>, attendance: any[] = []): { day: string; classes: ScheduleItem[] }[] {
-  const timeRow = gridRows.find((r: any) => r[0] === "FROM");
+function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>, attendance: AnyValue[] = []): { day: string; classes: ScheduleItem[] }[] {
+  const timeRow = gridRows.find((r: AnyValue) => r[0] === "FROM");
   const times: string[] = timeRow ? timeRow.slice(1).map((t: string) => t.replace(/\t/g, "").trim().replace(/\n+/g, " ")) : [];
-  const dayRows = gridRows.filter((r: any) => typeof r[0] === "string" && r[0].startsWith("Day"));
+  const dayRows = gridRows.filter((r: AnyValue) => typeof r[0] === "string" && r[0].startsWith("Day"));
 
-  return dayRows.map((row: any) => {
+  return dayRows.map((row: AnyValue) => {
     const cells: string[] = row.slice(1);
     const classes: ScheduleItem[] = [];
     const seenCourses = new Set<string>();
 
-    const labCells: { idx: number; slot: string; course: any }[] = [];
+    const labCells: { idx: number; slot: string; course: AnyValue }[] = [];
     cells.forEach((cell, ci) => {
       const s = cell?.trim();
       const up = s?.toUpperCase() || "";
@@ -86,7 +85,7 @@ function buildSchedule(gridRows: any[], slotMap: Record<string, any>, attendance
       if (course) labCells.push({ idx: ci, slot: up, course });
     });
 
-    const labGroups: { cells: { idx: number; slot: string; course: any }[] }[] = [];
+    const labGroups: { cells: { idx: number; slot: string; course: AnyValue }[] }[] = [];
     for (let i = 0; i < labCells.length; i++) {
       const cell = labCells[i];
       const prev = i > 0 ? labCells[i - 1] : null;
@@ -128,14 +127,17 @@ function buildSchedule(gridRows: any[], slotMap: Record<string, any>, attendance
   });
 }
 
-function MiniGridTile({ slot }: { slot: any }) {
+function MiniGridTile({ slot }: { slot: AnyValue }) {
   if (!slot || slot.isEmpty) return <div style={{ background: "transparent", borderRadius: "16px", height: "88px", border: "1px dashed #333333" }} />;
   const isActive = isNowIn(slot.startTime, slot.endTime);
   const isNso = slot.courseCode.includes("NSO") || slot.courseType.toLowerCase().includes("practical");
   return (
-    <motion.div
-      whileTap={{ scale: 0.96 }}
-      style={{ background: isNso ? "#0d1a2a" : "#1c1c1c", borderRadius: "16px", height: "88px", padding: "8px 10px", display: "flex", flexDirection: "column", justifyContent: "space-between", border: isActive ? "1.5px solid #a8c200" : "none", cursor: 'pointer' }}>
+    <div
+      style={{ background: isNso ? "#0d1a2a" : "#1c1c1c", borderRadius: "16px", height: "88px", padding: "8px 10px", display: "flex", flexDirection: "column", justifyContent: "space-between", border: isActive ? "1.5px solid #a8c200" : "none", cursor: 'pointer', transition: "transform 0.1s" }}
+      onPointerDown={(e) => e.currentTarget.style.transform = "scale(0.96)"}
+      onPointerUp={(e) => e.currentTarget.style.transform = "scale(1)"}
+      onPointerLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+    >
       <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
         <div style={{ fontSize: "8px", color: "#888888", marginBottom: "4px", fontWeight: "bold" }}>{slot.courseCode.substring(0, 5)} • {slot.roomNo?.split(",")[0]?.substring(0, 4) || "TBA"}</div>
         <span style={{ fontSize: "11px", fontWeight: "900", color: isNso ? "#00aaff" : "#ffffff", textAlign: "center", lineHeight: 1.1, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", textTransform: "capitalize", wordBreak: "break-word" }}>{slot.courseTitle.toLowerCase()}</span>
@@ -143,31 +145,76 @@ function MiniGridTile({ slot }: { slot: any }) {
       <div style={{ fontSize: "9px", color: "#888888", textAlign: "center", fontWeight: "bold" }}>
         {fmtTimeOnly(slot.startTime) === fmtTimeOnly(slot.endTime) ? fmtTimeOnly(slot.startTime) : `${fmtTimeOnly(slot.startTime)} - ${fmtTimeOnly(slot.endTime)}`}
       </div>
-    </motion.div>
+    </div>
   );
 }
 
 export default function DashboardPage() {
   const { ready } = useAuth();
   const router = useRouter();
-  const { theme } = useThemeStore();
-  const { email, setProfile, academicData, setAcademicData, studentPortalConnected, setStudentPortalConnected, setStudentPortalData, studentPortalData } = useAuthStore();
-  const [data, setData] = useState<any>(academicData || null);
+  // Enforce granular store selectors to avoid main-thread rendering bottlenecks
+  const theme = useThemeStore((state) => state.theme);
+  
+  const email = useAuthStore((state) => state.email);
+  const setProfile = useAuthStore((state) => state.setProfile);
+  const academicData = useAuthStore((state) => state.academicData);
+  const setAcademicData = useAuthStore((state) => state.setAcademicData);
+  const studentPortalConnected = useAuthStore((state) => state.studentPortalConnected);
+  const setStudentPortalConnected = useAuthStore((state) => state.setStudentPortalConnected);
+  const setStudentPortalData = useAuthStore((state) => state.setStudentPortalData);
+  const studentPortalData = useAuthStore((state) => state.studentPortalData);
+  const [data, setData] = useState<AnyValue>(academicData || null);
   const [loading, setLoading] = useState(!academicData);
-  const [ttData, setTTData] = useState<any>(null);
-  const [myTTData, setMyTTData] = useState<any>(null);
-  const [calData, setCalData] = useState<any>(null);
+  const [ttData, setTTData] = useState<AnyValue>(null);
+  const [myTTData, setMyTTData] = useState<AnyValue>(null);
+  const [calData, setCalData] = useState<AnyValue>(null);
   const [dayOffset, setDayOffset] = useState(0);
   const [syncError, setSyncError] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
+  const [currentTime] = useState(() => Date.now());
+  useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
+
+  // Loading logs hydration
+  const [loadingLogIndex, setLoadingLogIndex] = useState(0);
+  useEffect(() => {
+    if (!loading) return;
+    const interval = setInterval(() => {
+      setLoadingLogIndex(prev => (prev < 5 ? prev + 1 : 0));
+    }, 700);
+    return () => clearInterval(interval);
+  }, [loading]);
+
+  const formatLastSynced = (dateInput: AnyValue) => {
+    if (!dateInput) return "Never";
+    try {
+      const d = new Date(dateInput);
+      if (isNaN(d.getTime())) return "Recently";
+      
+      const seconds = Math.floor((currentTime - d.getTime()) / 1000);
+      if (seconds < 60) return "Just now";
+      
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return `${minutes}m ago`;
+      
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${hours}h ago`;
+      
+      return d.toLocaleDateString();
+    } catch {
+      return "Recently";
+    }
+  };
 
   const renderAcademicIntegrityHub = (mode: "default" | "matrix" | "aura" = "default") => {
     const isMatrix = mode === "matrix";
     const isAura = mode === "aura";
-    // Use studentPortalData from Zustand as fallback when local state hasn't synced yet
-    const spData = data?.studentPortal || studentPortalData;
-    const hasData = studentPortalConnected && !!spData && !!spData.marks && !!spData.profile;
+    // Fall back to local Zustand cache if the newly fetched object is empty or expired
+    const rawSpData = data?.studentPortal;
+    const fallbackSpData = studentPortalData;
+    const spData = (rawSpData && rawSpData.marks && rawSpData.profile) ? rawSpData : fallbackSpData;
+    const hasSpData = !!spData && !!spData.marks && !!spData.profile;
+    const primaryColor = isAura ? "#FF75C3" : isMatrix ? "#a8c200" : "#00ff88";
+
     return (
       <div style={{
         background: isAura ? "rgba(255, 255, 255, 0.02)" : isMatrix ? "#1c1c1c" : "linear-gradient(135deg, rgba(0, 255, 136, 0.03) 0%, rgba(59, 130, 246, 0.03) 100%)",
@@ -179,31 +226,107 @@ export default function DashboardPage() {
       }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
           <div>
-            <div style={{ fontSize: "10px", fontWeight: 900, color: isAura ? "#FF75C3" : isMatrix ? "#a8c200" : "#00ff88", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "4px" }}>Official Performance</div>
+            <div style={{ fontSize: "10px", fontWeight: 900, color: primaryColor, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "4px" }}>Official Performance</div>
             <h3 style={{ fontSize: "18px", fontWeight: "bold", color: "#fff" }}>Academic Intelligence Hub</h3>
+            {hasSpData && (
+              <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.4)", fontWeight: 700, display: "flex", alignItems: "center", gap: "4px", marginTop: "4px" }}>
+                <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: studentPortalConnected ? primaryColor : "rgba(255,255,255,0.2)" }} />
+                <span>Synced {formatLastSynced(spData?.lastSyncedAt)}</span>
+              </div>
+            )}
+            {!hasSpData && (
+              <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.4)", fontWeight: 700, display: "flex", alignItems: "center", gap: "4px", marginTop: "4px" }}>
+                <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: primaryColor }} />
+                <span>Academia OS Active</span>
+              </div>
+            )}
           </div>
           <div style={{ padding: "8px", borderRadius: "10px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }}>
             <ShieldCheck size={20} color={isAura ? "#8F92FF" : isMatrix ? "#a8c200" : "#00ff88"} />
           </div>
         </div>
 
-        {hasData ? (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "12px" }}>
-            <div style={{ background: "rgba(0,0,0,0.2)", padding: "16px", borderRadius: "16px" }}>
-              <div style={{ fontSize: "20px", fontWeight: "900", color: "#fff" }}>{spData?.marks?.failed?.length || 0}</div>
-              <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase" }}>Arrears</div>
+        {hasSpData && !studentPortalConnected && (
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            background: isAura 
+              ? "rgba(255, 149, 0, 0.05)" 
+              : isMatrix 
+                ? "rgba(168, 194, 0, 0.05)" 
+                : "rgba(0, 255, 136, 0.04)",
+            border: `1px solid ${
+              isAura 
+                ? "rgba(255, 149, 0, 0.2)" 
+                : isMatrix 
+                  ? "rgba(168, 194, 0, 0.2)" 
+                  : "rgba(0, 255, 136, 0.15)"
+            }`,
+            borderRadius: "16px",
+            padding: "12px 16px",
+            marginBottom: "16px",
+            gap: "12px"
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", flex: 1 }}>
+              <AlertCircle 
+                size={16} 
+                color={isAura ? "#FF9500" : isMatrix ? "#a8c200" : "#00ff88"} 
+                style={{ flexShrink: 0 }}
+              />
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <span style={{ 
+                  fontSize: "11px", 
+                  fontWeight: 900, 
+                  color: isAura ? "#FF9500" : isMatrix ? "#a8c200" : "#00ff88", 
+                  textTransform: "uppercase", 
+                  letterSpacing: "0.05em" 
+                }}>
+                  Viewing Offline Cache
+                </span>
+                <span style={{ fontSize: "10px", color: "rgba(255, 255, 255, 0.5)", fontWeight: 600, marginTop: "2px" }}>
+                  Session expired. Reconnect to sync fresh grades & arrears.
+                </span>
+              </div>
             </div>
-            <div style={{ background: "rgba(0,0,0,0.2)", padding: "16px", borderRadius: "16px" }}>
-              <div style={{ fontSize: "20px", fontWeight: "900", color: "#fff" }}>{spData?.marks?.marks?.length || 0}</div>
-              <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase" }}>Grades Logged</div>
+            <button
+              onClick={() => setIsSyncModalOpen(true)}
+              style={{
+                background: isAura ? "#FF9500" : isMatrix ? "#a8c200" : "#00ff88",
+                color: "#000",
+                border: "none",
+                padding: "6px 14px",
+                borderRadius: "10px",
+                fontSize: "10px",
+                fontWeight: 900,
+                cursor: "pointer",
+                textTransform: "uppercase",
+                letterSpacing: "0.05em",
+                boxShadow: `0 0 15px ${
+                  isAura 
+                    ? "rgba(255, 149, 0, 0.2)" 
+                    : isMatrix 
+                      ? "rgba(168, 194, 0, 0.2)" 
+                      : "rgba(0, 255, 136, 0.2)"
+                }`,
+                display: "flex",
+                alignItems: "center",
+                gap: "4px"
+              }}
+            >
+              <RefreshCw size={10} strokeWidth={3} />
+              <span>Sync</span>
+            </button>
+          </div>
+        )}
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "12px", marginBottom: !hasSpData ? "20px" : "0px" }}>
+          <div style={{ background: "rgba(0,0,0,0.2)", padding: "16px", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.02)" }}>
+            <div style={{ fontSize: "20px", fontWeight: "900", color: "#fff" }}>
+              {hasSpData ? (spData?.marks?.failed?.length || 0) : "—"}
             </div>
-            <div style={{ background: "rgba(0,0,0,0.2)", padding: "16px", borderRadius: "16px" }}>
-              <div style={{ fontSize: "20px", fontWeight: "900", color: isAura ? "#FF75C3" : isMatrix ? "#a8c200" : "#00ff88" }}>{spData?.marks?.sgpa || spData?.marks?.SGPA || data?.academia?.profile?.["SGPA"] || "—"}</div>
-              <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase" }}>SGPA</div>
-            </div>
-            <div style={{ background: "rgba(0,0,0,0.2)", padding: "16px", borderRadius: "16px" }}>
-              <div style={{ fontSize: "20px", fontWeight: "900", color: isAura ? "#FF75C3" : isMatrix ? "#a8c200" : "#00ff88" }}>{spData?.marks?.cgpa || spData?.marks?.CGPA || data?.academia?.profile?.["CGPA"] || "—"}</div>
-              <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase" }}>CGPA</div>
+            <div style={{ fontSize: "10px", fontWeight: "700", color: "#666", textTransform: "uppercase", marginTop: "2px" }}>
+              Arrears {!hasSpData && "(Portal Link)"}
             </div>
           </div>
         ) : studentPortalConnected ? (
@@ -226,19 +349,29 @@ export default function DashboardPage() {
               </>
             )}
           </div>
-        ) : (
-          <StudentPortalPrompt inline onConnect={() => setIsSyncModalOpen(true)} />
         )}
       </div>
     );
   };
   const [showStudentInfo, setShowStudentInfo] = useState(false);
   const [isSyncModalOpen, setIsSyncModalOpen] = useState(false);
-  const [broadcast, setBroadcast] = useState<any>(null);
+  const [broadcast, setBroadcast] = useState<AnyValue>(null);
   const [batch, setBatch] = useState<number>(() => {
     const raw = academicData?.profile?.["Combo / Batch"] || "";
     return extractBatch(raw);
   });
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("sync") === "1" || params.get("sync") === "true") {
+        setIsSyncModalOpen(true);
+        // Clean up URL query parameters without reloading
+        const newUrl = window.location.pathname;
+        window.history.replaceState({ path: newUrl }, "", newUrl);
+      }
+    }
+  }, []);
 
 
   useEffect(() => {
@@ -285,28 +418,33 @@ export default function DashboardPage() {
     dataAPI.getBroadcast().then(d => setBroadcast(d)).catch(() => { });
   }, [ready, batch]);
 
-  const att = data?.attendance || [];
-  const marks = data?.marks || [];
+  const att = data?.attendance?.length ? data.attendance : (data?.studentPortal?.attendance || studentPortalData?.attendance || []);
+  const marks = data?.marks?.length ? data.marks : (data?.studentPortal?.marks || studentPortalData?.marks || []);
 
   // Calculate top stats
   const totalCourses = att.length;
-  const avgAtt = att.length ? (att.reduce((s: number, c: any) => s + parseFloat(c["Attn %"] || 0), 0) / att.length).toFixed(1) : "—";
-  const riskCount = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
+  const avgAtt = (() => {
+    if (!att.length) return "—";
+    const totalH = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Conducted"]) || 0), 0);
+    const presentH = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Attended"]) || Math.max(0, (parseInt(c["Hours Conducted"]) || 0) - (parseInt(c["Hours Absent"]) || 0))), 0);
+    return totalH > 0 ? ((presentH / totalH) * 100).toFixed(1) : "—";
+  })();
+  const riskCount = att.filter((c: AnyValue) => parseFloat(c["Attn %"]) < 75).length;
 
   // Aggregate Hours
-  const totalHours = att.reduce((s: number, c: any) => s + (parseInt(c["Hours Conducted"]) || 0), 0);
-  const presentHours = att.reduce((s: number, c: any) => s + (parseInt(c["Hours Attended"]) || (parseInt(c["Hours Conducted"]) - parseInt(c["Hours Absent"])) || 0), 0);
-  const absentHours = att.reduce((s: number, c: any) => s + (parseInt(c["Hours Absent"]) || 0), 0);
+  const totalHours = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Conducted"]) || 0), 0);
+  const presentHours = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Attended"]) || (parseInt(c["Hours Conducted"]) - parseInt(c["Hours Absent"])) || 0), 0);
+  const absentHours = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Absent"]) || 0), 0);
 
   // Calculate average marks
-  const totalScored = marks.reduce((s: number, m: any) => s + (m.tests?.reduce((a: number, t: any) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
-  const totalMax = marks.reduce((s: number, m: any) => s + (m.tests?.reduce((a: number, t: any) => { const [, mx] = t.test.split("/"); return a + (parseFloat(mx) || 0); }, 0) || 0), 0);
+  const totalScored = marks.reduce((s: number, m: AnyValue) => s + (m.tests?.reduce((a: number, t: AnyValue) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
+  const totalMax = marks.reduce((s: number, m: AnyValue) => s + (m.tests?.reduce((a: number, t: AnyValue) => { const [, mx] = t.test.split("/"); return a + (parseFloat(mx) || 0); }, 0) || 0), 0);
   const avgMarks = totalMax > 0 ? ((totalScored / totalMax) * 100).toFixed(1) : "—";
 
   // Recent 5 marks without 0 place holders
-  const recentMarksList: any[] = [];
-  marks.forEach((m: any) => {
-    m.tests?.forEach((t: any) => {
+  const recentMarksList: AnyValue[] = [];
+  marks.forEach((m: AnyValue) => {
+    m.tests?.forEach((t: AnyValue) => {
       const sc = parseFloat(t.score);
       const mx = parseFloat(t.test.split("/")[1] || "100");
       if (!isNaN(sc) && sc > 0 && t.score !== "Abs") {
@@ -326,8 +464,8 @@ export default function DashboardPage() {
   }, [calData]);
 
   const upcomingEvents = useMemo(() => {
-    const events: any[] = [];
-    const sortedDays = Array.from(byDate.values()).sort((a: any, b: any) => a.isoDate.localeCompare(b.isoDate));
+    const events: AnyValue[] = [];
+    const sortedDays = Array.from(byDate.values()).sort((a: AnyValue, b: AnyValue) => a.isoDate.localeCompare(b.isoDate));
     const now = new Date();
     const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
 
@@ -388,7 +526,7 @@ export default function DashboardPage() {
 
   const gridSlots = useMemo(() => {
     if (!ttData?.data?.rows || targetClasses.length === 0) return Array(10).fill(null);
-    const timeRow = ttData.data.rows.find((r: any) => r[0] === "FROM");
+    const timeRow = ttData.data.rows.find((r: AnyValue) => r[0] === "FROM");
     const timesList = timeRow ? timeRow.slice(1).map((t: string) => t.replace(/\t/g, "").trim().replace(/\n+/g, " ")) : [];
 
     // Create exactly 10 slots map
@@ -414,7 +552,7 @@ export default function DashboardPage() {
     return slots;
   }, [ttData, targetClasses]);
 
-  const studentInfo = myTTData?.data?.studentInfo || null;
+  const studentInfo = myTTData?.data?.studentInfo || data?.profile || null;
 
   const renderStudentInfoModal = () => {
     if (!showStudentInfo || !studentInfo) return null;
@@ -423,27 +561,31 @@ export default function DashboardPage() {
         onClick={() => setShowStudentInfo(false)}
         style={{
           position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
-          background: "rgba(0,0,0,0.6)", backdropFilter: "blur(10px)",
-          zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px"
+          background: "rgba(0,0,0,0.8)", backdropFilter: "blur(20px)",
+          zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px"
         }}
       >
         <div onClick={e => e.stopPropagation()} style={{
-          background: "var(--bg-surface)", padding: "24px", borderRadius: "24px",
-          width: "100%", maxWidth: "450px", border: "1px solid var(--border)",
-          boxShadow: "0 20px 40px rgba(0,0,0,0.5)", maxHeight: "80vh", overflowY: "auto"
+          background: "rgba(10, 10, 15, 0.95)", padding: "28px", borderRadius: "28px",
+          width: "100%", maxWidth: "450px", border: "1px solid rgba(255,255,255,0.08)",
+          boxShadow: "0 24px 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(255,255,255,0.02)", maxHeight: "80vh", overflowY: "auto"
         }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-            <div style={{ fontSize: "16px", fontWeight: 800, color: "var(--text-primary)" }}>Student Details</div>
-            <button onClick={() => setShowStudentInfo(false)} style={{ background: "transparent", border: "none", color: "var(--text-muted)", fontSize: "20px", cursor: "pointer" }}>×</button>
+            <div style={{ fontSize: "16px", fontWeight: 900, color: "#fff", letterSpacing: "0.05em", textTransform: "uppercase" }}>Student Details</div>
+            <button onClick={() => setShowStudentInfo(false)} style={{ background: "transparent", border: "none", color: "rgba(255,255,255,0.4)", fontSize: "24px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>×</button>
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "24px" }}>
             {["Registration Number", "Name", "Combo / Batch", "Program", "Department", "Semester", "Class Room"].map(key => {
-              if (!studentInfo[key]) return null;
+              const value = studentInfo[key] || 
+                            studentInfo[key.toLowerCase()] || 
+                            studentInfo[key.replace(/\s+/g, '')] ||
+                            studentInfo[key.replace(/\s+/g, '').toLowerCase()];
+              if (!value) return null;
               return (
-                <div key={key} style={{ background: "rgba(255,255,255,0.03)", padding: "12px", borderRadius: "12px" }}>
-                  <div style={{ fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 800, marginBottom: "4px" }}>{key}</div>
-                  <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--text-primary)" }}>{studentInfo[key]}</div>
+                <div key={key} style={{ background: "rgba(255,255,255,0.03)", padding: "12px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                  <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.4)", textTransform: "uppercase", fontWeight: 800, marginBottom: "4px" }}>{key}</div>
+                  <div style={{ fontSize: "13px", fontWeight: 700, color: "#fff" }}>{value}</div>
                 </div>
               );
             })}
@@ -451,12 +593,12 @@ export default function DashboardPage() {
 
           {studentInfo.advisors && (
             <div>
-              <div style={{ fontSize: "12px", fontWeight: 800, color: "var(--accent)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>Advisors</div>
+              <div style={{ fontSize: "12px", fontWeight: 900, color: "#FF75C3", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>Advisors</div>
               <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                {Object.entries(studentInfo.advisors).map(([key, lines]: any) => {
+                {Object.entries(studentInfo.advisors).map(([key, lines]: AnyValue) => {
                   if (!lines || lines.length === 0) return null;
                   return (
-                    <div key={key} style={{ background: "rgba(255,255,255,0.03)", padding: "16px", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                    <div key={key} style={{ background: "rgba(255,255,255,0.02)", padding: "16px", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.05)" }}>
                       {lines.map((line: string, i: number) => (
                         <div key={i} style={{
                           fontSize: i === 0 ? "14px" : "12px",
@@ -484,9 +626,9 @@ export default function DashboardPage() {
     broadcast, setIsSyncModalOpen, renderAcademicIntegrityHub,
     userBatch: batch, totalHours, presentHours, absentHours, nowMin,
     fmtTimeOnly, fmt12, parseStart, parseEnd, isNowIn, BATCH_PERIODS, BroadcastBanner
-  }), [data, riskCount, avgAtt, avgMarks, totalCourses, targetClasses, nextClass, recentTop5, initials, firstName, dayOrder, isHoliday, dayOffset, broadcast, batch, totalHours, presentHours, absentHours, nowMin]);
+  };
 
-  const activeDashboard = useMemo(() => {
+  const activeDashboard = (() => {
     if (!mounted) return null;
     switch (theme) {
       case "matrix": return <MatrixDashboard {...themeProps} />;
@@ -500,7 +642,7 @@ export default function DashboardPage() {
         />
       );
     }
-  }, [mounted, theme, data, themeProps, upcomingEvents, firstName, nextClass, broadcast]);
+  })();
 
   if (!mounted) {
     return (
@@ -567,7 +709,7 @@ export default function DashboardPage() {
   );
 }
 
-function BroadcastBanner({ broadcast }: any) {
+function BroadcastBanner({ broadcast }: AnyValue) {
   if (!broadcast || !broadcast.active || !broadcast.message) return null;
   const colors: Record<string, { bg: string, text: string, border: string }> = {
     info: { bg: "rgba(59, 130, 246, 0.1)", text: "#3b82f6", border: "rgba(59, 130, 246, 0.2)" },

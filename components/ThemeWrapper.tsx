@@ -2,14 +2,16 @@
 import { useThemeStore } from "@/lib/themeStore";
 import { useEffect, useState } from "react";
 import VersionGuard from "./VersionGuard";
+import { usePerfGuard } from "@/hooks/usePerfGuard";
 
 export default function ThemeWrapper({ children }: { children: React.ReactNode }) {
   const { theme } = useThemeStore();
   const [mounted, setMounted] = useState(false);
+  
+  // Initialize device-specific performance parameters on application load
+  usePerfGuard();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
   const currentTheme = mounted ? theme : "aura";
 

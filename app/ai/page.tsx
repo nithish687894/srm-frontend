@@ -5,7 +5,6 @@ import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
-import { motion, AnimatePresence } from "framer-motion";
 
 interface Message { role: "user" | "assistant"; content: string; }
 
@@ -18,12 +17,12 @@ export default function AIPage() {
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [localAcademicData, setLocalAcademicData] = useState<any>(academicData);
+  const [localAcademicData, setLocalAcademicData] = useState<AnyValue>(academicData);
   const bottomRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const [remaining, setRemaining] = useState<number | null>(null);
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
   useEffect(() => {
     if (!localStorage.getItem("authToken")) { router.push("/"); return; }
@@ -34,9 +33,9 @@ export default function AIPage() {
     ]).then(([allData, myTT, calData]) => {
       const calendarRows = calData?.data || [];
       const todayIso = new Date().toISOString().split('T')[0];
-      const todayEvent = calendarRows.find((c: any) => todayIso && c.date === todayIso);
+      const todayEvent = calendarRows.find((c: AnyValue) => todayIso && c.date === todayIso);
       const tomorrowIso = new Date(Date.now() + 86400000).toISOString().split('T')[0];
-      const tomorrowEvent = calendarRows.find((c: any) => tomorrowIso && c.date === tomorrowIso);
+      const tomorrowEvent = calendarRows.find((c: AnyValue) => tomorrowIso && c.date === tomorrowIso);
 
       let calendarStr = "";
       if (todayEvent) calendarStr += `Today (${todayIso}): Day Order ${todayEvent.dayOrder || "N/A"} - ${todayEvent.event || "No event"}\n`;
@@ -65,7 +64,7 @@ export default function AIPage() {
       
       setMessages(prev => [...prev, { role: "assistant", content: res.reply }]);
       if (res.remaining !== undefined) setRemaining(res.remaining);
-    } catch (err: any) {
+    } catch (err: AnyValue) {
       console.error(err);
       const errorMsg = err.response?.data?.error || "CONNECTION FAILED.";
       setMessages(prev => [...prev, { role: "assistant", content: `ERROR: ${errorMsg}` }]);
@@ -106,9 +105,9 @@ export default function AIPage() {
 
         {/* Messages */}
         <div style={{ flex: 1, overflowY: "auto", padding: "32px", display: "flex", flexDirection: "column", gap: "24px" }}>
-          <AnimatePresence mode="popLayout">
+          <div>
             {messages.map((m, i) => (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} key={i} style={{ display: "flex", flexDirection: "column", alignItems: m.role === "user" ? "flex-end" : "flex-start" }}>
+              <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: m.role === "user" ? "flex-end" : "flex-start" }}>
                 <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.2)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "8px", fontWeight: "bold" }}>
                   {m.role === "user" ? "You" : "Assistant"}
                 </div>
@@ -122,16 +121,16 @@ export default function AIPage() {
                 }}>
                   {m.content}
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </AnimatePresence>
+          </div>
           {loading && (
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
               <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.2)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "8px", fontWeight: "bold" }}>
                 Assistant
               </div>
               <div style={{ padding: "16px 24px", borderRadius: "20px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", display: "flex", gap: "8px" }}>
-                {[0,1,2].map(i => <motion.div key={i} animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }} style={{ width: "6px", height: "6px", borderRadius: "50%", background: ACCENT }} />)}
+                {[0,1,2].map(i => <div key={i} style={{ width: "6px", height: "6px", borderRadius: "50%", background: ACCENT }} />)}
               </div>
             </div>
           )}

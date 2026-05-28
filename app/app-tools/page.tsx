@@ -2,14 +2,13 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  Home, Award, Activity, MoreHorizontal, IdCard, Calendar, Wrench, 
+  IdCard, Calendar, Wrench,
   Sparkles, Calculator, ShieldAlert, GraduationCap, 
-  LayoutTemplate, LifeBuoy, ChevronRight, User
+  LayoutTemplate, LifeBuoy, ChevronRight
 } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
 import Sidebar from "@/components/Sidebar";
 import { useThemeStore } from "@/lib/themeStore";
-import { motion } from "framer-motion";
 
 const THEME = {
   bg: "#050505",
@@ -28,7 +27,7 @@ const AURA_COLORS = {
   sub: "rgba(255, 255, 255, 0.4)",
 };
 
-const MenuIcon = ({ icon: Icon, label, color = THEME.accentCyan, onClick }: any) => (
+const MenuIcon = ({ icon: Icon, label, color = THEME.accentCyan, onClick }: AnyValue) => (
   <button 
     onClick={onClick}
     style={{ 
@@ -52,7 +51,7 @@ const MenuIcon = ({ icon: Icon, label, color = THEME.accentCyan, onClick }: any)
   </button>
 );
 
-const ActionCard = ({ icon: Icon, title, subtitle, color = THEME.accentPurple, onClick }: any) => (
+const ActionCard = ({ icon: Icon, title, subtitle, color = THEME.accentPurple, onClick }: AnyValue) => (
   <button 
     onClick={onClick}
     style={{ 
@@ -82,21 +81,23 @@ const SectionHeader = ({ title }: { title: string }) => (
 export default function AppToolsPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
-  const { studentPortalData } = useAuthStore();
+  const { studentPortalData, email } = useAuthStore();
   const { theme } = useThemeStore();
   const isAura = true;
   
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
   if (!mounted) return <div style={{ background: '#050505', height: '100vh' }} />;
 
+  const ADMIN_EMAILS = ["ns4770@srmist.edu.in", "ts0014@srmist.edu.in"];
+  const isAdmin = email && ADMIN_EMAILS.some((e) => e.toLowerCase() === email.toLowerCase());
+
   const profile = studentPortalData?.profile || {};
-  const initials = profile.name ? profile.name.split(' ').filter(Boolean).map((n:any)=>n[0]).join('').slice(0,2).toUpperCase() : "NK";
+  const initials = profile.name ? profile.name.split(' ').filter(Boolean).map((n:AnyValue)=>n[0]).join('').slice(0,2).toUpperCase() : "NK";
 
   return (
     <div style={{ height: "100vh", width: "100vw", background: isAura ? AURA_COLORS.bg : THEME.bg, color: "#fff", display: "flex", flexDirection: "column", overflow: "hidden" }}>
       <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
         * { box-sizing: border-box; }
         
         .aura-blob {
@@ -160,7 +161,7 @@ export default function AppToolsPage() {
             <MenuIcon icon={Wrench} label="Tools" color={isAura ? AURA_COLORS.accent : "#00ff88"} onClick={() => router.push('/tools')} />
             <MenuIcon icon={Sparkles} label="AI Tutor" color="#fff" onClick={() => router.push('/ai')} />
             <MenuIcon icon={Calculator} label="GPA Calc" color="#fff" onClick={() => router.push('/gpa')} />
-            <MenuIcon icon={ShieldAlert} label="Admin" color="#fff" onClick={() => router.push('/admin')} />
+            {isAdmin && <MenuIcon icon={ShieldAlert} label="Admin" color="#fff" onClick={() => router.push('/admin')} />}
           </div>
 
           {/* PORTAL SERVICES */}
