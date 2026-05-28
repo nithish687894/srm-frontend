@@ -31,53 +31,39 @@ export default function PortalSyncModal({
   const [step, setStep] = useState<"form" | "syncing" | "success">("form");
 
   const theme = useThemeStore((state) => state.theme) || "aura";
-  const isAura = theme === "aura";
+  const isAura = true;
 
   // Dynamic theme-aware premium colors configuration
   const colors = {
     // Primary accent color (Aura: hot pink, Cosmos: cool cyan)
-    accent: isAura ? "#FF75C3" : "#38BDF8",
-    accentRgb: isAura ? "255, 117, 195" : "56, 189, 248",
+    accent: "#FF75C3",
+    accentRgb: "255, 117, 195",
     
     // Secondary accent color (Aura: lavender, Cosmos: sky blue)
-    secondary: isAura ? "#A78BFA" : "#00b3ff",
-    secondaryRgb: isAura ? "167, 139, 250" : "0, 179, 255",
+    secondary: "#A78BFA",
+    secondaryRgb: "167, 139, 250",
     
     // Icon badge styles
-    iconBg: isAura ? "rgba(255, 117, 195, 0.08)" : "rgba(56, 189, 248, 0.08)",
-    iconBorder: isAura ? "1px solid rgba(255, 117, 195, 0.2)" : "1px solid rgba(56, 189, 248, 0.2)",
-    iconGlow: isAura ? "0 0 15px rgba(255, 117, 195, 0.15)" : "0 0 15px rgba(56, 189, 248, 0.15)",
+    iconBg: "rgba(255, 117, 195, 0.08)",
+    iconBorder: "1px solid rgba(255, 117, 195, 0.2)",
+    iconGlow: "0 0 15px rgba(255, 117, 195, 0.15)",
 
     // Header title text gradient
-    headerGrad: isAura
-      ? "linear-gradient(90deg, #FF75C3 0%, #C084FC 100%)"
-      : "linear-gradient(90deg, #38BDF8 0%, #00b3ff 100%)",
+    headerGrad: "linear-gradient(90deg, #FF75C3 0%, #C084FC 100%)",
 
     // Premium card border and ambient glow
-    cardBorder: isAura
-      ? "1px solid rgba(255, 117, 195, 0.18)"
-      : "1px solid rgba(56, 189, 248, 0.18)",
+    cardBorder: "1px solid rgba(255, 117, 195, 0.18)",
     
-    cardShadowGlow: isAura
-      ? "0 0 50px rgba(255, 117, 195, 0.08)"
-      : "0 0 50px rgba(56, 189, 248, 0.08)",
+    cardShadowGlow: "0 0 50px rgba(255, 117, 195, 0.08)",
 
     // Submit button gradient presets
-    btnGrad: isAura
-      ? "linear-gradient(135deg, #FF75C3 0%, #A78BFA 100%)"
-      : "linear-gradient(135deg, #38BDF8 0%, #00b3ff 100%)",
+    btnGrad: "linear-gradient(135deg, #FF75C3 0%, #A78BFA 100%)",
         
-    btnHoverGrad: isAura
-      ? "linear-gradient(135deg, #FF94D2 0%, #B9A2FC 100%)"
-      : "linear-gradient(135deg, #54CFFF 0%, #29C0FF 100%)",
+    btnHoverGrad: "linear-gradient(135deg, #FF94D2 0%, #B9A2FC 100%)",
         
-    btnShadow: isAura
-      ? "0 10px 25px -5px rgba(255, 117, 195, 0.35), 0 0 20px rgba(255, 117, 195, 0.15)"
-      : "0 10px 25px -5px rgba(56, 189, 248, 0.35), 0 0 20px rgba(56, 189, 248, 0.15)",
+    btnShadow: "0 10px 25px -5px rgba(255, 117, 195, 0.35), 0 0 20px rgba(255, 117, 195, 0.15)",
         
-    btnNormalShadow: isAura
-      ? "0 8px 20px -6px rgba(255, 117, 195, 0.2)"
-      : "0 8px 20px -6px rgba(56, 189, 248, 0.2)",
+    btnNormalShadow: "0 8px 20px -6px rgba(255, 117, 195, 0.2)",
   };
 
   // Interaction Hover/Focus States

@@ -11,11 +11,7 @@ import { extractBatch } from "@/lib/utils";
 import PortalSyncModal from "@/components/PortalSyncModal";
 import StudentPortalPrompt from "@/components/StudentPortalPrompt";
 import { ShieldCheck, AlertCircle, RefreshCw } from "lucide-react";
-import dynamic from "next/dynamic";
 import AuraDashboard from "@/components/aura-theme/AuraDashboard";
-
-// Dynamic imports for performance optimization
-const CosmosDashboard = dynamic(() => import("@/components/CosmosDashboard"), { ssr: false });
 
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
 function parseStart(t: string) { const m = t.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
@@ -622,17 +618,14 @@ export default function DashboardPage() {
 
   const activeDashboard = (() => {
     if (!mounted) return null;
-    switch (theme) {
-      case "cosmos": return <CosmosDashboard {...themeProps} />;
-      default: return (
-        <AuraDashboard
-          data={data} avgAtt={avgAtt} avgMarks={avgMarks} firstName={firstName}
-          nextClass={nextClass} onShowStudentInfo={() => setShowStudentInfo(true)}
-          broadcast={broadcast} renderAcademicIntegrityHub={renderAcademicIntegrityHub}
-          upcomingEvents={upcomingEvents}
-        />
-      );
-    }
+    return (
+      <AuraDashboard
+        data={data} avgAtt={avgAtt} avgMarks={avgMarks} firstName={firstName}
+        nextClass={nextClass} onShowStudentInfo={() => setShowStudentInfo(true)}
+        broadcast={broadcast} renderAcademicIntegrityHub={renderAcademicIntegrityHub}
+        upcomingEvents={upcomingEvents}
+      />
+    );
   })();
 
   if (!mounted) {

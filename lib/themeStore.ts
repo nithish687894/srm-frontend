@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export type ThemeType = "cosmos" | "aura";
+export type ThemeType = "aura";
 
 interface ThemeStore {
   theme: ThemeType;

@@ -432,18 +432,6 @@ export default function GPAPage() {
         }} />
       )}
 
-      {theme === "cosmos" && (
-        <div style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: "radial-gradient(circle at 15% 20%, rgba(124, 58, 237, 0.08) 0%, transparent 40%), radial-gradient(circle at 85% 80%, rgba(0, 210, 255, 0.08) 0%, transparent 40%)",
-          pointerEvents: "none",
-          zIndex: 0
-        }} />
-      )}
 
       <Sidebar />
 
@@ -506,7 +494,7 @@ export default function GPAPage() {
                 flexDirection: "column",
                 alignItems: "center",
                 textAlign: "center",
-                boxShadow: theme === "aura" ? "0 8px 32px 0 rgba(0, 0, 0, 0.3)" : "none"
+                boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.3)"
               }}>
                 <div style={{ position: "relative", width: "160px", height: "160px", marginBottom: "16px" }}>
                   {/* Gauge SVG */}

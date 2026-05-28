@@ -9,7 +9,6 @@ import { useAuthStore } from "@/lib/store";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
 import { useThemeStore } from "@/lib/themeStore";
 import AuraAttendance from "@/components/aura-theme/AuraAttendance";
-import CosmosAttendance from "@/components/CosmosAttendance";
 import { RefreshCcw } from "lucide-react";
 
 function buildSlotToCourseMap(myTT: AnyValue[]) {
@@ -257,9 +256,7 @@ export default function AttendancePage() {
     <div style={{ minHeight: "100vh", width: "100%", background: "#050505", display: "flex", flexDirection: "column", position: "relative" }}>
       <Sidebar />
       <main id="attendance-parent-scroll" style={{ flex: 1, paddingBottom: "100px" }}>
-        {theme === "cosmos" ? (
-          <CosmosAttendance {...themeProps} />
-        ) : theme === "aura" ? (
+        {theme === "aura" ? (
           <AuraAttendance attendance={att} handleSync={handleSync} isSyncing={isSyncing} {...themeProps} />
         ) : (
           <div className="page-content" data-section="Attendance" style={{ paddingBottom: "140px" }}>
