@@ -15,7 +15,6 @@ import dynamic from "next/dynamic";
 import AuraDashboard from "@/components/aura-theme/AuraDashboard";
 
 // Dynamic imports for performance optimization
-const MatrixDashboard = dynamic(() => import("@/components/MatrixDashboard"), { ssr: false });
 const CosmosDashboard = dynamic(() => import("@/components/CosmosDashboard"), { ssr: false });
 
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
@@ -205,22 +204,21 @@ export default function DashboardPage() {
     }
   };
 
-  const renderAcademicIntegrityHub = (mode: "default" | "matrix" | "aura" = "default") => {
-    const isMatrix = mode === "matrix";
+  const renderAcademicIntegrityHub = (mode: "default" | "aura" = "default") => {
     const isAura = mode === "aura";
     // Fall back to local Zustand cache if the newly fetched object is empty or expired
     const rawSpData = data?.studentPortal;
     const fallbackSpData = studentPortalData;
     const spData = (rawSpData && rawSpData.marks && rawSpData.profile) ? rawSpData : fallbackSpData;
     const hasSpData = !!spData && !!spData.marks && !!spData.profile;
-    const primaryColor = isAura ? "#FF75C3" : isMatrix ? "#a8c200" : "#00ff88";
+    const primaryColor = isAura ? "#FF75C3" : "#00ff88";
 
     return (
       <div style={{
-        background: isAura ? "rgba(255, 255, 255, 0.02)" : isMatrix ? "#1c1c1c" : "linear-gradient(135deg, rgba(0, 255, 136, 0.03) 0%, rgba(59, 130, 246, 0.03) 100%)",
+        background: isAura ? "rgba(255, 255, 255, 0.02)" : "linear-gradient(135deg, rgba(0, 255, 136, 0.03) 0%, rgba(59, 130, 246, 0.03) 100%)",
         backdropFilter: isAura ? "blur(40px)" : "none",
         WebkitBackdropFilter: isAura ? "blur(40px)" : "none",
-        border: isAura || isMatrix ? `1px solid ${isAura ? "rgba(255, 255, 255, 0.08)" : "#333"}` : "1px solid rgba(255, 255, 255, 0.05)",
+        border: isAura ? "1px solid rgba(255, 255, 255, 0.08)" : "1px solid rgba(255, 255, 255, 0.05)",
         borderRadius: "32px", padding: "24px", marginBottom: "32px",
         position: "relative", overflow: "hidden"
       }}>
@@ -242,7 +240,7 @@ export default function DashboardPage() {
             )}
           </div>
           <div style={{ padding: "8px", borderRadius: "10px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }}>
-            <ShieldCheck size={20} color={isAura ? "#8F92FF" : isMatrix ? "#a8c200" : "#00ff88"} />
+            <ShieldCheck size={20} color={isAura ? "#8F92FF" : "#00ff88"} />
           </div>
         </div>
 
@@ -253,15 +251,11 @@ export default function DashboardPage() {
             justifyContent: "space-between",
             background: isAura 
               ? "rgba(255, 149, 0, 0.05)" 
-              : isMatrix 
-                ? "rgba(168, 194, 0, 0.05)" 
-                : "rgba(0, 255, 136, 0.04)",
+              : "rgba(0, 255, 136, 0.04)",
             border: `1px solid ${
               isAura 
                 ? "rgba(255, 149, 0, 0.2)" 
-                : isMatrix 
-                  ? "rgba(168, 194, 0, 0.2)" 
-                  : "rgba(0, 255, 136, 0.15)"
+                : "rgba(0, 255, 136, 0.15)"
             }`,
             borderRadius: "16px",
             padding: "12px 16px",
@@ -271,14 +265,14 @@ export default function DashboardPage() {
             <div style={{ display: "flex", alignItems: "center", gap: "10px", flex: 1 }}>
               <AlertCircle 
                 size={16} 
-                color={isAura ? "#FF9500" : isMatrix ? "#a8c200" : "#00ff88"} 
+                color={isAura ? "#FF9500" : "#00ff88"} 
                 style={{ flexShrink: 0 }}
               />
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <span style={{ 
                   fontSize: "11px", 
                   fontWeight: 900, 
-                  color: isAura ? "#FF9500" : isMatrix ? "#a8c200" : "#00ff88", 
+                  color: isAura ? "#FF9500" : "#00ff88", 
                   textTransform: "uppercase", 
                   letterSpacing: "0.05em" 
                 }}>
@@ -292,7 +286,7 @@ export default function DashboardPage() {
             <button
               onClick={() => setIsSyncModalOpen(true)}
               style={{
-                background: isAura ? "#FF9500" : isMatrix ? "#a8c200" : "#00ff88",
+                background: isAura ? "#FF9500" : "#00ff88",
                 color: "#000",
                 border: "none",
                 padding: "6px 14px",
@@ -305,9 +299,7 @@ export default function DashboardPage() {
                 boxShadow: `0 0 15px ${
                   isAura 
                     ? "rgba(255, 149, 0, 0.2)" 
-                    : isMatrix 
-                      ? "rgba(168, 194, 0, 0.2)" 
-                      : "rgba(0, 255, 136, 0.2)"
+                    : "rgba(0, 255, 136, 0.2)"
                 }`,
                 display: "flex",
                 alignItems: "center",
@@ -631,7 +623,6 @@ export default function DashboardPage() {
   const activeDashboard = (() => {
     if (!mounted) return null;
     switch (theme) {
-      case "matrix": return <MatrixDashboard {...themeProps} />;
       case "cosmos": return <CosmosDashboard {...themeProps} />;
       default: return (
         <AuraDashboard

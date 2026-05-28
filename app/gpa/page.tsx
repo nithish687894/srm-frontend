@@ -47,20 +47,6 @@ const THEME_CONFIG = {
     gaugeGradient: ["#FF2D55", "#BF5AF2"],
     scrollThumb: "rgba(191, 90, 242, 0.3)"
   },
-  matrix: {
-    bg: "#000000",
-    textColor: "#00FF33",
-    titleGradient: "linear-gradient(135deg, #00FF33, #a8c200)",
-    cardBg: "#050805",
-    cardBorder: "1px solid rgba(168, 194, 0, 0.3)",
-    cardBorderHover: "1px solid #00FF33",
-    accentColor: "#a8c200",
-    accentPink: "#00FF33",
-    accentGlow: "rgba(168, 194, 0, 0.5)",
-    fontFamily: "'JetBrains Mono', 'Courier New', Courier, monospace",
-    gaugeGradient: ["#a8c200", "#00FF33"],
-    scrollThumb: "rgba(168, 194, 0, 0.4)"
-  },
   cosmos: {
     bg: "#07070F",
     textColor: "#f0f0ff",
@@ -356,7 +342,7 @@ export default function GPAPage() {
   const strokeDashoffset = circumference - (simulatedGpa / 10) * circumference;
 
   return (
-    <div className={`page-root theme-${theme} ${theme === "matrix" ? "matrix-crt" : ""}`} style={{
+    <div className={`page-root theme-${theme}`} style={{
       background: activeConfig.bg,
       color: activeConfig.textColor,
       fontFamily: activeConfig.fontFamily,
@@ -370,16 +356,6 @@ export default function GPAPage() {
         @keyframes spin {
           from { transform: rotate(0deg); }
           to { transform: rotate(360deg); }
-        }
-        .matrix-crt::after {
-          content: " ";
-          display: block;
-          position: fixed;
-          top: 0; left: 0; bottom: 0; right: 0;
-          background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.22) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
-          z-index: 99999;
-          background-size: 100% 4px, 6px 100%;
-          pointer-events: none;
         }
         .gpa-card {
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -485,7 +461,7 @@ export default function GPAPage() {
                 textTransform: "uppercase",
                 marginBottom: "4px"
               }}>
-                {theme === "matrix" ? "SYSTEM::FORECAST_ENGINE" : "Academic Intelligence"}
+                Academic Intelligence
               </div>
               <h1 style={{ 
                 fontSize: "32px", 
@@ -494,7 +470,7 @@ export default function GPAPage() {
                 margin: 0,
                 backgroundImage: activeConfig.titleGradient,
                 WebkitBackgroundClip: "text",
-                WebkitTextFillColor: theme === "matrix" ? "none" : "transparent",
+                WebkitTextFillColor: "transparent",
               }}>
                 GPA Sim & Goal Seeker
               </h1>
@@ -585,7 +561,7 @@ export default function GPAPage() {
                       lineHeight: 1, 
                       letterSpacing: "-1px",
                       color: "#fff",
-                      textShadow: theme !== "matrix" ? `0 0 15px ${activeConfig.accentColor}55` : "none"
+                      textShadow: `0 0 15px ${activeConfig.accentColor}55`
                     }}>
                       {simulatedGpa.toFixed(2)}
                     </span>
@@ -619,7 +595,7 @@ export default function GPAPage() {
                     width: "36px", 
                     height: "36px", 
                     borderRadius: "10px", 
-                    background: `rgba(${theme === "matrix" ? "168,194,0" : "0,210,255"}, 0.1)`, 
+                    background: "rgba(0,210,255,0.1)",
                     display: "flex", 
                     alignItems: "center", 
                     justifyContent: "center" 
@@ -675,7 +651,7 @@ export default function GPAPage() {
                             padding: "14px",
                             borderRadius: "14px",
                             background: activeConfig.accentColor,
-                            color: theme === "matrix" ? "#000" : "#fff",
+                            color: "#fff",
                             fontSize: "12px",
                             fontWeight: 900,
                             border: "none",
@@ -779,7 +755,7 @@ export default function GPAPage() {
                           width: "56px", 
                           height: "56px", 
                           borderRadius: "16px", 
-                          background: `rgba(${theme === "matrix" ? "168,194,0" : "255,255,255"}, 0.03)`,
+                          background: "rgba(255,255,255,0.03)",
                           border: `1px solid ${r.grade.color}3D`,
                           display: "flex",
                           flexDirection: "column",

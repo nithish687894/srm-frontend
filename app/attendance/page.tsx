@@ -8,7 +8,6 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAuthStore } from "@/lib/store";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
 import { useThemeStore } from "@/lib/themeStore";
-import MatrixAttendance from "@/components/MatrixAttendance";
 import AuraAttendance from "@/components/aura-theme/AuraAttendance";
 import CosmosAttendance from "@/components/CosmosAttendance";
 import { RefreshCcw } from "lucide-react";
@@ -258,9 +257,7 @@ export default function AttendancePage() {
     <div style={{ minHeight: "100vh", width: "100%", background: "#050505", display: "flex", flexDirection: "column", position: "relative" }}>
       <Sidebar />
       <main id="attendance-parent-scroll" style={{ flex: 1, paddingBottom: "100px" }}>
-        {theme === "matrix" ? (
-          <MatrixAttendance {...themeProps} attendance={att} />
-        ) : theme === "cosmos" ? (
+        {theme === "cosmos" ? (
           <CosmosAttendance {...themeProps} />
         ) : theme === "aura" ? (
           <AuraAttendance attendance={att} handleSync={handleSync} isSyncing={isSyncing} {...themeProps} />

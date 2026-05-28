@@ -177,15 +177,6 @@ export default function ThemeOnboarding() {
           100% { background-position: 0% 50%; }
         }
 
-        .matrix-preview { background: #000; }
-        .matrix-line {
-          width: 50%;
-          height: 3px;
-          background: #a8c200;
-          box-shadow: 0 0 15px #a8c200, 0 0 30px rgba(168, 194, 0, 0.5);
-          border-radius: 10px;
-        }
-
         .cosmos-preview {
           background: radial-gradient(circle at center, #2A1B7A 0%, #0A061F 100%);
         }
