@@ -8,10 +8,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAuthStore } from "@/lib/store";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
 import { useThemeStore } from "@/lib/themeStore";
-import MatrixAttendance from "@/components/MatrixAttendance";
 import AuraAttendance from "@/components/aura-theme/AuraAttendance";
-import CosmosAttendance from "@/components/CosmosAttendance";
-import { RefreshCcw } from "lucide-react";
 
 function buildSlotToCourseMap(myTT: AnyValue[]) {
   const map: Record<string, AnyValue> = {};
@@ -90,6 +87,7 @@ export default function AttendancePage() {
       const courses = myTT?.data?.courses || myTT?.data || [];
       setTTData({ rows: tt?.data?.rows || [], myTT: courses });
     }).catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready, academicData?.profile]);
 
   useEffect(() => {
@@ -258,11 +256,7 @@ export default function AttendancePage() {
     <div style={{ minHeight: "100vh", width: "100%", background: "#050505", display: "flex", flexDirection: "column", position: "relative" }}>
       <Sidebar />
       <main id="attendance-parent-scroll" style={{ flex: 1, paddingBottom: "100px" }}>
-        {theme === "matrix" ? (
-          <MatrixAttendance {...themeProps} attendance={att} />
-        ) : theme === "cosmos" ? (
-          <CosmosAttendance {...themeProps} />
-        ) : theme === "aura" ? (
+        {theme === "aura" ? (
           <AuraAttendance attendance={att} handleSync={handleSync} isSyncing={isSyncing} {...themeProps} />
         ) : (
           <div className="page-content" data-section="Attendance" style={{ paddingBottom: "140px" }}>
@@ -341,7 +335,6 @@ export default function AttendancePage() {
                 const isRisk = attn < 75;
                 const cond = parseInt(c["Hours Conducted"]) || 0;
                 const abs = parseInt(c["Hours Absent"]) || 0;
-                const pres = parseInt(c["Hours Attended"]) || (cond - abs);
 
                 return (
                   <div key={i} className="min-card" style={{ background: isRisk ? "rgba(255,59,59,0.05)" : "var(--bg-surface)" }}>

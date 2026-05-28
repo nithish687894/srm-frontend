@@ -4,12 +4,10 @@ import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
-import { useThemeStore } from "@/lib/themeStore";
 
 interface Message { role: "user" | "assistant"; content: string; }
 
 export default function AIPage() {
-  const { theme } = useThemeStore();
   const { academicData, setAcademicData: setGlobalData } = useAuthStore();
   const [mounted, setMounted] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
@@ -46,6 +44,7 @@ export default function AIPage() {
       setLocalAcademicData(merged);
       setGlobalData(merged);
     }).catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);

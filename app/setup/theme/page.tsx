@@ -177,41 +177,6 @@ export default function ThemeOnboarding() {
           100% { background-position: 0% 50%; }
         }
 
-        .matrix-preview { background: #000; }
-        .matrix-line {
-          width: 50%;
-          height: 3px;
-          background: #a8c200;
-          box-shadow: 0 0 15px #a8c200, 0 0 30px rgba(168, 194, 0, 0.5);
-          border-radius: 10px;
-        }
-
-        .cosmos-preview {
-          background: radial-gradient(circle at center, #2A1B7A 0%, #0A061F 100%);
-        }
-        .cosmos-orbit {
-          width: 60px;
-          height: 60px;
-          border-radius: 50%;
-          border: 2px dashed rgba(0, 255, 136, 0.3);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          animation: spin 12s linear infinite;
-        }
-        .cosmos-core {
-          width: 12px;
-          height: 12px;
-          background: #00FF88;
-          border-radius: 50%;
-          box-shadow: 0 0 20px #00FF88;
-        }
-
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-
         .select-btn {
           width: 100%;
           padding: 20px;
