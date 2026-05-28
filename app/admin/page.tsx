@@ -81,7 +81,7 @@ export default function AdminPage() {
     try {
       await dataAPI.updateBroadcast({ message: bcMsg, type: bcType, active: bcActive });
       showToast("System broadcast updated!");
-    } catch (_e) {
+    } catch {
       showToast("Update failed", "error");
     } finally {
       setBcLoading(false);
@@ -94,7 +94,7 @@ export default function AdminPage() {
       await dataAPI.replyToFeedback(id, replyText[id], "resolved");
       showToast("Reply sent successfully");
       fetchData(); // Refresh list
-    } catch (_e) {
+    } catch {
       showToast("Failed to reply", "error");
     }
   };

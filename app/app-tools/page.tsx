@@ -8,7 +8,6 @@ import {
 } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
 import Sidebar from "@/components/Sidebar";
-import { useThemeStore } from "@/lib/themeStore";
 
 const THEME = {
   bg: "#050505",
@@ -82,7 +81,6 @@ export default function AppToolsPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const { studentPortalData, email } = useAuthStore();
-  const { theme } = useThemeStore();
   const isAura = true;
   
   useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);

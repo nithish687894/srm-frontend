@@ -34,7 +34,7 @@ export default function CalendarPage() {
   });
 
   const { months, byDate } = useMemo(() => buildCalendarIndex(cal), [cal]);
-  const semMonths = months[sem] || [];
+  const semMonths = useMemo(() => months[sem] || [], [months, sem]);
 
   const today = new Date();
   const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;

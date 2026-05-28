@@ -9,7 +9,6 @@ import { useAuthStore } from "@/lib/store";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
 import { useThemeStore } from "@/lib/themeStore";
 import AuraAttendance from "@/components/aura-theme/AuraAttendance";
-import { RefreshCcw } from "lucide-react";
 
 function buildSlotToCourseMap(myTT: AnyValue[]) {
   const map: Record<string, AnyValue> = {};
@@ -88,6 +87,7 @@ export default function AttendancePage() {
       const courses = myTT?.data?.courses || myTT?.data || [];
       setTTData({ rows: tt?.data?.rows || [], myTT: courses });
     }).catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready, academicData?.profile]);
 
   useEffect(() => {
@@ -335,7 +335,6 @@ export default function AttendancePage() {
                 const isRisk = attn < 75;
                 const cond = parseInt(c["Hours Conducted"]) || 0;
                 const abs = parseInt(c["Hours Absent"]) || 0;
-                const pres = parseInt(c["Hours Attended"]) || (cond - abs);
 
                 return (
                   <div key={i} className="min-card" style={{ background: isRisk ? "rgba(255,59,59,0.05)" : "var(--bg-surface)" }}>
