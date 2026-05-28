@@ -9,7 +9,6 @@ import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import { dataAPI } from "@/lib/api";
 import AuraMarks from "@/components/aura-theme/AuraMarks";
-import CosmosMarks from "@/components/CosmosMarks";
 import Sidebar from "@/components/Sidebar";
 
 const THEME = {
@@ -126,8 +125,6 @@ export default function MarksPage() {
       <main style={{ flex: 1, overflowY: "auto", paddingBottom: "140px", WebkitOverflowScrolling: "touch" }}>
         {theme === "aura" ? (
           <AuraMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />
-        ) : theme === "cosmos" ? (
-          <CosmosMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />
         ) : (
           <div style={{ padding: "0 20px", paddingBottom: "140px" }}>
              <header style={{ padding: "60px 24px 20px", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "space-between", background: 'rgba(5,5,5,0.8)', backdropFilter: 'blur(20px)', zIndex: 100 }}>

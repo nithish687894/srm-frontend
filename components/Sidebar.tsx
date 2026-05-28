@@ -142,23 +142,23 @@ export default function Sidebar() {
   }, [moreOpen]);
 
   // Theme configuration for drawer styling
-  const hubAccent = theme === "matrix" ? "#a8c200" : theme === "aura" ? "#BF5AF2" : THEME.accentCyan;
-  const hubAccentGlow = theme === "matrix" ? "rgba(168, 194, 0, 0.15)" : theme === "aura" ? "rgba(191,90,242,0.15)" : "rgba(0, 212, 255, 0.15)";
-  const hubBg = theme === "matrix" ? "#050705" : theme === "aura" ? "#0f0a15" : "#0a0a0c";
-  const hubCardBg = theme === "matrix" ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.03)";
-  const hubCardBorder = theme === "matrix" ? "rgba(168,194,0,0.15)" : "rgba(255,255,255,0.06)";
+  const hubAccent = theme === "aura" ? "#BF5AF2" : THEME.accentCyan;
+  const hubAccentGlow = theme === "aura" ? "rgba(191,90,242,0.15)" : "rgba(0, 212, 255, 0.15)";
+  const hubBg = theme === "aura" ? "#0f0a15" : "#0a0a0c";
+  const hubCardBg = "rgba(255,255,255,0.03)";
+  const hubCardBorder = "rgba(255,255,255,0.06)";
 
   const moreItems = [
-    { href: "/calendar", label: "Calendar", icon: Calendar, color: theme === "aura" ? "#00E5FF" : theme === "matrix" ? "#a8c200" : THEME.accentCyan },
-    { href: "/app-tools", label: "Tools", icon: Wrench, color: theme === "aura" ? "#34C759" : theme === "matrix" ? "#a8c200" : "#00ff88" },
-    { href: "/ai", label: "AI Tutor", icon: Sparkles, color: theme === "aura" ? "#BF5AF2" : theme === "matrix" ? "#a8c200" : "#bf00ff" },
-    { href: "/gpa", label: "GPA Calc", icon: GraduationCap, color: theme === "aura" ? "#FF2D55" : theme === "matrix" ? "#a8c200" : "#ffffff" },
-    ...(isAdmin ? [{ href: "/admin", label: "Admin", icon: Shield, color: theme === "aura" ? "#FF9500" : theme === "matrix" ? "#a8c200" : "#ff3b30" }] : []),
+    { href: "/calendar", label: "Calendar", icon: Calendar, color: theme === "aura" ? "#00E5FF" : THEME.accentCyan },
+    { href: "/app-tools", label: "Tools", icon: Wrench, color: theme === "aura" ? "#34C759" : "#00ff88" },
+    { href: "/ai", label: "AI Tutor", icon: Sparkles, color: theme === "aura" ? "#BF5AF2" : "#bf00ff" },
+    { href: "/gpa", label: "GPA Calc", icon: GraduationCap, color: theme === "aura" ? "#FF2D55" : "#ffffff" },
+    ...(isAdmin ? [{ href: "/admin", label: "Admin", icon: Shield, color: theme === "aura" ? "#FF9500" : "#ff3b30" }] : []),
   ];
 
   const portalServices = [
-    { href: "/portal/student-dashboard", label: "Student Dashboard", icon: UserSquare, color: theme === "aura" ? "#00E5FF" : theme === "matrix" ? "#a8c200" : THEME.accentCyan },
-    { href: "/portal/grade-mark-credit", label: "Grade & Credit", icon: GraduationCap, color: theme === "aura" ? "#FF2D55" : theme === "matrix" ? "#a8c200" : "#ffffff" },
+    { href: "/portal/student-dashboard", label: "Student Dashboard", icon: UserSquare, color: theme === "aura" ? "#00E5FF" : THEME.accentCyan },
+    { href: "/portal/grade-mark-credit", label: "Grade & Credit", icon: GraduationCap, color: theme === "aura" ? "#FF2D55" : "#ffffff" },
   ];
 
   const isMoreActive = moreItems.some((item) => isActive(item.href, path)) || portalServices.some((item) => isActive(item.href, path));
@@ -169,7 +169,7 @@ export default function Sidebar() {
         .srmx-mobile-nav {
           position: fixed; bottom: 24px; left: 24px; right: 24px;
           height: 72px; border-radius: 36px;
-          background: ${theme === "matrix" ? "rgba(5,7,5,0.8)" : theme === "aura" ? "rgba(20,15,35,0.8)" : "rgba(10,10,12,0.6)"}; 
+          background: ${theme === "aura" ? "rgba(20,15,35,0.8)" : "rgba(10,10,12,0.6)"}; 
           backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); 
           border: none;
           display: flex; align-items: center; justify-content: space-around;
@@ -186,13 +186,13 @@ export default function Sidebar() {
         }
         .nav-item:hover { color: rgba(255,255,255,0.7); }
         .nav-item.active { 
-          color: ${theme === "matrix" ? "#a8c200" : theme === "aura" ? "#BF5AF2" : THEME.accentCyan}; 
+          color: ${theme === "aura" ? "#BF5AF2" : THEME.accentCyan}; 
         }
         .nav-item.active::after {
           content: ""; position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
           width: 32px; height: 4px; border-radius: 4px;
-          background: ${theme === "matrix" ? "#a8c200" : theme === "aura" ? "#BF5AF2" : THEME.accentCyan}; 
-          box-shadow: 0 0 15px ${theme === "matrix" ? "#a8c200" : theme === "aura" ? "#BF5AF2" : THEME.accentCyan};
+          background: ${theme === "aura" ? "#BF5AF2" : THEME.accentCyan}; 
+          box-shadow: 0 0 15px ${theme === "aura" ? "#BF5AF2" : THEME.accentCyan};
         }
         .nav-item.active { color: ${'#FF75C3'}; }
         .drawer-item-icon {
@@ -407,7 +407,7 @@ export default function Sidebar() {
           <div 
             className="fixed bottom-0 left-0 right-0 max-h-[85vh] z-[99999] rounded-t-[32px] flex flex-col overflow-hidden"
             style={{ 
-              background: theme === "matrix" ? "#080a08" : theme === "aura" ? "#110c1e" : "#0c0c10",
+              background: theme === "aura" ? "#110c1e" : "#0c0c10",
               boxShadow: `0 -20px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.06)`,
               animation: 'slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
               paddingBottom: 'calc(20px + env(safe-area-inset-bottom))'
@@ -415,7 +415,7 @@ export default function Sidebar() {
           >
               <div 
                 className="shrink-0 flex flex-col w-full relative z-10"
-                style={{ background: theme === "matrix" ? "#080a08" : theme === "aura" ? "#110c1e" : "#0c0c10" }}
+                style={{ background: theme === "aura" ? "#110c1e" : "#0c0c10" }}
               >
                 {/* Drag Bar Handle */}
                 <div 
