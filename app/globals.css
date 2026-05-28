@@ -5,10 +5,10 @@
    ═══════════════════════════════════════════════════════════════════ */
 
 :root {
-  /* ── Palette Default ── */
+  /* ── Palette Default (Matrix) ── */
   --bg-root:     #000000;
   --bg-surface:  #161616;
-  --bg-elevated: #241c1c;
+  --bg-elevated: #241c1c; /* Matrix uses slight red hints in artifacts sometimes, but user says black+green */
   --bg-surface-rgb: 22, 22, 22;
   
   /* ── Accents ── */
@@ -71,6 +71,35 @@
   --glass-bg-hover: rgba(255, 255, 255, 0.04);
   --glass-glare: inset 0 1px 0 rgba(255, 255, 255, 0.04);
   --glass-saturate: saturate(180%);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   THEME 1 — MATRIX (Locked)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+body.theme-matrix {
+  --bg-root: #000000;
+  --bg-surface: #121212;
+  --bg-elevated: #1a1a1a;
+  --accent: #a8c200; /* The yellow-green from the screenshot */
+  --accent-secondary: #00ff00;
+  --text-primary: #ffffff;
+  --text-secondary: #888888;
+  --text-muted: #444444;
+  --font-heading: 'Inter', 'Outfit', system-ui, -apple-system, sans-serif;
+  --font-main: 'Inter', 'Outfit', system-ui, -apple-system, sans-serif;
+  --radius: 28px; /* More rounded as seen in screenshot */
+  --border: #1c1c1c;
+}
+
+.theme-matrix .min-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.theme-matrix .font-bold-heavy {
+  font-weight: 900;
+  letter-spacing: -0.02em;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

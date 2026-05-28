@@ -20,10 +20,11 @@ export default function StudentPortalPrompt({
 }: StudentPortalPromptProps) {
   const { theme } = useThemeStore();
   const isAura = theme === "aura";
+  const isMatrix = theme === "matrix";
 
   // Theme-aware accent colors
-  const accent = isAura ? "#FF75C3" : "#00ff88";
-  const accentRgb = isAura ? "255, 117, 195" : "0, 255, 136";
+  const accent = isAura ? "#FF75C3" : isMatrix ? "#a8c200" : "#00ff88";
+  const accentRgb = isAura ? "255, 117, 195" : isMatrix ? "168, 194, 0" : "0, 255, 136";
   const btnTextColor = "#000";
 
   if (inline) {

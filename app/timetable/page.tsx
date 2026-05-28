@@ -428,15 +428,16 @@ export default function TimetablePage() {
   const renderShareModal = () => {
     if (!showShareModal) return null;
     
+    const isMatrix = theme === "matrix";
     const isAura = theme === "aura";
     
     const colors = {
-      bg: isAura ? "#0f0a15" : "var(--bg-surface)",
-      border: isAura ? "rgba(255,255,255,0.08)" : "var(--border)",
+      bg: isMatrix ? "#0a0a0c" : isAura ? "#0f0a15" : "var(--bg-surface)",
+      border: isMatrix ? "rgba(168,194,0,0.2)" : isAura ? "rgba(255,255,255,0.08)" : "var(--border)",
       textPrimary: "#fff",
-      textMuted: isAura ? "rgba(255,255,255,0.6)" : "var(--text-muted)",
-      accent: isAura ? "#FF75C3" : "var(--accent)",
-      secondaryAccent: isAura ? "#8F92FF" : "var(--accent-secondary)",
+      textMuted: isMatrix ? "#888" : isAura ? "rgba(255,255,255,0.6)" : "var(--text-muted)",
+      accent: isMatrix ? "#a8c200" : isAura ? "#FF75C3" : "var(--accent)",
+      secondaryAccent: isMatrix ? "#a8c200" : isAura ? "#8F92FF" : "var(--accent-secondary)",
     };
 
     return (

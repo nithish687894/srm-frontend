@@ -31,39 +31,68 @@ export default function PortalSyncModal({
   const [step, setStep] = useState<"form" | "syncing" | "success">("form");
 
   const theme = useThemeStore((state) => state.theme) || "aura";
-  const isAura = true;
+  const isAura = theme === "aura";
+  const isMatrix = theme === "matrix";
 
   // Dynamic theme-aware premium colors configuration
   const colors = {
-    // Primary accent color (Aura: hot pink, Cosmos: cool cyan)
-    accent: "#FF75C3",
-    accentRgb: "255, 117, 195",
+    // Primary accent color (Aura: gorgeous hot pink, Matrix: retro cyberpunk green, Cosmos: cool cyan)
+    accent: isAura ? "#FF75C3" : isMatrix ? "#a8c200" : "#38BDF8",
+    accentRgb: isAura ? "255, 117, 195" : isMatrix ? "168, 194, 0" : "56, 189, 248",
     
-    // Secondary accent color (Aura: lavender, Cosmos: sky blue)
-    secondary: "#A78BFA",
-    secondaryRgb: "167, 139, 250",
+    // Secondary accent color (Aura: lavender, Matrix: dark olive, Cosmos: sky blue)
+    secondary: isAura ? "#A78BFA" : isMatrix ? "#6f8000" : "#00b3ff",
+    secondaryRgb: isAura ? "167, 139, 250" : isMatrix ? "111, 128, 0" : "0, 179, 255",
     
     // Icon badge styles
-    iconBg: "rgba(255, 117, 195, 0.08)",
-    iconBorder: "1px solid rgba(255, 117, 195, 0.2)",
-    iconGlow: "0 0 15px rgba(255, 117, 195, 0.15)",
+    iconBg: isAura ? "rgba(255, 117, 195, 0.08)" : isMatrix ? "rgba(168, 194, 0, 0.08)" : "rgba(56, 189, 248, 0.08)",
+    iconBorder: isAura ? "1px solid rgba(255, 117, 195, 0.2)" : isMatrix ? "1px solid rgba(168, 194, 0, 0.2)" : "1px solid rgba(56, 189, 248, 0.2)",
+    iconGlow: isAura ? "0 0 15px rgba(255, 117, 195, 0.15)" : isMatrix ? "0 0 15px rgba(168, 194, 0, 0.1)" : "0 0 15px rgba(56, 189, 248, 0.15)",
 
     // Header title text gradient
-    headerGrad: "linear-gradient(90deg, #FF75C3 0%, #C084FC 100%)",
+    headerGrad: isAura 
+      ? "linear-gradient(90deg, #FF75C3 0%, #C084FC 100%)" 
+      : isMatrix 
+        ? "linear-gradient(90deg, #a8c200 0%, #839600 100%)" 
+        : "linear-gradient(90deg, #38BDF8 0%, #00b3ff 100%)",
 
     // Premium card border and ambient glow
-    cardBorder: "1px solid rgba(255, 117, 195, 0.18)",
+    cardBorder: isAura 
+      ? "1px solid rgba(255, 117, 195, 0.18)" 
+      : isMatrix 
+        ? "1px solid rgba(168, 194, 0, 0.15)" 
+        : "1px solid rgba(56, 189, 248, 0.18)",
     
-    cardShadowGlow: "0 0 50px rgba(255, 117, 195, 0.08)",
+    cardShadowGlow: isAura 
+      ? "0 0 50px rgba(255, 117, 195, 0.08)" 
+      : isMatrix 
+        ? "0 0 50px rgba(168, 194, 0, 0.03)" 
+        : "0 0 50px rgba(56, 189, 248, 0.08)",
 
     // Submit button gradient presets
-    btnGrad: "linear-gradient(135deg, #FF75C3 0%, #A78BFA 100%)",
+    btnGrad: isAura
+      ? "linear-gradient(135deg, #FF75C3 0%, #A78BFA 100%)"
+      : isMatrix
+        ? "linear-gradient(135deg, #a8c200 0%, #6f8000 100%)"
+        : "linear-gradient(135deg, #38BDF8 0%, #00b3ff 100%)",
         
-    btnHoverGrad: "linear-gradient(135deg, #FF94D2 0%, #B9A2FC 100%)",
+    btnHoverGrad: isAura
+      ? "linear-gradient(135deg, #FF94D2 0%, #B9A2FC 100%)"
+      : isMatrix
+        ? "linear-gradient(135deg, #b9d500 0%, #839600 100%)"
+        : "linear-gradient(135deg, #54CFFF 0%, #29C0FF 100%)",
         
-    btnShadow: "0 10px 25px -5px rgba(255, 117, 195, 0.35), 0 0 20px rgba(255, 117, 195, 0.15)",
+    btnShadow: isAura
+      ? "0 10px 25px -5px rgba(255, 117, 195, 0.35), 0 0 20px rgba(255, 117, 195, 0.15)"
+      : isMatrix
+        ? "0 10px 25px -5px rgba(168, 194, 0, 0.35), 0 0 20px rgba(168, 194, 0, 0.15)"
+        : "0 10px 25px -5px rgba(56, 189, 248, 0.35), 0 0 20px rgba(56, 189, 248, 0.15)",
         
-    btnNormalShadow: "0 8px 20px -6px rgba(255, 117, 195, 0.2)",
+    btnNormalShadow: isAura
+      ? "0 8px 20px -6px rgba(255, 117, 195, 0.2)"
+      : isMatrix
+        ? "0 8px 20px -6px rgba(168, 194, 0, 0.2)"
+        : "0 8px 20px -6px rgba(56, 189, 248, 0.2)",
   };
 
   // Interaction Hover/Focus States
