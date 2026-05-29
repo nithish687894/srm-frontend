@@ -1,6 +1,5 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
 import { ThemeType, useThemeStore } from "@/lib/themeStore";
 import { useAuthStore } from "@/lib/store";
 import { useEffect, useState } from "react";
@@ -263,10 +262,7 @@ export default function ThemeOnboarding() {
             <button className="select-btn" style={{ background: "linear-gradient(90deg, #FF75C3, #CD93FF)", color: "#fff" }}>Initialize Aura</button>
           </div>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+          <div 
             className="theme-card" onClick={() => handleSelect("matrix")}
           >
             <div className="theme-name">Matrix</div>
@@ -275,12 +271,9 @@ export default function ThemeOnboarding() {
               <div className="matrix-line" />
             </div>
             <button className="select-btn" style={{ background: "#a8c200", color: "#000" }}>Initialize Matrix</button>
-          </motion.div>
+          </div>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+          <div 
             className="theme-card" onClick={() => handleSelect("cosmos")}
           >
             <div className="theme-name">EduVerse</div>
@@ -291,7 +284,7 @@ export default function ThemeOnboarding() {
               </div>
             </div>
             <button className="select-btn" style={{ background: "linear-gradient(90deg, #2f63f2, #4d7dff)", color: "#fff" }}>Initialize EduVerse</button>
-          </motion.div>
+          </div>
         </div>
 
         <p 

@@ -1,5 +1,4 @@
 "use client";
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 
@@ -7,9 +6,9 @@ export default function CosmosAttendance({
   att, avgAtt, totalAgg, presentAgg, absentAgg, 
   showPredictor, setShowPredictor, next30Days, selectedDates, toggleDate, 
   calculatePredictions, predictions, setSelectedDates, setPredictions, showRiskOnly, timeAgoStr
-}: any) {
+}: AnyValue) {
   const attPct = parseFloat(avgAtt as string) || 0;
-  const riskCount = att.filter((c: any) => parseFloat(c["Attn %"]) < 75).length;
+  const riskCount = att.filter((c: AnyValue) => parseFloat(c["Attn %"]) < 75).length;
 
   return (
     <div style={{ height: "100vh", width: "100vw", background: "transparent", display: "flex", flexDirection: "column", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF", overflow: "hidden" }}>
@@ -51,7 +50,7 @@ export default function CosmosAttendance({
 
         {/* Subject Cards */}
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          {(showRiskOnly ? att.filter((c: any) => parseFloat(c["Attn %"]) < 75) : att).map((c: any, i: number) => {
+          {(showRiskOnly ? att.filter((c: AnyValue) => parseFloat(c["Attn %"]) < 75) : att).map((c: AnyValue, i: number) => {
             const attn = parseFloat(c["Attn %"]) || 0;
             const cond = parseInt(c["Hours Conducted"]) || 0;
             const abs = parseInt(c["Hours Absent"]) || 0;
@@ -131,7 +130,7 @@ export default function CosmosAttendance({
             </div>
 
             <div style={{ display: "flex", overflowX: "auto", gap: "10px", paddingBottom: "16px", scrollbarWidth: "none" }}>
-              {next30Days.map((d: any) => {
+              {next30Days.map((d: AnyValue) => {
                 const sel = selectedDates.has(d.iso);
                 const isWknd = [0, 6].includes(d.date.getDay());
                 return (
@@ -163,7 +162,7 @@ export default function CosmosAttendance({
               }}>
                 {predictions.length === 0 ? (
                   <div style={{ fontSize: "13px", color: "var(--text-muted)", textAlign: "center", gridColumn: "1 / -1" }}>No classes missed on selected dates.</div>
-                ) : predictions.map((p: any, i: number) => (
+                ) : predictions.map((p: AnyValue, i: number) => (
                   <div key={i} style={{ background: "rgba(0,0,0,0.2)", borderRadius: "16px", padding: "16px", border: "1px solid rgba(255,255,255,0.05)" }}>
                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px", alignItems: "flex-start" }}>
                       <div style={{ fontSize: "13px", fontWeight: 700, color: "#fff", flex: 1, paddingRight: "10px", lineHeight: 1.3 }}>{p.title}</div>

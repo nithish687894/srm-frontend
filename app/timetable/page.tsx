@@ -1,8 +1,6 @@
 "use client";
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMemo, useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
 import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
@@ -583,15 +581,17 @@ export default function TimetablePage() {
 
   if (theme === "cosmos") return (
     <>
-      <CosmosTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} handleShare={handleShare} sharing={sharing} shareRef={shareRef} fullShareRef={fullShareRef} fullSharing={fullSharing} handleFullShare={handleFullShare} schedule={schedule} studentInitials={studentInitials} onShowStudentInfo={() => setShowStudentInfo(true)} />
+      <CosmosTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} handleShare={handleShare} sharing={sharing} shareRef={shareRef} fullShareRef={fullShareRef} fullSharing={fullSharing} handleFullShare={handleFullShare} schedule={schedule} studentInitials={studentInitials} onShowStudentInfo={() => setShowStudentInfo(true)} setShowShareModal={setShowShareModal} todayInfo={todayInfo} getNextOccurrence={getNextOccurrence} />
       {renderStudentInfoModal()}
+      {renderShareModal()}
     </>
   );
 
   if (theme === "matrix") return (
     <>
-      <MatrixTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} handleShare={handleShare} sharing={sharing} shareRef={shareRef} fullShareRef={fullShareRef} fullSharing={fullSharing} handleFullShare={handleFullShare} schedule={schedule} studentInitials={studentInitials} onShowStudentInfo={() => setShowStudentInfo(true)} />
+      <MatrixTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} handleShare={handleShare} sharing={sharing} shareRef={shareRef} fullShareRef={fullShareRef} fullSharing={fullSharing} handleFullShare={handleFullShare} schedule={schedule} studentInitials={studentInitials} onShowStudentInfo={() => setShowStudentInfo(true)} setShowShareModal={setShowShareModal} todayInfo={todayInfo} getNextOccurrence={getNextOccurrence} />
       {renderStudentInfoModal()}
+      {renderShareModal()}
     </>
   );
 
@@ -943,53 +943,91 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
   );
 }
 
-function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule, studentInitials, onShowStudentInfo }: any) {
+function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule, studentInitials, onShowStudentInfo, setShowShareModal, todayInfo, getNextOccurrence }: AnyValue) {
   const currentMin = new Date().getHours() * 60 + new Date().getMinutes();
   const firstStart = classes[0] ? fmtTimeOnly(classes[0].startTime) : "";
   const lastEnd = classes[classes.length - 1] ? fmtTimeOnly(classes[classes.length - 1].endTime) : "";
 
   return (
-    <div style={{ background: "#000000", minHeight: "100vh", paddingBottom: "120px", color: "#ffffff", fontFamily: "'Inter', sans-serif" }}>
+    <div style={{ background: "#000000", minHeight: "100vh", paddingBottom: "160px", color: "#ffffff", fontFamily: "'Inter', sans-serif", position: 'relative' }}>
       <Sidebar />
-      <main style={{ padding: "16px 20px 20px" }}>
+      <style dangerouslySetInnerHTML={{ __html: `
+        
+        .card-matrix {
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @media(hover: hover) {
+          .card-matrix:hover {
+            border-color: rgba(168, 194, 0, 0.25) !important;
+            box-shadow: inset 0 0 25px rgba(168, 194, 0, 0.05), 0 15px 35px rgba(0,0,0,0.5) !important;
+            transform: translateY(-2px);
+          }
+        }
+        .btn-matrix {
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-matrix:active {
+          transform: scale(0.92);
+        }
+      `}} />
+
+      {/* Gigantic Structure Backdrop Watermark */}
+      <div style={{
+        position: 'absolute', right: '-120px', top: '150px',
+        fontSize: '120px', fontWeight: 900, color: 'rgba(255,255,255,0.02)',
+        fontFamily: "'Plus Jakarta Sans', sans-serif", pointerEvents: 'none',
+        userSelect: 'none', zIndex: 0, letterSpacing: '-0.05em'
+      }}>
+        PLANNER
+      </div>
+
+      <main style={{ padding: "110px 24px 160px", position: 'relative', zIndex: 1 }}>
         
         {/* Header with Batch Selector */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "26px", marginTop: "12px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px", marginTop: "28px", background: "rgba(255,255,255,0.02)", padding: "16px 20px", borderRadius: "24px", border: "1px solid rgba(255,255,255,0.05)", backdropFilter: "blur(20px)" }}>
            <div>
-              <div style={{ fontSize: "10px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800 }}>SEMESTER</div>
-              <div style={{ fontSize: "14px", fontWeight: 700 }}>Schedule Planner</div>
+              <div style={{ fontSize: "9px", color: "#a8c200", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 900 }}>SEMESTER SCHEDULE</div>
+              <div style={{ fontSize: "15px", fontWeight: 800, color: '#fff', marginTop: '2px' }}>Planner • Batch {batch}</div>
            </div>
            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
              <button 
-              onClick={handleShare}
-              disabled={sharing}
-              style={{ background: "#1c1c1c", border: "1px solid #333", color: "#fff", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 800, cursor: "pointer", display: "flex", alignItems: "center", gap: "6px" }}
+              onClick={() => setShowShareModal(true)}
+              className="btn-matrix"
+              style={{ 
+                background: "#a8c200", 
+                border: "none", 
+                color: "#000", 
+                padding: "8px 14px", 
+                borderRadius: "12px", 
+                fontSize: "11px", 
+                fontWeight: 900, 
+                cursor: "pointer", 
+                boxShadow: "0 4px 15px rgba(168,194,0,0.3)",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px"
+              }}
              >
-               {sharing ? "..." : "📸 DAY"}
+               <Share2 size={12} color="#000" />
+               Export
              </button>
-             <button 
-              onClick={handleFullShare}
-              disabled={fullSharing}
-              style={{ background: "#a8c200", border: "none", color: "#000", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 900, cursor: "pointer" }}
-             >
-               {fullSharing ? "..." : "📸 ALL"}
-             </button>
-             <div style={{ display: "flex", background: "#111", borderRadius: "14px", padding: "4px", border: "1px solid #222" }}>
+             <div style={{ display: "flex", background: "rgba(0,0,0,0.4)", borderRadius: "14px", padding: "4px", border: "1px solid rgba(255,255,255,0.08)" }}>
               {[1, 2].map(b => (
                 <button key={b} onClick={() => setBatch(b)}
                   style={{
                     padding: "8px 14px", borderRadius: "10px", border: "none", fontSize: "11px", fontWeight: 800,
                     background: batch === b ? "#a8c200" : "transparent",
-                    color: batch === b ? "#000" : "#666",
+                    color: batch === b ? "#000" : "rgba(255,255,255,0.5)",
                     transition: "all 0.2s", cursor: "pointer"
                   }}>B{b}</button>
               ))}
             </div>
             <button 
               onClick={onShowStudentInfo}
+              className="btn-matrix"
               style={{
-                width: "36px", height: "36px", borderRadius: "10px", background: "#1c1c1c", color: "#fff",
-                border: "1px solid #333", display: "flex", alignItems: "center", justifyContent: "center",
+                width: "40px", height: "40px", borderRadius: "14px", background: "rgba(255,255,255,0.05)", color: "#fff",
+                border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center",
                 fontWeight: 900, fontSize: "13px", cursor: "pointer"
               }}
             >
@@ -999,19 +1037,96 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
         </div>
 
         {/* Day Order Big Number */}
-        <div style={{ textAlign: "center", marginBottom: "40px" }}>
-          <div style={{ fontSize: "12px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800, marginBottom: "8px" }}>Day Order</div>
-          <div style={{ fontSize: "160px", fontWeight: 900, lineHeight: 0.8, letterSpacing: "-0.05em" }}>{dayOverride}</div>
+        <div style={{ textAlign: "center", marginBottom: "24px", position: "relative" }}>
+          <div style={{ fontSize: "9px", color: "#a8c200", textTransform: "uppercase", letterSpacing: "0.25em", fontWeight: 900, marginBottom: "4px" }}>DAY ORDER</div>
+          <div style={{ fontSize: "120px", fontWeight: 900, lineHeight: 1, letterSpacing: "-0.06em", color: "#ffffff", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{dayOverride}</div>
+        </div>
+
+        {/* Today's Context Banner for Matrix */}
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: "36px" }}>
+          {todayInfo ? (
+            <div style={{
+              background: "rgba(168,194,0,0.02)",
+              border: "1px solid rgba(168,194,0,0.2)",
+              borderRadius: "16px",
+              padding: "12px 20px",
+              display: "flex",
+              alignItems: "center",
+              gap: "16px",
+              maxWidth: "500px",
+              width: "100%",
+              justifyContent: "space-between",
+              boxShadow: "inset 0 0 15px rgba(168,194,0,0.03)"
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <div style={{ 
+                  width: "6px", height: "6px", borderRadius: "50%", 
+                  background: todayInfo.isHoliday ? "#ff3366" : "#a8c200", 
+                  boxShadow: `0 0 8px ${todayInfo.isHoliday ? "#ff3366" : "#a8c200"}` 
+                }} />
+                <div style={{ textAlign: "left" }}>
+                  <div style={{ fontSize: "8px", color: "#888", fontWeight: 900, letterSpacing: "0.1em", textTransform: "uppercase" }}>CALENDAR STATUS</div>
+                  <div style={{ fontSize: "12px", fontWeight: 800, color: "#fff", marginTop: "2px" }}>
+                    {formatDateNicely(todayInfo.isoDate)} — {todayInfo.isHoliday ? `Holiday (${todayInfo.event || "No classes"})` : `Day Order ${todayInfo.dayOrder}`}
+                  </div>
+                </div>
+              </div>
+              {todayInfo.dayOrder && dayOverride !== todayInfo.dayOrder && (
+                <button 
+                  onClick={() => setDayOverride(todayInfo.dayOrder)}
+                  className="btn-matrix"
+                  style={{
+                    background: "rgba(168,194,0,0.1)", border: "1px solid rgba(168,194,0,0.3)",
+                    color: "#a8c200", padding: "6px 12px", borderRadius: "10px", fontSize: "10px", fontWeight: 900,
+                    cursor: "pointer", transition: "all 0.2s"
+                  }}
+                >
+                  GOTO TODAY
+                </button>
+              )}
+            </div>
+          ) : (
+            <div style={{
+              background: "rgba(255,51,102,0.02)",
+              border: "1px solid rgba(255,51,102,0.2)",
+              borderRadius: "16px",
+              padding: "12px 20px",
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              maxWidth: "500px",
+              width: "100%",
+              boxShadow: "inset 0 0 15px rgba(255,51,102,0.03)"
+            }}>
+              <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#ff3366", boxShadow: "0 0 8px #ff3366" }} />
+              <div style={{ textAlign: "left" }}>
+                <div style={{ fontSize: "8px", color: "#888", fontWeight: 900, letterSpacing: "0.1em", textTransform: "uppercase" }}>CALENDAR STATUS</div>
+                <div style={{ fontSize: "12px", fontWeight: 800, color: "#fff", marginTop: "2px" }}>
+                  {new Date().toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" })} — Weekend / Academic Holiday
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Day Overview Card */}
         {classes.length > 0 && (
-          <div style={{ background: "#a8c200", borderRadius: "28px", padding: "28px", marginBottom: "40px", color: "#000" }}>
-             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "24px" }}>
-                <div style={{ fontSize: "12px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em" }}>Session Timing</div>
-                <div style={{ fontSize: "48px", fontWeight: 900, lineHeight: 1 }}>{classes.length}</div>
+          <div style={{ 
+            background: "#1c1c1c", 
+            border: '1px solid rgba(168,194,0,0.2)', 
+            borderRadius: "28px", 
+            padding: "24px 28px", 
+            marginBottom: "40px", 
+            boxShadow: 'inset 0 0 25px rgba(168,194,0,0.05), 0 10px 30px rgba(0,0,0,0.4)',
+            position: 'relative'
+          }}>
+             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+                <span style={{ fontSize: "9px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.18em", color: "#a8c200" }}>LECTURE SESSION TIMING</span>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(168,194,0,0.1)', border: '1px solid rgba(168,194,0,0.2)', color: '#a8c200', fontSize: '10px', fontWeight: 900, padding: '4px 10px', borderRadius: '8px' }}>
+                  {classes.length} PERIODS
+                </div>
              </div>
-             <div style={{ fontSize: "36px", fontWeight: 900, letterSpacing: "-0.03em" }}>
+             <div style={{ fontSize: "32px", fontWeight: 900, color: '#fff', letterSpacing: "-0.03em", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                 {firstStart} - {lastEnd}
              </div>
           </div>
@@ -1020,13 +1135,13 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
         {/* Timeline Classes */}
         <div style={{ position: "relative", paddingLeft: "12px" }}>
            {/* Timeline Line */}
-           <div style={{ position: "absolute", left: "0", top: "10px", bottom: "10px", width: "1px", background: "#333" }} />
+           <div style={{ position: "absolute", left: "0", top: "10px", bottom: "10px", width: "2px", background: "linear-gradient(to bottom, rgba(255,255,255,0.08), rgba(255,255,255,0.02))", borderRadius: '2px' }} />
 
-           <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                {PERIODS.map((p, pi) => {
                  const pStart = parseStart(p.start);
                  const pEnd = parseEnd(p.end);
-                 const cls = classes.find((c: any) => {
+                 const cls = classes.find((c: AnyValue) => {
                    const cs = parseStart(c.startTime);
                    const ce = parseEnd(c.endTime);
                    return cs < pEnd && ce > pStart;
@@ -1035,60 +1150,69 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
                  const isActive = cls ? (currentMin >= parseStart(cls.startTime) && currentMin <= parseEnd(cls.endTime)) : (currentMin >= pStart && currentMin < pEnd);
 
                  return (
-                   <div key={pi} style={{ position: "relative", paddingLeft: "32px", marginBottom: "8px" }}>
+                   <div key={pi} style={{ position: "relative", paddingLeft: "32px" }}>
                      {/* Period Label */}
                      <div style={{ 
                        position: "absolute", left: "-6px", top: "50%", transform: "translateY(-50%)", 
-                       width: "12px", height: "12px", borderRadius: "50%", 
+                       width: "14px", height: "14px", borderRadius: "50%", 
                        background: isActive ? "#a8c200" : "#222", 
-                       border: "2px solid #000", zIndex: 5,
-                       boxShadow: isActive ? "0 0 12px #a8c200" : "none"
+                       border: "3px solid #000", zIndex: 5,
+                       boxShadow: isActive ? "0 0 15px #a8c200, 0 0 5px #fff" : "none"
                      }} />
                      
                      <div style={{ 
                        position: "absolute", left: "-32px", top: "50%", transform: "translateY(-50%)", 
                        fontSize: "11px", fontWeight: 900, color: isActive ? "#a8c200" : "#444",
-                       width: "24px", textAlign: "right"
+                       width: "24px", textAlign: "right", fontFamily: "'Plus Jakarta Sans', sans-serif"
                      }}>
                        {p.id}
                      </div>
 
                      {!cls ? (
-                       <div style={{ padding: "16px 0" }}>
+                       <div style={{ padding: "20px 0" }}>
                          <div style={{ 
                            height: "2px", width: "100%", borderTop: "2.5px dashed #333", 
-                           opacity: isActive ? 1 : 0.4, borderColor: isActive ? "#a8c200" : "#444" 
+                           opacity: isActive ? 1 : 0.35, borderColor: isActive ? "#a8c200" : "#333" 
                          }} />
                        </div>
                      ) : (
-                       <motion.div 
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: pi * 0.05 }}
-                        style={{ 
-                         background: "#111", borderRadius: "20px", padding: "16px 20px", 
-                         border: isActive ? "1.5px solid #a8c200" : "1.5px solid #222",
-                         boxShadow: isActive ? "0 8px 30px rgba(168, 194, 0, 0.1)" : "none"
-                       }}>
-                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
-                             <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#666", fontSize: "11px", fontWeight: 800 }}>
-                                <span style={{ fontSize: "14px" }}>⏱</span> {p.start} — {p.end}
+                       <div
+                         className="card-matrix"
+                         style={{ 
+                          background: "#1c1c1c", 
+                          borderRadius: "20px", 
+                          padding: "18px 20px", 
+                          border: isActive ? "1.5px solid rgba(168,194,0,0.4)" : "1.5px solid #333",
+                          boxShadow: isActive ? "inset 0 0 20px rgba(168,194,0,0.05), 0 8px 30px rgba(0,0,0,0.4)" : "none",
+                          position: 'relative', overflow: 'hidden'
+                        }}>
+                          {isActive && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: "linear-gradient(90deg, transparent, #a8c200, transparent)" }} />}
+                          
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+                             <div style={{ display: "flex", alignItems: "center", gap: "6px", color: isActive ? "#a8c200" : "rgba(255,255,255,0.4)", fontSize: "11px", fontWeight: 800 }}>
+                                <span style={{ fontSize: "12px" }}>⏱</span> {p.start} — {p.end}
                              </div>
-                             <div style={{ fontSize: "10px", fontWeight: 900, color: isActive ? "#a8c200" : "#444", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                             <div style={{ fontSize: "8.5px", fontWeight: 900, color: isActive ? "#a8c200" : "#666", textTransform: "uppercase", letterSpacing: "0.1em", background: isActive ? 'rgba(168,194,0,0.1)' : 'rgba(255,255,255,0.03)', padding: '2px 8px', borderRadius: '6px' }}>
                                 Period {p.id}
                              </div>
                           </div>
                           
-                          <div style={{ fontSize: "20px", fontWeight: 900, lineHeight: 1.2, marginBottom: "8px", textTransform: "capitalize", letterSpacing: "-0.01em", color: "#fff" }}>
+                          <div style={{ fontSize: "18px", fontWeight: 900, lineHeight: 1.3, marginBottom: "12px", textTransform: "capitalize", letterSpacing: "-0.01em", color: "#fff", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                              {cls.courseTitle.toLowerCase()}
                           </div>
 
-                          <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
-                             <div style={{ fontSize: "11px", color: "#666", fontWeight: 700 }}>{cls.courseCode}</div>
-                             <div style={{ fontSize: "11px", color: "#888", fontWeight: 700 }}>📍 {cls.roomNo || "TBA"}</div>
-                             <div style={{ fontSize: "11px", color: "#888", fontWeight: 700 }}>👤 {(cls.facultyName || "TBA").split(" ")[0]}</div>
+                          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+                             <div style={{ background: "rgba(255,255,255,0.02)", border: '1px solid #2b2b2b', padding: "4px 10px", borderRadius: "8px", fontSize: "10px", color: "#888", fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }}>
+                               {cls.courseCode}
+                             </div>
+                             <div style={{ background: "rgba(255,255,255,0.02)", border: '1px solid #2b2b2b', padding: "4px 10px", borderRadius: "8px", fontSize: "10px", color: "#fff", fontWeight: 700 }}>
+                               📍 {cls.roomNo || "TBA"}
+                             </div>
+                             <div style={{ background: "rgba(255,255,255,0.02)", border: '1px solid #2b2b2b', padding: "4px 10px", borderRadius: "8px", fontSize: "10px", color: "#fff", fontWeight: 700 }}>
+                               👤 {(cls.facultyName || "TBA").split(" ")[0]}
+                             </div>
                           </div>
-                       </motion.div>
+                       </div>
                      )}
                    </div>
                  );
@@ -1113,7 +1237,7 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
                  {PERIODS.map((p, pi) => {
                     const pStart = parseStart(p.start);
                     const pEnd = parseEnd(p.end);
-                    const cls = classes.find((c: any) => {
+                    const cls = classes.find((c: AnyValue) => {
                       const cs = parseStart(c.startTime);
                       const ce = parseEnd(c.endTime);
                       return cs < pEnd && ce > pStart;
@@ -1168,7 +1292,7 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
                              const pStart = parseStart(p.start);
                              const pEnd = parseEnd(p.end);
                              const dayClasses = schedule[d - 1]?.classes || [];
-                             const cls = dayClasses.find((c: any) => {
+                             const cls = dayClasses.find((c: AnyValue) => {
                                const cs = parseStart(c.startTime);
                                const ce = parseEnd(c.endTime);
                                return cs < pEnd && ce > pStart;
@@ -1200,16 +1324,38 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
         </div>
 
         {/* Day Switcher Bottom Overlay */}
-        <div style={{ position: "fixed", bottom: "100px", left: "20px", right: "20px", display: "flex", justifyContent: "center", zIndex: 100 }}>
-           <div style={{ background: "rgba(20,20,20,0.8)", backdropFilter: "blur(20px)", borderRadius: "99px", padding: "8px", display: "flex", gap: "8px", border: "1px solid #333" }}>
-              {[1, 2, 3, 4, 5].map(d => (
-                <button key={d} onClick={() => setDayOverride(d)} style={{
-                  width: "44px", height: "44px", borderRadius: "50%", border: "none",
-                  background: dayOverride === d ? "#a8c200" : "transparent",
-                  color: dayOverride === d ? "#000" : "#fff",
-                  fontSize: "16px", fontWeight: 900, cursor: "pointer", transition: "all 0.2s"
-                }}>{d}</button>
-              ))}
+        <div style={{ position: "fixed", bottom: "110px", left: "20px", right: "20px", display: "flex", justifyContent: "center", zIndex: 100 }}>
+           <div style={{ background: "rgba(10,10,12,0.85)", backdropFilter: "blur(20px)", borderRadius: "24px", padding: "8px", display: "flex", gap: "8px", border: "1px solid #333", boxShadow: "0 20px 40px rgba(0,0,0,0.5)" }}>
+              {[1, 2, 3, 4, 5].map(d => {
+                const occ = getNextOccurrence(d);
+                let label = "";
+                if (occ) {
+                  const today = new Date();
+                  const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+                  label = occ.isoDate === todayIso ? "TODAY" : formatDateNicelyShort(occ.isoDate).toUpperCase();
+                } else {
+                  label = "N/A";
+                }
+                const isSelected = dayOverride === d;
+                return (
+                  <button 
+                    key={d} 
+                    onClick={() => setDayOverride(d)} 
+                    className="btn-matrix"
+                    style={{
+                      padding: "6px 12px", minWidth: "64px", height: "54px", borderRadius: "16px", border: "none",
+                      background: isSelected ? "#a8c200" : "transparent",
+                      color: isSelected ? "#000" : "rgba(255,255,255,0.5)",
+                      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                      cursor: "pointer", transition: "all 0.2s",
+                      boxShadow: isSelected ? "0 4px 15px rgba(168,194,0,0.3)" : "none"
+                    }}
+                  >
+                    <span style={{ fontSize: "14px", fontWeight: 900, lineHeight: 1.1 }}>D{d}</span>
+                    <span style={{ fontSize: "8.5px", fontWeight: 800, opacity: isSelected ? 0.9 : 0.5, marginTop: "2px", fontFamily: "'JetBrains Mono', monospace" }}>{label}</span>
+                  </button>
+                );
+              })}
            </div>
         </div>
       </main>
@@ -1217,13 +1363,13 @@ function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
   );
 }
 
-function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule, studentInitials, onShowStudentInfo }: any) {
+function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule, studentInitials, onShowStudentInfo, setShowShareModal, todayInfo, getNextOccurrence }: AnyValue) {
   const currentMin = new Date().getHours() * 60 + new Date().getMinutes();
 
   return (
     <div style={{ background: "transparent", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>
       <Sidebar />
-      <main style={{ padding: "16px" }}>
+      <main style={{ padding: "100px 16px 100px" }}>
         
         {/* Header */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "24px 0 32px" }}>
@@ -1232,11 +1378,24 @@ function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
             <div style={{ fontSize: "11px", color: "var(--text-secondary)", marginTop: "4px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Current Batch: {batch}</div>
           </div>
           <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-            <button onClick={handleShare} disabled={sharing} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 800, cursor: "pointer" }}>
-              {sharing ? "..." : "DAY"}
-            </button>
-            <button onClick={handleFullShare} disabled={fullSharing} style={{ background: "var(--accent)", border: "none", color: "#fff", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 800, cursor: "pointer" }}>
-              {fullSharing ? "..." : "ALL"}
+            <button 
+              onClick={() => setShowShareModal(true)} 
+              style={{ 
+                background: "var(--accent)", 
+                border: "none", 
+                color: "#fff", 
+                padding: "8px 14px", 
+                borderRadius: "12px", 
+                fontSize: "11px", 
+                fontWeight: 800, 
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px"
+              }}
+            >
+              <Share2 size={12} color="#fff" />
+              Export
             </button>
             <div style={{ display: "flex", background: "rgba(255,255,255,0.05)", borderRadius: "14px", padding: "4px", border: "1px solid rgba(255,255,255,0.1)" }}>
               {[1, 2].map(b => (
@@ -1260,21 +1419,93 @@ function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
           </div>
         </div>
 
+        {/* Today's Context Banner for Cosmos */}
+        {todayInfo ? (
+          <div style={{
+            background: "rgba(26, 117, 255, 0.02)",
+            border: "1px solid rgba(26, 117, 255, 0.15)",
+            borderRadius: "20px",
+            padding: "16px 20px",
+            marginBottom: "32px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "16px"
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <div style={{ 
+                width: "8px", height: "8px", borderRadius: "50%", 
+                background: todayInfo.isHoliday ? "#FF3B70" : "var(--accent)", 
+                boxShadow: `0 0 10px ${todayInfo.isHoliday ? "#FF3B70" : "var(--accent)"}` 
+              }} />
+              <div style={{ textAlign: "left" }}>
+                <span style={{ fontSize: "9px", color: "var(--text-muted)", fontWeight: 800, letterSpacing: "0.05em", textTransform: "uppercase" }}>STARDATE LOG</span>
+                <div style={{ fontSize: "13px", fontWeight: 800, color: "#fff", marginTop: "2px" }}>
+                  {formatDateNicely(todayInfo.isoDate)} — {todayInfo.isHoliday ? `Academic Holiday (${todayInfo.event || "Off-duty"})` : `Day Order ${todayInfo.dayOrder}`}
+                </div>
+              </div>
+            </div>
+            {todayInfo.dayOrder && dayOverride !== todayInfo.dayOrder && (
+              <button 
+                onClick={() => setDayOverride(todayInfo.dayOrder)}
+                style={{
+                  background: "rgba(255, 255, 255, 0.05)", border: "1px solid rgba(255,255,255,0.1)",
+                  color: "var(--accent)", padding: "6px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 800,
+                  cursor: "pointer", transition: "all 0.2s"
+                }}
+              >
+                Orbit Today
+              </button>
+            )}
+          </div>
+        ) : (
+          <div style={{
+            background: "rgba(255, 59, 112, 0.02)",
+            border: "1px solid rgba(255, 59, 112, 0.15)",
+            borderRadius: "20px",
+            padding: "16px 20px",
+            marginBottom: "32px",
+            display: "flex",
+            alignItems: "center",
+            gap: "12px"
+          }}>
+            <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#FF3B70", boxShadow: "0 0 10px #FF3B70" }} />
+            <div style={{ textAlign: "left" }}>
+              <span style={{ fontSize: "9px", color: "var(--text-muted)", fontWeight: 800, letterSpacing: "0.05em", textTransform: "uppercase" }}>STARDATE LOG</span>
+              <div style={{ fontSize: "13px", fontWeight: 800, color: "#fff", marginTop: "2px" }}>
+                {new Date().toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" })} — Standby Mode (Weekend/Holiday)
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Day Switcher */}
         <div style={{ display: "flex", gap: "10px", marginBottom: "40px", overflowX: "auto", paddingBottom: "8px", scrollbarWidth: "none" }}>
-          {[1, 2, 3, 4, 5].map(d => (
-            <button key={d} onClick={() => setDayOverride(d)} style={{
-              flexShrink: 0, width: "56px", height: "56px", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.05)",
-              background: dayOverride === d ? "var(--accent)" : "rgba(255,255,255,0.03)",
-              color: dayOverride === d ? "#fff" : "var(--text-secondary)",
-              display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-              transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)", cursor: "pointer",
-              boxShadow: dayOverride === d ? "0 8px 20px rgba(26, 117, 255, 0.3)" : "none"
-            }}>
-              <div style={{ fontSize: "10px", fontWeight: 800, opacity: 0.6, textTransform: "uppercase" }}>Day</div>
-              <div style={{ fontSize: "18px", fontWeight: 900 }}>{d}</div>
-            </button>
-          ))}
+          {[1, 2, 3, 4, 5].map(d => {
+            const occ = getNextOccurrence(d);
+            let label = "";
+            if (occ) {
+              const today = new Date();
+              const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+              label = occ.isoDate === todayIso ? "Today" : formatDateNicelyShort(occ.isoDate);
+            } else {
+              label = "N/A";
+            }
+            const isSelected = dayOverride === d;
+            return (
+              <button key={d} onClick={() => setDayOverride(d)} style={{
+                flexShrink: 0, width: "70px", height: "56px", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.05)",
+                background: isSelected ? "var(--accent)" : "rgba(255,255,255,0.03)",
+                color: isSelected ? "#fff" : "var(--text-secondary)",
+                display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)", cursor: "pointer",
+                boxShadow: isSelected ? "0 8px 20px rgba(26, 117, 255, 0.3)" : "none"
+              }}>
+                <div style={{ fontSize: "9px", fontWeight: 800, opacity: 0.6, textTransform: "uppercase" }}>Day {d}</div>
+                <div style={{ fontSize: "11px", fontWeight: 800, opacity: isSelected ? 0.95 : 0.5, marginTop: "2px" }}>{label}</div>
+              </button>
+            );
+          })}
         </div>
 
         {/* Timeline View */}
@@ -1290,7 +1521,7 @@ function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
             {PERIODS.map((p, pi) => {
               const pStart = parseStart(p.start);
               const pEnd = parseEnd(p.end);
-              const cls = classes.find((c: any) => {
+              const cls = classes.find((c: AnyValue) => {
                 const cs = parseStart(c.startTime);
                 const ce = parseEnd(c.endTime);
                 return cs < pEnd && ce > pStart;
@@ -1325,10 +1556,7 @@ function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
                       }} />
                     </div>
                   ) : (
-                    <motion.div 
-                      initial={{ opacity: 0, scale: 0.98 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: pi * 0.04 }}
+                    <div 
                       className="min-card" 
                       style={{ 
                         padding: "16px 20px", 
@@ -1359,7 +1587,7 @@ function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes
                           {cls.courseCode}
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   )}
                 </div>
               );

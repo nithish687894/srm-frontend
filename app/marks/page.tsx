@@ -112,6 +112,7 @@ export default function MarksPage() {
     switch (theme) {
       case "aura": return <AuraMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />;
       case "matrix": return <MatrixMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} router={router} />;
+      case "cosmos": return <CosmosMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />;
       default: return null;
     }
   }, [mounted, theme, marks, isSyncing, router]);
@@ -125,7 +126,7 @@ export default function MarksPage() {
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
       `}} />
       <Sidebar />
-      <main style={{ flex: 1, overflowY: "auto", paddingBottom: "140px", WebkitOverflowScrolling: "touch" }}>
+      <main style={{ flex: 1, paddingBottom: "140px" }}>
         {theme === "matrix" ? (
           <MatrixMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} router={router} />
         ) : theme === "aura" ? (

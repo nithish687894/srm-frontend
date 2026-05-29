@@ -1,6 +1,4 @@
 "use client";
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 
@@ -11,7 +9,7 @@ export default function CosmosDashboard({
   broadcast, setIsSyncModalOpen, renderAcademicIntegrityHub, 
   userBatch, totalHours, presentHours, absentHours,
   fmtTimeOnly, fmt12, BroadcastBanner
-}: any) {
+}: AnyValue) {
   const router = useRouter();
   const marksPct = parseFloat(avgMarks as string) || 0;
   const profile = data?.profile || {};
@@ -116,7 +114,7 @@ export default function CosmosDashboard({
               {targetClasses.length === 0 && (
                 <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>No classes planned.</div>
               )}
-              {targetClasses.slice(0, 3).map((cls: any, i: number) => (
+              {targetClasses.slice(0, 3).map((cls: AnyValue, i: number) => (
                 <div key={i} style={{ display: "grid", gridTemplateColumns: "56px 1fr", gap: "10px", background: "rgba(13, 20, 46, 0.6)", border: "1px solid rgba(255,255,255,0.05)", borderRadius: "14px", padding: "10px 12px", alignItems: "center" }}>
                   <div style={{ fontSize: "10px", color: "var(--accent-secondary)", fontWeight: 800, lineHeight: 1.2 }}>{fmt12(cls.startTime).replace(" ", "\n")}</div>
                   <div>

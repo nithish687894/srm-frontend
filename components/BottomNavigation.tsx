@@ -309,6 +309,11 @@ export default function BottomNavigation() {
           text-shadow: 0 0 10px rgba(168, 194, 0, 0.8);
         }
 
+        .theme-aura .nav-item.active {
+          color: #FF75C3;
+          text-shadow: 0 0 12px rgba(255, 117, 195, 0.7);
+        }
+
         .theme-matrix .nav-item.active {
           color: var(--accent);
           text-shadow: 0 0 10px rgba(168, 194, 0, 0.8);
