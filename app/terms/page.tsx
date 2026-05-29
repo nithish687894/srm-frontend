@@ -23,7 +23,7 @@ export default function TermsPage() {
     }
   };
 
-  if (!isClient || !_hasHydrated) {
+  if (!isClient) {
     return (
       <div style={{ minHeight: "100vh", background: "#000", display: "flex", alignItems: "center", justifyContent: "center", color: "#888" }}>
         <RefreshCw className="animate-spin" size={24} />
