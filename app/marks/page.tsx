@@ -8,6 +8,7 @@ import {
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import { dataAPI } from "@/lib/api";
+import MatrixMarks from "@/components/MatrixMarks";
 import AuraMarks from "@/components/aura-theme/AuraMarks";
 import CosmosMarks from "@/components/CosmosMarks";
 import Sidebar from "@/components/Sidebar";
@@ -110,6 +111,7 @@ export default function MarksPage() {
     if (!mounted) return null;
     switch (theme) {
       case "aura": return <AuraMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />;
+      case "matrix": return <MatrixMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} router={router} />;
       default: return null;
     }
   }, [mounted, theme, marks, isSyncing, router]);
@@ -124,7 +126,9 @@ export default function MarksPage() {
       `}} />
       <Sidebar />
       <main style={{ flex: 1, overflowY: "auto", paddingBottom: "140px", WebkitOverflowScrolling: "touch" }}>
-        {theme === "aura" ? (
+        {theme === "matrix" ? (
+          <MatrixMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} router={router} />
+        ) : theme === "aura" ? (
           <AuraMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />
         ) : theme === "cosmos" ? (
           <CosmosMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />

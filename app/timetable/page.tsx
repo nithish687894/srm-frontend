@@ -1,6 +1,8 @@
 "use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMemo, useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
@@ -579,7 +581,19 @@ export default function TimetablePage() {
 
   const studentInitials = studentInfo?.Name ? studentInfo.Name.substring(0, 2).toUpperCase() : "ST";
 
+  if (theme === "cosmos") return (
+    <>
+      <CosmosTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} handleShare={handleShare} sharing={sharing} shareRef={shareRef} fullShareRef={fullShareRef} fullSharing={fullSharing} handleFullShare={handleFullShare} schedule={schedule} studentInitials={studentInitials} onShowStudentInfo={() => setShowStudentInfo(true)} />
+      {renderStudentInfoModal()}
+    </>
+  );
 
+  if (theme === "matrix") return (
+    <>
+      <MatrixTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} handleShare={handleShare} sharing={sharing} shareRef={shareRef} fullShareRef={fullShareRef} fullSharing={fullSharing} handleFullShare={handleFullShare} schedule={schedule} studentInitials={studentInitials} onShowStudentInfo={() => setShowStudentInfo(true)} />
+      {renderStudentInfoModal()}
+    </>
+  );
 
   return (
     <>
@@ -929,5 +943,433 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
   );
 }
 
+function MatrixTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule, studentInitials, onShowStudentInfo }: any) {
+  const currentMin = new Date().getHours() * 60 + new Date().getMinutes();
+  const firstStart = classes[0] ? fmtTimeOnly(classes[0].startTime) : "";
+  const lastEnd = classes[classes.length - 1] ? fmtTimeOnly(classes[classes.length - 1].endTime) : "";
 
-function fmtTimeOnly(t: string) { const m = t.match(/(\d+):(\d+)/); if (!m) return t; const h24 = to24(parseInt(m[1])); const suffix = h24 >= 12 ? 'p' : 'a'; const h12 = h24 > 12 ? h24 - 12 : h24 === 0 ? 12 : h24; return \:\\; }
+  return (
+    <div style={{ background: "#000000", minHeight: "100vh", paddingBottom: "120px", color: "#ffffff", fontFamily: "'Inter', sans-serif" }}>
+      <Sidebar />
+      <main style={{ padding: "16px 20px 20px" }}>
+        
+        {/* Header with Batch Selector */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "26px", marginTop: "12px" }}>
+           <div>
+              <div style={{ fontSize: "10px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800 }}>SEMESTER</div>
+              <div style={{ fontSize: "14px", fontWeight: 700 }}>Schedule Planner</div>
+           </div>
+           <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+             <button 
+              onClick={handleShare}
+              disabled={sharing}
+              style={{ background: "#1c1c1c", border: "1px solid #333", color: "#fff", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 800, cursor: "pointer", display: "flex", alignItems: "center", gap: "6px" }}
+             >
+               {sharing ? "..." : "📸 DAY"}
+             </button>
+             <button 
+              onClick={handleFullShare}
+              disabled={fullSharing}
+              style={{ background: "#a8c200", border: "none", color: "#000", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 900, cursor: "pointer" }}
+             >
+               {fullSharing ? "..." : "📸 ALL"}
+             </button>
+             <div style={{ display: "flex", background: "#111", borderRadius: "14px", padding: "4px", border: "1px solid #222" }}>
+              {[1, 2].map(b => (
+                <button key={b} onClick={() => setBatch(b)}
+                  style={{
+                    padding: "8px 14px", borderRadius: "10px", border: "none", fontSize: "11px", fontWeight: 800,
+                    background: batch === b ? "#a8c200" : "transparent",
+                    color: batch === b ? "#000" : "#666",
+                    transition: "all 0.2s", cursor: "pointer"
+                  }}>B{b}</button>
+              ))}
+            </div>
+            <button 
+              onClick={onShowStudentInfo}
+              style={{
+                width: "36px", height: "36px", borderRadius: "10px", background: "#1c1c1c", color: "#fff",
+                border: "1px solid #333", display: "flex", alignItems: "center", justifyContent: "center",
+                fontWeight: 900, fontSize: "13px", cursor: "pointer"
+              }}
+            >
+              {studentInitials}
+            </button>
+           </div>
+        </div>
+
+        {/* Day Order Big Number */}
+        <div style={{ textAlign: "center", marginBottom: "40px" }}>
+          <div style={{ fontSize: "12px", color: "#666", textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800, marginBottom: "8px" }}>Day Order</div>
+          <div style={{ fontSize: "160px", fontWeight: 900, lineHeight: 0.8, letterSpacing: "-0.05em" }}>{dayOverride}</div>
+        </div>
+
+        {/* Day Overview Card */}
+        {classes.length > 0 && (
+          <div style={{ background: "#a8c200", borderRadius: "28px", padding: "28px", marginBottom: "40px", color: "#000" }}>
+             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "24px" }}>
+                <div style={{ fontSize: "12px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em" }}>Session Timing</div>
+                <div style={{ fontSize: "48px", fontWeight: 900, lineHeight: 1 }}>{classes.length}</div>
+             </div>
+             <div style={{ fontSize: "36px", fontWeight: 900, letterSpacing: "-0.03em" }}>
+                {firstStart} - {lastEnd}
+             </div>
+          </div>
+        )}
+
+        {/* Timeline Classes */}
+        <div style={{ position: "relative", paddingLeft: "12px" }}>
+           {/* Timeline Line */}
+           <div style={{ position: "absolute", left: "0", top: "10px", bottom: "10px", width: "1px", background: "#333" }} />
+
+           <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+               {PERIODS.map((p, pi) => {
+                 const pStart = parseStart(p.start);
+                 const pEnd = parseEnd(p.end);
+                 const cls = classes.find((c: any) => {
+                   const cs = parseStart(c.startTime);
+                   const ce = parseEnd(c.endTime);
+                   return cs < pEnd && ce > pStart;
+                 });
+                 
+                 const isActive = cls ? (currentMin >= parseStart(cls.startTime) && currentMin <= parseEnd(cls.endTime)) : (currentMin >= pStart && currentMin < pEnd);
+
+                 return (
+                   <div key={pi} style={{ position: "relative", paddingLeft: "32px", marginBottom: "8px" }}>
+                     {/* Period Label */}
+                     <div style={{ 
+                       position: "absolute", left: "-6px", top: "50%", transform: "translateY(-50%)", 
+                       width: "12px", height: "12px", borderRadius: "50%", 
+                       background: isActive ? "#a8c200" : "#222", 
+                       border: "2px solid #000", zIndex: 5,
+                       boxShadow: isActive ? "0 0 12px #a8c200" : "none"
+                     }} />
+                     
+                     <div style={{ 
+                       position: "absolute", left: "-32px", top: "50%", transform: "translateY(-50%)", 
+                       fontSize: "11px", fontWeight: 900, color: isActive ? "#a8c200" : "#444",
+                       width: "24px", textAlign: "right"
+                     }}>
+                       {p.id}
+                     </div>
+
+                     {!cls ? (
+                       <div style={{ padding: "16px 0" }}>
+                         <div style={{ 
+                           height: "2px", width: "100%", borderTop: "2.5px dashed #333", 
+                           opacity: isActive ? 1 : 0.4, borderColor: isActive ? "#a8c200" : "#444" 
+                         }} />
+                       </div>
+                     ) : (
+                       <motion.div 
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: pi * 0.05 }}
+                        style={{ 
+                         background: "#111", borderRadius: "20px", padding: "16px 20px", 
+                         border: isActive ? "1.5px solid #a8c200" : "1.5px solid #222",
+                         boxShadow: isActive ? "0 8px 30px rgba(168, 194, 0, 0.1)" : "none"
+                       }}>
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
+                             <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#666", fontSize: "11px", fontWeight: 800 }}>
+                                <span style={{ fontSize: "14px" }}>⏱</span> {p.start} — {p.end}
+                             </div>
+                             <div style={{ fontSize: "10px", fontWeight: 900, color: isActive ? "#a8c200" : "#444", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                                Period {p.id}
+                             </div>
+                          </div>
+                          
+                          <div style={{ fontSize: "20px", fontWeight: 900, lineHeight: 1.2, marginBottom: "8px", textTransform: "capitalize", letterSpacing: "-0.01em", color: "#fff" }}>
+                             {cls.courseTitle.toLowerCase()}
+                          </div>
+
+                          <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
+                             <div style={{ fontSize: "11px", color: "#666", fontWeight: 700 }}>{cls.courseCode}</div>
+                             <div style={{ fontSize: "11px", color: "#888", fontWeight: 700 }}>📍 {cls.roomNo || "TBA"}</div>
+                             <div style={{ fontSize: "11px", color: "#888", fontWeight: 700 }}>👤 {(cls.facultyName || "TBA").split(" ")[0]}</div>
+                          </div>
+                       </motion.div>
+                     )}
+                   </div>
+                 );
+               })}
+           </div>
+        </div>
+
+        {/* Hidden Share Card */}
+        <div style={{ position: "absolute", left: "-9999px", top: 0 }}>
+           <div ref={shareRef} style={{ width: "450px", background: "#050505", padding: "40px", position: "relative", overflow: "hidden" }}>
+              <div style={{ position: "absolute", right: "-50px", top: "-50px", width: "200px", height: "200px", background: "#a8c200", filter: "blur(120px)", opacity: 0.15 }} />
+              
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px" }}>
+                 <div>
+                    <div style={{ fontSize: "10px", color: "#a8c200", fontWeight: 900, letterSpacing: "0.2em", marginBottom: "4px" }}>SRM NEXUS • SRMNEXUS.APP</div>
+                    <div style={{ fontSize: "24px", fontWeight: 900, color: "#fff" }}>Day {dayOverride} Schedule</div>
+                 </div>
+                 <div style={{ fontSize: "28px", fontWeight: 900, color: "#a8c200" }}>DO {dayOverride}</div>
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                 {PERIODS.map((p, pi) => {
+                    const pStart = parseStart(p.start);
+                    const pEnd = parseEnd(p.end);
+                    const cls = classes.find((c: any) => {
+                      const cs = parseStart(c.startTime);
+                      const ce = parseEnd(c.endTime);
+                      return cs < pEnd && ce > pStart;
+                    });
+
+                    return (
+                       <div key={pi} style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+                          <div style={{ width: "20px", fontSize: "10px", fontWeight: 900, color: "#444", textAlign: "right" }}>{p.id}</div>
+                          {!cls ? (
+                             <div style={{ flex: 1, height: "1px", borderTop: "2px dashed #222" }} />
+                          ) : (
+                             <div style={{ flex: 1, background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", borderRadius: "12px", padding: "10px 14px" }}>
+                                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px" }}>
+                                   <div style={{ fontSize: "14px", fontWeight: 900, color: "#fff" }}>{cls.courseTitle}</div>
+                                   <div style={{ fontSize: "9px", color: "#666", fontWeight: 800 }}>{p.start}</div>
+                                </div>
+                                <div style={{ fontSize: "10px", color: "#888", fontWeight: 700 }}>{cls.roomNo || "TBA"} • {cls.courseCode}</div>
+                             </div>
+                          )}
+                       </div>
+                    );
+                 })}
+              </div>
+
+              <div style={{ marginTop: "40px", borderTop: "1px solid #111", paddingTop: "20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                 <div style={{ fontSize: "10px", color: "#444", fontWeight: 700 }}>GENERATED VIA SRMNEXUS.APP</div>
+                 <div style={{ fontSize: "10px", color: "#444", fontWeight: 700 }}>© 2026 NEXUS CORE</div>
+              </div>
+           </div>
+        </div>
+
+        {/* Hidden Full Schedule Card */}
+        <div style={{ position: "absolute", left: "-9999px", top: 0 }}>
+           <div ref={fullShareRef} style={{ width: "1200px", background: "#050505", padding: "60px", position: "relative" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "48px" }}>
+                 <div>
+                    <div style={{ fontSize: "14px", color: "#a8c200", fontWeight: 900, letterSpacing: "0.2em", marginBottom: "8px" }}>SRM NEXUS PORTAL</div>
+                    <div style={{ fontSize: "42px", fontWeight: 900, color: "#fff", letterSpacing: "-1px" }}>Complete Semester Timetable</div>
+                 </div>
+                 <div style={{ textAlign: "right" }}>
+                    <div style={{ fontSize: "24px", fontWeight: 900, color: "#a8c200" }}>BATCH {batch}</div>
+                    <div style={{ fontSize: "12px", color: "#666", fontWeight: 700 }}>Secure access via srmnexus.app</div>
+                 </div>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "16px" }}>
+                 {[1, 2, 3, 4, 5].map(d => (
+                    <div key={d} style={{ background: "rgba(255,255,255,0.02)", borderRadius: "24px", padding: "20px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                       <div style={{ fontSize: "12px", color: "#a8c200", fontWeight: 900, marginBottom: "20px", textTransform: "uppercase", letterSpacing: "0.1em", textAlign: "center" }}>Day Order {d}</div>
+                       <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                          {PERIODS.map((p, pi) => {
+                             const pStart = parseStart(p.start);
+                             const pEnd = parseEnd(p.end);
+                             const dayClasses = schedule[d - 1]?.classes || [];
+                             const cls = dayClasses.find((c: any) => {
+                               const cs = parseStart(c.startTime);
+                               const ce = parseEnd(c.endTime);
+                               return cs < pEnd && ce > pStart;
+                             });
+
+                             return (
+                                <div key={pi} style={{ display: "flex", gap: "10px", alignItems: "center", minHeight: "40px" }}>
+                                   <div style={{ width: "12px", fontSize: "9px", fontWeight: 900, color: "#444" }}>{p.id}</div>
+                                   {!cls ? (
+                                      <div style={{ flex: 1, height: "1px", borderTop: "1.5px dashed #222" }} />
+                                   ) : (
+                                      <div style={{ flex: 1, background: "rgba(255,255,255,0.03)", padding: "8px 10px", borderRadius: "10px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                                         <div style={{ fontSize: "10px", fontWeight: 900, color: "#ddd", lineHeight: 1.1, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", textTransform: "capitalize" }}>{cls.courseTitle.toLowerCase()}</div>
+                                         <div style={{ fontSize: "8px", color: "#666", fontWeight: 700 }}>{cls.roomNo || "TBA"}</div>
+                                      </div>
+                                   )}
+                                </div>
+                             );
+                          })}
+                       </div>
+                    </div>
+                 ))}
+              </div>
+
+              <div style={{ marginTop: "60px", borderTop: "1px solid #111", paddingTop: "32px", textAlign: "center" }}>
+                 <div style={{ fontSize: "12px", color: "#333", fontWeight: 800, letterSpacing: "0.1em" }}>GENERATED EXCLUSIVELY AT SRMNEXUS.APP • THE NEXT GENERATION STUDENT EXPERIENCE</div>
+              </div>
+           </div>
+        </div>
+
+        {/* Day Switcher Bottom Overlay */}
+        <div style={{ position: "fixed", bottom: "100px", left: "20px", right: "20px", display: "flex", justifyContent: "center", zIndex: 100 }}>
+           <div style={{ background: "rgba(20,20,20,0.8)", backdropFilter: "blur(20px)", borderRadius: "99px", padding: "8px", display: "flex", gap: "8px", border: "1px solid #333" }}>
+              {[1, 2, 3, 4, 5].map(d => (
+                <button key={d} onClick={() => setDayOverride(d)} style={{
+                  width: "44px", height: "44px", borderRadius: "50%", border: "none",
+                  background: dayOverride === d ? "#a8c200" : "transparent",
+                  color: dayOverride === d ? "#000" : "#fff",
+                  fontSize: "16px", fontWeight: 900, cursor: "pointer", transition: "all 0.2s"
+                }}>{d}</button>
+              ))}
+           </div>
+        </div>
+      </main>
+    </div>
+  );
+}
+
+function CosmosTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule, studentInitials, onShowStudentInfo }: any) {
+  const currentMin = new Date().getHours() * 60 + new Date().getMinutes();
+
+  return (
+    <div style={{ background: "transparent", minHeight: "100vh", paddingBottom: "100px", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>
+      <Sidebar />
+      <main style={{ padding: "16px" }}>
+        
+        {/* Header */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "24px 0 32px" }}>
+          <div>
+            <h1 style={{ fontSize: "24px", fontWeight: 900, letterSpacing: "-0.5px", margin: 0 }}>Timetable</h1>
+            <div style={{ fontSize: "11px", color: "var(--text-secondary)", marginTop: "4px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Current Batch: {batch}</div>
+          </div>
+          <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+            <button onClick={handleShare} disabled={sharing} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 800, cursor: "pointer" }}>
+              {sharing ? "..." : "DAY"}
+            </button>
+            <button onClick={handleFullShare} disabled={fullSharing} style={{ background: "var(--accent)", border: "none", color: "#fff", padding: "8px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 800, cursor: "pointer" }}>
+              {fullSharing ? "..." : "ALL"}
+            </button>
+            <div style={{ display: "flex", background: "rgba(255,255,255,0.05)", borderRadius: "14px", padding: "4px", border: "1px solid rgba(255,255,255,0.1)" }}>
+              {[1, 2].map(b => (
+                <button key={b} onClick={() => setBatch(b)} style={{
+                  padding: "8px 12px", borderRadius: "10px", border: "none", fontSize: "11px", fontWeight: 800,
+                  background: batch === b ? "var(--accent)" : "transparent",
+                  color: batch === b ? "#fff" : "var(--text-muted)", transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)", cursor: "pointer"
+                }}>B{b}</button>
+              ))}
+            </div>
+            <button 
+              onClick={onShowStudentInfo}
+              style={{
+                width: "36px", height: "36px", borderRadius: "12px", background: "rgba(255,255,255,0.05)", color: "#fff",
+                border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center",
+                fontWeight: 900, fontSize: "13px", cursor: "pointer"
+              }}
+            >
+              {studentInitials}
+            </button>
+          </div>
+        </div>
+
+        {/* Day Switcher */}
+        <div style={{ display: "flex", gap: "10px", marginBottom: "40px", overflowX: "auto", paddingBottom: "8px", scrollbarWidth: "none" }}>
+          {[1, 2, 3, 4, 5].map(d => (
+            <button key={d} onClick={() => setDayOverride(d)} style={{
+              flexShrink: 0, width: "56px", height: "56px", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.05)",
+              background: dayOverride === d ? "var(--accent)" : "rgba(255,255,255,0.03)",
+              color: dayOverride === d ? "#fff" : "var(--text-secondary)",
+              display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+              transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)", cursor: "pointer",
+              boxShadow: dayOverride === d ? "0 8px 20px rgba(26, 117, 255, 0.3)" : "none"
+            }}>
+              <div style={{ fontSize: "10px", fontWeight: 800, opacity: 0.6, textTransform: "uppercase" }}>Day</div>
+              <div style={{ fontSize: "18px", fontWeight: 900 }}>{d}</div>
+            </button>
+          ))}
+        </div>
+
+        {/* Timeline View */}
+        <div style={{ position: "relative", paddingLeft: "24px" }}>
+          {/* Vertical Timeline Line */}
+          <div style={{ 
+            position: "absolute", left: "4px", top: "8px", bottom: "8px", width: "2px", 
+            background: "linear-gradient(180deg, var(--accent) 0%, var(--accent-secondary) 100%)",
+            opacity: 0.2, borderRadius: "2px"
+          }} />
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+            {PERIODS.map((p, pi) => {
+              const pStart = parseStart(p.start);
+              const pEnd = parseEnd(p.end);
+              const cls = classes.find((c: any) => {
+                const cs = parseStart(c.startTime);
+                const ce = parseEnd(c.endTime);
+                return cs < pEnd && ce > pStart;
+              });
+              
+              const active = cls ? (currentMin >= parseStart(cls.startTime) && currentMin <= parseEnd(cls.endTime)) : (currentMin >= pStart && currentMin < pEnd);
+              const past = currentMin >= pEnd;
+
+              return (
+                <div key={pi} style={{ position: "relative", paddingLeft: "12px" }}>
+                  {/* Timeline Dot */}
+                  <div style={{ 
+                    position: "absolute", left: "-24px", top: "50%", transform: "translateY(-50%)", width: "10px", height: "10px", borderRadius: "50%",
+                    background: active ? "var(--accent-secondary)" : past ? "var(--text-muted)" : "var(--accent)",
+                    boxShadow: active ? "0 0 15px var(--accent-secondary)" : "none",
+                    border: "2px solid var(--bg-root)", zIndex: 5
+                  }} />
+
+                  <div style={{ 
+                    position: "absolute", left: "-60px", top: "50%", transform: "translateY(-50%)", 
+                    fontSize: "11px", fontWeight: 900, color: active ? "var(--accent-secondary)" : "var(--text-muted)",
+                    width: "30px", textAlign: "right"
+                  }}>
+                    {p.id}
+                  </div>
+
+                  {!cls ? (
+                    <div style={{ padding: "16px 0" }}>
+                      <div style={{ 
+                        height: "2px", width: "100%", borderTop: "2px dashed rgba(255,255,255,0.1)", 
+                        opacity: active ? 1 : 0.4, borderColor: active ? "var(--accent-secondary)" : "rgba(255,255,255,0.1)" 
+                      }} />
+                    </div>
+                  ) : (
+                    <motion.div 
+                      initial={{ opacity: 0, scale: 0.98 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: pi * 0.04 }}
+                      className="min-card" 
+                      style={{ 
+                        padding: "16px 20px", 
+                        borderLeft: active ? "4px solid var(--accent-secondary)" : "1px solid rgba(255,255,255,0.05)",
+                        opacity: past ? 0.6 : 1,
+                        transition: "all 0.3s ease"
+                      }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "12px" }}>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+                            <div style={{ fontSize: "11px", color: active ? "var(--accent-secondary)" : "var(--text-secondary)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                              {p.start} — {p.end}
+                            </div>
+                            <div style={{ fontSize: "10px", fontWeight: 900, color: active ? "var(--accent-secondary)" : "var(--text-muted)" }}>P{p.id}</div>
+                          </div>
+                          <div style={{ fontSize: "18px", fontWeight: 800, color: "#fff", marginTop: "6px", lineHeight: 1.2 }}>{cls.courseTitle}</div>
+                        </div>
+                      </div>
+
+                      <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+                        <div style={{ background: "rgba(255,255,255,0.05)", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", color: "var(--text-secondary)", display: "flex", alignItems: "center", gap: "4px" }}>
+                          📍 {cls.roomNo}
+                        </div>
+                        <div style={{ background: "rgba(255,255,255,0.05)", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", color: "var(--text-secondary)", display: "flex", alignItems: "center", gap: "4px" }}>
+                          👤 {cls.facultyName?.split(" ")[0]}
+                        </div>
+                        <div style={{ fontSize: "10px", color: "var(--accent)", fontWeight: 700 }}>
+                          {cls.courseCode}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
+
+function fmtTimeOnly(t: string) { const m = t.match(/(\d+):(\d+)/); if (!m) return t; const h24 = to24(parseInt(m[1])); const suffix = h24 >= 12 ? "p" : "a"; const h12 = h24 > 12 ? h24 - 12 : h24 === 0 ? 12 : h24; return `${h12}:${m[2]}${suffix}`; }
+

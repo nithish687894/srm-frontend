@@ -83,7 +83,7 @@ export default function AppToolsPage() {
   const [mounted, setMounted] = useState(false);
   const { studentPortalData, email } = useAuthStore();
   const { theme } = useThemeStore();
-  const isAura = true;
+  const isAura = theme === "aura";
   
   useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 

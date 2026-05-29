@@ -254,6 +254,12 @@ export default function BottomNavigation() {
           z-index: 100;
         }
 
+        .theme-matrix .srmx-desktop-nav {
+          border: 1px solid var(--accent);
+          box-shadow: 0 0 20px rgba(168, 194, 0, 0.2);
+          background: rgba(10, 10, 10, 0.95);
+        }
+
         .srmx-mobile-nav {
           position: fixed;
           bottom: 0;
@@ -270,6 +276,11 @@ export default function BottomNavigation() {
           justify-content: space-around;
           z-index: 100;
           box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .theme-matrix .srmx-mobile-nav {
+          border-top: 1px solid var(--accent);
+          box-shadow: 0 -4px 20px rgba(168, 194, 0, 0.15);
         }
 
         .nav-item {
@@ -294,8 +305,18 @@ export default function BottomNavigation() {
         }
 
         .nav-item.active {
-          color: #FF75C3;
-          text-shadow: 0 0 10px rgba(255, 117, 195, 0.8);
+          color: #a8c200;
+          text-shadow: 0 0 10px rgba(168, 194, 0, 0.8);
+        }
+
+        .theme-matrix .nav-item.active {
+          color: var(--accent);
+          text-shadow: 0 0 10px rgba(168, 194, 0, 0.8);
+        }
+
+        .theme-cosmos .nav-item.active {
+          color: #a78bfa;
+          text-shadow: 0 0 10px rgba(167, 139, 250, 0.8);
         }
 
         .nav-item::before {

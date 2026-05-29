@@ -16,7 +16,7 @@ export default function CalendarPage() {
   const { theme } = useThemeStore();
 
   const isCosmos = theme === "cosmos";
-  const isAura = true;
+  const isAura = theme === "aura";
   const AURA_COLORS = {
     primary: "#FF75C3",
     secondary: "#8F92FF",
