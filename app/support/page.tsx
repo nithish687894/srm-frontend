@@ -134,6 +134,13 @@ export default function SupportPage() {
             )}
           </div>
 
+          {/* Symmetrical footer links */}
+          <div style={{ marginTop: '80px', textAlign: 'center', opacity: 0.5, fontSize: '11px', display: 'flex', justifyContent: 'center', gap: '20px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em' }}>
+            <a href="/privacy" style={{ color: 'rgba(255, 255, 255, 0.6)', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={e => e.currentTarget.style.color = '#ff75c3'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.6)'}>Privacy Policy</a>
+            <span style={{ color: 'rgba(255, 255, 255, 0.2)' }}>•</span>
+            <a href="/terms" style={{ color: 'rgba(255, 255, 255, 0.6)', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={e => e.currentTarget.style.color = '#00ff88'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.6)'}>Terms of Service</a>
+          </div>
+
         </div>
       </main>
     </div>
