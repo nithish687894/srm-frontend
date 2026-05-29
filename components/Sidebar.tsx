@@ -141,6 +141,14 @@ export default function Sidebar() {
     return () => el.removeEventListener('scroll', handler);
   }, [moreOpen]);
 
+  useEffect(() => {
+    if (!moreOpen) return;
+    const id = requestAnimationFrame(() => {
+      if (scrollRef.current) scrollRef.current.scrollTop = 0;
+    });
+    return () => cancelAnimationFrame(id);
+  }, [moreOpen]);
+
   // Theme configuration for drawer styling
   const hubAccent = theme === "matrix" ? "#a8c200" : theme === "aura" ? "#BF5AF2" : THEME.accentCyan;
   const hubAccentGlow = theme === "matrix" ? "rgba(168, 194, 0, 0.15)" : theme === "aura" ? "rgba(191,90,242,0.15)" : "rgba(0, 212, 255, 0.15)";
@@ -211,8 +219,8 @@ export default function Sidebar() {
            width: 32px; height: 4px; border-radius: 4px;
         }
         @keyframes slideUp {
-          from { transform: translateY(100%); }
-          to { transform: translateY(0); }
+          from { transform: translate(-50%, 100%); }
+          to { transform: translate(-50%, 0); }
         }
         @keyframes fadeIn {
           from { opacity: 0; }
@@ -287,6 +295,82 @@ export default function Sidebar() {
         @media (min-width: 768px) {
           .desktop-sidebar {
             display: flex !important;
+          }
+        }
+
+        .more-drawer {
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-bottom: 0;
+          width: min(calc(100vw - 16px), 640px);
+          left: 50% !important;
+          right: auto !important;
+          transform: translateX(-50%);
+        }
+
+        .more-drawer-body {
+          overscroll-behavior: contain;
+        }
+
+        .more-drawer-body::-webkit-scrollbar {
+          display: none;
+        }
+
+        .more-drawer-body .grid.grid-cols-6 {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 10px;
+        }
+
+        .more-drawer-body .grid.grid-cols-6 > button {
+          grid-column: span 1 / span 1 !important;
+          min-height: 94px !important;
+          border-radius: 20px !important;
+          padding: 12px !important;
+          box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18) !important;
+        }
+
+        .more-drawer-body .grid.grid-cols-6 > button:first-child,
+        .more-drawer-body .grid.grid-cols-6 > button:nth-child(4),
+        .more-drawer-body .grid.grid-cols-6 > button:nth-child(7) {
+          grid-column: 1 / -1 !important;
+          min-height: auto !important;
+        }
+
+        .more-drawer-body .grid.grid-cols-6 > button span {
+          overflow-wrap: anywhere;
+        }
+
+        .more-drawer-body .grid.grid-cols-6 > button [class*="text-[7px]"],
+        .more-drawer-body .grid.grid-cols-6 > button [class*="text-[8px]"] {
+          letter-spacing: 0.04em !important;
+        }
+
+        .more-drawer-body .grid.grid-cols-6 > button .w-12,
+        .more-drawer-body .grid.grid-cols-6 > button .h-12 {
+          width: 42px !important;
+          height: 42px !important;
+        }
+
+        .more-drawer-body .grid.grid-cols-6 > button .w-10,
+        .more-drawer-body .grid.grid-cols-6 > button .h-10,
+        .more-drawer-body .grid.grid-cols-6 > button .w-11,
+        .more-drawer-body .grid.grid-cols-6 > button .h-11 {
+          width: 38px !important;
+          height: 38px !important;
+          border-radius: 14px !important;
+        }
+
+        @media (max-width: 380px) {
+          .more-drawer-body {
+            padding-left: 12px !important;
+            padding-right: 12px !important;
+          }
+
+          .more-drawer-body .grid.grid-cols-6 {
+            grid-template-columns: 1fr;
+          }
+
+          .more-drawer-body .grid.grid-cols-6 > button {
+            grid-column: 1 / -1 !important;
           }
         }
       `}</style>
@@ -454,7 +538,7 @@ export default function Sidebar() {
 
           {/* Bottom Drawer */}
           <div 
-            className="fixed bottom-0 left-0 right-0 max-h-[85vh] z-[99999] rounded-t-[32px] flex flex-col overflow-hidden"
+            className="more-drawer fixed bottom-0 left-0 right-0 max-h-[88vh] z-[99999] rounded-t-[28px] flex flex-col overflow-hidden"
             style={{ 
               background: theme === "matrix" ? "#080a08" : theme === "aura" ? "#110c1e" : "#0c0c10",
               boxShadow: `0 -20px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.06)`,
@@ -517,7 +601,7 @@ export default function Sidebar() {
               {/* SCROLLABLE BODY */}
               <div 
                 ref={scrollRef}
-                className="px-6 py-5 flex-1 overflow-y-auto flex flex-col gap-6 w-full relative z-0"
+                className="more-drawer-body px-4 py-4 flex-1 overflow-y-auto flex flex-col gap-4 w-full relative z-0"
                 style={{ 
                   fontFamily: "'Plus Jakarta Sans', sans-serif",
                   scrollbarWidth: "none"
