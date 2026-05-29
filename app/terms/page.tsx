@@ -77,7 +77,7 @@ export default function TermsPage() {
             background: "linear-gradient(135deg, #00ff88, #00e5ff)",
             display: "flex",
             alignItems: "center",
-            justifycontent: "center",
+            justifyContent: "center",
             color: "#000",
             boxShadow: "0 0 30px rgba(0, 229, 255, 0.25)",
           }}
@@ -180,15 +180,15 @@ export default function TermsPage() {
           </p>
           <ul style={{ paddingLeft: "20px", display: "flex", flexDirection: "column", gap: "10px", margin: 0, listStyleType: "none" }}>
             <li style={{ display: "flex", alignItems: "flex-start", gap: "10px", fontSize: "13.5px", color: "rgba(255,255,255,0.5)" }}>
-              <CheckCircle2 size={14} style={{ color: "#00ff88", marginTop: "3px", shrink: 0 }} />
+              <CheckCircle2 size={14} style={{ color: "#00ff88", marginTop: "3px", flexShrink: 0 }} />
               <span>Use this tool purely for academic self-tracking and diagnostic support.</span>
             </li>
             <li style={{ display: "flex", alignItems: "flex-start", gap: "10px", fontSize: "13.5px", color: "rgba(255,255,255,0.5)" }}>
-              <CheckCircle2 size={14} style={{ color: "#00ff88", marginTop: "3px", shrink: 0 }} />
+              <CheckCircle2 size={14} style={{ color: "#00ff88", marginTop: "3px", flexShrink: 0 }} />
               <span>Ensure your login credentials (NetID and password) are kept safe on your own personal device.</span>
             </li>
             <li style={{ display: "flex", alignItems: "flex-start", gap: "10px", fontSize: "13.5px", color: "rgba(255,255,255,0.5)" }}>
-              <CheckCircle2 size={14} style={{ color: "#00ff88", marginTop: "3px", shrink: 0 }} />
+              <CheckCircle2 size={14} style={{ color: "#00ff88", marginTop: "3px", flexShrink: 0 }} />
               <span>Refrain from launching malicious automation, scraping loops, or denial-of-service attempts against the portal connectors.</span>
             </li>
           </ul>

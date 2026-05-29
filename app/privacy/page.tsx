@@ -77,7 +77,7 @@ export default function PrivacyPage() {
             background: "linear-gradient(135deg, #ff75c3, #bf5af2)",
             display: "flex",
             alignItems: "center",
-            justify-content: "center",
+            justifyContent: "center",
             color: "#000",
             boxShadow: "0 0 30px rgba(191, 90, 242, 0.25)",
           }}
@@ -182,15 +182,15 @@ export default function PrivacyPage() {
           </p>
           <ul style={{ paddingLeft: "20px", display: "flex", flexDirection: "column", gap: "10px", margin: 0, listStyleType: "none" }}>
             <li style={{ display: "flex", alignItems: "flex-start", gap: "10px", fontSize: "13.5px", color: "rgba(255,255,255,0.5)" }}>
-              <CheckCircle2 size={14} style={{ color: "#00ff88", marginTop: "3px", shrink: 0 }} />
+              <CheckCircle2 size={14} style={{ color: "#00ff88", marginTop: "3px", flexShrink: 0 }} />
               <span><strong>TLS 1.3 Transmission:</strong> All data in transit is encrypted using advanced Transport Layer Security.</span>
             </li>
             <li style={{ display: "flex", alignItems: "flex-start", gap: "10px", fontSize: "13.5px", color: "rgba(255,255,255,0.5)" }}>
-              <CheckCircle2 size={14} style={{ color: "#00ff88", marginTop: "3px", shrink: 0 }} />
+              <CheckCircle2 size={14} style={{ color: "#00ff88", marginTop: "3px", flexShrink: 0 }} />
               <span><strong>AES-256-GCM Session Encryption:</strong> Your sessions are protected with industry-standard symmetric key encryption.</span>
             </li>
             <li style={{ display: "flex", alignItems: "flex-start", gap: "10px", fontSize: "13.5px", color: "rgba(255,255,255,0.5)" }}>
-              <CheckCircle2 size={14} style={{ color: "#00ff88", marginTop: "3px", shrink: 0 }} />
+              <CheckCircle2 size={14} style={{ color: "#00ff88", marginTop: "3px", flexShrink: 0 }} />
               <span><strong>Sandboxed Execution:</strong> Next.js client-side execution boundaries prevent cross-site scripting vulnerabilities.</span>
             </li>
           </ul>
