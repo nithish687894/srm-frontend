@@ -66,6 +66,11 @@ function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>, 
   const times: string[] = timeRow ? timeRow.slice(1).map((t: string) => t.replace(/\t/g, "").trim().replace(/\n+/g, " ")) : [];
   const dayRows = gridRows.filter((r: AnyValue) => typeof r[0] === "string" && r[0].startsWith("Day"));
 
+  const resolveTitle = (code: string, fallback: string) => {
+    const found = attendance.find((c: any) => (c["Course Code"] || c.courseCode) === code);
+    return found?.["Course Title"] || found?.courseTitle || found?.courseName || fallback;
+  };
+
   return dayRows.map((row: AnyValue) => {
     const cells: string[] = row.slice(1);
     const classes: ScheduleItem[] = [];
@@ -95,7 +100,7 @@ function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>, 
       const course = group.cells[0].course;
       const startRange = parseTimeRange(times[group.cells[0].idx] || "");
       const endRange = parseTimeRange(times[group.cells[group.cells.length - 1].idx] || "");
-      classes.push({ slot: group.cells.map(c => c.slot).join("-"), startTime: startRange.start, endTime: endRange.end, courseTitle: course.courseTitle, courseCode: course.courseCode, roomNo: course.roomNo, facultyName: course.facultyName, courseType: course.courseType });
+      classes.push({ slot: group.cells.map(c => c.slot).join("-"), startTime: startRange.start, endTime: endRange.end, courseTitle: resolveTitle(course.courseCode, course.courseTitle || course.courseCode), courseCode: course.courseCode, roomNo: course.roomNo, facultyName: course.facultyName, courseType: course.courseType });
     });
 
     cells.forEach((cell, ci) => {
@@ -112,7 +117,7 @@ function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>, 
         if (seenCourses.has(key)) continue;
         seenCourses.add(key);
         const { start, end } = parseTimeRange(times[ci] || "");
-        classes.push({ slot: s, startTime: start, endTime: end, courseTitle: course.courseTitle, courseCode: course.courseCode, roomNo: course.roomNo, facultyName: course.facultyName, courseType: course.courseType });
+        classes.push({ slot: s, startTime: start, endTime: end, courseTitle: resolveTitle(course.courseCode, course.courseTitle || course.courseCode), courseCode: course.courseCode, roomNo: course.roomNo, facultyName: course.facultyName, courseType: course.courseType });
         break;
       }
     });

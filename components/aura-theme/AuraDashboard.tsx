@@ -21,6 +21,19 @@ export default function AuraDashboard({
   const router = useRouter();
   const { activeTheme, stars } = useAuraTheme();
 
+  const getSubjectName = (courseCode: string, fallbackTitle?: string) => {
+    if (!courseCode) return fallbackTitle || "";
+    const attList = data?.attendance || 
+                    data?.academia?.attendance || 
+                    data?.studentPortal?.attendance || [];
+    const found = attList.find((c: any) => (c["Course Code"] || c.courseCode) === courseCode);
+    if (found) {
+      const title = found["Course Title"] || found.courseTitle || found.courseName;
+      if (title) return title;
+    }
+    return fallbackTitle || courseCode;
+  };
+
   return (
     <AuraBackground theme={activeTheme} stars={stars}>
       <style dangerouslySetInnerHTML={{ __html: `
@@ -195,7 +208,7 @@ export default function AuraDashboard({
                       return (
                         <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.03)', padding: '6px 12px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)', fontSize: '11px', fontWeight: 600 }}>
                           <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: cls.isRisky ? '#ff2d55' : '#34c759' }} />
-                          <span style={{ color: '#fff' }}>{cls.courseCode}</span>
+                          <span style={{ color: '#fff' }}>{getSubjectName(cls.courseCode, cls.courseTitle)}</span>
                           <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '10px' }}>({cls.slot})</span>
                         </div>
                       );
@@ -255,7 +268,7 @@ export default function AuraDashboard({
           {nextClass ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               <div style={{ fontSize: '16px', fontWeight: 850, color: '#fff', textTransform: 'capitalize' }}>
-                {nextClass.courseTitle.toLowerCase()}
+                {getSubjectName(nextClass.courseCode, nextClass.courseTitle).toLowerCase()}
               </div>
               <div style={{ fontSize: '12px', color: AURA.cyan, fontWeight: 700 }}>
                 {nextClass.startTime} - {nextClass.endTime} • Slot {nextClass.slot}
