@@ -13,7 +13,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [loginPhase, setLoginPhase] = useState<"idle" | "auth" | "success">("idle");
   const [error, setError] = useState("");
-  const [showLoginForm, setShowLoginForm] = useState(false);
+  const [loginStep, setLoginStep] = useState<"hero" | "consent" | "academia">("hero");
   
   const [connector] = useState<"academia" | "student-portal">("academia");
   const [captchaData, setCaptchaData] = useState<{ captcha: string; captchaToken: string } | null>(null);
@@ -618,11 +618,163 @@ export default function LoginPage() {
         </div>
 
         <section className="hero-section">
-          {showLoginForm ? (
+          {loginStep === "hero" && (
+            <div style={{ maxWidth: "680px", margin: "0 auto", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "28px", animation: "slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1)" }}>
+              <div style={{ display: "inline-block", padding: "16px", background: "rgba(139, 92, 246, 0.08)", borderRadius: "24px", border: "1px solid rgba(139, 92, 246, 0.15)", marginBottom: "4px" }}>
+                <img src="/nexus-logo.png" alt="Logo" style={{ width: "72px", height: "72px", filter: "drop-shadow(0 0 25px rgba(255, 117, 195, 0.5))" }} />
+              </div>
+              <h1 style={{ fontSize: "clamp(48px, 8vw, 84px)", fontWeight: 950, letterSpacing: "-0.05em", lineHeight: 1, margin: 0 }}>
+                SRM Nexus
+              </h1>
+              <h2 style={{ fontSize: "clamp(20px, 3.5vw, 26px)", fontWeight: 800, color: "#FF75C3", letterSpacing: "-0.03em", margin: 0, lineHeight: 1.2 }}>
+                Your SRM life, decoded.
+              </h2>
+              <p style={{ fontSize: "16px", color: "rgba(255,255,255,0.55)", lineHeight: 1.7, margin: "0 0 16px", fontWeight: 500, maxWidth: "580px" }}>
+                Connect your SRM portal to view attendance, marks, timetable, GPA, tomorrow skip risk, and marks needed for your target grade — all in one smart dashboard.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: "16px", alignItems: "center", width: "100%", maxWidth: "440px" }}>
+                <button
+                  type="button"
+                  onClick={() => setLoginStep("consent")}
+                  style={{
+                    width: "100%",
+                    padding: "18px 28px",
+                    background: "linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%)",
+                    border: "none",
+                    color: "#000000",
+                    borderRadius: "16px",
+                    fontSize: "13px",
+                    fontWeight: 900,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.14em",
+                    cursor: "pointer",
+                    transition: "all 0.3s",
+                    boxShadow: "0 8px 24px rgba(255, 255, 255, 0.15)"
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.transform = "translateY(-4px)";
+                    e.currentTarget.style.boxShadow = "0 16px 36px rgba(255, 255, 255, 0.25)";
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow = "0 8px 24px rgba(255, 255, 255, 0.15)";
+                  }}
+                >
+                  Connect My Portal
+                </button>
+                <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.45)", fontWeight: 700, letterSpacing: "0.05em", marginTop: "4px" }}>
+                  Read-only sync • Encrypted sessions • Disconnect anytime
+                </div>
+                
+                <button
+                  type="button"
+                  onClick={launchDemo}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "rgba(255, 255, 255, 0.45)",
+                    fontSize: "12px",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                    marginTop: "16px",
+                    transition: "color 0.2s"
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.color = "#ffffff"}
+                  onMouseLeave={e => e.currentTarget.style.color = "rgba(255, 255, 255, 0.45)"}
+                >
+                  Not ready yet? Preview sample dashboard
+                </button>
+              </div>
+            </div>
+          )}
+
+          {loginStep === "consent" && (
+            <div className="hero-login" style={{ animation: "slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1)", width: "100%", maxWidth: "440px", margin: "0 auto" }}>
+              <div className="login-container">
+                <div style={{ marginBottom: "32px", textAlign: "center" }}>
+                  <div 
+                    style={{ 
+                      display: "inline-block",
+                      padding: "16px",
+                      background: "rgba(139, 92, 246, 0.08)",
+                      borderRadius: "20px",
+                      border: "1px solid rgba(139, 92, 246, 0.15)",
+                      marginBottom: "16px"
+                    }}
+                  >
+                    <img src="/nexus-logo.png" alt="Logo" style={{ width: "64px", height: "64px", filter: "drop-shadow(0 0 25px rgba(255, 117, 195, 0.5))" }} />
+                  </div>
+                  <h3 style={{ fontSize: "24px", fontWeight: 950, letterSpacing: "-0.02em", color: "#fff", margin: 0 }}>Student Data Consent</h3>
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: "16px", fontSize: "14px", color: "rgba(255,255,255,0.75)", fontWeight: 500, lineHeight: 1.5, textAlign: "left", marginBottom: "32px" }}>
+                  <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
+                    <span style={{ color: "#FF75C3", fontSize: "16px" }}>⦿</span>
+                    <span>SRM Nexus only reads your academic data to build your dashboard.</span>
+                  </div>
+                  <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
+                    <span style={{ color: "#00E5FF", fontSize: "16px" }}>⦿</span>
+                    <span>It does not change marks, attendance, or official records.</span>
+                  </div>
+                  <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
+                    <span style={{ color: "#34C759", fontSize: "16px" }}>⦿</span>
+                    <span>You can disconnect anytime from Settings.</span>
+                  </div>
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                  <button
+                    type="button"
+                    onClick={() => setLoginStep("academia")}
+                    style={{
+                      width: "100%",
+                      padding: "16px",
+                      background: "linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%)",
+                      color: "#000",
+                      border: "none",
+                      borderRadius: "16px",
+                      fontSize: "13px",
+                      fontWeight: 900,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.12em",
+                      cursor: "pointer",
+                      transition: "transform 0.2s",
+                      boxShadow: "0 8px 24px rgba(255, 255, 255, 0.1)"
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.transform = "translateY(-2px)"}
+                    onMouseLeave={e => e.currentTarget.style.transform = "translateY(0)"}
+                  >
+                    Accept & Continue
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setLoginStep("hero")}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      color: "rgba(255,255,255,0.45)",
+                      fontSize: "12px",
+                      fontWeight: 700,
+                      cursor: "pointer",
+                      padding: "8px",
+                      transition: "color 0.2s"
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.color = "#ffffff"}
+                    onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.45)"}
+                  >
+                    Back
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {loginStep === "academia" && (
             <div className="hero-login" style={{ animation: "slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1)", width: "100%", maxWidth: "440px", margin: "0 auto" }}>
               <button
                 type="button"
-                onClick={() => setShowLoginForm(false)}
+                onClick={() => setLoginStep("consent")}
                 style={{
                   background: "rgba(255, 255, 255, 0.03)",
                   border: "1px solid rgba(255, 255, 255, 0.08)",
@@ -645,21 +797,21 @@ export default function LoginPage() {
                 ← Back
               </button>
               <div className="login-container">
-                <div style={{ marginBottom: "48px", textAlign: "center", animation: "slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1)" }}>
+                <div style={{ marginBottom: "36px", textAlign: "center" }}>
                   <div 
                     style={{ 
                       display: "inline-block",
-                      padding: "16px",
+                      padding: "12px",
                       background: "rgba(139, 92, 246, 0.08)",
-                      borderRadius: "20px",
+                      borderRadius: "16px",
                       border: "1px solid rgba(139, 92, 246, 0.15)",
-                      transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)"
+                      marginBottom: "12px"
                     }}
                   >
-                    <img src="/nexus-logo.png" alt="Logo" style={{ width: "72px", height: "72px", filter: "drop-shadow(0 0 25px rgba(255, 117, 195, 0.5))" }} />
+                    <img src="/nexus-logo.png" alt="Logo" style={{ width: "56px", height: "56px", filter: "drop-shadow(0 0 25px rgba(255, 117, 195, 0.5))" }} />
                   </div>
-                  <h2 style={{ fontSize: "32px", fontWeight: 950, letterSpacing: "-0.03em", marginTop: "28px", lineHeight: 1.1 }}>SRM NEXUS</h2>
-                  <p style={{ color: "rgba(255, 255, 255, 0.45)", fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.25em", marginTop: "12px", fontFamily: "monospace" }}>→ IDENTITY SECURE</p>
+                  <h2 style={{ fontSize: "28px", fontWeight: 950, letterSpacing: "-0.03em", margin: 0, lineHeight: 1.1 }}>Connect Academia</h2>
+                  <p style={{ color: "rgba(255, 255, 255, 0.45)", fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", marginTop: "8px" }}>Attendance, marks, timetable, and profile</p>
                 </div>
 
                 <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }} data-testid="login-form">
@@ -684,6 +836,10 @@ export default function LoginPage() {
                     </div>
                   )}
 
+                  <div style={{ fontSize: "12.5px", color: "rgba(255,255,255,0.6)", fontWeight: 600, textAlign: "left", marginBottom: "8px", paddingLeft: "4px" }}>
+                    Use the same login you normally use for Academia.
+                  </div>
+
                   <input
                     type="text" placeholder="NETID (e.g. ab1234)"
                     className="login-input"
@@ -703,10 +859,10 @@ export default function LoginPage() {
                     />
                     <button
                       type="button" onClick={() => setShowPassword(!showPassword)}
-                      style={{ position: 'absolute', right: '20px', top: '24px', background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', cursor: 'pointer' }}
+                      style={{ position: 'absolute', right: '20px', top: '16px', background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', cursor: 'pointer' }}
                       data-testid="toggle-password-btn"
                     >
-                      {showPassword ? <EyeOff size={22} /> : <Eye size={22} />}
+                      {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                     </button>
                   </div>
 
@@ -738,85 +894,32 @@ export default function LoginPage() {
                   </div>
 
                   <button type="submit" className="login-btn" disabled={loading} data-testid="submit-login-btn">
-                    {loading ? "INITIALIZING..." : "ENTER ACADEMIC OS"}
+                    {loading ? "Connecting..." : "Connect Academia"}
                   </button>
+                  
+                  <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.45)", fontWeight: 550, lineHeight: 1.4, textAlign: "center", marginTop: "16px", padding: "0 8px" }}>
+                    After connecting, SRM Nexus will sync your academic data and open your dashboard.
+                  </div>
                 </form>
-              </div>
-            </div>
-          ) : (
-            <div style={{ maxWidth: "680px", margin: "0 auto", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "28px", animation: "slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1)" }}>
-              <div style={{ display: "inline-block", padding: "16px", background: "rgba(139, 92, 246, 0.08)", borderRadius: "24px", border: "1px solid rgba(139, 92, 246, 0.15)", marginBottom: "4px" }}>
-                <img src="/nexus-logo.png" alt="Logo" style={{ width: "72px", height: "72px", filter: "drop-shadow(0 0 25px rgba(255, 117, 195, 0.5))" }} />
-              </div>
-              <h1 style={{ fontSize: "clamp(48px, 8vw, 84px)", fontWeight: 950, letterSpacing: "-0.05em", lineHeight: 1, margin: 0 }}>
-                SRM Nexus
-              </h1>
-              <h2 style={{ fontSize: "clamp(20px, 3.5vw, 26px)", fontWeight: 800, color: "#FF75C3", letterSpacing: "-0.03em", margin: 0, lineHeight: 1.2 }}>
-                Your SRM academic life in one smart dashboard.
-              </h2>
-              <p style={{ fontSize: "16px", color: "rgba(255,255,255,0.55)", lineHeight: 1.7, margin: "0 0 16px", fontWeight: 500, maxWidth: "580px" }}>
-                Connect your academic portals, track attendance, predict marks, plan CGPA, manage timetable, and get AI study guidance from one secure student workspace.
-              </p>
-              <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", justifyContent: "center", width: "100%", maxWidth: "440px" }}>
-                <button
-                  type="button"
-                  onClick={launchDemo}
-                  style={{
-                    flex: 1,
-                    minWidth: "180px",
-                    padding: "18px 28px",
-                    background: "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%)",
-                    border: "1.5px solid rgba(255, 255, 255, 0.15)",
-                    color: "#ffffff",
-                    borderRadius: "16px",
-                    fontSize: "13px",
-                    fontWeight: 900,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.14em",
-                    cursor: "pointer",
-                    transition: "all 0.3s"
-                  }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.35)";
-                    e.currentTarget.style.background = "rgba(255, 255, 255, 0.15)";
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.15)";
-                    e.currentTarget.style.background = "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%)";
-                  }}
-                >
-                  Try Demo
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowLoginForm(true)}
-                  style={{
-                    flex: 1,
-                    minWidth: "180px",
-                    padding: "18px 28px",
-                    background: "linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%)",
-                    border: "none",
-                    color: "#000000",
-                    borderRadius: "16px",
-                    fontSize: "13px",
-                    fontWeight: 900,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.14em",
-                    cursor: "pointer",
-                    transition: "all 0.3s",
-                    boxShadow: "0 8px 24px rgba(255, 255, 255, 0.15)"
-                  }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.transform = "translateY(-4px)";
-                    e.currentTarget.style.boxShadow = "0 16px 36px rgba(255, 255, 255, 0.25)";
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.boxShadow = "0 8px 24px rgba(255, 255, 255, 0.15)";
-                  }}
-                >
-                  Connect Portal
-                </button>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px", fontSize: "11px", color: "rgba(255,255,255,0.5)", fontWeight: 600, textAlign: "left", marginTop: "32px", borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: "20px" }}>
+                  <div style={{ display: "flex", gap: "8px" }}>
+                    <span style={{ color: "#00E5FF" }}>✓</span>
+                    <span>Read-only academic sync</span>
+                  </div>
+                  <div style={{ display: "flex", gap: "8px" }}>
+                    <span style={{ color: "#00E5FF" }}>✓</span>
+                    <span>We don’t change official portal data</span>
+                  </div>
+                  <div style={{ display: "flex", gap: "8px" }}>
+                    <span style={{ color: "#00E5FF" }}>✓</span>
+                    <span>Disconnect anytime</span>
+                  </div>
+                  <div style={{ display: "flex", gap: "8px" }}>
+                    <span style={{ color: "#00E5FF" }}>✓</span>
+                    <span>Delete your data anytime</span>
+                  </div>
+                </div>
               </div>
             </div>
           )}
