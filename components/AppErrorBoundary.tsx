@@ -32,7 +32,7 @@ export default class AppErrorBoundary extends React.Component<React.PropsWithChi
     if (!this.state.hasError) return this.props.children;
 
     return (
-      <div className="page-root" style={{ display: "grid", placeItems: "center", padding: "24px", minHeight: "100vh" }}>
+      <div className="page-root" style={{ display: "grid", placeItems: "center", padding: "24px", minHeight: "100dvh" }}>
         <div className="min-card" style={{ maxWidth: "460px", width: "100%", textAlign: "center" }}>
           <div style={{ fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-secondary)", marginBottom: "8px" }}>
             Something went wrong

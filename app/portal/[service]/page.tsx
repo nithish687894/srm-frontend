@@ -13,7 +13,7 @@ export default function PortalServicePage({ params }: { params: { service: strin
   const serviceName = formatServiceName(params.service || "");
 
   return (
-    <div style={{ height: "100vh", width: "100vw", background: "#000", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+    <div style={{ height: "100dvh", width: "100vw", background: "#000", display: "flex", flexDirection: "column", overflow: "hidden" }}>
       <CyberBackground variant="purple" />
       <main style={{ flex: 1, overflowY: "auto", position: 'relative', zIndex: 1, WebkitOverflowScrolling: "touch" }}>
         

@@ -635,7 +635,7 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
   };
 
   return (
-    <div style={{ background: AURA.bg, minHeight: "100vh", display: "flex", flexDirection: "column", color: "#ffffff", fontFamily: "'Plus Jakarta Sans', sans-serif", position: "relative" }}>
+    <div style={{ background: "var(--app-bg)", minHeight: "100dvh", display: "flex", flexDirection: "column", color: "#ffffff", fontFamily: "'Plus Jakarta Sans', sans-serif", position: "relative" }}>
       <style dangerouslySetInnerHTML={{ __html: `
         
         .aura-blob {

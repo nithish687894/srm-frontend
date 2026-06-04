@@ -286,7 +286,7 @@ export default function NotificationCenterPage() {
   };
 
   return (
-    <div className="page-root" style={{ background: "var(--bg)", minHeight: "100vh", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="page-root" style={{ background: "var(--bg)", minHeight: "100dvh", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <main className="page-main" style={{ display: "flex", flexDirection: "column", padding: "24px 24px calc(120px + env(safe-area-inset-bottom))" }}>
         <div style={{ maxWidth: "600px", margin: "0 auto", width: "100%", display: "flex", flexDirection: "column" }}>
           {/* Header */}

@@ -24,6 +24,21 @@
   /* ── Structural ── */
   --radius: 20px;
   --border: #222;
+
+  /* ── Nexus Theme Variables ── */
+  --app-bg: #000000;
+  --card-bg: rgba(22, 22, 22, 0.72);
+  --card-border: rgba(255, 255, 255, 0.04);
+  --text-main: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.6);
+  --accent-primary: #a8c200;
+  --accent-secondary: #00ff00;
+  --nav-bg: rgba(10, 10, 12, 0.95);
+  --nav-border: rgba(255, 255, 255, 0.08);
+  --glow-primary: rgba(168, 194, 0, 0.15);
+  --skel-bg: rgba(255, 255, 255, 0.05);
+  --skel-card-bg: rgba(255, 255, 255, 0.02);
+  --skel-inner-bg: rgba(255, 255, 255, 0.03);
   /* ── Fonts ── */
   --font-main: var(--font-inter), system-ui, sans-serif;
   --font-heading: var(--font-inter), system-ui, sans-serif;
@@ -572,7 +587,7 @@ h4 { font-weight: 740; }
 
 /* Page layout */
 .page-root {
-  min-height: 100vh;
+  min-height: 100dvh;
   background: var(--bg-root);
 }
 .page-main {
@@ -809,7 +824,7 @@ h4 { font-weight: 740; }
 
 /* Native-style startup splash */
 .app-shell {
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .app-shell-loading {
@@ -1709,6 +1724,21 @@ body.theme-light, .theme-light {
   --shadow-panel: 0 -10px 40px rgba(0, 0, 0, 0.04);
   --shadow-elevated: 0 10px 40px rgba(0, 0, 0, 0.06);
 
+  /* Unified Theme Variables */
+  --app-bg: #f5f5f9;
+  --card-bg: rgba(255, 255, 255, 0.75);
+  --card-border: rgba(191, 90, 242, 0.12);
+  --text-main: #111111;
+  --text-muted: rgba(0, 0, 0, 0.55);
+  --accent-primary: #BF5AF2;
+  --accent-secondary: #6366f1;
+  --nav-bg: rgba(255, 255, 255, 0.85);
+  --nav-border: rgba(0, 0, 0, 0.06);
+  --glow-primary: rgba(191, 90, 242, 0.04);
+  --skel-bg: rgba(0, 0, 0, 0.06);
+  --skel-card-bg: rgba(255, 255, 255, 0.75);
+  --skel-inner-bg: rgba(0, 0, 0, 0.03);
+
   background:
     radial-gradient(ellipse 80% 50% at 20% 10%, rgba(191, 90, 242, 0.05), transparent 50%),
     radial-gradient(ellipse 60% 40% at 80% 90%, rgba(6, 182, 212, 0.04), transparent 50%),
@@ -1779,6 +1809,108 @@ body.theme-light, .theme-light {
   opacity: 0.05 !important;
 }
 
+/* Scoped overrides to map dark classes to light theme variants dynamically */
+.theme-light .text-white,
+.theme-light .text-white\/90,
+.theme-light .text-white\/80 {
+  color: var(--text-main) !important;
+}
+
+.theme-light .text-white\/70,
+.theme-light .text-white\/60,
+.theme-light .text-white\/45,
+.theme-light .text-white\/40,
+.theme-light .text-white\/30,
+.theme-light .text-white\/20 {
+  color: var(--text-muted) !important;
+}
+
+.theme-light .bg-black,
+.theme-light .bg-\[\#000\],
+.theme-light .bg-\[\#050505\],
+.theme-light .bg-\[\#050508\],
+.theme-light .bg-\[\#08080c\],
+.theme-light .bg-\[\#0f0f13\],
+.theme-light .bg-\[\#110c1e\],
+.theme-light .bg-[#110c1e]/95,
+.theme-light .bg-zinc-950 {
+  background-color: var(--app-bg) !important;
+}
+
+.theme-light .bg-white\/5,
+.theme-light .bg-white\/\[0\.05\],
+.theme-light .bg-white\/\[0\.02\],
+.theme-light .bg-white\/\[0\.03\] {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+
+.theme-light .bg-white\/10 {
+  background-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+.theme-light .bg-white\/\[0\.01\] {
+  background-color: rgba(0, 0, 0, 0.01) !important;
+}
+
+.theme-light .border-white\/5,
+.theme-light .border-white\/10,
+.theme-light .border-white\/\[0\.05\],
+.theme-light .border-white\/\[0\.08\],
+.theme-light .border-white\/\[0\.02\],
+.theme-light .border-white\/\[0\.04\],
+.theme-light .border-\[rgba\(255\,117\,195\,0\.1\)\] {
+  border-color: var(--card-border) !important;
+}
+
+/* Premium card classes mapping */
+.theme-light .aura-card,
+.theme-light .premium-card,
+.theme-light .liquid-card {
+  background: var(--card-bg) !important;
+  border-color: var(--card-border) !important;
+  box-shadow: 0 10px 30px rgba(191, 90, 242, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+}
+
+.theme-light .aura-card:hover,
+.theme-light .premium-card:hover,
+.theme-light .liquid-card:hover {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-color: rgba(191, 90, 242, 0.25) !important;
+  box-shadow: 0 15px 40px rgba(191, 90, 242, 0.08), 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+}
+
+.theme-light .aura-blob {
+  opacity: 0.12 !important;
+  background: radial-gradient(circle, rgba(191, 90, 242, 0.15), transparent 70%) !important;
+}
+
+.theme-light .twinkling-star {
+  display: none !important;
+}
+
+/* Inner panels of cards */
+.theme-light div[style*="background: rgba(0,0,0,0.3)"],
+.theme-light div[style*="background: rgba(0, 0, 0, 0.3)"],
+.theme-light div[style*="background: rgba(0,0,0,0.25)"],
+.theme-light div[style*="background: rgba(0, 0, 0, 0.25)"],
+.theme-light div[style*="background: rgba(0,0,0,0.2)"],
+.theme-light div[style*="background: rgba(0, 0, 0, 0.2)"] {
+  background: rgba(191, 90, 242, 0.03) !important;
+  border-color: var(--card-border) !important;
+}
+
+.theme-light div[style*="background: rgba(52, 199, 89, 0.05)"],
+.theme-light div[style*="background: rgba(255, 45, 85, 0.05)"] {
+  border-color: transparent !important;
+}
+
+.theme-light span[style*="color: rgb(255, 255, 255)"],
+.theme-light span[style*="color: #fff"],
+.theme-light div[style*="color: #fff"],
+.theme-light h3[style*="color: #fff"] {
+  color: var(--text-main) !important;
+}
+
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    SRM NEXUS - MOBILE SETTINGS & ACTION BUTTONS
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -1786,17 +1918,17 @@ body.theme-light, .theme-light {
 .settings-page-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
 }
 
 @media (max-width: 767px) {
   .settings-page-container {
     height: auto;
-    min-height: 100vh;
+    min-height: 100dvh;
     overflow-y: auto;
     /* Extra padding at the bottom to ensure content scrolls past sticky buttons */
-    padding-bottom: calc(140px + env(safe-area-inset-bottom)) !important;
+    padding-bottom: calc(120px + env(safe-area-inset-bottom)) !important;
   }
 }
 
@@ -1811,15 +1943,15 @@ body.theme-light, .theme-light {
 @media (max-width: 767px) {
   .sticky-mobile-action {
     position: fixed;
-    bottom: calc(72px + env(safe-area-inset-bottom));
+    bottom: calc(88px + env(safe-area-inset-bottom));
     left: 0;
     right: 0;
     width: 100%;
     padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
-    background: linear-gradient(to top, var(--bg-root, #000000) 80%, transparent 100%);
+    background: linear-gradient(to top, var(--app-bg, #000000) 80%, transparent 100%);
     box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.4);
     pointer-events: auto;
-    z-index: 90;
+    z-index: 40;
   }
   
   /* Apply selection gradients depending on active theme presets */

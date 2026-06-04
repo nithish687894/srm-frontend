@@ -1,20 +1,20 @@
 // Aura Design System Tokens
 
 export const AURA_COLORS = {
-  bg: "#050508",
-  cyan: "#38BDF8",      // Soothing sky-blue / cyan accents
-  pink: "#FF75C3",      // Highly vibrant, glowing hot pink
-  primary: "#FFA3D3",   // Dreamy, crystalline soft pastel pink
-  secondary: "#A78BFA", // Elegant pastel lavender
-  purple: "#C084FC",    // Lumina brand soft amethyst purple
-  accent: "#A7F3D0",    // Calming mint accent
+  bg: "var(--app-bg, #050508)",
+  cyan: "var(--accent-cyan, #38BDF8)",      // Soothing sky-blue / cyan accents
+  pink: "var(--accent, #FF75C3)",      // Highly vibrant, glowing hot pink
+  primary: "var(--accent-primary, #FFA3D3)",   // Dreamy, crystalline soft pastel pink
+  secondary: "var(--accent-secondary, #A78BFA)", // Elegant pastel lavender
+  purple: "var(--accent-purple, #C084FC)",    // Lumina brand soft amethyst purple
+  accent: "var(--accent-secondary, #A7F3D0)",    // Calming mint accent
   amber: "#FBBF24",     // Soothing golden amber (warning status)
   emerald: "#34D399",   // Calm pastel emerald
   green: "#34D399",     // Safe status (soft green)
   red: "#FF4B72",       // Rich neon ruby red (critical warning)
-  text: "#ffffff",
-  sub: "rgba(255, 255, 255, 0.52)",
-  subBright: "rgba(255, 255, 255, 0.72)",
+  text: "var(--text-main, #ffffff)",
+  sub: "var(--text-muted, rgba(255, 255, 255, 0.52))",
+  subBright: "var(--text-muted, rgba(255, 255, 255, 0.72))",
 };
 
 export const AURA_TRANSITIONS = {

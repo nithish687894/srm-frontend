@@ -96,7 +96,7 @@ export default function AppToolsPage() {
   const initials = profile.name ? profile.name.split(' ').filter(Boolean).map((n:AnyValue)=>n[0]).join('').slice(0,2).toUpperCase() : "NK";
 
   return (
-    <div style={{ height: "100vh", width: "100vw", background: isLumina ? AURA_COLORS.bg : THEME.bg, color: "#fff", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+    <div style={{ height: "100dvh", width: "100vw", background: "var(--app-bg)", color: "#fff", display: "flex", flexDirection: "column", overflow: "hidden" }}>
       <style dangerouslySetInnerHTML={{ __html: `
         * { box-sizing: border-box; }
         

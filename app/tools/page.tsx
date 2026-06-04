@@ -33,7 +33,7 @@ export default function ToolsHubPage() {
   if (!mounted) return <LoadingSkeleton />;
 
   return (
-    <div style={{ background: isLumina ? AURA_COLORS.bg : THEME.bg, height: "100vh", display: "flex", flexDirection: "column", color: "#fff", fontFamily: "'Plus Jakarta Sans', sans-serif", overflow: 'hidden' }}>
+    <div style={{ background: "var(--app-bg)", height: "100dvh", display: "flex", flexDirection: "column", color: "#fff", fontFamily: "'Plus Jakarta Sans', sans-serif", overflow: 'hidden' }}>
       <style dangerouslySetInnerHTML={{ __html: `
         * { box-sizing: border-box; }
         

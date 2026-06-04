@@ -106,7 +106,7 @@ export default function MarksPage() {
 
 
   return (
-    <div style={{ minHeight: "100vh", width: "100%", background: THEME.bg, color: "#fff", display: "flex", flexDirection: "column", position: "relative" }}>
+    <div style={{ minHeight: "100dvh", width: "100%", background: "var(--app-bg)", color: "#fff", display: "flex", flexDirection: "column", position: "relative" }}>
       <style dangerouslySetInnerHTML={{ __html: `
         * { box-sizing: border-box; }
         body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background: ${THEME.bg}; }

@@ -55,7 +55,7 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
       
       <div 
         className={`theme-${resolvedTheme}`} 
-        style={{ minHeight: "100vh", width: "100%", position: 'relative', zIndex: 1 }}
+        style={{ minHeight: "100dvh", width: "100%", position: 'relative', zIndex: 1 }}
       >
         <VersionGuard />
         {children}

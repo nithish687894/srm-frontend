@@ -16,9 +16,10 @@ interface AuraBackgroundProps {
 export default function AuraBackground({ theme, stars, children, style = {} }: AuraBackgroundProps) {
   return (
     <div 
+      className="aura-background-root"
       style={{ 
-        background: theme.bg,
-        minHeight: "100vh", 
+        background: "var(--app-bg)",
+        minHeight: "100dvh",
         display: "flex", 
         flexDirection: "column", 
         color: AURA_COLORS.text, 
@@ -29,6 +30,7 @@ export default function AuraBackground({ theme, stars, children, style = {} }: A
         width: '100%',
         // Pass card border dynamically as a CSS variable for unified theme-to-card bounds
         ["--card-border" as AnyValue]: theme.cardBorder,
+        ["--app-bg" as AnyValue]: theme.bg,
         ...style
       }}
     >

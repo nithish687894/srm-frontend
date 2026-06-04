@@ -263,7 +263,7 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEndHandler}
       className="swipe-wrapper"
-      style={{ overflowX: "hidden", position: "relative", minHeight: "100vh" }}
+      style={{ overflowX: "hidden", position: "relative", minHeight: "100dvh" }}
     >
       {/* Pull to Refresh Indicator */}
       {pullDist > 10 && (

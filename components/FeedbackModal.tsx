@@ -78,6 +78,8 @@ export default function FeedbackModal({ onClose, showToast }: FeedbackModalProps
         onClick={(e) => e.stopPropagation()}
         style={{
           width: "min(100%, 420px)",
+          maxHeight: "calc(100dvh - 40px)",
+          overflowY: "auto",
           background: isLight ? "#fff" : "#0f0f13",
           border: `1.5px solid ${isLight ? "rgba(0,0,0,0.06)" : "rgba(255,255,255,0.08)"}`,
           borderRadius: "28px",

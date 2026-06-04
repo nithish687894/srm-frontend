@@ -202,11 +202,12 @@ export default function PortalSyncModal({
 
   const cardStyle: React.CSSProperties = {
     width: "390px",
+    maxHeight: "calc(100dvh - 40px)",
+    overflowY: "auto",
     background: "linear-gradient(135deg, #09090e 0%, #12121f 100%)",
     borderRadius: "28px",
     border: colors.cardBorder,
     boxShadow: "0 25px 60px -15px rgba(0, 0, 0, 0.9), " + colors.cardShadowGlow + ", inset 0 1px 0 rgba(255, 255, 255, 0.08)",
-    overflow: "hidden",
     color: "#fff",
     position: "relative",
     fontFamily: "'Inter', system-ui, -apple-system, sans-serif",

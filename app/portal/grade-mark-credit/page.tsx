@@ -88,7 +88,7 @@ export default function GradeMarkCreditPage() {
   const displayMarks = activeTab === "evaluated" ? marksData : arrearsData;
 
   return (
-    <div style={{ height: "100vh", width: "100vw", background: THEME.bg, color: "#fff", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+    <div style={{ height: "100dvh", width: "100vw", background: "var(--app-bg)", color: "#fff", display: "flex", flexDirection: "column", overflow: "hidden" }}>
       <style dangerouslySetInnerHTML={{ __html: `
         * { box-sizing: border-box; }
         body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background: ${THEME.bg}; }

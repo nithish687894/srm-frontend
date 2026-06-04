@@ -629,7 +629,7 @@ export default function Sidebar() {
           <div 
             className="more-drawer fixed bottom-0 left-0 right-0 max-h-[88vh] z-[99999] rounded-t-[28px] flex flex-col overflow-hidden"
             style={{ 
-              background: "#110c1e",
+              background: "var(--card-bg, #110c1e)",
               boxShadow: `0 -20px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.06)`,
               animation: 'slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
               paddingBottom: 'calc(20px + env(safe-area-inset-bottom))'
@@ -672,7 +672,7 @@ export default function Sidebar() {
                   <>
                     <div 
                       className="shrink-0 flex flex-col w-full relative z-10"
-                      style={{ background: "#110c1e" }}
+                      style={{ background: "var(--card-bg, #110c1e)" }}
                     >
                       {/* Drag Bar Handle */}
                       <div 

@@ -3,10 +3,11 @@
 export default function LoadingSkeleton() {
   return (
     <main
+      className="aura-background-root"
       style={{
-        minHeight: "100vh",
-        background: "#050508",
-        color: "#fff",
+        minHeight: "100dvh",
+        background: "var(--app-bg)",
+        color: "var(--text-main)",
         padding: "80px 20px 160px",
         fontFamily: "'Plus Jakarta Sans', sans-serif",
         position: "relative",
@@ -15,6 +16,7 @@ export default function LoadingSkeleton() {
     >
       {/* Aura background blobs */}
       <div
+        className="aura-blob"
         style={{
           position: "fixed",
           top: "-200px",
@@ -30,6 +32,7 @@ export default function LoadingSkeleton() {
         }}
       />
       <div
+        className="aura-blob"
         style={{
           position: "fixed",
           bottom: "-200px",
@@ -55,7 +58,7 @@ export default function LoadingSkeleton() {
               width: "120px",
               height: "12px",
               borderRadius: "8px",
-              background: "rgba(255,255,255,0.06)",
+              background: "var(--skel-bg)",
               marginBottom: "12px",
             }}
           />
@@ -65,7 +68,7 @@ export default function LoadingSkeleton() {
               width: "220px",
               height: "28px",
               borderRadius: "14px",
-              background: "rgba(255,255,255,0.05)",
+              background: "var(--skel-bg)",
             }}
           />
         </div>
@@ -76,8 +79,8 @@ export default function LoadingSkeleton() {
             key={i}
             className="skel-pulse"
             style={{
-              background: "rgba(255,255,255,0.02)",
-              border: "1px solid rgba(255,255,255,0.05)",
+              background: "var(--skel-card-bg)",
+              border: "1px solid var(--card-border)",
               borderRadius: "24px",
               padding: "24px",
               marginBottom: "16px",
@@ -91,7 +94,7 @@ export default function LoadingSkeleton() {
                   width: "48px",
                   height: "48px",
                   borderRadius: "14px",
-                  background: "rgba(255,255,255,0.05)",
+                  background: "var(--skel-bg)",
                   flexShrink: 0,
                 }}
               />
@@ -101,7 +104,7 @@ export default function LoadingSkeleton() {
                     width: "60%",
                     height: "14px",
                     borderRadius: "8px",
-                    background: "rgba(255,255,255,0.05)",
+                    background: "var(--skel-bg)",
                     marginBottom: "8px",
                   }}
                 />
@@ -110,7 +113,7 @@ export default function LoadingSkeleton() {
                     width: "40%",
                     height: "10px",
                     borderRadius: "6px",
-                    background: "rgba(255,255,255,0.03)",
+                    background: "var(--skel-inner-bg)",
                   }}
                 />
               </div>
@@ -121,7 +124,7 @@ export default function LoadingSkeleton() {
                   flex: 1,
                   height: "36px",
                   borderRadius: "12px",
-                  background: "rgba(255,255,255,0.03)",
+                  background: "var(--skel-inner-bg)",
                 }}
               />
               <div
@@ -129,7 +132,7 @@ export default function LoadingSkeleton() {
                   flex: 1,
                   height: "36px",
                   borderRadius: "12px",
-                  background: "rgba(255,255,255,0.03)",
+                  background: "var(--skel-inner-bg)",
                 }}
               />
             </div>
@@ -146,8 +149,8 @@ export default function LoadingSkeleton() {
                 flex: 1,
                 height: "72px",
                 borderRadius: "20px",
-                background: "rgba(255,255,255,0.02)",
-                border: "1px solid rgba(255,255,255,0.04)",
+                background: "var(--skel-card-bg)",
+                border: "1px solid var(--card-border)",
                 animationDelay: `${(i + 3) * 150}ms`,
               }}
             />
