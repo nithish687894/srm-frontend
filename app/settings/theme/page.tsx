@@ -44,7 +44,7 @@ export default function ThemeSettingsPage() {
   if (!mounted) return null;
 
   return (
-    <div style={{ background: "var(--bg)", height: "100vh", width: "100vw", padding: "24px", fontFamily: "'Plus Jakarta Sans', sans-serif", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+    <div className="settings-page-container" style={{ background: "var(--bg)", width: "100%", padding: "24px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "40px", flexShrink: 0 }}>
         <button onClick={() => router.back()} style={{ background: "none", border: "none", color: "var(--text-primary)", fontSize: "24px", cursor: "pointer" }}>←</button>
         <h1 style={{ fontSize: "24px", fontWeight: 800, color: "var(--text-primary)" }}>Select Theme</h1>
@@ -78,19 +78,21 @@ export default function ThemeSettingsPage() {
         </div>
       </main>
 
-      <button 
-        onClick={handleApply}
-        style={{ 
-          width: "100%", padding: "18px", borderRadius: "16px", border: "none", flexShrink: 0,
-          background: selected === "light" ? "#BF5AF2" : "#FF75C3",
-          color: selected === "light" ? "#fff" : "#000",
-          fontSize: "14px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em",
-          cursor: "pointer", transition: "all 0.3s",
-          boxShadow: selected === "light" ? "0 10px 30px rgba(191,90,242,0.3)" : "0 10px 30px rgba(255,117,195,0.3)"
-        }}
-      >
-        Apply Selection
-      </button>
+      <div className="sticky-mobile-action" style={{ flexShrink: 0 }}>
+        <button 
+          onClick={handleApply}
+          style={{ 
+            width: "100%", padding: "18px", borderRadius: "16px", border: "none",
+            background: selected === "light" ? "#BF5AF2" : "#FF75C3",
+            color: selected === "light" ? "#fff" : "#000",
+            fontSize: "14px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em",
+            cursor: "pointer", transition: "all 0.3s",
+            boxShadow: selected === "light" ? "0 10px 30px rgba(191,90,242,0.3)" : "0 10px 30px rgba(255,117,195,0.3)"
+          }}
+        >
+          Apply Selection
+        </button>
+      </div>
     </div>
   );
 }

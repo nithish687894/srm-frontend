@@ -1778,3 +1778,68 @@ body.theme-light, .theme-light {
   color: #000000 !important;
   opacity: 0.05 !important;
 }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SRM NEXUS - MOBILE SETTINGS & ACTION BUTTONS
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.settings-page-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+@media (max-width: 767px) {
+  .settings-page-container {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+    /* Extra padding at the bottom to ensure content scrolls past sticky buttons */
+    padding-bottom: calc(140px + env(safe-area-inset-bottom)) !important;
+  }
+}
+
+.sticky-mobile-action {
+  position: relative;
+  width: 100%;
+  padding: 16px 0;
+  z-index: 10;
+  background: transparent;
+}
+
+@media (max-width: 767px) {
+  .sticky-mobile-action {
+    position: fixed;
+    bottom: calc(72px + env(safe-area-inset-bottom));
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+    background: linear-gradient(to top, var(--bg-root, #000000) 80%, transparent 100%);
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.4);
+    pointer-events: auto;
+    z-index: 90;
+  }
+  
+  /* Apply selection gradients depending on active theme presets */
+  .theme-matrix .sticky-mobile-action,
+  .theme-ghost .sticky-mobile-action {
+    background: linear-gradient(to top, var(--bg-root, #000000) 80%, transparent 100%);
+  }
+  
+  .theme-aura .sticky-mobile-action,
+  .theme-lumina .sticky-mobile-action {
+    background: linear-gradient(to top, #050508 80%, transparent 100%);
+  }
+  
+  .theme-cosmos .sticky-mobile-action {
+    background: linear-gradient(to top, #0A061F 80%, transparent 100%);
+  }
+  
+  .theme-light .sticky-mobile-action {
+    background: linear-gradient(to top, #f5f5f9 80%, transparent 100%);
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.05);
+  }
+}
+

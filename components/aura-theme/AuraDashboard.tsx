@@ -40,7 +40,7 @@ export default function AuraDashboard({
     const attList = data?.attendance || 
                     data?.academia?.attendance || 
                     data?.studentPortal?.attendance || [];
-    const found = attList.find((c: any) => (c["Course Code"] || c.courseCode) === courseCode);
+    const found = attList.find((c: AnyValue) => (c["Course Code"] || c.courseCode) === courseCode);
     if (found) {
       const title = found["Course Title"] || found.courseTitle || found.courseName;
       if (title) return title;

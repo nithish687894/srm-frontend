@@ -7,7 +7,7 @@ import { useAuthStore } from "@/lib/store";
 export default function InstallPWA() {
   const { theme } = useThemeStore();
   const { academicData, studentPortalData } = useAuthStore();
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState<AnyValue>(null);
   const [showPopup, setShowPopup] = useState(false);
   const [showIosHelp, setShowIosHelp] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
@@ -30,8 +30,8 @@ export default function InstallPWA() {
   useEffect(() => {
     // 1. If already standalone/installed, do not show banner
     if (typeof window !== "undefined") {
-      if (window.matchMedia("(display-mode: standalone)").matches || (window.navigator as any).standalone === true) {
-        setIsStandalone(true);
+      if (window.matchMedia("(display-mode: standalone)").matches || (window.navigator as AnyValue).standalone === true) {
+        setTimeout(() => setIsStandalone(true), 0);
         return;
       }
     }
@@ -55,7 +55,7 @@ export default function InstallPWA() {
     const dismissedAndroid = localStorage.getItem("pwaInstallDismissed") === "true";
     if (dismissedAndroid) return;
 
-    const handler = (e: any) => {
+    const handler = (e: AnyValue) => {
       e.preventDefault();
       setDeferredPrompt(e);
       // Show after 3 seconds of seeing useful data
@@ -102,13 +102,12 @@ export default function InstallPWA() {
         <div
           style={{
             position: "fixed",
-            bottom: "108px",
+            bottom: "calc(96px + env(safe-area-inset-bottom))",
             left: "20px",
             right: "20px",
             zIndex: 99999,
             display: "flex",
-            justifyContent: "center",
-            paddingBottom: "env(safe-area-inset-bottom)"
+            justifyContent: "center"
           }}
         >
           <div style={{

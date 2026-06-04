@@ -70,7 +70,8 @@ export default function FeedbackModal({ onClose, showToast }: FeedbackModalProps
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: "20px"
+        padding: "20px",
+        overflowY: "auto"
       }}
     >
       <div
@@ -85,7 +86,8 @@ export default function FeedbackModal({ onClose, showToast }: FeedbackModalProps
           display: "flex",
           flexDirection: "column",
           gap: "18px",
-          fontFamily: "'Plus Jakarta Sans', sans-serif"
+          fontFamily: "'Plus Jakarta Sans', sans-serif",
+          margin: "auto"
         }}
       >
         {/* Header */}
@@ -118,7 +120,7 @@ export default function FeedbackModal({ onClose, showToast }: FeedbackModalProps
           <label style={{ fontSize: "10.5px", color: isLight ? "#666" : "rgba(255,255,255,0.45)", fontWeight: 800, textTransform: "uppercase" }}>Category</label>
           <select
             value={category}
-            onChange={(e) => setCategory(e.target.value as any)}
+            onChange={(e) => setCategory(e.target.value as "feedback" | "bug" | "feature")}
             style={{
               width: "100%",
               padding: "14px",

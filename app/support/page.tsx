@@ -59,7 +59,7 @@ export default function SupportPage() {
   const isLight = theme === "light";
   const activeAccent = isLight ? "#BF5AF2" : "var(--accent)";
 
-  const categoriesList: { id: SupportCategory; label: string; icon: any; color: string; bg: string }[] = [
+  const categoriesList: { id: SupportCategory; label: string; icon: AnyValue; color: string; bg: string }[] = [
     { id: "feedback", label: "Feedback", icon: MessageSquare, color: "#34C759", bg: "rgba(52, 199, 89, 0.08)" },
     { id: "bug", label: "Report Bug", icon: AlertTriangle, color: "#FF3B30", bg: "rgba(255, 59, 48, 0.08)" },
     { id: "feature", label: "Request Feature", icon: Sparkles, color: "#00E5FF", bg: "rgba(0, 229, 255, 0.08)" }
@@ -68,7 +68,7 @@ export default function SupportPage() {
   return (
     <div className="page-root" style={{ background: "var(--bg)" }}>
       <main className="page-main">
-        <div className="page-content" style={{ paddingBottom: "120px", maxWidth: "700px", margin: "0 auto" }}>
+        <div className="page-content" style={{ paddingBottom: "calc(120px + env(safe-area-inset-bottom))", maxWidth: "700px", margin: "0 auto" }}>
           
           {/* Header */}
           <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "32px" }}>

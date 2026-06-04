@@ -197,6 +197,7 @@ export default function PortalSyncModal({
     backdropFilter: "blur(20px)",
     WebkitBackdropFilter: "blur(20px)",
     animation: "fadeIn 0.3s ease-out",
+    overflowY: "auto",
   };
 
   const cardStyle: React.CSSProperties = {
@@ -212,6 +213,7 @@ export default function PortalSyncModal({
     transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
     transform: isOpen ? "scale(1)" : "scale(0.95)",
     opacity: isOpen ? 1 : 0,
+    margin: "auto",
   };
 
   const closeButtonStyle: React.CSSProperties = {

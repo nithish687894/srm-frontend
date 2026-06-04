@@ -66,7 +66,7 @@ function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>, 
   const dayRows = gridRows.filter((r: AnyValue) => typeof r[0] === "string" && r[0].startsWith("Day"));
 
   const resolveTitle = (code: string, fallback: string) => {
-    const found = attendance.find((c: any) => (c["Course Code"] || c.courseCode) === code);
+    const found = attendance.find((c: AnyValue) => (c["Course Code"] || c.courseCode) === code);
     return found?.["Course Title"] || found?.courseTitle || found?.courseName || fallback;
   };
 
@@ -687,7 +687,7 @@ export default function DashboardPage() {
   const totalSafeSkips = useMemo(() => {
     return att.reduce((sum: number, c: AnyValue) => {
       let cond = parseInt(c["Hours Conducted"] || c.conducted) || 0;
-      let absent = parseInt(c["Hours Absent"] || c.absent) || 0;
+      const absent = parseInt(c["Hours Absent"] || c.absent) || 0;
       let present = parseInt(c["Hours Attended"] || c.attended) || Math.max(0, cond - absent);
       const pctStr = c["Attn %"] || c.pct;
       const pct = parseFloat(pctStr) || 0;

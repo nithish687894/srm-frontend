@@ -28,15 +28,11 @@ export default function NotificationsSettingsPage() {
   const accentColor = isLight ? "#BF5AF2" : "#FF75C3";
 
   return (
-    <div style={{ 
+    <div className="settings-page-container" style={{ 
       background: "var(--bg)", 
-      height: "100vh", 
-      width: "100vw", 
+      width: "100%", 
       padding: "24px", 
-      fontFamily: "'Plus Jakarta Sans', sans-serif", 
-      display: "flex", 
-      flexDirection: "column", 
-      overflow: "hidden" 
+      fontFamily: "'Plus Jakarta Sans', sans-serif"
     }}>
       {/* Header */}
       <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "40px", flexShrink: 0 }}>
@@ -140,19 +136,21 @@ export default function NotificationsSettingsPage() {
       </main>
 
       {/* Done Button */}
-      <button 
-        onClick={() => router.back()}
-        style={{ 
-          width: "100%", padding: "18px", borderRadius: "16px", border: "none", flexShrink: 0,
-          background: accentColor,
-          color: isLight ? "#fff" : "#000",
-          fontSize: "14px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em",
-          cursor: "pointer", transition: "all 0.3s",
-          boxShadow: `0 10px 30px rgba(${isLight ? "191,90,242" : "255,117,195"}, 0.25)`
-        }}
-      >
-        Done
-      </button>
+      <div className="sticky-mobile-action" style={{ flexShrink: 0 }}>
+        <button 
+          onClick={() => router.back()}
+          style={{ 
+            width: "100%", padding: "18px", borderRadius: "16px", border: "none",
+            background: accentColor,
+            color: isLight ? "#fff" : "#000",
+            fontSize: "14px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em",
+            cursor: "pointer", transition: "all 0.3s",
+            boxShadow: `0 10px 30px rgba(${isLight ? "191,90,242" : "255,117,195"}, 0.25)`
+          }}
+        >
+          Done
+        </button>
+      </div>
       {toast && (
         <Toast
           title={toast.title}
