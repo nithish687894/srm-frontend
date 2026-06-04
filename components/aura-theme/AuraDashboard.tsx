@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { 
   Sparkles, Activity, Award, Compass, User, Zap, Coffee, ChevronRight, Fingerprint, Bell
 } from "lucide-react";
@@ -8,9 +8,9 @@ import { WhatIfCalculator } from "./WhatIfCalculator";
 import { useAuraTheme } from "./system/useAuraTheme";
 import AuraBackground from "./effects/AuraBackground";
 import { AURA_COLORS } from "./system/theme-tokens";
-import Toast from "../Toast";
-import { enableAcademicAlerts } from "@/lib/notifications";
 import { useAuthStore } from "@/lib/store";
+import Toast from "@/components/Toast";
+import { enableAcademicAlerts } from "@/lib/notificationHelper";
 
 const AURA = AURA_COLORS;
 
@@ -24,13 +24,16 @@ export default function AuraDashboard({
   const router = useRouter();
   const { activeTheme, stars } = useAuraTheme();
   
-  const [activeToast, setActiveToast] = useState<{ title: string; body: string; type: "success" | "error" | "info" } | null>(null);
-
   // Notification prompt state selectors
   const academicAlertsPrompted = useAuthStore((state) => state.academicAlertsPrompted);
   const academicAlertsEnabled = useAuthStore((state) => state.academicAlertsEnabled);
   const setAcademicAlertsPrompted = useAuthStore((state) => state.setAcademicAlertsPrompted);
   const setAcademicAlertsEnabled = useAuthStore((state) => state.setAcademicAlertsEnabled);
+
+  const [toast, setToast] = React.useState<{ title: string; body: string; type: "success" | "error" | "info" } | null>(null);
+  const showToast = (title: string, body: string, type: "success" | "error" | "info" = "success") => {
+    setToast({ title, body, type });
+  };
 
   const getSubjectName = (courseCode: string, fallbackTitle?: string) => {
     if (!courseCode) return fallbackTitle || "";
@@ -218,13 +221,8 @@ export default function AuraDashboard({
                 Maybe later
               </button>
               <button
-                onClick={async () => {
-                  const result = await enableAcademicAlerts();
-                  setActiveToast({
-                    title: result.toast.title,
-                    body: result.toast.body,
-                    type: result.success ? "success" : "info"
-                  });
+                onClick={() => {
+                  enableAcademicAlerts(showToast);
                 }}
                 style={{
                   background: 'var(--accent-secondary)',
@@ -512,12 +510,12 @@ export default function AuraDashboard({
             </div>
          </section>
       </main>
-      {activeToast && (
+      {toast && (
         <Toast
-          title={activeToast.title}
-          body={activeToast.body}
-          type={activeToast.type}
-          onClose={() => setActiveToast(null)}
+          title={toast.title}
+          body={toast.body}
+          type={toast.type}
+          onClose={() => setToast(null)}
         />
       )}
     </AuraBackground>

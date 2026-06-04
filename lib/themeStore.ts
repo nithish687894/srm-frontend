@@ -11,11 +11,11 @@ interface ThemeStore {
 export const useThemeStore = create<ThemeStore>()(
   persist(
     (set) => ({
-      theme: "system",
+      theme: "lumina",
       setTheme: (theme: ThemeType) => set({ theme }),
     }),
     {
-      name: "themePreference",
+      name: "srmx-theme",
     }
   )
 );

@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { X, CheckCircle2, AlertTriangle, Info } from "lucide-react";
+import { CheckCircle2, AlertCircle, Info, X } from "lucide-react";
 import { useThemeStore } from "@/lib/themeStore";
 
 export interface ToastProps {
@@ -12,76 +12,98 @@ export interface ToastProps {
 }
 
 export default function Toast({ title, body, type = "success", duration = 4000, onClose }: ToastProps) {
+  const [visible, setVisible] = useState(true);
   const { theme } = useThemeStore();
-  const [visible, setVisible] = useState(false);
+  const isLight = theme === "light";
 
   useEffect(() => {
-    const showId = setTimeout(() => setVisible(true), 50);
-    const hideId = setTimeout(() => {
+    const timer = setTimeout(() => {
       setVisible(false);
-      setTimeout(onClose, 300);
+      setTimeout(onClose, 300); // Wait for fade-out animation
     }, duration);
 
-    return () => {
-      clearTimeout(showId);
-      clearTimeout(hideId);
-    };
+    return () => clearTimeout(timer);
   }, [duration, onClose]);
 
-  const isLight = theme === "light";
-  
-  const getColors = () => {
-    if (type === "success") return { color: "#34C759", bg: "rgba(52, 199, 89, 0.08)", icon: CheckCircle2 };
-    if (type === "error") return { color: "#FF3B30", bg: "rgba(255, 59, 48, 0.08)", icon: AlertTriangle };
-    return { color: isLight ? "#6366f1" : "#8F92FF", bg: isLight ? "rgba(99, 102, 241, 0.08)" : "rgba(143, 146, 255, 0.08)", icon: Info };
+  const getThemeStyles = () => {
+    if (isLight) {
+      return {
+        bg: "rgba(255, 255, 255, 0.95)",
+        border: "rgba(0, 0, 0, 0.08)",
+        color: "#111",
+        subColor: "#666",
+        shadow: "0 10px 30px rgba(0, 0, 0, 0.08)"
+      };
+    }
+    return {
+      bg: "rgba(18, 15, 25, 0.9)",
+      border: "rgba(255, 255, 255, 0.08)",
+      color: "#fff",
+      subColor: "rgba(255, 255, 255, 0.6)",
+      shadow: "0 10px 40px rgba(0, 0, 0, 0.5)"
+    };
   };
 
-  const { color, bg, icon: Icon } = getColors();
+  const getIconStyles = () => {
+    switch (type) {
+      case "error":
+        return { icon: AlertCircle, color: "#FF3B30", bg: "rgba(255, 59, 48, 0.1)" };
+      case "info":
+        return { icon: Info, color: "#00E5FF", bg: "rgba(0, 229, 255, 0.1)" };
+      default: // success
+        return { icon: CheckCircle2, color: isLight ? "#BF5AF2" : "#FF75C3", bg: isLight ? "rgba(191, 90, 242, 0.1)" : "rgba(255, 117, 195, 0.1)" };
+    }
+  };
+
+  const ts = getThemeStyles();
+  const ic = getIconStyles();
+  const IconComponent = ic.icon;
 
   return (
     <div
       style={{
         position: "fixed",
-        top: "24px",
+        top: "32px",
         left: "50%",
-        transform: visible ? "translate(-50%, 0)" : "translate(-50%, -120px)",
+        transform: `translateX(-50%) translateY(${visible ? "0" : "-40px"})`,
         opacity: visible ? 1 : 0,
         zIndex: 999999,
-        width: "min(calc(100% - 32px), 420px)",
-        background: isLight ? "rgba(255, 255, 255, 0.92)" : "rgba(15, 10, 25, 0.92)",
-        backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)",
-        border: `1px solid ${isLight ? "rgba(0,0,0,0.08)" : "rgba(255,255,255,0.08)"}`,
-        borderLeft: `4px solid ${color}`,
-        borderRadius: "20px",
-        padding: "16px 20px",
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between",
         gap: "14px",
-        boxShadow: isLight ? "0 10px 30px rgba(0,0,0,0.08)" : "0 20px 50px rgba(0,0,0,0.55)",
-        transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)"
+        background: ts.bg,
+        border: `1.5px solid ${ts.border}`,
+        borderRadius: "20px",
+        padding: "16px 20px",
+        width: "min(calc(100% - 32px), 400px)",
+        boxShadow: ts.shadow,
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
+        pointerEvents: "auto"
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: "12px", flex: 1 }}>
-        <div style={{
+      <div
+        style={{
           width: "36px",
           height: "36px",
           borderRadius: "10px",
-          background: bg,
-          color: color,
+          background: ic.bg,
+          color: ic.color,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           flexShrink: 0
-        }}>
-          <Icon size={18} />
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
-          <span style={{ fontSize: "13px", fontWeight: 800, color: "var(--text-primary)" }}>{title}</span>
-          <span style={{ fontSize: "11.5px", color: "var(--text-secondary)", lineHeight: 1.35 }}>{body}</span>
-        </div>
+        }}
+      >
+        <IconComponent size={18} />
       </div>
+
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "2px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+        <span style={{ fontSize: "13px", fontWeight: 800, color: ts.color }}>{title}</span>
+        <span style={{ fontSize: "11px", fontWeight: 500, color: ts.subColor, lineHeight: 1.4 }}>{body}</span>
+      </div>
+
       <button
         onClick={() => {
           setVisible(false);
@@ -90,15 +112,19 @@ export default function Toast({ title, body, type = "success", duration = 4000, 
         style={{
           background: "none",
           border: "none",
-          color: "var(--text-muted)",
+          color: ts.subColor,
           cursor: "pointer",
           padding: "4px",
           display: "flex",
           alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "center",
+          opacity: 0.7,
+          transition: "opacity 0.2s"
         }}
+        onMouseEnter={(e) => e.currentTarget.style.opacity = "1"}
+        onMouseLeave={(e) => e.currentTarget.style.opacity = "0.7"}
       >
-        <X size={16} />
+        <X size={14} />
       </button>
     </div>
   );

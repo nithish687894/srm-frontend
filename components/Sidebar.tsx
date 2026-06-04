@@ -8,6 +8,7 @@ import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import PortalSyncModal from "@/components/PortalSyncModal";
 import FeedbackModal from "@/components/FeedbackModal";
+import Toast from "@/components/Toast";
 import {
   Home, BarChart2, CheckCircle, Clock, Calendar, Wrench, Sparkles, Shield,
   X, ChevronRight, CreditCard, FileText, Bed, Bus, Bell, Award, MonitorPlay, Printer, Briefcase, UserSquare, User, GraduationCap, BookOpen, Settings, MoreHorizontal, Share2, LogOut, LayoutTemplate, LifeBuoy, MessageSquare,
@@ -54,8 +55,13 @@ export default function Sidebar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const { theme } = useThemeStore();
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const [toast, setToast] = useState<{ title: string; body: string; type: "success" | "error" | "info" } | null>(null);
+
+  const showToast = (title: string, body: string, type: "success" | "error" | "info" = "success") => {
+    setToast({ title, body, type });
+  };
 
   const { profile, email, academiaConnected, studentPortalConnected, studentPortalData, academicData } = useAuthStore();
   const userEmail = (email || profile?.Email || "").toLowerCase();
@@ -492,6 +498,9 @@ export default function Sidebar() {
                 <button onClick={() => { setMenuOpen(false); router.push("/support"); }} className="w-full bg-white/5 border border-white/10 text-white flex items-center gap-4 p-4 rounded-2xl font-bold text-sm text-left">
                   <LifeBuoy size={20} color="#3673ff" /> Help & Support
                 </button>
+                <button onClick={() => { setMenuOpen(false); setFeedbackOpen(true); }} className="w-full bg-white/5 border border-white/10 text-white flex items-center gap-4 p-4 rounded-2xl font-bold text-sm text-left">
+                  <MessageSquare size={20} color="#34C759" /> Report Bug / Feedback
+                </button>
               </div>
               <div className="h-px bg-white/5 w-full" />
               <button onClick={handleLogout} className="w-full bg-red-500/10 border border-red-500/20 text-red-500 p-4 rounded-2xl text-[10px] font-black tracking-widest uppercase flex items-center justify-center gap-2">
@@ -825,14 +834,6 @@ export default function Sidebar() {
                           color="#00aaff" 
                         />
                         <RowItem 
-                          href="#"
-                          label="Report Bug / Feedback" 
-                          subtitle="Submit feature requests or report bugs" 
-                          icon={MessageSquare} 
-                          color="#bf00ff" 
-                          onClick={() => { setMoreOpen(false); setShowFeedbackModal(true); }}
-                        />
-                        <RowItem 
                           href="#" 
                           label="Logout" 
                           subtitle="Safely terminate your local active session" 
@@ -905,8 +906,20 @@ export default function Sidebar() {
         netId={profile?.["Registration Number"] || profile?.RegNo || ""}
       />
 
-      {showFeedbackModal && (
-        <FeedbackModal onClose={() => setShowFeedbackModal(false)} />
+      {feedbackOpen && (
+        <FeedbackModal
+          onClose={() => setFeedbackOpen(false)}
+          showToast={showToast}
+        />
+      )}
+
+      {toast && (
+        <Toast
+          title={toast.title}
+          body={toast.body}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
       )}
     </>
   );

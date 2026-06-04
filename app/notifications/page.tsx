@@ -5,12 +5,12 @@ import { useThemeStore } from "@/lib/themeStore";
 import { useRouter } from "next/navigation";
 import { 
   Bell, ArrowLeft, CheckCircle2, AlertTriangle, Sparkles, 
-  BookOpen, Award, Settings, Trash2, Clock, Coffee, Heart 
+  Award, Settings, Trash2, Clock
 } from "lucide-react";
 
 interface NotificationItem {
   id: string;
-  category: "attendance" | "marks" | "timetable" | "general" | "system" | "life" | "motivation";
+  category: "attendance" | "marks" | "timetable" | "lowAttendance" | "system";
   title: string;
   body: string;
   timestamp: string;
@@ -23,43 +23,33 @@ export default function NotificationCenterPage() {
   const { academicData, studentPortalData, academicAlertsEnabled } = useAuthStore();
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [mounted, setMounted] = useState(false);
-
-  const [shouldShowSystemAlert] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("hasAddedAlertsEnabledNotification") === "true";
-    }
-    return false;
-  });
+  const [clearedIds, setClearedIds] = useState<string[]>([]);
+  const [readIds, setReadIds] = useState<string[]>([]);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && localStorage.getItem("hasAddedAlertsEnabledNotification") === "true") {
-      localStorage.setItem("hasAddedAlertsEnabledNotification", "seen");
+    try {
+      const cleared = localStorage.getItem("nexus_cleared_notifications");
+      if (cleared) {
+        setClearedIds(JSON.parse(cleared));
+      }
+      const read = localStorage.getItem("nexus_read_notifications");
+      if (read) {
+        setReadIds(JSON.parse(read));
+      }
+    } catch (e) {
+      console.error("Failed to load local notification states:", e);
     }
+    setMounted(true);
   }, []);
 
   useEffect(() => {
-    const id = setTimeout(() => {
-      setMounted(true);
+    if (mounted) {
       generateNotifications();
-    }, 0);
-    return () => clearTimeout(id);
-  }, [academicData, studentPortalData, shouldShowSystemAlert]);
+    }
+  }, [mounted, academicData, studentPortalData, academicAlertsEnabled, clearedIds, readIds]);
 
   const generateNotifications = () => {
     const items: NotificationItem[] = [];
-
-    // System Alert Injection (academic alerts enabled confirmation)
-    if (shouldShowSystemAlert) {
-      items.push({
-        id: "academic-alerts-enabled-system",
-        category: "system",
-        title: "Academic alerts enabled ✅",
-        body: "Nexus will notify you about important attendance and marks updates.",
-        timestamp: "Just now",
-        read: false
-      });
-    }
-
     const att = academicData?.attendance || [];
     const spMarks = studentPortalData?.marks?.marks || [];
     
@@ -76,7 +66,7 @@ export default function NotificationCenterPage() {
             riskyCount++;
             items.push({
               id: `attn-risk-${sub.courseCode || Math.random()}`,
-              category: "attendance",
+              category: "lowAttendance",
               title: "Attendance needs care ⚠️",
               body: `${courseTitle} is at ${pct}%. Attend next class and keep the drama small.`,
               timestamp: "2 hours ago",
@@ -129,7 +119,7 @@ export default function NotificationCenterPage() {
       read: true
     });
 
-    // 4. Alerts State Notice
+    // 4. Alerts State Notice / System alerts (appear only once per device)
     if (!academicAlertsEnabled) {
       items.push({
         id: "alerts-disabled-info",
@@ -139,13 +129,23 @@ export default function NotificationCenterPage() {
         timestamp: "Just now",
         read: false
       });
+    } else if (mounted && typeof window !== "undefined" && localStorage.getItem("hasAddedAlertsEnabledNotification") === "true") {
+      items.push({
+        id: "alerts-enabled-system",
+        category: "system",
+        title: "Academic alerts enabled ✅",
+        body: "Nexus will notify you about important attendance and marks updates.",
+        timestamp: "Just now",
+        read: false
+      });
     }
-    // 5. Time-of-day Friendly Motivation / Reminders (from CSV templates)
+
+    // 5. Time-of-day Friendly Motivation / Reminders
     const hour = new Date().getHours();
     if (hour >= 5 && hour < 12) {
       items.push({
         id: "friendly-morning-food",
-        category: "life",
+        category: "system",
         title: "Food check first 🍛",
         body: "Eat something before overthinking attendance. Brain needs fuel.",
         timestamp: "Morning check-in",
@@ -162,7 +162,7 @@ export default function NotificationCenterPage() {
     } else if (hour >= 12 && hour < 17) {
       items.push({
         id: "friendly-afternoon-motivation",
-        category: "motivation",
+        category: "system",
         title: "One step enough 🎯",
         body: "Fix one weak subject today. No need to fight everything.",
         timestamp: "Afternoon status",
@@ -170,7 +170,7 @@ export default function NotificationCenterPage() {
       });
       items.push({
         id: "friendly-afternoon-water",
-        category: "life",
+        category: "system",
         title: "Water break now 💧",
         body: "Drink water once. Even good plans need hydration.",
         timestamp: "Afternoon status",
@@ -179,7 +179,7 @@ export default function NotificationCenterPage() {
     } else {
       items.push({
         id: "friendly-night-sleep",
-        category: "life",
+        category: "system",
         title: "Sleep matters too 🌙",
         body: "Rest properly tonight. Attendance stress feels worse when tired.",
         timestamp: "Night reminder",
@@ -195,26 +195,63 @@ export default function NotificationCenterPage() {
       });
     }
 
-    setNotifications(items);
+    const filtered = items
+      .filter(item => !clearedIds.includes(item.id))
+      .map(item => ({
+        ...item,
+        read: readIds.includes(item.id) ? true : item.read
+      }));
+
+    setNotifications(filtered);
   };
 
   const markAllAsRead = () => {
-    setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+    const allIds = notifications.map(n => n.id);
+    const newRead = Array.from(new Set([...readIds, ...allIds]));
+    setReadIds(newRead);
+    try {
+      localStorage.setItem("nexus_read_notifications", JSON.stringify(newRead));
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const clearAll = () => {
-    setNotifications([]);
+    const allIds = notifications.map(n => n.id);
+    const newCleared = Array.from(new Set([...clearedIds, ...allIds]));
+    setClearedIds(newCleared);
+    try {
+      localStorage.setItem("nexus_cleared_notifications", JSON.stringify(newCleared));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleMarkAsRead = (id: string) => {
+    if (readIds.includes(id)) return;
+    const newRead = [...readIds, id];
+    setReadIds(newRead);
+    try {
+      localStorage.setItem("nexus_read_notifications", JSON.stringify(newRead));
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   if (!mounted) return null;
 
   const isLight = theme === "light";
   const accentColor = isLight ? "#BF5AF2" : "#FF75C3";
-  const secondaryAccent = isLight ? "#6366f1" : "#8F92FF";
 
   const getCategoryStyles = (cat: NotificationItem["category"]) => {
     switch (cat) {
       case "attendance":
+        return {
+          icon: CheckCircle2,
+          color: "#34C759",
+          bg: "rgba(52, 199, 89, 0.08)"
+        };
+      case "lowAttendance":
         return {
           icon: AlertTriangle,
           color: "#FF3B30",
@@ -238,18 +275,6 @@ export default function NotificationCenterPage() {
           color: accentColor,
           bg: isLight ? "rgba(191, 90, 242, 0.08)" : "rgba(255, 117, 195, 0.08)"
         };
-      case "life":
-        return {
-          icon: Coffee,
-          color: "#34C759",
-          bg: "rgba(52, 199, 89, 0.08)"
-        };
-      case "motivation":
-        return {
-          icon: Heart,
-          color: "#FF2D55",
-          bg: "rgba(255, 45, 85, 0.08)"
-        };
       default:
         return {
           icon: Bell,
@@ -261,7 +286,7 @@ export default function NotificationCenterPage() {
 
   return (
     <div className="page-root" style={{ background: "var(--bg)", minHeight: "100vh", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-      <main className="page-main" style={{ paddingBottom: "120px", display: "flex", flexDirection: "column" }}>
+      <main className="page-main" style={{ paddingBottom: "120px", display: "flex", flexDirection: "column", padding: "24px" }}>
         <div style={{ maxWidth: "600px", margin: "0 auto", width: "100%", display: "flex", flexDirection: "column" }}>
           {/* Header */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "32px", flexShrink: 0 }}>
@@ -308,132 +333,134 @@ export default function NotificationCenterPage() {
             </button>
           </div>
 
-      {/* Action Sub-Bar */}
-      {notifications.length > 0 && (
-        <div style={{ display: "flex", gap: "12px", marginBottom: "20px", width: "100%", maxWidth: "600px", margin: "0 auto 20px" }}>
-          <button 
-            onClick={markAllAsRead}
-            style={{ 
-              flex: 1, padding: "10px 14px", borderRadius: "12px", border: "1px solid var(--border)",
-              background: "rgba(255,255,255,0.02)", color: "var(--text-primary)", fontSize: "11px", fontWeight: 700,
-              cursor: "pointer", transition: "all 0.2s"
-            }}
-          >
-            Mark all read
-          </button>
-          <button 
-            onClick={clearAll}
-            style={{ 
-              padding: "10px 14px", borderRadius: "12px", border: "1px solid rgba(255, 59, 48, 0.15)",
-              background: "rgba(255, 59, 48, 0.05)", color: "#FF3B30", fontSize: "11px", fontWeight: 700,
-              display: "flex", alignItems: "center", gap: "6px", cursor: "pointer", transition: "all 0.2s"
-            }}
-          >
-            <Trash2 size={12} /> Clear all
-          </button>
-        </div>
-      )}
-
-      {/* Main List */}
-      <div style={{ flex: 1, width: "100%" }}>
-        {notifications.length === 0 ? (
-          <div style={{ 
-            padding: "80px 24px", 
-            textAlign: "center", 
-            background: isLight ? "rgba(0,0,0,0.01)" : "rgba(255,255,255,0.01)", 
-            border: "1px solid var(--border)", 
-            borderRadius: "32px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: "16px"
-          }}>
-            <div style={{
-              width: "60px",
-              height: "60px",
-              borderRadius: "50%",
-              background: isLight ? "rgba(143, 146, 255, 0.08)" : "rgba(255,255,255,0.03)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "var(--text-muted)"
-            }}>
-              <CheckCircle2 size={28} />
+          {/* Action Sub-Bar */}
+          {notifications.length > 0 && (
+            <div style={{ display: "flex", gap: "12px", marginBottom: "20px", width: "100%" }}>
+              <button 
+                onClick={markAllAsRead}
+                style={{ 
+                  flex: 1, padding: "10px 14px", borderRadius: "12px", border: "1px solid var(--border)",
+                  background: "rgba(255,255,255,0.02)", color: "var(--text-primary)", fontSize: "11px", fontWeight: 700,
+                  cursor: "pointer", transition: "all 0.2s"
+                }}
+              >
+                Mark all read
+              </button>
+              <button 
+                onClick={clearAll}
+                style={{ 
+                  padding: "10px 14px", borderRadius: "12px", border: "1px solid rgba(255, 59, 48, 0.15)",
+                  background: "rgba(255, 59, 48, 0.05)", color: "#FF3B30", fontSize: "11px", fontWeight: 700,
+                  display: "flex", alignItems: "center", gap: "6px", cursor: "pointer", transition: "all 0.2s"
+                }}
+              >
+                <Trash2 size={12} /> Clear all
+              </button>
             </div>
-            <div>
-              <div style={{ fontSize: "14px", fontWeight: 900, color: "var(--text-primary)" }}>All clean!</div>
-              <div style={{ fontSize: "11.5px", color: "var(--text-secondary)", marginTop: "4px", lineHeight: 1.4 }}>
-                No active notifications or alerts. You are fully up to date.
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            {notifications.map((item) => {
-              const styles = getCategoryStyles(item.category);
-              const CatIcon = styles.icon;
-              
-              return (
-                <div 
-                  key={item.id}
-                  style={{
-                    background: isLight ? "rgba(255,255,255,0.8)" : "rgba(255, 255, 255, 0.02)",
-                    border: item.read ? "1px solid var(--border)" : `1px solid ${accentColor}25`,
-                    borderRadius: "20px",
-                    padding: "16px 20px",
-                    display: "flex",
-                    gap: "14px",
-                    position: "relative",
-                    transition: "all 0.3s"
-                  }}
-                >
-                  {/* Unread Pill Indicator */}
-                  {!item.read && (
-                    <div style={{
-                      position: "absolute",
-                      top: "20px",
-                      right: "20px",
-                      width: "6px",
-                      height: "6px",
-                      borderRadius: "50%",
-                      background: accentColor,
-                      boxShadow: `0 0 8px ${accentColor}`
-                    }} />
-                  )}
+          )}
 
-                  {/* Icon */}
-                  <div style={{
-                    width: "38px",
-                    height: "38px",
-                    borderRadius: "12px",
-                    background: styles.bg,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: styles.color,
-                    flexShrink: 0
-                  }}>
-                    <CatIcon size={18} />
-                  </div>
-
-                  {/* Text Details */}
-                  <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "4px" }}>
-                    <div style={{ fontSize: "13.5px", fontWeight: 800, color: "var(--text-primary)" }}>
-                      {item.title}
-                    </div>
-                    <div style={{ fontSize: "11.5px", color: "var(--text-secondary)", lineHeight: 1.5 }}>
-                      {item.body}
-                    </div>
-                    <div style={{ fontSize: "9px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", marginTop: "4px" }}>
-                      {item.timestamp}
-                    </div>
+          {/* Main List */}
+          <div style={{ flex: 1, width: "100%" }}>
+            {notifications.length === 0 ? (
+              <div style={{ 
+                padding: "80px 24px", 
+                textAlign: "center", 
+                background: isLight ? "rgba(0,0,0,0.01)" : "rgba(255,255,255,0.01)", 
+                border: "1px solid var(--border)", 
+                borderRadius: "32px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "16px"
+              }}>
+                <div style={{
+                  width: "60px",
+                  height: "60px",
+                  borderRadius: "50%",
+                  background: isLight ? "rgba(143, 146, 255, 0.08)" : "rgba(255,255,255,0.03)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "var(--text-muted)"
+                }}>
+                  <CheckCircle2 size={28} />
+                </div>
+                <div>
+                  <div style={{ fontSize: "14px", fontWeight: 900, color: "var(--text-primary)" }}>All clean!</div>
+                  <div style={{ fontSize: "11.5px", color: "var(--text-secondary)", marginTop: "4px", lineHeight: 1.4 }}>
+                    No active notifications or alerts. You are fully up to date.
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                {notifications.map((item) => {
+                  const styles = getCategoryStyles(item.category);
+                  const CatIcon = styles.icon;
+                  
+                  return (
+                    <div 
+                      key={item.id}
+                      onClick={() => handleMarkAsRead(item.id)}
+                      style={{
+                        background: isLight ? "rgba(255,255,255,0.8)" : "rgba(255, 255, 255, 0.02)",
+                        border: item.read ? "1px solid var(--border)" : `1px solid ${accentColor}25`,
+                        borderRadius: "20px",
+                        padding: "16px 20px",
+                        display: "flex",
+                        gap: "14px",
+                        position: "relative",
+                        transition: "all 0.3s",
+                        cursor: !item.read ? "pointer" : "default"
+                      }}
+                    >
+                      {/* Unread Pill Indicator */}
+                      {!item.read && (
+                        <div style={{
+                          position: "absolute",
+                          top: "20px",
+                          right: "20px",
+                          width: "6px",
+                          height: "6px",
+                          borderRadius: "50%",
+                          background: accentColor,
+                          boxShadow: `0 0 8px ${accentColor}`
+                        }} />
+                      )}
+
+                      {/* Icon */}
+                      <div style={{
+                        width: "38px",
+                        height: "38px",
+                        borderRadius: "12px",
+                        background: styles.bg,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: styles.color,
+                        flexShrink: 0
+                      }}>
+                        <CatIcon size={18} />
+                      </div>
+
+                      {/* Text Details */}
+                      <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "4px" }}>
+                        <div style={{ fontSize: "13.5px", fontWeight: 800, color: "var(--text-primary)" }}>
+                          {item.title}
+                        </div>
+                        <div style={{ fontSize: "11.5px", color: "var(--text-secondary)", lineHeight: 1.5 }}>
+                          {item.body}
+                        </div>
+                        <div style={{ fontSize: "9px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", marginTop: "4px" }}>
+                          {item.timestamp}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
-        )}
-        </div>
         </div>
       </main>
     </div>
