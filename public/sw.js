@@ -47,3 +47,50 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
+
+// ── Native Phone Push Notifications Listener ──
+self.addEventListener('push', (event) => {
+  let data = { title: 'SRM Nexus', body: 'New academic update is live!' };
+  
+  if (event.data) {
+    try {
+      data = event.data.json();
+    } catch (e) {
+      data = { title: 'SRM Nexus', body: event.data.text() };
+    }
+  }
+
+  const options = {
+    body: data.body,
+    icon: '/nexus-logo.png',
+    badge: '/favicon-32x32.png',
+    vibrate: [100, 50, 100],
+    data: {
+      url: data.url || '/notifications'
+    }
+  };
+
+  event.waitUntil(
+    self.registration.showNotification(data.title, options)
+  );
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const urlToOpen = event.notification.data?.url || '/notifications';
+
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
+      for (let i = 0; i < windowClients.length; i++) {
+        let client = windowClients[i];
+        if (client.url === urlToOpen && 'focus' in client) {
+          return client.focus();
+        }
+      }
+      if (clients.openWindow) {
+        return clients.openWindow(urlToOpen);
+      }
+    })
+  );
+});
+
