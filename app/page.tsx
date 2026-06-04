@@ -13,6 +13,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [loginPhase, setLoginPhase] = useState<"idle" | "auth" | "success">("idle");
   const [error, setError] = useState("");
+  const [showLoginForm, setShowLoginForm] = useState(false);
   
   const [connector] = useState<"academia" | "student-portal">("academia");
   const [captchaData, setCaptchaData] = useState<{ captcha: string; captchaToken: string } | null>(null);
@@ -181,10 +182,6 @@ export default function LoginPage() {
 
         @media (min-width: 768px) {
           .hero-section {
-            flex-direction: row;
-            text-align: left;
-            justify-content: space-between;
-            align-items: center;
             gap: 44px;
             padding: 40px 40px 56px;
           }
@@ -621,236 +618,211 @@ export default function LoginPage() {
         </div>
 
         <section className="hero-section">
-          <div 
-            className="hero-login"
-          >
-            <div className="login-container">
-              <div style={{ marginBottom: "48px", textAlign: "center", animation: "slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1)" }}>
-                <div 
-                  style={{ 
-                    display: "inline-block",
-                    padding: "16px",
-                    background: "rgba(139, 92, 246, 0.08)",
-                    borderRadius: "20px",
-                    border: "1px solid rgba(139, 92, 246, 0.15)",
-                    transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)"
+          {showLoginForm ? (
+            <div className="hero-login" style={{ animation: "slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1)", width: "100%", maxWidth: "440px", margin: "0 auto" }}>
+              <button
+                type="button"
+                onClick={() => setShowLoginForm(false)}
+                style={{
+                  background: "rgba(255, 255, 255, 0.03)",
+                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                  color: "rgba(255, 255, 255, 0.6)",
+                  padding: "8px 16px",
+                  borderRadius: "12px",
+                  fontWeight: 800,
+                  fontSize: "12px",
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  cursor: "pointer",
+                  marginBottom: "20px",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px"
+                }}
+                onMouseEnter={e => { e.currentTarget.style.color = "#fff"; e.currentTarget.style.background = "rgba(255, 255, 255, 0.06)"; }}
+                onMouseLeave={e => { e.currentTarget.style.color = "rgba(255, 255, 255, 0.6)"; e.currentTarget.style.background = "rgba(255, 255, 255, 0.03)"; }}
+              >
+                ← Back
+              </button>
+              <div className="login-container">
+                <div style={{ marginBottom: "48px", textAlign: "center", animation: "slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1)" }}>
+                  <div 
+                    style={{ 
+                      display: "inline-block",
+                      padding: "16px",
+                      background: "rgba(139, 92, 246, 0.08)",
+                      borderRadius: "20px",
+                      border: "1px solid rgba(139, 92, 246, 0.15)",
+                      transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)"
+                    }}
+                  >
+                    <img src="/nexus-logo.png" alt="Logo" style={{ width: "72px", height: "72px", filter: "drop-shadow(0 0 25px rgba(255, 117, 195, 0.5))" }} />
+                  </div>
+                  <h2 style={{ fontSize: "32px", fontWeight: 950, letterSpacing: "-0.03em", marginTop: "28px", lineHeight: 1.1 }}>SRM NEXUS</h2>
+                  <p style={{ color: "rgba(255, 255, 255, 0.45)", fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.25em", marginTop: "12px", fontFamily: "monospace" }}>→ IDENTITY SECURE</p>
+                </div>
+
+                <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }} data-testid="login-form">
+                  {error && (
+                    <div 
+                      data-testid="login-error" 
+                      style={{ 
+                        background: "rgba(255, 77, 77, 0.12)",
+                        border: "1px solid rgba(255, 77, 77, 0.3)",
+                        color: "#ff9999",
+                        fontSize: "13px",
+                        textAlign: "center",
+                        marginBottom: "24px",
+                        fontWeight: 700,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.08em",
+                        padding: "12px 16px",
+                        borderRadius: "12px"
+                      }}
+                    >
+                      {error}
+                    </div>
+                  )}
+
+                  <input
+                    type="text" placeholder="NETID (e.g. ab1234)"
+                    className="login-input"
+                    value={email} onChange={e => setEmail(e.target.value)}
+                    disabled={loading} maxLength={6}
+                    data-testid="netid-input"
+                  />
+
+                  <div style={{ position: 'relative' }}>
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="PASSWORD"
+                      className="login-input"
+                      value={password} onChange={e => setPassword(e.target.value)}
+                      disabled={loading}
+                      data-testid="password-input"
+                    />
+                    <button
+                      type="button" onClick={() => setShowPassword(!showPassword)}
+                      style={{ position: 'absolute', right: '20px', top: '24px', background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', cursor: 'pointer' }}
+                      data-testid="toggle-password-btn"
+                    >
+                      {showPassword ? <EyeOff size={22} /> : <Eye size={22} />}
+                    </button>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px', padding: '0 4px' }}>
+                    <input 
+                      type="checkbox" 
+                      id="remember" 
+                      style={{ 
+                        accentColor: '#ffffff', 
+                        width: "16px", 
+                        height: "16px",
+                        cursor: "pointer",
+                        borderRadius: "4px"
+                      }} 
+                      defaultChecked 
+                      data-testid="remember-checkbox" 
+                    />
+                    <label 
+                      htmlFor="remember" 
+                      style={{ 
+                        fontSize: "13px", 
+                        color: "rgba(255, 255, 255, 0.55)", 
+                        fontWeight: 500,
+                        cursor: "pointer"
+                      }}
+                    >
+                      Remember session
+                    </label>
+                  </div>
+
+                  <button type="submit" className="login-btn" disabled={loading} data-testid="submit-login-btn">
+                    {loading ? "INITIALIZING..." : "ENTER ACADEMIC OS"}
+                  </button>
+                </form>
+              </div>
+            </div>
+          ) : (
+            <div style={{ maxWidth: "680px", margin: "0 auto", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "28px", animation: "slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1)" }}>
+              <div style={{ display: "inline-block", padding: "16px", background: "rgba(139, 92, 246, 0.08)", borderRadius: "24px", border: "1px solid rgba(139, 92, 246, 0.15)", marginBottom: "4px" }}>
+                <img src="/nexus-logo.png" alt="Logo" style={{ width: "72px", height: "72px", filter: "drop-shadow(0 0 25px rgba(255, 117, 195, 0.5))" }} />
+              </div>
+              <h1 style={{ fontSize: "clamp(48px, 8vw, 84px)", fontWeight: 950, letterSpacing: "-0.05em", lineHeight: 1, margin: 0 }}>
+                SRM Nexus
+              </h1>
+              <h2 style={{ fontSize: "clamp(20px, 3.5vw, 26px)", fontWeight: 800, color: "#FF75C3", letterSpacing: "-0.03em", margin: 0, lineHeight: 1.2 }}>
+                Your SRM academic life in one smart dashboard.
+              </h2>
+              <p style={{ fontSize: "16px", color: "rgba(255,255,255,0.55)", lineHeight: 1.7, margin: "0 0 16px", fontWeight: 500, maxWidth: "580px" }}>
+                Connect your academic portals, track attendance, predict marks, plan CGPA, manage timetable, and get AI study guidance from one secure student workspace.
+              </p>
+              <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", justifyContent: "center", width: "100%", maxWidth: "440px" }}>
+                <button
+                  type="button"
+                  onClick={launchDemo}
+                  style={{
+                    flex: 1,
+                    minWidth: "180px",
+                    padding: "18px 28px",
+                    background: "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%)",
+                    border: "1.5px solid rgba(255, 255, 255, 0.15)",
+                    color: "#ffffff",
+                    borderRadius: "16px",
+                    fontSize: "13px",
+                    fontWeight: 900,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.14em",
+                    cursor: "pointer",
+                    transition: "all 0.3s"
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.35)";
+                    e.currentTarget.style.background = "rgba(255, 255, 255, 0.15)";
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.15)";
+                    e.currentTarget.style.background = "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%)";
                   }}
                 >
-                  <img src="/nexus-logo.png" alt="Logo" style={{ width: "72px", height: "72px", filter: "drop-shadow(0 0 25px rgba(255, 117, 195, 0.5))" }} />
-                </div>
-                <h2 style={{ fontSize: "32px", fontWeight: 950, letterSpacing: "-0.03em", marginTop: "28px", lineHeight: 1.1 }}>SRM NEXUS</h2>
-                <p style={{ color: "rgba(255, 255, 255, 0.45)", fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.25em", marginTop: "12px", fontFamily: "monospace" }}>→ IDENTITY SECURE</p>
-              </div>
-
-              <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }} data-testid="login-form">
-                {error && (
-                  <div 
-                    data-testid="login-error" 
-                    style={{ 
-                      background: "rgba(255, 77, 77, 0.12)",
-                      border: "1px solid rgba(255, 77, 77, 0.3)",
-                      color: "#ff9999",
-                      fontSize: "13px",
-                      textAlign: "center",
-                      marginBottom: "24px",
-                      fontWeight: 700,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.08em",
-                      padding: "12px 16px",
-                      borderRadius: "12px"
-                    }}
-                  >
-                    {error}
-                  </div>
-                )}
-
-                <input
-                  type="text" placeholder="NETID (e.g. ab1234)"
-                  className="login-input"
-                  value={email} onChange={e => setEmail(e.target.value)}
-                  disabled={loading} maxLength={6}
-                  data-testid="netid-input"
-                />
-
-                <div style={{ position: 'relative' }}>
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="PASSWORD"
-                    className="login-input"
-                    value={password} onChange={e => setPassword(e.target.value)}
-                    disabled={loading}
-                    data-testid="password-input"
-                  />
-                  <button
-                    type="button" onClick={() => setShowPassword(!showPassword)}
-                    style={{ position: 'absolute', right: '20px', top: '24px', background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', cursor: 'pointer' }}
-                    data-testid="toggle-password-btn"
-                  >
-                    {showPassword ? <EyeOff size={22} /> : <Eye size={22} />}
-                  </button>
-                </div>
-
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px', padding: '0 4px' }}>
-                  <input 
-                    type="checkbox" 
-                    id="remember" 
-                    style={{ 
-                      accentColor: '#ffffff', 
-                      width: "16px", 
-                      height: "16px",
-                      cursor: "pointer",
-                      borderRadius: "4px"
-                    }} 
-                    defaultChecked 
-                    data-testid="remember-checkbox" 
-                  />
-                  <label 
-                    htmlFor="remember" 
-                    style={{ 
-                      fontSize: "13px", 
-                      color: "rgba(255, 255, 255, 0.55)", 
-                      fontWeight: 500,
-                      cursor: "pointer"
-                    }}
-                  >
-                    Remember session
-                  </label>
-                </div>
-
-                <button type="submit" className="login-btn" disabled={loading} data-testid="submit-login-btn">
-                  {loading ? "INITIALIZING..." : "ENTER ACADEMIC OS"}
+                  Try Demo
                 </button>
-
-                <div style={{ marginTop: '20px', textAlign: 'center' }}>
-                  <button 
-                    type="button" 
-                    onClick={launchDemo} 
-                    disabled={loading}
-                    data-testid="quick-demo-btn"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(236, 72, 153, 0.08) 100%)',
-                      border: '1.5px solid rgba(139, 92, 246, 0.25)',
-                      color: 'rgba(255, 255, 255, 0.7)',
-                      padding: '14px 20px',
-                      borderRadius: '14px',
-                      fontSize: '11px',
-                      fontWeight: 900,
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.14em',
-                      cursor: 'pointer',
-                      width: '100%',
-                      transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '8px'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(236, 72, 153, 0.15) 100%)';
-                      e.currentTarget.style.borderColor = 'rgba(139, 92, 246, 0.4)';
-                      e.currentTarget.style.color = '#ffffff';
-                      e.currentTarget.style.transform = 'translateY(-3px)';
-                      e.currentTarget.style.boxShadow = '0 12px 28px rgba(139, 92, 246, 0.15)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(236, 72, 153, 0.08) 100%)';
-                      e.currentTarget.style.borderColor = 'rgba(139, 92, 246, 0.25)';
-                      e.currentTarget.style.color = 'rgba(255, 255, 255, 0.7)';
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = 'none';
-                    }}
-                  >
-                    <Zap size={13} style={{ color: '#00FF88' }} />
-                    Quick Launch Demo Mode
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-
-          <div className="hero-content" style={{ maxWidth: "600px", animation: "slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s backwards" }}>
-            <div>
-              <div style={{ display: "flex", gap: "12px", marginBottom: "32px", flexWrap: "wrap" }}>
-                <span style={{ padding: "8px 14px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "99px", fontSize: "10px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(255,255,255,0.6)" }}>v2.0 PRODUCTION</span>
-                <span style={{ padding: "8px 14px", background: "rgba(0,255,136,0.12)", border: "1px solid rgba(0,255,136,0.3)", color: "#00FF88", borderRadius: "99px", fontSize: "10px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em" }}>SYSTEMS ONLINE</span>
-              </div>
-              <h1 className="hero-title" style={{ fontSize: "clamp(42px, 9vw, 88px)", fontWeight: 950, letterSpacing: "-0.06em", lineHeight: 1, marginBottom: "36px" }}>
-                Dominate Your <span style={{ color: "rgba(255,255,255,0.35)", display: "block" }}>Academic Journey.</span>
-              </h1>
-              <p style={{ fontSize: "18px", color: "rgba(255,255,255,0.55)", lineHeight: 1.7, marginBottom: "56px", fontWeight: 500 }}>
-                Experience the next generation of student intelligence. Precision metrics, AI-driven predictions, and zero-latency synchronization.
-              </p>
-
-              <div className="video-showcase" aria-label="SRM Nexus product launch trailer">
-                <video
-                  ref={heroVideoRef}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  poster="/nexus-logo.png"
+                <button
+                  type="button"
+                  onClick={() => setShowLoginForm(true)}
+                  style={{
+                    flex: 1,
+                    minWidth: "180px",
+                    padding: "18px 28px",
+                    background: "linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%)",
+                    border: "none",
+                    color: "#000000",
+                    borderRadius: "16px",
+                    fontSize: "13px",
+                    fontWeight: 900,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.14em",
+                    cursor: "pointer",
+                    transition: "all 0.3s",
+                    boxShadow: "0 8px 24px rgba(255, 255, 255, 0.15)"
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.transform = "translateY(-4px)";
+                    e.currentTarget.style.boxShadow = "0 16px 36px rgba(255, 255, 255, 0.25)";
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow = "0 8px 24px rgba(255, 255, 255, 0.15)";
+                  }}
                 >
-                  <source src="/videos/srm-nexus-ad.mp4" type="video/mp4" />
-                  <source src="/videos/srm-nexus-ad.webm" type="video/webm" />
-                </video>
-                <div className="video-badge">
-                  <span className="video-status" />
-                  Launch trailer
-                </div>
-                <div className="video-caption">
-                  <MonitorPlay size={14} />
-                  Your Academic OS
-                </div>
-              </div>
-              
-              <div className="feature-grid">
-                <div className="feature-card">
-                  <Shield size={28} style={{ marginBottom: "20px", color: "#FF75C3" }} />
-                  <div style={{ fontWeight: 950, marginBottom: "12px", fontSize: "16px" }}>SECURE SYNC</div>
-                  <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", lineHeight: 1.6, fontWeight: 500 }}>Bank-grade encryption for all your portal interactions.</div>
-                </div>
-                <div className="feature-card">
-                  <Zap size={28} style={{ marginBottom: "20px", color: "#00FF88" }} />
-                  <div style={{ fontWeight: 950, marginBottom: "12px", fontSize: "16px" }}>ULTRA SPEED</div>
-                  <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", lineHeight: 1.6, fontWeight: 500 }}>Engineered for zero-lag data hydration.</div>
-                </div>
+                  Connect Portal
+                </button>
               </div>
             </div>
-          </div>
+          )}
         </section>
 
-        {/* Comparison Section */}
-        <section style={{ padding: "140px 24px", background: "rgba(255,255,255,0.015)", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-          <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
-            <div style={{ textAlign: "center", marginBottom: "80px" }}>
-              <h2 style={{ fontSize: "clamp(32px, 6vw, 48px)", fontWeight: 950, letterSpacing: "-0.05em", lineHeight: 1.2 }}>The Nexus Advantage</h2>
-              <p style={{ color: "rgba(255,255,255,0.45)", marginTop: "16px", fontWeight: 600, fontSize: "16px" }}>Why settle for the official portal?</p>
-            </div>
-            
-            <table className="compare-table">
-              <tbody>
-                <tr>
-                  <td style={{ fontWeight: 850, fontSize: "15px" }}>Load Speed</td>
-                  <td style={{ color: "rgba(255,255,255,0.35)" }}>Academia: ~8.4s</td>
-                  <td style={{ color: "#00FF88", fontWeight: 950 }}>Nexus: ~0.4s</td>
-                </tr>
-                <tr>
-                  <td style={{ fontWeight: 850, fontSize: "15px" }}>Mobile UX</td>
-                  <td style={{ color: "rgba(255,255,255,0.35)" }}>Non-Responsive</td>
-                  <td style={{ color: "#00FF88", fontWeight: 950 }}>Pure Native Feel</td>
-                </tr>
-                <tr>
-                  <td style={{ fontWeight: 850, fontSize: "15px" }}>Intelligence</td>
-                  <td style={{ color: "rgba(255,255,255,0.35)" }}>Static Data</td>
-                  <td style={{ color: "#00FF88", fontWeight: 950 }}>AI Prediction</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <footer style={{ padding: '100px 24px 60px', textAlign: 'center', borderTop: "1px solid rgba(255,255,255,0.06)", background: "rgba(255,255,255,0.008)" }}>
+        <footer style={{ padding: '80px 24px 60px', textAlign: 'center', borderTop: "1px solid rgba(255,255,255,0.06)", background: "rgba(255,255,255,0.008)", position: "relative", zIndex: 1 }}>
           <div style={{ fontSize: "11px", fontWeight: 800, color: "rgba(255,255,255,0.25)", letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "16px" }}>
             SRM NEXUS © 2026 • ENGINEERED FOR EXCELLENCE
           </div>
@@ -858,6 +830,8 @@ export default function LoginPage() {
             <a href="/privacy" style={{ color: 'rgba(255,255,255,0.35)', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={e => e.currentTarget.style.color = '#ff75c3'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.35)'}>Privacy Policy</a>
             <span style={{ color: 'rgba(255,255,255,0.15)' }}>•</span>
             <a href="/terms" style={{ color: 'rgba(255,255,255,0.35)', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={e => e.currentTarget.style.color = '#00ff88'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.35)'}>Terms of Service</a>
+            <span style={{ color: 'rgba(255,255,255,0.15)' }}>•</span>
+            <a href="/trust" style={{ color: 'rgba(255,255,255,0.35)', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={e => e.currentTarget.style.color = '#bf5af2'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.35)'}>Trust & Privacy</a>
           </div>
         </footer>
       </div>

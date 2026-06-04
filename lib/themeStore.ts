@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export type ThemeType = "aura";
+export type ThemeType = "lumina";
 
 interface ThemeStore {
   theme: ThemeType;
@@ -8,6 +8,6 @@ interface ThemeStore {
 }
 
 export const useThemeStore = create<ThemeStore>()((set) => ({
-  theme: "aura",
-  setTheme: () => set({ theme: "aura" }),
+  theme: "lumina",
+  setTheme: () => set({ theme: "lumina" }),
 }));

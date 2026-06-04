@@ -83,7 +83,7 @@ export default function AppToolsPage() {
   const [mounted, setMounted] = useState(false);
   const { studentPortalData, email } = useAuthStore();
   const { theme } = useThemeStore();
-  const isAura = theme === "aura";
+  const isLumina = theme === "lumina";
   
   useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
@@ -96,7 +96,7 @@ export default function AppToolsPage() {
   const initials = profile.name ? profile.name.split(' ').filter(Boolean).map((n:AnyValue)=>n[0]).join('').slice(0,2).toUpperCase() : "NK";
 
   return (
-    <div style={{ height: "100vh", width: "100vw", background: isAura ? AURA_COLORS.bg : THEME.bg, color: "#fff", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+    <div style={{ height: "100vh", width: "100vw", background: isLumina ? AURA_COLORS.bg : THEME.bg, color: "#fff", display: "flex", flexDirection: "column", overflow: "hidden" }}>
       <style dangerouslySetInnerHTML={{ __html: `
         * { box-sizing: border-box; }
         
@@ -112,7 +112,7 @@ export default function AppToolsPage() {
         }
       `}} />
 
-      {isAura && (
+      {isLumina && (
         <>
           <div className="aura-blob" style={{ background: AURA_COLORS.primary, top: '-200px', left: '-100px' }} />
           <div className="aura-blob" style={{ background: AURA_COLORS.secondary, bottom: '-200px', right: '-100px', animationDelay: '-5s' }} />
@@ -126,17 +126,17 @@ export default function AppToolsPage() {
         <header style={{ padding: "60px 24px 20px", position: 'relative', zIndex: 1 }}>
           <div style={{ 
             display: 'flex', alignItems: 'center', gap: '16px', padding: '20px',
-            background: isAura ? 'rgba(255, 255, 255, 0.02)' : 'rgba(0,212,255,0.03)', 
-            backdropFilter: isAura ? 'blur(40px)' : 'none',
-            border: isAura ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0,212,255,0.1)', 
+            background: isLumina ? 'rgba(255, 255, 255, 0.02)' : 'rgba(0,212,255,0.03)', 
+            backdropFilter: isLumina ? 'blur(40px)' : 'none',
+            border: isLumina ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0,212,255,0.1)', 
             borderRadius: "24px"
           }}>
             <div style={{ 
               width: "56px", height: "56px", borderRadius: "16px", 
-              background: isAura ? "linear-gradient(135deg, #FF75C3, #8F92FF)" : "linear-gradient(135deg, #00ff88, #00d4ff)", 
+              background: isLumina ? "linear-gradient(135deg, #FF75C3, #8F92FF)" : "linear-gradient(135deg, #00ff88, #00d4ff)", 
               display: 'flex', alignItems: 'center', justifyContent: 'center', 
               color: '#fff', fontSize: '20px', fontWeight: 900,
-              boxShadow: isAura ? 'none' : '0 0 20px rgba(0,212,255,0.3)'
+              boxShadow: isLumina ? 'none' : '0 0 20px rgba(0,212,255,0.3)'
             }}>
               {initials}
             </div>
@@ -145,9 +145,9 @@ export default function AppToolsPage() {
               <p style={{ fontSize: "11px", color: 'rgba(255,255,255,0.4)', marginTop: "4px" }}>
                 {profile.registerNo || "Nexus ID Locked"} • {profile.program?.split('-')[0] || "Architecture Core"}
               </p>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: isAura ? 'rgba(255, 117, 195, 0.1)' : 'rgba(0,255,136,0.1)', padding: '4px 10px', borderRadius: '8px', marginTop: '10px' }}>
-                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: isAura ? AURA_COLORS.primary : '#00ff88' }} />
-                <span style={{ fontSize: '9px', fontWeight: 900, color: isAura ? AURA_COLORS.primary : '#00ff88', textTransform: 'uppercase' }}>PORTAL LINKED</span>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: isLumina ? 'rgba(255, 117, 195, 0.1)' : 'rgba(0,255,136,0.1)', padding: '4px 10px', borderRadius: '8px', marginTop: '10px' }}>
+                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: isLumina ? AURA_COLORS.primary : '#00ff88' }} />
+                <span style={{ fontSize: '9px', fontWeight: 900, color: isLumina ? AURA_COLORS.primary : '#00ff88', textTransform: 'uppercase' }}>PORTAL LINKED</span>
               </div>
             </div>
           </div>
@@ -158,7 +158,7 @@ export default function AppToolsPage() {
           <SectionHeader title="NEXUS CORE" />
           <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '20px 0' }}>
             <MenuIcon icon={Calendar} label="Calendar" color="#fff" onClick={() => router.push('/calendar')} />
-            <MenuIcon icon={Wrench} label="Tools" color={isAura ? AURA_COLORS.accent : "#00ff88"} onClick={() => router.push('/tools')} />
+            <MenuIcon icon={Wrench} label="Tools" color={isLumina ? AURA_COLORS.accent : "#00ff88"} onClick={() => router.push('/tools')} />
             <MenuIcon icon={Sparkles} label="AI Tutor" color="#fff" onClick={() => router.push('/ai')} />
             <MenuIcon icon={Calculator} label="GPA Calc" color="#fff" onClick={() => router.push('/gpa')} />
             {isAdmin && <MenuIcon icon={ShieldAlert} label="Admin" color="#fff" onClick={() => router.push('/admin')} />}
@@ -177,7 +177,7 @@ export default function AppToolsPage() {
             icon={LayoutTemplate} 
             title="Themes" 
             subtitle="Customize your look" 
-            color={isAura ? AURA_COLORS.primary : "#bf00ff"}
+            color={isLumina ? AURA_COLORS.primary : "#bf00ff"}
             onClick={() => router.push('/settings/theme')} 
           />
           <ActionCard 

@@ -249,7 +249,7 @@ export default function ThemeOnboarding() {
 
         <div className="theme-grid">
           <div 
-            className="theme-card" onClick={() => handleSelect("aura")}
+            className="theme-card" onClick={() => handleSelect("lumina")}
           >
             <div className="theme-name">Lumina</div>
             <p className="theme-desc">The default high-fidelity experience. Vibrant nebula gradients and deep glass effects.</p>

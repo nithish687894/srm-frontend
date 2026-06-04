@@ -606,7 +606,7 @@ export default function Sidebar() {
                   scrollbarWidth: "none"
                 }}
               >
-                {/* 1. AURA ACTIVE HERO */}
+                {/* 1. LUMINA ACTIVE HERO */}
                 <div 
                   className="w-full rounded-[24px] bg-white/[0.02] backdrop-blur-xl p-5 flex flex-col gap-4 relative overflow-hidden border border-white/[0.04]"
                   style={{
@@ -628,7 +628,7 @@ export default function Sidebar() {
                   <div className="flex items-center justify-between relative z-10">
                     <div className="flex flex-col gap-0.5">
                       <span className="text-[10px] font-black tracking-[0.2em] text-white/50 uppercase">
-                        AURA ACTIVE
+                        LUMINA ACTIVE
                       </span>
                       <span className="text-[8px] font-bold text-white/30 uppercase tracking-widest">
                         Academic Intelligence Engine
@@ -676,7 +676,7 @@ export default function Sidebar() {
                   <p className="text-[9px] font-black text-white/25 uppercase tracking-[0.3em] mb-3 pl-1">Nexus Intelligence</p>
                   <div className="grid grid-cols-6 gap-3">
                     
-                    {/* AURA AI Tutor (6 cols) */}
+                    {/* LUMINA AI Tutor (6 cols) */}
                     <button
                       onClick={() => { setMoreOpen(false); router.push("/ai"); }}
                       className="group relative col-span-6 overflow-hidden rounded-[24px] border border-purple-500/10 bg-gradient-to-r from-purple-900/15 via-indigo-950/10 to-transparent p-5 text-left backdrop-blur-xl shadow-xl transition-all duration-300 hover:scale-[1.01] hover:border-purple-500/25 hover:shadow-[0_0_30px_rgba(168,85,247,0.18)]"
@@ -691,7 +691,7 @@ export default function Sidebar() {
                           </div>
                           <div className="flex flex-col">
                             <div className="flex items-center gap-2">
-                              <span className="text-xs font-black text-white tracking-wide">AURA AI Tutor</span>
+                              <span className="text-xs font-black text-white tracking-wide">LUMINA AI Tutor</span>
                               <span className="px-1.5 py-0.5 rounded-full text-[7px] font-black tracking-widest text-purple-300 bg-purple-500/20 border border-purple-500/30 uppercase animate-pulse">AI ACTIVE</span>
                             </div>
                             <span className="text-[10px] text-white/45 font-semibold mt-1 leading-normal">Instant academic support, insights & analysis</span>

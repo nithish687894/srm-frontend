@@ -26,14 +26,14 @@ export default function ToolsHubPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const { theme } = useThemeStore();
-  const isAura = theme === "aura";
+  const isLumina = theme === "lumina";
 
   useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
   if (!mounted) return <div style={{ background: '#050505', height: '100vh' }} />;
 
   return (
-    <div style={{ background: isAura ? AURA_COLORS.bg : THEME.bg, height: "100vh", display: "flex", flexDirection: "column", color: "#fff", fontFamily: "'Plus Jakarta Sans', sans-serif", overflow: 'hidden' }}>
+    <div style={{ background: isLumina ? AURA_COLORS.bg : THEME.bg, height: "100vh", display: "flex", flexDirection: "column", color: "#fff", fontFamily: "'Plus Jakarta Sans', sans-serif", overflow: 'hidden' }}>
       <style dangerouslySetInnerHTML={{ __html: `
         * { box-sizing: border-box; }
         
@@ -49,7 +49,7 @@ export default function ToolsHubPage() {
         }
       `}} />
 
-      {isAura && (
+      {isLumina && (
         <>
           <div className="aura-blob" style={{ background: AURA_COLORS.primary, top: '-200px', left: '-100px' }} />
           <div className="aura-blob" style={{ background: AURA_COLORS.secondary, bottom: '-200px', right: '-100px', animationDelay: '-5s' }} />
@@ -69,8 +69,8 @@ export default function ToolsHubPage() {
           
           {/* Attendance Calculator */}
           <div onClick={() => router.push('/tools/srm-attendance-calculator')} style={{ 
-            background: isAura ? "rgba(255,255,255,0.02)" : THEME.surface,
-            border: isAura ? "1px solid rgba(255,255,255,0.05)" : `1px solid ${THEME.border}`, 
+            background: isLumina ? "rgba(255,255,255,0.02)" : THEME.surface,
+            border: isLumina ? "1px solid rgba(255,255,255,0.05)" : `1px solid ${THEME.border}`, 
             borderRadius: "24px", padding: "24px", cursor: "pointer", position: 'relative', overflow: 'hidden'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
@@ -89,12 +89,12 @@ export default function ToolsHubPage() {
 
           {/* CGPA Calculator */}
           <div onClick={() => router.push('/tools/srm-cgpa-calculator')} style={{ 
-            background: isAura ? "rgba(255,255,255,0.02)" : THEME.surface,
-            border: isAura ? "1px solid rgba(255,255,255,0.05)" : `1px solid ${THEME.border}`, 
+            background: isLumina ? "rgba(255,255,255,0.02)" : THEME.surface,
+            border: isLumina ? "1px solid rgba(255,255,255,0.05)" : `1px solid ${THEME.border}`, 
             borderRadius: "24px", padding: "24px", cursor: "pointer", position: 'relative', overflow: 'hidden'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
-               <div style={{ width: "48px", height: "48px", background: isAura ? "rgba(148, 255, 216, 0.1)" : "rgba(59, 130, 246, 0.1)", color: isAura ? AURA_COLORS.accent : "#3b82f6", borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+               <div style={{ width: "48px", height: "48px", background: isLumina ? "rgba(148, 255, 216, 0.1)" : "rgba(59, 130, 246, 0.1)", color: isLumina ? AURA_COLORS.accent : "#3b82f6", borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center" }}>
                  <Calculator size={24} />
                </div>
                <div>

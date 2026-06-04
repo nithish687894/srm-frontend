@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 const THEMES: { id: ThemeType; name: string; sub: string; bg: string; accent: string; hasGlow?: boolean }[] = [
   { 
-    id: "aura", 
+    id: "lumina", 
     name: "Lumina", 
     sub: "Elegant. Soft. Aesthetic.", 
     bg: "#08080c", 
