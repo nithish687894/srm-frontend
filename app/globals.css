@@ -1832,7 +1832,7 @@ body.theme-light, .theme-light {
 .theme-light .bg-\[\#08080c\],
 .theme-light .bg-\[\#0f0f13\],
 .theme-light .bg-\[\#110c1e\],
-.theme-light .bg-[#110c1e]/95,
+.theme-light .bg-\[\#110c1e\]\/95,
 .theme-light .bg-zinc-950 {
   background-color: var(--app-bg) !important;
 }
