@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import Sidebar from "@/components/Sidebar";
 import DynamicGauge from "@/components/DynamicGauge";
 import { dataAPI } from "@/lib/api";
 import { useAuth } from "@/hooks/useAuth";
@@ -20,9 +19,16 @@ function buildSlotToCourseMap(myTT: AnyValue[]) {
 export default function AttendancePage() {
   const { ready } = useAuth();
   const { theme } = useThemeStore();
-  // Optimize Zustand subscriptions to eliminate main-thread render lags
-  const academicData = useAuthStore((state) => state.academicData);
-  const setAcademicData = useAuthStore((state) => state.setAcademicData);
+  const {
+    academicData,
+    setAcademicData,
+    timetable: cachedTimetable,
+    myTimetable: cachedMyTimetable,
+    calendar: cachedCalendar,
+    setTimetable,
+    setMyTimetable,
+    setCalendar
+  } = useAuthStore();
   const [att, setAtt] = useState<AnyValue[]>(academicData?.attendance || []);
   const [loading, setLoading] = useState(!academicData?.attendance);
   const [isSyncing, setIsSyncing] = useState(false);
@@ -41,8 +47,14 @@ export default function AttendancePage() {
     }
   };
 
-  const [calData, setCalData] = useState<AnyValue>(null);
-  const [ttData, setTTData] = useState<AnyValue>(null);
+  const [calData, setCalData] = useState<AnyValue>(cachedCalendar || null);
+  const [ttData, setTTData] = useState<AnyValue>(() => {
+    if (cachedTimetable && cachedMyTimetable) {
+      const courses = cachedMyTimetable?.data?.courses || cachedMyTimetable?.data || [];
+      return { rows: cachedTimetable?.data?.rows || [], myTT: courses };
+    }
+    return null;
+  });
   
   const [showPredictor, setShowPredictor] = useState(false);
   const [selectedDates, setSelectedDates] = useState<Set<string>>(new Set());
@@ -78,17 +90,19 @@ export default function AttendancePage() {
       .then(d => { setAtt(d.data || []); setAcademicData({ ...academicData, attendance: d.data || [] }); setLoading(false); })
       .catch(() => { if (!att.length) router.push("/"); });
 
-    dataAPI.getCalendar().then(d => setCalData(d)).catch(() => {});
+    dataAPI.getCalendar().then(d => { setCalData(d); setCalendar(d); }).catch(() => {});
     
     // Dynamically get the batch from profile
     const rawBatch = academicData?.profile?.["Combo / Batch"] || "";
     const batchNum = parseInt(rawBatch.match(/\d+/)?.[0] || "1");
 
     Promise.all([dataAPI.getTimetable(batchNum), dataAPI.getMyTimetable()]).then(([tt, myTT]) => {
+      setTimetable(tt);
+      setMyTimetable(myTT);
       const courses = myTT?.data?.courses || myTT?.data || [];
       setTTData({ rows: tt?.data?.rows || [], myTT: courses });
     }).catch(() => {});
-  }, [ready, academicData?.profile]);
+  }, [ready, academicData?.profile, setCalendar, setTimetable, setMyTimetable]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -254,7 +268,6 @@ export default function AttendancePage() {
 
   return (
     <div style={{ minHeight: "100vh", width: "100%", background: "#050505", display: "flex", flexDirection: "column", position: "relative" }}>
-      <Sidebar />
       <main id="attendance-parent-scroll" style={{ flex: 1, paddingBottom: "100px" }}>
         <AuraAttendance attendance={att} handleSync={handleSync} isSyncing={isSyncing} {...themeProps} />
       </main>

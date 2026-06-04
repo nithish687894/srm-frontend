@@ -9,7 +9,6 @@ import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import { dataAPI } from "@/lib/api";
 import AuraMarks from "@/components/aura-theme/AuraMarks";
-import Sidebar from "@/components/Sidebar";
 
 const THEME = {
   bg: "#050505",
@@ -114,7 +113,6 @@ export default function MarksPage() {
         .animate-spin { animation: spin 2s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
       `}} />
-      <Sidebar />
       <main style={{ flex: 1, paddingBottom: "140px" }}>
         <AuraMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />
       </main>

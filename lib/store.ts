@@ -27,6 +27,11 @@ export interface AuthStore {
   studentPortalConnected: boolean;
   studentPortalData: StudentPortalData | null;
 
+  // Cached Extended Data
+  timetable: AnyValue | null;
+  myTimetable: AnyValue | null;
+  calendar: AnyValue | null;
+
   // Auth Actions
   setAuthData: (authToken: string, refreshToken: string, email: string) => void;
   setAuthToken: (token: string) => void;
@@ -39,6 +44,11 @@ export interface AuthStore {
   // Student Portal
   setStudentPortalConnected: (val: boolean) => void;
   setStudentPortalData: (data: StudentPortalData | null) => void;
+
+  // Cached Setters
+  setTimetable: (data: AnyValue | null) => void;
+  setMyTimetable: (data: AnyValue | null) => void;
+  setCalendar: (data: AnyValue | null) => void;
 
   // UI
   setHasChosenTheme: (val: boolean) => void;
@@ -65,6 +75,10 @@ export const useAuthStore = create<AuthStore>()(
 
       studentPortalConnected: false,
       studentPortalData: null,
+
+      timetable: null,
+      myTimetable: null,
+      calendar: null,
 
       // ── Auth Actions ──────────────────────────────────────────────────────
       setAuthData: (authToken, refreshToken, email) => {
@@ -106,6 +120,11 @@ export const useAuthStore = create<AuthStore>()(
           studentPortalConnected: !!data && data.sessionStatus === "active",
         }),
 
+      // ── Cached Setters ───────────────────────────────────────────────────
+      setTimetable: (timetable) => set({ timetable }),
+      setMyTimetable: (myTimetable) => set({ myTimetable }),
+      setCalendar: (calendar) => set({ calendar }),
+
       // ── UI ────────────────────────────────────────────────────────────────
       setHasChosenTheme: (hasChosenTheme) => set({ hasChosenTheme }),
 
@@ -126,6 +145,9 @@ export const useAuthStore = create<AuthStore>()(
           studentPortalConnected: false,
           studentPortalData: null,
           hasChosenTheme: false,
+          timetable: null,
+          myTimetable: null,
+          calendar: null,
         });
       },
 
@@ -143,6 +165,9 @@ export const useAuthStore = create<AuthStore>()(
           studentPortalConnected: false,
           studentPortalData: null,
           hasChosenTheme: false,
+          timetable: null,
+          myTimetable: null,
+          calendar: null,
         });
       },
 
@@ -161,6 +186,9 @@ export const useAuthStore = create<AuthStore>()(
           hasChosenTheme: state.hasChosenTheme,
           studentPortalConnected: state.studentPortalConnected,
           studentPortalData: state.studentPortalData,
+          timetable: state.timetable,
+          myTimetable: state.myTimetable,
+          calendar: state.calendar,
         }) as unknown as AuthStore,
       onRehydrateStorage: () => (state) => {
         state?.setHasHydrated(true);

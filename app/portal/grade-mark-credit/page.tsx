@@ -5,7 +5,6 @@ import {
   ArrowLeft, Home, Award, MoreHorizontal, IdCard, User, 
   Settings, AlertCircle, CheckCircle2
 } from "lucide-react";
-import Sidebar from "@/components/Sidebar";
 import { useAuthStore } from "@/lib/store";
 import { dataAPI } from "@/lib/api";
 
@@ -93,7 +92,6 @@ export default function GradeMarkCreditPage() {
         * { box-sizing: border-box; }
         body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background: ${THEME.bg}; }
       `}} />
-      <Sidebar />
       <main style={{ flex: 1, overflowY: "auto", WebkitOverflowScrolling: "touch" }}>
         <header style={{ padding: "60px 24px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", background: 'rgba(5,5,5,0.8)', backdropFilter: 'blur(20px)', zIndex: 100 }}>
           <button onClick={() => router.back()} style={{ width: "44px", height: "44px", borderRadius: "50%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", color: THEME.accentPurple, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

@@ -1,6 +1,7 @@
 "use client";
 import { useState, TouchEvent, ReactNode, useEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import Sidebar from "@/components/Sidebar";
 
 const TAB_ORDER = [
   "/dashboard",
@@ -171,6 +172,8 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
     willChange: isGestureActive ? "transform, opacity" : "auto"
   };
 
+  const hideSidebar = ["/", "/setup", "/terms", "/privacy", "/trust"].includes(pathname);
+
   return (
     <div
       onTouchStart={onTouchStart}
@@ -223,6 +226,9 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
       <div ref={wrapperRef} style={style}>
         {children}
       </div>
+
+      {!hideSidebar && <Sidebar />}
     </div>
   );
 }
+

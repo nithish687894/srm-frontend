@@ -1,7 +1,6 @@
 "use client";
 import { useMemo, useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
 import { useQuery } from "@tanstack/react-query";
@@ -165,7 +164,16 @@ function insertBreaks(classes: ScheduleItem[]) {
 }
 
 export default function TimetablePage() {
-  const { academicData, profile } = useAuthStore();
+  const { 
+    academicData, 
+    profile, 
+    timetable: cachedTimetable, 
+    myTimetable: cachedMyTimetable, 
+    calendar: cachedCalendar, 
+    setTimetable, 
+    setMyTimetable, 
+    setCalendar 
+  } = useAuthStore();
   const { theme } = useThemeStore();
   const [dayOverride, setDayOverride] = useState<number>(1);
   const [batch, setBatch] = useState<number>(() => {
@@ -247,14 +255,36 @@ export default function TimetablePage() {
     }
   };
 
-  const calQ = useQuery({ queryKey: ["calendar"], queryFn: () => dataAPI.getCalendar(), staleTime: 600000 });
-  const myTTQ = useQuery({ queryKey: ["myTT"], queryFn: () => dataAPI.getMyTimetable(), staleTime: 600000, initialData: academicData?.timetable ? { data: academicData.timetable } : undefined });
+  const calQ = useQuery({ 
+    queryKey: ["calendar"], 
+    queryFn: () => dataAPI.getCalendar(), 
+    staleTime: 600000,
+    initialData: cachedCalendar ? cachedCalendar : undefined
+  });
+  const myTTQ = useQuery({ 
+    queryKey: ["myTT"], 
+    queryFn: () => dataAPI.getMyTimetable(), 
+    staleTime: 600000, 
+    initialData: cachedMyTimetable ? cachedMyTimetable : (academicData?.timetable ? { data: academicData.timetable } : undefined) 
+  });
   const ttQ = useQuery({
-    queryKey: ["tt", batch], 
+    queryKey: ["tt", batch],
     queryFn: () => dataAPI.getTimetable(batch),
     staleTime: 600000,
-    initialData: academicData?.timetableBatch && academicData?.timetableBatch === batch ? { data: { rows: academicData.timetableRows } } : undefined
+    initialData: cachedTimetable ? cachedTimetable : (academicData?.timetableBatch && academicData?.timetableBatch === batch ? { data: { rows: academicData.timetableRows } } : undefined)
   });
+
+  useEffect(() => {
+    if (calQ.data) setCalendar(calQ.data);
+  }, [calQ.data, setCalendar]);
+
+  useEffect(() => {
+    if (myTTQ.data) setMyTimetable(myTTQ.data);
+  }, [myTTQ.data, setMyTimetable]);
+
+  useEffect(() => {
+    if (ttQ.data) setTimetable(ttQ.data);
+  }, [ttQ.data, setTimetable]);
 
   const autoSelected = useRef(false);
   useEffect(() => {
@@ -606,7 +636,6 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
 
   return (
     <div style={{ background: AURA.bg, minHeight: "100vh", display: "flex", flexDirection: "column", color: "#ffffff", fontFamily: "'Plus Jakarta Sans', sans-serif", position: "relative" }}>
-      <Sidebar />
       <style dangerouslySetInnerHTML={{ __html: `
         
         .aura-blob {

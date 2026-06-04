@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { useAuth } from "@/hooks/useAuth";
@@ -163,11 +162,20 @@ export default function DashboardPage() {
   const setStudentPortalConnected = useAuthStore((state) => state.setStudentPortalConnected);
   const setStudentPortalData = useAuthStore((state) => state.setStudentPortalData);
   const studentPortalData = useAuthStore((state) => state.studentPortalData);
+
+  // Cache selectors and setters
+  const cachedTimetable = useAuthStore((state) => state.timetable);
+  const cachedMyTimetable = useAuthStore((state) => state.myTimetable);
+  const cachedCalendar = useAuthStore((state) => state.calendar);
+  const setTimetable = useAuthStore((state) => state.setTimetable);
+  const setMyTimetable = useAuthStore((state) => state.setMyTimetable);
+  const setCalendar = useAuthStore((state) => state.setCalendar);
+
   const [data, setData] = useState<AnyValue>(academicData || null);
   const [loading, setLoading] = useState(!academicData);
-  const [ttData, setTTData] = useState<AnyValue>(null);
-  const [myTTData, setMyTTData] = useState<AnyValue>(null);
-  const [calData, setCalData] = useState<AnyValue>(null);
+  const [ttData, setTTData] = useState<AnyValue>(cachedTimetable || null);
+  const [myTTData, setMyTTData] = useState<AnyValue>(cachedMyTimetable || null);
+  const [calData, setCalData] = useState<AnyValue>(cachedCalendar || null);
   const [dayOffset, setDayOffset] = useState(0);
   const [syncError, setSyncError] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
@@ -459,9 +467,9 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (!ready) return;
-    dataAPI.getTimetable(batch).then(d => setTTData(d)).catch(() => { });
-    dataAPI.getCalendar().then(d => setCalData(d)).catch(() => { });
-    dataAPI.getMyTimetable().then(d => setMyTTData(d)).catch(() => { });
+    dataAPI.getTimetable(batch).then(d => { setTTData(d); setTimetable(d); }).catch(() => { });
+    dataAPI.getCalendar().then(d => { setCalData(d); setCalendar(d); }).catch(() => { });
+    dataAPI.getMyTimetable().then(d => { setMyTTData(d); setMyTimetable(d); }).catch(() => { });
     dataAPI.getBroadcast().then(d => setBroadcast(d)).catch(() => { });
   }, [ready, batch]);
 
@@ -1439,7 +1447,6 @@ export default function DashboardPage() {
 
   return (
     <div style={{ height: "100vh", width: "100vw", background: "#000", display: "flex", flexDirection: "column", overflow: "hidden" }}>
-      <Sidebar />
       <main style={{ flex: 1, overflowY: "auto", WebkitOverflowScrolling: "touch" }}>
         {activeDashboard}
         <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => {}} netId="" />

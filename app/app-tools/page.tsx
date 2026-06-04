@@ -7,7 +7,6 @@ import {
   LayoutTemplate, LifeBuoy, ChevronRight
 } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
-import Sidebar from "@/components/Sidebar";
 import { useThemeStore } from "@/lib/themeStore";
 
 const THEME = {
@@ -119,7 +118,6 @@ export default function AppToolsPage() {
         </>
       )}
 
-      <Sidebar />
 
       <main style={{ flex: 1, overflowY: "auto", WebkitOverflowScrolling: "touch" }}>
         {/* HEADER: USER CARD */}

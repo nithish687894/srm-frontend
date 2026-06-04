@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Calculator, CalendarOff, TrendingUp, ChevronLeft, Home, Award, Activity, MoreHorizontal } from "lucide-react";
 import { useThemeStore } from "@/lib/themeStore";
-import Sidebar from "@/components/Sidebar";
 
 const THEME = {
   bg: "#050505",
@@ -110,7 +109,6 @@ export default function ToolsHubPage() {
         </div>
       </main>
 
-      <Sidebar />
     </div>
   );
 }

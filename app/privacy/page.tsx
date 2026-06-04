@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/store";
-import Sidebar from "@/components/Sidebar";
 import { Shield, Lock, Eye, ArrowLeft, RefreshCw, Terminal, CheckCircle2 } from "lucide-react";
 
 export default function PrivacyPage() {
@@ -233,7 +232,6 @@ export default function PrivacyPage() {
     <div className="page-root">
       {authToken ? (
         <>
-          <Sidebar />
           <main className="page-main">
             <div className="page-content">{content}</div>
           </main>

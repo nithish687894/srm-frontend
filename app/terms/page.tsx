@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/store";
-import Sidebar from "@/components/Sidebar";
 import { FileText, Scale, ShieldAlert, ArrowLeft, RefreshCw, Terminal, CheckCircle2 } from "lucide-react";
 
 export default function TermsPage() {
@@ -230,7 +229,6 @@ export default function TermsPage() {
     <div className="page-root">
       {authToken ? (
         <>
-          <Sidebar />
           <main className="page-main">
             <div className="page-content">{content}</div>
           </main>

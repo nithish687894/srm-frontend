@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { useSocket } from "@/hooks/useSocket";
-import Sidebar from "@/components/Sidebar";
 import { chatAPI } from "@/lib/api";
 import { MessageSquare, Users, Sparkles, Send, Keyboard, ArrowLeft, Loader2, HelpCircle, Lock, Smile, Mic } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
@@ -208,7 +207,6 @@ export default function ChatPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#16100d] via-[#090706] to-[#030202] text-white flex">
       {/* Sidebar Navigation */}
-      <Sidebar />
 
       <main className="flex-1 flex flex-col md:pl-[310px] pb-[128px] md:pb-6 pt-16 md:pt-24 px-4 max-w-7xl mx-auto w-full h-[100dvh] overflow-hidden">
         

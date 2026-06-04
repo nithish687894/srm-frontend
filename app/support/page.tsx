@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
 import { Send, MessageSquare, Clock, CheckCircle } from "lucide-react";
 
@@ -43,7 +42,6 @@ export default function SupportPage() {
 
   return (
     <div className="page-root">
-      <Sidebar />
       <main className="page-main">
         <div className="page-content" style={{ paddingBottom: "120px", maxWidth: "800px", margin: "0 auto" }}>
           

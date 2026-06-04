@@ -1,7 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ShieldCheck, Cpu } from "lucide-react";
-import Sidebar from "@/components/Sidebar";
 import CyberBackground from "@/components/UnsplashBackground";
 
 export default function PortalServicePage({ params }: { params: { service: string } }) {
@@ -15,7 +14,6 @@ export default function PortalServicePage({ params }: { params: { service: strin
 
   return (
     <div style={{ height: "100vh", width: "100vw", background: "#000", display: "flex", flexDirection: "column", overflow: "hidden" }}>
-      <Sidebar />
       <CyberBackground variant="purple" />
       <main style={{ flex: 1, overflowY: "auto", position: 'relative', zIndex: 1, WebkitOverflowScrolling: "touch" }}>
         

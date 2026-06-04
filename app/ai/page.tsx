@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
@@ -10,14 +9,36 @@ interface Message { role: "user" | "assistant"; content: string; }
 
 export default function AIPage() {
   const { theme } = useThemeStore();
-  const { academicData, setAcademicData: setGlobalData } = useAuthStore();
+  const { 
+    academicData, 
+    setAcademicData: setGlobalData,
+    myTimetable: cachedMyTimetable,
+    calendar: cachedCalendar,
+    setMyTimetable,
+    setCalendar
+  } = useAuthStore();
   const [mounted, setMounted] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     { role: "assistant", content: "AI INITIALIZED. ASK ME ABOUT ATTENDANCE, MARKS, OR TIMETABLE." }
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [localAcademicData, setLocalAcademicData] = useState<AnyValue>(academicData);
+  
+  // Set initial local data with cached items
+  const [localAcademicData, setLocalAcademicData] = useState<AnyValue>(() => {
+    const calendarRows = cachedCalendar?.data || [];
+    const todayIso = new Date().toISOString().split('T')[0];
+    const todayEvent = calendarRows.find((c: AnyValue) => todayIso && c.date === todayIso);
+    const tomorrowIso = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+    const tomorrowEvent = calendarRows.find((c: AnyValue) => tomorrowIso && c.date === tomorrowIso);
+
+    let calendarStr = "";
+    if (todayEvent) calendarStr += `Today (${todayIso}): Day Order ${todayEvent.dayOrder || "N/A"} - ${todayEvent.event || "No event"}\n`;
+    if (tomorrowEvent) calendarStr += `Tomorrow (${tomorrowIso}): Day Order ${tomorrowEvent.dayOrder || "N/A"} - ${tomorrowEvent.event || "No event"}`;
+
+    const courses = cachedMyTimetable?.data?.courses || cachedMyTimetable?.data || cachedMyTimetable || [];
+    return { ...academicData, timetable: courses, calendarStr };
+  });
   const bottomRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const [remaining, setRemaining] = useState<number | null>(null);
@@ -31,6 +52,9 @@ export default function AIPage() {
       dataAPI.getMyTimetable(),
       dataAPI.getCalendar()
     ]).then(([allData, myTT, calData]) => {
+      setMyTimetable(myTT);
+      setCalendar(calData);
+
       const calendarRows = calData?.data || [];
       const todayIso = new Date().toISOString().split('T')[0];
       const todayEvent = calendarRows.find((c: AnyValue) => todayIso && c.date === todayIso);
@@ -46,7 +70,7 @@ export default function AIPage() {
       setLocalAcademicData(merged);
       setGlobalData(merged);
     }).catch(() => {});
-  }, []);
+  }, [router, academicData, setGlobalData, cachedCalendar, cachedMyTimetable, setMyTimetable, setCalendar]);
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
 
@@ -79,7 +103,6 @@ export default function AIPage() {
 
   return (
     <div className="page-root" style={{ height: "100vh", background: '#050508' }}>
-      <Sidebar />
       <main className="page-main" style={{ height: "100vh", display: "flex", flexDirection: "column", position: 'relative', zIndex: 1 }}>
         
         {/* Header */}

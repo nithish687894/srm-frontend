@@ -1,6 +1,5 @@
 "use client";
 import { useState, useMemo, useEffect } from "react";
-import Sidebar from "@/components/Sidebar";
 import { 
   ChevronLeft, ChevronRight, Zap, Target
 } from "lucide-react";
@@ -8,6 +7,7 @@ import { dataAPI } from "@/lib/api";
 import { buildCalendarIndex, type Semester } from "@/lib/calendarIndex";
 import { useQuery } from "@tanstack/react-query";
 import { useThemeStore } from "@/lib/themeStore";
+import { useAuthStore } from "@/lib/store";
 
 export default function CalendarPage() {
   const [monthIdx, setMonthIdx] = useState(0);
@@ -26,12 +26,20 @@ export default function CalendarPage() {
     border: "rgba(255, 255, 255, 0.08)",
   };
 
+  const cachedCalendar = useAuthStore((state) => state.calendar);
+  const setCalendar = useAuthStore((state) => state.setCalendar);
+
   const { data: cal, isLoading } = useQuery({
     queryKey: ["calendar"],
     queryFn: () => dataAPI.getCalendar(),
     retry: 1,
     staleTime: 10 * 60 * 1000,
+    initialData: cachedCalendar ? cachedCalendar : undefined
   });
+
+  useEffect(() => {
+    if (cal) setCalendar(cal);
+  }, [cal, setCalendar]);
 
   const { months, byDate } = useMemo(() => buildCalendarIndex(cal), [cal]);
   const semMonths = months[sem] || [];
@@ -109,7 +117,6 @@ export default function CalendarPage() {
         </>
       )}
 
-      <Sidebar />
       
       <main className={isAura ? "" : "page-main"} style={isAura ? { flex: 1, overflowY: 'auto', WebkitOverflowScrolling: 'touch' } : {}}>
         <div className={isAura ? "" : "page-content"} style={{ padding: isAura ? "60px 24px 140px" : "0 24px 140px", position: "relative" }}>

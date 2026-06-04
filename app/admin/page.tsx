@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { useAuth } from "@/hooks/useAuth";
@@ -132,7 +131,6 @@ export default function AdminPage() {
 
   return (
     <div className="page-root">
-      <Sidebar />
       <main className="page-main">
         <div className="page-content" style={{ paddingBottom: "120px" }}>
           

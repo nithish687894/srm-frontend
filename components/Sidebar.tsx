@@ -59,7 +59,21 @@ export default function Sidebar() {
   const userEmail = (email || profile?.Email || "").toLowerCase();
   const isAdmin = ADMIN_EMAILS.some((e) => e.toLowerCase() === userEmail) || profile?.role === "admin" || profile?.Role === "admin";
 
-  useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
+  useEffect(() => {
+    const id = setTimeout(() => setMounted(true), 0);
+    // Prefetch key routes to enable instant, mobile-native transitions
+    router.prefetch("/dashboard");
+    router.prefetch("/marks");
+    router.prefetch("/attendance");
+    router.prefetch("/timetable");
+    router.prefetch("/calendar");
+    router.prefetch("/ai");
+    router.prefetch("/gpa");
+    router.prefetch("/settings/theme");
+    router.prefetch("/app-tools");
+    router.prefetch("/trust");
+    return () => clearTimeout(id);
+  }, [router]);
 
   const handleLogout = useCallback(async () => {
     try { await authAPI.logout(); } catch { /* swallow */ }
@@ -504,6 +518,7 @@ export default function Sidebar() {
                <Link 
                  key={href} 
                  href={href} 
+                 prefetch={true}
                  className={`flex items-center gap-3.5 px-4 py-3 rounded-2xl text-left transition-all ${isActive(href, path) ? "text-white" : "text-white/40 hover:text-white/70"}`}
                  style={{ 
                    background: isActive(href, path) ? hubAccentGlow : "transparent",
@@ -520,6 +535,7 @@ export default function Sidebar() {
                <Link 
                  key={href} 
                  href={href} 
+                 prefetch={true}
                  className={`flex items-center gap-3.5 px-4 py-3 rounded-2xl text-left transition-all ${isActive(href, path) ? "text-white" : "text-white/40 hover:text-white/70"}`}
                  style={{ 
                    background: isActive(href, path) ? hubAccentGlow : "transparent",
@@ -556,7 +572,7 @@ export default function Sidebar() {
       <div className="md:hidden">
         <nav className="srmx-mobile-nav" aria-label="Main navigation">
           {NAV_MAIN.map(({ href, label, icon: Icon }) => (
-            <Link key={href} href={href} className={`nav-item ${isActive(href, path) ? "active" : ""}`}>
+            <Link key={href} href={href} prefetch={true} className={`nav-item ${isActive(href, path) ? "active" : ""}`}>
               <Icon size={20} strokeWidth={isActive(href, path) ? 3 : 2} />
               <span>{label}</span>
             </Link>
@@ -619,7 +635,7 @@ export default function Sidebar() {
                   }
 
                   return (
-                    <Link href={href} onClick={() => setMoreOpen(false)} className="w-full block">
+                    <Link href={href} prefetch={true} onClick={() => setMoreOpen(false)} className="w-full block">
                       {content}
                     </Link>
                   );

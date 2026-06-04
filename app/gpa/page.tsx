@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import Sidebar from "@/components/Sidebar";
 import { dataAPI } from "@/lib/api";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthStore } from "@/lib/store";
@@ -425,7 +424,6 @@ export default function GPAPage() {
         animation: "spin 25s linear infinite"
       }} />
 
-      <Sidebar />
 
       <main className="page-main" style={{ position: "relative", zIndex: 1 }}>
         <div className="page-content" style={{ padding: "24px 20px" }}>
