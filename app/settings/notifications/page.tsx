@@ -4,12 +4,15 @@ import { useAuthStore } from "@/lib/store";
 import { useRouter } from "next/navigation";
 import { Bell, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { useThemeStore } from "@/lib/themeStore";
+import Toast from "@/components/Toast";
+import { enableAcademicAlerts } from "@/lib/notifications";
 
 export default function NotificationsSettingsPage() {
   const { theme } = useThemeStore();
   const { academicAlertsEnabled, setAcademicAlertsEnabled } = useAuthStore();
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
+  const [activeToast, setActiveToast] = useState<{ title: string; body: string; type: "success" | "error" | "info" } | null>(null);
 
   useEffect(() => {
     const id = setTimeout(() => setMounted(true), 0);
@@ -22,16 +25,9 @@ export default function NotificationsSettingsPage() {
   const accentColor = isLight ? "#BF5AF2" : "#FF75C3";
 
   return (
-    <div style={{ 
-      background: "var(--bg)", 
-      height: "100vh", 
-      width: "100vw", 
-      padding: "24px", 
-      fontFamily: "'Plus Jakarta Sans', sans-serif", 
-      display: "flex", 
-      flexDirection: "column", 
-      overflow: "hidden" 
-    }}>
+    <div className="page-root" style={{ background: "var(--bg)", minHeight: "100vh", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <main className="page-main" style={{ display: "flex", flexDirection: "column", padding: "24px" }}>
+        <div style={{ maxWidth: "480px", margin: "0 auto", width: "100%", display: "flex", flexDirection: "column" }}>
       {/* Header */}
       <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "40px", flexShrink: 0 }}>
         <button 
@@ -77,7 +73,19 @@ export default function NotificationsSettingsPage() {
             
             {/* Custom Toggle Switch */}
             <button 
-              onClick={() => setAcademicAlertsEnabled(!academicAlertsEnabled)}
+              onClick={async () => {
+                if (academicAlertsEnabled) {
+                  setAcademicAlertsEnabled(false);
+                  localStorage.setItem("academicAlertsEnabled", "false");
+                } else {
+                  const result = await enableAcademicAlerts();
+                  setActiveToast({
+                    title: result.toast.title,
+                    body: result.toast.body,
+                    type: result.success ? "success" : "info"
+                  });
+                }
+              }}
               style={{
                 width: "52px",
                 height: "30px",
@@ -140,6 +148,17 @@ export default function NotificationsSettingsPage() {
       >
         Done
       </button>
+        </div>
+      </main>
+
+      {activeToast && (
+        <Toast
+          title={activeToast.title}
+          body={activeToast.body}
+          type={activeToast.type}
+          onClose={() => setActiveToast(null)}
+        />
+      )}
     </div>
   );
 }

@@ -7,13 +7,23 @@ import { usePerfGuard } from "@/hooks/usePerfGuard";
 export default function ThemeWrapper({ children }: { children: React.ReactNode }) {
   const { theme } = useThemeStore();
   const [mounted, setMounted] = useState(false);
+  const [systemTheme, setSystemTheme] = useState<"lumina" | "light">("lumina");
   
   // Initialize device-specific performance parameters on application load
   usePerfGuard();
 
   useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
-  const currentTheme = theme;
+  useEffect(() => {
+    if (theme !== "system" || typeof window === "undefined") return;
+    const media = window.matchMedia("(prefers-color-scheme: light)");
+    const handler = () => setSystemTheme(media.matches ? "light" : "lumina");
+    handler();
+    media.addEventListener("change", handler);
+    return () => media.removeEventListener("change", handler);
+  }, [theme]);
+
+  const currentTheme = theme === "system" ? systemTheme : theme;
 
   useEffect(() => {
     if (!mounted) return;

@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export type ThemeType = "lumina" | "light";
+export type ThemeType = "lumina" | "light" | "system";
 
 interface ThemeStore {
   theme: ThemeType;
@@ -11,11 +11,11 @@ interface ThemeStore {
 export const useThemeStore = create<ThemeStore>()(
   persist(
     (set) => ({
-      theme: "lumina",
+      theme: "system",
       setTheme: (theme: ThemeType) => set({ theme }),
     }),
     {
-      name: "srmx-theme",
+      name: "themePreference",
     }
   )
 );

@@ -7,6 +7,7 @@ import { authAPI, dataAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import PortalSyncModal from "@/components/PortalSyncModal";
+import FeedbackModal from "@/components/FeedbackModal";
 import {
   Home, BarChart2, CheckCircle, Clock, Calendar, Wrench, Sparkles, Shield,
   X, ChevronRight, CreditCard, FileText, Bed, Bus, Bell, Award, MonitorPlay, Printer, Briefcase, UserSquare, User, GraduationCap, BookOpen, Settings, MoreHorizontal, Share2, LogOut, LayoutTemplate, LifeBuoy, MessageSquare,
@@ -53,6 +54,7 @@ export default function Sidebar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const { theme } = useThemeStore();
 
   const { profile, email, academiaConnected, studentPortalConnected, studentPortalData, academicData } = useAuthStore();
@@ -823,6 +825,14 @@ export default function Sidebar() {
                           color="#00aaff" 
                         />
                         <RowItem 
+                          href="#"
+                          label="Report Bug / Feedback" 
+                          subtitle="Submit feature requests or report bugs" 
+                          icon={MessageSquare} 
+                          color="#bf00ff" 
+                          onClick={() => { setMoreOpen(false); setShowFeedbackModal(true); }}
+                        />
+                        <RowItem 
                           href="#" 
                           label="Logout" 
                           subtitle="Safely terminate your local active session" 
@@ -894,6 +904,10 @@ export default function Sidebar() {
         }}
         netId={profile?.["Registration Number"] || profile?.RegNo || ""}
       />
+
+      {showFeedbackModal && (
+        <FeedbackModal onClose={() => setShowFeedbackModal(false)} />
+      )}
     </>
   );
 

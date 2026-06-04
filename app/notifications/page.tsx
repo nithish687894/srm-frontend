@@ -24,16 +24,42 @@ export default function NotificationCenterPage() {
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [mounted, setMounted] = useState(false);
 
+  const [shouldShowSystemAlert] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("hasAddedAlertsEnabledNotification") === "true";
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && localStorage.getItem("hasAddedAlertsEnabledNotification") === "true") {
+      localStorage.setItem("hasAddedAlertsEnabledNotification", "seen");
+    }
+  }, []);
+
   useEffect(() => {
     const id = setTimeout(() => {
       setMounted(true);
       generateNotifications();
     }, 0);
     return () => clearTimeout(id);
-  }, [academicData, studentPortalData]);
+  }, [academicData, studentPortalData, shouldShowSystemAlert]);
 
   const generateNotifications = () => {
     const items: NotificationItem[] = [];
+
+    // System Alert Injection (academic alerts enabled confirmation)
+    if (shouldShowSystemAlert) {
+      items.push({
+        id: "academic-alerts-enabled-system",
+        category: "system",
+        title: "Academic alerts enabled ✅",
+        body: "Nexus will notify you about important attendance and marks updates.",
+        timestamp: "Just now",
+        read: false
+      });
+    }
+
     const att = academicData?.attendance || [];
     const spMarks = studentPortalData?.marks?.marks || [];
     
