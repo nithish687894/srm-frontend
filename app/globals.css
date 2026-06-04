@@ -1332,14 +1332,6 @@ body.theme-perf-low {
 .page-transition-wrapper {
   animation: pageSlideIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
   will-change: transform, opacity;
-    opacity: 0;
-    filter: blur(12px);
-  }
-  100% {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-    filter: blur(0);
-  }
 }
 
 @keyframes floatShrink {
