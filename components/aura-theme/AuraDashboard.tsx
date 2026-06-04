@@ -14,7 +14,9 @@ const AURA = AURA_COLORS;
 export default function AuraDashboard({ 
   data, avgAtt, avgMarks, firstName, nextClass, targetClasses,
   onShowStudentInfo, broadcast, renderAcademicIntegrityHub,
-  upcomingEvents, marks
+  upcomingEvents, marks,
+  tomorrowSkipStats, totalSafeSkips, nextRiskyClassText, marksTargetBrief,
+  safeSubjectsCount, riskySubjectsCount
 }: AnyValue) {
   const router = useRouter();
   const { activeTheme, stars } = useAuraTheme();
@@ -79,7 +81,7 @@ export default function AuraDashboard({
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px', position: 'relative', zIndex: 2 }}>
             <div style={{ padding: '8px 16px', background: 'rgba(192, 132, 252, 0.08)', borderRadius: '100px', display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 0 12px rgba(192, 132, 252, 0.1)' }}>
               <Sparkles size={14} color={AURA.purple} className="floating" />
-              <span style={{ fontSize: "10px", fontWeight: 900, color: AURA.purple, letterSpacing: '0.1em', textTransform: 'uppercase' }}>SRM Nexus v2.6</span>
+              <span style={{ fontSize: "10px", fontWeight: 900, color: AURA.purple, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Lumina Sync v2.6</span>
             </div>
             <div style={{ fontSize: '10px', color: AURA.sub, fontWeight: 700, letterSpacing: '0.05em' }}>SYSTEM ACTIVE</div>
           </div>
@@ -88,12 +90,128 @@ export default function AuraDashboard({
             {activeTheme.greeting},<br/><span className="shimmer-text">{firstName || "Explorer"}</span>
           </h1>
           
-          {/* Daily Briefing Insight */}
+          {/* Daily Briefing Insight - Actionable & Direct */}
           <div style={{ marginTop: '24px', padding: '24px', background: 'rgba(0,0,0,0.3)', borderRadius: '24px', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.05)', position: 'relative', zIndex: 2, border: '1px solid rgba(255,255,255,0.08)' }}>
-            <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.9)', fontWeight: 600, lineHeight: 1.6, margin: 0 }}>
-              Your academic trajectory is stable. You have <strong style={{color: AURA.cyan, fontWeight: 900}}>{avgAtt}%</strong> attendance and <strong style={{color: AURA.pink, fontWeight: 900}}>{avgMarks}%</strong> academic score. {nextClass ? `Your next session is ${nextClass.courseTitle}.` : "No active sessions today."} Keep up the momentum.
-            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '14.5px', color: 'rgba(255,255,255,0.95)', fontWeight: 600, lineHeight: 1.5 }}>
+              <div>You’re safe in <strong style={{color: AURA.cyan, fontWeight: 900}}>{safeSubjectsCount}</strong> subjects.</div>
+              <div><strong style={{color: (riskySubjectsCount || 0) > 0 ? AURA.pink : AURA.cyan, fontWeight: 900}}>{riskySubjectsCount}</strong> subject{(riskySubjectsCount || 0) === 1 ? " needs" : "s need"} attention.</div>
+              <div>You can miss <strong style={{color: AURA.purple, fontWeight: 900}}>{totalSafeSkips}</strong> more class{(totalSafeSkips || 0) === 1 ? "y" : "es"} safely.</div>
+              <div>Next risky class: <strong style={{color: (nextRiskyClassText || "").includes("None") ? AURA.cyan : AURA.pink, fontWeight: 900}}>{nextRiskyClassText}</strong>.</div>
+            </div>
           </div>
+        </div>
+
+        {/* Can I skip tomorrow? Card */}
+        <div className="premium-card" style={{ padding: '24px', borderRadius: '32px', position: 'relative', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <div className="ai-border" />
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h3 style={{ fontSize: '18px', fontWeight: 900, color: '#fff', margin: 0 }}>Can I skip tomorrow?</h3>
+            <span style={{ fontSize: '10px', fontWeight: 900, color: AURA.amber, letterSpacing: '0.05em' }}>DECISION ENGINE</span>
+          </div>
+
+          {tomorrowSkipStats?.isHoliday ? (
+            <div style={{ padding: '16px', background: 'rgba(255,255,255,0.02)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
+              <span style={{ fontSize: '13px', fontWeight: 700, color: 'rgba(255,255,255,0.6)' }}>Tomorrow is a holiday / weekend. No classes scheduled!</span>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+                <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.02)', textAlign: 'center' }}>
+                  <div style={{ fontSize: '10px', fontWeight: 700, color: '#666', textTransform: 'uppercase' }}>Tomorrow</div>
+                  <div style={{ fontSize: '16px', fontWeight: 900, color: '#fff', marginTop: '4px' }}>Day {tomorrowSkipStats?.dayOrder || "—"}</div>
+                </div>
+                <div style={{ background: 'rgba(52, 199, 89, 0.05)', padding: '12px', borderRadius: '16px', border: '1px solid rgba(52, 199, 89, 0.15)', textAlign: 'center' }}>
+                  <div style={{ fontSize: '10px', fontWeight: 700, color: 'rgba(52, 199, 89, 0.7)', textTransform: 'uppercase' }}>Safe</div>
+                  <div style={{ fontSize: '16px', fontWeight: 900, color: '#34c759', marginTop: '4px' }}>{tomorrowSkipStats?.safe} class{(tomorrowSkipStats?.safe || 0) === 1 ? '' : 'es'}</div>
+                </div>
+                <div style={{ background: 'rgba(255, 45, 85, 0.05)', padding: '12px', borderRadius: '16px', border: '1px solid rgba(255, 45, 85, 0.15)', textAlign: 'center' }}>
+                  <div style={{ fontSize: '10px', fontWeight: 700, color: 'rgba(255, 45, 85, 0.7)', textTransform: 'uppercase' }}>Risky</div>
+                  <div style={{ fontSize: '16px', fontWeight: 900, color: '#ff2d55', marginTop: '4px' }}>{tomorrowSkipStats?.risky} class{(tomorrowSkipStats?.risky || 0) === 1 ? '' : 'es'}</div>
+                </div>
+              </div>
+
+              {tomorrowSkipStats?.classes && tomorrowSkipStats.classes.length > 0 && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '4px' }}>
+                  <div style={{ fontSize: '10px', fontWeight: 900, color: '#555', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Class Analysis</div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                    {tomorrowSkipStats.classes.map((cls: AnyValue, idx: number) => {
+                      return (
+                        <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.03)', padding: '6px 12px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)', fontSize: '11px', fontWeight: 600 }}>
+                          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: cls.isRisky ? '#ff2d55' : '#34c759' }} />
+                          <span style={{ color: '#fff' }}>{cls.courseCode}</span>
+                          <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '10px' }}>({cls.slot})</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          <button 
+            onClick={() => router.push('/attendance')}
+            style={{
+              alignSelf: 'flex-start',
+              background: 'transparent',
+              border: 'none',
+              padding: 0,
+              color: AURA.cyan,
+              fontSize: '13px',
+              fontWeight: 800,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              marginTop: '4px',
+              transition: 'opacity 0.2s'
+            }}
+            onMouseOver={(e) => e.currentTarget.style.opacity = '0.8'}
+            onMouseOut={(e) => e.currentTarget.style.opacity = '1'}
+          >
+            <span>View Bunk Report →</span>
+          </button>
+        </div>
+
+        {/* Marks Target Card */}
+        <div className="premium-card" style={{ padding: '24px', borderRadius: '32px', position: 'relative', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <div className="ai-border" />
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h3 style={{ fontSize: '15px', fontWeight: 900, color: '#fff', margin: 0, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Marks Target</h3>
+            <span style={{ fontSize: '10px', fontWeight: 900, color: AURA.pink, letterSpacing: '0.05em' }}>PREDICTION</span>
+          </div>
+          <div style={{ fontSize: '16px', fontWeight: 850, color: '#fff', lineHeight: 1.4 }}>
+            {marksTargetBrief}
+          </div>
+          <div style={{ fontSize: '10.5px', color: AURA.sub, fontWeight: 600 }}>
+            Based on current cycle test scores & class performance.
+          </div>
+        </div>
+
+        {/* Next Class Card */}
+        <div className="premium-card" style={{ padding: '24px', borderRadius: '32px', position: 'relative', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <div className="ai-border" />
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h3 style={{ fontSize: '15px', fontWeight: 900, color: '#fff', margin: 0, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Next Class</h3>
+            <span style={{ fontSize: '10px', fontWeight: 900, color: AURA.cyan, letterSpacing: '0.05em' }}>TIMETABLE</span>
+          </div>
+          {nextClass ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <div style={{ fontSize: '16px', fontWeight: 850, color: '#fff', textTransform: 'capitalize' }}>
+                {nextClass.courseTitle.toLowerCase()}
+              </div>
+              <div style={{ fontSize: '12px', color: AURA.cyan, fontWeight: 700 }}>
+                {nextClass.startTime} - {nextClass.endTime} • Slot {nextClass.slot}
+              </div>
+              <div style={{ fontSize: '11px', color: AURA.sub, fontWeight: 600 }}>
+                Room {nextClass.roomNo || "TBA"} • {nextClass.facultyName || "Faculty Unknown"}
+              </div>
+            </div>
+          ) : (
+            <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)', fontWeight: 600 }}>
+              No more classes scheduled today.
+            </div>
+          )}
         </div>
 
         {/* Analytics Grid */}
@@ -121,15 +239,13 @@ export default function AuraDashboard({
           </div>
         </div>
 
-
-
         {/* What-If Grade Calculator */}
         {marks && <WhatIfCalculator marks={marks} />}
 
         {/* Official Hub Integration */}
         {renderAcademicIntegrityHub && renderAcademicIntegrityHub("aura")}
 
-        {/* Holographic Identity Passport */}
+        {/* Holographic Identity Passport (Student ID) */}
         <button 
           onClick={onShowStudentInfo} 
           className="premium-card"
@@ -156,8 +272,8 @@ export default function AuraDashboard({
                    <Fingerprint size={24} color={AURA.text} />
                 </div>
                 <div>
-                   <div style={{ fontSize: '16px', fontWeight: 900, color: '#fff' }}>Identity Passport</div>
-                   <div style={{ fontSize: '10px', color: AURA.pink, fontWeight: 900, letterSpacing: '0.08em' }}>✓ VERIFIED_CORE</div>
+                   <div style={{ fontSize: '16px', fontWeight: 900, color: '#fff' }}>Student ID</div>
+                   <div style={{ fontSize: '10px', color: AURA.pink, fontWeight: 900, letterSpacing: '0.08em' }}>Identity Passport</div>
                 </div>
              </div>
              <Compass size={20} color={AURA.sub} />
@@ -171,11 +287,14 @@ export default function AuraDashboard({
           </div>
         </button>
 
-        {/* Strategic Timeline */}
+        {/* Upcoming Timeline */}
         <section style={{ marginTop: '16px' }}>
            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px', paddingLeft: '8px' }}>
               <Zap size={18} color={AURA.amber} className="floating" />
-              <h3 style={{ fontSize: '14px', fontWeight: 900, color: '#fff', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Strategic Timeline</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                 <h3 style={{ fontSize: '14px', fontWeight: 900, color: '#fff', letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0 }}>Upcoming Timeline</h3>
+                 <span style={{ fontSize: '9px', color: AURA.sub, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Strategic Timeline</span>
+              </div>
            </div>
            
            <div style={{ position: 'relative', paddingLeft: upcomingEvents?.length > 0 ? '32px' : '0' }}>
@@ -216,14 +335,13 @@ export default function AuraDashboard({
                        <div>
                           <div style={{ fontSize: '12px', fontWeight: 900, color: '#fff', letterSpacing: '0.15em', textTransform: 'uppercase' }}>All Systems Clear</div>
                           <div style={{ fontSize: '12px', fontWeight: 600, color: AURA.sub, marginTop: '4px' }}>No immediate academic threats detected.</div>
-                       </div>
-                    </div>
-                 )}
-              </div>
-           </div>
-        </section>
+                        </div>
+                     </div>
+                  )}
+               </div>
+            </div>
+         </section>
       </main>
-
     </AuraBackground>
   );
 }

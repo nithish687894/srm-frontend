@@ -221,18 +221,18 @@ export default function DashboardPage() {
       }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
           <div>
-            <div style={{ fontSize: "10px", fontWeight: 900, color: primaryColor, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "4px" }}>Official Performance</div>
-            <h3 style={{ fontSize: "18px", fontWeight: "bold", color: "#fff" }}>Academic Intelligence Hub</h3>
+            <div style={{ fontSize: "10px", fontWeight: 900, color: primaryColor, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "4px" }}>My Performance</div>
+            <h3 style={{ fontSize: "18px", fontWeight: "bold", color: "#fff" }}>My Academic Status</h3>
             {hasSpData && (
-              <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.4)", fontWeight: 700, display: "flex", alignItems: "center", gap: "4px", marginTop: "4px" }}>
+              <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.72)", fontWeight: 700, display: "flex", alignItems: "center", gap: "4px", marginTop: "4px" }}>
                 <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: studentPortalConnected ? primaryColor : "rgba(255,255,255,0.2)" }} />
                 <span>Synced {formatLastSynced(spData?.lastSyncedAt)}</span>
               </div>
             )}
             {!hasSpData && (
-              <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.4)", fontWeight: 700, display: "flex", alignItems: "center", gap: "4px", marginTop: "4px" }}>
+              <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.72)", fontWeight: 700, display: "flex", alignItems: "center", gap: "4px", marginTop: "4px" }}>
                 <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: primaryColor }} />
-                <span>Academia OS Active</span>
+                <span>Academic OS Active</span>
               </div>
             )}
           </div>
@@ -535,6 +535,170 @@ export default function DashboardPage() {
     return events;
   }, [byDate]);
 
+  const tomorrowDate = useMemo(() => {
+    const d = new Date();
+    d.setDate(d.getDate() + 1);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  }, []);
+
+  const tomorrowCalInfo = byDate.get(tomorrowDate);
+  const tomorrowIsWeekend = [0, 6].includes(new Date(tomorrowDate).getDay());
+  const tomorrowIsHoliday = !!tomorrowCalInfo?.isHoliday || tomorrowIsWeekend;
+  const tomorrowDayOrder = tomorrowCalInfo?.dayOrder || null;
+
+  const tomorrowClasses = useMemo(() => {
+    if (!ttData?.data?.rows || !myTTData?.data || tomorrowIsHoliday || !tomorrowDayOrder) return [];
+    const rows = ttData.data.rows;
+    const courses = myTTData.data?.courses || myTTData.data || [];
+    const slotMap = buildSlotToCourseMap(courses);
+    const schedule = buildSchedule(rows, slotMap, att);
+    const targetRow = schedule.find(s => {
+      const header = String(s.day || "");
+      const dOrder = parseInt(header.match(/\d+/)?.[0] || "0");
+      return dOrder === tomorrowDayOrder;
+    });
+    return targetRow?.classes || [];
+  }, [ttData, myTTData, att, tomorrowDayOrder, tomorrowIsHoliday]);
+
+  const tomorrowSkipStats = useMemo(() => {
+    if (tomorrowIsHoliday || !tomorrowDayOrder || tomorrowClasses.length === 0) {
+      return { isHoliday: true, dayOrder: null, safe: 0, risky: 0, classes: [] };
+    }
+    
+    let safe = 0;
+    let risky = 0;
+    
+    const enrichedClasses = tomorrowClasses.map((cls) => {
+      const courseCode = cls.courseCode;
+      const course = att.find((c: AnyValue) => (c["Course Code"] || c.courseCode) === courseCode);
+      let isRisky = false;
+      if (course) {
+        const cond = parseInt(course["Hours Conducted"] || course.conducted) || 0;
+        const absent = parseInt(course["Hours Absent"] || course.absent) || 0;
+        const present = parseInt(course["Hours Attended"] || course.attended) || Math.max(0, cond - absent);
+        
+        const newCond = cond + 1;
+        const newPct = newCond > 0 ? (present / newCond) * 100 : 0;
+        if (newPct >= 75) {
+          safe++;
+        } else {
+          risky++;
+          isRisky = true;
+        }
+      } else {
+        safe++;
+      }
+      return { ...cls, isRisky };
+    });
+    
+    return {
+      isHoliday: false,
+      dayOrder: tomorrowDayOrder,
+      safe,
+      risky,
+      classes: enrichedClasses
+    };
+  }, [tomorrowIsHoliday, tomorrowDayOrder, tomorrowClasses, att]);
+
+  const nextRiskyClassText = useMemo(() => {
+    const riskyCls = tomorrowClasses.find((cls) => {
+      const course = att.find((c: AnyValue) => (c["Course Code"] || c.courseCode) === cls.courseCode);
+      if (course) {
+        const cond = parseInt(course["Hours Conducted"] || course.conducted) || 0;
+        const absent = parseInt(course["Hours Absent"] || course.absent) || 0;
+        const present = parseInt(course["Hours Attended"] || course.attended) || Math.max(0, cond - absent);
+        const newCond = cond + 1;
+        const newPct = newCond > 0 ? (present / newCond) * 100 : 0;
+        return newPct < 75;
+      }
+      return false;
+    });
+    if (riskyCls) {
+      const parts = riskyCls.courseTitle.split(' ');
+      const name = parts.length > 2 ? parts.slice(0, 3).join(' ') : riskyCls.courseTitle;
+      return `${name} tomorrow`;
+    }
+    return "None tomorrow";
+  }, [tomorrowClasses, att]);
+
+  const totalSafeSkips = useMemo(() => {
+    return att.reduce((sum: number, c: AnyValue) => {
+      const cond = parseInt(c["Hours Conducted"] || c.conducted) || 0;
+      const absent = parseInt(c["Hours Absent"] || c.absent) || 0;
+      const present = parseInt(c["Hours Attended"] || c.attended) || Math.max(0, cond - absent);
+      const pct = parseFloat(c["Attn %"] || c.pct) || 0;
+      if (pct >= 75) {
+        return sum + Math.max(0, Math.floor((present / 0.75) - cond));
+      }
+      return sum;
+    }, 0);
+  }, [att]);
+
+  const safeSubjectsCount = useMemo(() => {
+    return att.filter((c: AnyValue) => {
+      const cond = parseInt(c["Hours Conducted"] || c.conducted) || 0;
+      const absent = parseInt(c["Hours Absent"] || c.absent) || 0;
+      const present = parseInt(c["Hours Attended"] || c.attended) || Math.max(0, cond - absent);
+      const pct = cond > 0 ? (present / cond) * 100 : 0;
+      return pct >= 75;
+    }).length;
+  }, [att]);
+
+  const riskySubjectsCount = useMemo(() => {
+    return att.filter((c: AnyValue) => {
+      const cond = parseInt(c["Hours Conducted"] || c.conducted) || 0;
+      const absent = parseInt(c["Hours Absent"] || c.absent) || 0;
+      const present = parseInt(c["Hours Attended"] || c.attended) || Math.max(0, cond - absent);
+      const pct = cond > 0 ? (present / cond) * 100 : 0;
+      return pct < 75;
+    }).length;
+  }, [att]);
+
+  const marksTargetBrief = useMemo(() => {
+    if (!marks || marks.length === 0) return "Awaiting internal marks sync";
+    
+    const subject = marks.find((m: AnyValue) => m.tests && m.tests.length > 0);
+    if (!subject) return "All grades finalized";
+    
+    let totalCompScored = 0;
+    let totalCompMax = 0;
+    let totalPendMax = 0;
+    
+    subject.tests.forEach((test: AnyValue) => {
+      const max = parseFloat((test.test || "T/100").split("/")[1]) || 100;
+      const isCompleted = test.score !== undefined && test.score !== null && test.score !== "" && test.score !== "—" && test.score !== "— ";
+      if (isCompleted) {
+        totalCompScored += test.score === "Abs" ? 0 : parseFloat(test.score) || 0;
+        totalCompMax += max;
+      } else {
+        totalPendMax += max;
+      }
+    });
+    
+    const endSemWeight = Math.max(0, 100 - (totalCompMax + totalPendMax));
+    if (endSemWeight > 0) {
+      const targetScore = 80; 
+      const requiredFromEndSem = targetScore - totalCompScored;
+      if (requiredFromEndSem <= 0) {
+        return `Need 40/100 in End Sem for A/S grade`;
+      } else {
+        const requiredEndSemScore = (requiredFromEndSem / endSemWeight) * 100;
+        if (requiredEndSemScore > 100) {
+          const targetScoreB = 70;
+          const requiredFromEndSemB = targetScoreB - totalCompScored;
+          const requiredEndSemScoreB = (requiredFromEndSemB / endSemWeight) * 100;
+          if (requiredEndSemScoreB > 100) {
+            return `Need 50/100 in End Sem to pass`;
+          }
+          return `Need ${Math.ceil(requiredEndSemScoreB)}/100 in End Sem for B grade`;
+        }
+        return `Need ${Math.ceil(requiredEndSemScore)}/100 in End Sem for A grade`;
+      }
+    }
+    
+    return `Internals average: ${((totalCompScored / Math.max(1, totalCompMax)) * 100).toFixed(1)}%`;
+  }, [marks]);
+
   const targetDate = useMemo(() => {
     const d = new Date();
     d.setDate(d.getDate() + dayOffset);
@@ -678,6 +842,12 @@ export default function DashboardPage() {
         nextClass={nextClass} targetClasses={targetClasses} onShowStudentInfo={() => setShowStudentInfo(true)}
         broadcast={broadcast} renderAcademicIntegrityHub={renderAcademicIntegrityHub}
         upcomingEvents={upcomingEvents}
+        tomorrowSkipStats={tomorrowSkipStats}
+        totalSafeSkips={totalSafeSkips}
+        nextRiskyClassText={nextRiskyClassText}
+        marksTargetBrief={marksTargetBrief}
+        safeSubjectsCount={safeSubjectsCount}
+        riskySubjectsCount={riskySubjectsCount}
       />
     );
   })();

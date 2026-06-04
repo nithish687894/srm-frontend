@@ -185,7 +185,7 @@ export default function Sidebar() {
         }
         .nav-item {
           display: flex; flex-direction: column; align-items: center; justify-content: center;
-          gap: 6px; color: rgba(255,255,255,0.3); font-family: "Plus Jakarta Sans", sans-serif;
+          gap: 6px; color: rgba(255,255,255,0.55); font-family: "Plus Jakarta Sans", sans-serif;
           font-size: 9px; font-weight: 800; cursor: pointer;
           transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); -webkit-tap-highlight-color: transparent;
           background: none; border: none; outline: none; text-decoration: none; width: 64px;
@@ -384,8 +384,8 @@ export default function Sidebar() {
               borderColor: "rgba(255,255,255,0.08)"
             }}
           >
-            <div className={`w-1.5 h-1.5 rounded-full ${studentPortalConnected ? "bg-[#94FFD8]" : "bg-red-500"}`} />
-            <span className="text-[9px] font-black tracking-widest text-white/60 uppercase">{studentPortalConnected ? "SYNCED" : "OFFLINE"}</span>
+            <div className={`w-1.5 h-1.5 rounded-full ${studentPortalConnected ? "bg-[#94FFD8]" : "bg-amber-500"}`} />
+            <span className="text-[9px] font-black tracking-widest text-white/60 uppercase">{studentPortalConnected ? "SYNCED" : "LOCAL MODE"}</span>
           </div>
           <button 
             onClick={() => { setMenuOpen(true); }} 

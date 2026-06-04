@@ -280,7 +280,7 @@ export default function BottomNavigation() {
           align-items: center;
           justify-content: center;
           gap: 4px;
-          color: #666;
+          color: rgba(255, 255, 255, 0.55);
           font-family: 'Space Mono', monospace;
           font-size: 10px;
           position: relative;
