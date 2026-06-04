@@ -5,12 +5,12 @@ import { useThemeStore } from "@/lib/themeStore";
 import { useRouter } from "next/navigation";
 import { 
   Bell, ArrowLeft, CheckCircle2, AlertTriangle, Sparkles, 
-  BookOpen, Award, Settings, Trash2, Clock 
+  BookOpen, Award, Settings, Trash2, Clock, Coffee, Heart 
 } from "lucide-react";
 
 interface NotificationItem {
   id: string;
-  category: "attendance" | "marks" | "timetable" | "general" | "system";
+  category: "attendance" | "marks" | "timetable" | "general" | "system" | "life" | "motivation";
   title: string;
   body: string;
   timestamp: string;
@@ -114,6 +114,60 @@ export default function NotificationCenterPage() {
         read: false
       });
     }
+    // 5. Time-of-day Friendly Motivation / Reminders (from CSV templates)
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 12) {
+      items.push({
+        id: "friendly-morning-food",
+        category: "life",
+        title: "Food check first 🍛",
+        body: "Eat something before overthinking attendance. Brain needs fuel.",
+        timestamp: "Morning check-in",
+        read: false
+      });
+      items.push({
+        id: "friendly-morning-plan",
+        category: "timetable",
+        title: "Morning plan ready ☀️",
+        body: "First class starts soon. Start slow, but start on time.",
+        timestamp: "Morning check-in",
+        read: false
+      });
+    } else if (hour >= 12 && hour < 17) {
+      items.push({
+        id: "friendly-afternoon-motivation",
+        category: "motivation",
+        title: "One step enough 🎯",
+        body: "Fix one weak subject today. No need to fight everything.",
+        timestamp: "Afternoon status",
+        read: false
+      });
+      items.push({
+        id: "friendly-afternoon-water",
+        category: "life",
+        title: "Water break now 💧",
+        body: "Drink water once. Even good plans need hydration.",
+        timestamp: "Afternoon status",
+        read: false
+      });
+    } else {
+      items.push({
+        id: "friendly-night-sleep",
+        category: "life",
+        title: "Sleep matters too 🌙",
+        body: "Rest properly tonight. Attendance stress feels worse when tired.",
+        timestamp: "Night reminder",
+        read: false
+      });
+      items.push({
+        id: "friendly-evening-check",
+        category: "timetable",
+        title: "Evening check-in 🌆",
+        body: "Today's attendance is saved. Review risky subjects before tomorrow.",
+        timestamp: "Evening summary",
+        read: false
+      });
+    }
 
     setNotifications(items);
   };
@@ -157,6 +211,18 @@ export default function NotificationCenterPage() {
           icon: Sparkles,
           color: accentColor,
           bg: isLight ? "rgba(191, 90, 242, 0.08)" : "rgba(255, 117, 195, 0.08)"
+        };
+      case "life":
+        return {
+          icon: Coffee,
+          color: "#34C759",
+          bg: "rgba(52, 199, 89, 0.08)"
+        };
+      case "motivation":
+        return {
+          icon: Heart,
+          color: "#FF2D55",
+          bg: "rgba(255, 45, 85, 0.08)"
         };
       default:
         return {
