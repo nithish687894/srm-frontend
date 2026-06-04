@@ -467,16 +467,46 @@ export default function DashboardPage() {
   const totalCourses = att.length;
   const avgAtt = (() => {
     if (!att.length) return "—";
-    const totalH = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Conducted"]) || 0), 0);
-    const presentH = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Attended"]) || Math.max(0, (parseInt(c["Hours Conducted"]) || 0) - (parseInt(c["Hours Absent"]) || 0))), 0);
-    return totalH > 0 ? ((presentH / totalH) * 100).toFixed(1) : "—";
+    const totalH = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Conducted"] || c.conducted) || 0), 0);
+    if (totalH > 0) {
+      const presentH = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Attended"] || c.attended) || Math.max(0, (parseInt(c["Hours Conducted"] || c.conducted) || 0) - (parseInt(c["Hours Absent"] || c.absent) || 0))), 0);
+      return ((presentH / totalH) * 100).toFixed(1);
+    }
+    const validPctCourses = att.filter((c: AnyValue) => {
+      const p = c["Attn %"] || c.pct;
+      return p !== undefined && p !== null && p !== "null";
+    });
+    if (validPctCourses.length > 0) {
+      const sumPct = validPctCourses.reduce((s: number, c: AnyValue) => s + (parseFloat(c["Attn %"] || c.pct) || 0), 0);
+      return (sumPct / validPctCourses.length).toFixed(1);
+    }
+    return "—";
   })();
-  const riskCount = att.filter((c: AnyValue) => parseFloat(c["Attn %"]) < 75).length;
+  const riskCount = att.filter((c: AnyValue) => {
+    const pStr = c["Attn %"] || c.pct;
+    if (pStr === undefined || pStr === null || pStr === "null") return false;
+    const pct = parseFloat(pStr) || 0;
+    return pct < 75;
+  }).length;
 
   // Aggregate Hours
-  const totalHours = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Conducted"]) || 0), 0);
-  const presentHours = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Attended"]) || (parseInt(c["Hours Conducted"]) - parseInt(c["Hours Absent"])) || 0), 0);
-  const absentHours = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Absent"]) || 0), 0);
+  const totalHours = att.reduce((s: number, c: AnyValue) => {
+    const cond = parseInt(c["Hours Conducted"] || c.conducted) || 0;
+    const pctStr = c["Attn %"] || c.pct;
+    if (cond === 0 && pctStr !== undefined && pctStr !== null && pctStr !== "null") return s + 30;
+    return s + cond;
+  }, 0);
+  const presentHours = att.reduce((s: number, c: AnyValue) => {
+    const cond = parseInt(c["Hours Conducted"] || c.conducted) || 0;
+    const absent = parseInt(c["Hours Absent"] || c.absent) || 0;
+    const pctStr = c["Attn %"] || c.pct;
+    if (cond === 0 && pctStr !== undefined && pctStr !== null && pctStr !== "null") {
+      const pct = parseFloat(pctStr) || 0;
+      return s + Math.round(30 * (pct / 100));
+    }
+    return s + (parseInt(c["Hours Attended"] || c.attended) || (cond - absent) || 0);
+  }, 0);
+  const absentHours = Math.max(0, totalHours - presentHours);
 
   // Calculate average marks
   const totalScored = marks.reduce((s: number, m: AnyValue) => s + (m.tests?.reduce((a: number, t: AnyValue) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
@@ -576,14 +606,27 @@ export default function DashboardPage() {
         const cond = parseInt(course["Hours Conducted"] || course.conducted) || 0;
         const absent = parseInt(course["Hours Absent"] || course.absent) || 0;
         const present = parseInt(course["Hours Attended"] || course.attended) || Math.max(0, cond - absent);
+        const pctStr = course["Attn %"] || course.pct;
         
-        const newCond = cond + 1;
-        const newPct = newCond > 0 ? (present / newCond) * 100 : 0;
-        if (newPct >= 75) {
-          safe++;
+        if (cond > 0) {
+          const newCond = cond + 1;
+          const newPct = (present / newCond) * 100;
+          if (newPct >= 75) {
+            safe++;
+          } else {
+            risky++;
+            isRisky = true;
+          }
+        } else if (pctStr !== undefined && pctStr !== null && pctStr !== "null") {
+          const currentPct = parseFloat(pctStr) || 0;
+          if (currentPct >= 80) {
+            safe++;
+          } else {
+            risky++;
+            isRisky = true;
+          }
         } else {
-          risky++;
-          isRisky = true;
+          safe++;
         }
       } else {
         safe++;
@@ -607,9 +650,16 @@ export default function DashboardPage() {
         const cond = parseInt(course["Hours Conducted"] || course.conducted) || 0;
         const absent = parseInt(course["Hours Absent"] || course.absent) || 0;
         const present = parseInt(course["Hours Attended"] || course.attended) || Math.max(0, cond - absent);
-        const newCond = cond + 1;
-        const newPct = newCond > 0 ? (present / newCond) * 100 : 0;
-        return newPct < 75;
+        const pctStr = course["Attn %"] || course.pct;
+        
+        if (cond > 0) {
+          const newCond = cond + 1;
+          const newPct = (present / newCond) * 100;
+          return newPct < 75;
+        } else if (pctStr !== undefined && pctStr !== null && pctStr !== "null") {
+          const currentPct = parseFloat(pctStr) || 0;
+          return currentPct < 80;
+        }
       }
       return false;
     });
@@ -623,10 +673,19 @@ export default function DashboardPage() {
 
   const totalSafeSkips = useMemo(() => {
     return att.reduce((sum: number, c: AnyValue) => {
-      const cond = parseInt(c["Hours Conducted"] || c.conducted) || 0;
-      const absent = parseInt(c["Hours Absent"] || c.absent) || 0;
-      const present = parseInt(c["Hours Attended"] || c.attended) || Math.max(0, cond - absent);
-      const pct = parseFloat(c["Attn %"] || c.pct) || 0;
+      let cond = parseInt(c["Hours Conducted"] || c.conducted) || 0;
+      let absent = parseInt(c["Hours Absent"] || c.absent) || 0;
+      let present = parseInt(c["Hours Attended"] || c.attended) || Math.max(0, cond - absent);
+      const pctStr = c["Attn %"] || c.pct;
+      const pct = parseFloat(pctStr) || 0;
+      
+      if (pctStr === undefined || pctStr === null || pctStr === "null") return sum;
+
+      if (cond === 0 && pct > 0) {
+        cond = 30;
+        present = Math.round(cond * (pct / 100));
+      }
+
       if (pct >= 75) {
         return sum + Math.max(0, Math.floor((present / 0.75) - cond));
       }
@@ -636,20 +695,18 @@ export default function DashboardPage() {
 
   const safeSubjectsCount = useMemo(() => {
     return att.filter((c: AnyValue) => {
-      const cond = parseInt(c["Hours Conducted"] || c.conducted) || 0;
-      const absent = parseInt(c["Hours Absent"] || c.absent) || 0;
-      const present = parseInt(c["Hours Attended"] || c.attended) || Math.max(0, cond - absent);
-      const pct = cond > 0 ? (present / cond) * 100 : 0;
+      const pctStr = c["Attn %"] || c.pct;
+      if (pctStr === undefined || pctStr === null || pctStr === "null") return true;
+      const pct = parseFloat(pctStr) || 0;
       return pct >= 75;
     }).length;
   }, [att]);
 
   const riskySubjectsCount = useMemo(() => {
     return att.filter((c: AnyValue) => {
-      const cond = parseInt(c["Hours Conducted"] || c.conducted) || 0;
-      const absent = parseInt(c["Hours Absent"] || c.absent) || 0;
-      const present = parseInt(c["Hours Attended"] || c.attended) || Math.max(0, cond - absent);
-      const pct = cond > 0 ? (present / cond) * 100 : 0;
+      const pctStr = c["Attn %"] || c.pct;
+      if (pctStr === undefined || pctStr === null || pctStr === "null") return false;
+      const pct = parseFloat(pctStr) || 0;
       return pct < 75;
     }).length;
   }, [att]);
@@ -1222,7 +1279,7 @@ export default function DashboardPage() {
             textTransform: 'uppercase',
             marginBottom: '32px'
           }}>
-            ACADEMIC INTELLIGENCE SUITE
+            YOUR SRM LIFE, DECODED.
           </div>
 
           {/* Progress bar info layout */}

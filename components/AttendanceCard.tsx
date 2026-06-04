@@ -1,9 +1,16 @@
 "use client";
 import { useEffect, useState } from "react";
 export default function AttendanceCard({ course }: { course: AnyValue }) {
-  const pct = parseFloat(course["Attn %"]) || 0;
-  const conducted = parseInt(course["Hours Conducted"]) || 0;
-  const absent = parseInt(course["Hours Absent"]) || 0;
+  const pct = parseFloat(course["Attn %"] || course.pct) || 0;
+  let conducted = parseInt(course["Hours Conducted"] || course.conducted) || 0;
+  let absent = parseInt(course["Hours Absent"] || course.absent) || 0;
+  
+  if (conducted === 0 && pct > 0) {
+    conducted = 30;
+    const presentEst = Math.round(conducted * (pct / 100));
+    absent = conducted - presentEst;
+  }
+  
   const present = conducted - absent;
   const required = Math.ceil((0.75 * conducted - present) / 0.25);
   const margin = Math.floor((present - 0.75 * conducted) / 0.75);

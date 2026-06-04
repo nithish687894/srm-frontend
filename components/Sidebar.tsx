@@ -3,12 +3,14 @@ import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import { authAPI } from "@/lib/api";
+import { authAPI, dataAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
+import PortalSyncModal from "@/components/PortalSyncModal";
 import {
   Home, BarChart2, CheckCircle, Clock, Calendar, Wrench, Sparkles, Shield,
-  X, ChevronRight, CreditCard, FileText, Bed, Bus, Bell, Award, MonitorPlay, Printer, Briefcase, UserSquare, User, GraduationCap, BookOpen, Settings, MoreHorizontal, Share2, LogOut, LayoutTemplate, LifeBuoy, MessageSquare
+  X, ChevronRight, CreditCard, FileText, Bed, Bus, Bell, Award, MonitorPlay, Printer, Briefcase, UserSquare, User, GraduationCap, BookOpen, Settings, MoreHorizontal, Share2, LogOut, LayoutTemplate, LifeBuoy, MessageSquare,
+  Fingerprint, RefreshCw, Cpu
 } from "lucide-react";
 
 const NAV_MAIN = [
@@ -27,10 +29,10 @@ const NAV_MORE_ITEMS = [
 
 const PORTAL_SERVICES = [
   { href: "/portal/student-dashboard", label: "Student Dashboard", icon: UserSquare },
-  { href: "/portal/grade-mark-credit", label: "Grade & Credit", icon: GraduationCap },
+  { href: "/portal/grade-mark-credit", label: "Grades & Credits", icon: GraduationCap },
 ] as const;
 
-const ADMIN_EMAILS = ["ns4770@srmist.edu.in", "ts0014@srmist.edu.in"];
+const ADMIN_EMAILS = ["ts0014@srmist.edu.in"];
 
 const THEME = {
   bg: "#050505",
@@ -53,9 +55,9 @@ export default function Sidebar() {
   const [mounted, setMounted] = useState(false);
   const { theme } = useThemeStore();
 
-  const { profile, email, studentPortalConnected, studentPortalData, academicData } = useAuthStore();
+  const { profile, email, academiaConnected, studentPortalConnected, studentPortalData, academicData } = useAuthStore();
   const userEmail = (email || profile?.Email || "").toLowerCase();
-  const isAdmin = ADMIN_EMAILS.some((e) => e.toLowerCase() === userEmail);
+  const isAdmin = ADMIN_EMAILS.some((e) => e.toLowerCase() === userEmail) || profile?.role === "admin" || profile?.Role === "admin";
 
   useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
@@ -73,7 +75,7 @@ export default function Sidebar() {
 
   // User profile details for the More drawer
   const userName = profile?.["Name"] || profile?.Name || "NITHISHKUMAR S";
-  const regNo = profile?.["Registration Number"] || profile?.RegNo || "RA2311026010156";
+  const regNo = profile?.["Registration Number"] || profile?.RegNo || "RA2511030010190";
   const initials = userName
     .split(" ")
     .filter(Boolean)
@@ -86,12 +88,28 @@ export default function Sidebar() {
   const att = academicData?.attendance || [];
   const avgAtt = (() => {
     if (!att.length) return "89.3";
-    const totalH = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Conducted"]) || 0), 0);
-    const presentH = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Attended"]) || Math.max(0, (parseInt(c["Hours Conducted"]) || 0) - (parseInt(c["Hours Absent"]) || 0))), 0);
-    return totalH > 0 ? ((presentH / totalH) * 100).toFixed(1) : "89.3";
+    const totalH = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Conducted"] || c.conducted) || 0), 0);
+    if (totalH > 0) {
+      const presentH = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Attended"] || c.attended) || Math.max(0, (parseInt(c["Hours Conducted"] || c.conducted) || 0) - (parseInt(c["Hours Absent"] || c.absent) || 0))), 0);
+      return ((presentH / totalH) * 100).toFixed(1);
+    }
+    const validPctCourses = att.filter((c: AnyValue) => {
+      const p = c["Attn %"] || c.pct;
+      return p !== undefined && p !== null && p !== "null";
+    });
+    if (validPctCourses.length > 0) {
+      const sumPct = validPctCourses.reduce((s: number, c: AnyValue) => s + (parseFloat(c["Attn %"] || c.pct) || 0), 0);
+      return (sumPct / validPctCourses.length).toFixed(1);
+    }
+    return "89.3";
   })();
   const riskCount = att.length
-    ? att.filter((c: AnyValue) => parseFloat(c["Attn %"] || 0) < 75).length
+    ? att.filter((c: AnyValue) => {
+        const pStr = c["Attn %"] || c.pct;
+        if (pStr === undefined || pStr === null || pStr === "null") return false;
+        const pct = parseFloat(pStr) || 0;
+        return pct < 75;
+      }).length
     : 0;
 
   // ── Contextual Intelligence Engine ──
@@ -149,6 +167,35 @@ export default function Sidebar() {
     return () => cancelAnimationFrame(id);
   }, [moreOpen]);
 
+  const [showStudentInfo, setShowStudentInfo] = useState(false);
+  const [isSyncOpen, setIsSyncOpen] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const handleRefreshSync = async () => {
+    setIsRefreshing(true);
+    try {
+      await dataAPI.forceRefresh();
+      const unified = await dataAPI.getUnified();
+      if (unified && unified.success) {
+        const mergedData = {
+          ...unified.academia,
+          studentPortal: unified.studentPortal
+        };
+        useAuthStore.getState().setAcademicData(mergedData);
+        if (unified.studentPortal) {
+          useAuthStore.getState().setStudentPortalData(unified.studentPortal);
+        }
+        if (unified.academia?.profile) {
+          useAuthStore.getState().setProfile(unified.academia.profile);
+        }
+      }
+    } catch (err) {
+      console.error("Refresh failed:", err);
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
   const hubAccent = "#BF5AF2";
   const hubAccentGlow = "rgba(191,90,242,0.15)";
   const hubBg = "#0f0a15";
@@ -156,16 +203,16 @@ export default function Sidebar() {
   const hubCardBorder = "rgba(255,255,255,0.06)";
 
   const moreItems = [
-    { href: "/calendar", label: "Calendar", icon: Calendar, color: "#00E5FF" },
-    { href: "/app-tools", label: "Tools", icon: Wrench, color: "#34C759" },
+    { href: "/calendar", label: "University Calendar", icon: Calendar, color: "#00E5FF" },
+    { href: "/app-tools", label: "Sync & Connectors", icon: Wrench, color: "#34C759" },
     { href: "/ai", label: "AI Tutor", icon: Sparkles, color: "#BF5AF2" },
-    { href: "/gpa", label: "GPA Calc", icon: GraduationCap, color: "#FF2D55" },
-    ...(isAdmin ? [{ href: "/admin", label: "Admin", icon: Shield, color: "#FF9500" }] : []),
+    { href: "/gpa", label: "GPA / CGPA Planner", icon: GraduationCap, color: "#FF2D55" },
+    ...(isAdmin ? [{ href: "/admin", label: "Admin Control", icon: Shield, color: "#FF9500" }] : []),
   ];
 
   const portalServices = [
-    { href: "/portal/student-dashboard", label: "Student Dashboard", icon: UserSquare, color: "#00E5FF" },
-    { href: "/portal/grade-mark-credit", label: "Grade & Credit", icon: GraduationCap, color: "#FF2D55" },
+    { href: "/portal/student-dashboard", label: "Student Portal", icon: UserSquare, color: "#00E5FF" },
+    { href: "/portal/grade-mark-credit", label: "Grades & Credits", icon: GraduationCap, color: "#FF2D55" },
   ];
 
   const isMoreActive = moreItems.some((item) => isActive(item.href, path)) || portalServices.some((item) => isActive(item.href, path));
@@ -384,8 +431,8 @@ export default function Sidebar() {
               borderColor: "rgba(255,255,255,0.08)"
             }}
           >
-            <div className={`w-1.5 h-1.5 rounded-full ${studentPortalConnected ? "bg-[#94FFD8]" : "bg-amber-500"}`} />
-            <span className="text-[9px] font-black tracking-widest text-white/60 uppercase">{studentPortalConnected ? "SYNCED" : "LOCAL MODE"}</span>
+            <div className={`w-1.5 h-1.5 rounded-full ${(academiaConnected || studentPortalConnected) ? "bg-[#94FFD8]" : "bg-amber-500"}`} />
+            <span className="text-[9px] font-black tracking-widest text-white/60 uppercase">{(academiaConnected || studentPortalConnected) ? "SYNCED" : "LOCAL MODE"}</span>
           </div>
           <button 
             onClick={() => { setMenuOpen(true); }} 
@@ -545,387 +592,269 @@ export default function Sidebar() {
               paddingBottom: 'calc(20px + env(safe-area-inset-bottom))'
             }}
           >
-              <div 
-                className="shrink-0 flex flex-col w-full relative z-10"
-                style={{ background: "#110c1e" }}
-              >
-                {/* Drag Bar Handle */}
-                <div 
-                  className="w-12 h-1.5 bg-white/20 rounded-full mx-auto mt-4 mb-3 shrink-0 cursor-pointer hover:bg-white/30 active:scale-95 transition-all" 
-                  onClick={() => setMoreOpen(false)} 
-                />
-
-                {/* Profile Header Section */}
-                <div className="flex items-center gap-4 px-6 pb-4">
-                  {/* Initials Avatar */}
-                  <div 
-                    className="w-12 h-12 rounded-full flex items-center justify-center text-black text-base font-black shrink-0 relative overflow-hidden border border-white/5"
-                    style={{ 
-                      background: `linear-gradient(135deg, ${hubAccent} 0%, #ffffff 200%)`, 
-                      boxShadow: `0 4px 12px ${hubAccentGlow}` 
-                    }}
-                  >
-                    {initials}
-                  </div>
-
-                  {/* Profile Details */}
-                  <div className="flex-1 min-w-0">
-                    <h2 className="text-sm font-black text-white leading-tight truncate tracking-wide">{userName}</h2>
-                    <p className="text-[9px] text-white/40 font-bold uppercase tracking-widest mt-1 tabular-nums">{regNo}</p>
-                    
-                    {studentPortalConnected && (
-                      <div className="inline-flex items-center gap-1.5 px-2 py-0.5 mt-1.5 rounded-full bg-white/[0.04] border border-white/5">
-                        <div 
-                          className="w-1 h-1 rounded-full animate-pulse" 
-                          style={{ 
-                            background: hubAccent, 
-                            boxShadow: `0 0 6px ${hubAccent}` 
-                          }} 
-                        />
-                        <span className="text-[7px] font-black text-white/50 uppercase tracking-widest">Portal Linked</span>
+              {/* RowItem helper component inside Sidebar */}
+              {(() => {
+                const RowItem = ({ href, label, subtitle, icon: Icon, color, onClick }: AnyValue) => {
+                  const content = (
+                    <div className="flex items-center justify-between w-full py-3.5 px-4 rounded-[20px] bg-white/[0.01] hover:bg-white/[0.04] transition-all active:scale-[0.99] group border border-white/[0.02] hover:border-white/[0.04] text-left">
+                      <div className="flex items-center gap-3.5 min-w-0">
+                        <div className="w-10 h-10 rounded-xl flex items-center justify-center border border-white/5 shrink-0" style={{ background: `${color}12`, color: color }}>
+                          <Icon size={18} />
+                        </div>
+                        <div className="flex flex-col min-w-0">
+                          <span className="text-xs font-black text-white/90 tracking-wide truncate">{label}</span>
+                          <span className="text-[9.5px] text-white/45 font-bold mt-1 leading-normal tracking-wide">{subtitle}</span>
+                        </div>
                       </div>
-                    )}
-                  </div>
-
-                  {/* Close Button */}
-                  <button 
-                    onClick={() => setMoreOpen(false)}
-                    className="w-8 h-8 rounded-full flex items-center justify-center bg-white/5 border border-white/5 active:scale-90 hover:bg-white/10 transition-all shrink-0 self-start"
-                  >
-                    <X size={14} className="text-white/60" />
-                  </button>
-                </div>
-              </div>
-
-              {/* SCROLLABLE BODY */}
-              <div 
-                ref={scrollRef}
-                className="more-drawer-body px-4 py-4 flex-1 overflow-y-auto flex flex-col gap-4 w-full relative z-0"
-                style={{ 
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  scrollbarWidth: "none"
-                }}
-              >
-                {/* 1. LUMINA ACTIVE HERO */}
-                <div 
-                  className="w-full rounded-[24px] bg-white/[0.02] backdrop-blur-xl p-5 flex flex-col gap-4 relative overflow-hidden border border-white/[0.04]"
-                  style={{
-                    animation: 'heroGlow 6s cubic-bezier(0.37, 0, 0.63, 1) infinite'
-                  }}
-                >
-                  {/* Ambient gradient — dynamic light response: shifts with scroll */}
-                  <div 
-                    className="absolute inset-0 pointer-events-none"
-                    style={{
-                      background: `
-                        radial-gradient(circle at ${30 + scrollGlow * 40}% ${20 + scrollGlow * 30}%, rgba(168, 85, 247, ${0.08 + scrollGlow * 0.05}), transparent 55%),
-                        radial-gradient(circle at ${70 - scrollGlow * 20}% ${80 - scrollGlow * 20}%, rgba(0, 229, 255, ${0.04 + scrollGlow * 0.03}), transparent 50%)
-                      `,
-                      transition: 'background 0.8s ease'
-                    }}
-                  />
-                  
-                  <div className="flex items-center justify-between relative z-10">
-                    <div className="flex flex-col gap-0.5">
-                      <span className="text-[10px] font-black tracking-[0.2em] text-white/50 uppercase">
-                        LUMINA ACTIVE
-                      </span>
-                      <span className="text-[8px] font-bold text-white/30 uppercase tracking-widest">
-                        Academic Intelligence Engine
-                      </span>
+                      <ChevronRight size={14} className="text-white/20 group-hover:text-white/60 group-hover:translate-x-0.5 transition-all duration-300 shrink-0" />
                     </div>
-                    {/* Live Status indicator */}
+                  );
+
+                  if (onClick) {
+                    return (
+                      <button onClick={onClick} className="w-full text-left p-0 bg-transparent border-none outline-none block">
+                        {content}
+                      </button>
+                    );
+                  }
+
+                  return (
+                    <Link href={href} onClick={() => setMoreOpen(false)} className="w-full block">
+                      {content}
+                    </Link>
+                  );
+                };
+
+                return (
+                  <>
                     <div 
-                      className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/20"
+                      className="shrink-0 flex flex-col w-full relative z-10"
+                      style={{ background: "#110c1e" }}
                     >
-                      <div className="w-1.5 h-1.5 rounded-full bg-purple-400" style={{ animation: 'heroBreathe 2s ease-in-out infinite' }} />
-                      <span className="text-[8px] font-black tracking-widest text-purple-300 uppercase">ONLINE</span>
+                      {/* Drag Bar Handle */}
+                      <div 
+                        className="w-12 h-1.5 bg-white/20 rounded-full mx-auto mt-4 mb-3 shrink-0 cursor-pointer hover:bg-white/30 active:scale-95 transition-all" 
+                        onClick={() => setMoreOpen(false)} 
+                      />
+
+                      {/* Profile Header Section */}
+                      <div className="flex items-center justify-between px-6 pb-3 pt-1 border-b border-white/5">
+                        <div className="flex items-center gap-3">
+                          <div 
+                            className="w-10 h-10 rounded-full flex items-center justify-center text-black text-xs font-black shrink-0 relative overflow-hidden border border-white/5"
+                            style={{ 
+                              background: `linear-gradient(135deg, ${hubAccent} 0%, #ffffff 200%)`, 
+                              boxShadow: `0 4px 10px ${hubAccentGlow}` 
+                            }}
+                          >
+                            {initials}
+                          </div>
+                          <div className="min-w-0">
+                            <h2 className="text-[11.5px] font-black text-white leading-tight truncate tracking-wide uppercase">{userName}</h2>
+                            <p className="text-[7.5px] text-white/40 font-bold uppercase tracking-widest mt-0.5 tabular-nums">{regNo}</p>
+                            <div className="flex items-center gap-1 mt-0.5">
+                              <span className={`w-1 h-1 rounded-full ${academiaConnected || studentPortalConnected ? "bg-emerald-400 animate-pulse" : "bg-amber-400"}`} />
+                              <span className="text-[7.5px] font-black text-white/30 uppercase tracking-widest">
+                                {academiaConnected || studentPortalConnected ? "Synced" : "Local Mode"}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <button 
+                          onClick={() => setMoreOpen(false)}
+                          className="w-7 h-7 rounded-full flex items-center justify-center bg-white/5 border border-white/5 active:scale-90 hover:bg-white/10 transition-all shrink-0"
+                        >
+                          <X size={12} className="text-white/60" />
+                        </button>
+                      </div>
+
+                      {/* Quick Actions */}
+                      <div className="flex gap-2 px-6 py-3 bg-white/[0.01] border-b border-white/5">
+                        <button
+                          onClick={handleRefreshSync}
+                          disabled={isRefreshing}
+                          className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl py-2 px-3 text-[9px] font-black tracking-wider text-white uppercase flex items-center justify-center gap-1.5 transition-all active:scale-95"
+                        >
+                          <RefreshCw size={11} className={isRefreshing ? "animate-spin" : ""} />
+                          <span>{isRefreshing ? "Syncing..." : "Refresh Data"}</span>
+                        </button>
+                        {!studentPortalConnected ? (
+                          <button
+                            onClick={() => { setMoreOpen(false); setIsSyncOpen(true); }}
+                            className="flex-1 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/20 rounded-xl py-2 px-3 text-[9px] font-black tracking-wider text-purple-300 uppercase flex items-center justify-center gap-1.5 transition-all active:scale-95"
+                          >
+                            <Cpu size={11} />
+                            <span>Connect Student Portal</span>
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => { setMoreOpen(false); setShowStudentInfo(true); }}
+                            className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl py-2 px-3 text-[9px] font-black tracking-wider text-white uppercase flex items-center justify-center gap-1.5 transition-all active:scale-95"
+                          >
+                            <Fingerprint size={11} />
+                            <span>Student ID</span>
+                          </button>
+                        )}
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="grid grid-cols-3 gap-2 relative z-10 pt-1">
-                    <div className="flex flex-col">
-                      <span className="text-[9px] font-black text-white/40 uppercase tracking-wider">Attendance</span>
-                      <span className="text-lg font-black text-white tracking-tight mt-0.5">{avgAtt}%</span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-[9px] font-black text-white/40 uppercase tracking-wider">Status</span>
-                      <span className={`text-lg font-black tracking-tight mt-0.5 ${riskCount > 0 ? "text-red-400" : "text-emerald-400"}`}>
-                        {riskCount > 0 ? `${riskCount} Risks` : "Optimal"}
-                      </span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-[9px] font-black text-white/40 uppercase tracking-wider">Core Sync</span>
-                      <span className="text-lg font-black text-white/80 tracking-tight mt-0.5">
-                        {studentPortalConnected ? "100%" : "Cached"}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Contextual Intelligence — real interpretive insight */}
-                  <div className="relative z-10 pt-2 border-t border-white/5">
-                    <p className="text-[9px] text-white/45 font-semibold leading-relaxed tracking-wide flex items-center gap-2">
-                      <span className="text-purple-400 shrink-0">⦿</span>
-                      <span>{contextualInsight}</span>
-                    </p>
-                  </div>
-                </div>
-
-                {/* 2. SYMMETRICAL BENTO GRID */}
-                <div>
-                  <p className="text-[9px] font-black text-white/25 uppercase tracking-[0.3em] mb-3 pl-1">Nexus Intelligence</p>
-                  <div className="grid grid-cols-6 gap-3">
-                    
-                    {/* LUMINA AI Tutor (6 cols) */}
-                    <button
-                      onClick={() => { setMoreOpen(false); router.push("/ai"); }}
-                      className="group relative col-span-6 overflow-hidden rounded-[24px] border border-purple-500/10 bg-gradient-to-r from-purple-900/15 via-indigo-950/10 to-transparent p-5 text-left backdrop-blur-xl shadow-xl transition-all duration-300 hover:scale-[1.01] hover:border-purple-500/25 hover:shadow-[0_0_30px_rgba(168,85,247,0.18)]"
+                    {/* SCROLLABLE BODY */}
+                    <div 
+                      ref={scrollRef}
+                      className="more-drawer-body px-5 py-4 flex-1 overflow-y-auto flex flex-col gap-5 w-full relative z-0"
+                      style={{ 
+                        fontFamily: "'Plus Jakarta Sans', sans-serif",
+                        scrollbarWidth: "none"
+                      }}
                     >
-                      <div className="absolute -inset-full bg-gradient-to-r from-transparent via-white/5 to-transparent group-hover:animate-[shimmer_1.5s_infinite] pointer-events-none" />
-                      <div className="absolute inset-0 bg-radial-gradient from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                      
-                      <div className="flex items-center justify-between relative z-10">
-                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-2xl bg-purple-500/10 flex items-center justify-center text-purple-400 border border-purple-500/20 shadow-[inset_0_0_12px_rgba(168,85,247,0.2)] group-hover:scale-105 transition-transform duration-300">
-                            <Sparkles size={22} className="animate-spin-slow" />
-                          </div>
-                          <div className="flex flex-col">
-                            <div className="flex items-center gap-2">
-                              <span className="text-xs font-black text-white tracking-wide">LUMINA AI Tutor</span>
-                              <span className="px-1.5 py-0.5 rounded-full text-[7px] font-black tracking-widest text-purple-300 bg-purple-500/20 border border-purple-500/30 uppercase animate-pulse">AI ACTIVE</span>
-                            </div>
-                            <span className="text-[10px] text-white/45 font-semibold mt-1 leading-normal">Instant academic support, insights & analysis</span>
-                          </div>
-                        </div>
-                        <div className="w-8 h-8 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-white/40 group-hover:text-purple-400 group-hover:border-purple-500/20 group-hover:bg-purple-500/10 transition-all duration-300 shrink-0">
-                          <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
-                        </div>
+                      {/* 1. ACADEMIC TOOLS */}
+                      <div className="flex flex-col gap-2">
+                        <p className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em] mb-1 pl-1">Academic Tools</p>
+                        <RowItem 
+                          href="/ai" 
+                          label="AI Tutor" 
+                          subtitle="Academic help, insights & instant analysis" 
+                          icon={Sparkles} 
+                          color="#BF5AF2" 
+                        />
+                        <RowItem 
+                          href="/gpa" 
+                          label="GPA / CGPA Planner" 
+                          subtitle="Target forecast and GPA calculator" 
+                          icon={GraduationCap} 
+                          color="#FF2D55" 
+                        />
+                        <RowItem 
+                          href="/calendar" 
+                          label="University Calendar" 
+                          subtitle="Holidays, exams, and key academic events" 
+                          icon={Calendar} 
+                          color="#00E5FF" 
+                        />
+                        <RowItem 
+                          href="/portal/student-dashboard" 
+                          label="Student Portal" 
+                          subtitle="Official personal details & student summary" 
+                          icon={UserSquare} 
+                          color="#FF75C3" 
+                        />
+                        <RowItem 
+                          href="/portal/grade-mark-credit" 
+                          label="Grades & Credits" 
+                          subtitle="Semester grade ledger & credits tracker" 
+                          icon={Award} 
+                          color="#FF9500" 
+                        />
                       </div>
-                    </button>
 
-                    {/* Attendance (3 cols) */}
-                    <button
-                      onClick={() => { setMoreOpen(false); router.push("/attendance"); }}
-                      className="group relative col-span-3 overflow-hidden rounded-[24px] border border-white/[0.04] bg-white/[0.01] p-4 flex flex-col justify-between text-left backdrop-blur-xl shadow-lg transition-all duration-300 hover:scale-[1.02] hover:border-emerald-500/25 hover:bg-white/[0.03] hover:shadow-[0_0_25px_rgba(52,199,89,0.12)] min-h-[112px]"
-                    >
-                      <div className="flex items-start justify-between w-full">
-                        <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 border border-emerald-500/20 group-hover:scale-105 transition-transform duration-300">
-                          <CheckCircle size={20} />
-                        </div>
-                        <div className="px-2 py-0.5 rounded-full text-[8px] font-black tracking-wider text-emerald-300 bg-emerald-500/10 border border-emerald-500/20">
-                          {avgAtt}%
-                        </div>
+                      {/* 2. SETTINGS */}
+                      <div className="flex flex-col gap-2">
+                        <p className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em] mb-1 pl-1">Settings</p>
+                        <RowItem 
+                          href="/settings/theme" 
+                          label="Appearance" 
+                          subtitle="Personalize workspace visual styles & themes" 
+                          icon={LayoutTemplate} 
+                          color="#A78BFA" 
+                        />
+                        <RowItem 
+                          href="/app-tools" 
+                          label="Sync & Connectors" 
+                          subtitle="System diagnostics, sync options & overrides" 
+                          icon={Wrench} 
+                          color="#34C759" 
+                        />
+                        <RowItem 
+                          href="/trust" 
+                          label="Privacy & Trust" 
+                          subtitle="Encrypted sessions & secure data practices" 
+                          icon={Shield} 
+                          color="#38BDF8" 
+                        />
                       </div>
-                      <div className="mt-3">
-                        <span className="text-[11px] font-black text-white/90 tracking-wide block">Attendance</span>
-                        <span className="text-[9px] text-white/40 font-bold mt-1 block">Live track log</span>
-                      </div>
-                    </button>
 
-                    {/* GPA Calculator (3 cols) */}
-                    <button
-                      onClick={() => { setMoreOpen(false); router.push("/gpa"); }}
-                      className="group relative col-span-3 overflow-hidden rounded-[24px] border border-white/[0.04] bg-white/[0.01] p-4 flex flex-col justify-between text-left backdrop-blur-xl shadow-lg transition-all duration-300 hover:scale-[1.02] hover:border-rose-500/25 hover:bg-white/[0.03] hover:shadow-[0_0_25px_rgba(255,45,85,0.12)] min-h-[112px]"
-                    >
-                      <div className="flex items-start justify-between w-full">
-                        <div className="w-10 h-10 rounded-xl bg-rose-500/10 flex items-center justify-center text-rose-400 border border-rose-500/20 group-hover:scale-105 transition-transform duration-300">
-                          <GraduationCap size={20} />
-                        </div>
-                        <div className="px-2 py-0.5 rounded-full text-[8px] font-black tracking-wider text-rose-300 bg-rose-500/10 border border-rose-500/20 uppercase">
-                          What-If
-                        </div>
+                      {/* 3. SUPPORT */}
+                      <div className="flex flex-col gap-2">
+                        <p className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em] mb-1 pl-1">Support</p>
+                        <RowItem 
+                          href="/support" 
+                          label="Help & Support" 
+                          subtitle="Get immediate assistance with Academic OS" 
+                          icon={LifeBuoy} 
+                          color="#00aaff" 
+                        />
+                        <RowItem 
+                          href="#" 
+                          label="Logout" 
+                          subtitle="Safely terminate your local active session" 
+                          icon={LogOut} 
+                          color="#ff5555" 
+                          onClick={() => { setMoreOpen(false); handleLogout(); }}
+                        />
                       </div>
-                      <div className="mt-3">
-                        <span className="text-[11px] font-black text-white/90 tracking-wide block">GPA Calc</span>
-                        <span className="text-[9px] text-white/40 font-bold mt-1 block">Target forecast</span>
-                      </div>
-                    </button>
 
-                    {/* Calendar (6 cols) */}
-                    <button
-                      onClick={() => { setMoreOpen(false); router.push("/calendar"); }}
-                      className="group relative col-span-6 overflow-hidden rounded-[24px] border border-white/[0.04] bg-white/[0.01] p-4 text-left backdrop-blur-xl shadow-lg transition-all duration-300 hover:scale-[1.01] hover:border-cyan-500/25 hover:bg-white/[0.03] hover:shadow-[0_0_25px_rgba(0,229,255,0.12)]"
-                    >
-                      <div className="flex items-center justify-between relative z-10">
-                        <div className="flex items-center gap-4">
-                          <div className="w-11 h-11 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-400 border border-cyan-500/20 group-hover:scale-105 transition-transform duration-300">
-                            <Calendar size={20} />
-                          </div>
-                          <div className="flex flex-col">
-                            <span className="text-xs font-black text-white tracking-wide">University Calendar</span>
-                            <span className="text-[10px] text-white/45 font-semibold mt-1 leading-normal">Holidays, exams, and key academic events</span>
-                          </div>
-                        </div>
-                        <div className="w-8 h-8 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-white/40 group-hover:text-cyan-400 group-hover:border-cyan-500/20 group-hover:bg-cyan-500/10 transition-all duration-300 shrink-0">
-                          <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
-                        </div>
-                      </div>
-                    </button>
-
-                    {/* Student Dashboard (3 cols) */}
-                    <button
-                      onClick={() => { setMoreOpen(false); router.push("/portal/student-dashboard"); }}
-                      className="group relative col-span-3 overflow-hidden rounded-[24px] border border-white/[0.04] bg-white/[0.01] p-4 flex flex-col justify-between text-left backdrop-blur-xl shadow-lg transition-all duration-300 hover:scale-[1.02] hover:border-pink-500/25 hover:bg-white/[0.03] hover:shadow-[0_0_25px_rgba(255,117,195,0.12)] min-h-[112px]"
-                    >
-                      <div className="flex items-start justify-between w-full">
-                        <div className="w-10 h-10 rounded-xl bg-pink-500/10 flex items-center justify-center text-pink-400 border border-pink-500/20 group-hover:scale-105 transition-transform duration-300">
-                          <UserSquare size={20} />
-                        </div>
-                        <div className="px-2 py-0.5 rounded-full text-[8px] font-black tracking-wider text-pink-300 bg-pink-500/10 border border-pink-500/20 uppercase">
-                          Profile
-                        </div>
-                      </div>
-                      <div className="mt-3">
-                        <span className="text-[11px] font-black text-white/90 tracking-wide block">Student Portal</span>
-                        <span className="text-[9px] text-white/40 font-bold mt-1 block">Full profile view</span>
-                      </div>
-                    </button>
-
-                    {/* Grades Log (3 cols) */}
-                    <button
-                      onClick={() => { setMoreOpen(false); router.push("/portal/grade-mark-credit"); }}
-                      className="group relative col-span-3 overflow-hidden rounded-[24px] border border-white/[0.04] bg-white/[0.01] p-4 flex flex-col justify-between text-left backdrop-blur-xl shadow-lg transition-all duration-300 hover:scale-[1.02] hover:border-amber-500/25 hover:bg-white/[0.03] hover:shadow-[0_0_25px_rgba(255,149,0,0.12)] min-h-[112px]"
-                    >
-                      <div className="flex items-start justify-between w-full">
-                        <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 border border-amber-500/20 group-hover:scale-105 transition-transform duration-300">
-                          <Award size={20} />
-                        </div>
-                        <div className="px-2 py-0.5 rounded-full text-[8px] font-black tracking-wider text-amber-300 bg-amber-500/10 border border-amber-500/20 uppercase">
-                          Ledger
-                        </div>
-                      </div>
-                      <div className="mt-3">
-                        <span className="text-[11px] font-black text-white/90 tracking-wide block">Grades & Credit</span>
-                        <span className="text-[9px] text-white/40 font-bold mt-1 block">GPA & credit tracker</span>
-                      </div>
-                    </button>
-
-                    {/* System Tools (full width if not admin, half width if admin) */}
-                    <button
-                      onClick={() => { setMoreOpen(false); router.push("/app-tools"); }}
-                      className={`group relative overflow-hidden rounded-[24px] border border-white/[0.04] bg-white/[0.01] p-4 text-left backdrop-blur-xl shadow-lg transition-all duration-300 hover:scale-[1.01] hover:border-yellow-500/25 hover:bg-white/[0.03] hover:shadow-[0_0_25px_rgba(255,204,0,0.12)] ${isAdmin ? 'col-span-3 min-h-[112px] flex flex-col justify-between' : 'col-span-6'}`}
-                    >
-                      {isAdmin ? (
-                        <>
-                          <div className="flex items-start justify-between w-full">
-                            <div className="w-10 h-10 rounded-xl bg-yellow-500/10 flex items-center justify-center text-yellow-400 border border-yellow-500/20 group-hover:scale-105 transition-transform duration-300">
-                              <Wrench size={20} />
-                            </div>
-                            <div className="px-2 py-0.5 rounded-full text-[8px] font-black tracking-wider text-yellow-300 bg-yellow-500/10 border border-yellow-500/20 uppercase">
-                              Tools
-                            </div>
-                          </div>
-                          <div className="mt-3">
-                            <span className="text-[11px] font-black text-white/90 tracking-wide block">System Tools</span>
-                            <span className="text-[9px] text-white/40 font-bold mt-1 block">Nexus diagnostics</span>
-                          </div>
-                        </>
-                      ) : (
-                        <div className="flex items-center justify-between relative z-10">
-                          <div className="flex items-center gap-4">
-                            <div className="w-11 h-11 rounded-xl bg-yellow-500/10 flex items-center justify-center text-yellow-400 border border-yellow-500/20 group-hover:scale-105 transition-transform duration-300">
-                              <Wrench size={20} />
-                            </div>
-                            <div className="flex flex-col">
-                              <span className="text-xs font-black text-white tracking-wide">System Tools</span>
-                              <span className="text-[10px] text-white/45 font-semibold mt-1 leading-normal">Nexus diagnostics & system utilities</span>
-                            </div>
-                          </div>
-                          <div className="w-8 h-8 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-white/40 group-hover:text-yellow-400 group-hover:border-yellow-500/20 group-hover:bg-yellow-500/10 transition-all duration-300 shrink-0">
-                            <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
-                          </div>
+                      {/* 4. ADMIN CONTROL (Only if admin role) */}
+                      {isAdmin && (
+                        <div className="flex flex-col gap-2">
+                          <p className="text-[9px] font-black text-red-500/40 uppercase tracking-[0.3em] mb-1 pl-1">System Administration</p>
+                          <RowItem 
+                            href="/admin" 
+                            label="Admin Control" 
+                            subtitle="Manage broadcast banner & system telemetry" 
+                            icon={Shield} 
+                            color="#ef4444" 
+                          />
                         </div>
                       )}
-                    </button>
-
-                    {/* Admin Panel (col-span-3, ONLY displayed if user is admin) */}
-                    {isAdmin && (
-                      <button
-                        onClick={() => { setMoreOpen(false); router.push("/admin"); }}
-                        className="group relative col-span-3 overflow-hidden rounded-[24px] border border-red-500/10 bg-red-500/[0.02] p-4 flex flex-col justify-between text-left backdrop-blur-xl shadow-lg transition-all duration-300 hover:scale-[1.02] hover:border-red-500/30 hover:bg-red-500/[0.05] hover:shadow-[0_0_25px_rgba(239,68,68,0.15)] min-h-[112px]"
-                      >
-                        <div className="flex items-start justify-between w-full">
-                          <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center text-red-400 border border-red-500/20 group-hover:scale-105 transition-transform duration-300">
-                            <Shield size={20} />
-                          </div>
-                          <div className="px-2 py-0.5 rounded-full text-[8px] font-black tracking-wider text-red-300 bg-red-500/10 border border-red-500/20 uppercase">
-                            Admin
-                          </div>
-                        </div>
-                        <div className="mt-3">
-                          <span className="text-[11px] font-black text-red-400 tracking-wide block">Admin Control</span>
-                          <span className="text-[9px] text-white/40 font-bold mt-1 block">System configurations</span>
-                        </div>
-                      </button>
-                    )}
-
-                  </div>
-                </div>
-
-                {/* 3. QUICK ACTIONS & CUSTOMIZATION */}
-                <div className="flex flex-col gap-2.5">
-                  <p className="text-[9px] font-black text-white/25 uppercase tracking-[0.3em] mb-1 pl-1">Configuration</p>
-                  
-                  {/* Theme Settings */}
-                  <button 
-                    onClick={() => { setMoreOpen(false); router.push("/settings/theme"); }} 
-                    className="group relative overflow-hidden flex items-center justify-between p-3.5 rounded-[20px] text-left w-full border border-white/[0.04] bg-white/[0.01] backdrop-blur-xl shadow-md transition-all duration-300 hover:scale-[1.01] hover:border-purple-500/20 hover:bg-white/[0.03] hover:shadow-[0_0_20px_rgba(168,85,247,0.08)]"
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 border border-purple-500/20 group-hover:scale-105 transition-transform duration-300">
-                        <LayoutTemplate size={18} />
-                      </div>
-                      <div className="flex flex-col">
-                        <p className="text-xs font-black text-white leading-none">
-                          Theme Settings
-                        </p>
-                        <p className="text-[9px] text-white/40 font-bold mt-1.5 leading-none">
-                          Personalize workspace visual engines
-                        </p>
-                      </div>
                     </div>
-                    <ChevronRight size={14} className="text-white/20 group-hover:text-purple-400 group-hover:translate-x-0.5 transition-all duration-300" />
-                  </button>
-                  
-                  {/* Help & Support */}
-                  <button 
-                    onClick={() => { setMoreOpen(false); router.push("/support"); }} 
-                    className="group relative overflow-hidden flex items-center justify-between p-3.5 rounded-[20px] text-left w-full border border-white/[0.04] bg-white/[0.01] backdrop-blur-xl shadow-md transition-all duration-300 hover:scale-[1.01] hover:border-blue-500/20 hover:bg-white/[0.03] hover:shadow-[0_0_20px_rgba(59,130,246,0.08)]"
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 border border-blue-500/20 group-hover:scale-105 transition-transform duration-300">
-                        <LifeBuoy size={18} />
-                      </div>
-                      <div className="flex flex-col">
-                        <p className="text-xs font-black text-white leading-none">
-                          Help & Support
-                        </p>
-                        <p className="text-[9px] text-white/40 font-bold mt-1.5 leading-none">
-                          Get assistance with Academic OS
-                        </p>
-                      </div>
-                    </div>
-                    <ChevronRight size={14} className="text-white/20 group-hover:text-blue-400 group-hover:translate-x-0.5 transition-all duration-300" />
-                  </button>
-                </div>
-
-                {/* 4. LOGOUT (Crimson Gradient) */}
-                <button 
-                  onClick={() => { setMoreOpen(false); handleLogout(); }}
-                  className="group relative overflow-hidden flex items-center justify-center gap-2.5 p-4 rounded-[20px] w-full mt-2 active:scale-[0.98] transition-all duration-300"
-                  style={{ 
-                    background: "linear-gradient(135deg, rgba(255, 59, 48, 0.1) 0%, rgba(255, 59, 48, 0.03) 100%)", 
-                    border: "1px solid rgba(255, 59, 48, 0.12)",
-                    boxShadow: "0 8px 30px rgba(0,0,0,0.2)"
-                  }}
-                >
-                  <LogOut size={16} className="text-red-500 group-hover:-translate-x-0.5 group-hover:scale-110 transition-all duration-300" />
-                  <span className="text-[10px] font-black tracking-[0.2em] text-red-500 uppercase">Terminate Session</span>
-                </button>
-              </div>
+                  </>
+                );
+              })()}
           </div>
         </>
       )}
+
+      {/* Student info details modal */}
+      {showStudentInfo && profile && (
+        <div 
+          onClick={() => setShowStudentInfo(false)}
+          className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100000] flex items-center justify-center p-6"
+          style={{ animation: 'fadeIn 0.2s ease-out' }}
+        >
+          <div onClick={e => e.stopPropagation()} className="bg-[#0f0f13] border border-white/10 p-6 rounded-[28px] w-full max-w-[380px] flex flex-col gap-6 shadow-2xl">
+            <div className="flex justify-between items-center">
+              <div className="text-[10px] text-white/30 uppercase tracking-[0.3em] font-black">Student Details</div>
+              <button onClick={() => setShowStudentInfo(false)} className="text-white/40 text-xl font-bold hover:text-white/70">×</button>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-3">
+              {["Registration Number", "Name", "Combo / Batch", "Program", "Department", "Semester", "Class Room"].map(key => {
+                const value = profile[key] || 
+                              profile[key.toLowerCase()] || 
+                              profile[key.replace(/\s+/g, '')] ||
+                              profile[key.replace(/\s+/g, '').toLowerCase()];
+                if (!value) return null;
+                return (
+                  <div key={key} className="bg-white/5 border border-white/[0.05] p-3 rounded-2xl flex flex-col gap-1">
+                    <span className="text-[8px] text-white/40 font-black uppercase tracking-wider">{key}</span>
+                    <span className="text-xs font-bold text-white truncate">{value}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Portal Sync Modal integration in Sidebar */}
+      <PortalSyncModal
+        isOpen={isSyncOpen}
+        onClose={() => setIsSyncOpen(false)}
+        onSuccess={() => {
+          handleRefreshSync();
+        }}
+        netId={profile?.["Registration Number"] || profile?.RegNo || ""}
+      />
     </>
   );
 

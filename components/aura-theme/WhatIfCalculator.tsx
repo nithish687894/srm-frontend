@@ -142,10 +142,21 @@ export function WhatIfCalculator({ marks: initialMarks }: AnyValue) {
   const attendanceSubjects = useMemo(() => {
     if (!attendance || !Array.isArray(attendance)) return [];
     return attendance.map((a: AnyValue) => {
-      const conducted = parseInt(a["Hours Conducted"]) || 0;
-      const absent = parseInt(a["Hours Absent"]) || 0;
-      const attended = parseInt(a["Hours Attended"]) || Math.max(0, conducted - absent);
-      const pct = parseFloat(a["Attn %"]) || (conducted > 0 ? (attended / conducted) * 100 : 0);
+      const pctStr = a["Attn %"] || a.pct;
+      const parsedPct = parseFloat(pctStr) || 0;
+      let conducted = parseInt(a["Hours Conducted"] || a.conducted) || 0;
+      let absent = parseInt(a["Hours Absent"] || a.absent) || 0;
+
+      if (conducted === 0 && pctStr !== undefined && pctStr !== null && pctStr !== "null") {
+        conducted = 30;
+        const presentEst = Math.round(conducted * (parsedPct / 100));
+        absent = conducted - presentEst;
+      }
+
+      const attended = parseInt(a["Hours Attended"] || a.attended) || Math.max(0, conducted - absent);
+      const pct = pctStr !== undefined && pctStr !== null && pctStr !== "null"
+        ? parsedPct
+        : (conducted > 0 ? (attended / conducted) * 100 : 100);
       return { ...a, conducted, attended, absent, pct };
     });
   }, [attendance]);

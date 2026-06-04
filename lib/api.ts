@@ -106,6 +106,7 @@ export const dataAPI = {
   getUnified: () => API.get("/api/v1/data/unified").then((r) => r.data),
   getAll: () => API.get("/api/all").then((r) => r.data),
   refresh: () => API.get("/api/all").then((r) => r.data),
+  forceRefresh: () => API.post("/api/v1/data/refresh").then((r) => r.data),
   getAttendance: () => API.get("/api/attendance").then((r) => r.data),
   getMarks: () => API.get("/api/marks").then((r) => r.data),
   getTimetable: (batch: number = 1) =>

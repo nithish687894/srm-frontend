@@ -75,6 +75,63 @@ export default function AuraDashboard({
 
       <main style={{ flex: 1, padding: "120px 24px 140px", position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: '24px' }}>
         
+        {/* Demo Mode Warning Banner */}
+        {(() => {
+          const isDemo = data?.profile?.["Name"] === "AURA NEBULA DEMO" || 
+                         data?.profile?.["Registration Number"] === "RA2311003010999" || 
+                         (typeof window !== "undefined" && localStorage.getItem("userEmail")?.toLowerCase()?.includes("demo"));
+          if (!isDemo) return null;
+          return (
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(255, 45, 85, 0.15) 0%, rgba(191, 90, 242, 0.1) 100%)',
+              border: '1.5px solid rgba(255, 45, 85, 0.3)',
+              boxShadow: '0 8px 32px rgba(255, 45, 85, 0.15)',
+              borderRadius: '24px',
+              padding: '16px 20px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '12px',
+              position: 'relative',
+              zIndex: 10
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <Zap size={16} color="#FF2D55" style={{ flexShrink: 0 }} />
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span style={{ fontSize: '11px', fontWeight: 900, color: '#ff2d55', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Demo Mode Active</span>
+                  <span style={{ fontSize: '10px', color: 'rgba(255, 255, 255, 0.6)', fontWeight: 600, marginTop: '2px' }}>Viewing sample dashboard. Connect your portal for real sync.</span>
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  try {
+                    localStorage.removeItem("authToken");
+                    localStorage.removeItem("refreshToken");
+                    localStorage.removeItem("userEmail");
+                  } catch {}
+                  window.location.href = "/";
+                }}
+                style={{
+                  background: '#FF2D55',
+                  color: '#fff',
+                  border: 'none',
+                  padding: '6px 14px',
+                  borderRadius: '10px',
+                  fontSize: '10px',
+                  fontWeight: 900,
+                  cursor: 'pointer',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  boxShadow: '0 4px 12px rgba(255, 45, 85, 0.3)',
+                  flexShrink: 0
+                }}
+              >
+                Connect
+              </button>
+            </div>
+          );
+        })()}
+
         {/* ONE Large AI Hero Card */}
         <div className="premium-card" style={{ padding: '32px', borderRadius: '32px', position: 'relative', display: 'flex', flexDirection: 'column' }}>
           <div className="ai-border" />
