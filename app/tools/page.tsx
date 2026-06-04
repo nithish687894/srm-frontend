@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Calculator, CalendarOff, TrendingUp, ChevronLeft, Home, Award, Activity, MoreHorizontal } from "lucide-react";
 import { useThemeStore } from "@/lib/themeStore";
+import LoadingSkeleton from "@/components/aura-theme/LoadingSkeleton";
 
 const THEME = {
   bg: "#050505",
@@ -29,7 +30,7 @@ export default function ToolsHubPage() {
 
   useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
-  if (!mounted) return <div style={{ background: '#050505', height: '100vh' }} />;
+  if (!mounted) return <LoadingSkeleton />;
 
   return (
     <div style={{ background: isLumina ? AURA_COLORS.bg : THEME.bg, height: "100vh", display: "flex", flexDirection: "column", color: "#fff", fontFamily: "'Plus Jakarta Sans', sans-serif", overflow: 'hidden' }}>

@@ -26,16 +26,97 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
   const gestureRef = useRef<"none" | "horizontal" | "vertical" | "pull">("none");
   const lastNavTime = useRef(0);
 
+  // Navigation Progress Bar States
+  const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  const startProgressTimer = () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    timerRef.current = setTimeout(() => {
+      setLoading(true);
+      setProgress(10);
+      intervalRef.current = setInterval(() => {
+        setProgress(prev => {
+          if (prev >= 90) {
+            if (intervalRef.current) clearInterval(intervalRef.current);
+            return 90;
+          }
+          return prev + (90 - prev) * 0.15;
+        });
+      }, 150);
+    }, 300);
+  };
+
+  const stopProgress = () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    setProgress(100);
+    setTimeout(() => {
+      setLoading(false);
+      setProgress(0);
+    }, 200);
+  };
+
   useEffect(() => {
     const id = setTimeout(() => {
       setOffset(0);
       setPullDist(0);
       setIsGestureActive(false);
+      // Complete navigation progress on path change
+      stopProgress();
     }, 0);
     touchRef.current = null;
     gestureRef.current = "none";
+    
     return () => clearTimeout(id);
   }, [pathname]);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      startProgressTimer();
+    };
+
+    const handleLinkClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const anchor = target.closest("a");
+      if (!anchor) return;
+
+      const href = anchor.getAttribute("href");
+      const targetAttr = anchor.getAttribute("target");
+      
+      if (
+        href && 
+        href.startsWith("/") && 
+        !href.startsWith("//") &&
+        targetAttr !== "_blank" &&
+        !e.defaultPrevented &&
+        e.button === 0 &&
+        !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey)
+      ) {
+        try {
+          const url = new URL(anchor.href, window.location.href);
+          if (url.pathname !== window.location.pathname) {
+            startProgressTimer();
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    };
+
+    document.addEventListener("click", handleLinkClick);
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      document.removeEventListener("click", handleLinkClick);
+      window.removeEventListener("popstate", handlePopState);
+      if (timerRef.current) clearTimeout(timerRef.current);
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, []);
 
   // Thresholds — much higher to prevent accidental triggers
   const SWIPE_THRESHOLD = 100;      // px needed for horizontal page nav
@@ -144,9 +225,11 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
       if (now - lastNavTime.current > NAV_COOLDOWN) {
         lastNavTime.current = now;
         if (offset < 0 && currentIndex < TAB_ORDER.length - 1) {
+          startProgressTimer();
           router.push(TAB_ORDER[currentIndex + 1]);
           setOffset(-winWidth);
         } else if (offset > 0 && currentIndex > 0) {
+          startProgressTimer();
           router.push(TAB_ORDER[currentIndex - 1]);
           setOffset(winWidth);
         } else {
@@ -221,6 +304,23 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
             </div>
           )}
         </div>
+      )}
+
+      {/* Top Progress Bar */}
+      {loading && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: `${progress}%`,
+          height: '2.5px',
+          backgroundColor: 'var(--accent)',
+          boxShadow: '0 0 8px var(--accent)',
+          zIndex: 999999,
+          transition: progress === 100 ? 'width 0.2s ease-out, opacity 0.2s ease-out' : 'width 0.4s cubic-bezier(0.1, 0.8, 0.1, 1)',
+          opacity: progress === 100 ? 0 : 1,
+          willChange: 'width, opacity'
+        }} />
       )}
 
       <div ref={wrapperRef} style={style}>

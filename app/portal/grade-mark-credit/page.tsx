@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
 import { dataAPI } from "@/lib/api";
+import LoadingSkeleton from "@/components/aura-theme/LoadingSkeleton";
 
 const THEME = {
   bg: "#050505",
@@ -79,7 +80,7 @@ export default function GradeMarkCreditPage() {
     return () => clearTimeout(id);
   }, [setStudentPortalData, studentPortalData?.marks]);
 
-  if (!mounted) return <div style={{ background: '#050505', height: '100vh' }} />;
+  if (!mounted) return <LoadingSkeleton />;
 
   const marksData = studentPortalData?.marks?.marks || [];
   const arrearsData = studentPortalData?.marks?.failed || [];

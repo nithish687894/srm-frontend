@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
+import LoadingSkeleton from "@/components/aura-theme/LoadingSkeleton";
 
 const THEME = {
   bg: "#050505",
@@ -86,7 +87,7 @@ export default function AppToolsPage() {
   
   useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
-  if (!mounted) return <div style={{ background: '#050505', height: '100vh' }} />;
+  if (!mounted) return <LoadingSkeleton />;
 
   const ADMIN_EMAILS = ["ns4770@srmist.edu.in", "ts0014@srmist.edu.in"];
   const isAdmin = email && ADMIN_EMAILS.some((e) => e.toLowerCase() === email.toLowerCase());

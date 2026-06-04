@@ -8,6 +8,7 @@ import { useAuthStore } from "@/lib/store";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
 import { useThemeStore } from "@/lib/themeStore";
 import AuraAttendance from "@/components/aura-theme/AuraAttendance";
+import LoadingSkeleton from "@/components/aura-theme/LoadingSkeleton";
 import { RefreshCcw } from "lucide-react";
 
 function buildSlotToCourseMap(myTT: AnyValue[]) {
@@ -252,13 +253,13 @@ export default function AttendancePage() {
     return acc + (isNaN(p) ? 0 : p);
   }, 0);
 
-  if (loading && !att.length) return (
-    <div className="page-root" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <div className="srmx-spinner" />
-    </div>
-  );
+  if (loading && !att.length) {
+    return <LoadingSkeleton />;
+  }
 
-  if (!mounted && typeof window !== "undefined") return <div style={{ background: '#050505', minHeight: '100vh' }} />;
+  if (!mounted) {
+    return <LoadingSkeleton />;
+  }
 
   const themeProps = {
     att, avgAtt, totalAgg, presentAgg, absentAgg, 

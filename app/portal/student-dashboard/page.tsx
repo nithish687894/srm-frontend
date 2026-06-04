@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
 import { dataAPI } from "@/lib/api";
+import LoadingSkeleton from "@/components/aura-theme/LoadingSkeleton";
 
 const THEME = {
   bg: "#050505",
@@ -68,7 +69,7 @@ export default function StudentDashboardPage() {
     } catch (e) { console.error(e); } finally { setTimeout(() => setIsSyncing(false), 800); }
   };
 
-  if (!mounted) return <div style={{ background: '#050505', height: '100vh' }} />;
+  if (!mounted) return <LoadingSkeleton />;
 
   const profile = studentPortalData?.profile || {};
   const personal = profile.personalDetails || {};
