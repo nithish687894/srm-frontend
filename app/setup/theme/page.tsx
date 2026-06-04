@@ -89,13 +89,10 @@ export default function ThemeOnboarding() {
 
         .theme-grid {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
+          grid-template-columns: 1fr;
+          max-width: 440px;
+          margin: 0 auto 80px auto;
           gap: 32px;
-          margin-bottom: 80px;
-        }
-
-        @media (max-width: 1000px) {
-          .theme-grid { grid-template-columns: 1fr; max-width: 400px; margin-inline: auto; }
         }
 
         .theme-card {
@@ -254,36 +251,12 @@ export default function ThemeOnboarding() {
           <div 
             className="theme-card" onClick={() => handleSelect("aura")}
           >
-            <div className="theme-name">Aura</div>
+            <div className="theme-name">Lumina</div>
             <p className="theme-desc">The default high-fidelity experience. Vibrant nebula gradients and deep glass effects.</p>
             <div className="preview-box aura-preview">
               <div style={{ background: "rgba(0,0,0,0.2)", backdropFilter: "blur(4px)", padding: "12px 24px", borderRadius: "14px", fontSize: "11px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em" }}>Vibrancy Active</div>
             </div>
-            <button className="select-btn" style={{ background: "linear-gradient(90deg, #FF75C3, #CD93FF)", color: "#fff" }}>Initialize Aura</button>
-          </div>
-
-          <div 
-            className="theme-card" onClick={() => handleSelect("matrix")}
-          >
-            <div className="theme-name">Matrix</div>
-            <p className="theme-desc">Industrial efficiency. Minimalist carbon design with tactical cyber-green accents.</p>
-            <div className="preview-box matrix-preview">
-              <div className="matrix-line" />
-            </div>
-            <button className="select-btn" style={{ background: "#a8c200", color: "#000" }}>Initialize Matrix</button>
-          </div>
-
-          <div 
-            className="theme-card" onClick={() => handleSelect("cosmos")}
-          >
-            <div className="theme-name">EduVerse</div>
-            <p className="theme-desc">Deep space productivity. Dark cosmic navy with vibrant neon highlights.</p>
-            <div className="preview-box cosmos-preview">
-              <div className="cosmos-orbit">
-                <div className="cosmos-core" />
-              </div>
-            </div>
-            <button className="select-btn" style={{ background: "linear-gradient(90deg, #2f63f2, #4d7dff)", color: "#fff" }}>Initialize EduVerse</button>
+            <button className="select-btn" style={{ background: "linear-gradient(90deg, #FF75C3, #CD93FF)", color: "#fff" }}>Initialize Lumina</button>
           </div>
         </div>
 

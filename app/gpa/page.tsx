@@ -31,7 +31,6 @@ function getGrade(totalScore: number) {
   return GRADE_TABLE.find(g => score >= g.min) || GRADE_TABLE[GRADE_TABLE.length - 1];
 }
 
-// Custom theme styling profiles
 const THEME_CONFIG = {
   aura: {
     bg: "#050508",
@@ -46,34 +45,6 @@ const THEME_CONFIG = {
     fontFamily: "'Inter', sans-serif",
     gaugeGradient: ["#FF2D55", "#BF5AF2"],
     scrollThumb: "rgba(191, 90, 242, 0.3)"
-  },
-  matrix: {
-    bg: "#000000",
-    textColor: "#00FF33",
-    titleGradient: "linear-gradient(135deg, #00FF33, #a8c200)",
-    cardBg: "#050805",
-    cardBorder: "1px solid rgba(168, 194, 0, 0.3)",
-    cardBorderHover: "1px solid #00FF33",
-    accentColor: "#a8c200",
-    accentPink: "#00FF33",
-    accentGlow: "rgba(168, 194, 0, 0.5)",
-    fontFamily: "'JetBrains Mono', 'Courier New', Courier, monospace",
-    gaugeGradient: ["#a8c200", "#00FF33"],
-    scrollThumb: "rgba(168, 194, 0, 0.4)"
-  },
-  cosmos: {
-    bg: "#07070F",
-    textColor: "#f0f0ff",
-    titleGradient: "linear-gradient(135deg, #00D2FF, #7C3AED)",
-    cardBg: "rgba(13, 13, 27, 0.5)",
-    cardBorder: "1px solid rgba(0, 210, 255, 0.12)",
-    cardBorderHover: "1px solid rgba(0, 210, 255, 0.35)",
-    accentColor: "#00D2FF",
-    accentPink: "#7C3AED",
-    accentGlow: "rgba(0, 210, 255, 0.25)",
-    fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif",
-    gaugeGradient: ["#00D2FF", "#7C3AED"],
-    scrollThumb: "rgba(0, 210, 255, 0.3)"
   }
 };
 
@@ -356,7 +327,7 @@ export default function GPAPage() {
   const strokeDashoffset = circumference - (simulatedGpa / 10) * circumference;
 
   return (
-    <div className={`page-root theme-${theme} ${theme === "matrix" ? "matrix-crt" : ""}`} style={{
+    <div className={`page-root theme-${theme}`} style={{
       background: activeConfig.bg,
       color: activeConfig.textColor,
       fontFamily: activeConfig.fontFamily,
@@ -439,35 +410,20 @@ export default function GPAPage() {
         }
       `}} />
 
-      {theme === "aura" && (
-        <div style={{
-          position: "absolute",
-          top: "-5%",
-          left: "25%",
-          width: "550px",
-          height: "550px",
-          borderRadius: "50%",
-          background: "conic-gradient(from 180deg at 50% 50%, #FF2D55 0deg, #BF5AF2 120deg, #00E5FF 240deg, #FF2D55 360deg)",
-          filter: "blur(130px)",
-          opacity: 0.14,
-          pointerEvents: "none",
-          zIndex: 0,
-          animation: "spin 25s linear infinite"
-        }} />
-      )}
-
-      {theme === "cosmos" && (
-        <div style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: "radial-gradient(circle at 15% 20%, rgba(124, 58, 237, 0.08) 0%, transparent 40%), radial-gradient(circle at 85% 80%, rgba(0, 210, 255, 0.08) 0%, transparent 40%)",
-          pointerEvents: "none",
-          zIndex: 0
-        }} />
-      )}
+      <div style={{
+        position: "absolute",
+        top: "-5%",
+        left: "25%",
+        width: "550px",
+        height: "550px",
+        borderRadius: "50%",
+        background: "conic-gradient(from 180deg at 50% 50%, #FF2D55 0deg, #BF5AF2 120deg, #00E5FF 240deg, #FF2D55 360deg)",
+        filter: "blur(130px)",
+        opacity: 0.14,
+        pointerEvents: "none",
+        zIndex: 0,
+        animation: "spin 25s linear infinite"
+      }} />
 
       <Sidebar />
 
@@ -485,7 +441,7 @@ export default function GPAPage() {
                 textTransform: "uppercase",
                 marginBottom: "4px"
               }}>
-                {theme === "matrix" ? "SYSTEM::FORECAST_ENGINE" : "Academic Intelligence"}
+                Academic Intelligence
               </div>
               <h1 style={{ 
                 fontSize: "32px", 
@@ -494,7 +450,7 @@ export default function GPAPage() {
                 margin: 0,
                 backgroundImage: activeConfig.titleGradient,
                 WebkitBackgroundClip: "text",
-                WebkitTextFillColor: theme === "matrix" ? "none" : "transparent",
+                WebkitTextFillColor: "transparent",
               }}>
                 GPA Sim & Goal Seeker
               </h1>
@@ -511,7 +467,7 @@ export default function GPAPage() {
               fontWeight: 800
             }}>
               <Zap size={14} style={{ color: activeConfig.accentColor }} />
-              <span style={{ textTransform: "uppercase", letterSpacing: "0.05em" }}>{theme} Active</span>
+              <span style={{ textTransform: "uppercase", letterSpacing: "0.05em" }}>Lumina Active</span>
             </div>
           </div>
 
@@ -530,7 +486,7 @@ export default function GPAPage() {
                 flexDirection: "column",
                 alignItems: "center",
                 textAlign: "center",
-                boxShadow: theme === "aura" ? "0 8px 32px 0 rgba(0, 0, 0, 0.3)" : "none"
+                boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.3)"
               }}>
                 <div style={{ position: "relative", width: "160px", height: "160px", marginBottom: "16px" }}>
                   {/* Gauge SVG */}
@@ -585,7 +541,7 @@ export default function GPAPage() {
                       lineHeight: 1, 
                       letterSpacing: "-1px",
                       color: "#fff",
-                      textShadow: theme !== "matrix" ? `0 0 15px ${activeConfig.accentColor}55` : "none"
+                      textShadow: `0 0 15px ${activeConfig.accentColor}55`
                     }}>
                       {simulatedGpa.toFixed(2)}
                     </span>
@@ -619,7 +575,7 @@ export default function GPAPage() {
                     width: "36px", 
                     height: "36px", 
                     borderRadius: "10px", 
-                    background: `rgba(${theme === "matrix" ? "168,194,0" : "0,210,255"}, 0.1)`, 
+                    background: "rgba(0, 210, 255, 0.1)", 
                     display: "flex", 
                     alignItems: "center", 
                     justifyContent: "center" 
@@ -675,7 +631,7 @@ export default function GPAPage() {
                             padding: "14px",
                             borderRadius: "14px",
                             background: activeConfig.accentColor,
-                            color: theme === "matrix" ? "#000" : "#fff",
+                            color: "#fff",
                             fontSize: "12px",
                             fontWeight: 900,
                             border: "none",
@@ -779,7 +735,7 @@ export default function GPAPage() {
                           width: "56px", 
                           height: "56px", 
                           borderRadius: "16px", 
-                          background: `rgba(${theme === "matrix" ? "168,194,0" : "255,255,255"}, 0.03)`,
+                          background: "rgba(255, 255, 255, 0.03)",
                           border: `1px solid ${r.grade.color}3D`,
                           display: "flex",
                           flexDirection: "column",

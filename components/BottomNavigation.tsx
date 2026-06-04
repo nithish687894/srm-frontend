@@ -55,7 +55,7 @@ function MoreSheet({
           />
 
           <div
-            className={`fixed bottom-0 left-0 right-0 backdrop-blur-xl border-t z-50 rounded-t-3xl ${theme === 'aura' ? 'bg-[#110c1e]/95 border-[rgba(255,117,195,0.1)]' : 'bg-black/95 border-white/10'}`}
+            className="fixed bottom-0 left-0 right-0 backdrop-blur-xl border-t z-50 rounded-t-3xl bg-[#110c1e]/95 border-[rgba(255,117,195,0.1)]"
             style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
           >
             <div className="p-6">
@@ -75,16 +75,16 @@ function MoreSheet({
                       onClick={onClose}
                       className={`flex flex-col items-center gap-2 p-4 rounded-2xl transition-all duration-200 ${
                         isActive
-                          ? theme === 'aura' ? "bg-pink-500/20 border border-pink-500/30" : "bg-green-500/20 border border-green-500/30"
+                          ? "bg-pink-500/20 border border-pink-500/30"
                           : "bg-white/5 border border-white/10 hover:bg-white/10"
                       }`}
                     >
                       <item.icon
                         size={24}
-                        className={isActive ? (theme === 'aura' ? "text-pink-400" : "text-green-400") : "text-white/70"}
+                        className={isActive ? "text-pink-400" : "text-white/70"}
                       />
                       <span className={`text-xs font-medium tracking-wide ${
-                        isActive ? (theme === 'aura' ? "text-pink-400" : "text-green-400") : "text-white/70"
+                        isActive ? "text-pink-400" : "text-white/70"
                       }`}>
                         {item.label}
                       </span>
@@ -254,11 +254,6 @@ export default function BottomNavigation() {
           z-index: 100;
         }
 
-        .theme-matrix .srmx-desktop-nav {
-          border: 1px solid var(--accent);
-          box-shadow: 0 0 20px rgba(168, 194, 0, 0.2);
-          background: rgba(10, 10, 10, 0.95);
-        }
 
         .srmx-mobile-nav {
           position: fixed;
@@ -278,10 +273,6 @@ export default function BottomNavigation() {
           box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
         }
 
-        .theme-matrix .srmx-mobile-nav {
-          border-top: 1px solid var(--accent);
-          box-shadow: 0 -4px 20px rgba(168, 194, 0, 0.15);
-        }
 
         .nav-item {
           display: flex;
@@ -305,23 +296,8 @@ export default function BottomNavigation() {
         }
 
         .nav-item.active {
-          color: #a8c200;
-          text-shadow: 0 0 10px rgba(168, 194, 0, 0.8);
-        }
-
-        .theme-aura .nav-item.active {
           color: #FF75C3;
           text-shadow: 0 0 12px rgba(255, 117, 195, 0.7);
-        }
-
-        .theme-matrix .nav-item.active {
-          color: var(--accent);
-          text-shadow: 0 0 10px rgba(168, 194, 0, 0.8);
-        }
-
-        .theme-cosmos .nav-item.active {
-          color: #a78bfa;
-          text-shadow: 0 0 10px rgba(167, 139, 250, 0.8);
         }
 
         .nav-item::before {

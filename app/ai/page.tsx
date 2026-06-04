@@ -75,10 +75,10 @@ export default function AIPage() {
 
   if (!mounted) return null;
 
-  const ACCENT = theme === 'matrix' ? '#a8c200' : theme === 'aura' ? '#FF75C3' : '#7c3aed';
+  const ACCENT = '#FF75C3';
 
   return (
-    <div className="page-root" style={{ height: "100vh", background: theme === 'matrix' ? '#000' : theme === 'aura' ? '#050508' : '#0a0a0c' }}>
+    <div className="page-root" style={{ height: "100vh", background: '#050508' }}>
       <Sidebar />
       <main className="page-main" style={{ height: "100vh", display: "flex", flexDirection: "column", position: 'relative', zIndex: 1 }}>
         

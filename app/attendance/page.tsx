@@ -8,9 +8,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAuthStore } from "@/lib/store";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
 import { useThemeStore } from "@/lib/themeStore";
-import MatrixAttendance from "@/components/MatrixAttendance";
 import AuraAttendance from "@/components/aura-theme/AuraAttendance";
-import CosmosAttendance from "@/components/CosmosAttendance";
 import { RefreshCcw } from "lucide-react";
 
 function buildSlotToCourseMap(myTT: AnyValue[]) {
@@ -258,112 +256,7 @@ export default function AttendancePage() {
     <div style={{ minHeight: "100vh", width: "100%", background: "#050505", display: "flex", flexDirection: "column", position: "relative" }}>
       <Sidebar />
       <main id="attendance-parent-scroll" style={{ flex: 1, paddingBottom: "100px" }}>
-        {theme === "matrix" ? (
-          <MatrixAttendance {...themeProps} attendance={att} />
-        ) : theme === "cosmos" ? (
-          <CosmosAttendance {...themeProps} />
-        ) : theme === "aura" ? (
-          <AuraAttendance attendance={att} handleSync={handleSync} isSyncing={isSyncing} {...themeProps} />
-        ) : (
-          <div className="page-content" data-section="Attendance" style={{ paddingBottom: "140px" }}>
-            {/* Header */}
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "40px" }}>
-              <div style={{ fontSize: "12px", letterSpacing: "0.2em", color: "var(--text-secondary)", textTransform: "uppercase", marginBottom: "4px" }}>
-                Overall Attendance
-              </div>
-              {timeAgoStr && (
-                <div style={{ fontSize: "11px", color: "var(--text-muted)", marginBottom: "20px", fontWeight: "bold" }}>
-                  {timeAgoStr}
-                </div>
-              )}
-              <DynamicGauge value={parseFloat(avgAtt)} size={200} strokeWidth={12} />
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px", width: "100%", maxWidth: "400px", margin: "32px auto 0" }}>
-                <div style={{ background: "#0a1f33", padding: "16px", borderRadius: "16px", border: "1px solid #1a334d" }}>
-                  <div style={{ fontSize: "11px", color: "#66aaff", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: "bold", marginBottom: "4px" }}>Total</div>
-                  <div style={{ fontSize: "24px", color: "#ffffff", fontWeight: 900 }}>{totalAgg}</div>
-                </div>
-                <div style={{ background: "#0d2a1a", padding: "16px", borderRadius: "16px", border: "1px solid #1a4d33" }}>
-                  <div style={{ fontSize: "11px", color: "#33ff88", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: "bold", marginBottom: "4px" }}>Present</div>
-                  <div style={{ fontSize: "24px", color: "#ffffff", fontWeight: 900 }}>{presentAgg}</div>
-                </div>
-                <div style={{ background: "#330a0a", padding: "16px", borderRadius: "16px", border: "1px solid #4d1a1a" }}>
-                  <div style={{ fontSize: "11px", color: "#ff5555", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: "bold", marginBottom: "4px" }}>Absent</div>
-                  <div style={{ fontSize: "24px", color: "#ffffff", fontWeight: 900 }}>{absentAgg}</div>
-                </div>
-              </div>
-            </div>
-
-            <div style={{ display: "flex", justifyContent: "center", marginBottom: showPredictor ? "24px" : "40px" }}>
-              <button className="action-btn" onClick={() => setShowPredictor(!showPredictor)}>
-                <div className="icon-l">?</div>
-                <div className="text-c"><span>Predict</span><span>Attendance Calculator</span></div>
-                <div className="icon-r">{showPredictor ? "▾" : "›"}</div>
-              </button>
-            </div>
-
-            {showPredictor && (
-              <div style={{ background: "#1a1a1a", borderRadius: "20px", padding: "24px", marginBottom: "32px", animation: "slideDown 0.3s ease-out forwards" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-                  <div>
-                    <div style={{ fontSize: "16px", fontWeight: "bold", color: "#ffffff" }}>Attendance Predictor</div>
-                    <div style={{ fontSize: "13px", color: "#888888" }}>Select dates you plan to skip</div>
-                  </div>
-                  {predictions && (
-                    <button onClick={() => { setSelectedDates(new Set()); setPredictions(null); }} style={{ background: "none", border: "none", color: "#666666", fontSize: "12px", textTransform: "uppercase", fontWeight: "bold", letterSpacing: "0.1em", cursor: "pointer" }}>Reset</button>
-                  )}
-                </div>
-                <div style={{ display: "flex", overflowX: "auto", gap: "8px", paddingBottom: "16px", scrollbarWidth: "none" }}>
-                  {next30Days.map(d => {
-                    const sel = selectedDates.has(d.iso);
-                    const isWknd = [0, 6].includes(d.date.getDay());
-                    return (
-                      <div key={d.iso} onClick={() => !isWknd && toggleDate(d.iso)}
-                        style={{ 
-                          flexShrink: 0, width: "48px", height: "64px", borderRadius: "12px", 
-                          display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-                          background: sel ? "#ff3b3b" : "#2a2a2a", 
-                          cursor: isWknd ? "not-allowed" : "pointer",
-                          opacity: isWknd ? 0.3 : 1, transition: "background 0.2s"
-                        }}>
-                        <div style={{ fontSize: "10px", color: sel ? "#ffffff" : "#888888", fontWeight: "bold" }}>{d.dayStr}</div>
-                        <div style={{ fontSize: "20px", color: sel ? "#ffffff" : "#ffffff", fontWeight: 900 }}>{d.dateNum}</div>
-                      </div>
-                    );
-                  })}
-                </div>
-                <button onClick={calculatePredictions} style={{ width: "100%", padding: "16px", background: "#a8c200", borderRadius: "99px", color: "#000000", fontSize: "14px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em", border: "none", cursor: "pointer" }}>Calculate</button>
-              </div>
-            )}
-
-            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-              {displayAtt.map((c: AnyValue, i: number) => {
-                const attn = parseFloat(c["Attn %"]) || 0;
-                const isRisk = attn < 75;
-                const cond = parseInt(c["Hours Conducted"]) || 0;
-                const abs = parseInt(c["Hours Absent"]) || 0;
-                const pres = parseInt(c["Hours Attended"]) || (cond - abs);
-
-                return (
-                  <div key={i} className="min-card" style={{ background: isRisk ? "rgba(255,59,59,0.05)" : "var(--bg-surface)" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                      <div style={{ flex: 1, paddingRight: "16px" }}>
-                        <div style={{ fontSize: "16px", fontWeight: "bold", color: "var(--text-primary)" }}>{c["Course Title"]}</div>
-                        <div style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: "bold" }}>{c["Course Code"]}</div>
-                      </div>
-                      <div style={{ fontSize: "24px", fontWeight: 900, color: isRisk ? "#ff3b3b" : "#a8c200" }}>{attn}%</div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-            {showRiskOnly && (
-              <div style={{ marginBottom: "16px", fontSize: "11px", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--accent-red)", fontWeight: 700 }}>
-                Showing only at-risk subjects
-              </div>
-            )}
-            <div className="watermark">Attendance</div>
-          </div>
-        )}
+        <AuraAttendance attendance={att} handleSync={handleSync} isSyncing={isSyncing} {...themeProps} />
       </main>
     </div>
   );

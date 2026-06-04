@@ -6,25 +6,10 @@ import { useRouter } from "next/navigation";
 const THEMES: { id: ThemeType; name: string; sub: string; bg: string; accent: string; hasGlow?: boolean }[] = [
   { 
     id: "aura", 
-    name: "Aura", 
+    name: "Lumina", 
     sub: "Elegant. Soft. Aesthetic.", 
     bg: "#08080c", 
     accent: "#FF75C3",
-    hasGlow: true
-  },
-  { 
-    id: "matrix", 
-    name: "Matrix", 
-    sub: "Dark. Minimal. Focused.", 
-    bg: "#0a0a0a", 
-    accent: "#a8c200" 
-  },
-  { 
-    id: "cosmos", 
-    name: "EduVerse", 
-    sub: "Dark blue campus workspace UI.", 
-    bg: "#0f0f13", 
-    accent: "#7c3aed",
     hasGlow: true
   }
 ];
@@ -58,7 +43,7 @@ export default function ThemeSettingsPage() {
       </div>
 
       <main style={{ flex: 1, overflowY: "auto", marginBottom: "40px", WebkitOverflowScrolling: "touch" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr", maxWidth: "220px", margin: "0 auto", gap: "16px" }}>
           {THEMES.map((t) => (
             <div key={t.id} onClick={() => setSelected(t.id)} style={{ cursor: "pointer" }}>
               <div style={{ 
@@ -88,11 +73,11 @@ export default function ThemeSettingsPage() {
         onClick={handleApply}
         style={{ 
           width: "100%", padding: "18px", borderRadius: "16px", border: "none", flexShrink: 0,
-          background: selected === "matrix" ? "#a8c200" : selected === "aura" ? "#FF75C3" : "#7c3aed",
-          color: selected === "matrix" || selected === "aura" ? "#000" : "#fff",
+          background: "#FF75C3",
+          color: "#000",
           fontSize: "14px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em",
           cursor: "pointer", transition: "all 0.3s",
-          boxShadow: `0 10px 30px ${selected === "matrix" ? "rgba(168,194,0,0.2)" : selected === "aura" ? "rgba(255,117,195,0.3)" : "rgba(124,58,237,0.3)"}`
+          boxShadow: `0 10px 30px rgba(255,117,195,0.3)`
         }}
       >
         Apply Selection

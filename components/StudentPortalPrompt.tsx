@@ -19,8 +19,8 @@ export default function StudentPortalPrompt({
   inline = false,
 }: StudentPortalPromptProps) {
   const { theme } = useThemeStore();
-  const isAura = theme === "aura";
-  const isMatrix = theme === "matrix";
+  const isAura = true;
+  const isMatrix = false;
 
   // Theme-aware accent colors
   const accent = isAura ? "#FF75C3" : isMatrix ? "#a8c200" : "#00ff88";

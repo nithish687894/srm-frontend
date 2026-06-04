@@ -31,8 +31,8 @@ export default function PortalSyncModal({
   const [step, setStep] = useState<"form" | "syncing" | "success">("form");
 
   const theme = useThemeStore((state) => state.theme) || "aura";
-  const isAura = theme === "aura";
-  const isMatrix = theme === "matrix";
+  const isAura = true;
+  const isMatrix = false;
 
   // Dynamic theme-aware premium colors configuration
   const colors = {

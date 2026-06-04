@@ -15,8 +15,8 @@ export default function CalendarPage() {
   const [selectedHoliday, setSelectedHoliday] = useState<AnyValue | null>(null);
   const { theme } = useThemeStore();
 
-  const isCosmos = theme === "cosmos";
-  const isAura = theme === "aura";
+  const isCosmos = false;
+  const isAura = true;
   const AURA_COLORS = {
     primary: "#FF75C3",
     secondary: "#8F92FF",
