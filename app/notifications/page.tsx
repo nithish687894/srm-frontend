@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import { useRouter } from "next/navigation";
@@ -42,13 +42,7 @@ export default function NotificationCenterPage() {
     setMounted(true);
   }, []);
 
-  useEffect(() => {
-    if (mounted) {
-      generateNotifications();
-    }
-  }, [mounted, academicData, studentPortalData, academicAlertsEnabled, clearedIds, readIds]);
-
-  const generateNotifications = () => {
+  const generateNotifications = useCallback(() => {
     const items: NotificationItem[] = [];
     const att = academicData?.attendance || [];
     const spMarks = studentPortalData?.marks?.marks || [];
@@ -56,7 +50,7 @@ export default function NotificationCenterPage() {
     // 1. Check Attendance Warnings
     if (att.length > 0) {
       let riskyCount = 0;
-      att.forEach((sub: any) => {
+      att.forEach((sub: AnyValue) => {
         const pctStr = sub["Attn %"] || sub.pct;
         if (pctStr !== undefined && pctStr !== null) {
           const pct = parseFloat(pctStr) || 0;
@@ -203,7 +197,14 @@ export default function NotificationCenterPage() {
       }));
 
     setNotifications(filtered);
-  };
+  }, [mounted, academicData, studentPortalData, academicAlertsEnabled, clearedIds, readIds]);
+
+  useEffect(() => {
+    if (mounted) {
+      generateNotifications();
+    }
+  }, [mounted, generateNotifications]);
+
 
   const markAllAsRead = () => {
     const allIds = notifications.map(n => n.id);
