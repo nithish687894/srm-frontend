@@ -28,7 +28,7 @@ export default function LoginPage() {
   const hasChosenTheme = useAuthStore((state) => state.hasChosenTheme);
 
   const routeAfterAuth = useCallback(() => {
-    const target = hasChosenTheme ? "/dashboard" : "/setup/theme";
+    const target = "/dashboard";
     router.replace(target);
 
     window.setTimeout(() => {
@@ -36,7 +36,7 @@ export default function LoginPage() {
         window.location.assign(target);
       }
     }, 1800);
-  }, [hasChosenTheme, router]);
+  }, [router]);
 
    const fetchCaptcha = useCallback(async () => {
      try {
@@ -47,13 +47,12 @@ export default function LoginPage() {
      }
    }, []);
  
-   useEffect(() => {
-     if (!_hasHydrated) return;
-     if (authToken) {
-       if (hasChosenTheme) router.replace("/dashboard");
-       else router.replace("/setup/theme");
-     }
-   }, [_hasHydrated, authToken, hasChosenTheme, router]);
+    useEffect(() => {
+      if (!_hasHydrated) return;
+      if (authToken) {
+        router.replace("/dashboard");
+      }
+    }, [_hasHydrated, authToken, router]);
 
    useEffect(() => {
      if (connector === "student-portal" && !captchaData) {
