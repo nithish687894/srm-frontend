@@ -1,13 +1,14 @@
 "use client";
 import React, { useMemo } from "react";
 import { 
-  Sparkles, Activity, Award, Compass, User, Zap, Coffee, ChevronRight, Fingerprint
+  Sparkles, Activity, Award, Compass, User, Zap, Coffee, ChevronRight, Fingerprint, Bell
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { WhatIfCalculator } from "./WhatIfCalculator";
 import { useAuraTheme } from "./system/useAuraTheme";
 import AuraBackground from "./effects/AuraBackground";
 import { AURA_COLORS } from "./system/theme-tokens";
+import { useAuthStore } from "@/lib/store";
 
 const AURA = AURA_COLORS;
 
@@ -20,6 +21,12 @@ export default function AuraDashboard({
 }: AnyValue) {
   const router = useRouter();
   const { activeTheme, stars } = useAuraTheme();
+  
+  // Notification prompt state selectors
+  const academicAlertsPrompted = useAuthStore((state) => state.academicAlertsPrompted);
+  const academicAlertsEnabled = useAuthStore((state) => state.academicAlertsEnabled);
+  const setAcademicAlertsPrompted = useAuthStore((state) => state.setAcademicAlertsPrompted);
+  const setAcademicAlertsEnabled = useAuthStore((state) => state.setAcademicAlertsEnabled);
 
   const getSubjectName = (courseCode: string, fallbackTitle?: string) => {
     if (!courseCode) return fallbackTitle || "";
@@ -144,6 +151,90 @@ export default function AuraDashboard({
             </div>
           );
         })()}
+
+        {/* Enable Notification Alerts Card - Only show when data exists, user has not enabled, and has not dismissed prompt */}
+        {!academicAlertsPrompted && !academicAlertsEnabled && data && (
+          <div 
+            className="premium-card" 
+            style={{
+              background: 'linear-gradient(135deg, rgba(143, 146, 255, 0.08) 0%, rgba(191, 90, 242, 0.04) 100%)',
+              border: '1px solid var(--accent-secondary)',
+              borderColor: 'rgba(143, 146, 255, 0.25)',
+              boxShadow: '0 8px 32px rgba(143, 146, 255, 0.08)',
+              borderRadius: '24px',
+              padding: '20px 24px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '14px',
+              position: 'relative',
+              zIndex: 10
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{
+                width: '36px',
+                height: '36px',
+                borderRadius: '10px',
+                background: 'rgba(143, 146, 255, 0.12)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--accent-secondary)',
+                flexShrink: 0
+              }}>
+                <Bell size={18} />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <span style={{ fontSize: '12.5px', fontWeight: 900, color: 'var(--text-primary)', letterSpacing: '0.03em' }}>
+                  Want Nexus to alert you when attendance or marks update?
+                </span>
+                <span style={{ fontSize: '10px', color: 'var(--text-secondary)', fontWeight: 600, marginTop: '3px' }}>
+                  Get updates even when you’re not checking the app.
+                </span>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+              <button
+                onClick={() => {
+                  setAcademicAlertsPrompted(true);
+                }}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  color: 'var(--text-muted)',
+                  padding: '8px 16px',
+                  borderRadius: '12px',
+                  fontSize: '11px',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
+              >
+                Maybe later
+              </button>
+              <button
+                onClick={() => {
+                  setAcademicAlertsEnabled(true);
+                  setAcademicAlertsPrompted(true);
+                }}
+                style={{
+                  background: 'var(--accent-secondary)',
+                  color: 'var(--bg-root)',
+                  border: 'none',
+                  padding: '8px 18px',
+                  borderRadius: '12px',
+                  fontSize: '11px',
+                  fontWeight: 900,
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(143, 146, 255, 0.2)',
+                  transition: 'all 0.2s'
+                }}
+              >
+                Enable alerts
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* ONE Large AI Hero Card */}
         <div className="premium-card" style={{ padding: '32px', borderRadius: '32px', position: 'relative', display: 'flex', flexDirection: 'column' }}>

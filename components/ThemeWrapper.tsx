@@ -13,23 +13,24 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
 
   useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
-  const currentTheme = "lumina";
+  const currentTheme = theme;
 
   useEffect(() => {
     if (!mounted) return;
     document.body.className = `theme-${currentTheme}`;
-    document.body.style.background = '#050508';
+    document.body.style.background = currentTheme === "light" ? '#f5f5f9' : '#050508';
   }, [currentTheme, mounted]);
 
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: `
-        body { background: #050508; margin: 0; padding: 0; }
+        body { background: ${currentTheme === "light" ? '#f5f5f9' : '#050508'}; margin: 0; padding: 0; }
         .theme-lumina { --bg: #050508; --text-primary: #ffffff; --accent: #FF75C3; --accent-secondary: #8F92FF; --accent-purple: #BF5AF2; --accent-cyan: #00E5FF; }
+        .theme-light { --bg: #f5f5f9; --text-primary: #111111; --accent: #BF5AF2; --accent-secondary: #6366f1; --accent-purple: #8b5cf6; --accent-cyan: #06b6d4; }
       `}} />
       
       <div 
-        className="theme-lumina" 
+        className={`theme-${currentTheme}`} 
         style={{ minHeight: "100vh", width: "100%", position: 'relative', zIndex: 1 }}
       >
         <VersionGuard />

@@ -6,11 +6,19 @@ import { useRouter } from "next/navigation";
 const THEMES: { id: ThemeType; name: string; sub: string; bg: string; accent: string; hasGlow?: boolean }[] = [
   { 
     id: "lumina", 
-    name: "Lumina", 
+    name: "Lumina (Dark)", 
     sub: "Elegant. Soft. Aesthetic.", 
     bg: "#08080c", 
     accent: "#FF75C3",
     hasGlow: true
+  },
+  {
+    id: "light",
+    name: "Lumina Light",
+    sub: "Clean. Vibrant. High Contrast.",
+    bg: "#f5f5f9",
+    accent: "#BF5AF2",
+    hasGlow: false
   }
 ];
 
@@ -43,21 +51,22 @@ export default function ThemeSettingsPage() {
       </div>
 
       <main style={{ flex: 1, overflowY: "auto", marginBottom: "40px", WebkitOverflowScrolling: "touch" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr", maxWidth: "220px", margin: "0 auto", gap: "16px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr", maxWidth: "220px", margin: "0 auto", gap: "20px" }}>
           {THEMES.map((t) => (
             <div key={t.id} onClick={() => setSelected(t.id)} style={{ cursor: "pointer" }}>
               <div style={{ 
                 height: "160px", background: t.bg, borderRadius: "20px", padding: "20px", position: "relative", overflow: "hidden",
                 border: selected === t.id ? `2px solid ${t.accent}` : "1px solid var(--border)",
                 transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                transform: selected === t.id ? "scale(1.02)" : "scale(1)"
+                transform: selected === t.id ? "scale(1.02)" : "scale(1)",
+                boxShadow: selected === t.id ? `0 10px 30px rgba(${t.id === "light" ? "191,90,242" : "255,117,195"}, 0.1)` : "none"
               }}>
                 {t.hasGlow && (
                   <div style={{ position: "absolute", top: "-20px", right: "-20px", width: "100px", height: "100px", background: t.accent, filter: "blur(40px)", opacity: 0.3 }} />
                 )}
                 <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: t.accent, boxShadow: `0 0 10px ${t.accent}` }} />
                 <div style={{ position: "absolute", bottom: "20px", left: "20px" }}>
-                  <div style={{ fontSize: "16px", fontWeight: 800, color: "#fff" }}>{t.name}</div>
+                  <div style={{ fontSize: "16px", fontWeight: 800, color: t.id === "light" ? "#111" : "#fff" }}>{t.name}</div>
                 </div>
               </div>
               <div style={{ marginTop: "12px", textAlign: "center" }}>
@@ -73,11 +82,11 @@ export default function ThemeSettingsPage() {
         onClick={handleApply}
         style={{ 
           width: "100%", padding: "18px", borderRadius: "16px", border: "none", flexShrink: 0,
-          background: "#FF75C3",
-          color: "#000",
+          background: selected === "light" ? "#BF5AF2" : "#FF75C3",
+          color: selected === "light" ? "#fff" : "#000",
           fontSize: "14px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em",
           cursor: "pointer", transition: "all 0.3s",
-          boxShadow: `0 10px 30px rgba(255,117,195,0.3)`
+          boxShadow: selected === "light" ? "0 10px 30px rgba(191,90,242,0.3)" : "0 10px 30px rgba(255,117,195,0.3)"
         }}
       >
         Apply Selection

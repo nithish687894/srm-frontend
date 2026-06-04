@@ -32,6 +32,10 @@ export interface AuthStore {
   myTimetable: AnyValue | null;
   calendar: AnyValue | null;
 
+  // Academic Alerts
+  academicAlertsEnabled: boolean;
+  academicAlertsPrompted: boolean;
+
   // Auth Actions
   setAuthData: (authToken: string, refreshToken: string, email: string) => void;
   setAuthToken: (token: string) => void;
@@ -52,6 +56,10 @@ export interface AuthStore {
 
   // UI
   setHasChosenTheme: (val: boolean) => void;
+
+  // Academic Alerts Setters
+  setAcademicAlertsEnabled: (val: boolean) => void;
+  setAcademicAlertsPrompted: (val: boolean) => void;
 
   // Session
   logout: () => void;
@@ -79,6 +87,9 @@ export const useAuthStore = create<AuthStore>()(
       timetable: null,
       myTimetable: null,
       calendar: null,
+
+      academicAlertsEnabled: false,
+      academicAlertsPrompted: false,
 
       // ── Auth Actions ──────────────────────────────────────────────────────
       setAuthData: (authToken, refreshToken, email) => {
@@ -125,6 +136,10 @@ export const useAuthStore = create<AuthStore>()(
       setMyTimetable: (myTimetable) => set({ myTimetable }),
       setCalendar: (calendar) => set({ calendar }),
 
+      // ── Academic Alerts Setters ──────────────────────────────────────────
+      setAcademicAlertsEnabled: (academicAlertsEnabled) => set({ academicAlertsEnabled }),
+      setAcademicAlertsPrompted: (academicAlertsPrompted) => set({ academicAlertsPrompted }),
+
       // ── UI ────────────────────────────────────────────────────────────────
       setHasChosenTheme: (hasChosenTheme) => set({ hasChosenTheme }),
 
@@ -148,6 +163,8 @@ export const useAuthStore = create<AuthStore>()(
           timetable: null,
           myTimetable: null,
           calendar: null,
+          academicAlertsEnabled: false,
+          academicAlertsPrompted: false,
         });
       },
 
@@ -168,6 +185,8 @@ export const useAuthStore = create<AuthStore>()(
           timetable: null,
           myTimetable: null,
           calendar: null,
+          academicAlertsEnabled: false,
+          academicAlertsPrompted: false,
         });
       },
 
@@ -189,6 +208,8 @@ export const useAuthStore = create<AuthStore>()(
           timetable: state.timetable,
           myTimetable: state.myTimetable,
           calendar: state.calendar,
+          academicAlertsEnabled: state.academicAlertsEnabled,
+          academicAlertsPrompted: state.academicAlertsPrompted,
         }) as unknown as AuthStore,
       onRehydrateStorage: () => (state) => {
         state?.setHasHydrated(true);

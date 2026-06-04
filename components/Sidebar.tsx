@@ -448,17 +448,30 @@ export default function Sidebar() {
             <div className={`w-1.5 h-1.5 rounded-full ${(academiaConnected || studentPortalConnected) ? "bg-[#94FFD8]" : "bg-amber-500"}`} />
             <span className="text-[9px] font-black tracking-widest text-white/60 uppercase">{(academiaConnected || studentPortalConnected) ? "SYNCED" : "LOCAL MODE"}</span>
           </div>
-          <button 
-            onClick={() => { setMenuOpen(true); }} 
-            className="pointer-events-auto w-10 h-10 rounded-full backdrop-blur-md border flex items-center justify-center text-white/60 transition-all active:scale-90"
-            style={{ 
-              background: "rgba(255, 117, 195, 0.1)",
-              borderColor: "rgba(255, 117, 195, 0.2)",
-              boxShadow: "0 0 15px rgba(255, 117, 195, 0.15)"
-            }}
-          >
-            <Settings size={18} color="#FF75C3" />
-          </button>
+          <div className="flex gap-2 pointer-events-auto">
+            <button 
+              onClick={() => { router.push("/notifications"); }} 
+              className="w-10 h-10 rounded-full backdrop-blur-md border flex items-center justify-center text-white/60 transition-all active:scale-90"
+              style={{ 
+                background: "rgba(143, 146, 255, 0.1)",
+                borderColor: "rgba(143, 146, 255, 0.2)",
+                boxShadow: "0 0 15px rgba(143, 146, 255, 0.15)"
+              }}
+            >
+              <Bell size={18} color="#8F92FF" />
+            </button>
+            <button 
+              onClick={() => { setMenuOpen(true); }} 
+              className="w-10 h-10 rounded-full backdrop-blur-md border flex items-center justify-center text-white/60 transition-all active:scale-90"
+              style={{ 
+                background: "rgba(255, 117, 195, 0.1)",
+                borderColor: "rgba(255, 117, 195, 0.2)",
+                boxShadow: "0 0 15px rgba(255, 117, 195, 0.15)"
+              }}
+            >
+              <Settings size={18} color="#FF75C3" />
+            </button>
+          </div>
         </div>
       )}
 
@@ -470,6 +483,9 @@ export default function Sidebar() {
               <div className="flex flex-col gap-3">
                 <button onClick={() => { setMenuOpen(false); router.push("/settings/theme"); }} className="w-full bg-white/5 border border-white/10 text-white flex items-center gap-4 p-4 rounded-2xl font-bold text-sm text-left">
                   <LayoutTemplate size={20} color={THEME.accentPurple} /> Themes & UI
+                </button>
+                <button onClick={() => { setMenuOpen(false); router.push("/settings/notifications"); }} className="w-full bg-white/5 border border-white/10 text-white flex items-center gap-4 p-4 rounded-2xl font-bold text-sm text-left">
+                  <Bell size={20} color="#8F92FF" /> Notifications
                 </button>
                 <button onClick={() => { setMenuOpen(false); router.push("/support"); }} className="w-full bg-white/5 border border-white/10 text-white flex items-center gap-4 p-4 rounded-2xl font-bold text-sm text-left">
                   <LifeBuoy size={20} color="#3673ff" /> Help & Support
@@ -772,6 +788,13 @@ export default function Sidebar() {
                           subtitle="Personalize workspace visual styles & themes" 
                           icon={LayoutTemplate} 
                           color="#A78BFA" 
+                        />
+                        <RowItem 
+                          href="/settings/notifications" 
+                          label="Notifications" 
+                          subtitle="Manage academic alerts and system updates" 
+                          icon={Bell} 
+                          color="#8F92FF" 
                         />
                         <RowItem 
                           href="/app-tools" 

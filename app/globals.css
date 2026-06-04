@@ -1332,6 +1332,201 @@ body.theme-perf-low {
 .page-transition-wrapper {
   animation: pageSlideIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
   will-change: transform, opacity;
+    opacity: 0;
+    filter: blur(12px);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes floatShrink {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    transform: translateY(80px) scale(0.92);
+    opacity: 0;
+    filter: blur(12px);
+  }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   NEXUS MOTION HIERARCHY SYSTEM
+   Level 1: Hero — Slow, elegant, breathing
+   Level 2: Panel — Strong spring physics
+   Level 3: Bento — Tiny hover/parallax only
+   Level 4: Utility — Almost static
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Level 1 — Hero Motion (AURA Status, AI indicators) */
+.motion-hero {
+  transition: opacity var(--motion-hero-duration) var(--motion-hero-ease),
+              transform var(--motion-hero-duration) var(--motion-hero-ease);
+}
+
+@keyframes heroBreathe {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+    filter: brightness(1.08);
+  }
+}
+
+@keyframes heroGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.08);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(168, 85, 247, 0.2);
+  }
+}
+
+/* Level 2 — Panel Motion (Drawer, overlays) */
+.motion-panel {
+  transition: transform var(--motion-panel-duration) var(--motion-panel-ease),
+              opacity var(--motion-panel-duration) var(--motion-panel-ease);
+}
+
+/* Level 3 — Bento Tiles (subtle hover parallax only) */
+.motion-bento {
+  transition: transform var(--motion-bento-duration) var(--motion-bento-ease),
+              background var(--motion-bento-duration) var(--motion-bento-ease),
+              box-shadow var(--motion-bento-duration) var(--motion-bento-ease);
+}
+.motion-bento:hover {
+  transform: translateY(-2px);
+}
+.motion-bento:active {
+  transform: scale(0.97) !important;
+  transition-duration: 0.1s;
+}
+
+/* Level 4 — Utility Items (near-static, fast micro-transitions) */
+.motion-utility {
+  transition: color var(--motion-utility-duration) var(--motion-utility-ease),
+              background var(--motion-utility-duration) var(--motion-utility-ease),
+              opacity var(--motion-utility-duration) var(--motion-utility-ease);
+}
+.motion-utility:active {
+  transform: scale(0.98);
+}
+
+/* ── Dynamic Light Response ── */
+@keyframes ambientShift {
+  0% {
+    background-position: 0% 50%;
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: hue-rotate(8deg);
+  }
+  100% {
+    background-position: 0% 50%;
+    filter: hue-rotate(0deg);
+  }
+}
+
+.ambient-responsive {
+  background-size: 200% 200%;
+  animation: ambientShift 20s ease-in-out infinite;
+}
+
+/* Scroll-reactive light CSS custom property target */
+.nexus-scroll-glow {
+  --scroll-glow-opacity: 0.15;
+  transition: --scroll-glow-opacity 0.8s ease;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ADAPTIVE GPU PERFORMANCE GUARD OVERRIDES (.theme-perf-low)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.theme-perf-low,
+.theme-perf-low *,
+html.theme-perf-low,
+body.theme-perf-low {
+  /* Eliminate complex, expensive GPU multi-pass filters */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+
+  /* Promote elements to GPU and pre-allocate compositor layer */
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Specific class fallbacks for performance mode */
+.theme-perf-low .aura-blob,
+.theme-perf-low .launch-splash-glow,
+.theme-perf-low .launch-splash-glow-pulse {
+  display: none !important;
+  animation: none !important;
+}
+
+/* Login background simplification */
+.theme-perf-low .nebula-bg {
+  background: radial-gradient(circle at 50% 50%, #08060f 0%, #000000 100%) !important;
+  animation: none !important;
+  filter: none !important;
+}
+
+/* Glassmorphism fallback to highly performant solid backdrops */
+.theme-perf-low .login-container {
+  background: rgba(12, 12, 16, 0.98) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9) !important;
+}
+
+.theme-perf-low .min-card,
+.theme-perf-low .liquid-card,
+.theme-perf-low .feature-card {
+  background: #0f0f12 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Eliminate layout shifts on low-end device scrolling */
+.theme-perf-low .min-card:hover {
+  transform: none !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Accelerate navigation transitions */
+.theme-perf-low .srmx-mobile-nav,
+.theme-perf-low .srmx-nav-bar {
+  background: #08080a !important;
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   PAGE TRANSITIONS — Smooth Route Changes
+   Eliminates black flash between pages.
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+@keyframes pageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-transition-wrapper {
+  animation: pageSlideIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
   /* Ensure background fills during transition */
   min-height: 100vh;
   background: var(--bg-root, #050508);
@@ -1342,4 +1537,238 @@ body.theme-perf-low {
   .page-transition-wrapper {
     animation: none !important;
   }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   THEME ALIAS & LIGHT THEME IMPLEMENTATION
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Alias Lumina to Aura theme classes */
+body.theme-lumina {
+  --bg-root: #050508;
+  --bg-surface: rgba(255, 255, 255, 0.02);
+  --bg-elevated: rgba(255, 255, 255, 0.04);
+  --bg-surface-rgb: 12, 10, 20;
+  --accent: #FF75C3;
+  --accent-secondary: #8F92FF;
+  --accent-purple: #BF5AF2;
+  --accent-cyan: #00E5FF;
+  --accent-bg: rgba(255, 117, 195, 0.1);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --text-muted: rgba(255, 255, 255, 0.3);
+  --radius: 24px;
+  --border: rgba(255, 255, 255, 0.06);
+  --font-heading: 'Plus Jakarta Sans', var(--font-inter), system-ui, sans-serif;
+  --font-main: 'Plus Jakarta Sans', var(--font-inter), system-ui, sans-serif;
+  --nav-bg: rgba(15, 12, 28, 0.82);
+  --nav-blur: 32px;
+  --glass-bg: rgba(255, 255, 255, 0.02);
+  --glass-bg-hover: rgba(255, 255, 255, 0.04);
+  --glass-glare: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --glass-saturate: saturate(200%);
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --shadow-panel: 0 -20px 60px rgba(0, 0, 0, 0.7);
+  --shadow-elevated: 0 20px 60px rgba(0, 0, 0, 0.5);
+  --shadow-hero: 0 0 60px rgba(191, 90, 242, 0.12);
+  --shadow-glow-pink: 0 0 40px rgba(255, 117, 195, 0.15);
+  --shadow-glow-purple: 0 0 40px rgba(191, 90, 242, 0.15);
+
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(191, 90, 242, 0.08), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 90%, rgba(0, 229, 255, 0.05), transparent 50%),
+    #050508;
+  background-attachment: fixed;
+  color: #ffffff;
+}
+
+.theme-lumina .min-card {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 20px 40px rgba(0, 0, 0, 0.4);
+  position: relative;
+}
+
+.theme-lumina .min-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 117, 195, 0.04) 0%, transparent 40%, rgba(143, 146, 255, 0.03) 100%);
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.theme-lumina .min-card:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 117, 195, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 30px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 117, 195, 0.06);
+}
+
+.theme-lumina .action-btn {
+  background: rgba(255, 117, 195, 0.06);
+  border: 1px solid rgba(255, 117, 195, 0.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 117, 195, 0.06);
+}
+
+.theme-lumina .action-btn:hover {
+  background: rgba(255, 117, 195, 0.1);
+  border-color: rgba(255, 117, 195, 0.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 117, 195, 0.1);
+}
+
+.theme-lumina .action-btn .icon-l {
+  background: rgba(255, 117, 195, 0.12);
+}
+
+.theme-lumina .action-btn .icon-r {
+  background: rgba(191, 90, 242, 0.12);
+}
+
+.theme-lumina .srmx-nav-bar,
+.theme-lumina .srmx-mobile-nav {
+  background: var(--nav-bg);
+  backdrop-filter: blur(var(--nav-blur));
+  -webkit-backdrop-filter: blur(var(--nav-blur));
+  border-top: 1px solid rgba(255, 117, 195, 0.08);
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5), 0 -2px 20px rgba(191, 90, 242, 0.05);
+}
+
+.theme-lumina .srmx-desktop-nav {
+  background: rgba(15, 12, 28, 0.7);
+  border: 1px solid rgba(255, 117, 195, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(191, 90, 242, 0.06);
+}
+
+.theme-lumina .nav-item.active {
+  color: #FF75C3;
+  text-shadow: 0 0 12px rgba(255, 117, 195, 0.7);
+}
+
+.theme-lumina .nav-item.active::before {
+  background: #FF75C3;
+  box-shadow: 0 0 12px rgba(255, 117, 195, 0.6);
+}
+
+.theme-lumina ::selection {
+  background: rgba(255, 117, 195, 0.35);
+  color: #ffffff;
+}
+
+.theme-lumina ::-webkit-scrollbar-thumb {
+  background: rgba(255, 117, 195, 0.15);
+}
+
+.theme-lumina ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 117, 195, 0.35);
+}
+
+.theme-lumina .liquid-card {
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   THEME — LIGHT (Aesthetic Clean Light)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+body.theme-light, .theme-light {
+  --bg-root: #f5f5f9;
+  --bg-surface: #ffffff;
+  --bg-elevated: #ededf2;
+  --border: rgba(0, 0, 0, 0.08);
+  --text-primary: #111111;
+  --text-secondary: rgba(0, 0, 0, 0.6);
+  --text-muted: rgba(0, 0, 0, 0.35);
+
+  --accent: #BF5AF2;
+  --accent-secondary: #6366f1;
+  --accent-purple: #8b5cf6;
+  --accent-cyan: #06b6d4;
+  --accent-bg: rgba(191, 90, 242, 0.08);
+
+  --nav-bg: rgba(245, 245, 249, 0.85);
+  --nav-blur: 24px;
+
+  --glass-bg: rgba(0, 0, 0, 0.02);
+  --glass-bg-hover: rgba(0, 0, 0, 0.04);
+  --glass-glare: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.08);
+  --shadow-panel: 0 -10px 40px rgba(0, 0, 0, 0.04);
+  --shadow-elevated: 0 10px 40px rgba(0, 0, 0, 0.06);
+
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(191, 90, 242, 0.05), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 90%, rgba(6, 182, 212, 0.04), transparent 50%),
+    #f5f5f9;
+  background-attachment: fixed;
+  color: #111111;
+}
+
+/* Light Theme Component Overrides */
+.theme-light .min-card {
+  background: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.06) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.03), 0 0 1px rgba(0, 0, 0, 0.08) !important;
+}
+.theme-light .min-card::before {
+  background: linear-gradient(135deg, rgba(191, 90, 242, 0.02) 0%, transparent 40%) !important;
+}
+.theme-light .min-card:hover {
+  background: #ffffff !important;
+  border-color: rgba(191, 90, 242, 0.25) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.07), 0 0 1px rgba(0, 0, 0, 0.08) !important;
+}
+.theme-light .action-btn {
+  background: rgba(191, 90, 242, 0.05) !important;
+  border: 1px solid rgba(191, 90, 242, 0.15) !important;
+  color: #BF5AF2 !important;
+}
+.theme-light .action-btn:hover {
+  background: rgba(191, 90, 242, 0.08) !important;
+  border-color: rgba(191, 90, 242, 0.25) !important;
+}
+.theme-light .srmx-mobile-nav,
+.theme-light .srmx-nav-bar {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.03) !important;
+}
+.theme-light .nav-item {
+  color: rgba(0, 0, 0, 0.45) !important;
+}
+.theme-light .nav-item:hover {
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+.theme-light .nav-item.active {
+  color: #BF5AF2 !important;
+}
+.theme-light .nav-item.active::after {
+  background: #BF5AF2 !important;
+  box-shadow: 0 0 10px rgba(191, 90, 242, 0.4) !important;
+}
+.theme-light .drawer-item-icon {
+  background: rgba(0, 0, 0, 0.02) !important;
+  border-color: rgba(0, 0, 0, 0.04) !important;
+}
+.theme-light .drawer-item-icon.active {
+  background: rgba(191, 90, 242, 0.08) !important;
+  border-color: rgba(191, 90, 242, 0.15) !important;
+}
+.theme-light .vault-card {
+  background: rgba(0, 0, 0, 0.02) !important;
+  border-color: rgba(0, 0, 0, 0.06) !important;
+}
+.theme-light h1, .theme-light h2, .theme-light h3, .theme-light h4, .theme-light p, .theme-light span, .theme-light div {
+  text-shadow: none !important;
+}
+.theme-light .watermark {
+  color: #000000 !important;
+  opacity: 0.05 !important;
 }
