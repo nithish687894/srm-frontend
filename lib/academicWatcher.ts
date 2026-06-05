@@ -1,12 +1,12 @@
 /**
- * academicWatcher.ts
+ * lib/academicWatcher.ts
  * Watches academic data changes and fires real native phone/PWA push notifications
- * when attendance drops below 75% or marks are updated.
+ * via Firebase FCM when attendance drops below 75% or marks are updated.
  *
  * Called after every portal sync from the auth store.
  */
 
-import { pushNativeOnce } from "./pushNotify";
+import { getStoredFCMToken } from "./fcmManager";
 
 interface AttendanceSubject {
   "Attn %"?: string | number;
@@ -26,6 +26,66 @@ interface MarksEntry {
 }
 
 /**
+ * Send a push via the /api/notify serverless route (Firebase Admin → FCM).
+ * Falls back to browser Notification API if no FCM token is stored.
+ */
+async function sendPush(payload: {
+  title: string;
+  body: string;
+  url?: string;
+  tag?: string;
+}): Promise<void> {
+  const token = getStoredFCMToken();
+
+  if (token) {
+    try {
+      await fetch("/api/notify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token, ...payload }),
+      });
+      return;
+    } catch (err) {
+      console.warn("[academicWatcher] FCM send failed, falling back:", err);
+    }
+  }
+
+  // Fallback: direct browser notification (works when app is open)
+  if (Notification.permission === "granted") {
+    try {
+      const reg = await navigator.serviceWorker?.ready;
+      if (reg?.showNotification) {
+        await reg.showNotification(payload.title, {
+          body: payload.body,
+          icon: "/nexus-logo.png",
+          badge: "/favicon-32x32.png",
+          data: { url: payload.url || "/notifications" },
+          tag: payload.tag,
+        } as NotificationOptions & { badge?: string });
+      } else {
+        new Notification(payload.title, { body: payload.body, icon: "/nexus-logo.png" });
+      }
+    } catch {}
+  }
+}
+
+/**
+ * Deduplicated send — only pushes once per cooldown window per key.
+ */
+function sendOnce(
+  key: string,
+  payload: { title: string; body: string; url?: string; tag?: string },
+  cooldownMs = 4 * 60 * 60 * 1000
+): void {
+  try {
+    const stored = localStorage.getItem(`nexus_push_ts_${key}`);
+    if (stored && Date.now() - parseInt(stored, 10) < cooldownMs) return;
+    localStorage.setItem(`nexus_push_ts_${key}`, String(Date.now()));
+    sendPush({ ...payload, tag: key });
+  } catch {}
+}
+
+/**
  * Run after academic data sync. Checks for:
  * 1. Attendance < 75% per subject → phone notification
  * 2. New/changed marks → phone notification
@@ -42,7 +102,7 @@ export function runAcademicWatcher(
 }
 
 function checkAttendanceAlerts(attendance: AttendanceSubject[]): void {
-  if (!attendance || attendance.length === 0) return;
+  if (!attendance?.length) return;
 
   const risky: string[] = [];
 
@@ -51,86 +111,64 @@ function checkAttendanceAlerts(attendance: AttendanceSubject[]): void {
     if (pctRaw === undefined || pctRaw === null) return;
 
     const pct = parseFloat(String(pctRaw));
-    if (isNaN(pct)) return;
+    if (isNaN(pct) || pct >= 75) return;
 
     const name =
-      sub["Course Title"] ||
-      sub.courseTitle ||
-      sub.courseName ||
-      sub["Course Code"] ||
-      sub.courseCode ||
-      "A subject";
+      sub["Course Title"] || sub.courseTitle || sub.courseName ||
+      sub["Course Code"] || sub.courseCode || "A subject";
+    const code = String(sub["Course Code"] || sub.courseCode || name)
+      .replace(/\s+/g, "-").toLowerCase();
 
-    if (pct < 75) {
-      risky.push(name);
-      // Fire one phone notification per risky subject (cooldown: 4 hours)
-      pushNativeOnce(
-        `attn-low-${(sub["Course Code"] || sub.courseCode || name)
-          .toString()
-          .replace(/\s+/g, "-")
-          .toLowerCase()}`,
-        {
-          title: `⚠️ Low attendance: ${name}`,
-          body: `${name} is at ${pct.toFixed(1)}%. Attend next class to avoid getting detained.`,
-          url: "/attendance",
-          tag: `attn-low-${(sub["Course Code"] || sub.courseCode || name)
-            .toString()
-            .replace(/\s+/g, "-")
-            .toLowerCase()}`,
-        },
-        4 * 60 * 60 * 1000 // 4 hour cooldown
-      );
-    }
+    risky.push(name);
+
+    sendOnce(
+      `attn-low-${code}`,
+      {
+        title: `⚠️ Low attendance: ${name}`,
+        body: `${name} is at ${pct.toFixed(1)}%. Attend next class to avoid getting detained.`,
+        url: "/attendance",
+      },
+      4 * 60 * 60 * 1000
+    );
   });
 
-  // Summary push if multiple subjects are at risk
   if (risky.length > 2) {
-    pushNativeOnce(
+    sendOnce(
       "attn-multi-risk-summary",
       {
         title: `⚠️ ${risky.length} subjects need attention`,
-        body: `You have low attendance in: ${risky.slice(0, 3).join(", ")}${risky.length > 3 ? ` and ${risky.length - 3} more` : ""}.`,
+        body: `Low attendance in: ${risky.slice(0, 3).join(", ")}${risky.length > 3 ? ` and ${risky.length - 3} more` : ""}.`,
         url: "/attendance",
-        tag: "attn-multi-risk-summary",
       },
-      6 * 60 * 60 * 1000 // 6 hour cooldown
+      6 * 60 * 60 * 1000
     );
   }
 }
 
 function checkMarksAlerts(marks: MarksEntry[]): void {
-  if (!marks || marks.length === 0) return;
+  if (!marks?.length) return;
 
-  // Build a hash of current marks to detect changes
   const currentHash = marks
-    .map((m) => {
-      const name = m["Subject Name"] || m.subjectName || "";
-      const score = m.scoredMark ?? m.testMark ?? "";
-      return `${name}:${score}`;
-    })
+    .map((m) => `${m["Subject Name"] || m.subjectName || ""}:${m.scoredMark ?? m.testMark ?? ""}`)
     .join("|");
 
   const previousHash = localStorage.getItem("nexus_marks_hash");
 
   if (!previousHash) {
-    // First time seeing marks — store hash but don't notify yet
     localStorage.setItem("nexus_marks_hash", currentHash);
     return;
   }
 
   if (previousHash !== currentHash) {
-    // Marks have changed since last sync
     localStorage.setItem("nexus_marks_hash", currentHash);
-
-    pushNativeOnce(
+    sendOnce(
       "marks-updated",
       {
         title: "📊 Marks updated",
         body: "New marks have been posted. Check your scores in the Marks section.",
         url: "/marks",
-        tag: "marks-updated",
       },
-      2 * 60 * 60 * 1000 // 2 hour cooldown
+      2 * 60 * 60 * 1000
     );
   }
 }

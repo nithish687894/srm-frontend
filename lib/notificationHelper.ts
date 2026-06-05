@@ -1,5 +1,6 @@
 import { useAuthStore } from "@/lib/store";
 import { pushNative } from "@/lib/pushNotify";
+import { registerFCMToken } from "@/lib/fcmManager";
 
 export async function enableAcademicAlerts(
   showToast: (title: string, body: string, type?: "success" | "error" | "info") => void
@@ -21,18 +22,27 @@ export async function enableAcademicAlerts(
       store.setAcademicAlertsEnabled(true);
       store.setAcademicAlertsPrompted(true);
 
-      // 3. Mark in localStorage that notification alerts were successfully turned on
+      // 3. Mark in localStorage
       localStorage.setItem("academicAlertsEnabled", "true");
       localStorage.setItem("academicAlertsPrompted", "true");
 
-      // 4. Add dynamic flag so system notification registers inside Notification Center (only once per device)
+      // 4. Register FCM token (Firebase Cloud Messaging)
+      //    This allows push notifications even when the app is fully closed.
+      registerFCMToken().then((token) => {
+        if (token) {
+          console.log("[Notifications] FCM token registered successfully.");
+        } else {
+          console.warn("[Notifications] FCM token registration returned null — using fallback SW push.");
+        }
+      });
+
+      // 5. Flag for notification center
       if (!localStorage.getItem("hasAddedAlertsEnabledNotification")) {
         localStorage.setItem("hasAddedAlertsEnabledNotification", "true");
       }
 
-      // 5. Send First Friendly Welcome Push Notification after 8 seconds (one-time check per device)
+      // 6. Send welcome push after 8 seconds (one-time per device)
       if (!localStorage.getItem("hasSentWelcomeNotification")) {
-        // Set immediately to prevent multiple schedules
         localStorage.setItem("hasSentWelcomeNotification", "true");
 
         setTimeout(() => {
@@ -45,7 +55,6 @@ export async function enableAcademicAlerts(
         }, 8000);
       }
     } else if (permission === "denied") {
-      // Denied Alert Toast
       showToast(
         "Notifications are off",
         "You can enable academic alerts later in Profile.",
@@ -56,7 +65,6 @@ export async function enableAcademicAlerts(
       localStorage.setItem("academicAlertsEnabled", "false");
       localStorage.setItem("academicAlertsPrompted", "true");
     } else {
-      // Default (user dismissed prompt)
       store.setAcademicAlertsEnabled(false);
       localStorage.setItem("academicAlertsEnabled", "false");
     }
