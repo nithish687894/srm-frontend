@@ -26,8 +26,11 @@ interface MarksEntry {
 }
 
 /**
- * Send a push via the /api/notify serverless route (Firebase Admin → FCM).
- * Falls back to browser Notification API if no FCM token is stored.
+ * Send a push via the Render backend (Firebase Admin → FCM).
+ * Falls back to browser Notification API if no FCM token or backend unavailable.
+ *
+ * Backend endpoint: POST {NEXT_PUBLIC_API_URL}/api/send-notification
+ * Body: { token, title, body, url, tag }
  */
 async function sendPush(payload: {
   title: string;
@@ -36,21 +39,22 @@ async function sendPush(payload: {
   tag?: string;
 }): Promise<void> {
   const token = getStoredFCMToken();
+  const backendUrl = process.env.NEXT_PUBLIC_API_URL;
 
-  if (token) {
+  if (token && backendUrl) {
     try {
-      await fetch("/api/notify", {
+      await fetch(`${backendUrl}/api/send-notification`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, ...payload }),
       });
       return;
     } catch (err) {
-      console.warn("[academicWatcher] FCM send failed, falling back:", err);
+      console.warn("[academicWatcher] FCM via Render failed, falling back:", err);
     }
   }
 
-  // Fallback: direct browser notification (works when app is open)
+  // Fallback: direct browser notification (works when app is open/foreground)
   if (Notification.permission === "granted") {
     try {
       const reg = await navigator.serviceWorker?.ready;
