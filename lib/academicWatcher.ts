@@ -1,12 +1,5 @@
-/**
- * lib/academicWatcher.ts
- * Watches academic data changes and fires real native phone/PWA push notifications
- * via Firebase FCM when attendance drops below 75% or marks are updated.
- *
- * Called after every portal sync from the auth store.
- */
-
 import { getStoredFCMToken } from "./fcmManager";
+import { selectTemplate, renderTemplate } from "./pulseEngine";
 
 interface AttendanceSubject {
   "Attn %"?: string | number;
@@ -125,11 +118,20 @@ function checkAttendanceAlerts(attendance: AttendanceSubject[]): void {
 
     risky.push(name);
 
+    // Select templates depending on severity (under 65% is attendance_danger, else attendance_low)
+    const category = pct < 65 ? "attendance_danger" : "attendance_low";
+    const template = selectTemplate(category, "funny_friend");
+    const rendered = renderTemplate(template.titleTemplate, template.bodyTemplate, {
+      subject: name,
+      attendance: pct.toFixed(1),
+      requiredAttendance: 75,
+    });
+
     sendOnce(
       `attn-low-${code}`,
       {
-        title: `⚠️ Low attendance: ${name}`,
-        body: `${name} is at ${pct.toFixed(1)}%. Attend next class to avoid getting detained.`,
+        title: rendered.title,
+        body: rendered.body,
         url: "/attendance",
       },
       4 * 60 * 60 * 1000
@@ -137,11 +139,17 @@ function checkAttendanceAlerts(attendance: AttendanceSubject[]): void {
   });
 
   if (risky.length > 2) {
+    const template = selectTemplate("attendance_low", "funny_friend");
+    const rendered = renderTemplate(template.titleTemplate, template.bodyTemplate, {
+      subject: `${risky.length} subjects`,
+      attendance: "multiple",
+    });
+
     sendOnce(
       "attn-multi-risk-summary",
       {
-        title: `⚠️ ${risky.length} subjects need attention`,
-        body: `Low attendance in: ${risky.slice(0, 3).join(", ")}${risky.length > 3 ? ` and ${risky.length - 3} more` : ""}.`,
+        title: rendered.title,
+        body: rendered.body,
         url: "/attendance",
       },
       6 * 60 * 60 * 1000
@@ -165,11 +173,15 @@ function checkMarksAlerts(marks: MarksEntry[]): void {
 
   if (previousHash !== currentHash) {
     localStorage.setItem("nexus_marks_hash", currentHash);
+
+    const template = selectTemplate("marks_update", "funny_friend");
+    const rendered = renderTemplate(template.titleTemplate, template.bodyTemplate, {});
+
     sendOnce(
       "marks-updated",
       {
-        title: "📊 Marks updated",
-        body: "New marks have been posted. Check your scores in the Marks section.",
+        title: rendered.title,
+        body: rendered.body,
         url: "/marks",
       },
       2 * 60 * 60 * 1000

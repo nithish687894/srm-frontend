@@ -5,8 +5,9 @@ import { useThemeStore } from "@/lib/themeStore";
 import { useRouter } from "next/navigation";
 import { 
   Bell, ArrowLeft, CheckCircle2, AlertTriangle, Sparkles, 
-  Award, Settings, Trash2, Clock, Pencil, X, Save, Phone
+  Award, Settings, Trash2, Clock, Pencil, X, Save, Phone, Search
 } from "lucide-react";
+import { getCachedTemplates, renderTemplate as renderPulseTemplate, type NotificationTemplate } from "@/lib/pulseEngine";
 
 interface NotificationItem {
   id: string;
@@ -200,6 +201,37 @@ export default function NotificationCenterPage() {
   const [editTitle, setEditTitle] = useState("");
   const [editBody, setEditBody] = useState("");
 
+  // Pulse Explorer state
+  const [messagesSubTab, setMessagesSubTab] = useState<"defaults" | "pulse">("defaults");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [selectedTone, setSelectedTone] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [pulseTemplates, setPulseTemplates] = useState<NotificationTemplate[]>([]);
+
+  const previewVars = {
+    subject: "Cyber Security",
+    attendance: 71,
+    attendanceChange: -2,
+    classTime: "10:30 AM",
+    classesToday: 4,
+    deadline: "Tonight at 11:59 PM",
+    duration: "45 mins",
+    examDate: "June 15",
+    examName: "End Semester Exam",
+    firstClassTime: "8:00 AM",
+    location: "Tech Park 603",
+    marks: 12,
+    maxMarks: 15,
+    newClass: "TP 603",
+    oldClass: "TP 502",
+    overallAttendance: 74,
+    requiredAttendance: 75,
+    riskySubject: "Cyber Security",
+    safeSkips: 0,
+    studentName: "Nithish",
+    topic: "Buffer Overflow"
+  };
+
   useEffect(() => {
     try {
       const cleared = localStorage.getItem("nexus_cleared_notifications");
@@ -207,6 +239,7 @@ export default function NotificationCenterPage() {
       const read = localStorage.getItem("nexus_read_notifications");
       if (read) setReadIds(JSON.parse(read));
       setTemplates(loadTemplates());
+      setPulseTemplates(getCachedTemplates());
     } catch {}
     setMounted(true);
   }, []);
@@ -496,86 +529,229 @@ export default function NotificationCenterPage() {
 
           {/* ── MESSAGES TAB ──────────────────────────────────────── */}
           {activeTab === "messages" && (
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              {/* Info banner */}
-              <div style={{ display: "flex", alignItems: "center", gap: "10px", background: isLight ? "rgba(191,90,242,0.06)" : "rgba(255,117,195,0.06)", border: `1px solid ${isLight ? "rgba(191,90,242,0.15)" : "rgba(255,117,195,0.15)"}`, borderRadius: "14px", padding: "12px 16px", marginBottom: "4px" }}>
-                <Phone size={15} color={accentColor} style={{ flexShrink: 0 }} />
-                <span style={{ fontSize: "10.5px", color: "var(--text-secondary)", fontWeight: 600, lineHeight: 1.5 }}>
-                  Messages marked with 📱 are sent as <strong>real phone notifications</strong> when triggered. You can edit any message title or body. Use <code>{"{subject}"}</code>, <code>{"{pct}"}</code>, <code>{"{count}"}</code> as placeholders.
-                </span>
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              {/* Messages Sub-tabs */}
+              <div style={{ display: "flex", gap: "8px", background: isLight ? "rgba(0,0,0,0.03)" : "rgba(255,255,255,0.03)", borderRadius: "12px", padding: "3px" }}>
+                {(["defaults", "pulse"] as const).map(subTab => (
+                  <button
+                    key={subTab}
+                    onClick={() => setMessagesSubTab(subTab)}
+                    style={{
+                      flex: 1, padding: "8px", borderRadius: "10px", border: "none",
+                      background: messagesSubTab === subTab ? (isLight ? "#fff" : "rgba(255,255,255,0.08)") : "transparent",
+                      color: messagesSubTab === subTab ? "var(--text-primary)" : "var(--text-secondary)",
+                      fontSize: "11px", fontWeight: 700, cursor: "pointer",
+                      transition: "all 0.2s"
+                    }}
+                  >
+                    {subTab === "defaults" ? "📋 App Defaults" : "⚡ Pulse Explorer (700)"}
+                  </button>
+                ))}
               </div>
 
-              {templates.map((tmpl) => {
-                const isEditing = editingId === tmpl.id;
-                const color = catColor(tmpl.category);
-                return (
-                  <div
-                    key={tmpl.id}
-                    style={{ background: isLight ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.025)", border: isEditing ? `1px solid ${accentColor}60` : "1px solid var(--border)", borderRadius: "18px", padding: "16px 18px", transition: "all 0.2s" }}
-                  >
-                    {/* Row header */}
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: isEditing ? "12px" : "6px" }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                        <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: color, flexShrink: 0 }} />
-                        <span style={{ fontSize: "9px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em", color: "var(--text-muted)" }}>
-                          {tmpl.category} {tmpl.isPhoneAlert ? "· 📱 Phone" : "· In-app"}
-                        </span>
-                      </div>
-                      <div style={{ display: "flex", gap: "6px" }}>
+              {/* Sub-tab 1: App Defaults */}
+              {messagesSubTab === "defaults" && (
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px", background: isLight ? "rgba(191,90,242,0.06)" : "rgba(255,117,195,0.06)", border: `1px solid ${isLight ? "rgba(191,90,242,0.15)" : "rgba(255,117,195,0.15)"}`, borderRadius: "14px", padding: "12px 16px" }}>
+                    <Phone size={15} color={accentColor} style={{ flexShrink: 0 }} />
+                    <span style={{ fontSize: "10.5px", color: "var(--text-secondary)", fontWeight: 600, lineHeight: 1.5 }}>
+                      Messages marked with 📱 are sent as <strong>real phone notifications</strong> when triggered. You can edit any message title or body. Use <code>{"{subject}"}</code>, <code>{"{pct}"}</code>, <code>{"{count}"}</code> as placeholders.
+                    </span>
+                  </div>
+
+                  {templates.map((tmpl) => {
+                    const isEditing = editingId === tmpl.id;
+                    const color = catColor(tmpl.category);
+                    return (
+                      <div
+                        key={tmpl.id}
+                        style={{ background: isLight ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.025)", border: isEditing ? `1px solid ${accentColor}60` : "1px solid var(--border)", borderRadius: "18px", padding: "16px 18px", transition: "all 0.2s" }}
+                      >
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: isEditing ? "12px" : "6px" }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                            <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: color, flexShrink: 0 }} />
+                            <span style={{ fontSize: "9px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em", color: "var(--text-muted)" }}>
+                              {tmpl.category} {tmpl.isPhoneAlert ? "· 📱 Phone" : "· In-app"}
+                            </span>
+                          </div>
+                          <div style={{ display: "flex", gap: "6px" }}>
+                            {isEditing ? (
+                              <>
+                                <button onClick={saveEdit} style={{ display: "flex", alignItems: "center", gap: "4px", padding: "4px 10px", borderRadius: "8px", border: `1px solid ${accentColor}40`, background: `${accentColor}15`, color: accentColor, fontSize: "10px", fontWeight: 800, cursor: "pointer" }}>
+                                  <Save size={10} /> Save
+                                </button>
+                                <button onClick={() => setEditingId(null)} style={{ display: "flex", alignItems: "center", gap: "4px", padding: "4px 10px", borderRadius: "8px", border: "1px solid var(--border)", background: "transparent", color: "var(--text-muted)", fontSize: "10px", fontWeight: 800, cursor: "pointer" }}>
+                                  <X size={10} /> Cancel
+                                </button>
+                              </>
+                            ) : (
+                              <>
+                                <button onClick={() => startEdit(tmpl)} style={{ display: "flex", alignItems: "center", gap: "4px", padding: "4px 10px", borderRadius: "8px", border: "1px solid var(--border)", background: "transparent", color: "var(--text-secondary)", fontSize: "10px", fontWeight: 700, cursor: "pointer" }}>
+                                  <Pencil size={10} /> Edit
+                                </button>
+                                <button onClick={() => resetTemplate(tmpl.id)} style={{ padding: "4px 10px", borderRadius: "8px", border: "1px solid var(--border)", background: "transparent", color: "var(--text-muted)", fontSize: "10px", fontWeight: 700, cursor: "pointer" }}>
+                                  Reset
+                                </button>
+                              </>
+                            )}
+                          </div>
+                        </div>
+
+                        <div style={{ fontSize: "10px", color: "var(--text-muted)", fontWeight: 700, marginBottom: "6px" }}>{tmpl.label}</div>
+
                         {isEditing ? (
                           <>
-                            <button onClick={saveEdit} style={{ display: "flex", alignItems: "center", gap: "4px", padding: "4px 10px", borderRadius: "8px", border: `1px solid ${accentColor}40`, background: `${accentColor}15`, color: accentColor, fontSize: "10px", fontWeight: 800, cursor: "pointer" }}>
-                              <Save size={10} /> Save
-                            </button>
-                            <button onClick={() => setEditingId(null)} style={{ display: "flex", alignItems: "center", gap: "4px", padding: "4px 10px", borderRadius: "8px", border: "1px solid var(--border)", background: "transparent", color: "var(--text-muted)", fontSize: "10px", fontWeight: 800, cursor: "pointer" }}>
-                              <X size={10} /> Cancel
-                            </button>
+                            <div style={{ marginBottom: "8px" }}>
+                              <div style={{ fontSize: "9px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", marginBottom: "4px" }}>Title</div>
+                              <input
+                                value={editTitle}
+                                onChange={e => setEditTitle(e.target.value)}
+                                style={{ width: "100%", background: isLight ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.06)", border: "1px solid var(--border)", borderRadius: "10px", padding: "10px 12px", color: "var(--text-primary)", fontSize: "13px", fontWeight: 700, outline: "none", boxSizing: "border-box" }}
+                              />
+                            </div>
+                            <div>
+                              <div style={{ fontSize: "9px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", marginBottom: "4px" }}>Body</div>
+                              <textarea
+                                value={editBody}
+                                onChange={e => setEditBody(e.target.value)}
+                                rows={3}
+                                style={{ width: "100%", background: isLight ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.06)", border: "1px solid var(--border)", borderRadius: "10px", padding: "10px 12px", color: "var(--text-primary)", fontSize: "12px", lineHeight: 1.5, outline: "none", resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }}
+                              />
+                            </div>
                           </>
                         ) : (
                           <>
-                            <button onClick={() => startEdit(tmpl)} style={{ display: "flex", alignItems: "center", gap: "4px", padding: "4px 10px", borderRadius: "8px", border: "1px solid var(--border)", background: "transparent", color: "var(--text-secondary)", fontSize: "10px", fontWeight: 700, cursor: "pointer" }}>
-                              <Pencil size={10} /> Edit
-                            </button>
-                            <button onClick={() => resetTemplate(tmpl.id)} style={{ padding: "4px 10px", borderRadius: "8px", border: "1px solid var(--border)", background: "transparent", color: "var(--text-muted)", fontSize: "10px", fontWeight: 700, cursor: "pointer" }}>
-                              Reset
-                            </button>
+                            <div style={{ fontSize: "13px", fontWeight: 800, color: "var(--text-primary)", marginBottom: "4px" }}>{tmpl.title}</div>
+                            <div style={{ fontSize: "11px", color: "var(--text-secondary)", lineHeight: 1.5 }}>{tmpl.body}</div>
                           </>
                         )}
                       </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Sub-tab 2: Pulse Explorer */}
+              {messagesSubTab === "pulse" && (
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                  {/* Info */}
+                  <div style={{ background: isLight ? "rgba(0,0,0,0.02)" : "rgba(255, 255, 255, 0.02)", border: "1px solid var(--border)", borderRadius: "16px", padding: "14px" }}>
+                    <div style={{ fontSize: "12px", fontWeight: 900, color: "var(--text-primary)", marginBottom: "4px" }}>⚡ Nexus Pulse Explorer</div>
+                    <div style={{ fontSize: "10.5px", color: "var(--text-secondary)", lineHeight: 1.4 }}>
+                      Seeded from MongoDB database. Nexus randomly chooses one matching template to provide humorous variety and soft roasts!
+                    </div>
+                  </div>
+
+                  {/* Filters */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                    <div style={{ display: "flex", gap: "8px" }}>
+                      <select
+                        value={selectedCategory}
+                        onChange={e => setSelectedCategory(e.target.value)}
+                        style={{ flex: 1, background: isLight ? "#fff" : "rgba(255,255,255,0.04)", border: "1px solid var(--border)", color: "var(--text-primary)", borderRadius: "10px", padding: "10px", fontSize: "11px", fontWeight: 700, outline: "none" }}
+                      >
+                        <option value="all">All Categories</option>
+                        <option value="attendance_low">Low Attendance</option>
+                        <option value="attendance_danger">Attendance Danger</option>
+                        <option value="attendance_safe">Attendance Safe</option>
+                        <option value="safe_to_skip">Safe to Skip</option>
+                        <option value="not_safe_to_skip">Not Safe to Skip</option>
+                        <option value="marks_update">Marks Update</option>
+                        <option value="class_reminder">Class Reminder</option>
+                        <option value="timetable_change">Timetable Change</option>
+                        <option value="exam_reminder">Exam Reminder</option>
+                        <option value="assignment_deadline">Assignment Deadline</option>
+                        <option value="study_plan">Study Plan</option>
+                        <option value="life_reminder">Life Reminder</option>
+                        <option value="morning_summary">Morning Summary</option>
+                        <option value="evening_summary">Evening Summary</option>
+                      </select>
+
+                      <select
+                        value={selectedTone}
+                        onChange={e => setSelectedTone(e.target.value)}
+                        style={{ flex: 1, background: isLight ? "#fff" : "rgba(255,255,255,0.04)", border: "1px solid var(--border)", color: "var(--text-primary)", borderRadius: "10px", padding: "10px", fontSize: "11px", fontWeight: 700, outline: "none" }}
+                      >
+                        <option value="all">All Tones</option>
+                        <option value="funny_friend">Funny Friend</option>
+                        <option value="helpful_friendly">Helpful Friendly</option>
+                        <option value="strict_caring">Strict Caring</option>
+                      </select>
                     </div>
 
-                    {/* Label */}
-                    <div style={{ fontSize: "10px", color: "var(--text-muted)", fontWeight: 700, marginBottom: "6px" }}>{tmpl.label}</div>
+                    {/* Search Bar */}
+                    <div style={{ position: "relative" }}>
+                      <Search size={14} color="var(--text-muted)" style={{ position: "absolute", left: "12px", top: "12px" }} />
+                      <input
+                        type="text"
+                        placeholder="Search template content..."
+                        value={searchQuery}
+                        onChange={e => setSearchQuery(e.target.value)}
+                        style={{ width: "100%", background: isLight ? "#fff" : "rgba(255,255,255,0.04)", border: "1px solid var(--border)", borderRadius: "10px", padding: "10px 10px 10px 34px", color: "var(--text-primary)", fontSize: "11.5px", outline: "none", boxSizing: "border-box" }}
+                      />
+                    </div>
+                  </div>
 
-                    {isEditing ? (
-                      <>
-                        <div style={{ marginBottom: "8px" }}>
-                          <div style={{ fontSize: "9px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", marginBottom: "4px" }}>Title</div>
-                          <input
-                            value={editTitle}
-                            onChange={e => setEditTitle(e.target.value)}
-                            style={{ width: "100%", background: isLight ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.06)", border: "1px solid var(--border)", borderRadius: "10px", padding: "10px 12px", color: "var(--text-primary)", fontSize: "13px", fontWeight: 700, outline: "none", boxSizing: "border-box" }}
-                          />
-                        </div>
-                        <div>
-                          <div style={{ fontSize: "9px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", marginBottom: "4px" }}>Body</div>
-                          <textarea
-                            value={editBody}
-                            onChange={e => setEditBody(e.target.value)}
-                            rows={3}
-                            style={{ width: "100%", background: isLight ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.06)", border: "1px solid var(--border)", borderRadius: "10px", padding: "10px 12px", color: "var(--text-primary)", fontSize: "12px", lineHeight: 1.5, outline: "none", resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }}
-                          />
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div style={{ fontSize: "13px", fontWeight: 800, color: "var(--text-primary)", marginBottom: "4px" }}>{tmpl.title}</div>
-                        <div style={{ fontSize: "11px", color: "var(--text-secondary)", lineHeight: 1.5 }}>{tmpl.body}</div>
-                      </>
+                  {/* List of Templates */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px", maxHeight: "400px", overflowY: "auto", paddingRight: "4px" }}>
+                    {pulseTemplates
+                      .filter(t => {
+                        const matchesCat = selectedCategory === "all" || t.category === selectedCategory;
+                        const matchesTone = selectedTone === "all" || t.tone === selectedTone;
+                        const matchesSearch = searchQuery === "" || 
+                          t.titleTemplate.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          t.bodyTemplate.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          t.id.toLowerCase().includes(searchQuery.toLowerCase());
+                        return matchesCat && matchesTone && matchesSearch;
+                      })
+                      .slice(0, 30) // Show first 30 to keep UI snappy
+                      .map(tmpl => {
+                        const preview = renderPulseTemplate(tmpl.titleTemplate, tmpl.bodyTemplate, previewVars);
+                        const toneColors: Record<string, string> = {
+                          funny_friend: "#FF75C3",
+                          helpful_friendly: "#00E5FF",
+                          strict_caring: "#FF3B30"
+                        };
+                        return (
+                          <div
+                            key={tmpl.id}
+                            style={{ background: isLight ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.015)", border: "1px solid var(--border)", borderRadius: "16px", padding: "14px", display: "flex", flexDirection: "column", gap: "8px" }}
+                          >
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                              <span style={{ fontSize: "9px", fontWeight: 800, color: accentColor, letterSpacing: "0.05em" }}>{tmpl.id}</span>
+                              <div style={{ display: "flex", gap: "6px" }}>
+                                <span style={{ fontSize: "8px", fontWeight: 900, background: `${toneColors[tmpl.tone] || accentColor}15`, color: toneColors[tmpl.tone] || accentColor, padding: "2px 6px", borderRadius: "6px", textTransform: "uppercase" }}>{tmpl.tone}</span>
+                                <span style={{ fontSize: "8px", fontWeight: 900, background: "rgba(255,255,255,0.05)", color: "var(--text-secondary)", padding: "2px 6px", borderRadius: "6px", textTransform: "uppercase" }}>{tmpl.category}</span>
+                              </div>
+                            </div>
+
+                            <div style={{ fontSize: "11px", color: "var(--text-muted)", display: "flex", flexDirection: "column" }}>
+                              <span><strong>Title:</strong> {tmpl.titleTemplate}</span>
+                              <span><strong>Body:</strong> {tmpl.bodyTemplate}</span>
+                            </div>
+
+                            {/* Rendered Live Preview bubble */}
+                            <div style={{ background: isLight ? "rgba(0,0,0,0.02)" : "rgba(255,255,255,0.03)", borderLeft: `2px solid ${accentColor}`, borderRadius: "8px", padding: "8px 10px", marginTop: "4px" }}>
+                              <div style={{ fontSize: "7px", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-muted)", fontWeight: 800, marginBottom: "2px" }}>Rendered Preview</div>
+                              <div style={{ fontSize: "11px", fontWeight: 800, color: "var(--text-primary)" }}>{preview.title}</div>
+                              <div style={{ fontSize: "10px", color: "var(--text-secondary)", marginTop: "2px" }}>{preview.body}</div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    {pulseTemplates.filter(t => {
+                      const matchesCat = selectedCategory === "all" || t.category === selectedCategory;
+                      const matchesTone = selectedTone === "all" || t.tone === selectedTone;
+                      const matchesSearch = searchQuery === "" || 
+                        t.titleTemplate.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                        t.bodyTemplate.toLowerCase().includes(searchQuery.toLowerCase());
+                      return matchesCat && matchesTone && matchesSearch;
+                    }).length === 0 && (
+                      <div style={{ padding: "40px", textAlign: "center", color: "var(--text-muted)", fontSize: "11px" }}>No matching templates found in local cache.</div>
                     )}
                   </div>
-                );
-              })}
+                </div>
+              )}
             </div>
           )}
 

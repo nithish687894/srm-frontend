@@ -3,6 +3,7 @@ import { useThemeStore } from "@/lib/themeStore";
 import { useEffect, useState } from "react";
 import VersionGuard from "./VersionGuard";
 import { usePerfGuard } from "@/hooks/usePerfGuard";
+import { syncPulseTemplates } from "@/lib/pulseEngine";
 
 export default function ThemeWrapper({ children }: { children: React.ReactNode }) {
   const { theme } = useThemeStore();
@@ -19,6 +20,9 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
 
   useEffect(() => {
     if (!mounted) return;
+
+    // Prefetch and cache templates from the backend
+    syncPulseTemplates().catch(() => {});
 
     const resolveAndApply = () => {
       let active: "lumina" | "light" = "lumina";
