@@ -5,18 +5,26 @@ import { useRouter } from "next/navigation";
 
 const THEMES: { id: ThemeType; name: string; sub: string; bg: string; accent: string; hasGlow?: boolean }[] = [
   { 
-    id: "lumina", 
-    name: "Lumina (Dark)", 
-    sub: "Elegant. Soft. Aesthetic.", 
+    id: "dark", 
+    name: "Dark Aura", 
+    sub: "Premium. Glowing. Default.", 
     bg: "#08080c", 
     accent: "#FF75C3",
     hasGlow: true
   },
   {
+    id: "system",
+    name: "System",
+    sub: "Follow your device setting.",
+    bg: "#ebe7ff",
+    accent: "#8F92FF",
+    hasGlow: true
+  },
+  {
     id: "light",
-    name: "Lumina Light",
-    sub: "Clean. Vibrant. High Contrast.",
-    bg: "#f5f5f9",
+    name: "Light",
+    sub: "Clean. Soft. Readable.",
+    bg: "#f7f5ff",
     accent: "#BF5AF2",
     hasGlow: false
   }
@@ -66,7 +74,7 @@ export default function ThemeSettingsPage() {
                 )}
                 <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: t.accent, boxShadow: `0 0 10px ${t.accent}` }} />
                 <div style={{ position: "absolute", bottom: "20px", left: "20px" }}>
-                  <div style={{ fontSize: "16px", fontWeight: 800, color: t.id === "light" ? "#111" : "#fff" }}>{t.name}</div>
+                  <div style={{ fontSize: "16px", fontWeight: 800, color: t.id === "dark" ? "#fff" : "#111" }}>{t.name}</div>
                 </div>
               </div>
               <div style={{ marginTop: "12px", textAlign: "center" }}>
@@ -84,7 +92,7 @@ export default function ThemeSettingsPage() {
           style={{ 
             width: "100%", padding: "18px", borderRadius: "16px", border: "none",
             background: selected === "light" ? "#BF5AF2" : "#FF75C3",
-            color: selected === "light" ? "#fff" : "#000",
+            color: "#fff",
             fontSize: "14px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em",
             cursor: "pointer", transition: "all 0.3s",
             boxShadow: selected === "light" ? "0 10px 30px rgba(191,90,242,0.3)" : "0 10px 30px rgba(255,117,195,0.3)"

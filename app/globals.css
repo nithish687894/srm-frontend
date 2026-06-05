@@ -28,13 +28,18 @@
   /* ── Nexus Theme Variables ── */
   --app-bg: #000000;
   --card-bg: rgba(22, 22, 22, 0.72);
+  --card-elevated: rgba(255, 255, 255, 0.04);
   --card-border: rgba(255, 255, 255, 0.04);
   --text-main: #ffffff;
   --text-muted: rgba(255, 255, 255, 0.6);
+  --text-soft: rgba(255, 255, 255, 0.3);
   --accent-primary: #a8c200;
   --accent-secondary: #00ff00;
   --nav-bg: rgba(10, 10, 12, 0.95);
   --nav-border: rgba(255, 255, 255, 0.08);
+  --success: #34D399;
+  --warning: #FBBF24;
+  --danger: #FF4B72;
   --glow-primary: rgba(168, 194, 0, 0.15);
   --skel-bg: rgba(255, 255, 255, 0.05);
   --skel-card-bg: rgba(255, 255, 255, 0.02);
@@ -1594,6 +1599,23 @@ body.theme-lumina {
   --shadow-hero: 0 0 60px rgba(191, 90, 242, 0.12);
   --shadow-glow-pink: 0 0 40px rgba(255, 117, 195, 0.15);
   --shadow-glow-purple: 0 0 40px rgba(191, 90, 242, 0.15);
+  --app-bg: #050508;
+  --card-bg: rgba(4, 4, 6, 0.72);
+  --card-elevated: rgba(12, 12, 16, 0.8);
+  --card-border: rgba(255, 255, 255, 0.04);
+  --nav-border: rgba(255, 117, 195, 0.08);
+  --text-main: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.6);
+  --text-soft: rgba(255, 255, 255, 0.3);
+  --accent-primary: #FF75C3;
+  --accent-secondary: #8F92FF;
+  --success: #34D399;
+  --warning: #FBBF24;
+  --danger: #FF4B72;
+  --glow-primary: rgba(255, 117, 195, 0.15);
+  --skel-bg: rgba(255, 255, 255, 0.05);
+  --skel-card-bg: rgba(255, 255, 255, 0.02);
+  --skel-inner-bg: rgba(255, 255, 255, 0.03);
 
   background:
     radial-gradient(ellipse 80% 50% at 20% 10%, rgba(191, 90, 242, 0.08), transparent 50%),
@@ -1699,13 +1721,13 @@ body.theme-lumina {
    THEME — LIGHT (Aesthetic Clean Light)
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 body.theme-light, .theme-light {
-  --bg-root: #f5f5f9;
+  --bg-root: #f7f5ff;
   --bg-surface: #ffffff;
-  --bg-elevated: #ededf2;
+  --bg-elevated: #f0edf8;
   --border: rgba(0, 0, 0, 0.08);
-  --text-primary: #111111;
-  --text-secondary: rgba(0, 0, 0, 0.6);
-  --text-muted: rgba(0, 0, 0, 0.35);
+  --text-primary: #15111d;
+  --text-secondary: rgba(21, 17, 29, 0.66);
+  --text-muted: rgba(21, 17, 29, 0.42);
 
   --accent: #BF5AF2;
   --accent-secondary: #6366f1;
@@ -1725,16 +1747,23 @@ body.theme-light, .theme-light {
   --shadow-elevated: 0 10px 40px rgba(0, 0, 0, 0.06);
 
   /* Unified Theme Variables */
-  --app-bg: #f5f5f9;
-  --card-bg: rgba(255, 255, 255, 0.75);
-  --card-border: rgba(191, 90, 242, 0.12);
-  --text-main: #111111;
-  --text-muted: rgba(0, 0, 0, 0.55);
+  --app-bg: radial-gradient(circle at 50% -10%, rgba(191, 90, 242, 0.08), transparent 52%),
+    radial-gradient(circle at 100% 100%, rgba(6, 182, 212, 0.05), transparent 42%),
+    #f7f5ff;
+  --card-bg: rgba(255, 255, 255, 0.82);
+  --card-elevated: rgba(255, 255, 255, 0.94);
+  --card-border: rgba(52, 43, 76, 0.1);
+  --text-main: #15111d;
+  --text-muted: rgba(21, 17, 29, 0.62);
+  --text-soft: rgba(21, 17, 29, 0.42);
   --accent-primary: #BF5AF2;
   --accent-secondary: #6366f1;
   --nav-bg: rgba(255, 255, 255, 0.85);
   --nav-border: rgba(0, 0, 0, 0.06);
-  --glow-primary: rgba(191, 90, 242, 0.04);
+  --success: #0f9f6e;
+  --warning: #b7791f;
+  --danger: #d92d52;
+  --glow-primary: rgba(191, 90, 242, 0.08);
   --skel-bg: rgba(0, 0, 0, 0.06);
   --skel-card-bg: rgba(255, 255, 255, 0.75);
   --skel-inner-bg: rgba(0, 0, 0, 0.03);
@@ -1742,7 +1771,7 @@ body.theme-light, .theme-light {
   background:
     radial-gradient(ellipse 80% 50% at 20% 10%, rgba(191, 90, 242, 0.05), transparent 50%),
     radial-gradient(ellipse 60% 40% at 80% 90%, rgba(6, 182, 212, 0.04), transparent 50%),
-    #f5f5f9;
+    #f7f5ff;
   background-attachment: fixed;
   color: #111111;
 }
@@ -1772,9 +1801,15 @@ body.theme-light, .theme-light {
 }
 .theme-light .srmx-mobile-nav,
 .theme-light .srmx-nav-bar {
-  background: rgba(255, 255, 255, 0.85) !important;
+  background: var(--nav-bg) !important;
   border-top: 1px solid rgba(0, 0, 0, 0.05) !important;
   box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.03) !important;
+}
+
+.theme-light .srmx-desktop-nav {
+  background: rgba(255, 255, 255, 0.78) !important;
+  border-color: var(--nav-border) !important;
+  box-shadow: 0 10px 36px rgba(52, 43, 76, 0.08) !important;
 }
 .theme-light .nav-item {
   color: rgba(0, 0, 0, 0.45) !important;
@@ -1827,9 +1862,11 @@ body.theme-light, .theme-light {
 
 .theme-light .bg-black,
 .theme-light .bg-\[\#000\],
+.theme-light .bg-\[\#030306\],
 .theme-light .bg-\[\#050505\],
 .theme-light .bg-\[\#050508\],
 .theme-light .bg-\[\#08080c\],
+.theme-light .bg-\[\#0a0a0c\],
 .theme-light .bg-\[\#0f0f13\],
 .theme-light .bg-\[\#110c1e\],
 .theme-light .bg-\[\#110c1e\]\/95,
@@ -1852,6 +1889,16 @@ body.theme-light, .theme-light {
   background-color: rgba(0, 0, 0, 0.01) !important;
 }
 
+.theme-light .from-black,
+.theme-light .from-\[\#030306\],
+.theme-light .from-\[\#050508\],
+.theme-light .to-black,
+.theme-light .to-\[\#030306\],
+.theme-light .to-\[\#050508\] {
+  --tw-gradient-from: #f7f5ff var(--tw-gradient-from-position) !important;
+  --tw-gradient-to: #f7f5ff var(--tw-gradient-to-position) !important;
+}
+
 .theme-light .border-white\/5,
 .theme-light .border-white\/10,
 .theme-light .border-white\/\[0\.05\],
@@ -1869,6 +1916,7 @@ body.theme-light, .theme-light {
   background: var(--card-bg) !important;
   border-color: var(--card-border) !important;
   box-shadow: 0 10px 30px rgba(191, 90, 242, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+  color: var(--text-main) !important;
 }
 
 .theme-light .aura-card:hover,
@@ -1891,11 +1939,27 @@ body.theme-light, .theme-light {
 /* Inner panels of cards */
 .theme-light div[style*="background: rgba(0,0,0,0.3)"],
 .theme-light div[style*="background: rgba(0, 0, 0, 0.3)"],
+.theme-light div[style*="background: rgba(0,0,0,0.4)"],
+.theme-light div[style*="background: rgba(0, 0, 0, 0.4)"],
+.theme-light div[style*="background: rgba(10,10,15,0.8)"],
+.theme-light div[style*="background: rgba(10, 10, 15, 0.8)"],
 .theme-light div[style*="background: rgba(0,0,0,0.25)"],
 .theme-light div[style*="background: rgba(0, 0, 0, 0.25)"],
 .theme-light div[style*="background: rgba(0,0,0,0.2)"],
 .theme-light div[style*="background: rgba(0, 0, 0, 0.2)"] {
-  background: rgba(191, 90, 242, 0.03) !important;
+  background: rgba(255, 255, 255, 0.72) !important;
+  border-color: var(--card-border) !important;
+}
+
+.theme-light div[style*="background: rgba(255,255,255,0.01)"],
+.theme-light div[style*="background: rgba(255, 255, 255, 0.01)"],
+.theme-light div[style*="background: rgba(255,255,255,0.02)"],
+.theme-light div[style*="background: rgba(255, 255, 255, 0.02)"],
+.theme-light div[style*="background: rgba(255,255,255,0.03)"],
+.theme-light div[style*="background: rgba(255, 255, 255, 0.03)"],
+.theme-light div[style*="background: rgba(255,255,255,0.05)"],
+.theme-light div[style*="background: rgba(255, 255, 255, 0.05)"] {
+  background: rgba(255, 255, 255, 0.7) !important;
   border-color: var(--card-border) !important;
 }
 
@@ -1905,10 +1969,81 @@ body.theme-light, .theme-light {
 }
 
 .theme-light span[style*="color: rgb(255, 255, 255)"],
+.theme-light div[style*="color: rgb(255, 255, 255)"],
+.theme-light h1[style*="color: rgb(255, 255, 255)"],
+.theme-light h2[style*="color: rgb(255, 255, 255)"],
+.theme-light h3[style*="color: rgb(255, 255, 255)"],
+.theme-light p[style*="color: rgb(255, 255, 255)"],
 .theme-light span[style*="color: #fff"],
+.theme-light span[style*="color: #ffffff"],
 .theme-light div[style*="color: #fff"],
-.theme-light h3[style*="color: #fff"] {
+.theme-light div[style*="color: #ffffff"],
+.theme-light h1[style*="color: #fff"],
+.theme-light h1[style*="color: #ffffff"],
+.theme-light h2[style*="color: #fff"],
+.theme-light h2[style*="color: #ffffff"],
+.theme-light h3[style*="color: #fff"],
+.theme-light h3[style*="color: #ffffff"],
+.theme-light p[style*="color: #fff"],
+.theme-light p[style*="color: #ffffff"],
+.theme-light button[style*="color: #fff"],
+.theme-light button[style*="color: #ffffff"],
+.theme-light input[style*="color: #fff"],
+.theme-light input[style*="color: #ffffff"],
+.theme-light textarea[style*="color: #fff"],
+.theme-light textarea[style*="color: #ffffff"],
+.theme-light strong[style*="color: #fff"] {
   color: var(--text-main) !important;
+}
+
+.theme-light span[style*="rgba(255,255,255,0.7)"],
+.theme-light span[style*="rgba(255,255,255,0.6)"],
+.theme-light span[style*="rgba(255,255,255,0.5)"],
+.theme-light span[style*="rgba(255,255,255,0.4)"],
+.theme-light div[style*="rgba(255,255,255,0.7)"],
+.theme-light div[style*="rgba(255,255,255,0.6)"],
+.theme-light div[style*="rgba(255,255,255,0.5)"],
+.theme-light div[style*="rgba(255,255,255,0.4)"],
+.theme-light p[style*="rgba(255,255,255,0.6)"],
+.theme-light p[style*="rgba(255,255,255,0.5)"],
+.theme-light p[style*="rgba(255,255,255,0.4)"] {
+  color: var(--text-muted) !important;
+}
+
+.theme-light span[style*="rgba(255, 255, 255, 0.7)"],
+.theme-light span[style*="rgba(255, 255, 255, 0.6)"],
+.theme-light span[style*="rgba(255, 255, 255, 0.5)"],
+.theme-light span[style*="rgba(255, 255, 255, 0.4)"],
+.theme-light div[style*="rgba(255, 255, 255, 0.7)"],
+.theme-light div[style*="rgba(255, 255, 255, 0.6)"],
+.theme-light div[style*="rgba(255, 255, 255, 0.5)"],
+.theme-light div[style*="rgba(255, 255, 255, 0.4)"],
+.theme-light p[style*="rgba(255, 255, 255, 0.6)"],
+.theme-light p[style*="rgba(255, 255, 255, 0.5)"],
+.theme-light p[style*="rgba(255, 255, 255, 0.4)"] {
+  color: var(--text-muted) !important;
+}
+
+.theme-light input,
+.theme-light textarea,
+.theme-light select {
+  color: var(--text-main);
+}
+
+.theme-light div[style*="border: 1px solid rgba(255,255,255,0.1)"],
+.theme-light div[style*="border: 1px solid rgba(255, 255, 255, 0.08)"],
+.theme-light div[style*="border: 1px solid rgba(255, 255, 255, 0.05)"],
+.theme-light button[style*="border: 1px solid rgba(255,255,255,0.1)"],
+.theme-light button[style*="border: 1px solid rgba(255, 255, 255, 0.1)"] {
+  border-color: var(--card-border) !important;
+}
+
+.theme-light .shimmer-text {
+  background: linear-gradient(90deg, #15111d 0%, rgba(21, 17, 29, 0.45) 50%, #15111d 100%) !important;
+  background-size: 200% auto !important;
+  color: transparent !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

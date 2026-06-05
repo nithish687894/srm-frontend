@@ -20,19 +20,16 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
   useEffect(() => {
     if (!mounted) return;
 
-    // Cache theme to requested localStorage key
-    localStorage.setItem("themePreference", theme);
-
     const resolveAndApply = () => {
       let active: "lumina" | "light" = "lumina";
       if (theme === "system") {
         active = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "lumina";
       } else {
-        active = theme;
+        active = theme === "light" ? "light" : "lumina";
       }
       setResolvedTheme(active);
       document.body.className = `theme-${active}`;
-      document.body.style.background = active === "light" ? '#f5f5f9' : '#050508';
+      document.body.style.background = active === "light" ? "var(--app-bg)" : "#050508";
     };
 
     resolveAndApply();
@@ -48,9 +45,9 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: `
-        body { background: ${resolvedTheme === "light" ? '#f5f5f9' : '#050508'}; margin: 0; padding: 0; }
+        body { background: ${resolvedTheme === "light" ? "var(--app-bg)" : "#050508"}; margin: 0; padding: 0; }
         .theme-lumina { --bg: #050508; --text-primary: #ffffff; --accent: #FF75C3; --accent-secondary: #8F92FF; --accent-purple: #BF5AF2; --accent-cyan: #00E5FF; }
-        .theme-light { --bg: #f5f5f9; --text-primary: #111111; --accent: #BF5AF2; --accent-secondary: #6366f1; --accent-purple: #8b5cf6; --accent-cyan: #06b6d4; }
+        .theme-light { --bg: #f7f5ff; --text-primary: #15111d; --accent: #BF5AF2; --accent-secondary: #6366f1; --accent-purple: #8b5cf6; --accent-cyan: #06b6d4; }
       `}} />
       
       <div 

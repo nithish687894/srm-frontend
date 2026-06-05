@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect } from "react";
 import { 
   Sparkles, Activity, Award, Compass, User, Zap, Coffee, ChevronRight, Fingerprint, Bell
 } from "lucide-react";
@@ -10,7 +10,7 @@ import AuraBackground from "./effects/AuraBackground";
 import { AURA_COLORS } from "./system/theme-tokens";
 import { useAuthStore } from "@/lib/store";
 import Toast from "@/components/Toast";
-import { enableAcademicAlerts } from "@/lib/notificationHelper";
+import { enableAcademicAlerts, checkAndNotifyAcademicAlerts } from "@/lib/notificationHelper";
 
 const AURA = AURA_COLORS;
 
@@ -34,6 +34,15 @@ export default function AuraDashboard({
   const showToast = (title: string, body: string, type: "success" | "error" | "info" = "success") => {
     setToast({ title, body, type });
   };
+
+  // Fire real phone push notifications when academic data loads
+  useEffect(() => {
+    if (!academicAlertsEnabled) return;
+    if (!data) return;
+    const academicData = data?.attendance ? data : null;
+    const studentPortalData = data?.marks ? data : null;
+    checkAndNotifyAcademicAlerts(academicData, studentPortalData);
+  }, [academicAlertsEnabled, data]);
 
   const getSubjectName = (courseCode: string, fallbackTitle?: string) => {
     if (!courseCode) return fallbackTitle || "";
@@ -79,7 +88,7 @@ export default function AuraDashboard({
         }
 
         .shimmer-text {
-          background: linear-gradient(90deg, #fff 0%, rgba(255,255,255,0.4) 50%, #fff 100%);
+          background: linear-gradient(90deg, var(--text-main) 0%, var(--text-muted) 50%, var(--text-main) 100%);
           background-size: 200% auto;
           color: transparent;
           -webkit-background-clip: text;
@@ -126,7 +135,7 @@ export default function AuraDashboard({
                 <Zap size={16} color="#FF2D55" style={{ flexShrink: 0 }} />
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   <span style={{ fontSize: '11px', fontWeight: 900, color: '#ff2d55', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Demo Mode Active</span>
-                  <span style={{ fontSize: '10px', color: 'rgba(255, 255, 255, 0.6)', fontWeight: 600, marginTop: '2px' }}>Viewing sample dashboard. Connect your portal for real sync.</span>
+                  <span style={{ fontSize: '10px', color: AURA.sub, fontWeight: 600, marginTop: '2px' }}>Viewing sample dashboard. Connect your portal for real sync.</span>
                 </div>
               </div>
               <button
@@ -254,13 +263,13 @@ export default function AuraDashboard({
             <div style={{ fontSize: '10px', color: AURA.sub, fontWeight: 700, letterSpacing: '0.05em' }}>SYSTEM ACTIVE</div>
           </div>
           
-          <h1 style={{ fontSize: "32px", fontWeight: 900, margin: '0 0 8px', letterSpacing: '-1px', lineHeight: 1.1, color: '#ffffff', position: 'relative', zIndex: 2 }}>
+          <h1 style={{ fontSize: "32px", fontWeight: 900, margin: '0 0 8px', letterSpacing: '-1px', lineHeight: 1.1, color: AURA.text, position: 'relative', zIndex: 2 }}>
             {activeTheme.greeting},<br/><span className="shimmer-text">{firstName || "Explorer"}</span>
           </h1>
           
           {/* Daily Briefing Insight - Actionable & Direct */}
           <div style={{ marginTop: '24px', padding: '24px', background: 'rgba(0,0,0,0.3)', borderRadius: '24px', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.05)', position: 'relative', zIndex: 2, border: '1px solid rgba(255,255,255,0.08)' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '14.5px', color: 'rgba(255,255,255,0.95)', fontWeight: 600, lineHeight: 1.5 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '14.5px', color: AURA.text, fontWeight: 600, lineHeight: 1.5 }}>
               <div>You’re safe in <strong style={{color: AURA.cyan, fontWeight: 900}}>{safeSubjectsCount}</strong> subjects.</div>
               <div><strong style={{color: (riskySubjectsCount || 0) > 0 ? AURA.pink : AURA.cyan, fontWeight: 900}}>{riskySubjectsCount}</strong> subject{(riskySubjectsCount || 0) === 1 ? " needs" : "s need"} attention.</div>
               <div>You can miss <strong style={{color: AURA.purple, fontWeight: 900}}>{totalSafeSkips}</strong> more class{(totalSafeSkips || 0) === 1 ? "y" : "es"} safely.</div>
@@ -273,20 +282,20 @@ export default function AuraDashboard({
         <div className="premium-card" style={{ padding: '24px', borderRadius: '32px', position: 'relative', display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <div className="ai-border" />
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3 style={{ fontSize: '18px', fontWeight: 900, color: '#fff', margin: 0 }}>Can I skip tomorrow?</h3>
+            <h3 style={{ fontSize: '18px', fontWeight: 900, color: AURA.text, margin: 0 }}>Can I skip tomorrow?</h3>
             <span style={{ fontSize: '10px', fontWeight: 900, color: AURA.amber, letterSpacing: '0.05em' }}>DECISION ENGINE</span>
           </div>
 
           {tomorrowSkipStats?.isHoliday ? (
             <div style={{ padding: '16px', background: 'rgba(255,255,255,0.02)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
-              <span style={{ fontSize: '13px', fontWeight: 700, color: 'rgba(255,255,255,0.6)' }}>Tomorrow is a holiday / weekend. No classes scheduled!</span>
+              <span style={{ fontSize: '13px', fontWeight: 700, color: AURA.subBright }}>Tomorrow is a holiday / weekend. No classes scheduled!</span>
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
                 <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.02)', textAlign: 'center' }}>
                   <div style={{ fontSize: '10px', fontWeight: 700, color: '#666', textTransform: 'uppercase' }}>Tomorrow</div>
-                  <div style={{ fontSize: '16px', fontWeight: 900, color: '#fff', marginTop: '4px' }}>Day {tomorrowSkipStats?.dayOrder || "—"}</div>
+                  <div style={{ fontSize: '16px', fontWeight: 900, color: AURA.text, marginTop: '4px' }}>Day {tomorrowSkipStats?.dayOrder || "—"}</div>
                 </div>
                 <div style={{ background: 'rgba(52, 199, 89, 0.05)', padding: '12px', borderRadius: '16px', border: '1px solid rgba(52, 199, 89, 0.15)', textAlign: 'center' }}>
                   <div style={{ fontSize: '10px', fontWeight: 700, color: 'rgba(52, 199, 89, 0.7)', textTransform: 'uppercase' }}>Safe</div>
@@ -306,8 +315,8 @@ export default function AuraDashboard({
                       return (
                         <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.03)', padding: '6px 12px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)', fontSize: '11px', fontWeight: 600 }}>
                           <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: cls.isRisky ? '#ff2d55' : '#34c759' }} />
-                          <span style={{ color: '#fff' }}>{getSubjectName(cls.courseCode, cls.courseTitle)}</span>
-                          <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '10px' }}>({cls.slot})</span>
+                          <span style={{ color: AURA.text }}>{getSubjectName(cls.courseCode, cls.courseTitle)}</span>
+                          <span style={{ color: AURA.sub, fontSize: '10px' }}>({cls.slot})</span>
                         </div>
                       );
                     })}
@@ -345,10 +354,10 @@ export default function AuraDashboard({
         <div className="premium-card" style={{ padding: '24px', borderRadius: '32px', position: 'relative', display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <div className="ai-border" />
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3 style={{ fontSize: '15px', fontWeight: 900, color: '#fff', margin: 0, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Marks Target</h3>
+            <h3 style={{ fontSize: '15px', fontWeight: 900, color: AURA.text, margin: 0, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Marks Target</h3>
             <span style={{ fontSize: '10px', fontWeight: 900, color: AURA.pink, letterSpacing: '0.05em' }}>PREDICTION</span>
           </div>
-          <div style={{ fontSize: '16px', fontWeight: 850, color: '#fff', lineHeight: 1.4 }}>
+          <div style={{ fontSize: '16px', fontWeight: 850, color: AURA.text, lineHeight: 1.4 }}>
             {marksTargetBrief}
           </div>
           <div style={{ fontSize: '10.5px', color: AURA.sub, fontWeight: 600 }}>
@@ -360,12 +369,12 @@ export default function AuraDashboard({
         <div className="premium-card" style={{ padding: '24px', borderRadius: '32px', position: 'relative', display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <div className="ai-border" />
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3 style={{ fontSize: '15px', fontWeight: 900, color: '#fff', margin: 0, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Next Class</h3>
+            <h3 style={{ fontSize: '15px', fontWeight: 900, color: AURA.text, margin: 0, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Next Class</h3>
             <span style={{ fontSize: '10px', fontWeight: 900, color: AURA.cyan, letterSpacing: '0.05em' }}>TIMETABLE</span>
           </div>
           {nextClass ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              <div style={{ fontSize: '16px', fontWeight: 850, color: '#fff', textTransform: 'capitalize' }}>
+              <div style={{ fontSize: '16px', fontWeight: 850, color: AURA.text, textTransform: 'capitalize' }}>
                 {getSubjectName(nextClass.courseCode, nextClass.courseTitle).toLowerCase()}
               </div>
               <div style={{ fontSize: '12px', color: AURA.cyan, fontWeight: 700 }}>
@@ -376,7 +385,7 @@ export default function AuraDashboard({
               </div>
             </div>
           ) : (
-            <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)', fontWeight: 600 }}>
+            <div style={{ fontSize: '14px', color: AURA.subBright, fontWeight: 600 }}>
               No more classes scheduled today.
             </div>
           )}
@@ -391,7 +400,7 @@ export default function AuraDashboard({
                 </div>
                 <ChevronRight size={16} color={AURA.sub} />
              </div>
-             <div style={{ fontSize: '32px', fontWeight: 900, color: '#fff' }} className="tabular-nums">{avgAtt}%</div>
+             <div style={{ fontSize: '32px', fontWeight: 900, color: AURA.text }} className="tabular-nums">{avgAtt}%</div>
              <div style={{ fontSize: '11px', color: AURA.subBright, marginTop: '6px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Attendance</div>
           </div>
 
@@ -402,7 +411,7 @@ export default function AuraDashboard({
                 </div>
                 <ChevronRight size={16} color={AURA.subBright} />
              </div>
-             <div style={{ fontSize: '32px', fontWeight: 900, color: '#fff' }} className="tabular-nums">{avgMarks}%</div>
+             <div style={{ fontSize: '32px', fontWeight: 900, color: AURA.text }} className="tabular-nums">{avgMarks}%</div>
              <div style={{ fontSize: '11px', color: AURA.subBright, marginTop: '6px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Academic</div>
           </div>
         </div>
@@ -440,7 +449,7 @@ export default function AuraDashboard({
                    <Fingerprint size={24} color={AURA.text} />
                 </div>
                 <div>
-                   <div style={{ fontSize: '16px', fontWeight: 900, color: '#fff' }}>Student ID</div>
+                   <div style={{ fontSize: '16px', fontWeight: 900, color: AURA.text }}>Student ID</div>
                    <div style={{ fontSize: '10px', color: AURA.pink, fontWeight: 900, letterSpacing: '0.08em' }}>Identity Passport</div>
                 </div>
              </div>
@@ -450,7 +459,7 @@ export default function AuraDashboard({
           <div style={{ display: 'flex', gap: '12px', zIndex: 2 }}>
              <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px 16px', borderRadius: '16px', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.03)', flex: 1 }}>
                 <div style={{ fontSize: '9px', fontWeight: 900, color: AURA.sub, marginBottom: '4px', letterSpacing: '0.05em' }}>ID_TOKEN</div>
-                <div style={{ fontSize: '13px', fontWeight: 800, color: '#fff' }} className="tabular-nums">{data?.profile?.["Registration Number"] || "LOCKED"}</div>
+                <div style={{ fontSize: '13px', fontWeight: 800, color: AURA.text }} className="tabular-nums">{data?.profile?.["Registration Number"] || "LOCKED"}</div>
              </div>
           </div>
         </button>
@@ -460,7 +469,7 @@ export default function AuraDashboard({
            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px', paddingLeft: '8px' }}>
               <Zap size={18} color={AURA.amber} className="floating" />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                 <h3 style={{ fontSize: '14px', fontWeight: 900, color: '#fff', letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0 }}>Upcoming Timeline</h3>
+                 <h3 style={{ fontSize: '14px', fontWeight: 900, color: AURA.text, letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0 }}>Upcoming Timeline</h3>
                  <span style={{ fontSize: '9px', color: AURA.sub, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Strategic Timeline</span>
               </div>
            </div>
@@ -486,11 +495,11 @@ export default function AuraDashboard({
                           <div style={{ position: 'absolute', left: '-21px', top: '50%', transform: 'translateY(-50%)', width: '10px', height: '10px', borderRadius: '50%', background: AURA.purple, boxShadow: `0 0 10px ${AURA.purple}` }} />
                           
                           <div style={{ width: '48px', height: '48px', borderRadius: '16px', background: 'rgba(255,255,255,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                             <span style={{ fontSize: '14px', fontWeight: 900, color: '#fff' }} className="tabular-nums">{event.dateNum}</span>
+                             <span style={{ fontSize: '14px', fontWeight: 900, color: AURA.text }} className="tabular-nums">{event.dateNum}</span>
                              <span style={{ fontSize: '8px', fontWeight: 900, color: AURA.sub }}>{event.monthLabel.split(' ')[0].toUpperCase()}</span>
                           </div>
                           <div style={{ flex: 1 }}>
-                             <div style={{ fontSize: '14px', fontWeight: 800, color: '#fff' }}>{event.event}</div>
+                             <div style={{ fontSize: '14px', fontWeight: 800, color: AURA.text }}>{event.event}</div>
                              <div style={{ fontSize: '11px', fontWeight: 700, color: AURA.sub, marginTop: '2px' }}>{event.weekdayLabel}</div>
                           </div>
                        </div>
@@ -501,7 +510,7 @@ export default function AuraDashboard({
                           <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: AURA.cyan, boxShadow: `0 0 20px ${AURA.cyan}`, animation: 'border-breathe 2s infinite' }} />
                        </div>
                        <div>
-                          <div style={{ fontSize: '12px', fontWeight: 900, color: '#fff', letterSpacing: '0.15em', textTransform: 'uppercase' }}>All Systems Clear</div>
+                          <div style={{ fontSize: '12px', fontWeight: 900, color: AURA.text, letterSpacing: '0.15em', textTransform: 'uppercase' }}>All Systems Clear</div>
                           <div style={{ fontSize: '12px', fontWeight: 600, color: AURA.sub, marginTop: '4px' }}>No immediate academic threats detected.</div>
                         </div>
                      </div>

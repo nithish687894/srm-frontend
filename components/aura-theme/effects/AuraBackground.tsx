@@ -5,6 +5,7 @@ import GlassNoise from "./GlassNoise";
 import StarField from "./StarField";
 import OrbLayer from "./OrbLayer";
 import { AURA_COLORS, AURA_TRANSITIONS } from "../system/theme-tokens";
+import { useThemeStore } from "@/lib/themeStore";
 
 interface AuraBackgroundProps {
   theme: AuraThemeConfig;
@@ -14,6 +15,26 @@ interface AuraBackgroundProps {
 }
 
 export default function AuraBackground({ theme, stars, children, style = {} }: AuraBackgroundProps) {
+  const selectedTheme = useThemeStore((state) => state.theme);
+  const [systemLight, setSystemLight] = React.useState(false);
+
+  React.useEffect(() => {
+    if (selectedTheme !== "system") return;
+    const media = window.matchMedia("(prefers-color-scheme: light)");
+    const update = () => setSystemLight(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, [selectedTheme]);
+
+  const isLight = selectedTheme === "light" || (selectedTheme === "system" && systemLight);
+  const themeVars = isLight
+    ? {}
+    : {
+        ["--card-border" as AnyValue]: theme.cardBorder,
+        ["--app-bg" as AnyValue]: theme.bg,
+      };
+
   return (
     <div 
       className="aura-background-root"
@@ -28,9 +49,7 @@ export default function AuraBackground({ theme, stars, children, style = {} }: A
         transition: AURA_TRANSITIONS.background,
         overflow: 'hidden',
         width: '100%',
-        // Pass card border dynamically as a CSS variable for unified theme-to-card bounds
-        ["--card-border" as AnyValue]: theme.cardBorder,
-        ["--app-bg" as AnyValue]: theme.bg,
+        ...themeVars,
         ...style
       }}
     >
@@ -123,10 +142,10 @@ export default function AuraBackground({ theme, stars, children, style = {} }: A
       <GlassNoise />
 
       {/* Twinkling Starfield (Night sky) */}
-      <StarField stars={stars} visible={theme.starrySky} />
+      <StarField stars={stars} visible={!isLight && theme.starrySky} />
 
       {/* Rotating Diffused Color Orbs */}
-      <OrbLayer blobs={theme.blobs} />
+      <OrbLayer blobs={isLight ? [] : theme.blobs} />
 
       {/* Wrapped Page Content */}
       <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", flex: 1 }}>

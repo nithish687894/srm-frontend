@@ -1,0 +1,21 @@
+
+> srmx-frontend@0.1.0 dev
+> next dev --webpack --port 3000
+
+▲ Next.js 16.2.6 (webpack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.56.1:3000
+- Environments: .env.local
+✓ Ready in 840ms
+- Experiments (use with caution):
+  · clientTraceMetadata
+
+○ Compiling /settings/theme ...
+ GET /settings/theme 200 in 11.2s (next.js: 10.7s, application-code: 562ms)
+○ Compiling /timetable ...
+ GET /timetable 200 in 3.6s (next.js: 3.2s, application-code: 439ms)
+ GET /dashboard 200 in 2.5s (next.js: 2.3s, application-code: 221ms)
+ GET /attendance 200 in 1462ms (next.js: 1260ms, application-code: 202ms)
+ GET /marks 200 in 1788ms (next.js: 1573ms, application-code: 214ms)
+ GET /notifications 200 in 1530ms (next.js: 1341ms, application-code: 190ms)
+ GET /app-tools 200 in 1657ms (next.js: 1471ms, application-code: 185ms)

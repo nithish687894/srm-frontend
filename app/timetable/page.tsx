@@ -462,10 +462,10 @@ export default function TimetablePage() {
     const isAura = true;
     
     const colors = {
-      bg: isMatrix ? "#0a0a0c" : isAura ? "#0f0a15" : "var(--bg-surface)",
-      border: isMatrix ? "rgba(168,194,0,0.2)" : isAura ? "rgba(255,255,255,0.08)" : "var(--border)",
-      textPrimary: "#fff",
-      textMuted: isMatrix ? "#888" : isAura ? "rgba(255,255,255,0.6)" : "var(--text-muted)",
+      bg: isMatrix ? "#0a0a0c" : isAura ? "var(--card-elevated)" : "var(--bg-surface)",
+      border: isMatrix ? "rgba(168,194,0,0.2)" : isAura ? "var(--card-border)" : "var(--border)",
+      textPrimary: "var(--text-main)",
+      textMuted: isMatrix ? "#888" : isAura ? "var(--text-muted)" : "var(--text-muted)",
       accent: isMatrix ? "#a8c200" : isAura ? "#FF75C3" : "var(--accent)",
       secondaryAccent: isMatrix ? "#a8c200" : isAura ? "#8F92FF" : "var(--accent-secondary)",
     };
@@ -626,16 +626,16 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
   const totalClasses = classes.length;
 
   const AURA = {
-    bg: "#050508",
-    primary: "#FF75C3",
-    secondary: "#8F92FF",
+    bg: "var(--bg-root)",
+    primary: "var(--accent-primary)",
+    secondary: "var(--accent-secondary)",
     accent: "#94FFD8",
-    card: "rgba(255, 255, 255, 0.02)",
-    border: "rgba(255, 255, 255, 0.08)",
+    card: "var(--card-bg)",
+    border: "var(--card-border)",
   };
 
   return (
-    <div style={{ background: "var(--app-bg)", minHeight: "100dvh", display: "flex", flexDirection: "column", color: "#ffffff", fontFamily: "'Plus Jakarta Sans', sans-serif", position: "relative" }}>
+    <div style={{ background: "var(--app-bg)", minHeight: "100dvh", display: "flex", flexDirection: "column", color: "var(--text-main)", fontFamily: "'Plus Jakarta Sans', sans-serif", position: "relative" }}>
       <style dangerouslySetInnerHTML={{ __html: `
         
         .aura-blob {
@@ -666,13 +666,13 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
       <div className="aura-blob" style={{ background: AURA.secondary, top: '-200px', right: '-100px' }} />
       <div className="aura-blob" style={{ background: AURA.accent, bottom: '-200px', left: '-100px', animationDelay: '-10s' }} />
 
-      <main style={{ flex: 1, position: "relative", zIndex: 1, padding: "110px 20px 200px", color: "#ffffff", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <main style={{ flex: 1, position: "relative", zIndex: 1, padding: "110px 20px 200px", color: "var(--text-main)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         
         {/* Header with Batch Selector */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px", marginTop: "28px", background: "rgba(255,255,255,0.03)", padding: "16px 20px", borderRadius: "24px", border: "1px solid rgba(255,255,255,0.05)", backdropFilter: "blur(20px)" }}>
            <div>
               <div style={{ fontSize: "10px", color: AURA.primary, textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800 }}>SEMESTER SCHEDULE</div>
-              <div style={{ fontSize: "16px", fontWeight: 800, color: "#fff", marginTop: "2px" }}>Day {dayOverride} — Batch {batch}</div>
+              <div style={{ fontSize: "16px", fontWeight: 800, color: "var(--text-main)", marginTop: "2px" }}>Day {dayOverride} — Batch {batch}</div>
            </div>
            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
              <button 
@@ -702,7 +702,7 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
                    style={{
                      padding: "8px 14px", borderRadius: "10px", border: "none", fontSize: "12px", fontWeight: 800,
                      background: batch === b ? AURA.accent : "transparent",
-                     color: batch === b ? "#000" : "rgba(255,255,255,0.5)",
+                     color: batch === b ? "#000" : "var(--text-muted)",
                      transition: "all 0.3s", cursor: "pointer",
                      boxShadow: batch === b ? `0 4px 15px ${AURA.accent}44` : "none"
                    }}>B{b}</button>
@@ -711,7 +711,7 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
              <button 
                onClick={onShowStudentInfo}
                style={{
-                 width: "40px", height: "40px", borderRadius: "14px", background: "rgba(255,255,255,0.05)", color: "#fff",
+                 width: "40px", height: "40px", borderRadius: "14px", background: "rgba(255,255,255,0.05)", color: "var(--text-main)",
                  border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center",
                  fontWeight: 900, fontSize: "13px", cursor: "pointer", transition: "all 0.3s"
                }}
@@ -732,8 +732,8 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
                   boxShadow: `0 0 10px ${todayInfo.isHoliday ? "#FF7597" : AURA.accent}` 
                 }} />
                 <div>
-                  <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.4)", fontWeight: 800, letterSpacing: "0.05em" }}>TODAY&apos;S CALENDAR</span>
-                  <div style={{ fontSize: "13px", fontWeight: 800, color: "#fff", marginTop: "2px" }}>
+                  <span style={{ fontSize: "10px", color: "var(--text-soft)", fontWeight: 800, letterSpacing: "0.05em" }}>TODAY&apos;S CALENDAR</span>
+                  <div style={{ fontSize: "13px", fontWeight: 800, color: "var(--text-main)", marginTop: "2px" }}>
                     {formatDateNicely(todayInfo.isoDate)} — {todayInfo.isHoliday ? `Holiday (${todayInfo.event || "No classes"})` : `Day Order ${todayInfo.dayOrder}`}
                   </div>
                 </div>
@@ -757,8 +757,8 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#FF7597", boxShadow: "0 0 10px #FF7597" }} />
               <div>
-                <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.4)", fontWeight: 800, letterSpacing: "0.05em" }}>TODAY&apos;S CALENDAR</span>
-                <div style={{ fontSize: "13px", fontWeight: 800, color: "#fff", marginTop: "2px" }}>
+                <span style={{ fontSize: "10px", color: "var(--text-soft)", fontWeight: 800, letterSpacing: "0.05em" }}>TODAY&apos;S CALENDAR</span>
+                <div style={{ fontSize: "13px", fontWeight: 800, color: "var(--text-main)", marginTop: "2px" }}>
                   {new Date().toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" })} — Weekend / Holiday (No classes)
                 </div>
               </div>
@@ -779,7 +779,7 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.05)", width: "60px", height: "60px", borderRadius: "20px", border: "1px solid rgba(255,255,255,0.1)" }}>
                   <div style={{ fontSize: "24px", fontWeight: 900, color: AURA.accent, lineHeight: 1 }}>{totalClasses}</div>
-                  <div style={{ fontSize: "9px", fontWeight: 800, color: "rgba(255,255,255,0.5)", textTransform: "uppercase" }}>Classes</div>
+                  <div style={{ fontSize: "9px", fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase" }}>Classes</div>
                 </div>
              </div>
           </div>
@@ -787,19 +787,19 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
 
         {/* Timeline Classes */}
         {totalClasses === 0 ? (
-          <div style={{ textAlign: "center", color: "rgba(255,255,255,0.4)", marginTop: "60px", fontSize: "14px", fontWeight: 600 }}>No classes scheduled for Day {dayOverride}.</div>
+          <div style={{ textAlign: "center", color: "var(--text-muted)", marginTop: "60px", fontSize: "14px", fontWeight: 600 }}>No classes scheduled for Day {dayOverride}.</div>
         ) : (
           <div style={{ position: "relative", paddingLeft: "16px", display: "flex", flexDirection: "column", gap: "20px" }}>
-            <div style={{ position: "absolute", left: "0", top: "20px", bottom: "20px", width: "2px", background: "linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,255,255,0.02))" }} />
+            <div style={{ position: "absolute", left: "0", top: "20px", bottom: "20px", width: "2px", background: "linear-gradient(to bottom, var(--card-border), transparent)" }} />
             
             {classesWithBreaks.map((item: AnyValue, i: number) => {
               if (item.isBreak) {
                 return (
                   <div key={`break-${i}`} style={{ display: "flex", alignItems: "center", gap: "16px", position: "relative", opacity: 0.7 }}>
-                    <div style={{ position: "absolute", left: "-19px", width: "8px", height: "8px", borderRadius: "50%", background: "rgba(255,255,255,0.2)", border: "2px solid #050508" }} />
+                    <div style={{ position: "absolute", left: "-19px", width: "8px", height: "8px", borderRadius: "50%", background: "var(--text-soft)", border: "2px solid var(--bg-root)" }} />
                     <div style={{ background: "rgba(255,255,255,0.03)", padding: "8px 16px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.05)", display: "flex", gap: "12px", alignItems: "center", flex: 1 }}>
                        <div style={{ fontSize: "10px", color: AURA.secondary, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase" }}>Break</div>
-                       <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.6)", fontWeight: 600 }}>{fmt12(item.startTime)} - {fmt12(item.endTime)}</div>
+                       <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 600 }}>{fmt12(item.startTime)} - {fmt12(item.endTime)}</div>
                     </div>
                   </div>
                 );
@@ -813,7 +813,7 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
                 <div key={i} style={{ position: "relative" }}>
                   <div style={{ 
                     position: "absolute", left: "-21px", top: "24px", width: "12px", height: "12px", borderRadius: "50%", 
-                    background: isActive ? AURA.accent : cardColor, border: "3px solid #050508", zIndex: 2,
+                    background: isActive ? AURA.accent : cardColor, border: "3px solid var(--bg-root)", zIndex: 2,
                     boxShadow: isActive ? `0 0 15px ${AURA.accent}` : "none"
                   }} />
                   
@@ -821,28 +821,28 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
                     {isActive && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: `linear-gradient(90deg, transparent, ${AURA.accent}, transparent)` }} />}
                     
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "12px" }}>
-                       <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "rgba(255,255,255,0.7)", fontSize: "12px", fontWeight: 700, background: "rgba(0,0,0,0.3)", padding: "4px 10px", borderRadius: "8px" }}>
+                       <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "var(--text-muted)", fontSize: "12px", fontWeight: 700, background: "rgba(0,0,0,0.3)", padding: "4px 10px", borderRadius: "8px" }}>
                          {fmt12(item.startTime)} — {fmt12(item.endTime)}
                        </div>
                        {isNso && <div style={{ fontSize: "9px", color: AURA.primary, textTransform: "uppercase", fontWeight: 800, background: `${AURA.primary}22`, padding: "4px 8px", borderRadius: "8px" }}>Practical</div>}
                     </div>
 
-                    <div style={{ fontSize: "22px", fontWeight: "900", color: "#fff", lineHeight: 1.2, marginBottom: "8px", textTransform: "capitalize", letterSpacing: "-0.5px" }}>
+                    <div style={{ fontSize: "22px", fontWeight: "900", color: "var(--text-main)", lineHeight: 1.2, marginBottom: "8px", textTransform: "capitalize", letterSpacing: "-0.5px" }}>
                       {item.courseTitle.toLowerCase()}
                     </div>
                     
                     <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", marginTop: "16px" }}>
                       <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                        <span style={{ fontSize: "9px", color: "rgba(255,255,255,0.4)", textTransform: "uppercase", fontWeight: 800 }}>Course Code</span>
+                        <span style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>Course Code</span>
                         <span style={{ fontSize: "12px", color: cardColor, fontWeight: 700 }}>{item.courseCode}</span>
                       </div>
                       <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                        <span style={{ fontSize: "9px", color: "rgba(255,255,255,0.4)", textTransform: "uppercase", fontWeight: 800 }}>Room</span>
-                        <span style={{ fontSize: "12px", color: "#fff", fontWeight: 700 }}>{item.roomNo || "TBA"}</span>
+                        <span style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>Room</span>
+                        <span style={{ fontSize: "12px", color: "var(--text-main)", fontWeight: 700 }}>{item.roomNo || "TBA"}</span>
                       </div>
                       <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                        <span style={{ fontSize: "9px", color: "rgba(255,255,255,0.4)", textTransform: "uppercase", fontWeight: 800 }}>Faculty</span>
-                        <span style={{ fontSize: "12px", color: "#fff", fontWeight: 700 }}>{(item.facultyName || "TBA").replace(/\s*\(\d+\)/, "")}</span>
+                        <span style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>Faculty</span>
+                        <span style={{ fontSize: "12px", color: "var(--text-main)", fontWeight: 700 }}>{(item.facultyName || "TBA").replace(/\s*\(\d+\)/, "")}</span>
                       </div>
                     </div>
                   </div>
@@ -939,7 +939,7 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
                 <button key={d} onClick={() => setDayOverride(d)} style={{
                   padding: "6px 12px", minWidth: "64px", height: "54px", borderRadius: "16px", border: "none",
                   background: isSelected ? `linear-gradient(135deg, ${AURA.secondary}ee, ${AURA.primary}ee)` : "transparent",
-                  color: isSelected ? "#fff" : "rgba(255,255,255,0.5)",
+                  color: isSelected ? "#fff" : "var(--text-muted)",
                   display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
                   cursor: "pointer", transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
                   boxShadow: isSelected ? `0 8px 24px ${AURA.secondary}44, inset 0 1px 1px rgba(255,255,255,0.2)` : "none",
