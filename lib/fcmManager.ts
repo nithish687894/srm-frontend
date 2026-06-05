@@ -41,6 +41,25 @@ export async function registerFCMToken(): Promise<string | null> {
     if (token) {
       localStorage.setItem(TOKEN_KEY, token);
       console.log("[FCM] Token registered:", token.slice(0, 20) + "...");
+
+      // Sync FCM token to the backend database
+      try {
+        const authToken = localStorage.getItem("authToken");
+        if (authToken) {
+          await fetch("/api/notifications/register-token", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-session-token": authToken,
+            },
+            body: JSON.stringify({ token }),
+          });
+          console.log("[FCM] Token successfully synced to backend.");
+        }
+      } catch (err) {
+        console.warn("[FCM] Failed to sync token to backend:", err);
+      }
+
       return token;
     }
 

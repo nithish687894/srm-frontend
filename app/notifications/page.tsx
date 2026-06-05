@@ -11,7 +11,7 @@ import { getCachedTemplates, renderTemplate as renderPulseTemplate, type Notific
 
 interface NotificationItem {
   id: string;
-  category: "attendance" | "marks" | "timetable" | "lowAttendance" | "system";
+  category: string;
   title: string;
   body: string;
   timestamp: string;
@@ -236,142 +236,129 @@ export default function NotificationCenterPage() {
     try {
       const cleared = localStorage.getItem("nexus_cleared_notifications");
       if (cleared) setClearedIds(JSON.parse(cleared));
-      const read = localStorage.getItem("nexus_read_notifications");
-      if (read) setReadIds(JSON.parse(read));
       setTemplates(loadTemplates());
       setPulseTemplates(getCachedTemplates());
+      
+      const cached = localStorage.getItem("nexus_cached_notifications_list");
+      if (cached) setNotifications(JSON.parse(cached));
     } catch {}
     setMounted(true);
   }, []);
 
-  const generateNotifications = useCallback(() => {
-    const items: NotificationItem[] = [];
-    const att = academicData?.attendance || [];
-    const spMarks = studentPortalData?.marks?.marks || [];
-    
-    if (att.length > 0) {
-      let riskyCount = 0;
-      att.forEach((sub: AnyValue) => {
-        const pctStr = sub["Attn %"] ?? sub.pct;
-        if (pctStr !== undefined && pctStr !== null) {
-          const pct = parseFloat(pctStr) || 0;
-          const courseTitle = sub["Course Title"] || sub.courseTitle || sub.courseName || sub["Course Code"] || sub.courseCode;
-          if (pct < 75) {
-            riskyCount++;
-            items.push({
-              id: `attn-risk-${sub.courseCode || Math.random()}`,
-              category: "lowAttendance",
-              title: "Attendance needs care ⚠️",
-              body: `${courseTitle} is at ${pct}%. Attend next class and keep the drama small.`,
-              timestamp: "2 hours ago",
-              read: false
-            });
-          }
+  const fetchNotifications = useCallback(async () => {
+    const token = localStorage.getItem("authToken");
+    if (!token) return;
+
+    try {
+      const res = await fetch("/api/notifications", {
+        headers: {
+          "x-session-token": token,
+        },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data && Array.isArray(data.notifications)) {
+          const formatted = data.notifications.map((n: any) => ({
+            id: n._id || n.id,
+            category: n.category,
+            title: n.title,
+            body: n.body,
+            timestamp: new Date(n.createdAt).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+            read: n.read,
+            severity: n.severity,
+            tone: n.tone,
+          }));
+
+          const filtered = formatted.filter((n: any) => !clearedIds.includes(n.id));
+          setNotifications(filtered);
+          localStorage.setItem("nexus_cached_notifications_list", JSON.stringify(filtered));
         }
-      });
-      if (riskyCount === 0) {
-        items.push({
-          id: "attn-safe",
-          category: "attendance",
-          title: "Safe for now 😌",
-          body: "Overall attendance is fine. Keep it steady, no unnecessary hero moves.",
-          timestamp: "5 hours ago",
-          read: false
-        });
       }
-    } else {
-      items.push({
-        id: "attn-pending",
-        category: "attendance",
-        title: "Awaiting attendance sync 📊",
-        body: "Connect your portal to receive real-time attendance warnings and details.",
-        timestamp: "1 day ago",
-        read: true
-      });
+    } catch (err) {
+      console.error("Failed to fetch notifications:", err);
     }
-
-    if (spMarks.length > 0) {
-      items.push({
-        id: "marks-live",
-        category: "marks",
-        title: "Marks are live 👀",
-        body: "Assignment and cycle test marks are updated. Review them calmly and plan your comeback.",
-        timestamp: "3 hours ago",
-        read: false
-      });
-    }
-
-    items.push({
-      id: "tt-ready",
-      category: "timetable",
-      title: "Timetable updated 📅",
-      body: "Your schedule has been cached locally. Confirm classes before confidently walking wrong.",
-      timestamp: "Today",
-      read: true
-    });
-
-    if (!academicAlertsEnabled) {
-      items.push({
-        id: "alerts-disabled-info",
-        category: "system",
-        title: "Enable push notifications 🔔",
-        body: "Get automatic alerts for attendance drops and marks releases even when the app is closed.",
-        timestamp: "Just now",
-        read: false
-      });
-    } else if (mounted && typeof window !== "undefined" && localStorage.getItem("hasAddedAlertsEnabledNotification") === "true") {
-      items.push({
-        id: "alerts-enabled-system",
-        category: "system",
-        title: "Academic alerts enabled ✅",
-        body: "Nexus will notify you about important attendance and marks updates.",
-        timestamp: "Just now",
-        read: false
-      });
-    }
-
-    const hour = new Date().getHours();
-    if (hour >= 5 && hour < 12) {
-      items.push({ id: "friendly-morning-food", category: "system", title: "Food check first 🍛", body: "Eat something before overthinking attendance. Brain needs fuel.", timestamp: "Morning check-in", read: false });
-      items.push({ id: "friendly-morning-plan", category: "timetable", title: "Morning plan ready ☀️", body: "First class starts soon. Start slow, but start on time.", timestamp: "Morning check-in", read: false });
-    } else if (hour >= 12 && hour < 17) {
-      items.push({ id: "friendly-afternoon-motivation", category: "system", title: "One step enough 🎯", body: "Fix one weak subject today. No need to fight everything.", timestamp: "Afternoon status", read: false });
-      items.push({ id: "friendly-afternoon-water", category: "system", title: "Water break now 💧", body: "Drink water once. Even good plans need hydration.", timestamp: "Afternoon status", read: false });
-    } else {
-      items.push({ id: "friendly-night-sleep", category: "system", title: "Sleep matters too 🌙", body: "Rest properly tonight. Attendance stress feels worse when tired.", timestamp: "Night reminder", read: false });
-      items.push({ id: "friendly-evening-check", category: "timetable", title: "Evening check-in 🌆", body: "Today's attendance is saved. Review risky subjects before tomorrow.", timestamp: "Evening summary", read: false });
-    }
-
-    const filtered = items
-      .filter(item => !clearedIds.includes(item.id))
-      .map(item => ({ ...item, read: readIds.includes(item.id) ? true : item.read }));
-
-    setNotifications(filtered);
-  }, [mounted, academicData, studentPortalData, academicAlertsEnabled, clearedIds, readIds]);
+  }, [clearedIds]);
 
   useEffect(() => {
-    if (mounted) generateNotifications();
-  }, [mounted, generateNotifications]);
+    if (mounted) {
+      fetchNotifications();
+    }
+  }, [mounted, fetchNotifications]);
 
-  const markAllAsRead = () => {
-    const allIds = notifications.map(n => n.id);
-    const newRead = Array.from(new Set([...readIds, ...allIds]));
-    setReadIds(newRead);
-    try { localStorage.setItem("nexus_read_notifications", JSON.stringify(newRead)); } catch {}
+  const markAllAsRead = async () => {
+    const token = localStorage.getItem("authToken");
+    if (!token) return;
+
+    const unread = notifications.filter((n) => !n.read);
+    if (unread.length === 0) return;
+
+    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+
+    try {
+      await Promise.all(
+        unread.map((n) =>
+          fetch(`/api/notifications/${n.id}/read`, {
+            method: "PATCH",
+            headers: {
+              "x-session-token": token,
+            },
+          })
+        )
+      );
+
+      const cached = localStorage.getItem("nexus_cached_notifications_list");
+      if (cached) {
+        const list = JSON.parse(cached) as any[];
+        const updated = list.map((n) => ({ ...n, read: true }));
+        localStorage.setItem("nexus_cached_notifications_list", JSON.stringify(updated));
+      }
+    } catch (err) {
+      console.error("Failed to mark all as read:", err);
+    }
   };
 
   const clearAll = () => {
-    const allIds = notifications.map(n => n.id);
+    const allIds = notifications.map((n) => n.id);
     const newCleared = Array.from(new Set([...clearedIds, ...allIds]));
     setClearedIds(newCleared);
-    try { localStorage.setItem("nexus_cleared_notifications", JSON.stringify(newCleared)); } catch {}
+    try {
+      localStorage.setItem("nexus_cleared_notifications", JSON.stringify(newCleared));
+    } catch {}
+    setNotifications((prev) => prev.filter((n) => !newCleared.includes(n.id)));
   };
 
-  const handleMarkAsRead = (id: string) => {
-    if (readIds.includes(id)) return;
-    const newRead = [...readIds, id];
-    setReadIds(newRead);
-    try { localStorage.setItem("nexus_read_notifications", JSON.stringify(newRead)); } catch {}
+  const handleMarkAsRead = async (id: string) => {
+    const token = localStorage.getItem("authToken");
+    if (!token) return;
+
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, read: true } : n))
+    );
+
+    try {
+      await fetch(`/api/notifications/${id}/read`, {
+        method: "PATCH",
+        headers: {
+          "x-session-token": token,
+        },
+      });
+
+      const cached = localStorage.getItem("nexus_cached_notifications_list");
+      if (cached) {
+        const list = JSON.parse(cached) as any[];
+        const updated = list.map((n) =>
+          n.id === id ? { ...n, read: true } : n
+        );
+        localStorage.setItem("nexus_cached_notifications_list", JSON.stringify(updated));
+      }
+    } catch (err) {
+      console.error("Failed to mark notification as read:", err);
+    }
   };
 
   const startEdit = (tmpl: MessageTemplate) => {
@@ -404,14 +391,26 @@ export default function NotificationCenterPage() {
   const isLight = theme === "light";
   const accentColor = isLight ? "#BF5AF2" : "#FF75C3";
 
-  const getCategoryStyles = (cat: NotificationItem["category"]) => {
+  const getCategoryStyles = (cat: NotificationItem["category"] | string) => {
     switch (cat) {
-      case "attendance": return { icon: CheckCircle2, color: "#34C759", bg: "rgba(52, 199, 89, 0.08)" };
-      case "lowAttendance": return { icon: AlertTriangle, color: "#FF3B30", bg: "rgba(255, 59, 48, 0.08)" };
-      case "marks": return { icon: Award, color: "#FF9500", bg: "rgba(255, 149, 0, 0.08)" };
-      case "timetable": return { icon: Clock, color: "#00E5FF", bg: "rgba(0, 229, 255, 0.08)" };
-      case "system": return { icon: Sparkles, color: accentColor, bg: isLight ? "rgba(191, 90, 242, 0.08)" : "rgba(255, 117, 195, 0.08)" };
-      default: return { icon: Bell, color: "var(--text-secondary)", bg: "rgba(255, 255, 255, 0.05)" };
+      case "attendance":
+      case "attendance_safe":
+        return { icon: CheckCircle2, color: "#34C759", bg: "rgba(52, 199, 89, 0.08)" };
+      case "lowAttendance":
+      case "attendance_low":
+        return { icon: AlertTriangle, color: "#FF9500", bg: "rgba(255, 149, 0, 0.08)" };
+      case "attendance_danger":
+        return { icon: AlertTriangle, color: "#FF3B30", bg: "rgba(255, 59, 48, 0.08)" };
+      case "marks":
+      case "marks_update":
+        return { icon: Award, color: "#FF9500", bg: "rgba(255, 149, 0, 0.08)" };
+      case "timetable":
+      case "timetable_change":
+      case "class_reminder":
+        return { icon: Clock, color: "#00E5FF", bg: "rgba(0, 229, 255, 0.08)" };
+      case "system":
+      default:
+        return { icon: Sparkles, color: accentColor, bg: isLight ? "rgba(191, 90, 242, 0.08)" : "rgba(255, 117, 195, 0.08)" };
     }
   };
 

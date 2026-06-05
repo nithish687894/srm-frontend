@@ -1,5 +1,8 @@
-import { getStoredFCMToken } from "./fcmManager";
-import { selectTemplate, renderTemplate } from "./pulseEngine";
+/**
+ * lib/academicWatcher.ts
+ * Frontend Academic Event Watcher
+ * Detects drops and changes, forwarding them to the backend dispatcher.
+ */
 
 interface AttendanceSubject {
   "Attn %"?: string | number;
@@ -19,80 +22,52 @@ interface MarksEntry {
 }
 
 /**
- * Send a push via the Render backend (Firebase Admin → FCM).
- * Falls back to browser Notification API if no FCM token or backend unavailable.
- *
- * Backend endpoint: POST {NEXT_PUBLIC_API_URL}/api/send-notification
- * Body: { token, title, body, url, tag }
+ * Triggers notification dispatch on the backend.
  */
-async function sendPush(payload: {
-  title: string;
-  body: string;
-  url?: string;
-  tag?: string;
-}): Promise<void> {
-  const token = getStoredFCMToken();
-  const backendUrl = process.env.NEXT_PUBLIC_API_URL;
+async function triggerBackendDispatch(
+  category: string,
+  variables: Record<string, any>
+): Promise<void> {
+  if (typeof window === "undefined") return;
 
-  if (token && backendUrl) {
-    try {
-      await fetch(`${backendUrl}/api/send-notification`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, ...payload }),
-      });
-      return;
-    } catch (err) {
-      console.warn("[academicWatcher] FCM via Render failed, falling back:", err);
-    }
-  }
-
-  // Fallback: direct browser notification (works when app is open/foreground)
-  if (Notification.permission === "granted") {
-    try {
-      const reg = await navigator.serviceWorker?.ready;
-      if (reg?.showNotification) {
-        await reg.showNotification(payload.title, {
-          body: payload.body,
-          icon: "/nexus-logo.png",
-          badge: "/favicon-32x32.png",
-          data: { url: payload.url || "/notifications" },
-          tag: payload.tag,
-        } as NotificationOptions & { badge?: string });
-      } else {
-        new Notification(payload.title, { body: payload.body, icon: "/nexus-logo.png" });
-      }
-    } catch {}
-  }
-}
-
-/**
- * Deduplicated send — only pushes once per cooldown window per key.
- */
-function sendOnce(
-  key: string,
-  payload: { title: string; body: string; url?: string; tag?: string },
-  cooldownMs = 4 * 60 * 60 * 1000
-): void {
   try {
-    const stored = localStorage.getItem(`nexus_push_ts_${key}`);
-    if (stored && Date.now() - parseInt(stored, 10) < cooldownMs) return;
-    localStorage.setItem(`nexus_push_ts_${key}`, String(Date.now()));
-    sendPush({ ...payload, tag: key });
-  } catch {}
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      console.warn("[academicWatcher] No auth token found. Cannot trigger backend dispatch.");
+      return;
+    }
+
+    const res = await fetch("/api/notifications/dispatch", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-session-token": token,
+      },
+      body: JSON.stringify({
+        category,
+        preferredTone: "funny_friend",
+        variables,
+      }),
+    });
+
+    if (!res.ok) {
+      console.warn(`[academicWatcher] Backend dispatch failed with status: ${res.status}`);
+    }
+  } catch (err) {
+    console.error("[academicWatcher] Failed to trigger backend dispatch:", err);
+  }
 }
 
 /**
  * Run after academic data sync. Checks for:
- * 1. Attendance < 75% per subject → phone notification
- * 2. New/changed marks → phone notification
+ * 1. Attendance < 75% per subject → triggers backend attendance warning
+ * 2. New/changed marks → triggers backend marks update notification
  */
 export function runAcademicWatcher(
   attendance: AttendanceSubject[] = [],
   marks: MarksEntry[] = []
 ): void {
   if (typeof window === "undefined") return;
-  if (Notification.permission !== "granted") return;
 
   checkAttendanceAlerts(attendance);
   checkMarksAlerts(marks);
@@ -100,8 +75,6 @@ export function runAcademicWatcher(
 
 function checkAttendanceAlerts(attendance: AttendanceSubject[]): void {
   if (!attendance?.length) return;
-
-  const risky: string[] = [];
 
   attendance.forEach((sub) => {
     const pctRaw = sub["Attn %"] ?? sub.pct;
@@ -113,48 +86,18 @@ function checkAttendanceAlerts(attendance: AttendanceSubject[]): void {
     const name =
       sub["Course Title"] || sub.courseTitle || sub.courseName ||
       sub["Course Code"] || sub.courseCode || "A subject";
-    const code = String(sub["Course Code"] || sub.courseCode || name)
-      .replace(/\s+/g, "-").toLowerCase();
 
-    risky.push(name);
-
-    // Select templates depending on severity (under 65% is attendance_danger, else attendance_low)
+    // Category based on attendance severity
     const category = pct < 65 ? "attendance_danger" : "attendance_low";
-    const template = selectTemplate(category, "funny_friend");
-    const rendered = renderTemplate(template.titleTemplate, template.bodyTemplate, {
+
+    // Trigger backend notification dispatch
+    triggerBackendDispatch(category, {
       subject: name,
       attendance: pct.toFixed(1),
       requiredAttendance: 75,
+      studentName: "Nithish",
     });
-
-    sendOnce(
-      `attn-low-${code}`,
-      {
-        title: rendered.title,
-        body: rendered.body,
-        url: "/attendance",
-      },
-      4 * 60 * 60 * 1000
-    );
   });
-
-  if (risky.length > 2) {
-    const template = selectTemplate("attendance_low", "funny_friend");
-    const rendered = renderTemplate(template.titleTemplate, template.bodyTemplate, {
-      subject: `${risky.length} subjects`,
-      attendance: "multiple",
-    });
-
-    sendOnce(
-      "attn-multi-risk-summary",
-      {
-        title: rendered.title,
-        body: rendered.body,
-        url: "/attendance",
-      },
-      6 * 60 * 60 * 1000
-    );
-  }
 }
 
 function checkMarksAlerts(marks: MarksEntry[]): void {
@@ -174,17 +117,9 @@ function checkMarksAlerts(marks: MarksEntry[]): void {
   if (previousHash !== currentHash) {
     localStorage.setItem("nexus_marks_hash", currentHash);
 
-    const template = selectTemplate("marks_update", "funny_friend");
-    const rendered = renderTemplate(template.titleTemplate, template.bodyTemplate, {});
-
-    sendOnce(
-      "marks-updated",
-      {
-        title: rendered.title,
-        body: rendered.body,
-        url: "/marks",
-      },
-      2 * 60 * 60 * 1000
-    );
+    // Trigger backend notification dispatch for marks update
+    triggerBackendDispatch("marks_update", {
+      studentName: "Nithish",
+    });
   }
 }
