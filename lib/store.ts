@@ -114,22 +114,36 @@ export const useAuthStore = create<AuthStore>()(
       // ── Profile / Academia ────────────────────────────────────────────────
       setProfile: (profile) => set({ profile }),
 
-      setAcademicData: (data) =>
+      setAcademicData: (data) => {
         set({
           academicData: data ? { ...data, lastFetchedAt: Date.now() } : null,
           academiaConnected: !!data,
           profile: data?.profile ?? null,
-        }),
+        });
+        // Fire phone push notifications if attendance < 75%
+        if (data?.attendance && typeof window !== "undefined") {
+          import("./academicWatcher").then(({ runAcademicWatcher }) => {
+            runAcademicWatcher(data.attendance, []);
+          }).catch(() => {});
+        }
+      },
 
       // ── Student Portal ────────────────────────────────────────────────────
       setStudentPortalConnected: (connected) =>
         set({ studentPortalConnected: connected }),
 
-      setStudentPortalData: (data) =>
+      setStudentPortalData: (data) => {
         set({
           studentPortalData: data,
           studentPortalConnected: !!data && data.sessionStatus === "active",
-        }),
+        });
+        // Fire phone push notifications if marks updated
+        if (data?.marks?.marks && typeof window !== "undefined") {
+          import("./academicWatcher").then(({ runAcademicWatcher }) => {
+            runAcademicWatcher([], data.marks.marks);
+          }).catch(() => {});
+        }
+      },
 
       // ── Cached Setters ───────────────────────────────────────────────────
       setTimetable: (timetable) => set({ timetable }),
