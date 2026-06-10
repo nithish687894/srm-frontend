@@ -7,9 +7,7 @@ const TAB_ORDER = [
   "/dashboard",
   "/marks",
   "/attendance",
-  "/timetable",
-  "/calendar",
-  "/ai"
+  "/premium"
 ];
 
 export default function SwipeLayout({ children }: { children: ReactNode }) {

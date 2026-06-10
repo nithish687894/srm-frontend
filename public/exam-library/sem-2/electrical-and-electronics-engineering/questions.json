@@ -1,0 +1,2453 @@
+[
+  {
+    "id": "q-1",
+    "text": "Numerical problem on Mesh analysis.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-2",
+    "text": "Numerical problem on Nodal analysis.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-3",
+    "text": "Numerical problem on Thevenin’s theorem.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-4",
+    "text": "Numerical problem on Superposition theorem.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-5",
+    "text": "Numerical problem on Maximum power transfer theorem.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-6",
+    "text": "Numerical problem on R-L,R-C and R-L-C circuits. (Finding resistance (R),",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-7",
+    "text": "Deriving the equation for RMS value, average values of AC waveforms ( sine wave,",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-8",
+    "text": "Describe the construction and operation of JFET. Also draw its characteristics.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-9",
+    "text": "Describe the construction and operation of MOSFET. Also draw its characteristics",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-10",
+    "text": "Describe the construction and operation of BJT. Also draw its characteristics",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-11",
+    "text": "Describe the construction and operation of SCR. Also draw its characteristics.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-12",
+    "text": "Simplification of Boolean expression using Boolean Laws and theorems.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-13",
+    "text": "Simplification of Boolean expression using K map.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-14",
+    "text": "Describe the construction and working of DC generator with neat diagram.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-15",
+    "text": "Describe the construction and working of DC motor with neat diagram.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-16",
+    "text": "Describe the construction and operation of single-phase transformer with neat",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-17",
+    "text": "Describe the construction and working of three phase induction motor with neat",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-18",
+    "text": "Describe the construction and working of BLDC motor with neat diagram.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-19",
+    "text": "Describe the construction and working of stepper motor with neat diagram.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-20",
+    "text": "Describe the construction and working of servo motor with neat diagram.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-21",
+    "text": "Describe the construction and working of Permanent magnet moving coil (PMMC)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-22",
+    "text": "Describe the construction and working of Moving iron (MI) instrument with a neat",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-23",
+    "text": "Describe the construction and working of Dynamometer type of instrument with a",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-24",
+    "text": "Describe the construction and working of Linear variable differential transformer",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-25",
+    "text": "Describe he construction and working of capacitive transducer with a neat diagram.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-26",
+    "text": "Describe the block diagram and working of liquid crystal display (LCD).",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-27",
+    "text": "Draw and explain the layout of generation, transmission and distribution of power.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-28",
+    "text": "List and explain all the substation equipment.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-29",
+    "text": "Draw and explain the key diagram of 11kV/440 V indoor substation with neat",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-30",
+    "text": "Explain different types of earthing schemes and list the importance of earthing.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-31",
+    "text": "Explain different types of Electric vehicles with its advantages and disadvantages.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-32",
+    "text": "How many of the above pairs are correctly matched?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-33",
+    "text": "1i iConsider the following Statements3.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-34",
+    "text": "How many statements given above are correct?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-35",
+    "text": "In a parallel circuit, the current is the same through all the elements",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-36",
+    "text": "Current will not flow in an open circuit",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-37",
+    "text": "Ohm’s law does not apply to parallel circuits",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-38",
+    "text": "In a series circuit, voltage is the same across all the resistors",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-39",
+    "text": "A) Deflecting torque",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-40",
+    "text": "B) Base , Emitter, Collector",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-41",
+    "text": "D) Anode, Gate, Cathode",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-42",
+    "text": "B) Photoemissive cell",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-43",
+    "text": "A) Anode, Gate, Collector",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-44",
+    "text": "C) Gate , Emitter, Collector",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-45",
+    "text": "B) Reverse biased condition",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-46",
+    "text": "C) Optocoupler D) IR sensor",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-47",
+    "text": "What does the equivalent circuit of the diode shown represent?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-48",
+    "text": "A) Forward biased condition",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-49",
+    "text": "C) Transformer D) DC motor",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-50",
+    "text": "C) Transducer D) Thermocouple",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-51",
+    "text": "3 121 a. Find the current through 2 ohms in the given circuit using superposition theorem.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-52",
+    "text": "B) Circuit breaker",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-53",
+    "text": "D) Power transformer",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-54",
+    "text": "b. Derive the RMS and average voltage expression for a sinusoidal waveform.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-55",
+    "text": "a. Explain the construction ,working and characteristics of SCR with neat diagram",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-56",
+    "text": "b. Discuss the operation of switched mode power supply with neat diagram",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-57",
+    "text": "a. Describe the construction and working of a three-phase induction motor with a neat",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-58",
+    "text": "b. Discuss the operation of chopper-fed DC drive with a neat diagram.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-59",
+    "text": "a. Explain the construction and operation of a permanent magnet moving coil instrument",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-60",
+    "text": "b. Discuss the different types of sensors and their application in smart buildings.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-61",
+    "text": "a. Write short notes on battery electric vehicle and hybrid electric vehicle with diagram.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-62",
+    "text": "b. With a neat diagram, describe the 11 kV/400 V indoor substation.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-63",
+    "text": "C) solar inverter D) solar module",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-64",
+    "text": "215 3Simplify the given boolean expressions using K-map and implement using logic gates.27",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-65",
+    "text": "Determine the current through all the resistors using nodal voltage analysis in the given",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-66",
+    "text": "Theveninresistanceisfoundby________A.ShortingallvoltagesourcesB.OpeningallcurrentsourcesC.ShortingallvoltagesourcesandopeningallcurrentsourcesD.OpeningallvoltagesourcesandshortingallcurrentsourcesANSWER:C",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-67",
+    "text": "Inastarconnectedsystem,thecurrentflowingthroughthelineisA.GreaterthanthephasecurrentB.EqualtothephasecurrentC.LesserthanthephasecurrentD.zero",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-68",
+    "text": "The2ohmand3ohmresistorareinseriestheequivalentresistanceisA.1.2B.5C.4.2D.1.4ANSWER:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-69",
+    "text": "TheinternalresistanceforthemaximumtransferofpowershouldbeA.equaltoloadresistanceB.greaterthanloadresistanceC.zeroD.lesserthanloadresistanceANSWER:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-70",
+    "text": "IfthevoltagefrequencyappliedtoaseriesRCcircuitisincreased,thenthephaseanglewill",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-71",
+    "text": "InanRLCcircuitabovetheresonantfrequency, thecurrentwillA.lagstheappliedvoltageB.leadstheappliedvoltageC.isinphasewiththeappliedvoltagesD.iszeroANSWER:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-72",
+    "text": "TheequationforohmslawisA.V=IR,atcontanttemperatureB.V=ICC.V=ILD.V=I/RANSWER:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-73",
+    "text": "A6kHzsinusoidalvoltageisappliedtoaseries RC circuit.ThefrequencyofthevoltageacrosstheresistorisA.6KhzB.12KhzC.13KhzD.14KhzANSWER:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-74",
+    "text": "Inacertainload,theactualpoweris150Wandthereactivepoweris125VAR.Whatistheapparentpower?A.19.52WB.195.2WC.375WD.24WANSWER:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-75",
+    "text": "Whatistheunitofpower?A.WattB.NewtonC.JouleD.HenryANSWER:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-76",
+    "text": "MeshanalysisemploysthemethodofA.KVLB.KCLC.BothKVLandKCLD.NeitherKVLorKCLANSWER:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-77",
+    "text": "Ifthereare10nodesinacircuit,howmanyequationsdoweget?A.10B.9C.8D.7ANSWER:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-78",
+    "text": "SuperpositiontheoremcanonlybeusedforcircuitsA.ElementresistiveB.ElementpassiveC.LinearbilateralelementsD.Non-linearelementsANSWER:C",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-79",
+    "text": "Eachphaseofathreephasealternatordeltaconnectedproducesavoltageof11KVandacurrentof1000Aatpf0.9.Findlinevoltageandlinecurrent.A.11KV,1732AB.11KV,1632AC.3.33KV,1732AD.3.33V,1000AANSWER:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-80",
+    "text": "Inabalancedthreephasesystemthreevoltagesdifferin____electricalfromeachotherinasequenceandhaveequalmagnitude.A.240B.120C.360D.0ANSWER:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-81",
+    "text": "Forseriescircuittheequivalentresistanceis___thegreatestresistanceconnectedinseriescircuit.A.lesserthanB.greaterthanC.equaltoD.notequaltoANSWER:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-82",
+    "text": "Thenon-linearcircuitparametersare?A.InductanceB.CapacitanceC.ResistanceD.TransistorANSWER:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-83",
+    "text": "Inaseries RC circuit,findtheRMSvoltagewherethevoltageacrossresistoris12V(rms)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-84",
+    "text": "ThevoltageVusingnodalanalysis",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-85",
+    "text": "FindthecurrentflowingbetweenterminalsAandBofthecircuitshownbelow.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-86",
+    "text": "FindthecurrentflowingbetweenterminalsAandB.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-87",
+    "text": "CalculatethetotalresistancebetweenthepointsAandB.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-88",
+    "text": "CalculatetheequivalentresistancebetweenAandB.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-89",
+    "text": "Theresistanceareconnectedinseries.Findtheequivalentresistance",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-90",
+    "text": "Anelectrickettlehasaresistanceof30ohm.Whatcurrentwillflowwhenitisconnectedto240Vsupply.Alsofindthepower.A.8A,1.92KwB.9A,3KwC.10A,4KwD.12A,5KwANSWER:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-91",
+    "text": "AnidealvoltagesourcehasA.ZerointernalresistanceB.OpencircuitvoltageequaltothevoltageonfullloadC.TerminalvoltageinproportiontocurrentD.TerminalvoltageinproportiontoloadANSWER:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-92",
+    "text": "Tofindimpedanceintheveninstheorem.A.AllindependentcurrentsourcesareshortcircuitedandindependentvoltagesourcesareopencircuitedB.AllindependentvoltagesourcesareopencircuitedandallindependentcurrentsourcesareshortcircuitedC.Allindependentvoltageandcurrentsourcesareshortcircuited",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-93",
+    "text": "ApplicationofNorton’stheoremtoacircuityieldsA.EquivalentcurrentsourceandimpedanceinseriesB.EquivalentcurrentsourceandimpedanceinparallelC.EquivalentimpedanceD.EquivalentcurrentsourceANSWER:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-94",
+    "text": "Whatwillbetheresistanceofthewirewhichhas0.14mmdiameterandspecificresistance9.6microohm-cmis440cmlong.TheresistanceofthewirewillbeA.9.6ohmB.11.3ohmC.13.7ohmD.27.4ohmANSWER:D",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-95",
+    "text": "InSuperpositiontheorem,whileconsideringasource,allothervoltagesourcesare?A.opencircuitedB.shortcircuitedC.changeitspositionD.removedfromthecircuitANSWER:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-96",
+    "text": "FindthevalueofthecurrentsI1,I2andI3flowingclockwiseinthefirst,secondandthirdmeshrespectively.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-97",
+    "text": "CalculatethemeshcurrentsI1andI2flowinginthefirstandsecondmeshesrespectively",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-98",
+    "text": "FindthenodevoltageV.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-99",
+    "text": "FindthevalueofVifthecurrentinthe3ohmresistor=0.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-100",
+    "text": "Inthecircuitshown,findthecurrentthrough4ΩresistorusingSuperpositiontheorem.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-101",
+    "text": "FindthevalueofV1andV2.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-102",
+    "text": "PowerfactorofZeroindicatesa)Purelyresistiveelementc)combinationofboth(A)and(B)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-103",
+    "text": "b) Purelyinductiveelementd)PurelycapacitiveelementAnswer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-104",
+    "text": "Noloadspeedofwhichofthefollowingmotorwillbehighesta)Shuntmotorc)Differentiallycompoundmotor",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-105",
+    "text": "Whichofthefollowingisthemosteconomicalmethodofstartingasinglephasemotor?a)Resistancestartmethodc)Capacitancestartmethod",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-106",
+    "text": "Materialusedfortheconstructionoftransformercoreisusuallya)wood b)copper c)Aluminium d)SiliconsteelAnswer:D",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-107",
+    "text": "Thepowerfactorinresistivecircuitisa)0.6pflagging b)0.8pflagging c)0.8pflagging d)1Answer:D",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-108",
+    "text": "DCgeneratorworksontheprincipleofa)Fleming'srighthandrulec)Faraday'slaw",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-109",
+    "text": "Twowindingofatransformerare------coupledA)Magneticallyc)Bothelectricallyandmagnetically",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-110",
+    "text": "Thesynchronousspeedofa4poleinductionmotorfor50hzpowersupplyis------rpm.a)1500 b)1000 c)750 d)1440Answer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-111",
+    "text": "Powerfactoristheratioofa)Impedancetoresistancec)Resistancetoimpedance",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-112",
+    "text": "Formfactoristheratioofa)MaximumtoRMSValuec)RMStoaveragevalue",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-113",
+    "text": "Theunitofmagneticfluxdensityisa)Henry/meter b)Tesla c)Amp/meter d)volt/meterAnswer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-114",
+    "text": "ThefluxisanalogoustoA)Voltageinelectriccircuitc)Powerinelectriccircuit",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-115",
+    "text": "Whichmotorisconstantspeedmotor?a)DCseriesmotor b)DCshuntmotor c)Dccompoundmotor d)InductionmotorAnswer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-116",
+    "text": "Theprimarywindingofatransformerhas110vacrossit.Whatisthesecondaryvoltageiftheturnsratiois8?a)8.8V b)88V c)880V d)8800VAnswer:C",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-117",
+    "text": "Amagnetizingforceof8000A/misappliedtoacircularmagneticcircuitofmeandiameter30cmbypassingacurrentthroughacoilwoundonthecircuitis750turned.Ifthecoilisuniformlywound,calculatethecurrentflowinthecircuit.a)10.05A b)9.8A c)11A d)12AAnswer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-118",
+    "text": "Whatwillbethemagneticpotentialdifferenceacrosstheairgapof2cmlengthinmagneticfieldof200AT/m?a)2AT b)4AT c)6AT d)10ATAnswer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-119",
+    "text": "Asingle-windingsingle-phasemotorhasa)Lowstartingtorquec)Highstartingtorque",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-120",
+    "text": "Adifferentiallycompoundedmotorunderhigh-over-loadconditionsbehavelikeaana)Shuntmotor b)Seriesmotor c)Cumulativecompoundmotor d)SynchronousmotorAnswer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-121",
+    "text": "IfloadcurrentandfluxofDCmotorareheldconstantandvoltageappliedacrossit'sarmatureisincreaseby5%,thenspeedofmotorwilla)Increasebyabout5% b)Reducebyabout5% c)Remainunaltered d)DependsonotherfactorsAnswer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-122",
+    "text": "Theslipofaninductionmotornormallydoesnotdependona)Rotorspeed b)Synchronousspeed c)Shafttorque d)Core-losscomponentAnswer:D",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-123",
+    "text": "A4-Pointstarterisusedtostartandcontrolthespeedofaa)DCshuntmotorwitharmatureresistancecontrolc)DCseriesmotor",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-124",
+    "text": "Thedcmotor,whichcanprovidezerospeedregulationatfullloadwithoutanycontroller,isa)Series b)Shunt c)Cumulativecompoundd)DifferentialcompoundAnswer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-125",
+    "text": "ASolenoidiswoundwithacoilof100turns.Thecoilisoflength50cmandiscarryingacurrentof2A.Determinethemagneticfieldstrengthatthelineofthesolenoid.a)450AT/m b)400AT/m c)500AT/m d)600AT/mAnswer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-126",
+    "text": "Ifthecross-sectionalareaofamagneticfieldincreases,butthefluxremainsthesame,thefluxdensitya)Increases b)Decreases c)Remainsthesame d)DoublesAnswer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-127",
+    "text": "Whatisthereluctanceofamaterialthathasalengthof0.07m,across-sectionalareaof0.014m2,andapermeabilityof4,500Wb/At×m?a)1111At/Wb b)111At/Wb c)11At/Wb d)1At/WbAnswer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-128",
+    "text": "A47Ohmresistorandacapacitorwithacapacitivereactanceof120 areinseriesacrossanacsource.Whatisthecircuitimpedance,Z",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-129",
+    "text": "Theabilityofamaterialtoremainmagnetizedafterremovalofthemagnetizingforceisknownasa)Permeability b)Reluctance c)Retentivity d)HysteresisAnswer:C",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-130",
+    "text": "Theinducedvoltageacrossastationaryconductorinastationarymagneticfieldisa)Zero b)Increased c)Decreased d)ReversedinpolarityAnswer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-131",
+    "text": "ADCgeneratorisrotatedat50revolutions/sec.howmanytimesdoesthedcoutputvoltagereachmaximumineachsecond?a)50 b)100 c)150 d)3000Answer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-132",
+    "text": "Ina seriesRCcircuit,12Vismeasuredacrosstheresistorand15Vismeasuredacrossthecapacitor.Thesourcevoltageisa)3V b)27V c)19.2V d)12VAnswer:C",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-133",
+    "text": "Eachphaseofa3phasestarconnectedalternatorproducesavoltageof11000Vandcurrentof1000Aatpowerfactor0.9.findlinevoltage,linecurrentandtotalcapacityofthealternator.a)VL=19053V,IL=1000A,Capacity=29.7MWc)VL=19053V,IL=1000A,Capacity=29.7MW",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-134",
+    "text": "ADCmotortakesanarmaturecurrentof110Aat480V.Thearmaturecircuitresistanceis.2ohm.themachinehas6polesandthearmatureislapconnectedwith864conductors.thefluxperpoleis0.05wb.calculatespeedandtorquedevelopedbythearmature.a)N=630rpm&T=750N-mc)N=636rpm&T=756N-m",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-135",
+    "text": "Theregulationofdcgeneratoronfullloadisabouta)15to20% b)20to25% c)10to15% d)5to10%Answer:D",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-136",
+    "text": "Forasingle-phasecapacitorstartinductionmotorwhichofthefollowingstatementsisvalid?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-137",
+    "text": "ADCseriesmotorhaslinearmagnetizationandnegligiblearmatureresistance,themotorspeedisa)Directlyproportionalto√T",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-138",
+    "text": "Thefunctionofchokeandstarterinafluorescentlampcircuitistoa)Reducethepowerconsumedbythefluorescentlampb)Createahighvoltageacrossthetubeduringstartingc)Helptodrawveryhighcurrentduringstartingd)ImprovethepowerfactorofthefluorescentlampcircuitAnswer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-139",
+    "text": "Movingcoilinstrumentscanbeusedona)DConly b)sinusoidalAConly c)AllACwaveforms d)ACandDcbothAnswer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-140",
+    "text": "PMMCInstrumentareusedfor-----quantitymeasurementa)AC b)Magnetic c)DC d)BothACandDCAnswer:C",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-141",
+    "text": "MovingPartsofinstrumentsaresupportedina)Bushbearings b)Ballbearings c)RollerBearings d)JewelledbearingsAnswer:D",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-142",
+    "text": "Asinglelampcontrolledbytwo-wayswitchesattwoplacesiscalleda)Staircasewiring b)Corridorwiring c)Cleatwiring d)BatterwiringAnswer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-143",
+    "text": "Inamovingcoilammeter, thedeflectingtorqueisdirectlyproportionaltothea)Squareofthecurrenttobemeasuredb)Currenttobemeasuredc)Twicethecurrenttothemeasuredd)SquarerootofthecurrenttobemeasuredAnswer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-144",
+    "text": "Whichcannotreducetheearthresistance?a)Pouringwaterintheearthpitc)Increasingthedepthoftheearthpit",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-145",
+    "text": "Theearthplatemadeupofa)copper b)aluminium c)lead d)ironAnswer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-146",
+    "text": "Goodearthingisthatwhichgivesa)verylowresistance b)Highresistance c)Equalresistance d)zeroresistanceAnswer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-147",
+    "text": "Thehightorquetoweightratioinananalogindicatinginstrumentindicatesa)Highfrictionlossc)Nothingasregardsfrictionloss",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-148",
+    "text": "GaAs,LEDemitsradiationinthe(a)UVregion(b)Bluecolor(c)visibleregion (d)infra-redregionAnswer:D",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-149",
+    "text": "Theripplefactorofbridgerectifieris(a)0.482 (b)0.812(c)1.11(d)1.21Answer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-150",
+    "text": "Thebasicpurposeoffilteristo(a)minimizevariationsina.c.inputsignal(b)suppressharmonicsinrectifiedoutput(c)removesripplesfromrectifieroutput (d)stabilizedcoutputvoltageAnswer:C",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-151",
+    "text": "IfVmisthepeakvalueofanappliedvoltageinhalfwaverectifierwithalargecapacitoracrossload,thenPIVis(a)Vm/2 (b)Vm (c)2Vm(d)1.414VmAnswer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-152",
+    "text": "JunctionbreakdownofaPNjunctionoccurs(a)withforwardbias (b)withreversebias(c)becauseofmanufacturingdefect(d)NoneofaboveAnswer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-153",
+    "text": "InPNjunctiondiodedynamicconductanceisdirectlyproportionalto(a)theappliedvoltage(b)temperature(c)thecurrent (d)thethermalvoltageAnswer:C",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-154",
+    "text": "Inafullwaverectifier, thecurrentineachofthediodesflowsfor(a)completecycleoftheinputsignal(b)halfcycleoftheinputsignal(c)lessthanhalfoftheinputsignal(d)NoneofaboveAnswer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-155",
+    "text": "WhenthePNjunctiondiodeisforwardbiased(a)theonlycurrentisholecurrent(b)theonlycurrentiselectroncurrent(c)theonlycurrentisproducedbymajoritycarriers(d)thecurrentisproducedbybothholesandelectronsAnswer:C",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-156",
+    "text": "For1N4736ZenerdiodehasZz=3.5Ω.ThedatasheetgivesVzt=6.8VatIzt=37mA,Whatisvoltageacrosszenerterminalswhenthecurrentis50mA?(a)6.85V (b)7.85V(c)8.85V(d)9.95VAnswer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-157",
+    "text": "ASiPNjunctionhasareversesaturationcurrentofI0=30nAatroomtemperature,thejunctionforwardvoltagerequiredtoproducecurrentof0.1mAis(a)0.42V (b)0.55V(c)0.80V(d)0.49VAnswer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-158",
+    "text": "Thevalueofreversebiasresistanceforanidealdiodeis__________(a)infinity (b)o(c)one(d)noneoftheaboveAnswer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-159",
+    "text": "Semiconductormaterialhave__________temp.coefficient(a)Positive (b)Negative (c)Bothpositiveandnegative (d)NoneAnswer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-160",
+    "text": "Azenerdiodeworksontheprincipalof(a)tunnelingofchargecarriersacrossjunction(b)thermionicemission(c)diffusionofchargecarriersacrossjunction(d)hoppingofchargecarriersacrossjunctionAnswer:C",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-161",
+    "text": "Whichoneofthefollowingtypesofindicatinginstrumentisanelectometer?a)Electrodynamometerb)PMMC c)Electrostatic d)MovingironAnswer:C",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-162",
+    "text": "Incleatwiringtheporcelainareveryeasytoerectandfixedatadistanceofa)4.5cmto15cmapart b)5.5cmto20cmapart c)6.5cmto25cmapart d)7.5cmto30cmapartAnswer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-163",
+    "text": "Influorescentlampthelightoutputis----lumensperwatt.a)70 b)80 c)90 d)95Answer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-164",
+    "text": "Thedeviceusedinserieswiththelinewireisa)C.B b)isolator c)Fuse d)BothC.BandisolatorAnswer:C",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-165",
+    "text": "Theearth'spotentialisalwaysa)Zero b)one c)Lesserthanone d)GreaterthanoneAnswer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-166",
+    "text": "Iftheinputsupplyfrequencyis50Hz,theoutputsupplyfrequencyofabridgewaverectifieris___________Hz(a)100 (b)75(c)50(d)25Answer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-167",
+    "text": "Ahalfwaverectifierhasaninputvoltageof240Vrmsifthestepdowntransformerhasturnsratioof8:1,whatistheloadvoltage?(a)27.5v(b)86.5v(c)30v (d)42.5VAnswer:D",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-168",
+    "text": "ReversesaturationcurrentinsiliconPNjunctiondiodenearlydoublesforevery(a)20°Criseintemperature(b)50°Criseintemperature(c)60°Criseintemperature (d)10°CriseintemperatureAnswer:D",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-169",
+    "text": "If,bymistakeacsourceinabridgerectifierisconnectedacrossthedcterminalsitwillburnoutandhenceshort___________diodes(a)One(b)Two(c)Three (d)FourAnswer:D",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-170",
+    "text": "AVoltageof 200Vproducesadeflectionof90ᵒinPMMCspringcontrolledinstrument.Ifthesameinstrumentsprovidedwithgravitycontrol,whatwouldbethedeflection?a)90ᵒ b)45ᵒ c)64.2ᵒ d)98ᵒAnswer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-171",
+    "text": "Inplateearthingtheearthplatemadeupofcoppersize",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-172",
+    "text": "Amovingcoilinstrumentgivesafullscaledetectionof20mA.Whenapotentialdifferenceof50mVis applied.Calculatetheseriesresistancetomeasure500Vonscale?a)2000ohm b)3000ohm c)3500ohm d)24997.5ohmAnswer:D",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-173",
+    "text": "Theappliedinputacpowertoahalfwaverectifieris100watts.Thed.coutputpowerobtainedis40watts.Whatistherectificationefficiency?(a)10%(b)20%(c)30% (d)40%Answer:D",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-174",
+    "text": "Atransducerconvertinggroundmovementorvelocitytovoltageisknownas__________a)Geophoneb)Pickupc)Hydrophoned)SonartransponderAnswer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-175",
+    "text": "Whichistheexampleofaactivetransducer?a)Straingaugeb)Thermistorc)LVDTd)ThermocoupleAnswer:D",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-176",
+    "text": "Whichtransducerisknownas‘self-generatingtransducera)Activetransducerb)Passivetransducerc)Secondarytransducerd)AnalogtransducerAnswer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-177",
+    "text": "Whatistherelationbetweenscalefactorandsensitivityofatransducer?a)Scalefactorisdoubleofsensitivity",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-178",
+    "text": "Whichofthefollowingisananalogtransducer?a)Encodersb)Straingaugec)Digitaltachometersd)LimitswitchesAnswer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-179",
+    "text": "WhatistheprincipleofoperationofLVDT?a)Mutualinductanceb)Self-inductancec)Permanenced)ReluctanceAnswer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-180",
+    "text": "WhichofthefollowingcanbemeasuredusingPiezo-electrictransducer?a)Velocityb)Displacementc)Forced)SoundAnswer:C",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-181",
+    "text": "Capacitivetransducerareusedfor?a)Staticmeasurementb)Dynamicmeasurementc)Transientmeasurementd)BothstaticanddynamicAnswer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-182",
+    "text": "Mechanicaltransducerssense__________a)electricalchanges",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-183",
+    "text": "Mechanicaltransducersgenerate________a)electricalsignalsb)chemicalsignalsc)physicalsignalsd)biologicalsignalsAnswer:C",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-184",
+    "text": "Electricaltransducersgenerate________a)biologicalsignalsb)chemicalsignalsc)physicalsignals+d)electricalsignalsAnswer:D",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-185",
+    "text": "Thepowerneedsofelectricaltransducersis________a)maximumb)minimumc)zerod)infiniteAnswer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-186",
+    "text": "Electricaltransducersare________a)smallandnon-portableb)largeandnon-portablec)smallandcompactd)largeandportableAnswer:C",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-187",
+    "text": "PotentiometertransducersareusedforthemeasurementofA.PressureB.DisplacementC.HumidityD.Both(a)and(b)Answer:D",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-188",
+    "text": "Thermistorisatransducer. ItstemperaturecoefficientisA.Negative",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-189",
+    "text": "StraingaugeisaA.ActivedeviceandconvertsmechanicaldisplacementintoachangeofresistanceB.PassivedeviceandconvertselectricaldisplacementintoachangeofresistanceC.PassivedeviceandconvertsmechanicaldisplacementintoachangeofresistanceD.ActivedeviceandconvertselectricaldisplacementintoachangeofresistanceAnswer:C",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-190",
+    "text": "ThelinearvariabledifferentialtransformertransducerisA.InductivetransducerB.Non-inductivetransducerC.CapacitivetransducerD.ResistivetransducerAnswer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-191",
+    "text": "Withtheincreaseintheintensityoflight,theresistanceofaphotovoltaiccellA.IncreasesB.DecreasesC.RemainssameD.DoubledAnswer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-192",
+    "text": "IfthedisplacementismeasuredwithstraingaugethenthenumberofstraingaugenormallyrequiredareA.OneB.Two C.ThreeD.FourAnswer:D",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-193",
+    "text": "LEDsfabricatedfromthegalliumarsenidesmitradiationintheA.VisibleRangeB.InfraredRegionC.UltravioletRegionD.UltrasonicRegion",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-194",
+    "text": "Inlightemittingdiode,theavailablelightemittingregionisA.Lessthan2.5mmB.From2.5to25mmC.Greaterthan25mmD.Greaterthan50mmAnswer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-195",
+    "text": "Inliquidcrystaldisplays,theliquidcrystalexhibitspropertiesofA.LiquidB.SolidsC.GasesD.Both(a)and(b)Answer:D",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-196",
+    "text": "Theopticalpropertiesofliquidcrystalsdependonthedirectionofa)Airb)Solidc)Lightd)WaterAnswer:C",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-197",
+    "text": "LCDsoperatefromavoltagerangesfroma)3to15Vb)10to15Vc)10Vd)5VAnswer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-198",
+    "text": "LCDsoperatefromafrequencyrangesfroma)10Hzto60Hzb)50Hzto70Hzc)30Hzto60Hzd)NoneoftheMentionedAnswer:C",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-199",
+    "text": "WhatisbackplaneinLCD?a)Theacvoltageappliedbetweensegmentandacommonelementb)Thedcvoltageappliedbetweensegmentandacommonelementc)TheamountofpowerconsumedAnswer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-200",
+    "text": "Inphotoemissivetransducers,electronsareattractedby___________a)Cathodeb)Anodec)Gridd)BodyAnswer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-201",
+    "text": "LDR’sarealsocalled_______________a)Photovoltaiccellb)Photoresistivecellc)Photoemissivecelld)AllofthementionedAnswer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-202",
+    "text": "Indark,LDRhasA. lowresistanceB.highcurrentC.highresistanceD.bothAandBAnswer:C",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-203",
+    "text": "1eVisequaltoA.1.6×10",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-204",
+    "text": "Solarcellworksbasedon(a)Lasertechnology(b)Photo-conduction(c)Thermalemission(c)TyndalleffectAnswer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-205",
+    "text": "Commonlyusedphotoemissivematerialis_______a)goldb)opiumc)telluriumd)cesium-antimonyAnswer:D",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-206",
+    "text": "Photoconductorsaremadeof_______a)thicklayerofsemiconductorb)thinlayerofsemiconductorc)capacitivesubstrated)inductivesubstrateAnswer:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-207",
+    "text": "Adevice consistsofaphototransistorandaledisA.PhotodiodeB.OptocouplerC.OptoisolatorD.PhotomultiplierAnswer:B36.Aloadcellisessentiallya(a)straingauge (b)thermister (c)resistivepotentiometer(d)inductivetransducerAnswer:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-208",
+    "text": "Thebasicprocessofinformationexchangebetweentransmitterandreceiverisknownas…..(a)communication (b)controlling(c)signaling(d)modulatingANSWER:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-209",
+    "text": "Theprocessofconvertingelectricalequivalentoftheinformationtoasuitableformisdoneby….(a)transmitter (b)receiver(c)medium(d)aboveallANSWER:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-210",
+    "text": "Thecommunicationsystemwithwireasconductingmediumisknownas……(a)wiredcommunication(b)linecommunication(c)guidedmediacommunication (d)aboveallANSWER:D",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-211",
+    "text": "Thecommunicationsystemwhichhasnowiresasconductingmediumisknownas…..(a)wirelesscommunication(b)radiocommunication(c)unguidedcommunication (d)aboveallANSWER:D",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-212",
+    "text": "Noiseisbasicallya……(a)randomsignal(b)unwantedelectricalsignal(c)disturbancesignal (d)aboveallANSWER:D",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-213",
+    "text": "Theprocessofvaryingamplitudeofsinewavecarriersignalaccordingtotheinstantaneousvoltageofsinewavemodulatingsignalisknownas….(a)FrequencyModulation(b)Phasemodulation(c)Amplitudemodulation (d)PAMANSWER:C",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-214",
+    "text": "ThelossofinformationinAMwaveisknownas…(a)undermodulation (b)overmodulation(c)attenuation(d)rectificationANSWER:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-215",
+    "text": "Eachproducttermofagroup,a’.b.c’anda.b,representsthe____________inthatgroup.a)Inputb)POSc)Sum-of-Mintermsd)SumofMaxtermsANSWER:C",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-216",
+    "text": "Each“1”entryinaK-mapsquarerepresents:a)AHIGHforeachinputtruthtableconditionthatproducesaHIGHoutputb)AHIGHoutputonthetruthtableforallLOWinputcombinationsc)ALOWoutputforallpossibleHIGHinputconditionsd)ADON’TCAREconditionforallpossibleinputtruthtablecombinationsANSWER:A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-217",
+    "text": "Whichofthefollowingexpressionsisinthesum-of-productsform?a)(A+B)(C+D)b)(A*B)(C*D)c)A*B*(CD)d)A*B+C*DANSWER:D",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-218",
+    "text": "K-Mapoffulladderisof------variablesA.2b.3c.4d.1ANSWER:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-219",
+    "text": "Theoutputofalogicgateis1whenallitsinputsareatlogic1,thegateiseither(a)ANANDoraNOR(b)AnANDoranOR(c)AnORoranX-OR(d)AnANDoraNORANSWER:B",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-220",
+    "text": "Theoutputofalogicgateis1whenallitsinputsareatlogic0.Thegateiseither(a)ANANDoraNOR(b)AnANDoranX-OR(c)AnORoraNAND(d)AnX-ORoranX-NOR",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electrical And Electronics Engineering/PYQs/Question Bank.pdf"
+  }
+]

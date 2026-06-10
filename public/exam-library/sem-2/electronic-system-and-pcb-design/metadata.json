@@ -1,0 +1,17 @@
+{
+  "semester": "sem-2",
+  "semesterLabel": "Sem 2",
+  "subject": "Electronic System And PCB Design",
+  "subjectSlug": "electronic-system-and-pcb-design",
+  "readiness": "Partial",
+  "statusMessage": "Some scanned resources still need OCR, so this subject may be partial.",
+  "availableContent": {
+    "notes": true,
+    "pyqs": true,
+    "importantQuestions": false,
+    "revision": true
+  },
+  "sourceCount": 6,
+  "questionCount": 65,
+  "updatedAt": "2026-06-07T14:44:59.195Z"
+}

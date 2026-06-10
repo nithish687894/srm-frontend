@@ -9,7 +9,8 @@ import { useThemeStore } from "@/lib/themeStore";
 import { 
   Calculator, TrendingUp, AlertCircle, Sparkles, 
   Target, Award, Zap, ChevronRight, HelpCircle, 
-  Check, RefreshCcw, Sliders, CheckCircle2, Info
+  Check, RefreshCcw, Sliders, CheckCircle2, Info,
+  ChevronLeft
 } from "lucide-react";
 
 // SRM Grade boundaries and points
@@ -430,28 +431,33 @@ export default function GPAPage() {
           
           {/* Header section */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px" }}>
-            <div>
-              <div style={{ 
-                fontSize: "10px", 
-                letterSpacing: "0.25em", 
-                color: activeConfig.accentColor, 
-                fontWeight: 900, 
-                textTransform: "uppercase",
-                marginBottom: "4px"
-              }}>
-                Academic Intelligence
+            <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+              <button onClick={() => router.push("/dashboard")} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: '#fff', width: '40px', height: '40px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.2s', flexShrink: 0 }}>
+                <ChevronLeft size={20} />
+              </button>
+              <div>
+                <div style={{ 
+                  fontSize: "10px", 
+                  letterSpacing: "0.25em", 
+                  color: activeConfig.accentColor, 
+                  fontWeight: 900, 
+                  textTransform: "uppercase",
+                  marginBottom: "4px"
+                }}>
+                  Academic Intelligence
+                </div>
+                <h1 style={{ 
+                  fontSize: "32px", 
+                  fontWeight: 900, 
+                  letterSpacing: "-1px", 
+                  margin: 0,
+                  backgroundImage: activeConfig.titleGradient,
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}>
+                  GPA Sim & Goal Seeker
+                </h1>
               </div>
-              <h1 style={{ 
-                fontSize: "32px", 
-                fontWeight: 900, 
-                letterSpacing: "-1px", 
-                margin: 0,
-                backgroundImage: activeConfig.titleGradient,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}>
-                GPA Sim & Goal Seeker
-              </h1>
             </div>
             <div style={{ 
               display: "flex", 

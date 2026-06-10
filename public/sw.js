@@ -1,8 +1,6 @@
-const CACHE_NAME = 'srm-nexus-v4';
+const CACHE_NAME = 'srm-nexus-v5';
 const ASSETS = [
-  '/',
   '/site.webmanifest?v=4',
-  '/favicon.ico',
   '/nexus-logo.png'
 ];
 
@@ -32,7 +30,17 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Network-First strategy for public/static app shell assets only.
+  if (
+    event.request.mode === 'navigate' ||
+    url.pathname.startsWith('/_next/') ||
+    url.pathname.endsWith('.js') ||
+    url.pathname.endsWith('.css')
+  ) {
+    event.respondWith(fetch(event.request).catch(() => caches.match(event.request)));
+    return;
+  }
+
+  // Network-first strategy for lightweight static assets only.
   event.respondWith(
     fetch(event.request).then((networkResponse) => {
       if (networkResponse && networkResponse.status === 200) {
@@ -55,7 +63,7 @@ self.addEventListener('push', (event) => {
   if (event.data) {
     try {
       data = event.data.json();
-    } catch (e) {
+    } catch {
       data = { title: 'SRM Nexus', body: event.data.text() };
     }
   }

@@ -1,0 +1,17 @@
+{
+  "semester": "sem-4",
+  "semesterLabel": "Sem 4",
+  "subject": "Cell Communication And Signaling",
+  "subjectSlug": "cell-communication-and-signaling",
+  "readiness": "Needs OCR",
+  "statusMessage": "Some scanned resources still need OCR, so this subject may be partial.",
+  "availableContent": {
+    "notes": true,
+    "pyqs": true,
+    "importantQuestions": false,
+    "revision": false
+  },
+  "sourceCount": 2,
+  "questionCount": 0,
+  "updatedAt": "2026-06-07T14:44:59.195Z"
+}

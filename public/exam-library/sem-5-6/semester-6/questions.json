@@ -1,0 +1,74 @@
+[
+  {
+    "id": "q-1",
+    "text": "phases of compiler",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 5 sem6/Semester 6/Compiler Design/PYQs/IMPORTANT QUESTIONS.pdf"
+  },
+  {
+    "id": "q-2",
+    "text": "Compiler construction Tool",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 5 sem6/Semester 6/Compiler Design/PYQs/IMPORTANT QUESTIONS.pdf"
+  },
+  {
+    "id": "q-3",
+    "text": "Min if DFA (Direct method) etc",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 5 sem6/Semester 6/Compiler Design/PYQs/IMPORTANT QUESTIONS.pdf"
+  },
+  {
+    "id": "q-4",
+    "text": "Thompson method",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 5 sem6/Semester 6/Compiler Design/PYQs/IMPORTANT QUESTIONS.pdf"
+  },
+  {
+    "id": "q-5",
+    "text": "Predictive parser",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 5 sem6/Semester 6/Compiler Design/PYQs/IMPORTANT QUESTIONS.pdf"
+  },
+  {
+    "id": "q-6",
+    "text": "Elimination of ambiguity",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 5 sem6/Semester 6/Compiler Design/PYQs/IMPORTANT QUESTIONS.pdf"
+  }
+]

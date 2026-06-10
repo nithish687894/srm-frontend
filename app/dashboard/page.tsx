@@ -179,7 +179,16 @@ export default function DashboardPage() {
   const [dayOffset, setDayOffset] = useState(0);
   const [syncError, setSyncError] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
-  const [currentTime] = useState(() => Date.now());
+  const [now, setNow] = useState(() => new Date());
+  const currentTime = now.getTime();
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setNow(new Date());
+    }, 15000);
+    return () => clearInterval(timer);
+  }, []);
+
   useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
   // Loading logs hydration
@@ -615,36 +624,39 @@ export default function DashboardPage() {
       const courseCode = cls.courseCode;
       const course = att.find((c: AnyValue) => (c["Course Code"] || c.courseCode) === courseCode);
       let isRisky = false;
+      let currentAttendance = 100;
+      let afterSkipAttendance = 100;
+      
       if (course) {
-        const cond = parseInt(course["Hours Conducted"] || course.conducted) || 0;
+        let cond = parseInt(course["Hours Conducted"] || course.conducted) || 0;
         const absent = parseInt(course["Hours Absent"] || course.absent) || 0;
-        const present = parseInt(course["Hours Attended"] || course.attended) || Math.max(0, cond - absent);
+        let present = parseInt(course["Hours Attended"] || course.attended) || Math.max(0, cond - absent);
         const pctStr = course["Attn %"] || course.pct;
+        const pct = pctStr !== undefined && pctStr !== null && pctStr !== "null" ? parseFloat(pctStr) : null;
         
-        if (cond > 0) {
-          const newCond = cond + 1;
-          const newPct = (present / newCond) * 100;
-          if (newPct >= 75) {
-            safe++;
-          } else {
-            risky++;
-            isRisky = true;
+        if (pct !== null) {
+          currentAttendance = pct;
+          if (cond === 0 && pct > 0) {
+            cond = 30;
+            present = Math.round(cond * (pct / 100));
           }
-        } else if (pctStr !== undefined && pctStr !== null && pctStr !== "null") {
-          const currentPct = parseFloat(pctStr) || 0;
-          if (currentPct >= 80) {
-            safe++;
-          } else {
-            risky++;
-            isRisky = true;
-          }
-        } else {
-          safe++;
+          afterSkipAttendance = (present / (cond + 1)) * 100;
+          isRisky = afterSkipAttendance < 75;
         }
+      }
+      
+      if (isRisky) {
+        risky++;
       } else {
         safe++;
       }
-      return { ...cls, isRisky };
+      
+      return { 
+        ...cls, 
+        isRisky,
+        currentAttendance: Math.round(currentAttendance),
+        afterSkipAttendance: Math.round(afterSkipAttendance)
+      };
     });
     
     return {
@@ -660,18 +672,19 @@ export default function DashboardPage() {
     const riskyCls = tomorrowClasses.find((cls) => {
       const course = att.find((c: AnyValue) => (c["Course Code"] || c.courseCode) === cls.courseCode);
       if (course) {
-        const cond = parseInt(course["Hours Conducted"] || course.conducted) || 0;
+        let cond = parseInt(course["Hours Conducted"] || course.conducted) || 0;
         const absent = parseInt(course["Hours Absent"] || course.absent) || 0;
-        const present = parseInt(course["Hours Attended"] || course.attended) || Math.max(0, cond - absent);
+        let present = parseInt(course["Hours Attended"] || course.attended) || Math.max(0, cond - absent);
         const pctStr = course["Attn %"] || course.pct;
+        const pct = pctStr !== undefined && pctStr !== null && pctStr !== "null" ? parseFloat(pctStr) : null;
         
-        if (cond > 0) {
-          const newCond = cond + 1;
-          const newPct = (present / newCond) * 100;
-          return newPct < 75;
-        } else if (pctStr !== undefined && pctStr !== null && pctStr !== "null") {
-          const currentPct = parseFloat(pctStr) || 0;
-          return currentPct < 80;
+        if (pct !== null) {
+          if (cond === 0 && pct > 0) {
+            cond = 30;
+            present = Math.round(cond * (pct / 100));
+          }
+          const afterSkip = (present / (cond + 1)) * 100;
+          return afterSkip < 75;
         }
       }
       return false;
@@ -795,10 +808,57 @@ export default function DashboardPage() {
     return targetRow?.classes || [];
   }, [ttData, myTTData, att, dayOrder, isHoliday]);
 
-  const nowMin = new Date().getHours() * 60 + new Date().getMinutes();
-  const nextClass = dayOffset === 0
-    ? targetClasses.find((c: ScheduleItem) => parseStart(c.startTime) > nowMin || isNowIn(c.startTime, c.endTime))
-    : targetClasses[0];
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+
+  const sortedTargetClasses = useMemo(() => {
+    return [...targetClasses].sort((a, b) => parseStart(a.startTime) - parseStart(b.startTime));
+  }, [targetClasses]);
+
+  const sortedTomorrowClasses = useMemo(() => {
+    return [...tomorrowClasses].sort((a, b) => parseStart(a.startTime) - parseStart(b.startTime));
+  }, [tomorrowClasses]);
+
+  const currentClass = dayOffset === 0
+    ? sortedTargetClasses.find((cls: ScheduleItem) => {
+        const start = parseStart(cls.startTime);
+        const end = parseEnd(cls.endTime);
+        return nowMin >= start && nowMin < end;
+      })
+    : undefined;
+
+  const nextClassToday = dayOffset === 0
+    ? sortedTargetClasses.find((cls: ScheduleItem) => parseStart(cls.startTime) > nowMin)
+    : undefined;
+
+  let nextClass: ScheduleItem | undefined = undefined;
+  let isNextClassTomorrow = false;
+  let timeUntilNextClass: number | null = null;
+
+  if (dayOffset === 0) {
+    if (nextClassToday) {
+      nextClass = nextClassToday;
+      timeUntilNextClass = parseStart(nextClassToday.startTime) - nowMin;
+    } else if (sortedTomorrowClasses.length > 0) {
+      nextClass = sortedTomorrowClasses[0];
+      isNextClassTomorrow = true;
+      timeUntilNextClass = (24 * 60 - nowMin) + parseStart(nextClass.startTime);
+    }
+  } else {
+    nextClass = sortedTargetClasses[0];
+  }
+
+  const currentClassMeta = useMemo(() => {
+    return {
+      endsInMinutes: currentClass ? parseEnd(currentClass.endTime) - nowMin : null
+    };
+  }, [currentClass, nowMin]);
+
+  const nextClassMeta = useMemo(() => {
+    return {
+      isTomorrow: isNextClassTomorrow,
+      startsInMinutes: timeUntilNextClass
+    };
+  }, [isNextClassTomorrow, timeUntilNextClass]);
 
   const gridSlots = useMemo(() => {
     if (!ttData?.data?.rows || targetClasses.length === 0) return Array(10).fill(null);
@@ -909,7 +969,11 @@ export default function DashboardPage() {
     return (
       <AuraDashboard 
         data={data} marks={data?.marks || []} avgAtt={avgAtt} avgMarks={avgMarks} firstName={firstName} 
-        nextClass={nextClass} targetClasses={targetClasses} onShowStudentInfo={() => setShowStudentInfo(true)}
+        currentClass={currentClass}
+        nextClass={nextClass}
+        currentClassMeta={currentClassMeta}
+        nextClassMeta={nextClassMeta}
+        targetClasses={targetClasses} onShowStudentInfo={() => setShowStudentInfo(true)}
         broadcast={broadcast} renderAcademicIntegrityHub={renderAcademicIntegrityHub}
         upcomingEvents={upcomingEvents}
         tomorrowSkipStats={tomorrowSkipStats}

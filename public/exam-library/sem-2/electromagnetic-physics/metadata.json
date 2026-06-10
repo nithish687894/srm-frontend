@@ -1,0 +1,17 @@
+{
+  "semester": "sem-2",
+  "semesterLabel": "Sem 2",
+  "subject": "Electromagnetic Physics",
+  "subjectSlug": "electromagnetic-physics",
+  "readiness": "Ready",
+  "statusMessage": "Ready",
+  "availableContent": {
+    "notes": true,
+    "pyqs": true,
+    "importantQuestions": false,
+    "revision": true
+  },
+  "sourceCount": 3,
+  "questionCount": 128,
+  "updatedAt": "2026-06-07T14:44:59.195Z"
+}

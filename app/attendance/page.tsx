@@ -38,11 +38,13 @@ export default function AttendancePage() {
     setIsSyncing(true);
     try {
       const d = await dataAPI.getAttendance();
-      const updated = d.data || [];
-      setAtt(updated);
-      setAcademicData({ ...academicData, attendance: updated });
+      const updated = Array.isArray(d.data) ? d.data : [];
+      if (updated.length > 0) {
+        setAtt(updated);
+        setAcademicData({ ...academicData, attendance: updated });
+      }
     } catch (e) {
-      console.error(e);
+      console.error("Attendance sync failed", e);
     } finally {
       setIsSyncing(false);
     }
@@ -88,7 +90,14 @@ export default function AttendancePage() {
     if (!ready) return;
     if (academicData?.attendance) setLoading(false);
     dataAPI.getAttendance()
-      .then(d => { setAtt(d.data || []); setAcademicData({ ...academicData, attendance: d.data || [] }); setLoading(false); })
+      .then(d => {
+        const updated = Array.isArray(d.data) ? d.data : [];
+        if (updated.length > 0) {
+          setAtt(updated);
+          setAcademicData({ ...academicData, attendance: updated });
+        }
+        setLoading(false);
+      })
       .catch(() => { if (!att.length) router.push("/"); });
 
     dataAPI.getCalendar().then(d => { setCalData(d); setCalendar(d); }).catch(() => {});

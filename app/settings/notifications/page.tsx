@@ -6,12 +6,14 @@ import { Bell, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { useThemeStore } from "@/lib/themeStore";
 import Toast from "@/components/Toast";
 import { enableAcademicAlerts } from "@/lib/notificationHelper";
+import PremiumCheckout from "@/components/PremiumCheckout";
 
 export default function NotificationsSettingsPage() {
   const { theme } = useThemeStore();
-  const { academicAlertsEnabled, setAcademicAlertsEnabled } = useAuthStore();
+  const { academicAlertsEnabled, setAcademicAlertsEnabled, isPremium, premiumExpiresAt } = useAuthStore();
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
+  const [showCheckout, setShowCheckout] = useState(false);
   const [toast, setToast] = useState<{ title: string; body: string; type: "success" | "error" | "info" } | null>(null);
   const showToast = (title: string, body: string, type: "success" | "error" | "info" = "success") => {
     setToast({ title, body, type });
@@ -60,6 +62,77 @@ export default function NotificationsSettingsPage() {
       <main style={{ flex: 1, overflowY: "auto", marginBottom: "40px", WebkitOverflowScrolling: "touch" }}>
         <div style={{ maxWidth: "480px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "24px" }}>
           
+          {/* Premium Membership Banner */}
+          {isPremium ? (
+            <div style={{
+              background: "linear-gradient(135deg, rgba(123, 44, 191, 0.15) 0%, rgba(191, 90, 242, 0.1) 100%)",
+              border: `1.5px solid ${isLight ? "rgba(123, 44, 191, 0.25)" : "rgba(191, 90, 242, 0.3)"}`,
+              borderRadius: "24px",
+              padding: "24px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px"
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <span style={{
+                  fontSize: "9px",
+                  fontWeight: 900,
+                  color: isLight ? "#7B2CBF" : "#BF5AF2",
+                  background: isLight ? "rgba(123,44,191,0.08)" : "rgba(191,90,242,0.15)",
+                  padding: "4px 8px",
+                  borderRadius: "99px",
+                  textTransform: "uppercase"
+                }}>
+                  Active Pass
+                </span>
+                <span style={{ fontSize: "14px", fontWeight: 900, color: "var(--text-primary)" }}>Nexus Premium Active</span>
+              </div>
+              <p style={{ fontSize: "11px", color: "var(--text-secondary)", margin: 0, lineHeight: 1.4 }}>
+                Thanks for supporting SRM Nexus! You have unlocked GPA target tools, Predictive Class Skipper, and custom push alerts.
+              </p>
+              {premiumExpiresAt && (
+                <span style={{ fontSize: "10px", color: isLight ? "#7B2CBF" : "#BF5AF2", fontWeight: 700 }}>
+                  Expires on: {new Date(premiumExpiresAt).toLocaleDateString(undefined, { dateStyle: 'long' })}
+                </span>
+              )}
+            </div>
+          ) : (
+            <div style={{
+              background: "linear-gradient(135deg, rgba(123, 44, 191, 0.06) 0%, rgba(191, 90, 242, 0.03) 100%)",
+              border: `1.5px dashed ${isLight ? "rgba(123, 44, 191, 0.3)" : "rgba(191, 90, 242, 0.4)"}`,
+              borderRadius: "24px",
+              padding: "24px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "14px"
+            }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                <span style={{ fontSize: "14px", fontWeight: 800, color: "var(--text-primary)" }}>Unlock Nexus Premium</span>
+                <span style={{ fontSize: "11px", color: "var(--text-secondary)", lineHeight: 1.4 }}>
+                  Get predictive skipping, target GPA estimation, and fast push notifications starting at only ₹10.
+                </span>
+              </div>
+              <button
+                onClick={() => setShowCheckout(true)}
+                style={{
+                  background: isLight ? "#7B2CBF" : "#BF5AF2",
+                  color: "#FFFFFF",
+                  border: "none",
+                  borderRadius: "14px",
+                  padding: "12px 18px",
+                  fontSize: "12.5px",
+                  fontWeight: 750,
+                  cursor: "pointer",
+                  alignSelf: "flex-start",
+                  transition: "all 0.2s ease",
+                  boxShadow: `0 4px 12px ${isLight ? "rgba(123, 44, 191, 0.15)" : "rgba(191, 90, 242, 0.15)"}`
+                }}
+              >
+                Get Premium Pass
+              </button>
+            </div>
+          )}
+
           <div style={{ 
             background: isLight ? "rgba(0,0,0,0.02)" : "rgba(255, 255, 255, 0.02)", 
             border: "1px solid var(--border)", 
@@ -157,6 +230,12 @@ export default function NotificationsSettingsPage() {
           body={toast.body}
           type={toast.type}
           onClose={() => setToast(null)}
+        />
+      )}
+      {showCheckout && (
+        <PremiumCheckout
+          onClose={() => setShowCheckout(false)}
+          showToast={showToast}
         />
       )}
     </div>

@@ -1,0 +1,17 @@
+{
+  "semester": "sem-2",
+  "semesterLabel": "Sem 2",
+  "subject": "Engineering Mechanics",
+  "subjectSlug": "engineering-mechanics",
+  "readiness": "Ready",
+  "statusMessage": "Ready",
+  "availableContent": {
+    "notes": true,
+    "pyqs": true,
+    "importantQuestions": false,
+    "revision": true
+  },
+  "sourceCount": 1,
+  "questionCount": 27,
+  "updatedAt": "2026-06-07T14:44:59.195Z"
+}

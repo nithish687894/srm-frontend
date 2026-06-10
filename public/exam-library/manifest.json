@@ -1,0 +1,768 @@
+{
+  "generatedAt": "2026-06-07T14:44:59.195Z",
+  "semesters": [
+    {
+      "id": "sem-1",
+      "label": "Sem 1",
+      "subjectCount": 11,
+      "subjects": [
+        {
+          "slug": "basic-civil-mechanical-workshop",
+          "name": "Basic Civil Mechanical Workshop",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 1,
+          "path": "/exam-library/sem-1/basic-civil-mechanical-workshop"
+        },
+        {
+          "slug": "biochemistry",
+          "name": "Biochemistry",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": true,
+            "revision": true
+          },
+          "questionCount": 118,
+          "sourceCount": 9,
+          "path": "/exam-library/sem-1/biochemistry"
+        },
+        {
+          "slug": "biology",
+          "name": "Biology",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 126,
+          "sourceCount": 3,
+          "path": "/exam-library/sem-1/biology"
+        },
+        {
+          "slug": "biomedical-sensors",
+          "name": "Biomedical Sensors",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": false,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 1,
+          "path": "/exam-library/sem-1/biomedical-sensors"
+        },
+        {
+          "slug": "calculus-and-linear-algebra",
+          "name": "Calculus And Linear Algebra",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 220,
+          "sourceCount": 15,
+          "path": "/exam-library/sem-1/calculus-and-linear-algebra"
+        },
+        {
+          "slug": "cell-biology",
+          "name": "Cell Biology",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 73,
+          "sourceCount": 5,
+          "path": "/exam-library/sem-1/cell-biology"
+        },
+        {
+          "slug": "chemistry",
+          "name": "Chemistry",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": true,
+            "revision": true
+          },
+          "questionCount": 162,
+          "sourceCount": 11,
+          "path": "/exam-library/sem-1/chemistry"
+        },
+        {
+          "slug": "fundamental-of-economics-foe",
+          "name": "Fundamental Of Economics FOE",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 2,
+          "path": "/exam-library/sem-1/fundamental-of-economics-foe"
+        },
+        {
+          "slug": "introduction-to-computational-biology",
+          "name": "Introduction To Computational Biology",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 92,
+          "sourceCount": 5,
+          "path": "/exam-library/sem-1/introduction-to-computational-biology"
+        },
+        {
+          "slug": "microbiology",
+          "name": "Microbiology",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 25,
+          "sourceCount": 4,
+          "path": "/exam-library/sem-1/microbiology"
+        },
+        {
+          "slug": "philosophy-of-engineering",
+          "name": "Philosophy Of Engineering",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 220,
+          "sourceCount": 8,
+          "path": "/exam-library/sem-1/philosophy-of-engineering"
+        }
+      ]
+    },
+    {
+      "id": "sem-2",
+      "label": "Sem 2",
+      "subjectCount": 10,
+      "subjects": [
+        {
+          "slug": "advanced-calculus-and-complex-analysis",
+          "name": "Advanced Calculus And Complex Analysis",
+          "readiness": "Ready",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 30,
+          "sourceCount": 7,
+          "path": "/exam-library/sem-2/advanced-calculus-and-complex-analysis"
+        },
+        {
+          "slug": "building-materials-in-the-built-environment",
+          "name": "Building Materials In The Built Environment",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 3,
+          "path": "/exam-library/sem-2/building-materials-in-the-built-environment"
+        },
+        {
+          "slug": "communicative-english",
+          "name": "Communicative English",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": true,
+            "revision": true
+          },
+          "questionCount": 23,
+          "sourceCount": 12,
+          "path": "/exam-library/sem-2/communicative-english"
+        },
+        {
+          "slug": "electrical-and-electronics-engineering",
+          "name": "Electrical And Electronics Engineering",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": true,
+            "revision": true
+          },
+          "questionCount": 220,
+          "sourceCount": 13,
+          "path": "/exam-library/sem-2/electrical-and-electronics-engineering"
+        },
+        {
+          "slug": "electromagnetic-physics",
+          "name": "Electromagnetic Physics",
+          "readiness": "Ready",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 128,
+          "sourceCount": 3,
+          "path": "/exam-library/sem-2/electromagnetic-physics"
+        },
+        {
+          "slug": "electronic-system-and-pcb-design",
+          "name": "Electronic System And PCB Design",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 65,
+          "sourceCount": 6,
+          "path": "/exam-library/sem-2/electronic-system-and-pcb-design"
+        },
+        {
+          "slug": "engineering-mechanics",
+          "name": "Engineering Mechanics",
+          "readiness": "Ready",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 27,
+          "sourceCount": 1,
+          "path": "/exam-library/sem-2/engineering-mechanics"
+        },
+        {
+          "slug": "object-oriented-design-and-programming",
+          "name": "Object Oriented Design And Programming",
+          "readiness": "Ready",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": true,
+            "revision": true
+          },
+          "questionCount": 220,
+          "sourceCount": 11,
+          "path": "/exam-library/sem-2/object-oriented-design-and-programming"
+        },
+        {
+          "slug": "programming-for-problem-solving",
+          "name": "Programming For Problem Solving",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": true,
+            "revision": true
+          },
+          "questionCount": 220,
+          "sourceCount": 17,
+          "path": "/exam-library/sem-2/programming-for-problem-solving"
+        },
+        {
+          "slug": "semiconductor-physics-and-computational-methods",
+          "name": "Semiconductor Physics And Computational Methods",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 83,
+          "sourceCount": 13,
+          "path": "/exam-library/sem-2/semiconductor-physics-and-computational-methods"
+        }
+      ]
+    },
+    {
+      "id": "sem-3",
+      "label": "Sem 3",
+      "subjectCount": 16,
+      "subjects": [
+        {
+          "slug": "advanced-programming-practice",
+          "name": "Advanced Programming Practice",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 1,
+          "path": "/exam-library/sem-3/advanced-programming-practice"
+        },
+        {
+          "slug": "basic-chemical-engineering",
+          "name": "Basic Chemical Engineering",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 1,
+          "path": "/exam-library/sem-3/basic-chemical-engineering"
+        },
+        {
+          "slug": "biochemistry",
+          "name": "Biochemistry",
+          "readiness": "Ready",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": true,
+            "revision": true
+          },
+          "questionCount": 29,
+          "sourceCount": 2,
+          "path": "/exam-library/sem-3/biochemistry"
+        },
+        {
+          "slug": "computer-organization-and-architecture",
+          "name": "Computer Organization And Architecture",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 50,
+          "sourceCount": 3,
+          "path": "/exam-library/sem-3/computer-organization-and-architecture"
+        },
+        {
+          "slug": "data-structures-and-algorithm",
+          "name": "Data Structures And Algorithm",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 0,
+          "sourceCount": 3,
+          "path": "/exam-library/sem-3/data-structures-and-algorithm"
+        },
+        {
+          "slug": "design-thinking-and-methodology",
+          "name": "Design Thinking And Methodology",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 3,
+          "path": "/exam-library/sem-3/design-thinking-and-methodology"
+        },
+        {
+          "slug": "digital-logic-design",
+          "name": "Digital Logic Design",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 0,
+          "sourceCount": 7,
+          "path": "/exam-library/sem-3/digital-logic-design"
+        },
+        {
+          "slug": "electromagnetic-thoery-and-interference",
+          "name": "Electromagnetic Thoery And Interference",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 68,
+          "sourceCount": 8,
+          "path": "/exam-library/sem-3/electromagnetic-thoery-and-interference"
+        },
+        {
+          "slug": "foundation-of-data-science-fds",
+          "name": "Foundation of Data Science FDS",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": false,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 0,
+          "sourceCount": 5,
+          "path": "/exam-library/sem-3/foundation-of-data-science-fds"
+        },
+        {
+          "slug": "genetics-and-cytogenetics",
+          "name": "Genetics And Cytogenetics",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 0,
+          "sourceCount": 7,
+          "path": "/exam-library/sem-3/genetics-and-cytogenetics"
+        },
+        {
+          "slug": "microbiology",
+          "name": "Microbiology",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 25,
+          "sourceCount": 4,
+          "path": "/exam-library/sem-3/microbiology"
+        },
+        {
+          "slug": "numerical-methods-analysis",
+          "name": "Numerical Methods Analysis",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 2,
+          "sourceCount": 11,
+          "path": "/exam-library/sem-3/numerical-methods-analysis"
+        },
+        {
+          "slug": "operating-systems",
+          "name": "Operating Systems",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 10,
+          "sourceCount": 6,
+          "path": "/exam-library/sem-3/operating-systems"
+        },
+        {
+          "slug": "social-engineering",
+          "name": "Social Engineering",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 2,
+          "path": "/exam-library/sem-3/social-engineering"
+        },
+        {
+          "slug": "solid-state-devices",
+          "name": "Solid State Devices",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 0,
+          "sourceCount": 8,
+          "path": "/exam-library/sem-3/solid-state-devices"
+        },
+        {
+          "slug": "transforms-and-boundary-value-problems",
+          "name": "Transforms And Boundary Value Problems",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 0,
+          "sourceCount": 8,
+          "path": "/exam-library/sem-3/transforms-and-boundary-value-problems"
+        }
+      ]
+    },
+    {
+      "id": "sem-4",
+      "label": "Sem 4",
+      "subjectCount": 11,
+      "subjects": [
+        {
+          "slug": "artificial-intelligence",
+          "name": "Artificial Intelligence",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": true,
+            "revision": true
+          },
+          "questionCount": 109,
+          "sourceCount": 8,
+          "path": "/exam-library/sem-4/artificial-intelligence"
+        },
+        {
+          "slug": "bioprocess-engineering",
+          "name": "Bioprocess Engineering",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 23,
+          "sourceCount": 8,
+          "path": "/exam-library/sem-4/bioprocess-engineering"
+        },
+        {
+          "slug": "cell-communication-and-signaling",
+          "name": "Cell Communication And Signaling",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 2,
+          "path": "/exam-library/sem-4/cell-communication-and-signaling"
+        },
+        {
+          "slug": "cga",
+          "name": "CGA",
+          "readiness": "Ready",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": true,
+            "revision": true
+          },
+          "questionCount": 165,
+          "sourceCount": 5,
+          "path": "/exam-library/sem-4/cga"
+        },
+        {
+          "slug": "chemical-engineering-principles",
+          "name": "Chemical Engineering Principles",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 0,
+          "sourceCount": 7,
+          "path": "/exam-library/sem-4/chemical-engineering-principles"
+        },
+        {
+          "slug": "database-management-systems",
+          "name": "Database Management Systems",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 5,
+          "path": "/exam-library/sem-4/database-management-systems"
+        },
+        {
+          "slug": "design-and-analysis-of-algorithms",
+          "name": "Design And Analysis Of Algorithms",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": true,
+            "revision": true
+          },
+          "questionCount": 220,
+          "sourceCount": 2,
+          "path": "/exam-library/sem-4/design-and-analysis-of-algorithms"
+        },
+        {
+          "slug": "molecular-biology",
+          "name": "Molecular Biology",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 1,
+          "path": "/exam-library/sem-4/molecular-biology"
+        },
+        {
+          "slug": "signal-processing",
+          "name": "Signal Processing",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 2,
+          "path": "/exam-library/sem-4/signal-processing"
+        },
+        {
+          "slug": "social-engineering",
+          "name": "Social Engineering",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 1,
+          "path": "/exam-library/sem-4/social-engineering"
+        },
+        {
+          "slug": "software-process",
+          "name": "Software Process",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 1,
+          "path": "/exam-library/sem-4/software-process"
+        }
+      ]
+    },
+    {
+      "id": "sem-5-6",
+      "label": "Sem 5/6",
+      "subjectCount": 4,
+      "subjects": [
+        {
+          "slug": "computer-networks",
+          "name": "Computer Networks",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 11,
+          "sourceCount": 8,
+          "path": "/exam-library/sem-5-6/computer-networks"
+        },
+        {
+          "slug": "discrete-mathematics",
+          "name": "Discrete Mathematics",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 1,
+          "path": "/exam-library/sem-5-6/discrete-mathematics"
+        },
+        {
+          "slug": "full-stack-web-development",
+          "name": "Full Stack Web Development",
+          "readiness": "Ready",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 20,
+          "sourceCount": 1,
+          "path": "/exam-library/sem-5-6/full-stack-web-development"
+        },
+        {
+          "slug": "semester-6",
+          "name": "Semester 6",
+          "readiness": "Ready",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": true,
+            "revision": true
+          },
+          "questionCount": 6,
+          "sourceCount": 16,
+          "path": "/exam-library/sem-5-6/semester-6"
+        }
+      ]
+    }
+  ]
+}

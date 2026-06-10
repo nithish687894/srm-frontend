@@ -1,0 +1,347 @@
+## sem 3/Computer Organization And Architecture/PYQs/CT Papers.url
+
+CATEGORY: PYQs
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1A2_a59TwkR-ECsJPz6na9TP-MunSLvIj?usp=drive_link
+
+---
+
+## sem 3/Computer Organization And Architecture/PYQs/Important Topics.url
+
+CATEGORY: PYQs
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1AFdtzESwBIWPFUYeAEvOXrn_ntSqykZp?usp=sharing
+
+---
+
+## sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf
+
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+Note: () (1) Time: 2½ Hours 
+18CSC262J -COMPUTER ORGANIZATION AND ARCHITECTURE (For the candidates admitted from the academic year 2018-2019 to 2019-2020) Part -A should be answered in OMR sheet within first 40 minutes and OMR sheet should be handed over to hall invigilator at the end of 40th minute. Part -B should be answered in answer booklet. 
+Page 1 of4 
+1. What is MAR and MDR? 
+B.Tech. DEGREE EXAMINATION, DECEMBER 2022 Third Semester 
+(A) Memory and register and (B) Memory address register and memory data register memory data register (C) Memory accumulated register (D) Memory accumulator register and memory drain register and memory data register 
+(C) Source data 
+2. In the instruction ADD LOCA, RO, (A) Memory location of the source operand 
+(A) Cache 
+Reg. No. 
+PART -A (25 x 1 =25 Marks) Answer ALL Questions 
+(C) Accumulators 
+(A) 64 bits (C) 1K bits 
+3. The small extremely fast, access memory is called as 
+(A) 25 bits (C) 24 bits 
+(A) Positive 
+4. The amount of ROM needed to implement a 4 bit multiplier is 
+(C) Negative 
+LOCA refers 
+5. 32 MB of memory in a computer would require how many bits to address any single byte in a memory? 
+(B) Memory location of destination operand (D) Destination data 
+from MSB position (A) Carry out (C) Positive 
+(B) Heaps (D) Stacks 
+6. In one's complement system the negative values are obtained by complementing each bit of the corresponding 
+(B) 128 bits (D) 2 K bits 
+(B) 32 bits (D) 25 bits 
+(B) Neutral 
+7. In addition of singed numbers, add n-bits and ignore the 
+number. (D) Negative and positive 
+(B) Carry in (D) Negative 
+signal 
+Max. Marks: 75 
+Marks BL CO Po 
+1 
+1 
+1 
+1 
+1 
+1 1 11 
+3 3 1 
+1 1 11 
+3 5 1 
+3 5 1 
+3 2 I 
+3 2 
+12DF3/18CSC262J 
+1 
+
+[Page 2]
+8. The (A) l's complement (C) Signed numbers 9. The method which has two representations for '0' is called (A) Hashing (B) Binary pair coding (D) Signed magnitude (C) Bit pair coding 
+representation of numbers occupies a large amount of memory (B) 2's complement (D) Signed magnitude 
+10. Which algorithm generates a 2-N bit product? (A) Shortest path algorithm (C) Longest path algorithm 
+(C) 32 bit 11, The INTEL 8086 micro processors is a (A) 8 bit 
+(C) The result of addition 12. The l6 bit flag of 8086 microprocessor is responsible to indicate (A) The condition of result of ALU (B) The condition of memory operation 
+transistors 
+Page 2 of4 
+13. The difference between the EPROM and ROM circuitry is 
+(A) Rising edge of the clock 
+(A) The usage of MOSFET'S over (B) The usage of JFET'S over 
+(C) Middle state of the clock 14. The SDRAM performs operation on the 
+(B) Dijkstra's algorithm 
+(A) Generate a transfer signal 
+16. The 
+(D) Booth algorithm 
+(C) The usage of an extra (D) The usage of registers transistors 
+execute 
+(B) 16 bit (D) 4 bit 
+(D) The result of subtraction 
+latency 
+15. What is the purpose of micro instruction executions? 
+18. The DMA controller has 
+processor. 
+(A) 4 (C) 3 
+(B) (D) 
+transistors 
+(C) Generate a control signal to (D) Generate a control signal to 
+Falling edge of the clock Transition state of the clock 
+is the end of instruction execution phase, after which the user gets the final output. (A) Write result (C) Execute 
+(B) Generate a control signal 
+17. Identify the way in which the performance is increased with pipe lining. (A) By decreasing instruction (B) By eliminating data hazards 
+compile 
+(C) By exploiting instruction level (D) By decreasing the cache miss parallelism 
+(B) Read result (D) Commit 
+rate 
+registers. (B) 2 (D) 1 
+1 1 
+1 
+11 6 1 
+1 
+1 
+1 1 2 1 
+1 
+3 2 2 
+1 
+1 
+3 4 1 
+1 5 1 
+1 5 1 
+1 4 1 
+2 3 1 
+11 5 1 
+12DF3/18CSC262J 
+
+[Page 3]
+19. What. (A) Register (C) Tunneling 20. Which of the architecture is power efficient? (A) CISC (C) ISA 21. A process is thrashing if (A) It is spending more time (B) It is spending less time paging paging management than executing executing fault 0ccurs (C) Page infrequently 
+(A) Associative (C) Set associative 
+as 
+Page 3 of 4 
+(A) Miss rate (C) Success rate 
+23. The number of successful accesses to memory stated as a fraction is called 
+22. In which mapping, the data can be mapped anywhere in the cache 1 I5 1 memory? 
+(A) DVD 
+than 
+(C) Worm 
+(B) Pipe lining (D) Parallelism 
+(A) Seek time 
+very (D) Swapping could not take place 
+(C) Arrival rate 
+(B) RISC (D) IANA 
+24. Which of the following is not a type of optical disk 
+(B) Direct (D) Indirect 
+(OR) 
+25. Disk access time does not depends on which of the following factors? 
+(B) Hit rate (D) Access rate 
+(OR) 
+(B) CD (D) Winchester 
+(OR) 
+PART -B (5 x 10=50 Marks) Answer ALL Questions 26. a. Explain in detail about functional units of a computer with neat diagram. 
+(B) Latency (D) Transfer rate 
+b. Illustrate the different types of addressing modes with examples. 27. a. Describe in detail about carry look ahead adder with example. 0. Ilustrate floatingg point addition with flow chart. 23, a. Explain the architecture of 8086 microprocessor in detail. 
+1 
+1 
+1 
+1 
+Marks 
+10 
+10 
+10 
+10 
+2 6 I 
+10 
+14 1 
+2 5 1 
+6 1 
+2 6 1 
+2 6 1 
+BL CO PO 
+1 1 1 
+2 1 I 
+1 2 3 
+2 2 3 
+1 4 1 
+12DF3/18CSC262J 
+t is the basic difference between vector and array processor? 
+
+[Page 4]
+b. Compare asynchronous DRAM and synchronous DRAM. 29. a. Define and describe DMA in detail with arbitration. 
+Page 4 of 4 
+(OR) b. Summarize about RISC processor architecture and its working principle. 30. a. Discuss about the types of replacement algorithms in cache mapping. (OR) b. Examine the concept of address translation in order to provide an effective memory management scheme. 
+10 
+10 
+10 
+3 5 4 
+10 
+1 
+10 1 51 
+5 1 
+2 6 4 
+2 6 1 
+12DF3/18CS C262J 
+
+[Page 5]
+Reg. No. 
+B.Tech. DEGREE EXAMINATION, DECEMBER 2018 Third Semester IT0205 COMPUTER ARCHITECTURE (For the candidates admitted from the academic year 2007-2008 to 2012-2013) Time: Three hours Answer ALL Questions PART -A (10 x 2 = 20 Marks) 1. What is meant by instruction code? 2. What are resisters? Name any two registers in a computer? 3. List any four addressing modes. 4. What are the functionalities of a CPU? 5. Write the floating point representation of the number -12.5 (in 32 bit representation)? 6. Find the 1's and 2's complement of the number (101 10)2. 7. Why do we need a cache memory? 8. What is the use of ROM? 9. What is an interrupt? 10. Write short notes on serial communication. 
+Page 1 of2 
+PART -B (5 x 16 = 80 Marks) 11. a. Discuss the organization of a basic computer with a neat diagram. (OR) b. Discuss various components and functions of a digital computer. 
+07DA3IT0205 
+12. a. Explain instruction formats with suitable examples. 
+b. Write notes on (i) (ii) 13. a. Write the algorithm to multiply two numbers. Illustrate it to multiple 12 by 5. b.i. Add the following numbers 232.25+136.75 using binary addition. (6 Marks) ii. Subtract 16 from 5 using 2's complement. 
+(OR) 
+(i) 
+Register organization Stack organization 
+iii. Perform the following using 1's complement -12+7. 14. a. Write notes on the following (i) 
+Page 2 of2 
+(iii) 
+(OR) 
+() (ii) b. Write explanatory notes on 
+Memory hierarchy Associative memory Virtual memory (OR) Memory management hardware Cache memory 
+(5 Marks) 
+(OR) b. Explain the functionality of DMA. 
+(5 Marks) (5 Marks) (5 Marks) (6 Marks) 
+15. a. Describe various peripheral devices in a computer system. (10 Marks) (6 Marks) 
+07DA3IT0205 
+Max. Marks: 100 
+
+[Page 6]
+Reg. No. 
+B.Tech. DEGREE EXAMINATION, DECEMBER 2018 Third Semester CS0207-COMPUTER ORGANIZATION AND ARCHITECTURE (For the candidates admitted from the academic year 2007-2008 to 2012-2013) Time: Three hours Answer ALL Questions PART-A (10 x 2 = 20 Marks) 1. What are the two ways in which the byte addresses can be assigned across words? 2. Draw the flowchart of basic instruction cycle with interrupt. 3. Represent -307.187510 in double precision format. 4. What is pipelining? 
+Max. Marks: 100 
+5. Namne the two general operations of control transfer. 6. What are controller functions? 7. What is meant by locality of reference? 8. State the differences between memory mapped I/O and I/O mapped IVO. 9. Why I/O devices cannot be directly connected to system bus? 10. What is port? What are the different types of port available? 
+Page 1 of2 
+PART -B (5 x 16 = 80 Marks) 11. a. Explain various addressing modes with example. (OR) 
+08DA3CcS0207 
+b. List the steps needed to execute the machine instruction ADD LoCA, Ro in terms of transfers between the components of registers and memory. Assume that the instruction itself is stored in the memory location INSTR and the address is initially in register PC. 12. a. Multiply each of the following signed two's complement numbers using Booth algorithm (i) A = 010111 and B= 110110 (ii) A =110011 andB = 101100 Where A is multiplicand and B is multiplier. Show each step clearly indicating Booth recoding. b. With example, explain non restoring division technique. 13. a. Draw and explain typical hardwired control unit with state table method. 
+(OR) 
+(OR) b. Explain the various encoding techniques of micro programmed control unit. 
+Page 2 of 2 
+14. a. What is TLB? What is the use of TLB in virtual memory? Explain. b. Discuss in detail optical disks and magnetic tape systems. 
+b. Write short notes on 15. a. With neat diagram, explain bus arbitration. (1) (ii) 
+(OR) 
+(OR) Bus interface Vectored interrupt 
+08DA3CS0207 
+
+[Page 7]
+Reg. No. 
+B.Tech. DEGREE EXAMINATION, JUNE 2018 Third Semester CS0207 -COMPUTER ORGANIZATION AND ARCHITECTURE (For the candidates admitted from the academic year 2007-2008 to 2012-2013) Time: Three hours Max. Marks: 100 Answer ALL Questions PART-A (10 x 2 = 20 Marks) 1. Write the basic functional units of computer. 2. Compare RISC and CISC architecture. 3. State the problems in floating point arithmetic. 4. What is meant by privileged instruction? 5. With a diagram, explain the steps involved in instruction execution cycle. 6. Name the methods of hardwired control logic design. 7. List the functions of TLB. 8. Give the various types of semiconductor memory. 9. Draw the basic structure of serial data format. 
+Pagc 1 of 2 
+10. What is bus arbitration? PART -B (5x 16 = 80 Marks) 11. a. Define addressing mode and explain various addressing modes with examples. (OR) b. With a neat diagram, explain about the functional units of a computer. 
+04JA3CS0207 
+12. a. Explain the steps involved in booth recoding with a neat example. (OR) b. With necessary diagram, explain in detail about two-stage instruction pipeline. 13. a. Explain in detail about hardwired control unit. (OR) b. With an example, list out the concept of microprogrammed control. 14. a. Explain in detail about virtual memory organization with a neat diagram. (OR) b. Brief about various mapping functions of cache memory in detail. 
+Page 2 ofr2 
+15. a. Elaborate on data transfer techniques. (OR) b. Explain DMA with a neat diagram. 
+04JA3CS0207 
+
+[Page 8]
+Reg. No. 
+B.Tech. DEGREE EXAMINATION, DECEMBER 2018 Third Semester ITO205  COMPUTER ARCHITECTURE (For the candidates admitted from the academic year 2007-2008 to 2012-2013) Time: Three hours Max. Marks: 100 Answer ALL Questions PART  A (10 x 2 =20 Marks) 1. What is meant by instruction code? 2. What are resisters? Name any two registers in a computer? 3. List any four addressing modes. 4. What are the functionalities of a CPU? 5. Write the floating point representation of the number -12.5 (in 32 bit representation)? 6. Find the 1's and 2's complement of the number (10110)2. 7. Why do we need a cache memory? 8. What is the use of ROM? 9. What is an interrupt? 10. Write short notes on serial communication. 
+Page 1 of2 
+PART -B (5 x 16= 80 Marks) 11. a. Discuss the organization of a basic computer with a neat diagram. (OR) b. Discuss various components and functions of a digital computer. 
+07DA3IT0205 
+12. a. Explain instruction formats with suitable examples. 
+b. Write notes on (i) (i) 13. a. Write the algorithm to multiply two numbers. Illustrate it to multiple 12 by 5. b.i. Add the following numbers 232.25+136.75 using binary addition. (6 Marks) i. Subtract 16 from 5 using 2's complement. 
+(OR) 
+(i) 
+Page 2 of2 
+Register organization Stack organization 
+ii. Perform the following using l's complement -12+7. 14. a. Write notes on the following (i) (ii) 
+(OR) 
+(i) (i) b. Write explanatory notes on 
+Memory hierarchy Associative memory Virtual memory (OR) Memory management hardware Cache memory 
+(5 Marks) 
+(OR) b. Explain the functionality of DMA. 
+(5 Marks) 
+(5 Marks) (5 Marks) 
+15. a. Describe various peripheral devices in a computer system. 
+(6 Marks) 
+(10 Marks) (6 Marks) 
+07DA3IT0205 
+
+[Page 9]
+Note: 
+(i) 
+2. 
+Time: Three HourS 
+18CSC203J  COMPUTER ORGANIZATION AND ARCHITECTURE (For the candidates admitted during the academic year 2018-2019 onwards) 
+B.Tech. DEGREE EXAMINATION, NOVEMBER 2019 Third Semester 
+Part -A should be answered in OMR sheet within first 45 minutes and OMR sheet should be handed over to hall invigilator at the end of 45th minute. Part -B and Part -C should be answered in answer booklet. 
+1. The instruction ’ Add LOCA, Ro 
+7. 
+Reg. No. 
+Page 1 of3 
+(A) Adds the value of LOCA to Ro and (B) Adds the value of Ro to the address of stores in the temp register 
+(C) Floppy disk 
+PART -A (20 x 1 = 20 Marks) Answer ALL Questions 
+(C) Adds the value of both LOCA and (D) Adds the value of LOCA with a value in Ro and stores it in Ro 
+3. Which memory device is generally made of semiconductors? (A) RAM 
+(A) Register 
+is used to choose between incrementing the PC (or) performing ALU operations. (A) Conditional codes (C) Control unit 
+(C) Immediate 5. Perform binary addition of 1 10H 0010 is (A) 1110 (C) 0111 
+4. The instruction MOV AX, # 0005H belongs to the addressing mode 
+6. Booth's algorithm is applied on (A) Decimal numbers 
+LOCA 
+(C) Hexadecimal numbers 
+(C) Sign magnitude 8. The sign magnitude representation of-9 is (A) 00001001 (C) 10001001 
+accumulator and stores it in Ro 
+(B) Multiplexer (D) Demultiplexer 
+(B) Hard disk (D) CD 
+(B) Direct (D) Register relative 
+(B) 1111 
+Max. Marks: 100 
+(D) 11101 
+is a straight forward method of representing positive and negative number. (A) Radix 
+(B) Binary numbers (D) Octal numbers 
+(B) Complement (D) Encode 
+(B) 11111001 (D) 11001 
+18NA3/ 18CS C203J 
+
+[Page 10]
+9. The pipelining process is also called as (A) Superscalar operation (C) Von Neumann cycle 10. The situation where in the data of operands are not available is called (A) Data hazard (C) Dead lock 11. A word whose individual bits represent a control signal is (A) Command word (C) Co-ordination word 
+19. 
+Page 2 of3 
+(C) 3 12. Each stage in pipelining should be completed within (A) 1 
+(A) Input dependence 
+14. SIMD represents an organization that (C) Ideal pipeline 
+of processing several programs at same time 
+15. Von Neumann architecture is 
+13. When instruction i and instruction ;' tends to write in same register (or) memory location, it is called 
+(B) Assembly line operation (D) Harvard cycle 
+(A) SISD (C) MIMD 
+(B) Stock (D) Structural hazard 
+(A) Multiple processor (C) Dual core 
+(B) Control word (D) Generation word 
+(C) Includes many processing units (D) under the supervision, of a common control unit 
+(A) Hash function 
+(A) Refers to a computer system capable (B) Represents organization of single computer containing a control unit, processor unit 
+(C) Locale function 
+(B) 2 (D) 4 
+(B) (D) 
+16. Multithreading allows multiple-threads for sharing functional units of a 
+Output dependence Digital call 
+cycle. 
+Refers to a system capable of processing single program at a same time 
+(B) SIMD (D) MISD 
+17. The correspondence between the main memory blocks and those in that cache is given by (B) Single processor (D) Core i5 
+18. The temporal aspect of the locality of reference means (A) That the recently executed (B) instruction won't be executed soon (C) That the recently executed (D) instruction will be executed soon again 
+(B) Mapping function (D) Assign function That the recently executed instruction is temporarily not referred That recently executed instruction will never be executed again is used to implement virtual memory organization (A) Page table (C) MMU (B) Frame table (D) Page table register 
+18NA3/ 18CSC203J 
+
+[Page 11]
+20. translates the logical address into a physical address. (B) Translator (D) Linker (A) MMU (C) Computer PART -B (5 x 4 = 20 Marks) Answer ANY FIVE Questions 21. Draw and explain the connections between the processor and memory. 22. Define byte addressability and what are the two ways the byte address can be assigned across words? 23. Write down the steps for non-restoring division. 24. What is a pipeline hazard? Mention its types and define each type of hazards. 25. Write down the control sequence for MOVE (RI), Ra. 26. Specify the types of parallelism in software and hardware. 27. List and explain any four types of ROM. PART -C(5x 12 = 60 Marks) Answer ALL Questions 28. a. List and explain various addressing modes, with its formats and example. (OR) b. Represent the arithmetic statement F = (4-B)/ (C+ D*E) in various instruction formats. 29. a. Write booth's algorithm, perform Booth multiplication of-23x-19. (OR) b. Write restoring division algorithm. Perform restoring division of 10/3. 
+Page 3 of 3 
+30. a. List and explain the steps involved in the execution of complete instruction. (OR) b. Describe the generation of control signals using hardwires control unit, with necessary diagrams. 31. a. Explain Flynn's classification and the four architectures in detail. (OR) b.i. Elaborate on software parallelism and its types. ii. Brief about the hardware multithreading. 32. a. Discuss on various mapping schemes used in cache design. (OR) b. Explain how virtual memory address translation method works based on the concept of fixed length pages? Discuss with a diagram. 
+18NA3/ 18CSC203J

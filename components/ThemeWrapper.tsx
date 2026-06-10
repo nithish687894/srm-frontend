@@ -32,7 +32,13 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
         active = theme === "light" ? "light" : "lumina";
       }
       setResolvedTheme(active);
-      document.body.className = `theme-${active}`;
+      // Remove any existing theme- classes and add the new one, preserving splash-active
+      const classesToRemove: string[] = [];
+      document.body.classList.forEach((cls) => {
+        if (cls.startsWith("theme-")) classesToRemove.push(cls);
+      });
+      classesToRemove.forEach((cls) => document.body.classList.remove(cls));
+      document.body.classList.add(`theme-${active}`);
       document.body.style.background = active === "light" ? "var(--app-bg)" : "#050508";
     };
 
@@ -51,7 +57,7 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
       <style dangerouslySetInnerHTML={{ __html: `
         body { background: ${resolvedTheme === "light" ? "var(--app-bg)" : "#050508"}; margin: 0; padding: 0; }
         .theme-lumina { --bg: #050508; --text-primary: #ffffff; --accent: #FF75C3; --accent-secondary: #8F92FF; --accent-purple: #BF5AF2; --accent-cyan: #00E5FF; }
-        .theme-light { --bg: #f7f5ff; --text-primary: #15111d; --accent: #BF5AF2; --accent-secondary: #6366f1; --accent-purple: #8b5cf6; --accent-cyan: #06b6d4; }
+        .theme-light { --bg: #f4f0ff; --text-primary: #1b1428; --accent: #BF5AF2; --accent-secondary: #6366f1; --accent-purple: #8b5cf6; --accent-cyan: #06b6d4; }
       `}} />
       
       <div 

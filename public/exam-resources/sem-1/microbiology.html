@@ -1,0 +1,1264 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Microbiology - Sem 1 - SRM Nexus</title>
+  <style>
+    @page { margin: 18mm 14mm; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: #14121f;
+      background: #f7f7fb;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.58;
+    }
+    body::before {
+      content: "srmnexus.app";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      display: grid;
+      place-items: center;
+      color: rgba(191, 90, 242, 0.12);
+      font-size: clamp(42px, 10vw, 110px);
+      font-weight: 900;
+      transform: rotate(-28deg);
+      pointer-events: none;
+      letter-spacing: 0;
+    }
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 28px 20px 42px;
+      background:
+        linear-gradient(rgba(255,255,255,0.92), rgba(255,255,255,0.92)),
+        repeating-linear-gradient(-28deg, transparent 0 120px, rgba(191,90,242,0.045) 120px 122px);
+    }
+    header {
+      border-bottom: 1px solid rgba(20,20,40,0.12);
+      padding-bottom: 18px;
+      margin-bottom: 22px;
+    }
+    .brand {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: #6f6781;
+      font-size: 12px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 10px 0 0;
+      font-size: 30px;
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .pill {
+      border: 1px solid rgba(20,20,40,0.12);
+      border-radius: 999px;
+      padding: 7px 10px;
+      color: #574d68;
+      background: rgba(255,255,255,0.72);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin: 0;
+      font: 13.5px/1.62 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      color: #15131f;
+    }
+    footer {
+      margin-top: 28px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(20,20,40,0.12);
+      color: #6f6781;
+      font-size: 12px;
+      font-weight: 750;
+    }
+    @media print {
+      body { background: white; }
+      .page { padding: 0; max-width: none; background: white; }
+      body::before { color: rgba(191, 90, 242, 0.10); }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div class="brand">
+        <span>SRM Nexus Exam Resource</span>
+        <span>srmnexus.app</span>
+      </div>
+      <h1>Microbiology</h1>
+      <div class="meta">
+        <span class="pill">Sem 1</span>
+        <span class="pill">Watermarked study resource</span>
+        <span class="pill">Generated from local SRM dataset</span>
+      </div>
+    </header>
+    <pre>===== SOURCE_FILE: nexus sem/Microbiology/Notes/Chapter 4- Basics Of Biosensors And Molecular Motors.pdf =====
+CATEGORY: Notes
+STATUS: ok
+
+[Page 1]
+BASICS OF BIOSENSORS AND 
+MOLECULAR MOTORS
+Unit 4
+ Biosensors
+ Types of Biosensors
+ Components of biosensors
+ Medical applications of biosensors
+ Linear motors: actin and myosin
+ Rotatory motors: flagella motor and ATPase
+
+[Page 2]
+What is a Biosensor?
+
+[Page 3]
+“Biosensor” – Any device that uses specific biochemical 
+reactions to detect chemical compounds in biological samples.
+238 aa
+
+[Page 4]
+• 1916 First report on immobilization of
+proteins : adsorption of invertase on activated
+charcoal
+• 1922 First glass pH electrode
+• 1956 Clark published his definitive paper on
+the oxygen electrode.
+• 1962 First description of a biosensor: an
+amperometric enzyme electrodre for glucose
+(Clark)
+• 1969 Guilbault and Montalvo –First
+potentiometric biosensor:urease immobilized
+on an ammonia electrode to detect urea
+History of Biosensors
+
+[Page 5]
+• 1987 Blood-glucose biosensor launched by
+MediSense ExacTech
+• 1990 SPR based biosensor by Pharmacia
+BIACore
+• 1992 Hand held blood biosensor by i-STAT
+• 1996 Launching of Glucocard
+• 1998 Blood glucose biosensor launch by LifeScan
+FastTake
+• 1998 Roche Diagnostics by Merger of Roche and
+Boehringer mannheim
+• Current Quantom dots, nanoparicles, nanowire,
+nanotube, etc
+History of Biosensors
+
+[Page 6]
+• 1970 Bergveld –ion selective Field Effect Transistor (ISFET)
+• 1975 Lubbers and Opitz described a fibre-optic sensor with
+immobilised indicator to measure carbon dioxide or oxygen.
+• 1975 First commercial biosensor ( Yellow springs
+Instruments glucose biosensor)
+• 1975 First microbe based biosensor, First immunosensor
+• 1976 First bedside artificial pancreas (Miles)
+• 1980 First fibre optic pH sensor for in vivo blood gases
+(Peterson)
+• 1982 First fibre optic-based biosensor for glucose
+• 1983 First surface plasmon resonance (SPR)
+immunosensor
+• 1984 First mediated amperometric biosensor:
+ferrocene used with glucose oxidase for glucose detection
+History of Biosensors
+
+[Page 7]
+Current Definition
+A sensor that integrates a biological element with a physiochemical
+transducer to produce an electronic signal proportional to a single analyte
+which is then conveyed to a detector.
+
+
+[Page 8]
+1. LINEARITY Linearity of the sensor should be high 
+forthe detection of high substrate 
+concentration.
+2. SENSITIVITY Value of the electrode response per 
+substrate concentration.
+3. SELECTIVITY Chemicals Interference must be 
+minimised for obtaining the correct 
+result.
+4.RESPONSE TIME Time necessary for having 95%
+of the response.
+Basic Characteristics of a 
+Biosensor
+
+[Page 9]
+1. The Analyte A substance of interest that needs detection. For instance, glucose is
+an ‘analyte’ in a biosensor designed to detect glucose
+Protein, toxin, peptide, vitamin, sugar, metal ion.
+2. Sample handling Micro fluidics - Concentration increase/decrease,
+Filtration/selection
+Components of Biosensor
+3. Bioreceptor A molecule that specifically recognises the analyte is known as a
+bioreceptor. Enzymes, cells, aptamers, deoxyribonucleic acid (DNA) and antibodies
+are some examples of bioreceptors. The process of signal generation (in the form of
+light, heat, pH, charge or mass change, etc.) upon interaction of the bioreceptor with
+the analyte is termed bio-recognition.
+4. Transducer The transducer is an element that converts one form of energy into
+another. In a biosensor the role of the transducer is to convert the bio-recognition
+event into a measurable signal. Most transducers produce either optical or electrical
+signals that are usually proportional to the amount of analyte–bioreceptor interactions.
+5. Detection/Recognition How do you specifically recognize the analyte?
+6. Signal (How do you know there was a detection)
+
+[Page 10]
+Components of a Biosensor
+Detector
+
+
+[Page 11]
+Example of biosensors
+Pregnancy test
+Detects the hCG protein in 
+urine. 
+Glucose monitoring device (for diabetes patients)
+Monitors the glucose level in the blood. 
+
+
+[Page 13]
+Example of biosensors
+Infectious disease 
+biosensor from RBS
+Old time coal miners’ 
+biosensor
+
+[Page 14]
+Research Biosensors
+Biacore Biosensor platform
+
+[Page 15]
+✔Fluorescence
+✔DNA Microarray
+✔SPR Surface plasmon resonance
+✔Impedance spectroscopy
+✔SPM (Scanning probe microscopy, AFM,
+STM)
+✔QCM (Quartz crystal microbalance)
+✔SERS (Surface Enhanced Raman Spectroscopy)
+✔Electrochemical
+Typical Sensing Techniques
+for Biosensors
+
+[Page 16]
+Types of Biosensors
+1. Calorimetric Biosensor
+2. Potentiometric Biosensor
+3. Amperometric Biosensor
+4. Optical Biosensor
+5. Piezo-electric Biosensor
+
+[Page 17]
+Calorimetric Biosensors
+If the enzyme catalyzed reaction is exothermic, 
+two thermistors may be used to 
+measure the difference in resistance
+between reactant and product and, hence,
+the analyte concentration. 
+
+[Page 18]
+Potentiometric Biosensor
+– For voltage: Change in distribution of charge 
+is detected using ion-selective electrodes, such 
+as pH-meters. 
+
+[Page 19]
+Piezo-Electric Biosensors
+The change in frequency is proportional to 
+the mass of absorbed material.
+Piezo-electric devices use gold to detect the specific
+angle at which electron waves are emitted when the
+substance is exposed to laser light or crystals, such as
+quartz, which vibrate under the influence of an electric
+field.
+
+[Page 20]
+Electrochemical Biosensors
+• For applied current: Movement of e- in redox 
+reactions detected when a potential is applied 
+between two electrodes.
+
+[Page 21]
+Optical Biosensors
+•Colorimetric for color
+Measure change in light adsorption 
+•Photometric for light intensity
+Photon output for a luminescent or 
+fluorescent process can be detected with 
+photomultiplier tubes or photodiode 
+systems.
+
+[Page 22]
+Motivated by the application to clinical diagnosis and 
+genome mutation detection
+Types DNA Biosensors
+• Electrodes
+• Chips
+• Crystals
+DNA biosensor
+
+[Page 23]
+Electrochemical DNA Biosensor
+▪ Steps involved in electrochemical 
+DNA hybridization biosensors:
+▪ Formation of the DNA recognition layer
+▪ Actual hybridization event
+▪ Transformation of the hybridization event 
+into an electrical signal
+
+[Page 24]
+Wearable Biosensors
+Ring Sensor
+Smart Shirt
+
+[Page 25]
+Biosensors on the Nanoscale
+❑ Molecular sheaths around the nanotube are developed
+that respond to a particular chemical and modulate the
+nanotube's optical properties.
+❑ A layer of olfactory proteins on a nanoelectrode react
+with low-concentration odorants (SPOT-NOSED Project).
+Doctors can use to diagnose diseases at earlier stages.
+❑ Nanosphere lithography (NSL) derived triangular Ag
+nanoparticles are used to detect streptavidin down to
+one picomolar concentrations.
+❑The School of Biomedical Engineering has developed an
+anti- body based piezoelectric nanobiosensor to be used
+for anthrax,HIV hepatitis detection.
+
+[Page 26]
+❖ Food Analysis
+❖ Study of biomolecules and their interaction
+❖ Drug Development
+❖ Crime detection
+❖ Medical diagnosis (both clinical and laboratory use)
+❖ Environmental field monitoring
+❖ Quality control
+❖ Industrial Process Control
+❖ Detection systems for biological warfare agents
+❖ Manufacturing of pharmaceuticals and replacement 
+organs
+Application of Biosensor
+
+[Page 27]
+Potential Applications
+• Clinical diagnostics
+• Food and agricultural processes
+• Environmental (air, soil, and water) monitoring
+• Detection of warfare agents.
+
+
+[Page 28]
+• Biosensors play a part in the field
+of environmental quality, medicine 
+and industry mainly by identifying 
+material and the degree of 
+concentration present
+
+[Page 29]
+▪Molecular Machines/Motors 
+▪Properties of ATP-based Protein Molecular 
+Machines 
+▪The F0F1-ATP Synthase Motors 
+▪Coupling and Coordination of Motors 
+▪The Bacterial Flagellar Motor 
+▪Flagellar motor structure
+
+[Page 30]
+Molecular Machines/Motors
+• Molecular machines can be defined as devices that 
+can produce useful work through the interaction of 
+individual molecules at the molecular scale of length.
+• A convenient unit of measurement at the molecular 
+scale would be a nanometer. Hence, molecular 
+machines also fall into the category of nanomachines.
+• As our knowledge and understanding of these 
+numerous machines continues to increase, we now 
+see a possibility of using the natural machines, or 
+creating synthetic ones from scratch, by mimicking 
+nature.
+
+[Page 31]
+Different types of molecular machines. These machines used by nature 
+for force generation and motion. They convert chemical energy into 
+mechanical force via conformational changes.
+
+
+[Page 32]
+• Most of the natural machinery is built from 
+proteins. 
+• These findings help unravel the mysteries 
+associated with the molecular machinery and 
+pave the way for the production and 
+application of these miniature machines in 
+various fields, including medicine, space 
+exploration, electronics and military. 
+• We divide the molecular machines into three 
+broad categories—protein based, DNA-
+based, and chemical molecular motors.
+
+[Page 33]
+Properties of ATP-based Protein Molecular Machines
+• Two form the F0F1-ATP synthase, and the third one is the 
+bacterial flagellar motor.
+• The protein-based molecular motors rely on an energy-rich 
+molecule known as adenosine triphosphate (ATP), 
+• The machines described in this section, the F0F1-ATPase, the 
+kinesin, myosin, and dynein superfamily of protein molecular 
+machines, and bacteria flagellar motors all depend, directly or 
+indirectly, on ATP for their input energy. 
+• These machines have now been segregated out of their natural 
+environment and are seen as energy conversion devices to 
+obtain forces, torques, and motion. 
+• One disadvantage associated with ATP dependence is that the 
+ATP creation machinery itself could be many times heavier 
+and bulkier than the motors, thereby making it more complex. 
+• These machines perform best in their natural environment, 
+and in the near future it may be possible to have them as a part 
+of biomimetic molecular machinery.
+
+[Page 34]
+The F0F1-ATP Synthase Motors
+• ATP is regarded as the energy currency of biological 
+systems. 
+• When this currency is utilized (i.e., the energy of the 
+molecule that is used to drive a biological process), 
+the terminal anhydride bond in the ATP molecule has 
+to be split. This leaves adenosine diphosphate (ADP) 
+and a phosphate ion (Pi) as the products, which are 
+recombined to form ATP by a super efficient enzyme 
+motor assembly called the F0F1-ATP synthase 
+(F0F1-ATPase). 
+• ATP synthase is present inside the mitochondria of 
+animal cells, in plant chloroplasts, in bacteria, and 
+some other organisms. 
+
+[Page 35]
+• ATP synthase consists of two portions: a membrane-
+spanning portion, Fo, comprising the ion channel, and 
+a soluble portion, F1, containing three catalytic sites. 
+• Both Fo and F1 are reversible rotary motors ---
+perhaps the smallest motors known to science. Fo 
+uses the transmembrane electrochemical gradient to 
+generate a rotary torque to drive ATP synthesis in F1 
+or, when driven backwards by the torque generated in 
+F1, to pump ions uphill against their transmembrane 
+electrochemical gradient. 
+• F1 generates a rotary torque by hydrolyzing ATP at 
+its three catalytic sites or, when turned backwards by 
+the torque generated in Fo, as a synthesizer of ATP.
+
+[Page 37]
+The F0F1-ATPase motors. The F0 motor is embedded in the inner mitochondrial 
+membrane of the mitochondria. F0 is typically composed of a, b, and c subunits as 
+shown. The F1 motor is the soluble region composed of three α-, three β-, one each 
+of γ -, δ- and ε-subunits.
+
+
+[Page 38]
+Coupling and Coordination of Motors
+• The ATP synthase is actually a combination of two motors 
+functioning together, the hydrophobic transmembrane F0-
+ATPase motor and the globular F1-ATPase motor 
+The F0F1-ATPase contains two rotary motors: the membrane –bound 
+F0, driven by the flux of ions across a membrane, and the soluble F1, 
+driven by ATP hydrolysis. These two motors are coupled by sharing 
+a common motor, drawn in white, and a common stator, drawn dark. 
+The figure shows the F0F1-ATPase operating as an ATP-synthase. 
+Rotation of F0 driven by ion flux drives F1 in reverse, causing it to 
+synthesize ATP from ADP and inorganic phosphate. 
+
+[Page 39]
+The Bacterial Flagellar Motor
+• A flagellum (plural: flagella) is a 
+long, slender projection from 
+the cell body, composed of 
+microtubules and surrounded 
+by the plasma membrane. 
+• In small, single-cell organisms 
+they may function to propel the 
+cell by beating in a whip-like 
+motion; in larger animals, they 
+often serve to move fluids along 
+mucous membranes such as the 
+lining of the trachea.
+• The bacterial flagellar motor is 
+a nanotechnological marvel, no 
+more than 50 nm in diameter, 
+built from about 20 different 
+kinds of parts. 
+Examples of bacterial flagella 
+arrangement schemes. A-
+Monotrichous; B-Lophotrichous; 
+C-Amphitrichous; D-Peritrichous 
+
+[Page 40]
+• It spins clockwise (CW) or 
+counterclockwise (CCW) at speeds on 
+the order of 100 Hz, driving long thin 
+helical filaments that enable cells to 
+swim. 
+• Peritrichously flagellated cells (peri, 
+around; trichos, hair), such as 
+Escherichia coli, execute a random 
+search, moving steadily at about 30 
+diameters per second, now in one 
+direction, now in another. 
+• Steady motion requires CCW 
+rotation. Receptors near the surface 
+of the cell count molecules of interest 
+(sugars, amino acids, dipeptides) and 
+control the direction of flagellar 
+rotation. 
+• If a leg of the search is deemed 
+favorable, it is extended, i.e., the 
+motors spin CCW longer than they 
+otherwise would. This bias enables 
+cells to actively find regions in their 
+environment where life is better. 
+
+
+[Page 41]
+• Thus, the flagellar motor is the output organelle of a 
+remarkable sensory system, the components of which have 
+been honed to perfection by billions of years of evolution.
+• A number of bacterial species in addition to E. coli depend 
+on flagella motors for motility: e.g., Salmonella enterica 
+serovar, Typhimurium (Salmonella), Streptococcus, Vibrio 
+spp., Caulobacter, Leptospira, Aquaspirrilum serpens, and 
+Bacillus. 
+• The rotation of flagella motors is stimulated by a flow of 
+ions through them, which is a result of a build-up of a 
+transmembrane ion gradient. There is no direct ATP-
+involvement; however, the proton gradient needed for the 
+functioning of flagella motors can be produced by ATPase.
+
+[Page 42]
+Flagellar motor structure
+• Bacterial flagella are the only biological structures known that use rotation for 
+the purpose of locomotion. 
+• Flagella consist of a rotary motor embedded in the cell envelope connected to 
+an extracellular helical propeller. The motor is powered by the flow of ions 
+down an electrochemical gradient across the cytoplasmic membrane into the 
+cell. 
+• The ions are typically H+ (protons), although certain marine and alkalophilic 
+species have motors driven by Na+. 
+• The electrochemical gradient (protonmotive force or sodium motive force) 
+consists of a transmembrane voltage and a concentration difference across the 
+membrane, both of which are maintained by various metabolic processes. 
+• The rotor shown in white (Figure 5), consists of a series of rings spanning the 
+cell envelope and is attached via the flexible hook to the helical propeller or 
+filament. The stator is a ring of particles in the cytoplasmic membrane, 
+containing the proteins MotA and MotB, and anchored to the peptidoglycan 
+cell
+
+[Page 43]
+The bacterial flagellar motor. The rotor, drawn in white, consists of a series of rings that span 
+the cell envelope and are attaches to the extracellular hook and filament. The stator consists 
+of a ring of torque-generating units containing the proteins MotA and MotB and anchored to 
+the cell wall. Ions flowing through the motor generate torque by means of unknown 
+interactions between the rotor and stator in the vicinity of the C-ring. The F0F1-ATPase is 
+also shown, to the same scale.
+
+
+[Page 44]
+The fuel/air intake system red, the electrical 
+system green, and the exhaust system blue
+
+[Page 45]
+Cytoskeleton: Microtubules, Microfilaments, 
+and Intermediate filaments
+• Cytoskeleton gives the cell shape, 
+structure, and physical 
+organization
+• Motor proteins can rearrange the 
+structural elements, or move cell 
+components around the 
+cytoskeleton.
+• The cytoskeleton is in constant state 
+of change depending on the 
+requirements of the cell.
+• 3 major structural elements of the 
+cytoskeleton
+• Microtubules - hollow, rigid 
+cylindrical tubes made from 
+tubulin subunits
+• Microfilaments - solid, thinner 
+structures made of actin
+• Intermediate filaments - tough, 
+ropelike fibers made of a variety of 
+related proteins
+Mitochondrion
+Plasma membrane
+Ribosomes
+Rough 
+Endoplasmic
+reticulum
+
+[Page 46]
+The Myosin Linear Motor
+• Myosin is a diverse superfamily of motor proteins. 
+• Myosin-based molecular machines transport cargoes along actin 
+filaments, the two-stranded helical polymers of the protein actin 
+that are about 5–9 nm in diameter. They do this by hydrolyzing 
+ATP and utilizing the released energy. 
+• In addition to transport, they are also involved in the process of 
+force generation during muscle contraction, wherein thin actin 
+filaments and thick myosin filaments slide past each other. 
+• Myosin molecules were first seen (in the late 1950s) through 
+electron microscope protruding out from thick filaments and 
+interacting with the thin actin filaments. Since that time, ATP 
+has been known to play a role in myosin-related muscle 
+movement along actin; however, the exact mechanism was 
+unknown, until it was explained in 1971.
+
+[Page 47]
+Myosin cross-bridge model of contraction. Myosin uses the 
+energy released from ATP hydrolysis to move along actin. 
+
+
+[Page 48]
+The Kinesin Linear Motor 
+• The kinesin and dynein families of proteins are involved in cellular 
+cargo transport along microtubules, in contrast to myosin, which 
+transports along actin. 
+• Microtubules are 25-nm diameter tubes made of protein tubulin and 
+are present in the cells in an organized manner. 
+• Microtubules have polarity; one end being the plus (fast-growing) end 
+while the other end is the minus (slow-growing) end. 
+• Kinesins move from the minus end to the plus end of the microtubule, 
+whereas dyneins move from the plus end to the minus end. 
+• Microtubule arrangement varies in different cell systems. In nerve 
+axons, they are arranged longitudinally such that their plus ends point 
+away from the cell body and into the axon. 
+• In epithelial cells, their plus ends point toward the basement 
+membrane. 
+• They extend radially out of the cell center in fibroblasts and 
+macrophages with the plus end protruding outward. 
+• Similar to myosin, kinesin is also an ATP-driven motor. 
+• One unique characteristic of the kinesin family proteins is their 
+processivity; they bind to microtubules and literally walk on it for 
+many enzymatic cycles before detaching.
+
+[Page 50]
+The Dynein Motor
+• The dynein superfamily of proteins was discovered in 1965.
+• Dyneins exist in two isoforms: cytoplasmic and axonemal. 
+• Cytoplasmic dyneins are involved in cargo movement, 
+whereas axonemal dyneins are involved in producing 
+bending motions of cilia and flagella.
+• Because dynein is a larger and more complex structure 
+than other motor proteins, its mode of operation is not as 
+well known. However, electron microscopy and image 
+processing was used to show the structure of a flagellar 
+dynein at the start and end of its power stroke, which gives 
+some insight into its possible mode of force generation.
+
+[Page 51]
+Cilia and flagella have a core axoneme, a complex of microtubules 
+and associated proteins.
+
+
+===== SOURCE_FILE: nexus sem/Microbiology/Notes/Chapter 5- Basics Of Biomaterials And Its Applications.pdf =====
+CATEGORY: Notes
+STATUS: ok
+
+[Page 1]
+Metals
+Semiconductor 
+Materials
+Ceramics
+Polymers
+Synthetic 
+BIOMATERIALS
+Orthopedic 
+screws/fixation
+Dental Implants Dental Implants
+Heart 
+valves
+Bone 
+replacements
+Biosensors
+Implantable 
+Microelectrodes
+Skin/cartilageDrug Delivery 
+Devices Ocular 
+implants
+
+[Page 2]
+Biomaterial Science
+
+
+[Page 3]
+Bileaflet Heart Valves
+
+[Page 4]
+Dental Implants
+
+[Page 5]
+Intraocular Lenses
+
+ Implantation often performed on 
+outpatient basis.
+
+
+[Page 6]
+Vascular Grafts
+
+ Must Be Flexible.
+
+ Designed With Open 
+Porous Structure.
+
+ Often Recognized By 
+Body As Foreign.
+
+
+[Page 7]
+Hip
+-
+Replacements
+
+
+[Page 8]
+Normal versus Arthritic Hip
+Normal Hip: note the space 
+between the femur and 
+acetabulum, due to cartilage
+Arthritic Hip: No space 
+visible in joint, as 
+cartilage is missing
+
+[Page 9]
+using a Polymethylmethacrylate 
+(PMMA) cement to adhere the 
+metal to the bone
+using a porous metal 
+surface to create a bone 
+ingrowth interface
+Two attachment methods
+
+[Page 10]
+the acetabulum and the proximal 
+femur have been replaced. The 
+femoral side is completely metal. 
+The acetabular side is composed 
+of the polyethylene bearing 
+surface 
+Overview of femoral 
+replacement
+
+
+[Page 11]
+The two materials are 
+bonded and equal force is 
+applied to both
+Load transfer in Composite materials
+
+
+[Page 12]
+Comparison: Moduli of Elasticity
+Modulus of elasticity of different implant materials and bone (in GPa) 
+
+
+[Page 13]
+Implant bonding
+A bonded interface is 
+characteristic of a 
+cemented prosthesis 
+(left)
+non-bonded interface is 
+characteristic of a non-
+cemented press fit 
+prosthesis (right)
+
+[Page 14]
+Degradation Problems
+Example of fractured 
+artificial cartilage from 
+a failed hip 
+replacement
+
+
+[Page 15]
+82
+b4082 An Introduction to Biomaterials Science and Engineering 9”x6”
+Chapter 4
+Biomaterials: Basic principles
+4.1 Introduction
+Human tissues and organs sometimes fail to perform their regular actions 
+due to genetic defects, age, illness, trauma, degeneration, or injuries. 
+Some of these conditions are handled with the use of day-to-day medica -
+tion, i.e., drugs. However, some cannot be repaired/rectified by providing 
+medicines and require the use of unique materials and devices. These then 
+bring about the inevitability of surgical repair, which encompasses ana -
+tomical sections such as knee joints, elbow joints, vertebrae, teeth, and 
+other crucial organs such as heart, skin, kidney, etc. In the broadest sense, 
+the unique materials (other than drugs) or combinations of materials that 
+are primarily expected to be used inside a mammal or human to treat, 
+repair, augment or replace any tissue is referred to as biomaterials. These 
+biomaterials can either be formed from nature or physically manufactured 
+by utilizing a wide range of physical and chemical methods. 
+The field of biomaterials is multidisciplinary (Figure 4.1). The design 
+of a simple biomaterial (for example, a bone screw or bone plate) neces -
+sitates knowledge and ideas from multiple disciplines. It needs the syner -
+gistic integration of materials, biology, medicine, mechanical sciences, 
+and chemistry. The number of medical devices used annually by humans 
+is significant, estimated at 1.5 million by the World Health Organization, 
+with around 10,000 forms of standardized device classes available 
+worldwide. 
+The term “biomaterials” is often described as any material that comes 
+into contact with humans or animals to fulfil their intended function without 
+causing any toxic reaction. This is the single most crucial aspect that dif -
+ferentiates a biomaterial from any other material, i.e., its capacity to be in 
+b4082_Ch-04.indd 82 25-02-2021 9.48.10 AM
+ An Introduction to Biomaterials Science and Engineering Downloaded from www.worldscientific.com
+by 157.51.54.142 on 04/26/23. Re-use and distribution is strictly not permitted, except for Open Access articles.
+
+
+[Page 16]
+b4082 An Introduction to Biomaterials Science and Engineering9”x6” 
+Biomaterials: Basic principles 83
+contact with human body tissues without instigating an undesirable degree 
+of response. For thousands of years, humans have inevitably used or at least 
+attempted to use materials to make devices and instruments of practical 
+value by converting basic available substances into materials. Biomaterials 
+have a long history of medical use, and at various times they were seen in a 
+different way. Based on the development and its uses, the broad definition 
+has evolved over the years and could be further expanded as new applica-
+tions in medicine emerge. Nevertheless, the meaning of biomaterials 
+attained a harmony of opinion by scientists worldwide and is now defined 
+now as “a material designed to take a form that can direct, through interac-
+tions with living systems, the course of any therapeutic or diagnostic proce-
+dure.” In most cases, a biomaterial is any natural or synthetic biocompatible 
+material that is used to replace or assist part of an organ or a tissue while 
+maintaining close contact with living tissue. They may be produced from 
+Figure 4.1: Interdisciplinary system of biomaterials (Cooke et al., 1996; Marin et al., 
+2020; Ramakrishna et al., 2010; Ratner, 1996).
+b4082_Ch-04.indd 83 25-02-2021 9.48.11 AM
+ An Introduction to Biomaterials Science and Engineering Downloaded from www.worldscientific.com
+by 157.51.54.142 on 04/26/23. Re-use and distribution is strictly not permitted, except for Open Access articles.
+
+
+[Page 17]
+b4082 An Introduction to Biomaterials Science and Engineering 9”x6”
+84 An Introduction to Biomaterials Science and Engineering
+materials including solid, liquid, and gel substances (metallic components, 
+polymers, ceramics or composite materials). It should be noted that the bio 
+prefix of biomaterials applies to biocompatible, rather than biological or 
+biomedical, as many would intuitively assume. 
+Biomaterials, a fascinating and highly interdisciplinary area, have 
+grown to become an integral component in the modern-day improvement 
+of human condition and quality of life. It is accomplished by addressing 
+numerous health-related issues that come from several sources. Over the 
+past few decades, biomaterials have broadened their applications from 
+diagnostics (gene arrays and biosensors) and medical equipment (blood 
+bags, surgical tools) to therapeutic medications (medical implants and 
+devices) and emerging regenerative drugs (tissue-engineered skin and car-
+tilage), and more. Many uses of synthetic and naturally occurring medici-
+nal materials can be classified by their place and role in the human body: 
+skeletal system (joint replacements, bone fractures and defects, artificial 
+tendons and ligaments, dental implants), cardiovascular system (blood ves-
+sel prosthesis, heart valves), organs (artificial heart, skin repair), etc. The 
+vital applications are presented in Figure 4.2 and tabulated in Table 4.1.
+Figure 4.2: Biomaterials have made an enormous impact on the treatment of injury and 
+disease and are used throughout the body (Cooke et al., 1996; Kuhn, 2005; Ratner et al., 2020).
+b4082_Ch-04.indd 84 25-02-2021 9.48.12 AM
+ An Introduction to Biomaterials Science and Engineering Downloaded from www.worldscientific.com
+by 157.51.54.142 on 04/26/23. Re-use and distribution is strictly not permitted, except for Open Access articles.
+
+
+[Page 18]
+b4082 An Introduction to Biomaterials Science and Engineering9”x6” 
+Biomaterials: Basic principles 85
+Table 4.1: Applications of biomaterials.
+Organ/Tissue Examples
+Heart Biventricular pacemakers, artificial valves, artificial heart
+Eye Contact lens, artificial intraocular lens
+Ear Hair-clip artificial stapes, cochlear implants
+Muscle Sutures
+Kidney Dialysis machines
+Skin Skin wound repair, burn dressings, skin substitutes, artificial skin
+Circulation Synthetic blood vessels
+Bone Bone screws, plates, pins, intramedullary rods, bone cement to 
+repair defects
+Teeth Fillings and replacements 
+4.2 Desired properties of biomaterials
+As discussed earlier, the ultimate goal of biomaterials in medicine is to 
+treat, improve, or substitute tissue organs (e.g., bone, muscle, skin) or 
+body function. Such goals can be accomplished by integrating the proper-
+ties of materials, nature of the system, device architecture, and physiologi-
+cal specifications. The biomaterial application method must combine the 
+chemical and mechanical features of the biological system in order to 
+achieve the required functional results (Figure 4.3). For the processing of 
+biomaterials and related medical items, different elements from science 
+and social parameters are also considered.
+4.2.1 Biocompatibility
+From a biological point of view, biocompatibility is nothing but the 
+acceptability of non-living materials (synthetic or natural) in a living body 
+(mammal/human). This acceptance is broadly defined as the “ ability of a 
+material to perform its desired functions with respect to a medical ther -
+apy, to induce an appropriate host response in a specific application and 
+to interact with living systems without having any risk of injury, toxicity, 
+or rejection by the immune system and undesirable or inappropriate local 
+or systemic effects”. Since a biomaterial is intended to be used in intimate 
+contact with living tissues, it is important that the implanted material does 
+b4082_Ch-04.indd 85 25-02-2021 9.48.12 AM
+ An Introduction to Biomaterials Science and Engineering Downloaded from www.worldscientific.com
+by 157.51.54.142 on 04/26/23. Re-use and distribution is strictly not permitted, except for Open Access articles.
+
+
+[Page 19]
+b4082 An Introduction to Biomaterials Science and Engineering 9”x6”
+86 An Introduction to Biomaterials Science and Engineering
+not cause any undesired reactions to the surrounding tissues and host 
+organs. Apart from that, the implanted material is expected not to subdue 
+the activity of normal cells or provoke any unwanted local or systemic 
+reactions in the recipient, but is encouraged to generate positive cellular 
+or tissue response. 
+Usually, the criteria for this biocompatibility are dynamic and detailed 
+and differ with individual specific medical applications. For example, a 
+specially designed material (screw or plate) may possibly be biocompat -
+ible in bone implant surgery, but the same components may not be bio -
+compatible in skin applications.
+4.2.2 Host response
+Host response is defined as the “response of the host organism (local and 
+systemic) to the implanted material or device” . Most of the materials are 
+never inert, and a biomaterial’s clinical success depends significantly on 
+the host tissue’s reaction with the foreign material. For material establish-
+ment-host tissue interaction, these reactions depend heavily on the time-
+length, purpose, and site of implantation. 
+4.2.3 Non-toxicity
+Toxicity of biomaterials deals with elements that migrate out of the bio -
+materials. A carefully designed biomaterial should serve its purpose in the 
+Figure 4.3: Primary requirements of new material design.
+b4082_Ch-04.indd 86 25-02-2021 9.48.14 AM
+ An Introduction to Biomaterials Science and Engineering Downloaded from www.worldscientific.com
+by 157.51.54.142 on 04/26/23. Re-use and distribution is strictly not permitted, except for Open Access articles.
+
+
+[Page 20]
+b4082 An Introduction to Biomaterials Science and Engineering9”x6” 
+Biomaterials: Basic principles 87
+living body’s environment without negatively influencing other cells, 
+organs, or the whole organism. It is logical to assume that, unless specifi-
+cally designed to do so, a biomaterial should not release or generate any -
+thing from its bulk. 
+4.2.4 Mechanical properties
+In addition to biocompatibility, mechanical properties are embedded in 
+biomaterial design prior to implementation and will majorly contribute to 
+the outcome. Materials undergo several forces which are primarily stress, 
+strain, shear, and a mixture of these. The tensile strength, yield strength, 
+elastic modulus, corrosion, creep, and hardness are some of the most 
+important properties of biomaterials that should be carefully studied and 
+evaluated before implantation. For hard tissue applications, the mechani -
+cal properties are of top priority.
+4.2.5 Corrosion, wear, and fatigue properties
+Wear is often considered as one of the leading causes of implant failure. 
+In some cases, wear has also been shown to accelerate the corrosion of 
+biomedical devices and implants. The fatigue resistance is related to the 
+material’s reaction to repeated cyclic loads.
+4.2.6 Design and manufacturability
+Appropriate material design is also one of the critical factors to consider 
+for biomaterials. For example, in the early 1900s, bone plates were uti -
+lized to assist in fixing long bone fractures. Many of these experimental 
+plates broke because of their primitive mechanical design where they 
+were too narrow and had a stress-focusing corner. Manufacturability is 
+the ability to manufacture the item with relative ease that is ideal for its 
+intended use at minimal cost and high reliability. Concerning biomateri -
+als, the manufacturability, in a broader sense, incorporates the potential 
+of the material to be sterilized by a validated sterilization technique 
+which is deemed appropriate for biomedical applications. The material is 
+b4082_Ch-04.indd 87 25-02-2021 9.48.14 AM
+ An Introduction to Biomaterials Science and Engineering Downloaded from www.worldscientific.com
+by 157.51.54.142 on 04/26/23. Re-use and distribution is strictly not permitted, except for Open Access articles.
+
+
+[Page 21]
+b4082 An Introduction to Biomaterials Science and Engineering 9”x6”
+88 An Introduction to Biomaterials Science and Engineering
+expected to not get impaired by standard sterilizing techniques such as 
+autoclaving, dry heat, radiation, ethylene oxide, etc. (see Chapter 8 for 
+more details).
+In summary, for any material to qualify as a biomaterial, it should 
+· Be biocompatible, i.e., non-toxic, non-carcinogenic, non-allergenic, 
+etc.
+· Have required/suitable physical and chemical properties
+· Have suitable mechanical properties
+· Have stable durability for the period it is intended for, i.e., hours to 
+years
+· Be easy to process with the available techniques 
+· Be sterilizable with current facilities without any difficulty
+· Be cost-effective and accessible
+4.3 Types of biomaterials
+Depending on the chemical bonding, materials can be categorized into 
+three broad groups. These are (i) polymers, (ii) ceramics, and (iii) metals. 
+Because these material structures vary by their nature of bonding (cova -
+lent, ionic or metallic), they have different properties, and hence different 
+uses in the body (Table 4.2). Different kinds of biomaterials and chemical 
+bonds associated with it are shown in Figure 4.4. Metals and ceramics are 
+differentiated in the field of materials engineering, although they are both 
+Figure 4.4: Different kinds of biomaterials and chemical bonds associated with them 
+(Gul et al., 2020; He et al., 2017; Zindani et al., 2019).
+b4082_Ch-04.indd 88 25-02-2021 9.48.15 AM
+ An Introduction to Biomaterials Science and Engineering Downloaded from www.worldscientific.com
+by 157.51.54.142 on 04/26/23. Re-use and distribution is strictly not permitted, except for Open Access articles.
+
+
+[Page 22]
+b4082 An Introduction to Biomaterials Science and Engineering9”x6” 
+Biomaterials: Basic principles 89
+Table 4.2: Classification of biomaterials and typical properties associated with them 
+(Wagner, 2020).
+Attributes Polymers Metals &amp; Alloys Ceramics
+Type of bonds 
+present 
+Covalent &amp; van der 
+Waals forces
+Metallic Ionic/Covalent
+Melting point Low Intermediate High
+Chemical stability Poor Good Very high
+Electrical 
+conductivity
+Very low High Very low, but varies 
+Thermal 
+conductivity
+Very low to 
+intermediate
+High Low
+Properties and 
+advantages
+Degradable, inert, 
+similar density to 
+soft tissues and ease 
+of processing
+High strength and 
+hardness
+Non-conductive and 
+inert; closely 
+mimic biological 
+properties of bone
+Mechanical 
+deformation
+Very high, plastic (can 
+be easily shaped and 
+processed)
+High (ductile) Low (brittle)
+Major issues Thermally unstable; 
+low strength
+Wear and 
+corrosion
+High density and 
+brittle
+Biomedical 
+applications
+Soft tissue implants; 
+drug delivery 
+systems; tissue 
+engineering
+Hard tissue 
+applications 
+(Orthopedic and 
+dental implants)
+Tissue engineering
+inorganic compounds. Each material has its own benefits and drawbacks, 
+and its biomedical applications are decided according to its individual 
+properties and intended place substitution. 
+4.3.1 Metals
+Metals are the most widely known biomedical materials and are indis -
+pensable in the medical field. Nearly all of the metal biomaterials are 
+crystalline in nature, i.e., with regular atomic arrangements. Metals have 
+great strength, resistance to fracture toughness, better elasticity, and 
+rigidity compared with ceramics and polymers. Their outstanding 
+b4082_Ch-04.indd 89 25-02-2021 9.48.15 AM
+ An Introduction to Biomaterials Science and Engineering Downloaded from www.worldscientific.com
+by 157.51.54.142 on 04/26/23. Re-use and distribution is strictly not permitted, except for Open Access articles.
+
+
+[Page 23]
+b4082 An Introduction to Biomaterials Science and Engineering 9”x6”
+90 An Introduction to Biomaterials Science and Engineering
+mechanical reliability properties are controlled by dislocation and 
+crystallization. For this reason, metals are extensively employed for load-
+bearing implant applications such as orthopaedic, dental, and maxillofa -
+cial surgery. Apart from these, metals are also used in making stents and 
+stent-grafts for cardiovascular surgeries. The most common metals and 
+alloys used for biomedical applications are stainless steel, titanium, 
+titanium-based alloys, cobalt-based alloys, magnesium-based alloys, and 
+tantalum-based alloys.
+4.3.2 Ceramics
+Ceramics are inorganic solid materials consisting of metallic and non-
+metallic elements that are predominantly bound together by ionic bonds. 
+They exist as both crystalline and non-crystalline (amorphous) com -
+pounds. Ceramics are typically characterized by excellent biocompatibil-
+ity, high corrosion resistance, high wear, high strength, extremely high 
+stiffness, and hardness. The advancement of ceramic material applications 
+in the biomedical industry has focused mostly on orthopaedics and den -
+tistry. Bioinert ceramics such as alumina (Al 2O3), zirconia (Zr 2O3) and 
+pyrolytic carbon, and bioresorbable ceramics such as calcium phosphates 
+are some of the widely employed bioceramics. 
+4.3.3 Polymers 
+Polymers are macromolecules and they represent a major and versatile 
+class of biomaterials being widely applied in biomedical applications due 
+to their low toxicity in biological fluids, easy pre/post-processing, sterili -
+zation, better shelf life, lightweight nature, and remarkable physical and 
+chemical properties. 
+Biomaterial use is primarily dependent on the need, function, and 
+environment of the intended application. In a variety of implants, metal, 
+polymers, ceramics, and composites are being used. The specific material 
+or material combinations for use in a device will significantly affect both 
+its patient performance and marketing potential. The next three chapters 
+will discuss in detail each of the material types. 
+b4082_Ch-04.indd 90 25-02-2021 9.48.15 AM
+ An Introduction to Biomaterials Science and Engineering Downloaded from www.worldscientific.com
+by 157.51.54.142 on 04/26/23. Re-use and distribution is strictly not permitted, except for Open Access articles.
+
+
+[Page 24]
+b4082 An Introduction to Biomaterials Science and Engineering9”x6” 
+Biomaterials: Basic principles 91
+4.4 Multiple choice questions 
+1. Biomaterials 
+(a) are always synthetic materials; natural materials are not employed 
+(b) are always natural materials; synthetic materials are not employed
+(c) can be natural or synthetic materials 
+(d) are always polymeric materials
+2. Select the statement which correctly relates to biocompatibility. 
+(a) a biocompatible material should provide healing characters
+(b) a biocompatible material should have therapeutic characteristics 
+(c) a material is considered as a biocompatible material as long as it 
+causes no harm to the host body
+(d) a biocompatible material should have the exact dimensions as the 
+damaged tissue or part
+3. Select the option(s) which do(es) NOT come under the class of bio -
+compatible materials. 
+(a) eyeglasses; wheelchair
+(b) contact lenses; dental implants
+(c) orthopedic implant; stents 
+(d) external hip prosthesis; massage footwear
+4. Which of the following has the best osteointegration properties?
+(a) SS316
+(b) porous titanium 
+(c) Co-Cr alloys 
+(d) all of the above 
+5. Which of the following is/are biomaterial(s)? 
+   I. materials used for tooth filling
+  II. materials used for cardiovascular repairs
+III. glucose meters and stethoscopes 
+ IV. materials used for hip implants 
+(a) only I
+(b) only I, II and IV
+(c) only I, III and IV
+(d) only III
+b4082_Ch-04.indd 91 25-02-2021 9.48.15 AM
+ An Introduction to Biomaterials Science and Engineering Downloaded from www.worldscientific.com
+by 157.51.54.142 on 04/26/23. Re-use and distribution is strictly not permitted, except for Open Access articles.
+
+
+[Page 25]
+b4082 An Introduction to Biomaterials Science and Engineering 9”x6”
+92 An Introduction to Biomaterials Science and Engineering
+6. Select the option(s) which is/are TRUE about biodegradation.
+(a) it depends on the molecular architecture
+(b) it is a precise breakdown of the material over time
+(c) metals biodegrade faster than polymeric materials 
+(d) all of the above 
+7. Which class of biomaterials has chemical structures similar to bone? 
+(a) polymeric biomaterials 
+(b) ceramic biomaterials 
+(c) metallic biomaterials 
+(d) all of the above 
+8. Which class of biomaterials encourages bonding with surrounding 
+tissues and stimulates new bone growth?
+(a) bioinert ceramics
+(b) bioactive ceramics 
+(c) Co-Cr alloys 
+(d) all of the above 
+9. Which of the following is TRUE?
+(a) ceramics possess excellent wear and friction properties
+(b) SS316, Co-Cr and Ti alloys form a protective oxide layer on their 
+surfaces
+(c) bioceramics are more reactive then certain metallic implants
+(d) all of the above 
+References &amp; Further Reading
+Cooke, F. W., Lemons, J. E., &amp; Ratner, B. D. (1996). Chapter 1 — Properties of 
+Materials. In B. D. Ratner, A. S. Hoffman, F. J. Schoen, &amp; J. E. Lemons 
+(Eds.), Biomaterials Science (pp. 11–35): Academic Press.
+Ghasemi-Mobarakeh, L., Kolahreez, D., Ramakrishna, S., &amp; Williams, D. 
+(2019). Key terminology in biomaterials and biocompatibility. Current 
+Opinion in Biomedical Engineering, 10 , 45–50. doi:10.1016/j.cobme. 
+2019.02.004.
+Gul, H., Khan, M., &amp; Khan, A. S. (2020). Chapter 3 — Bioceramics: Types and 
+clinical applications. In A. S. Khan &amp; A. A. Chaudhry (Eds.), Handbook of 
+Ionic Substituted Hydroxyapatites (pp. 53–83): Woodhead Publishing.
+b4082_Ch-04.indd 92 25-02-2021 9.48.15 AM
+ An Introduction to Biomaterials Science and Engineering Downloaded from www.worldscientific.com
+by 157.51.54.142 on 04/26/23. Re-use and distribution is strictly not permitted, except for Open Access articles.
+
+
+[Page 26]
+b4082 An Introduction to Biomaterials Science and Engineering9”x6” 
+Biomaterials: Basic principles 93
+He, W., &amp; Benson, R. (2017). Chapter 8 — Polymeric Biomaterials. In M. Kutz 
+(Ed.), Applied Plastics Engineering Handbook (Second Edition) (pp. 145–
+164): William Andrew Publishing.
+Kuhn, L. T. (2005). Chapter 6 — Biomaterials. In J. D. Enderle, S. M. Blanchard, 
+&amp; J. D. Bronzino (Eds.), Introduction to Biomedical Engineering (Second 
+Edition) (pp. 255–312): Academic Press.
+Marin, E., Boschetto, F., &amp; Pezzotti, G. (2020). Biomaterials and biocompatibil -
+ity: A historical overview. Journal of Biomedical Materials Research Part A, 
+108(8), 1617–1633. doi:10.1002/jbm.a.36930.
+Ramakrishna, S., Ramalingam, M., Kumar, T. S. S., &amp; Soboyejo, W. O. (2010). 
+Biomaterials: A Nano Approach: CRC Press Taylor &amp; Francis.
+Ratner, B. D. (1996). Biomaterials Science: An Interdisciplinary Endeavor. In B. 
+D. Ratner, A. S. Hoffman, F. J. Schoen, &amp; J. E. Lemons (Eds.), Biomaterials 
+Science (pp. 1–8): Academic Press.
+Ratner, B. D., &amp; Zhang, G. (2020). Chapter 1.1.2 — A History of Biomaterials. 
+In W. R. Wagner, S. E. Sakiyama-Elbert, G. Zhang, &amp; M. J. Yaszemski 
+(Eds.), Biomaterials Science (Fourth Edition) (pp. 21–34): Academic Press.
+Wagner, W. R. (2020). Chapter 1.3.1 — The Materials Side of the Biomaterials 
+Relationship. In W. R. Wagner, S. E. Sakiyama-Elbert, G. Zhang, &amp; M. J. 
+Yaszemski (Eds.), Biomaterials Science (Fourth Edition) (pp. 83–84): 
+Academic Press.
+Zindani, D., Kumar, K., &amp; Paulo Davim, J. (2019). Chapter 4 — Metallic bioma-
+terials — A review. In J. P. Davim (Ed.), Mechanical Behaviour of 
+Biomaterials (pp. 83–99): Woodhead Publishing.
+b4082_Ch-04.indd 93 25-02-2021 9.48.15 AM
+ An Introduction to Biomaterials Science and Engineering Downloaded from www.worldscientific.com
+by 157.51.54.142 on 04/26/23. Re-use and distribution is strictly not permitted, except for Open Access articles.
+
+
+===== SOURCE_FILE: nexus sem/Microbiology/Notes/Study Material Drive Link.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1GstO6YIhVnp3YkzmnXLboryZ7pt144e4?usp=drive_link
+
+
+===== SOURCE_FILE: nexus sem/Microbiology/PYQs/No PYQ Available.url =====
+CATEGORY: PYQs
+STATUS: url_reference_only
+
+URL:</pre>
+    <footer>srmnexus.app • Local dataset resource • Use with official course material where required.</footer>
+  </main>
+</body>
+</html>

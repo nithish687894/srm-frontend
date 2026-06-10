@@ -1,0 +1,2428 @@
+[
+  {
+    "id": "q-1",
+    "text": "Who is father of C Language? [CLO 1] [PLO1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-2",
+    "text": "A. Bjarne Stroustrup B. Dennis Ritchie",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-3",
+    "text": "C. James A. Gosling D. Dr. E.F. Codd",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-4",
+    "text": "C Language developed at _____? [CLO 1] [PLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-5",
+    "text": "A. AT & T's Bell Laboratories of USA in 1972",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-6",
+    "text": "B. AT & T's Bell Laboratories of USA in 1970",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-7",
+    "text": "C. Sun Microsystems in 1973",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-8",
+    "text": "D. Cambridge University in 1972",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-9",
+    "text": "For 16-bit compiler allowable range for integer constants is ______ ? [CLO 1] [PLO 2]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-10",
+    "text": "A. -3.4e38 to 3.4e38",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-11",
+    "text": "B. -32767 to 32768",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-12",
+    "text": "C. -32768 to 32767",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-13",
+    "text": "D. -32668 to 32667",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-14",
+    "text": "C programs are converted into machine language with the help of [CLO 1] [PLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-15",
+    "text": "C. An operating system",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-16",
+    "text": "D. None of the above",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-17",
+    "text": "A C variable cannot start with [CLO 1] [PLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-18",
+    "text": "C. A special symbol other than underscore",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-19",
+    "text": "D. both (b) and (c)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-20",
+    "text": "Which of the following is allowed in a C Arithmetic Instruction? [CLO 1] [PLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-21",
+    "text": "D. None of the above",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-22",
+    "text": "Which of the following shows the correct hierarchy of arithmetic",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-23",
+    "text": "Program which is written originally by the programmer is classified as [CLO 1] [PLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-24",
+    "text": "D. interactive programs",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-25",
+    "text": "Data types are differed on the basis of [CLO 1] [PLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-26",
+    "text": "A. the way of storage",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-27",
+    "text": "B. the type of operations",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-28",
+    "text": "C. the type of operators used",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-29",
+    "text": "Loop statement which is repeated for some given number of times is classified as [CLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Repeated"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-30",
+    "text": "Type of statement written in sequence and is repeated until the specific condition met is",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Repeated"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-31",
+    "text": "Size of an array is declared by [CLO 1] [PLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-32",
+    "text": "D. declared automatically",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-33",
+    "text": "Programming language 'FORTRAN' stands for [CLO 1] [PLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-34",
+    "text": "A. formula translator",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-35",
+    "text": "B. formula translation",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-36",
+    "text": "C. free translator",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-37",
+    "text": "D. free translation",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-38",
+    "text": "Functions that are used in the programs and are defined by the programmers are called",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-39",
+    "text": "B. program procedure",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-40",
+    "text": "C. built-in functions",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-41",
+    "text": "D. user-defined function",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-42",
+    "text": "An assembler translates [CLO 1] [PLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-43",
+    "text": "A. machine code into assembly code",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-44",
+    "text": "B. assembly code into machine code",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-45",
+    "text": "C. processing time into manual time",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-46",
+    "text": "D. routine into subroutine",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-47",
+    "text": "Name given by a programmer to any particular data is classified as [CLO 1] [PLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-48",
+    "text": "When variable used in program is whole number, the variable is stored as [CLO 1] [PLO 2]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-49",
+    "text": "C. negative whole numbers",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-50",
+    "text": "D. positive whole numbers",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-51",
+    "text": "In programming, programmers use comments to [CLO 1] [PLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-52",
+    "text": "A. highlight program modules",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-53",
+    "text": "B. explain module functions",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-54",
+    "text": "C. explain used variables",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-55",
+    "text": "Variable which uses the same name in whole program and in its all routines thus best classified",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-56",
+    "text": "A. middle variable",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-57",
+    "text": "B. default variable",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-58",
+    "text": "D. global variable",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-59",
+    "text": "Statement which is used to make choice between two options and only option is to be performed",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-60",
+    "text": "B. if else statement",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-61",
+    "text": "C. then else statement",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-62",
+    "text": "D. else one statement",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-63",
+    "text": "The__________ statement is used to transfer the control to the end of statement block in a loop:",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-64",
+    "text": "a. Continue [CLO 1] [PLO 2]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-65",
+    "text": "Which of the following is not a valid variable name declaration? [CLO 1] [PLO 2]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-66",
+    "text": "All keywords in C are in [CLO 1] [PLO 2]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-67",
+    "text": "a) LowerCase letters",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-68",
+    "text": "b) UpperCase letters",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-69",
+    "text": "c) CamelCase letters",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-70",
+    "text": "d) None of the mentioned",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-71",
+    "text": "Which of the following is true for variable names in C? [CLO 1] [PLO 2]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-72",
+    "text": "a) They can contain alphanumeric characters as well as special characters",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-73",
+    "text": "b) It is not an error to declare a variable to be one of the keywords(like goto, static)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-74",
+    "text": "c) Variable names cannot start with a digit",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-75",
+    "text": "d) Variable can be of any length",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-76",
+    "text": "The format identifier ‘%i’ is also used for _____ data type? [CLO 1] [PLO 2]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-77",
+    "text": "Which of the following is a User-defined data type? [CLO 1] [PLO 3]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-78",
+    "text": "a) typedef int Boolean;",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-79",
+    "text": "b) typedef enum {Mon, Tue, Wed, Thu, Fri} Workdays;",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-80",
+    "text": "c) struct {char name[10], int age};",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-81",
+    "text": "d) all of the mentioned",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-82",
+    "text": "What is the output of this C code? [CLO 1] [PLO 3]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-83",
+    "text": "#include <stdio.h>",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-84",
+    "text": "signed char chr;",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-85",
+    "text": "printf(\"%d\\n\", chr);",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-86",
+    "text": "c) Depends on the compiler",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-87",
+    "text": "d) None of the mentioned",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-88",
+    "text": "What is the output of this C code? [CLO 1] PLO 3]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-89",
+    "text": "#include <stdio.h>",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-90",
+    "text": "printf(\"%d\\n\", j++);",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-91",
+    "text": "c) Compile time error d) 0",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-92",
+    "text": "The following code ‘for( ; ; )’ represents an infinite loop.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-93",
+    "text": "a) break b) exit(0)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-94",
+    "text": "c) abort() d) all of the mentioned",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-95",
+    "text": "The keyword ‘break’ cannot be simply used within: [CLO 1] [PLO 3]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-96",
+    "text": "a) do-while b) if-else",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-97",
+    "text": "Which keyword is used to come out of a loop only for that iteration? [CLO 1] [PLO 3]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-98",
+    "text": "a) break b) continue",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-99",
+    "text": "c) return d) none of the mentioned",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-100",
+    "text": "The first step in problem solving is --------------- [CLO 1] [PLO 2]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-101",
+    "text": "a) Understand the problem c)Identify the problem",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-102",
+    "text": "b) Developing algorithm/Flowchart d)Listing the possible outcome",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-103",
+    "text": "The solutions which has series of actions to solve a problem are called ------ [CLO 1] [PLO 2]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-104",
+    "text": "a) Heuristic solutions",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-105",
+    "text": "b) Algorithmic solutions",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-106",
+    "text": "The solution can be reached by completing the actions in steps. These steps are called [CLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-107",
+    "text": "a) Sequence c)Algorithm",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-108",
+    "text": "b) Flowchart d)Steps",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-109",
+    "text": "Solutions that cannot be reached through a direct set of steps are called --------- [CLO 1][PLO 2]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-110",
+    "text": "means the outcome or the completed computer-assisted answer. [CLO 1][PLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-111",
+    "text": "a) Solution b) Result c) Program",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-112",
+    "text": "The field of computer that deals with the problem of heuristic solution is called-----[CLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-113",
+    "text": "a) Artificial Intelligence",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-114",
+    "text": "b) Expert System c) Computer Management",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-115",
+    "text": "means the set of instructions that make up the solution after they have been coded",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-116",
+    "text": "a) solution b) result c) program d) error",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-117",
+    "text": "are organized facts. [CLO 1] [PLO1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-118",
+    "text": "a) Data b) Information",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-119",
+    "text": "A language applied for wide range of application is called as ______language[CLO 1][PLO 2]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-120",
+    "text": "a. Special purpose c)General purpose",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-121",
+    "text": "b. Individual purpose d)Scientific purpose",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-122",
+    "text": "Compiler converts the source code into ______ [CLO 1][PLO 4]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-123",
+    "text": "a. C code b. Byte code c. Object code d. Executable code",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-124",
+    "text": "___________ converts source code to machine language one line at a time. [CLO 1][PLO 4]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-125",
+    "text": "a. Compiler b. Interpreter c. Assembler d.CPU",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-126",
+    "text": "The program that converts high level language to a machine language is called __________",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-127",
+    "text": "a. Interpreter b. Linker c. Compiler d. Loader",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-128",
+    "text": "‘#’ symbol is known to be ______ [PLO 2] [CLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-129",
+    "text": "a. Linker b.Compiler c. Assembler d.Preprocessor directive",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-130",
+    "text": "A _______ is a notational system for describing computations in both machine and human",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-131",
+    "text": "a. Programming language c.Machine language",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-132",
+    "text": "b. High-level language d.Assembly language",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-133",
+    "text": "program converts assembly language into machine language [PLO 2] [CLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-134",
+    "text": "a. compiler b. interpreter c. assembler d. preprocessor directive",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-135",
+    "text": "which symbol is been used for processing in flowchart? Ans: a [CLO 1] [PLO 3]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-136",
+    "text": "which symbol is been used for input/output in flowchart? Ans: c [PLO 3] [CLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-137",
+    "text": "which symbol is been used for decision making in flowchart? Ans: d [PLO 3] [CLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-138",
+    "text": "which is used as start/stop symbol in flowchart? Ans:b [PLO 3] [CLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-139",
+    "text": "is a distinguishing characteristic of human excellence in every area of behavior",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-140",
+    "text": "a) creativity b) thinking c) visualization d) problem solving",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-141",
+    "text": "What is the value of x in this C code? [PLO 2] [CLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-142",
+    "text": "A character variable can store how many characters at a time? [PLO 2][CLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-143",
+    "text": "Which of the following is the correct way of writing comments? [PLO 2] [CLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-144",
+    "text": "C programming language is [PLO 1] [CLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-145",
+    "text": "The memory space taken for a char type data is [PLO 2] [CLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-146",
+    "text": "The memory space taken for a int type data is [PLO 2] [CLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-147",
+    "text": "The memory space taken for a float type data is [PLO 2] [CLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-148",
+    "text": "What is the only function all programs must contain ? [PLO 2] [CLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-149",
+    "text": "For 16-bit compiler allowable range for integer constants is ________? [PLO 2] [CLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-150",
+    "text": "Every statement in C program is to be terminated by a__________ [PLO 2] [CLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-151",
+    "text": "The escape sequence „\\b‟ is a [PLO 2] [CLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-152",
+    "text": "The memory space taken for a long int type data is [PLO 2] [CLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-153",
+    "text": "which of the following will not valid expressions in C? [PLO2] [CLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-154",
+    "text": "The --------------------- operator is true only when both the operands are true. [PLO 2][CLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-155",
+    "text": "The ---------------------- statement when executed in a switch statement causes immediate exit",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-156",
+    "text": "The ternary conditional expression using the operator?: could be easily coded using ----------------",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-157",
+    "text": "Comment “C is mid level language”? [CLO-1][PLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-158",
+    "text": "What is problem solving? [CLO-1][PLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-159",
+    "text": "What are the six steps of problem solving? [CLO-1][PLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-160",
+    "text": "Discuss about how the problems can be solved with computers? [CLO-1][PLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-161",
+    "text": "What is a program? [CLO-1][PLO 2]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-162",
+    "text": "Why is problem analysis important? [CLO-1][PLO 2]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-163",
+    "text": "What are the tools of problem solving available? [CLO-1][PLO 2]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-164",
+    "text": "How do problem-solving tools help in leading to a solution? [CLO-1][PLO 2]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-165",
+    "text": "Why it is important to test a solution before coding it? [CLO-1][PLO 2]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-166",
+    "text": "What is an algorithm? Give the characteristics of the algorithm. [CLO-1][PLO 2]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-167",
+    "text": "What is a flowchart? Give the symbols/shapes used in the flowchart.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-168",
+    "text": "Define pseudocode and give its importance with an example. [CLO-1][PLO 2]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-169",
+    "text": "Discuss the difficulties with problem solving in detail. [CLO-1][PLO 2]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-170",
+    "text": "State the use of %d and %f .Write a printf statement in C using the above",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-171",
+    "text": "What is main difference between variable and constant? [CLO-1][PLO 3]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-172",
+    "text": "Explain bitwise left shift operator? [CLO-1][PLO 4]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-173",
+    "text": "Explain primary data types used in C? [CLO-1][PLO 3]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-174",
+    "text": "Difference between formatted & unformatted statement ? [CLO-1][PLO 3]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-175",
+    "text": "What is mean by storage class of variable? [CLO-1][PLO 3]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-176",
+    "text": "Explain with example ++i and i++. [CLO-1][PLO 4]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-177",
+    "text": "Refer all Elab programs. [CLO-1][PLO 3] [PLO 2][PLO 4]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-178",
+    "text": "Explain the evolution of programming languages. [CLO-1][PLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-179",
+    "text": "Explain the various steps involved in problem solving with diagram. [CLO-1][PLO 1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-180",
+    "text": "Draw the flowchart and write the algorithm and c code to find the sum and to reverse the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-181",
+    "text": "Write an algorithm and draw a flow chart to find the factorial and Fibonacci series of given",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-182",
+    "text": "Write a note on Algorithm, Flow chart and Pseudocode. [CLO-1][PLO 3] [PLO 2]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-183",
+    "text": "Explain the scope, lifetime of variable in C with example. [CLO-1][PLO 2][PLO3]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-184",
+    "text": "Write down the algorithm to find the largest number among three given numbers and",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-185",
+    "text": "Draw flowchart to compute the salary of an employee in a company. Assume that there are",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-186",
+    "text": "Explain in details about operators with an example [CLO-1][PLO 1] [PLO 2][PLO3]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-187",
+    "text": "Refer all elab Programs [CLO-1][PLO 3] [PLO 2][PLO 4]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-188",
+    "text": "The --------------------- operator is true only when both the operands are true.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-189",
+    "text": "e) && b) || c)! d) ?:",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-190",
+    "text": "The ---------------------- statement when executed in a switch statement causes immediate exit",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-191",
+    "text": "The ternary conditional expression using the operator?: could be easily coded using ----------------",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-192",
+    "text": "What will be the output when the following segment is executed?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-193",
+    "text": "What will be the output of the following segment when executed?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-194",
+    "text": "The ----------------------- statement is used to skip a part of the statements in a loop.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-195",
+    "text": "a) Continue b) break c) goto d)switch",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-196",
+    "text": "A for loop with no test condition is known as --------------- loop",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-197",
+    "text": "a) Infinite b) time delay c) for d) Incrementing",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-198",
+    "text": "The sentinel –controlled loop is also known as -----------------------loop",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-199",
+    "text": "a) Indefinite repetition loop c) time delay",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-200",
+    "text": "b) Definite repetition loop d) infinite",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-201",
+    "text": "In an exit controlled loop the body of the loop is always executed minimum number of ------------",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-202",
+    "text": "a) 1 time b)2 times c) 3 times d)n times",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-203",
+    "text": "The while is an --------------------- loop statement.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-204",
+    "text": "a) Entry-controlled b)exit-controlled c)indefinite repetition",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-205",
+    "text": "The ------------------specification is used to read or print integers",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-206",
+    "text": "To print the data left-justified, must use -------------- in the field specification",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-207",
+    "text": "a) - b) + c) / d) *",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-208",
+    "text": "By default, the real numbers are printed with a precision of --------------- decimal.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-209",
+    "text": "The expression !(x!=y) can be replaced by the expression--------------------",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-210",
+    "text": "a) x!=y b) x==y c)x=!y d)!x=!y",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-211",
+    "text": "In a counter controlled loop, variable known as -----------------is used to count the loop",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-212",
+    "text": "a) Counter b)sentinel c)i d)n",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-213",
+    "text": "Which of the following special symbol allowed in a variable name?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-214",
+    "text": "Which of the following are invalid variable names?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-215",
+    "text": "a) Minimum b)n$ c) Integer d) float",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-216",
+    "text": "a) 1, 1 b) 5,1 c) 1,5 d)5",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-217",
+    "text": "Which of the following is not logical operator?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-218",
+    "text": "Which of the following cannot be checked in a switch-case statement?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-219",
+    "text": "What is the output of this C code?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  },
+  {
+    "id": "q-220",
+    "text": "What is the output of this C code?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf"
+  }
+]

@@ -36,6 +36,10 @@ export interface AuthStore {
   academicAlertsEnabled: boolean;
   academicAlertsPrompted: boolean;
 
+  // Premium Status
+  isPremium: boolean;
+  premiumExpiresAt: string | null;
+
   // Auth Actions
   setAuthData: (authToken: string, refreshToken: string, email: string) => void;
   setAuthToken: (token: string) => void;
@@ -60,6 +64,9 @@ export interface AuthStore {
   // Academic Alerts Setters
   setAcademicAlertsEnabled: (val: boolean) => void;
   setAcademicAlertsPrompted: (val: boolean) => void;
+
+  // Premium Actions
+  setPremium: (isPremium: boolean, expiresAt: string | null) => void;
 
   // Session
   logout: () => void;
@@ -91,6 +98,9 @@ export const useAuthStore = create<AuthStore>()(
       academicAlertsEnabled: false,
       academicAlertsPrompted: false,
 
+      isPremium: false,
+      premiumExpiresAt: null,
+
       // ── Auth Actions ──────────────────────────────────────────────────────
       setAuthData: (authToken, refreshToken, email) => {
         if (typeof window !== "undefined") {
@@ -98,7 +108,21 @@ export const useAuthStore = create<AuthStore>()(
           localStorage.setItem("refreshToken", refreshToken);
           if (email) localStorage.setItem("userEmail", email);
         }
-        set({ authToken, refreshToken, email });
+        set({
+          authToken,
+          refreshToken,
+          email,
+          profile: null,
+          academicData: null,
+          academiaConnected: false,
+          studentPortalConnected: false,
+          studentPortalData: null,
+          timetable: null,
+          myTimetable: null,
+          calendar: null,
+          isPremium: false,
+          premiumExpiresAt: null,
+        });
       },
 
       setAuthToken: (authToken) => {
@@ -154,6 +178,9 @@ export const useAuthStore = create<AuthStore>()(
       setAcademicAlertsEnabled: (academicAlertsEnabled) => set({ academicAlertsEnabled }),
       setAcademicAlertsPrompted: (academicAlertsPrompted) => set({ academicAlertsPrompted }),
 
+      // ── Premium Actions ──────────────────────────────────────────────────
+      setPremium: (isPremium, premiumExpiresAt) => set({ isPremium, premiumExpiresAt }),
+
       // ── UI ────────────────────────────────────────────────────────────────
       setHasChosenTheme: (hasChosenTheme) => set({ hasChosenTheme }),
 
@@ -179,6 +206,8 @@ export const useAuthStore = create<AuthStore>()(
           calendar: null,
           academicAlertsEnabled: false,
           academicAlertsPrompted: false,
+          isPremium: false,
+          premiumExpiresAt: null,
         });
       },
 
@@ -201,6 +230,8 @@ export const useAuthStore = create<AuthStore>()(
           calendar: null,
           academicAlertsEnabled: false,
           academicAlertsPrompted: false,
+          isPremium: false,
+          premiumExpiresAt: null,
         });
       },
 
@@ -224,6 +255,8 @@ export const useAuthStore = create<AuthStore>()(
           calendar: state.calendar,
           academicAlertsEnabled: state.academicAlertsEnabled,
           academicAlertsPrompted: state.academicAlertsPrompted,
+          isPremium: state.isPremium,
+          premiumExpiresAt: state.premiumExpiresAt,
         }) as unknown as AuthStore,
       onRehydrateStorage: () => (state) => {
         state?.setHasHydrated(true);

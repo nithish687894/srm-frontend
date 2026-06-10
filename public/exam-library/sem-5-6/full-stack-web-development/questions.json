@@ -1,0 +1,223 @@
+[
+  {
+    "id": "q-1",
+    "text": "Which of the following is the data type in MongoDB?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Full Stack Web Development/PYQs/PYQ May 2024.pdf"
+  },
+  {
+    "id": "q-2",
+    "text": "Choose the method with refers to the parent class in React.JS?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Full Stack Web Development/PYQs/PYQ May 2024.pdf"
+  },
+  {
+    "id": "q-3",
+    "text": "initiate it, which keyword do we use?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Full Stack Web Development/PYQs/PYQ May 2024.pdf"
+  },
+  {
+    "id": "q-4",
+    "text": "What is a state in react?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Full Stack Web Development/PYQs/PYQ May 2024.pdf"
+  },
+  {
+    "id": "q-5",
+    "text": "Which of the following are two ways to handle data in react?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Full Stack Web Development/PYQs/PYQ May 2024.pdf"
+  },
+  {
+    "id": "q-6",
+    "text": "What is the full form of REPL?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Full Stack Web Development/PYQs/PYQ May 2024.pdf"
+  },
+  {
+    "id": "q-7",
+    "text": "How can we initiate a Node.JS file called hello in Node?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Full Stack Web Development/PYQs/PYQ May 2024.pdf"
+  },
+  {
+    "id": "q-8",
+    "text": "Which of the following are built-in node modules?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Full Stack Web Development/PYQs/PYQ May 2024.pdf"
+  },
+  {
+    "id": "q-9",
+    "text": "Which of the following is a valid HTTP method?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Full Stack Web Development/PYQs/PYQ May 2024.pdf"
+  },
+  {
+    "id": "q-10",
+    "text": "Which of the following node.JS modules is used in file uploads?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Full Stack Web Development/PYQs/PYQ May 2024.pdf"
+  },
+  {
+    "id": "q-11",
+    "text": "Where are the captured values populated regarding the route parameters?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Full Stack Web Development/PYQs/PYQ May 2024.pdf"
+  },
+  {
+    "id": "q-12",
+    "text": "Where are the captured values stored in react?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Full Stack Web Development/PYQs/PYQ May 2024.pdf"
+  },
+  {
+    "id": "q-13",
+    "text": "Develop a react form that captures user Email and password. Implement \"© 7° 7” S",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Full Stack Web Development/PYQs/PYQ May 2024.pdf"
+  },
+  {
+    "id": "q-14",
+    "text": "Construct a react application with 3 functional components. Title,",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Full Stack Web Development/PYQs/PYQ May 2024.pdf"
+  },
+  {
+    "id": "q-15",
+    "text": "Create a react functional component named userinfo that accepts two 3% 7% >",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Full Stack Web Development/PYQs/PYQ May 2024.pdf"
+  },
+  {
+    "id": "q-16",
+    "text": "Explain in simple terms what a “Document” is in MongoDB. How does it",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Full Stack Web Development/PYQs/PYQ May 2024.pdf"
+  },
+  {
+    "id": "q-17",
+    "text": "Develop an Express.JS application that exposes restful end points fora '° ~° *4",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Full Stack Web Development/PYQs/PYQ May 2024.pdf"
+  },
+  {
+    "id": "q-18",
+    "text": "Explain the concept of the node.JS event loop and how it enables '° * a 4",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Full Stack Web Development/PYQs/PYQ May 2024.pdf"
+  },
+  {
+    "id": "q-19",
+    "text": "Build a react application that allows user to explore and search for recipes.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Full Stack Web Development/PYQs/PYQ May 2024.pdf"
+  },
+  {
+    "id": "q-20",
+    "text": "You are asked with building a react application that interacts with a",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Repeated"
+    ],
+    "source": "sem 5 sem6/Full Stack Web Development/PYQs/PYQ May 2024.pdf"
+  }
+]

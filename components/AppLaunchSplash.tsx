@@ -11,6 +11,29 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
   const [latestVersion, setLatestVersion] = useState("");
   const [minVersion, setMinVersion] = useState("");
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (sessionStorage.getItem("srmx_splashed") === "true") {
+      document.body.classList.remove("splash-active");
+      const skipTimer = window.setTimeout(() => {
+        setMounted(true);
+        setIsExiting(true);
+        setIsDestroyed(true);
+      }, 0);
+      return () => window.clearTimeout(skipTimer);
+    }
+    document.body.classList.add("splash-active");
+    return () => {
+      document.body.classList.remove("splash-active");
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isExiting && typeof window !== "undefined") {
+      document.body.classList.remove("splash-active");
+    }
+  }, [isExiting]);
+
   const steps = useMemo(
     () => [
       "Opening workspace",
@@ -51,8 +74,7 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
         return;
       }
 
-      const hasSplashed = typeof window !== "undefined" ? sessionStorage.getItem("srmx_splashed") : null;
-      const duration = hasSplashed ? 420 : 1650;
+      const duration = 1150;
       const interval = window.setInterval(() => {
         setStep((current) => Math.min(current + 1, steps.length - 1));
       }, duration / steps.length);
@@ -256,6 +278,11 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
         .nexus-app.ready {
           opacity: 1;
           transform: scale(1);
+        }
+        body.splash-active .srmx-top-status-bar,
+        body.splash-active .srmx-mobile-nav,
+        body.splash-active .desktop-sidebar {
+          display: none !important;
         }
         .nexus-update-card {
           position: relative;

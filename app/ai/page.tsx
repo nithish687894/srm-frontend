@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { dataAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
+import { ChevronLeft } from "lucide-react";
 
 interface Message { role: "user" | "assistant"; content: string; }
 
@@ -106,10 +107,15 @@ export default function AIPage() {
       <main className="page-main" style={{ height: "100vh", display: "flex", flexDirection: "column", position: 'relative', zIndex: 1 }}>
         
         {/* Header */}
-        <div style={{ padding: "24px 32px", display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexShrink: 0 }}>
-          <div>
-            <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.3)", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "4px" }}>Powered by Groq Llama-3.3</div>
-            <div style={{ fontSize: "32px", fontWeight: 900, color: "#ffffff", lineHeight: 1, letterSpacing: "-0.02em" }}>AI Assistant</div>
+        <div style={{ padding: "24px 32px", display: "flex", justifyContent: "space-between", alignItems: "center", flexShrink: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+            <button onClick={() => router.push("/dashboard")} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: '#fff', width: '40px', height: '40px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.2s', flexShrink: 0 }}>
+              <ChevronLeft size={20} />
+            </button>
+            <div>
+              <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.3)", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "4px" }}>Powered by Groq Llama-3.3</div>
+              <div style={{ fontSize: "32px", fontWeight: 900, color: "#ffffff", lineHeight: 1, letterSpacing: "-0.02em" }}>AI Assistant</div>
+            </div>
           </div>
           <div style={{ textAlign: "right" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "8px", justifyContent: "flex-end", marginBottom: "4px" }}>

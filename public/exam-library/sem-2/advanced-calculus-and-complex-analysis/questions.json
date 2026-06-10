@@ -1,0 +1,332 @@
+[
+  {
+    "id": "q-1",
+    "text": "A) Gauss Divergence theorem B) Stoke’s theorem",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-2",
+    "text": "C) Green’s theorem D) convolution theorem",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-3",
+    "text": "The unit vector normal to </> =",
+    "unit": "Unit V",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-4",
+    "text": "• Evaluate Jo3 dxdy",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-5",
+    "text": "C) straight line D) ellipse",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-6",
+    "text": "^,The area of the double integral in Cartesian co-ordinates is equal to",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-7",
+    "text": "4 1 113. The function f(z) = u + iv is analytic if",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-8",
+    "text": "C) The real part of the Laurent’s series",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-9",
+    "text": "B) magnification & rotation",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-10",
+    "text": "Find L( cos 2t)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-11",
+    "text": "What is the residue of cot(z) at z = 0?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-12",
+    "text": "A) z = 0 is a zero of f(z) B) z = 0 is a simple pole",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-13",
+    "text": "C) z = 0 is a pole of order 2 D)z - 0 is a removable singularity",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-14",
+    "text": "A) f(z) is not an analytic function within c B) f(z) is an analytic function within c",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-15",
+    "text": "C) f(z) is a defined function within c D) f(z) is an analytic function outside c",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-16",
+    "text": "The part SXo an^z a^n consisting °f positive integral powers of (z - a) is called",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-17",
+    "text": "A) The analytic part of the Laurent’s series B)The principal part of the Laurent’s",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-18",
+    "text": "A) zero B) constant",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-19",
+    "text": "C) harmonic D) analytic",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-20",
+    "text": "The transformation w = z + c where c is a constant represents",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-21",
+    "text": "Using the initial value theorem, find the value of the function f(t) =",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-22",
+    "text": "A) are parallel B) intersect each other",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-23",
+    "text": "C) cut orthogonally D) coincides",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-24",
+    "text": "An analytic function with constant modulus is",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-25",
+    "text": "3 2525 a. Evaiuate",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-26",
+    "text": "226. i + I yz + 4 j — xzk , where S isy-z + 2",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-27",
+    "text": "a. Determine the analytic function f(z) =u + iv such that u - v = ex (cos y — sin y).",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-28",
+    "text": "b. Find the bilinear transformation that maps Z = 0,1,00 into the points W — i, 1, — i.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-29",
+    "text": "a.Evaiuate dz, where C is [^|",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  },
+  {
+    "id": "q-30",
+    "text": "b. Verify Green's theorem in the plane for fc(3x2 — 8y2)dx 4- (4y — 6xy)dy, where C is",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Advanced Calculus And Complex Analysis/PYQs/PYQ Nov 2024.pdf"
+  }
+]

@@ -102,10 +102,10 @@ export default function InstallPWA() {
         <div
           style={{
             position: "fixed",
-            bottom: "calc(96px + env(safe-area-inset-bottom))",
+            bottom: "calc(76px + env(safe-area-inset-bottom))",
             left: "20px",
             right: "20px",
-            zIndex: 99999,
+            zIndex: 100100,
             display: "flex",
             justifyContent: "center"
           }}
@@ -190,21 +190,28 @@ export default function InstallPWA() {
         <div
           style={{
             position: "fixed",
-            bottom: "0",
-            left: "0",
-            right: "0",
-            zIndex: 99999,
+            bottom: "calc(76px + env(safe-area-inset-bottom))",
+            left: "12px",
+            right: "12px",
+            zIndex: 100100,
             display: "flex",
             justifyContent: "center",
-            padding: "20px 20px calc(24px + env(safe-area-inset-bottom))",
-            background: bg,
-            borderTop: `1.5px solid ${border}`,
-            boxShadow: "0 -10px 40px rgba(0,0,0,0.3)",
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             animation: "slideUp 0.3s ease-out"
           }}
         >
-          <div style={{ maxWidth: "420px", width: "100%", display: "flex", flexDirection: "column", gap: "16px" }}>
+          <div style={{
+            background: bg,
+            border: `1.5px solid ${border}`,
+            borderRadius: "24px",
+            padding: "20px",
+            maxWidth: "420px",
+            width: "100%",
+            boxShadow: isLight ? "0 10px 30px rgba(0,0,0,0.08)" : "0 20px 40px rgba(0,0,0,0.65)",
+            display: "flex",
+            flexDirection: "column",
+            gap: "16px"
+          }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <div>
                 <div style={{ fontSize: "9px", color: btnAccent, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em" }}>Apple iOS Guide</div>

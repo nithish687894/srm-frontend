@@ -1,0 +1,17 @@
+{
+  "semester": "sem-2",
+  "semesterLabel": "Sem 2",
+  "subject": "Object Oriented Design And Programming",
+  "subjectSlug": "object-oriented-design-and-programming",
+  "readiness": "Ready",
+  "statusMessage": "Ready",
+  "availableContent": {
+    "notes": true,
+    "pyqs": true,
+    "importantQuestions": true,
+    "revision": true
+  },
+  "sourceCount": 11,
+  "questionCount": 220,
+  "updatedAt": "2026-06-07T14:44:59.195Z"
+}

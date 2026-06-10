@@ -1,5 +1,6 @@
 "use client";
 import { useState, useMemo, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { 
   ChevronLeft, ChevronRight, Zap, Target
 } from "lucide-react";
@@ -10,6 +11,7 @@ import { useThemeStore } from "@/lib/themeStore";
 import { useAuthStore } from "@/lib/store";
 
 export default function CalendarPage() {
+  const router = useRouter();
   const [monthIdx, setMonthIdx] = useState(0);
   const [sem, setSem] = useState<Semester>("ODD");
   const [selectedHoliday, setSelectedHoliday] = useState<AnyValue | null>(null);
@@ -119,8 +121,16 @@ export default function CalendarPage() {
 
       
       <main className={isAura ? "" : "page-main"} style={isAura ? { flex: 1, overflowY: 'auto', WebkitOverflowScrolling: 'touch' } : {}}>
-        <div className={isAura ? "" : "page-content"} style={{ padding: isAura ? "60px 24px 140px" : "0 24px 140px", position: "relative" }}>
+        <div className={isAura ? "" : "page-content"} style={{ padding: isAura ? "24px 24px 140px" : "0 24px 140px", position: "relative" }}>
           
+          {/* Back Navigation Bar */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px', marginTop: isAura ? '24px' : '0' }}>
+            <button onClick={() => router.push("/dashboard")} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: '#fff', width: '40px', height: '40px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.2s', flexShrink: 0 }}>
+              <ChevronLeft size={20} />
+            </button>
+            <h1 style={{ fontSize: "20px", fontWeight: 900, margin: 0, color: "#fff", letterSpacing: '-0.5px' }}>University Calendar</h1>
+          </div>
+
           {isAura ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
               {/* Tactical Header */}

@@ -1,0 +1,717 @@
+[
+  {
+    "id": "q-1",
+    "text": "I. The depletion layer across a pt -n junction lies (A) Mostly in the p* region",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/PYQ May 2023.pdf"
+  },
+  {
+    "id": "q-2",
+    "text": "A silicon diode has a saturation current of 9.5 d at room temperature of 300 K. Calculate the saturation current at 500 K.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/PYQ May 2023.pdf"
+  },
+  {
+    "id": "q-3",
+    "text": "In an NPN ransistor, if the EB junction and CB junction are reverse biased, the transistor will operate in (A) Active region (C) Cut-off",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/PYQ May 2023.pdf"
+  },
+  {
+    "id": "q-4",
+    "text": "Schottky junction is a (A) Semiconductor-compound",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/PYQ May 2023.pdf"
+  },
+  {
+    "id": "q-5",
+    "text": "Which layer isolates gate tcrminal from semiconductor",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/PYQ May 2023.pdf"
+  },
+  {
+    "id": "q-6",
+    "text": "The number of semiconductor layers in impatt diode is",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/PYQ May 2023.pdf"
+  },
+  {
+    "id": "q-7",
+    "text": "S. The minimum current required to hold the silicon control rectifier is ON state is",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/PYQ May 2023.pdf"
+  },
+  {
+    "id": "q-8",
+    "text": "A bistable multivibrator is a (A) Frec running oscillator (C) Saw tooth wave generator",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/PYQ May 2023.pdf"
+  },
+  {
+    "id": "q-9",
+    "text": "In a full-wavc rectifier, the D.C load current equals lA. How much D.C. curent is carricd by each diode? (A) 0.5 A (C) 2 A",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/PYQ May 2023.pdf"
+  },
+  {
+    "id": "q-10",
+    "text": "A conductor on a PCB will behave as a transmission line if its length (L) is (A) (C)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/PYQ May 2023.pdf"
+  },
+  {
+    "id": "q-11",
+    "text": "a. Determine the current density of a silicon bar when it is biased by electric field of 6V/cm. The mobility of electrons and holes are 1200 cm/Vs and The silicon bar is doped by an acceptor 400 cmVs respectively. concentration of 4x10/cm² and the silicon bar intrinsic value is 1.5x1010 /cm³.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/PYQ May 2023.pdf"
+  },
+  {
+    "id": "q-12",
+    "text": "a. Describe in detail the monolithic fabrication process.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/PYQ May 2023.pdf"
+  },
+  {
+    "id": "q-13",
+    "text": "b. Explain the construction and operation of Gunn diode PNPN diode",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/PYQ May 2023.pdf"
+  },
+  {
+    "id": "q-14",
+    "text": "a. In an SCR half wave rectifier, the forward breakdown voltage of SCR is 100V for a gate current of ImA.. If a 50Hz sinusoidal voltage of 210V peak is applied. Calculate firing angle, conduction angle, average current, Power output and the time during which SCR remains OFF. Assume load resistance is 100S2 and the holding current to be zero.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/PYQ May 2023.pdf"
+  },
+  {
+    "id": "q-15",
+    "text": "b. Explain about switched mode power supply, its classifications and advantages.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/PYQ May 2023.pdf"
+  },
+  {
+    "id": "q-16",
+    "text": "a. Elaborate the major steps in the manufacturing of a single -sided printed circuit board.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/PYQ May 2023.pdf"
+  },
+  {
+    "id": "q-17",
+    "text": "b. What are the rules for component placement on printed circuit board? 25. a. Explain about the printed circuit board layout design and its check list.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/PYQ May 2023.pdf"
+  },
+  {
+    "id": "q-18",
+    "text": "i. What are line and load regulation? Explain the construction and working of zener shunt regulator.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/PYQ May 2023.pdf"
+  },
+  {
+    "id": "q-19",
+    "text": "Which of the following component gives smooth DC output?",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-20",
+    "text": "IC LM309 V oltage regulator provides a fixed positive _______ output.",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-21",
+    "text": "For a half wave or full wave rectifier the Peak Inverse V oltage of the rectifier is always",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-22",
+    "text": "a) Smaller than the input voltage",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-23",
+    "text": "b) Greater than the input voltage",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-24",
+    "text": "c) Equal to the input voltage",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-25",
+    "text": "d) Greater than the input voltage for full wave rectifier and smaller for the half wave",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-26",
+    "text": "A simple diode rectifier has ‘ripples’ in the output wave which makes it unsuitable as a DC",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-27",
+    "text": "a) A capacitor in series with a the load resistance",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-28",
+    "text": "b) A capacitor in parallel to the load resistance",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-29",
+    "text": "c) Both of the mentioned situations will work",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-30",
+    "text": "d) None of the mentioned situations will work.",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-31",
+    "text": "A circuit that generates square wave is called as____",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-32",
+    "text": "c) A Differentiator",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-33",
+    "text": "d) A Multivibrator",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-34",
+    "text": "Monostable multivibrator can also be termed as ____________",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-35",
+    "text": "a) Full astable multivibrator",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-36",
+    "text": "b) Half bistable multivibrator",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-37",
+    "text": "c) Half astable multivibrator",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-38",
+    "text": "d) Full bistable multivibrator",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-39",
+    "text": "The purpose of trigger circuit in a Cathode Ray Oscilloscope is _____.",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-40",
+    "text": "a) To generate the electron beam",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-41",
+    "text": "b) To synchronise the horizontal and vertical deflections",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-42",
+    "text": "c) To control the power supply unit",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-43",
+    "text": "d) To amplify the input signal.",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-44",
+    "text": "Cathode Ray Oscilloscope (CRO) cannot be used to measure ______",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-45",
+    "text": "Which of the following meters are not used on D.C. circuits",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-46",
+    "text": "a) Mercury motor meters",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-47",
+    "text": "b) Commutator motor meters",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-48",
+    "text": "c) Induction meters",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-49",
+    "text": "d) None of the above",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-50",
+    "text": "Which of the following instrument measures the amplitude and phase of the signal?",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-51",
+    "text": "a) Network analyzer",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-52",
+    "text": "b) Spectrum analyzer",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-53",
+    "text": "Write short notes on the basic building blocks of power supply.",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-54",
+    "text": "Define Form factor and Peak factor.",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-55",
+    "text": "For a voltage regulator, the output voltage on no load is observed at 10V , while the full load",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-56",
+    "text": "Discuss the operation of monostable multivibrator with its circuit diagram.",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-57",
+    "text": "Draw and explain the working principle of a digital multimeter.",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-58",
+    "text": "Draw and explain the working principle of Spectrum analyzer.",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-59",
+    "text": "Discuss the operation, working principle of full wave rectifier with neat sketches.",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-60",
+    "text": "With neat circuit and waveform, discuss the operation of SCR half wave rectifier.",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-61",
+    "text": "Draw and explain Switched Mode Power Supply circuit (SMPS) with the standard circuit",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-62",
+    "text": "Explain the following with neat block diagram : Ammeter, Cathode Ray Oscilloscope and",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-63",
+    "text": "Explain how voltage regulation is achieved in the rectifier circuit. Discuss any measures taken",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-64",
+    "text": "Design the circuit to toggle between states based on external trigger pulses. Discuss the",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  },
+  {
+    "id": "q-65",
+    "text": "triggered to change its state?",
+    "unit": "Ungrouped",
+    "topic": "Unit 3",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf"
+  }
+]

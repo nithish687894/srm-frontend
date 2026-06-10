@@ -1,0 +1,17 @@
+{
+  "semester": "sem-4",
+  "semesterLabel": "Sem 4",
+  "subject": "CGA",
+  "subjectSlug": "cga",
+  "readiness": "Ready",
+  "statusMessage": "Ready",
+  "availableContent": {
+    "notes": true,
+    "pyqs": true,
+    "importantQuestions": true,
+    "revision": true
+  },
+  "sourceCount": 5,
+  "questionCount": 165,
+  "updatedAt": "2026-06-07T14:44:59.195Z"
+}

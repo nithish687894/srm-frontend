@@ -1,0 +1,47 @@
+===== SOURCE_FILE: sem 3/Digital Logic Design/Notes/More Study Materials.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1katPtttHZZkMHGHH1cnaemdCoMDZgF1J?usp=drive_link
+
+
+===== SOURCE_FILE: sem 3/Digital Logic Design/Notes/Unit - 1.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1xQqYOtjZoKvAws6txapTEMtHa0d2LPZp?usp=drive_link
+
+
+===== SOURCE_FILE: sem 3/Digital Logic Design/Notes/Unit - 2.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1ByL8KGNqCqgihIPwtH8Y5JjPaJ0qZedw?usp=drive_link
+
+
+===== SOURCE_FILE: sem 3/Digital Logic Design/Notes/Unit - 3.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1VwSBY8CyS3OjoGhbcDhWhEoAceByexp1?usp=drive_link
+
+
+===== SOURCE_FILE: sem 3/Digital Logic Design/Notes/Unit - 4.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1H6n01_wsopN0X8mrcUNZLsg8wpRcKRm1?usp=drive_link
+
+
+===== SOURCE_FILE: sem 3/Digital Logic Design/Notes/Unit - 5.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1nr3dBk1enGeU9GtQhWlxLprvFlD37J3-?usp=drive_link
+
+
+===== SOURCE_FILE: sem 3/Digital Logic Design/PYQs/Coming Soon.url =====
+CATEGORY: PYQs
+STATUS: url_reference_only
+
+URL:

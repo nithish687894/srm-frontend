@@ -1,0 +1,24 @@
+[
+  {
+    "id": "q-1",
+    "text": "A. Numerical Differentiation",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Numerical Methods & Analysis/PYQs/Formulas (Unit 1 to 5).pdf"
+  },
+  {
+    "id": "q-2",
+    "text": "B. Numerical Integration",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Numerical Methods & Analysis/PYQs/Formulas (Unit 1 to 5).pdf"
+  }
+]

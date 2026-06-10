@@ -1,0 +1,17 @@
+{
+  "semester": "sem-3",
+  "semesterLabel": "Sem 3",
+  "subject": "Biochemistry",
+  "subjectSlug": "biochemistry",
+  "readiness": "Ready",
+  "statusMessage": "Ready",
+  "availableContent": {
+    "notes": true,
+    "pyqs": true,
+    "importantQuestions": true,
+    "revision": true
+  },
+  "sourceCount": 2,
+  "questionCount": 29,
+  "updatedAt": "2026-06-07T14:44:59.195Z"
+}

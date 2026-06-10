@@ -1,0 +1,750 @@
+[
+  {
+    "id": "q-1",
+    "text": "Given point P ( -2, 6, 3) and vector 𝑨 = 𝑦 𝒂𝒙 + (𝑥 + 𝑧)𝒂𝒚, express P and A in",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-2",
+    "text": "Given tht 𝑭 = 𝑥2𝒂𝒙 − 𝑥𝑧𝒂𝒚 − 𝑦2𝒂𝒛, calculate the circulation of F around the (closed)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-3",
+    "text": "Determine the gradient of 𝑼 = 𝜌𝑧 𝑠𝑖𝑛𝜙 + 𝑧2𝑐𝑜𝑠2𝝓 + 𝜌2.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-4",
+    "text": "Determine the divergence of 𝑽 =",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-5",
+    "text": "Evaluate both sides of divergence theorem for field 𝐷 = 2𝑥𝑦 𝒂𝒙 + 𝑥2 𝒂𝒚",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-6",
+    "text": "Given that D = (5r 2/4)ar (C/m2) in spherical coordinates, evaluate both sides of the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-7",
+    "text": "Determine the curl of 𝑾 = 𝜌 𝑠𝑖𝑛𝜙𝒂𝝆 + 𝜌2𝑧 𝒂𝝓 + 𝑧 𝑐𝑜𝑠𝜙 𝒂𝒛.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-8",
+    "text": "For a vector field A, show explicitly that 𝛁. (𝛁 × 𝑨) = 0",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-9",
+    "text": "For a scalar field V, show that 𝛁 × (∇𝑉) = 0; that is, the curl of the gradient of any",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-10",
+    "text": "What is coulomb’s law? Write the expressions for Force and electric filed strength due",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-11",
+    "text": "A square plate described by -2 ≤ x ≤ 2, -2 ≤ y ≤ 2, z = 0 carries a charge 12y mC/m 2.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-12",
+    "text": "Point charges 5 nC and -2 nC are located at (2, 0, 4) and (-3, 0, 5), respectively.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-13",
+    "text": "Point charges -4 µC and 5 µC are located at (2, -1, 3) and (0, 4, -2), respectively.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-14",
+    "text": "Define electric field intensity and write the expression for electric field intensity due to",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-15",
+    "text": "Derive an expres sion for the electric field due to a line charge distribution at a",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-16",
+    "text": "Find the electric field a distance z above the midpoint between two equal charges ( q),",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-17",
+    "text": "Find E at the point p (1, 5, 2) m in free space if a point charge of 6 µC is at (0,0,1), the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-18",
+    "text": "Find the electric field a distance z above one end of a straight-line segment of length L",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-19",
+    "text": "A circular ring of charge with a radius of 5 m lies in z = 0 plane with center at origin.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-20",
+    "text": "Give a brief discussion on electric flux and electric flux density. Mention the relation",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-21",
+    "text": "Determine the electric flux density D at (4, 0, 3) if there is a point charge -5π at (4, 0,",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-22",
+    "text": "and a line charge 3π mC/m along the y-axis.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-23",
+    "text": "A point charge of 6 µC is located at the origin and a uniform line charge density of",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-24",
+    "text": "State the Gauss law of electrostatic. Express the mathematical representation of Gauss",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-25",
+    "text": "Using Gauss law, find the electric flux density due to a point charge at a distance r",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-26",
+    "text": "Using Gauss law, find the electric flux density and electric field intensity due t o an",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-27",
+    "text": "Suppose the electric field in some region is found to be 𝑬 = 𝑘𝑟3𝒓̂, in spherical",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-28",
+    "text": "a) Find the charge density 𝜌.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-29",
+    "text": "b) Find the total charge contained in a sphere of radius R, centered at the origin.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-30",
+    "text": "If 𝑫 = (2𝑟2 + 𝑧)𝒙̂ + 4𝑥𝑦𝒚̂ + 𝑥𝒛̂ C/m2, find",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-31",
+    "text": "a) The volume charge density at (-1, 0, 3)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-32",
+    "text": "b) The flux through the cube defined by 0 ≤ 𝑥 ≤ 1, 0 ≤ 𝑥 ≤ 1, 0 ≤ 𝑥 ≤ 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-33",
+    "text": "c) The total charge enclosed by the cube.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-34",
+    "text": "Given that 𝑫 =",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf"
+  },
+  {
+    "id": "q-35",
+    "text": "Given point P ( -2, 6, 3) and vector 𝑨 = 𝑦 𝒂𝒙 + (𝑥 + 𝑧)𝒂𝒚, express P and A in",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-36",
+    "text": "Given tht 𝑭 = 𝑥2𝒂𝒙 − 𝑥𝑧𝒂𝒚 − 𝑦2𝒂𝒛, calculate the circulation of F around the (closed)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-37",
+    "text": "Determine the gradient of 𝑼 = 𝜌𝑧 𝑠𝑖𝑛𝜙 + 𝑧2𝑐𝑜𝑠2𝝓 + 𝜌2.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-38",
+    "text": "Determine the divergence of 𝑽 =",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-39",
+    "text": "Evaluate both sides of divergence theorem for field 𝐷 = 2𝑥𝑦 𝒂𝒙 + 𝑥2 𝒂𝒚",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-40",
+    "text": "Given that D = (5r 2/4)ar (C/m2) in spherical coordinates, evaluate both sides of the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-41",
+    "text": "Determine the curl of 𝑾 = 𝜌 𝑠𝑖𝑛𝜙𝒂𝝆 + 𝜌2𝑧 𝒂𝝓 + 𝑧 𝑐𝑜𝑠𝜙 𝒂𝒛.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-42",
+    "text": "For a vector field A, show explicitly that 𝛁. (𝛁 × 𝑨) = 0",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-43",
+    "text": "For a scalar field V, show that 𝛁 × (∇𝑉) = 0; that is, the curl of the gradient of any",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-44",
+    "text": "What is coulomb’s law? Write the expressions for Force and electric filed strength due",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-45",
+    "text": "A square plate described by -2 ≤ x ≤ 2, -2 ≤ y ≤ 2, z = 0 carries a charge 12y mC/m 2.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-46",
+    "text": "Point charges 5 nC and -2 nC are located at (2, 0, 4) and (-3, 0, 5), respectively.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-47",
+    "text": "Point charges -4 µC and 5 µC are located at (2, -1, 3) and (0, 4, -2), respectively.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-48",
+    "text": "Define electric field intensity and write the expression for electric field intensity due to",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-49",
+    "text": "Derive an expres sion for the electric field due to a line charge distribution at a",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-50",
+    "text": "Find the electric field a distance z above the midpoint between two equal charges ( q),",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-51",
+    "text": "Find E at the point p (1, 5, 2) m in free space if a point charge of 6 µC is at (0,0,1), the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-52",
+    "text": "Find the electric field a distance z above one end of a straight-line segment of length L",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-53",
+    "text": "A circular ring of charge with a radius of 5 m lies in z = 0 plane with center at origin.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-54",
+    "text": "Give a brief discussion on electric flux and electric flux density. Mention the relation",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-55",
+    "text": "Determine the electric flux density D at (4, 0, 3) if there is a point charge -5π at (4, 0,",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-56",
+    "text": "and a line charge 3π mC/m along the y-axis.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-57",
+    "text": "A point charge of 6 µC is located at the origin and a uniform line charge density of",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-58",
+    "text": "State the Gauss law of electrostatic. Express the mathematical representation of Gauss",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-59",
+    "text": "Using Gauss law, find the electric flux density due to a point charge at a distance r",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-60",
+    "text": "Using Gauss law, find the electric flux density and electric field intensity due t o an",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-61",
+    "text": "Suppose the electric field in some region is found to be 𝑬 = 𝑘𝑟3𝒓̂, in spherical",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-62",
+    "text": "a) Find the charge density 𝜌.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-63",
+    "text": "b) Find the total charge contained in a sphere of radius R, centered at the origin.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-64",
+    "text": "If 𝑫 = (2𝑟2 + 𝑧)𝒙̂ + 4𝑥𝑦𝒚̂ + 𝑥𝒛̂ C/m2, find",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-65",
+    "text": "a) The volume charge density at (-1, 0, 3)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-66",
+    "text": "b) The flux through the cube defined by 0 ≤ 𝑥 ≤ 1, 0 ≤ 𝑥 ≤ 1, 0 ≤ 𝑥 ≤ 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-67",
+    "text": "c) The total charge enclosed by the cube.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-68",
+    "text": "Given that 𝑫 =",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf"
+  }
+]

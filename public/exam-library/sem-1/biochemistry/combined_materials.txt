@@ -1,0 +1,3160 @@
+===== SOURCE_FILE: nexus/Biochemistry/Notes/Chapter 1- Introduction To Biochemistry.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1AdyBBezaEKi2Z6jIgf_T-S9I3qJxDOrt?usp=sharing
+
+
+===== SOURCE_FILE: nexus/Biochemistry/Notes/Chapter 2- Introduction To Metabolism, Bioenergetics And Photosynthesis.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1pF6WWT1TUqmP3U15ywNNUzqaL406bSS1?usp=sharing
+
+
+===== SOURCE_FILE: nexus/Biochemistry/Notes/Chapter 4- Protein Turnover And Amino Acids Metabolism.pdf =====
+CATEGORY: Notes
+STATUS: ok
+
+[Page 1]
+21BTC101T - Biochemistry
+UNIT IV
+•Introduction to Protein turnover
+•Removal of Nitrogen
+•Metabolism of amino acids
+•Transamination
+•Deamination
+•Decarboxylation
+•Metabolism of ammonia
+•Urea cycle
+•Biosynthesis of amino acids – Feedback Inhibition Regulations
+•Disorders of tyrosine (phenylalanine) metabolism
+
+
+[Page 3]
+Introduction
+• Proteins are the most abundant 
+organic compounds 
+constituting a major part of the 
+dry weight
+• Nitrogen-containing 
+macromolecules consisting of 
+L-a-amino acids
+– 10 essential amino acids provided 
+by the diet
+– 10 non-essential amino acids 
+synthesized by the body
+• Degradation of proteins yield 
+amino acids that serve as 
+neurotransmitters (aspartate, 
+glutamate)
+
+
+[Page 4]
+Amino acids
+• Amino acids are obtained from the diet when proteins are digested.
+• Cellular proteins are degraded to amino acids because of damage or for 
+regulatory purposes.
+• The first priority for use of amino acids is as precursors for proteins or other 
+biomolecules.
+• Amino acids are not stored, so any excess amino acids are degraded.
+Nitrogen Removal Is the First Step in the Degradation of Amino Acids
+Ammonium Ion Is Converted into Urea in Most Terrestrial Vertebrates
+Carbon Atoms of Degraded Amino Acids Emerge As Major Metabolic Intermediates
+
+
+[Page 5]
+Amino acids (AAs)
+Sources of AAs
+• AAs are derived from intake of 
+protein turnover, dietary protein, 
+and synthesis of non-essential AAs.
+• Protein Turnover: About 300-400 g 
+of protein is constantly degraded and 
+synthesized representing protein 
+turnover
+– Plasma proteins and digestive enzymes 
+are rapidly degraded. Structural proteins 
+(collagen) have a long half-lives.
+– Protein turnover is influenced by many 
+factors including ubiquitin. It tags 
+proteins and facilitates degradation.
+• Certain proteins with AA sequence 
+(PEST sequence) proline, glutamine 
+(E), serine, and threonine are rapidly 
+degraded.
+
+
+[Page 6]
+• Dietary Protein: Degradation of AAs leads to loss of nitrogen. 
+This loss needs to be reversed to maintain nitrogen balance.
+– The purpose of dietary protein is to supply EAA for the synthesis of 
+proteins and other nitrogen compounds
+– No storage of AAs as observed with carbohydrates (glycogen) and lipids 
+(triacylglycerols)
+– Excess intake is oxidized to provide energy and converted to glucose or 
+fat
+– Dietary protein are metabolized by proteolytic enzymes and absorbed by 
+the intestine which then enter the body pool of AAs.
+• Synthesis of non-essential AAs: Ten out of 20 AAs can be 
+synthesized in the body that contribute to the AA pool
+Nitrogen balance = nitrogen ingested - nitrogen excreted
+(primarily as protein) (primarily as urea)
+
+[Page 7]
+Utilization of AAs from body pool
+1. Most of the body proteins are synthesized from the AA pool. E.g., 
+enzymes, hormone, immunoglobulins, contractile proteins, etc.
+2. Nitrogenous compounds (porphyrins, purines, pyrimidines, etc) are 
+produced from AAs.
+3. About 10-15% of energy requirements are met from AAs.
+4. AAs are converted to carbohydrates and fats, especially, when the 
+protein consumption is in excess of body requirements.
+Processes regulated by protein degradation Dependence of the half lives of cytoplasmic yeast proteins 
+on the identity of their amino-terminal residues
+
+
+[Page 8]
+Metabolism of AAs
+• AAs undergo certain common 
+reactions like transamination
+followed by deamination for the 
+liberation of ammonia.
+• The amino group of AAs is utilized 
+for the formation of urea which is 
+excreted as an end-product of protein 
+metabolism
+• The carbon skeleton of AAs is first 
+converted to keto acids (by 
+transmination) which undergo one of 
+the following pathways:
+– Utilized to generate energy
+– Used for synthesis of glucose
+– Formation of fat or ketone bodies
+– Production of non-essential AAs 
+
+
+[Page 9]
+Nitrogen removal is the first step in the 
+degradation of amino acids
+Alpha-amino groups are converted into ammonium ions by the oxidative 
+deamination of glutamate
+Amino groups from amino acids 
+are funneled to glutamate, 
+which is deaminated to form 
+NH4
++.
+Aminotransferases (transaminases) 
+transfer amino groups from an amino 
+acid to α-ketoglutarate to generate 
+glutamate. 
+
+
+[Page 10]
+Alpha-amino groups are converted into ammonium 
+ions by the oxidative deamination of Glutamate
+Alanine aminotransferase and aspartate aminotransferase typify these enzymes. 
+Glutamate dehydrogenase, a mitochondrial enzyme, releases NH4
++ in the 
+oxidative deamination of glutamate.
+
+
+[Page 11]
+Aminotransferases and glutamate dehydrogenase
+• Alpha-Amino Groups Are Converted into Ammonium Ions by the 
+Oxidative Deamination of Glutamate
+• The coupled reactions of aminotransferases and glutamate 
+dehydrogenase are
+
+
+[Page 12]
+Transamination - Salient features
+• It is the transfer of amino group from an AA to a keto acid
+catalyzed by a group of enzymes called transaminases
+(aminotransferases)
+PLP
+Salient features of transamination
+1. All transaminases require 
+pyridoxal phosphate (PLP), a 
+coenzyme derived from vitamin 
+B6.
+2. Although specific transaminases
+exist for each pair of AA and 
+keto acid, only two make a 
+significant contribution: 
+aspartate transaminase and 
+alanine transaminase
+
+[Page 13]
+3. There is no release of ammonia but only the transfer of amino 
+group.
+4. Transamination is reversible
+5. Important for redistribution of amino groups and production of 
+non-essential AAs. It involves both degradation and synthesis 
+of AAs.
+6. This process diverts excess AAs towards energy generation
+7. AAs undergo transamination to finally concentrate nitorgen in 
+glutamate. Glutamate is the only AA that undergoes oxidative 
+deamination to release ammonia for urea synthesis.
+8. Lysine, threonine, proline, and hydroxyproline do not participate 
+in transamination.
+9. Transamination is not restricted to a-amino groups but also 
+involves d-amino group of ornithine
+
+[Page 14]
+10. Serum transaminases are important for 
+diagnostic and prognostic purposes
+– The enzyme aspartate aminotransferase
+(AST) is also known as serum glutamic
+oxaloacetic transaminase (SGOT)
+– found in a diversity of tissues including 
+liver, heart, muscle, kidney, and brain. 
+It is released into serum when any one of 
+these tissues is damaged. For example, its 
+level in serum rises with heart attacks and 
+with muscle disorders. It is therefore, not a 
+highly specific indicator of liver injury.
+– alanine aminotransferase (ALT) is also 
+known as serum glutamic pyruvic
+transaminase (SGPT). 
+– found largely in the where it is most 
+concentrated. It is released into the 
+bloodstream as the result of liver injury. 
+It therefore serves as a fairly specific 
+indicator of liver status.
+Image of Liver Destruction
+A healthy liver is shown at the left. The specimen in 
+the middle shows excess fat accumulation due to the 
+NADH glut caused by the metabolism of ethanol. 
+The liver on the right is a cirrhotic liver showing 
+extensive damage, in part due to severe malfunction 
+of the urea cycle.
+
+[Page 15]
+Transamination
+• Transaminases (aminotransferases) catalyze the reversible reaction 
+– There are multiple transaminase enzymes which vary in substrate 
+specificity. Some show preference for particular amino acids or classes of 
+amino acids as amino group donors and/or for particular a-keto acid 
+acceptors.
+• An example of a transaminase reaction is shown at right. Aspartate
+donates its amino group, becoming the a-keto acid oxaloacetate. 
+– a-Ketoglutarate accepts the amino group, becoming the amino acid glutamate. 
+
+
+[Page 16]
+• In another example shown at right, alanine becomes pyruvate as the amino 
+group is transferred to a-ketoglutarate. 
+• Transaminases equilibrate amino groups among available a-keto acids. 
+• This permits synthesis of non-essential amino acids, using amino groups 
+derived from other amino acids and carbon skeletons synthesized in the 
+cell. Thus, a balance of different amino acids is maintained, as proteins of 
+varied amino acid contents are synthesized.
+• Although the amino N of one amino acid can be used to synthesize another amino 
+acid, nitrogen must be obtained in the diet as amino acids (proteins).
+
+
+[Page 17]
+• Transfer of the amino group to the coenzyme pyridoxal phosphate (PLP) to 
+form pyridoxamine phosphate.
+• The amino group of pyridoxamine phosphate is then transferred to a keto acid to 
+produce a new amino acid and the enzyme PLP is regenerated
+• The aldehyde group of PLP is linked with the e-amino group of the lysine 
+residue, at the active site of the enzyme forming a Schiff base.
+• When an amino acid comes in contact with the enzyme, it displaces lysine and a 
+new Schiff base linkage is formed.
+• The amino acid-PLP-Schiff base tightly binds with the enzyme by non-covalent 
+forces
+
+
+[Page 18]
+Deamination
+• The removal of amino group from the amino acids as ammonia is 
+deamination
+• In addition to equilibrating amino groups among available a-keto
+acids, transaminases funnel amino groups from excess dietary 
+amino acids to those amino acids (e.g., glutamate) that can be 
+deaminated
+• Results in the liberation of ammonia for urea synthesis
+• Deamination can be either oxidative or non-oxidative.
+• Both transamination and deamination occurs simultaneously with 
+glutamate as the central molecule
+
+
+[Page 19]
+• Takes place mostly in liver and kidney
+• In order to regenerate the amino acceptor, α-ketoglutarate, and to 
+provide ammonia for re-utilization or disposal it is necessary to 
+deaminate glutamate. This is accomplished by the action of the 
+enzyme glutamate dehydrogenase (GDH) which is located in 
+the mitochondrial matrix.
+• Enzyme can use either NAD+ or NADP+ as a coenzyme
+• The reaction involves formation of a-iminoglutarate
+DID YOU KNOW?
+Amidation describes a reaction in which an amine 
+reacts with a carboxylic acid to yield an amide.
+
+[Page 20]
+Regulation of Glutamate dehydrogenase (GDH)
+Allosteric Control
+• The direction of the glutamate dehydrogenase reaction will be dependent on 
+the energy state of the cell and on the availability of oxidizable “fuel”, i.e. 
+amino acids.
+• High levels of A TP, GTP and NADH inhibit GDH (i.e. amino acid oxidation)
+• High levels of ADP, GDP and free amino acids stimulate the GDH (i.e. 
+Glutamate synthesis from amino acids and glutamate oxidation to alpha 
+ketoglutarate)
+• Other enzymes involved in amino acid oxidation are the amino acid oxidases. 
+In these reactions the initial reaction is the reduction a flavin, FMN, to 
+FMNH2. This reduced cofactor in turn reduces O2 to H2O2.
+FMN
+• Amino acid1+ O2----------> α-ketoacid1+ NH4++ H2O2
+• Hydrogen peroxide is later decomposed by catalase
+
+[Page 21]
+Non-oxidative deamination
+• Oxidative deamination is the most active mechanism by which animal 
+cells remove nitrogen from their amino acids. However, the mammalian 
+cells carry out non-oxidative deamination reactions with the enzymes 
+glutaminase, asparginase and histidinase, all of which yield ammonia 
+as a product. Glutaminase is probably one of the most prominent.
+• The action of glutaminase in the liver yields glutamic acid and 
+ammonia, the latter of which is consumed by the urea cycle. 
+• Serine, Threonine, and homoserine are catalyzed by PLP-dependent 
+dehydrases (dehydratases)
+• Cysteine and homocysteine undergo deamination by desulfhydrases
+• Histidine is acted upon by histidase to liberate ammonia
+
+
+[Page 22]
+Metabolism of Ammonia
+• Ammonia is constantly released due to 
+the metabolism of AAs and other 
+nitrogenous compounds
+①Deamination of AAs--main 
+source
+② Catabolism of other nitrogen 
+containing compounds
+③Kidney secretion (Gln)
+• At the physiological pH, ammonia 
+exists as ammonium (NH4
++) ion.
+RCH2NH2 RCOH + NH3
+amine oxidase
+
+
+[Page 23]
+1. Formation of ammonia from
+– Amino acids (transamination and 
+deamination)
+– Biogenic amines
+– Amino groups of purines and 
+pyrimidines
+– Urea by the intestinal bacteria (urease)
+2. Transport and storage of 
+ammonia
+– Concentration in blood is low because 
+of efficient mechanism through which 
+it is removed for urea synthesis
+– Transport of ammonia between tissues 
+and liver occurs in the form of 
+glutamine and alanine and not as free 
+ammonia
+• Alanine is transported from muscle to liver by 
+glucose-alanine cycle
+• Glutamine is a storehouse for ammonia. Its 
+synthesis occurs mainly in liver, brain and 
+muscle
+• Glutamine synthetase, a 
+mitochondrial enzyme converts 
+glutamate and ammonia to glutamine 
+with A TP and Mg2+.
+• Glutaminase deaminates glutamine 
+by hydrolysis to release ammonia. 
+This enzyme is found in kidney and 
+intestinal cells
+
+[Page 24]
+3. Functions of Ammonia
+• It is not a just a waste-product of nitrogen metabolism
+• Involved (directly or via glutamine) for the synthesis of many compounds 
+such as non-essential AAs, purines, pyrimidines, amino sugars, asparagine, 
+etc.
+• Ammonium ions (NH4
++) are important for the maintenance of acid-base 
+balance
+4. Disposal of Ammonia: Different mechanisms for the 
+disposal of ammonia from the body
+• Ammoniotelic: Aquatic animals dispose NH3 into water
+• Uricotelic: NH3 converted to uric acid. E.g., reptiles and birds
+• Ureotelic: Mammals convert NH3 into urea, a non-toxic and soluble 
+compound.
+
+[Page 25]
+5. Toxicity of Ammonia
+– A slight elevation of blood ammonia level is harmful to the brain.
+– Accumulation of ammonia in the body leads to slurring of speech, blurring 
+of vision and tremors. Finally, to coma and death if not corrected.
+– This can be due to genetic or acquired defects in the enzymes in urea 
+synthesis or due to hepatitis, alcoholism, etc.
+– Accumulation of ammonia shifts the equilibrium to the right with more 
+glutamate formation
+– This results in increased utilization of a-ketoglutarate causing its depletion 
+in TCA cycle and ultimately, impairment of TCA cycle
+– All these changes cause reduction in the production of ATP by the brain
+– Toxic effects of ammonia on the brain is due to loss of A TP production 
+a-ketoglutarate + ammonia Glutamate
+
+[Page 26]
+Urea cycle
+• Urea is the end-product of the protein metabolism (AA 
+metabolism)
+• Nitrogen converted to ammonia is toxic to the body. It is, 
+therefore, converted to non-toxic urea and excreted in the urine.
+• Urea is synthesized in liver and excreted via kidney in urine
+• Urea cycle also called as Krebs-Henseleit cycle
+• Urea has two amino groups, one derived from ammonia and 
+the other from aspartate. Carbon atoms supplied by CO2
+• Urea synthesis is a 5-step cyclic process involving 5 distinct 
+enzymes
+End product Excreted N2 %
+Urea 68.0
+Creatinine 4.5
+Ammonium 2.8
+Uric Acid 1.7
+Other 5.0
+
+
+[Page 27]
+DID YOU KNOW?
+In ancient Rome, urine was a valuable commodity and was used to 
+brighten togas. Vessels were placed on street corners to encourage 
+passersby to urinate into them. Bacteria degraded the urea, releasing 
+ammonium ion, which acted as a bleaching agent.
+Diagram of the Urea Cycle
+
+[Page 28]
+• The 2 nitrogen atoms of urea enter 
+the Urea Cycle as NH3 (produced 
+mainly via the Glutamate 
+Dehydrogenase reaction) and as the 
+amino N of aspartate.
+• NH3 (amino N) and HCO3
+-
+(carbonyl C) that will be part of 
+urea are incorporated first into 
+carbamoyl phosphate.
+• Carbamoyl Phosphate Synthase 
+(Type I) catalyzes a three-step 
+reaction with carbonyl phosphate 
+and carbamate intermediates
+– The reaction, which involves 
+cleavage of 2 ~P bonds of A TP, is 
+essentially irreversible. 
+– Ammonia is the nitrogen input for 
+this reaction of the Urea cycle
+STEP 1: Synthesis of Carbamoyl phosphate
+
+[Page 29]
+• Carbamoyl Phosphate Synthase is the committed step of the 
+Urea Cycle, and is subject to regulation.
+• Carbamoyl Phosphate Synthase has an absolute requirement for 
+an allosteric activator N-acetylglutamate . This derivative of 
+glutamate is synthesized from acetyl-CoA and glutamate when 
+cellular [glutamate] is high, signaling an excess of free amino 
+acids due to protein breakdown or dietary intake.
+
+
+[Page 30]
+• In addition to Carbamoyl
+Phosphate Synthase, one 
+Urea Cycle enzyme is 
+localized in the 
+mitochondria: 
+• 1. Ornithine
+Transcarbamylase.
+• The 3 remaining Urea Cycle 
+enzymes are in the cytosol: 
+• 2. Argininosuccinate
+Synthase
+3. Argininosuccinase
+4. Arginase
+
+
+[Page 31]
+• Citrulline is synthesized from 
+carbamoyl phosphate and ornithine
+by ornithine transcarbamoylase
+• Ornithine is regenerated and 
+used in urea cycle, similar to 
+oxaloacetate in Krebs cycle
+• Ornithine and citrulline are basic 
+AAs (not found in protein structure 
+due to lack of codons)
+• Given the localization of enzymes, 
+for each cycle citrulline must leave 
+the mitochondria, and ornithine
+must enter the mitochondrial 
+matrix.
+STEP 2: Citrulline production
+• An ornithine/citrulline
+transporter in the inner 
+mitochondrial membrane 
+facilitates the necessary 
+transmembrane fluxes or 
+citrulline and ornithine.
+
+[Page 32]
+• Arginosuccinate synthase
+condenses citrulline and 
+aspartate to produce 
+arginosuccinate.
+• Second amino group of 
+urea is incorporated in 
+this step
+• It requires ATP
+STEP 3: Synthesis of arginosuccinate
+
+
+[Page 33]
+• Arginosuccinase cleaves 
+arginosuccinate to arginine and 
+fumarate.
+• Arginine is the intermediate 
+precursor for urea
+• Fumarate (produced by cleavage 
+of argininosuccinate) is converted 
+to oxaloacetate via Krebs Cycle 
+enzymes Fumarase and Malate
+Dehydrogenase.
+• Oxaloacetate is converted to 
+aspartate via transamination, e.g., 
+from glutamate. Aspartate then 
+reenters the Urea Cycle, carrying 
+an amino group derived from 
+another amino acid. 
+STEP 4: Cleavage of arginosuccinate
+
+
+[Page 34]
+• Arginase cleaves arginine to yield urea and 
+ornithine
+• Regenerated ornithine enters mitochondria for its 
+reuse in urea cycle.
+• The enzyme requires Co2+ and Mn2+ as activators
+• Only the liver can ultimately produce urea as 
+arginase is mostly found in liver.
+• The amino acid arginine, in addition to being a 
+constituent of proteins and an intermediate of the 
+Urea Cycle, serves as precursor for synthesis of 
+creatine and the signal molecule nitric oxide.
+• Polyamines include putrescine, spermidine, and 
+spermine. Ornithine is a major precursor for 
+synthesis of polyamines. Conversion of ornithine to 
+putrescine is catalyzed by Ornithine Decarboxylase.
+• Polyamines are important in cell growth & 
+proliferation. Disruption of polyamine synthesis or 
+metabolism leads to disease
+STEP 5: Formation of Urea
+
+
+[Page 35]
+• Urea cycle is irreversible and consumes 4 
+ATP
+– 2 ATP for the synthesis of carbamoyl
+phosphate
+– 1 A TP converted to AMP and PPi to produce 
+arginosuccinate which is equivalent to 2 
+ATP
+• Urea is excreted in urine and some amount 
+enters intestine where it is converted to CO2
+and NH3 by urease . NH3 is absorbed in 
+blood or excreted in feces.
+• In renal failure, hyperammonemia is 
+caused by more NH3 entering blood from 
+intestine.
+• Fumarate produced by Urea cycle enters 
+TCA.
+• Oxaloacetate of TCA cycle undergoes 
+transamination to aspartate and enters Urea 
+cycle
+NH4
++
+
+[Page 36]
+Diagram depicting the metabolic context of 
+Nitrogen metabolism
+
+
+[Page 37]
+Amino acid Biosynthesis
+• Essential Amino acids
+*Arginine
+Methionine
+Histidine
+Phenylalanine
+Isoleucine
+Threonine
+Leucine
+Tryptophan
+Lysine
+Valine
+– ARG is essential in infants and 
+children
+– most synthesized ARG 
+Ornithine and
+urea via the urea cycle
+• Non-essential Amino acids
+Alanine
+Glutamine
+Asparagine
+Glycine
+Aspartate
+Proline
+*Cysteine
+Serine
+Glutamate
+*Tyrosine
+– CYS gets its sulfur atom from 
+MET
+– TYR is hydroxylated PHE
+• so it’s not really nonessential
+
+[Page 39]
+• The pathways for the biosynthesis of AAs are 
+diverse
+• A common feature: Their carbon skeletons 
+come from intermediates in glycolysis, TCA 
+cylce or pentose phosphate pathway
+• Non-essential AAs are synthesized through 
+simple reactions
+• Formation of essential AAs are quite complex
+
+
+[Page 40]
+Diagram of the biosynthetic families of amino 
+acids in Bacteria and Plants
+Biosynthetic families of amino acids in bacteria and plants. Major metabolic 
+precursors are shaded blue. Amino acids that give rise to other amino acids are 
+shaded yellow. Essential amino acids are in boldface type.
+
+[Page 41]
+Human beings can synthesize some amino
+acids but must obtain others from the Diet
+• Amino acids that can be synthesized by humans are called nonessential 
+amino acids and are usually synthesized by simple reactions.
+• Amino acids that are required in the diet are called essential amino acids. 
+These amino acids usually have complex synthetic pathways and cannot 
+be synthesized by humans.
+• A deficiency in even one essential amino acid can have severe 
+physiological consequences.
+
+[Page 42]
+Some amino acids can be made by simple 
+Transamination Reactions
+• Transamination reactions are catalyzed by aminotransferases (transaminases). 
+These enzymes require the coenzyme pyridoxal phosphate, which is derived 
+from pyridoxine (vitamin B6).
+Pyridoxine (vitamin B6). Pyridoxine is a precursor to pyridoxamine phosphate (PMP) and pyridoxal phosphate 
+(PLP). PLP serves as a cofactor in a host of enzymes including transaminases. Pyridoxine is found in plants, 
+whereas PLP and PMP are plentiful in salmon and the white meat of poultry. A deficiency of vitamin B6, which is 
+rare in the United States, results in fatigue, fissures at the corners of the mouth (cheilosis), inflammation of the 
+tongue (glossitis), and inflammation of the lining of the mouth (stomatitis). [ Og-vision/Dreamstime.com.]
+
+
+[Page 43]
+Serine, Cysteine, and Glycine are formed 
+from 3-Phosphoglycerate
+• The glycolytic intermediate 3-phosphoglycerate is the precursor for 
+serine. Serine, in turn, is metabolized to cysteine and glycine.
+• The synthesis of glycine requires the cofactor tetrahydrofolate.
+Folic acid (vitamin B9). Another of the B vitamins, folic acid is especially important for growth, and a lack of 
+folic acid during prenatal development results in spinal-cord defects. Folic acid deficiency can result in 
+megaloblastic anemia, characterized by the release of large immature red blood cells into the blood. Green 
+vegetables such as spinach and broccoli are good sources of folic acid.
+
+[Page 44]
+• In addition to these precursors, there is a notable intermediate 
+that recurs in several pathways.
+– Phosphoribosyl pyrophosphate (PRPP)
+– PRPP is synthesized from ribose-5-phosphate derived from the pentose 
+phosphate pathway, catalyzed by ribose phosphate pyrophosphokinase
+– PRPP is as an intermediate in tryptophan and histidine biosynthesis with 
+the ribose ring contributing carbons to many of the structures in these 
+AAs
+– It is also of importance in the biosynthesis of nucleotides
+Ribose-5-P + ATP PRPP + AMP
+ribose phosphate 
+pyrophosphokinase
+5-phosphoribosyl-1-pyrophosphate (PRPP)
+
+[Page 45]
+Synthesis of AAs from Phosphoenol pyruvate and 
+Erythrose-4-phosphate
+• Tyrosine and Phenylalanine are synthesized 
+from chorismate in plants and 
+microorganisms via simple pathways.
+• Chorismate is the first branch point from 
+which one leads to the synthesis of 
+tryptophan and the other to tyrosine and 
+phenylalanine
+• Chorismate is converted to prephenate before 
+finally becoming tyrosine and phenylalanine
+• Chorismate is converted to anthranilate by 
+releasing pyruvate. In this 5-step process, 
+tryptophan is synthesized.
+
+
+[Page 46]
+Tyrosine and Phenylalanine synthesis
+• Tyrosine is also made by animals 
+directly from phenylalanine
+– hydroxylation of C-4 by the 
+phenylalanine hydroxylase
+– phenylalanine hydroxylase also 
+degrades phenylalanine
+• Tyrosine is nonessential AA because 
+it can be synthesized from 
+phenylalanine
+
+
+[Page 47]
+Tryptophan synthesis
+• Tryptophan is 
+synthesized from 
+chorismate in a 5-
+step process.
+• In the first step, 
+glutamine contributes 
+an amino group and 
+pyruvate is released.
+• PRPP contributes the 
+C-1 atom for the 
+subsequent formation 
+of tryptophan along 
+with serine.
+
+
+[Page 48]
+1. Nucleotides
+2. Nucleotide coenzymes
+3. Porphyrins
+4. Neurotransmitters
+5. Other molecules: hormones, alkaloids, 
+antibiotics, pigments, etc
+Amino acids are precursors of many Biomolecules
+In addition to being the building blocks of proteins and 
+peptides, amino acids serve as precursors of many kinds of 
+important small molecules.
+Some of these small molecules include purines and 
+pyrimidines, the reactive terminus of sphingosine, histamine, 
+thyroxine, epinephrine, melanin, serotonin, the nicotinamide
+ring of NAD+, glutathione, and the porphyrins of hemes and 
+chlorophylls.
+
+[Page 49]
+Porphyrins
+• Glycine is the major precursor for 
+porphyrins, constituents of 
+hemoglobin
+• Glycine reacts with succinyl-CoA to 
+form porphobilinogen through a series 
+of reactions.
+• Four moles of prophobilinogen come 
+together to form protoporhyrin
+through a series of complex reactions.
+• The iron atom is incorporated after the 
+protoporphyrin has been assembled.
+• Genetic defects of certain enzymes in 
+this pathway lead to accumulation of 
+certain porphyrin precursors in body 
+fluids and liver leading to a condition 
+called porphyrias
+• Patients are anemic and sensitive to 
+sunlight
+
+
+[Page 50]
+Creatine
+• Phosphocreatine is derived from 
+creatine.
+• Acts as an energy reservoir in skeletal 
+muscle
+• Creatine is derived from glycine and 
+arginine, and methionine (as S-
+adenosylmethionine) plays an important 
+role as a donor of methyl group
+
+
+[Page 51]
+Glutathione (GSH)
+• GSH is a tripeptide containing cysteine, 
+glutamate, and glycine.
+• GSH is present in all cells, often at high 
+levels (~5 mM) as a sulfhydryl buffer
+• It cycles between a reduced thiol form 
+(GSSG) in which two tripeptides are 
+linked by a disulfide bond.
+– GSSG is reduced to GSH by glutathione 
+reductase
+• GSH also plays a role in detoxification 
+by reacting with H2O2 and organic 
+peroxidases, harmful byproducts of cells
+– Glutathione peroxidase is the enzyme that 
+catalyzes this reaction.
+– The enzyme has covalently attached 
+Selenium atom
+
+
+[Page 52]
+Neurotransmitters
+• Small diffusable
+molecules which 
+communicate nerve 
+impulses across most 
+synapses are called 
+neurotransmitters
+• Tyrosine gives rise to 
+dopamine, 
+norepinephrine, and 
+epinephrine. Regulate 
+blood pressure
+• Parkinson’s disease, a 
+neurodegenerative 
+disease, is due to loss 
+of dopamine
+• Overproduction of 
+dopamine leads to 
+Schizophrenia
+• Lower levels of GABA (an inhibitory 
+neurotransmitter) leads to epilepsy
+• Histamine is a vasodilator. Produced in 
+higher amounts during allergy.
+
+[Page 53]
+Biosynthesis of lignin, Tannin, and Auxin
+• The aromatic AAs are precursors of many plant substances
+• Lignin, a complex rigid polymer, is derived from 
+phenylalanine and tyrosine. Lignin is second only to cellulose 
+in abundance in plant tissues
+• Phenylalanine and tyrosine also give rise to natural products, 
+tannins, that inhibit oxidation in wines
+• Tryptophan gives rise to plant growth hormone, indole-3-
+acetate (IAA) or auxin. This hormone regulates the 
+physiological processes in plants
+• Alkaloids are synthesized from ornithine, lysine, tyrosine, 
+phenylalanine, asparagine, tryptophan, proline, glutamic acid 
+and their derivatives.
+– Maintain ionic balance, act as growth regulators.
+
+[Page 54]
+Regulation of amino acid synthesis
+• It is critical that AA biosynthetic pathways be tightly 
+regulated by feedback inhibition to provide the 
+required proportions of each AA in response to 
+cellular needs.
+• Feedback inhibition: The rate of synthesis depends on 
+amount and activity of biosynthetic enzymes
+– The first step is committed step
+– Threonine dehydratase/deaminase is inhibited by 
+isoleucine
+• Concerted feedback control: E.g., inhibition of 
+bacterial aspartyl kinase by threonine and isoleucine, 
+the two final products.
+– Inhibition can occur either at the committed step or in 
+the intermediate steps
+
+
+[Page 55]
+CO2
+CO2
+Pyruvate
+Acetyl-CoA Acetoacetate
+Citrate
+Isocitrate
+a-ketoglutarate
+Succinyl-CoA
+Fumarate
+Oxaloacetate
+Citric
+Acid
+Cycle
+CO2
+Glucose
+Ala Ser
+Cys Thr*
+Gly Trp*
+Ile*
+Leu•
+Lys•
+Thr*
+Leu• Trp*
+Lys• Tyr*
+Phe*
+Asn
+Asp
+Asp
+Phe*
+Tyr*
+Ile*
+Met
+Val
+Arg His
+Glu Pro
+Gln
+Glucogenic
+Ketogenic
+* Both Glucogenic and Ketogenic
+• Purely Ketogenic
+Diagram depicting fates of the carbon skeletons 
+of amino acids
+
+[Page 56]
+Disorders of tyrosine (phenylalanine) metabolism
+
+[Page 57]
+Inborn errors of amino acid metabolism
+
+
+[Page 58]
+• Tyrosine is also the precursor to 
+pigment molecules called 
+melanins that are produced from 
+dopaquinone. 
+• The two primary melanins are 
+eumelanins, which are dark 
+pigments having a brown or black 
+color, and pheomelanins that 
+have red or yellow color. 
+• The yellow color of pheomelanin
+pigments comes from the sulfur in 
+cysteine that is combined with 
+dopaquinone. 
+Amino acids as Metabolic Precursors
+
+
+[Page 59]
+Melanocytes are cells that produce melanins, and depending on the ratio of 
+eumelanin and pheomelanin pigments, one can have either dark hair or light 
+hair depending in the distribution of melanin-filled granules along the hair 
+shaft. 
+Natural loss of hair color occurs as a result of aging when melanin 
+production in human melanocytes located near the base of hair follicles 
+shuts down and these defective cells are not replaced as they normally are in 
+younger individuals. Gray hair can be colored by treating it with a mixture 
+of hydrogen peroxide and an ammonia based solution containing artificial 
+pigments. 
+Amino acids as Metabolic Precursors
+
+
+[Page 60]
+A genetic defect in the gene encoding phenylalanine hydroxylase is 
+responsible for the metabolic disease phenylketonuria (PKU). 
+Inborn Errors of Metabolism: Genetic Disease
+Tyrosine is used not only 
+for protein synthesis, but 
+as described above, 
+tyrosine is also the 
+precursor for 
+neurotransmitter 
+dopamine, as well as, 
+skin pigments
+(melanins) and 
+epinephrine.
+
+[Page 61]
+Disease symptoms in untreated 
+individuals with PKU include 
+severe mental retardation, 
+stunted growth and dental 
+problems. The clinical 
+symptoms of PKU are caused 
+by the accumulation of 
+phenylalanine in the blood 
+that is 30-50 times higher 
+than normal. 
+This high level of 
+phenylalanine leads to the 
+production of phenylalanine 
+metabolites such as 
+phenylpyruvate, 
+phenylacetate and 
+phenyllactate, all of which are 
+associated with the observed 
+neurological and developmental 
+problems. 
+
+
+[Page 62]
+The probability that two PKU carriers will 
+have a child with the disease is 25% based 
+on simple Mendelian genetics. 
+Since the frequency of PKU carriers in the 
+general population is ~2% (~1 in 50), then 
+the probability that a baby will be born with 
+PKU by random chance is 0.02 x 0.02 x 
+0.25 = 0.0001, or 1 in 10,000, which is close 
+to the observed frequency of 1 in 15,000. 
+PKU is an autosomal recessive genetic disease
+The phenylalanine hydroxylase gene is located on chromosome 12 making it an 
+autosomal recessive genetic disease. An autosomal genetic disease is one in 
+which the mutation is located on one of the 22 autosomal chromosomes (all 
+chromosomes except the X or Y chromosome). 
+
+[Page 63]
+Image of a Warning label
+Warning labels. Diet drinks in which aspartame, a phenylalanine-
+containing artificial sweetener, replaces sugar must have a warning on their 
+containers that alerts phenylketonurics to the presence of phenylalanine in 
+the drinks.
+
+[Page 64]
+Albinism is caused by mutations in the 
+tyrosinase gene which is required for 
+pigment biosynthesis
+A deficiency in tyrosinase will result in 
+loss of hair and skin pigments which 
+explains the albino phenotype. 
+Interestingly, individuals with 
+phenylketonuria can have light skin 
+and hair at birth because of low levels 
+of tyrosine. 
+However, phenylketonuriacs are not 
+albinos because they obtain sufficient 
+amounts of tyrosine in their diets to 
+support melanin biosynthesis.
+Type 1 albinism is an autosomal recessive genetic mutation 
+in the tyrosinase gene
+
+
+[Page 65]
+• Numerous metabolic disease affecting heme
+biosynthesis have been linked directly to 
+enzymes in the heme biosynthetic pathway. 
+• These diseases are characterized by the 
+accumulation of heme precursors in the 
+blood and liver and are collectively called 
+porphyrias because they inhibit porphyrin
+ring synthesis. 
+• One of the metabolites is 
+uroporphyrinogen I which builds up in the 
+teeth causing them to turn reddish brown 
+and fluoresce under ultraviolet light.
+• These individuals avoid excess exposure to 
+sunlight which can result in painful blisters. 
+These symptoms, combined with the 
+common medieval practice of drinking 
+animal blood as a treatment for human 
+ailments, led to the legend of the "vampires."
+Congenital porphyrias affect heme biosynthesis and can be the 
+result of dominant mutations
+
+
+[Page 66]
+Unlike recessive genetic diseases 
+in which both copies of the gene 
+(maternal and paternal) are 
+defective, dominant genetic 
+diseases cause symptoms when 
+only one of the gene copies is 
+mutated.
+The inheritance pattern of a 
+dominant genetic disease is such 
+that each child has a 50% chance 
+of being afflicted if one parent 
+carries the mutation and the other 
+parent is normal (100% of the 
+children will get the disease if 
+both parents carry the mutation). 
+Congenital porphyrias affect heme biosynthesis and 
+can be the result of dominant mutations
+
+
+===== SOURCE_FILE: nexus/Biochemistry/Notes/Chapter 5- Fatty Acids And Nucleic Acids Metabolism.pdf =====
+CATEGORY: Notes
+STATUS: ok
+
+[Page 1]
+21BTC101T Biochemistry
+UNIT –V
+• Introduction - Fatty acid metabolism 
+• Hormones signal - the release of fatty acids from adipose tissues
+• Fatty acid oxidation
+• Ketone bodies & Ketogenesis
+• Biosynthesis of Fatty acids
+• Eicosanoids
+• Cholesterol Biosynthesis
+• Lipoproteins
+• Disorders of Lipid metabolism
+• Nucleic acids: Biosynthesis of Purine and Pyrimidines
+• Degradation of purine nucleotides and pyrimidine nucleotides
+• Disorders of Purine and pyrimidine metabolism
+The hummingbird’s 
+tremendous 
+capacity to store 
+and use fatty 
+acids enables it to 
+make migratory 
+journeys of 
+remarkable
+distances.
+
+
+[Page 2]
+Fatty acid degradation
+Many mammals, such as this house 
+mouse, hibernate over the long 
+winter months. Although their 
+metabolism slows during 
+hibernation, the energy needs of the 
+animal must still be met. Fatty acid 
+degradation is a key energy source 
+for this need. 
+
+[Page 3]
+Introduction
+• Lipids of significance in mammals are 
+triacylglycerols (triglycerides, neutral 
+fat), phospholipids, and steroids and 
+also, their metabolic products such as 
+long-chain FAs, glycerol, and ketone
+bodies.
+• 10 to 20% body weight is due to lipids, 
+a major part is in the form of 
+triacylglycerols.
+• Triacylglycerols are stored in 
+specialized cells called adipocytes or 
+adipose cells. 
+– aggregated to form large globules, occupy 
+most of the volume of adipose cells. 
+– Much smaller amounts of triacylglycerols
+are stored as small, aggregated globules in 
+muscle tissue.
+Scanning electron micrograph of 
+an adipose cell (fat cell). Globules 
+of triacylglycerols occupy most of 
+the volume of such cells
+
+[Page 4]
+Functions of Lipids
+1. Structural components of membranes
+– Phospholipids, glycolipids, and cholesterol 
+are major components of cell membranes
+2. Storage forms of energy
+– 1 gm of fat yields 9.3 cal upon oxidation: 
+twice that of carbohydrate and protein
+– Fats contain more carbon and hydrogen in 
+relation to oxygen as compared to 
+carbohydrates and protein
+– Fats are less completely oxidized to begin with 
+and can be oxidized further to yield more 
+energy.
+– Fats are hydrophobic and non-polar and stored 
+in pure form without any association with 
+water (1 gm of Glycogen is stored in 
+combination with 2 gm of water for storage)
+
+
+[Page 5]
+3. Transporters of metabolic fuel
+– Liver and adipose tissue are the principal sites of metabolic activity 
+while the blood serves as a transport system
+– Lipoproteins transport lipids in the blood stream
+4. Emulsifying agents
+5. Vitamins and Hormones
+– Vitamin D derivatives and sex hormones
+6. 2nd messenger system: e.g., phosphatidylinositol
+– Eicosanoids and derivatives of phosphatidylinositol
+
+[Page 6]
+Fatty acids are processed in three stages
+• The fatty acids incorporated into triacylglycerols (TGA) in adipose 
+tissue are made accessible in three stages.
+1. Degradation of TAG to release fatty acids and glycerol into the 
+blood for transport to energy-requiring tissues
+2. Activation of the fatty acids and transport into the mitochondria 
+for oxidation
+3. Degradation of the fatty acids to acetyl CoA for processing by 
+the citric acid cycle
+
+
+[Page 7]
+Hormones Signal the 
+Release of Fatty Acids from 
+Adipose Tissue
+• Fatty acids are mobilized from 
+adipocytes in response to 
+hormone messengers such as 
+adrenaline, glucagon, and 
+ACTH (adrenocorticotropic 
+hormone). 
+• These signal molecules bind to 
+receptors on the plasma 
+membrane of adipose cells and 
+lead to the activation of 
+adenylyl cyclase, which forms 
+cyclic AMP from ATP. 
+(a) A duct at the junction of the pancreas and duodenum secretes pancreatic juice into the duodenum, 
+the first portion of the small intestine. (b) Hydrolysis of triacylglycerols by pancreatic and intestinal lipases. 
+Pancreatic lipases cleave fatty acids at the C-1 and C-3 positions. Resulting monoacylglycerols with fatty 
+acids at C-2 are hydrolyzed by intestinal lipases. Fatty acids and monoacylglycerols are absorbed through the 
+intestinal wall and assembled into lipoprotein aggregates termed chylomicrons
+
+[Page 8]
+Diagram depicting how Triacylglycerols in adipose 
+tissue are converted into free fatty acids in response 
+to hormonal signals
+Epinephrine and glucagon, acting 
+through 7TM receptors, stimulate 
+lipid breakdown or lipolysis.
+Triacylglycerols in adipose tissue are converted 
+into free fatty acids in response to hormonal 
+signals. The phosphorylation of perilipin
+restructures the lipid droplet and releases the 
+coactivator of A TGL. The activation of A TGL by 
+binding with its coactivator initiates the 
+mobilization. Hormone-sensitive lipase releases a 
+fatty acid from diacylglycerol. Monoacylglycerol
+lipase completes the mobilization process. 
+Abbreviations: 7TM, seven transmembrane; 
+A TGL, adipose triglyceride lipase; CA, 
+coactivator; HS lipase, hormone-sensitive lipase; 
+MAG lipase, monoacylglycerol lipase; DAG, 
+diacylglycerol; TAG, triacylglycerol. 
+
+[Page 9]
+• In adipose cells, cAMP activates protein 
+kinase A, which phosphorylates and 
+activates a triacylglycerol lipase (also 
+termed hormone-sensitive lipase) that 
+hydrolyzes a fatty acid from C-1 or C-3 
+of triacylglycerols. 
+• Subsequent actions of diacylglycerol
+lipase and monoacylglycerol lipase
+yield fatty acids and glycerol. The cell 
+then releases the fatty acids into the 
+blood, where they are carried (in 
+complexes with serum albumin) to sites 
+of utilization.
+
+
+[Page 10]
+Diagram of Lipolysis
+Lipolysis generates fatty acids and glycerol. The fatty acids are used as fuel by many 
+tissues. The liver processes glycerol by either the glycolytic or the gluconeogenic pathway, 
+depending on its metabolic circumstances. Abbreviation: CAC, citric acid cycle.
+
+[Page 11]
+Degradation of Dietary Fatty Acids Occurs Primarily in 
+the Duodenum
+• Dietary triacylglycerols are degraded to a small extent (via fatty
+acid release) by lipases in the low-pH environment of the
+stomach, but mostly pass untouched into the duodenum.
+• Alkaline pancreatic juice secreted into the duodenum raises the
+pH of the digestive mixture, allowing hydrolysis of the
+triacylglycerols by pancreatic lipase and by nonspecific esterases,
+which hydrolyze the fatty acid ester linkages.
+• Pancreatic lipase cleaves fatty acids from the C-1 and C-3
+positions of triacylglycerols, and other lipases and esterases attack
+the C-2 position.
+– These processes depend upon the presence of bile salts, a family of
+carboxylic acid salts with steroid backbones. These agents act as detergents
+to emulsify the triacylglycerols and facilitate the hydrolytic activity of the
+lipases and esterases.
+
+[Page 12]
+• Short-chain fatty acids (10 carbons or less) released are absorbed directly into 
+the villi of the intestinal mucosa, whereas long-chain fatty acids, which are less 
+soluble, form mixed micelles with bile salts, and are carried to the surfaces of 
+the epithelial cells that cover the villi. 
+• The fatty acids pass into the epithelial cells, where they are condensed with 
+glycerol to form new triacylglycerols. These triacylglycerols aggregate with 
+lipoproteins to form particles called chylomicrons, which are then transported 
+into the lymphatic system and on to the bloodstream, where they circulate to the 
+liver, lungs, heart, muscles, and other organs. 
+• At these sites, the triacylglycerols are hydrolyzed to release fatty acids, which 
+can then be oxidized in a highly exergonic metabolic pathway known as b-
+oxidation.
+In the small intestine, fatty acids combine with bile 
+salts in mixed micelles, which deliver fatty acids to 
+epithelial cells that cover the intestinal villi. 
+Triacylglycerols are formed within the epithelial cells.
+
+[Page 13]
+Free fatty acids and glycerol are released into the blood
+• Since fatty acids are not soluble in aqueous solutions, they bind to 
+the blood protein albumin, which delivers them to tissues in need 
+of fuel.
+• The glycerol released during lipolysis is absorbed by the liver for 
+use in glycolysis or gluconeogenesis.
+Fatty acids are linked to coenzyme A before they are oxidized
+
+
+[Page 14]
+• Lipases hydrolyze triacylglycerols, releasing one fatty 
+acid at a time, producing diacylglycerols, and 
+eventually glycerol.
+• Glycerol arising from hydrolysis of triacylglycerols is 
+converted to the Glycolysis intermediate 
+dihydroxyacetone phosphate, by reactions catalyzed 
+by:
+( ) Glycerol Kinase
+(2) Glycerol Phosphate Dehydrogenase
+
+
+[Page 15]
+Fatty acid Oxidation
+• FAs in the body are mostly 
+oxidized by b-oxidation
+– It is oxidation of FAs on the b-
+carbon atom
+– Results in sequential removal of 
+a 2-carbon fragment, acetyl 
+CoA
+• It involves 3 stages
+– Activation of FAs occurring in 
+the cytosol
+– Transport of FAs into the 
+mitochondria
+– Subsequent b-oxidation in the 
+mitochondria
+
+
+[Page 16]
+1. FA activation
+• Fatty acids must be esterified to 
+Coenzyme A before they can undergo 
+oxidative degradation, be utilized 
+for synthesis of complex lipids (e.g., 
+triacylglycerols or membrane lipids), 
+or be attached to proteins as lipid 
+anchors. 
+• Acyl-CoA Synthases (Thiokinases), 
+associated with ER membranes and 
+the outer mitochondrial membrane, 
+catalyze activation of long chain fatty 
+acids, esterifying them to coenzyme 
+A, as shown at right. 
+– This process is A TP-dependent, and 
+occurs in 2 steps. 
+– There are different Acyl-CoA Synthases 
+for fatty acids of different chain lengths.
+
+
+[Page 17]
+• Exergonic hydrolysis of PPi (P~P), catalyzed by 
+Pyrophosphatase, makes the coupled reaction spontaneous. 
+Overall, two ~P bonds of ATP are cleaved during fatty acid 
+activation. The acyl-coenzyme A product includes one "high 
+energy" thioester linkage.
+• Summary of fatty acid activation:
+fatty acid + ATP acyl-adenylate + PPi
+PPi 2 Pi
+acyladenylate + HS-CoA acyl-CoA + AMP
+• Overall: 
+fatty acid + ATP + HS-CoA acyl-CoA + AMP + 2 Pi
+
+[Page 18]
+2. Transport of acyl-CoA into mitochondria
+• Fatty acyl-CoA formed outside the 
+mitochondria can pass through the outer 
+mitochondrial membrane, but cannot penetrate 
+the mitochondrial inner membrane. 
+• Transfer of the fatty acid moiety across the 
+mitochondrial inner membrane involves 
+carnitine
+• Short-chain fatty acids, as already mentioned, 
+are transported into the matrix as free acids and 
+form the acyl-CoA derivatives there. However, 
+long-chain fatty acyl-CoA derivatives cannot be 
+transported into the matrix directly. These long-
+chain derivatives must first be converted to 
+acylcarnitine derivatives.
+DID YOU KNOW?: Muscle, kidney, 
+and heart use fatty acids as a fuel. 
+Pathological conditions result if the 
+acyltransferase or the translocase is 
+deficient. Carnitine is now a popular 
+dietary supplement.
+
+[Page 19]
+• Carnitine acyltransferase I, located on 
+the outer side of the inner mitochondrial 
+membrane, catalyzes the formation of 
+the O-acylcarnitine, which is then 
+transported across the inner membrane 
+by a translocase.
+• At this point, the acylcarnitine is passed 
+to carnitine acyltransferase II on the 
+matrix side of the inner membrane, 
+which transfers the fatty acyl group back 
+to CoA to re-form the fatty acyl-CoA, 
+leaving free carnitine, which can return 
+across the membrane via the translocase.
+• Eukaryotic cells maintain separate 
+pools of CoA in the mitochondria and 
+in the cytosol. The cytosolic pool is 
+utilized principally in fatty acid 
+biosynthesis, and the mitochondrial pool 
+is important in the oxidation of fatty 
+acids and pyruvate, as well as some AAs.
+• Malonyl-CoA (which is also a precursor 
+for fatty acid synthesis) inhibits Carnitine
+acyl Transferase I. 
+
+
+[Page 20]
+3. b-oxidation
+• Step 1. Acyl-CoA Dehydrogenase
+catalyzes oxidation of the fatty acid 
+moiety of acyl-CoA, to produce a double 
+bond between carbon atoms 2 and 3.
+– There are different Acyl-CoA
+Dehydrogenases for short (4-6 C), medium 
+(6-10 C), long and very long (12-18 C) chain 
+fatty acids.
+– FADH2 of Acyl CoA Dehydrogenase is 
+reoxidized by transfer of 2 electrons to an 
+Electron Transfer Flavoprotein (ETF), which 
+in turn passes the electrons to coenzyme Q of 
+the respiratory chain
+• Step 2. Enoyl-CoA Hydratase catalyzes 
+stereospecific hydration of the trans 
+double bond produced in the 1st step of 
+the pathway, yielding L-hydroxyacyl-
+Coenzyme A
+DID YOU KNOW?
+The symbol Δn (capital delta, 
+superscript number) is used to denote 
+the position of the first carbon atom 
+participating in a double bond. Thus, Δ2
+designates a double bond between 
+carbon 2 and carbon 3. 
+
+[Page 21]
+• Step 3. Hydroxyacyl-CoA
+Dehydrogenase catalyzes 
+oxidation of the hydroxyl in the b
+position (C3) to a ketone. NAD+ is 
+the electron acceptor. 
+• Step 4. b-Ketothiolase (b-
+Ketoacyl-CoA Thiolase) catalyzes 
+thiolytic cleavage.
+Acetyl CoA, NADH, and FADH2 are 
+generated by fatty acid Oxidation
+
+
+[Page 22]
+Diagram of the reaction sequence for the 
+Degradation of Fatty Acids
+The reaction sequence for the degradation of fatty acids. Fatty acids are degraded by 
+the repetition of a four-reaction sequence consisting of oxidation, hydration, oxidation, 
+and thiolysis. 
+
+[Page 23]
+Oxidation of Palmitoyl CoA (C16)
+• Fatty acid degradation occurs in the mitochondria and yields acetyl 
+CoA and reduced cofactors via β-oxidation. Subsequent oxidation of 
+these products by the TCA cycle and the electron transport pathway 
+yields ATP.
+• 7 rounds of β-oxidation are necessary to degrade palmitoyl CoA and 
+yield 7 FADH2, 7 NADH and 8 acetyl CoA, therefore 131 ATPs. 
+Since 2 ATP equivalents are necessary to activate palmitate to 
+palmitoyl CoA (ATP AMP) the total energy yield from palmitate
+oxidation is 129 ATPs or 8 ATPs/C. Recall that 1 glucose 38 
+ATP or 6.3 ATPs/C. Clearly fatty acid oxidation yields more 
+storable energy.
+
+
+[Page 24]
+Oxidation of Stearoyl-CoA
+
+
+[Page 25]
+• Fatty acid oxidation is accompanied by the production of water, referred to as metabolic 
+water. For certain animals—including desert animals, such as gerbils, and killer whales 
+(which do not drink seawater)—the oxidation of fatty acids can be a significant source of 
+dietary water.
+• Camel’s hump stores fat which is a source of energy and also, water in the desert.
+• Kangaroo rat is believed to live indefinitely without water
+
+[Page 26]
+Odd-chain fatty acids yield propionyl CoA in 
+the final thiolysis step
+
+
+[Page 27]
+b-oxidation of fatty acids in peroxisomes
+• Peroxisomes are organelles present in most 
+eukaryotic cells.
+• Peroxisomes carry out the initial oxidation 
+of very long chain fatty acids
+• FAD is electron acceptor for peroxisomal
+Acyl-CoA Oxidase, which catalyzes the first 
+oxidative step of the pathway. The resulting 
+FADH2 is reoxidized in the peroxisome
+producing hydrogen peroxide: 
+• FADH2 + O2 FAD + H2O2
+• The peroxisomal enzyme Catalase degrades 
+H2O2 by the reaction:
+2 H2O2 2 H2O + O2
+These reactions produce no ATP. However, 
+FA breakdown is dissipated as heat
+
+
+[Page 28]
+Ketone bodies & Ketogenesis
+• Ketone bodies are a significant source 
+of fuel and energy for certain tissues
+• Ketogenesis means formation of ketone
+bodies
+• Most of the acetyl-CoA produced by the 
+oxidation of fatty acids in liver 
+mitochondria undergoes further 
+oxidation in the TCA cycle. 
+• However, some of this acetyl-CoA is 
+converted to three important 
+metabolites: acetone, acetoacetate, and 
+b-hydroxybutyrate. 
+• The process is known as ketogenesis,
+and these three metabolites are known 
+as ketone bodies, in spite of the fact 
+that b-hydroxybutyrate does not 
+contain a ketone. Acetone is a minor 
+part of the total ketone bodies.
+
+
+[Page 29]
+• These three metabolites are synthesized 
+primarily in the liver but are important 
+sources of fuel and energy for many 
+peripheral tissues, including brain, heart, 
+and skeletal muscle. 
+• The brain, for example, normally uses 
+glucose as its source of metabolic energy. 
+However, during periods of starvation, 
+ketone bodies may be the major energy 
+source for the brain.
+• Acetoacetate and b-hydroxybutyrate (3-
+hydroxybutyrate) are the preferred and 
+normal substrates for kidney cortex and 
+for heart muscle.
+The utilization of D-3-hydroxybutyrate 
+and acetoacetate as a fuel. D-3-
+Hydroxybutyrate is oxidized to 
+acetoacetate with the formation of 
+NADH. Acetoacetate is then converted 
+into two molecules of acetyl CoA, which 
+then enter the citric acid cycle. 
+
+[Page 30]
+• Ketone bodies are alternative substrates to glucose for energy 
+sources in muscle and brain
+• The precursors of ketone bodies, free fatty acids
+– are toxic at high concentration
+– have very limited solubility
+– saturate the carrying capacity of plasma membrane
+• The ketone bodies on the other hand
+– are low in toxicity
+– tolerated at high concentrations
+– very soluble, diffuse rapidly through membranes, and rapidly metabolized to 
+CO2 and H2O
+Ketone bodies are another fuel source derived from Fats
+DID YOU KNOW?
+Ketogenic diets, rich in fats and low in carbohydrates but with adequate proteins, lead to formation of 
+substantial amounts of ketone bodies. Such diets are frequently used to reduce the seizures in children 
+suffering from drug-resistant epilepsy. Remarkably, recent research in mice suggests that ketogenic diets 
+alter the intestinal flora (the microbiome) and it is this alteration that is responsible for the diet’s 
+therapeutic effects.
+
+[Page 31]
+Formation of ketone bodies
+• Ketone body synthesis occurs only in the 
+mitochondrial matrix. 
+• b-Ketothiolase. The final step of the b-
+oxidation pathway runs backwards, 
+condensing 2 acetyl-CoA to produce 
+acetoacetyl-CoA, with release of one CoA. 
+• HMG-CoA Synthase catalyzes 
+condensation of a third acetate moiety 
+(from acetyl-CoA) with acetoacetyl-CoA
+to form hydroxymethylglutaryl-CoA
+(HMG-CoA). 
+• HMG-CoA Lyase cleaves HMG-CoA to 
+yield acetoacetate plus acetyl-CoA. 
+• b-Hydroxybutyrate Dehydrogenase
+catalyzes inter-conversion of the ketone
+bodies acetoacetate and b-
+hydroxybutyrate. 
+
+
+[Page 32]
+Ketongenic and Antiketogenic substances
+• The ketogenic substances: 
+– All the fatty acids
+– 3 amino acids: Leucine, Phenylalanine, Tyrosine
+• Antiketogenic substances (preventing the accumulation of ketone
+bodies because their non-nitrogenous residues are convertible to 
+glucose):
+– Carbohydrates
+– Glycerol fraction of fat
+– Amino acids: Glycine, Alanine, Valine, Serine, Threonine, Cysteine, 
+Methionine, Aspartic acid, Glutamic acid, Arginine, Histidine, Proline, and 
+Ornithine
+DID YOU KNOW?
+Hypoglycin from the ackee fruit inhibits fatty acid oxidation
+Ackee is the national fruit of Jamaica. However, eating the unripe fruit can be fatal.
+
+[Page 33]
+Ketone bodies and Diabetes
+• Diabetes is characterized by an high level of glucose in the blood. 
+• In type I diabetes (representing 10% or fewer of all cases), elevated blood 
+glucose results from inadequate secretion of insulin. 
+• Type II diabetes (at least 90% of all cases) results from an insensitivity to 
+insulin. Type II diabetics produce normal or even elevated levels of insulin, but 
+due to shortage of insulin receptors, their cells are not responsive to insulin. In 
+both cases, transport of glucose into muscle, liver, and adipose tissue is 
+significantly reduced
+• Despite abundant glucose in the blood, the cells are metabolically starved. They 
+respond by turning to increased gluconeogenesis and catabolism of fat and 
+protein. 
+• In type I diabetes, increased gluconeogenesis consumes most of the available 
+oxaloacetate, but breakdown of fat (and, to a lesser extent, protein) produces 
+large amounts of acetyl-CoA. 
+• This increased acetyl-CoA would normally be directed into the TCA cycle, 
+but, with oxaloacetate in short supply, it is used instead for production of 
+unusually large amounts of ketone bodies. 
+• Acetone can often be detected on the breath of type I diabetics, an indication of 
+high plasma levels of ketone bodies.
+
+[Page 34]
+Diagram depicting how Diabetic Ketosis results 
+when Insulin is absent
+Diabetic ketosis results when 
+insulin is absent. In the absence of 
+insulin, fats are released from 
+adipose tissue, and glucose cannot 
+be absorbed by the liver or adipose 
+tissue. The liver degrades the fatty 
+acids by boxidation but cannot 
+process the acetyl CoA because of 
+a lack of glucose-derived 
+oxaloacetate (OAA). Excess ketone
+bodies are formed and released into 
+the blood. Abbreviation: CAC, 
+citric acid cycle. 
+
+[Page 35]
+Biosynthesis of Fatty acids
+• Dietary carbohydrates and amino acids, when consumed in excess, 
+are converted to fatty acids and stored as triacylglycerols.
+• De novo (new) synthesis of fatty acids occurs in liver, kidney, 
+adipose tissue and lactating mammary glands.
+• The enzymes for the synthesis of fatty acids are located in cytosol
+fraction of the cell.
+• Acety CoA is the source of carbon atoms while NADPH provides 
+the reducing equivalents and ATP supplies energy for FA synthesis.
+• Involves 3 stages:
+– Production of Acetyl CoA and NADPH
+– Conversion of Acetyl CoA to Malonyl CoA
+– Reactions of Fatty acid synthase complex
+
+
+[Page 36]
+1. Production of Acetyl CoA and NADPH
+• Acetyl CoA and NADPH are required 
+for FA synthesis
+• Acetyl CoA is produced in the 
+mitochondria by the oxidation of 
+pyruvate and FAs, degradation of 
+carbon atoms of certain AAs, ketone
+bodies.
+• Mitochondria is impermeable to 
+Acetyl CoA
+• So Acetyl CoA condenses with 
+oxaloacetate to form citrate within 
+mitochondria.
+• Citrate is transported to cytosol where 
+it is cleaved by citrate lyase to liberate 
+Acetyl CoA and oxaloacetate
+• Oxaloacetate is converted to malate in 
+the cytosol by malic enzymes
+– NADPH and CO2 generated in this 
+reaction are utilized for FA synthesis
+The citrate-malate-pyruvate shuttle provides 
+cytosolic acetate units and reducing equivalents 
+(electrons) for fatty acid synthesis. The shuttle 
+collects carbon substrates, primarily from 
+glycolysis but also from fatty acid oxidation and 
+amino acid catabolism. Most of the reducing 
+equivalents are glycolytic in origin. Pathways that 
+provide carbon for fatty acid synthesis are shown 
+in blue; pathways that supply electrons for fatty 
+acid synthesis are shown in red.
+
+[Page 37]
+2. Formation of Malonyl CoA
+• The input to fatty acid synthesis is acetyl-
+CoA, which is carboxylated to malonyl-
+CoA. The ATP-dependent carboxylation
+provides energy input. The CO2 is lost 
+later during condensation with the 
+growing fatty acid. 
+• Acetyl-CoA Carboxylase catalyzes the 2-
+step reaction by which acetyl-CoA is 
+carboxylated to form malonyl-CoA. As 
+with pyruvate carboxylase, the enzyme 
+prosthetic group is biotin (Vit. B7).
+• ATP-dependent carboxylation of the 
+biotin, carried out at one active site (1), is 
+followed by transfer of the carboxyl group 
+to acetyl-CoA at a second active site (2). 
+• The overall reaction, which is is
+spontaneous, may be summarized as:
+HCO3
+- + ATP + acetyl-CoA ADP 
++ Pi + malonyl-CoA
+• Acetyl CoA carboxylase is 
+a regulatory enzyme in FA 
+synthesis
+• Inhibited by Palmitoyl
+CoA (product of FA 
+synthase)-Feedback 
+inhibition
+• Activated by Citrate
+
+[Page 38]
+3. Reactions of Fatty acid synthase complex
+• The remaining reactions are 
+catalyzed by a multifunctional 
+enzymes known as fatty acid 
+synthase complex
+• In mammals, it is a dimer with 
+two identical units
+– each monomer possesses the 
+activities of seven different 
+enzymes and an acyl carrier protein 
+bound to 4’-phosphopantetheine.
+– Fatty acid synthase functions as a 
+single unit catalysing all the 7 
+reactions.
+– dissociation of the enzyme complex 
+results in loss of enzyme activities.
+Component Abbreviation
+Acyl carrier protein ACP
+Acyl-CoA-ACP transacetylase AT
+Malonyl-CoA-ACP transferase MT
+b-ketoacyl-ACP synthase KS
+b-ketoacyl-ACP reductase KR
+b-hydroxyacyl-ACP dehydrogenase HD
+Enoyl-ACP reductase ER
+
+[Page 39]
+Steps 1 & 2: As each of the substrates acetyl-CoA and malonyl-CoA bind to 
+the complex, the initial attacking group is the oxygen of a serine hydroxyl
+group of the Malonyl/acetyl-CoA Transacylase enzyme domain. Each 
+acetyl or malonyl moiety is transiently in ester linkage to this serine 
+hydroxyl, before being transferred into thioester linkage with the 
+phosphopantetheine thiol of the acyl carrier protein (ACP) domain.
+• Acetate is subsequently transferred to a cysteine thiol of the Condensing 
+Enzyme domain. 
+Step 3: The condensation reaction involves decarboxylation of the malonyl
+moiety, followed by attack of the resultant carbanion on the carbonyl carbon 
+of the acetyl (or acyl) moiety.
+
+
+[Page 40]
+Steps 4-6: The b-ketone is reduced to an alcohol, by electron transfer from 
+NADPH. Dehydration yields a trans double bond.
+• Reduction at the double bond by NADPH yields a saturated chain.
+• Following transfer of the growing fatty acid from phosphopantetheine to 
+the Condensing Enzyme's cysteine sulfhydryl, the cycle begins again, with 
+another malonyl-CoA. 
+• Product release: When the fatty acid is 16 carbon atoms long (at the end of 
+7 cycles), a Thioesterase domain catalyzes hydrolysis of the thioester linking 
+the fatty acid to phosphopantetheine. The 16-C saturated fatty acid
+palmitate is the final product of the Fatty Acid Synthase complex.
+
+
+[Page 41]
+• Summary taking into account ATP-dependent synthesis of malonate:
+8 acetyl-CoA + 14 NADPH + 7 ATP palmitate + 14 NADP+ + 
+8 CoA + 7 ADP + 7 Pi
+• Comparison between oxidation and synthesis pathways
+b Oxidation Pathway Fatty Acid Synthesis
+pathway location mitochondrial matrix cytosol
+acyl carriers (thiols) Coenzyme-A phosphopantetheine (ACP) & 
+cysteine
+electron acceptors/donor FAD & NAD+ NADPH
+hydroxyl intermediate L D
+2-C product/donor acetyl-CoA malonyl-CoA (& acetyl-CoA)
+
+[Page 42]
+• Regulation of Fatty acid synthase enzyme:
+In liver: 
+– Fatty Acid Synthase expression is stimulated by insulin, a 
+hormone produced when blood glucose is high. 
+– Polyunsaturated fatty acids diminish transcription of the Fatty 
+Acid Synthase gene
+• In fat cells: Expression of Fatty Acid Synthase is inhibited by 
+leptin, a hormone that has a role in regulating food intake and 
+fat metabolism. Leptin is produced by fat cells in response to 
+excess fat storage. Leptin regulates body weight by decreasing 
+food intake, increasing energy expenditure, and inhibiting fatty 
+acid synthesis. 
+
+[Page 43]
+Eicosanoids
+• Eicosanoids, so named because they are 
+all derived from 20-carbon fatty acids, are 
+ubiquitous breakdown products of 
+phospholipids.
+• Arachidonic acid may also be released 
+from phospholipids by the combined 
+actions of phospholipase C
+• Prostaglandins (PG) as well as
+thromboxanes (Tx), leukotrienes, and 
+other hydroxyeicosanoic acids.
+• An important mechanism of arachidonate
+release and eicosanoid synthesis involves 
+tissue injury and inflammation (include 
+heart attack, rheumatoid arthritis, and 
+ulcerative colitis).
+• Aspirin (acetylsalicylate) exerts most of 
+its effects by inhibiting the biosynthesis 
+of prostaglandins.
+
+
+[Page 44]
+Cholesterol is the most highly decorated
+small molecule in Biology
+DID YOU KNOW?
+“Cholesterol is the most highly decorated small molecule in biology. Thirteen Nobel 
+Prizes have been awarded to scientists who devoted major parts of their careers to 
+cholesterol. Ever since it was isolated from gallstones in 1784, cholesterol has 
+exerted an almost hypnotic fascination for scientists from the most diverse areas of 
+science and medicine….Cholesterol is a Janus-faced molecule. The very property 
+that makes it useful in cell membranes, namely its absolute insolubility in water, 
+also makes it lethal.”
+—Michael Brown and Joseph Goldstein,
+on the occasion of their receipt of the Nobel Prize for elucidating the control of 
+blood levels of cholesterol.
+Nobel Lectures (1985); © The Nobel Prize Foundation, 1985
+
+[Page 45]
+Cholesterol Biosynthesis
+• The most prevalent steroid in 
+animal cells is cholesterol.
+• Plants contain no cholesterol, but 
+they do contain other steroids very 
+similar to cholesterol in structure.
+• Cholesterol serves as a crucial 
+component of cell membranes and 
+as a precursor to bile acids (e.g., 
+cholate, glycocholate, taurocholate) 
+and steroid hormones (e.g., 
+testosterone, estradiol, 
+progesterone). Also, vitamin D3 is 
+derived from 7-dehydrocholesterol,
+the immediate precursor of 
+cholesterol. 
+The structure of cholesterol, 
+drawn (a) in the traditional planar 
+motif describes the conformation 
+of the ring system.
+
+
+[Page 46]
+Cholesterol is synthesized from acetyl 
+Coenzyme A in three stages
+• The liver is the primary site of cholesterol synthesis, although most 
+tissues synthesize some cholesterol.
+• Cholesterol synthesis occurs in three stages.
+1. Isopentenyl pyrophosphate is synthesized from mevalonate.
+2. Six molecules of isopentyl pyrophosphate condense to form 
+squalene.
+3. Squalene cyclizes and is converted into cholesterol.
+• Stage 1 occurs in the cytoplasm and stages 2 and 3 in the 
+endoplasmic reticulum.
+
+[Page 47]
+• The cholesterol biosynthetic pathway 
+begins in the cytosol with the synthesis 
+of mevalonate from acetyl-CoA
+• The biosynthesis of squalene involves 
+conversion of mevalonate to two key 
+5-carbon intermediates, isopentenyl
+pyrophosphate and dimethylallyl
+pyrophosphate, which join to yield 
+geranyl pyrophosphate. 
+• Condensation with another isopentenyl
+pyrophosphate yields farnesyl
+pyrophosphate and then, squalene.
+• Squalene is converted to squalene-
+2,3-epoxide and subsequently, to 
+lanosterol
+• The primary route from lanosterol
+involves 20 steps, the last of which 
+converts 7-dehydrocholesterol to 
+cholesterol.
+HMG-CoA reductase is the rate-limiting step in 
+cholesterol biosynthesis, this enzyme is a likely drug 
+target. Mevinolin, also known as lovastatin, was 
+isolated from a strain of Aspergillus terreus and 
+developed at Merck. It is now a widely prescribed 
+cholesterol-lowering drug.
+
+[Page 48]
+Lipoproteins transport Cholesterol and 
+Triacylglycerols throughout the Organism
+• Cholesterol and triacylglycerols are transported in the blood in the form of lipoprotein 
+particles.
+• Lipoprotein particles consist of a protein(s) component and various lipids, depending on 
+the type of particle.
+• The protein(s) serve to solubilize the lipids and to direct the particles to specific targets.
+• Lipoprotein particles are classified according to density: the greater proportion of lipid, 
+the less dense the particle.
+• Low-density lipoprotein (LDL) is the major carrier of cholesterol in the blood.
+• High-density lipoprotein (HDL) carries cholesterol released into the blood back to the 
+liver, a process called reverse cholesterol transport.
+
+
+[Page 49]
+Lipoproteins
+• Free fatty acids are transported in the blood 
+bound to albumin, a serum protein secreted by 
+the liver. Most other lipids are transported in 
+the blood as part of complex particles called 
+lipoproteins.
+• Lipoproteins: The general structure of a 
+lipoprotein includes:
+– a core consisting of a droplet of triacylglycerols
+and/or cholesteryl esters 
+– a surface monolayer of phospholipid, unesterified
+cholesterol and specific proteins (apolipoproteins, 
+e.g., apoprotein B-100 in low density lipoprotein).
+– Apolipoprotein E (apoE), a constituent of several 
+classes of lipoproteins
+– a variant of apolipoprotein E, designated apoE4, is 
+implicated in Alzheimer's disease and other 
+neurological conditions. Having the apoE4 isoform
+is a major risk factor for Alzheimer's disease. 
+Photograph of an arterial 
+plaque.
+
+[Page 50]
+• Lipoproteins differ in the ratio of protein to lipids, and in the particular 
+apoproteins and lipids that they contain:
+– chylomicron (largest; lowest in density due to high lipid/protein ratio; highest in 
+triacylglycerols as % of weight) 
+– VLDL (2nd highest in triacylglycerols as % of weight) 
+– IDL
+– LDL ( highest in cholesteryl esters as % of weight) 
+– HDL (highest in density due to high protein/lipid ratio). 
+• Chylomicrons carry triacylglycerol and cholesterol esters from the intestines to 
+other tissues, and VLDLs carry lipid from liver.
+• These particles are degraded by lipoprotein lipase, which hydrolyzes 
+triacylglycerols causing progressive loss of triacylglycerol (and apoprotein) and 
+makes the lipoproteins smaller. 
+• This process converts VLDL to IDL and then LDL, which are either returned to 
+the liver for reprocessing or redirected to adipose tissues and adrenal glands.
+• HDLs function to return cholesterol and cholesterol esters to the liver. This 
+latter process apparently explains the correlation between high HDL levels and 
+reduced risk of cardiovascular disease. (High LDL levels, on the other hand, are 
+correlated with an increased risk of coronary artery and cardiovascular disease.) 
+
+[Page 51]
+Properties of Plasma Lipoproteins
+
+
+[Page 52]
+Disorders of Lipid Metabolism
+• Familial hypercholesterolemia is the term 
+given to a variety of inherited metabolic 
+defects that lead to greatly elevated levels of 
+serum cholesterol much of it in the form of 
+LDL particles.
+• Diabetic dyslipidemia characterized by low 
+HDL-cholesterol, high serum VLDL-
+triglycerides, and a preponderance of small, 
+dense LDL. 
+– Even slight elevations of LDL-cholesterol in type 2 
+diabetic patients are associated with increase in 
+cardiovascular risk. 
+– Composition of lipid particles in diabetic dyslipidemia
+is more atherogenic than in dyslipidemia in general.
+• Atherosclerosis is a condition in which fatty 
+material collects along the walls of arteries. 
+This fatty material thickens, hardens (forms 
+calcium deposits), and may eventually block 
+the arteries. There is involvement of the 
+immune cells in this process.
+
+
+[Page 53]
+• Obesity is a term used to describe 
+body weight that is much greater 
+than what is healthy. If you are 
+obese, you also have a much 
+higher amount of body fat than is 
+healthy or desirable.
+– Adults with a body mass index 
+(BMI, calculated as weight in 
+kilograms divided by height in 
+meters squared) greater than or 
+equal to 30 kg/m2 are considered 
+obese.
+– Anyone who is more than 100 
+pounds overweight or who has a 
+BMI greater than or equal to 40 
+kg/m2 is considered morbidly 
+obese.
+
+
+[Page 54]
+Nucleic acids: Biosynthesis of Purine and 
+Pyrimidines
+Charles V , Holy Roman Emperor (1519–1558), who also ruled 
+as Charles I, King of Spain (1516–1556), was one of Europe’s 
+most powerful rulers. Under his reign, the Aztec and Inca 
+empires of the New World fell to the Spanish. Charles V also 
+suffered from severe gout, a pathological condition caused by 
+the disruption of nucleotide metabolism. The painting by Titian 
+shows the emperor’s swollen left hand, which he rests gingerly 
+in his lap. Recent analysis of a part of his finger, saved as a 
+religious relic, confirms the diagnosis of gout.
+
+
+[Page 55]
+Introduction
+• Nucleotides are ubiquitous constituents of life, actively participating in the 
+majority of biochemical reactions.
+– Recall that A TP is the “energy currency” of the cell
+– uridine nucleotide derivatives of carbohydrates are common intermediates in cellular 
+transformations of carbohydrates
+– biosynthesis of phospholipids proceeds via cytosine nucleotide derivatives 
+– GTP serves as the immediate energy source driving the endergonic reactions of protein 
+synthesis.
+– Many of the coenzymes (such as coenzyme A, NAD, NADP, and FAD) are derivatives of 
+nucleotides. 
+• Nucleotides also act in metabolic regulation
+– the response of key enzymes of intermediary metabolism to the relative concentrations of 
+AMP, ADP, and A TP (PFK is a prime example here). 
+– cyclic derivatives of purine nucleotides, cAMP and cGMP, have no other role in 
+metabolism than regulation. 
+• Nucleotides are the monomeric units of nucleic acids.
+– Deoxynucleoside triphosphates (dNTPs) and nucleoside triphosphates (NTPs) serve as 
+the immediate substrates for the biosynthesis of DNA and RNA, respectively 
+– Without RNA, protein biosynthesis is not possible; in the absence of DNA synthesis, the 
+genetic material is not replicated and cell division cannot occur.
+
+[Page 56]
+• Nearly all organisms can make the purine and pyrimidine nucleotides 
+via so-called de novo biosynthetic pathways. (De novo means “anew”; 
+but more apt translation might be “from scratch” because de novo
+pathways form complex end products from rather simple precursors). 
+• Many organisms also have salvage pathways to recover purine and 
+pyrimidine compounds obtained in the diet or released during nucleic 
+acid turnover and degradation. 
+– While the ribose of nucleotides can be catabolized to generate energy, the 
+nitrogenous bases do not serve as energy sources; their catabolism does not lead to 
+products used by pathways of energy conservation.
+• Compared to slowly dividing cells, rapidly proliferating cells 
+synthesize larger amounts of DNA and RNA per unit time. To meet the 
+increased demand for nucleic acid synthesis, substantially greater 
+quantities of nucleotides must be produced. 
+– The pathways of nucleotide biosynthesis thus become attractive targets for the 
+clinical control of rapidly dividing cells such as cancers or infectious bacteria. 
+– Many antibiotics and anticancer drugs are inhibitors of purine or pyrimidine
+nucleotide biosynthesis. 
+
+[Page 57]
+Biosynthesis of Purines
+• De novo pathway for purine biosynthesis 
+was provided in 1948 by John Buchanan
+– cleverly exploited the fact that birds excrete 
+excess nitrogen principally in the form of uric 
+acid, a water-insoluble purine analog. 
+– Buchanan fed isotopically labeled compounds 
+to pigeons and then examined the distribution 
+of the labeled atoms in uric acid. 
+• By tracing the metabolic source of the 
+various atoms in this end product, he 
+showed that the nine atoms of the purine
+ring system are contributed by aspartic 
+acid (N-1), glutamine (N-3 and N-9), 
+glycine (C-4, C-5, and N-7), CO2 (C-6), 
+and THF one-carbon derivatives (C-2 
+and C-8).
+
+
+[Page 58]
+De novo pathway for purine
+biosynthesis
+• Step 1: PRPP synthesis from 
+ribose-5-phosphate and ATP by 
+ribose-5-phosphate 
+pyrophosphokinase.
+• Step 2: 5-Phosphoribosyl-b-1-
+amine synthesis from a-PRPP, 
+glutamine, and H2O by 
+glutamine phosphoribosyl
+pyrophosphate 
+amidotransferase. 
+• Step 3: Glycinamide
+ribonucleotide (GAR) synthesis 
+from glycine, ATP, and 5-
+phosphoribosyl-b-amine by 
+glycinamide ribonucleotide
+synthetase. 
+
+
+[Page 59]
+• Step 4: Formylglycinamide
+ribonucleotide synthesis from 
+N10-formyl-THF and GAR by 
+GAR transformylase. 
+• Step 5: Formylglycinamidine
+ribonucleotide (FGAM) synthesis 
+from FGAR, ATP, glutamine, and 
+H2O by FGAM synthetase
+(FGAR amidotransferase). The 
+other products are ADP, Pi, and 
+glutamate. 
+• Step 6: 5-Aminoimidazole 
+ribonucleotide (AIR) synthesis is 
+achieved via the ATP-dependent 
+closure of the imidazole ring, as 
+catalyzed by FGAM cyclase (AIR 
+synthetase). (Note that the ring 
+closure changes the numbering 
+system.) 
+
+
+[Page 60]
+• Step 7: Carboxyaminoimidazole
+ribonucleotide (CAIR) synthesis 
+from CO2, ATP, and AIR by AIR 
+carboxylase. 
+• Step 8: N-succinylo-5-
+aminoimidazole-4-carboxamide 
+ribonucleotide (SAICAR) 
+synthesis from aspartate, CAIR, 
+and ATP by SAICAR synthetase.
+• Step 9: 5-Aminoimidazole 
+carboxamide ribonucleotide
+(AICAR) formation by the 
+nonhydrolytic removal of 
+fumarate from SAICAR. The 
+enzyme is adenylosuccinase. 
+
+
+[Page 61]
+• Step 10: 5-Formylaminoimidazole 
+carboxamide ribonucleotide
+(FAICAR) formation from AICAR 
+and N10-formyl-THF by AICAR 
+transformylase. 
+• Step 11: Dehydration/ring closure 
+yields the authentic purine
+ribonucleotide IMP. The enzyme is 
+IMP synthase.
+• 6 A TPs are required in the purine
+biosynthetic pathway from ribose-5-
+phosphate to IMP: one each at Steps 1, 
+3, 5, 6, 7, and 8. 
+• However, 7 high-energy phosphate 
+bonds (equal to 7 ATP equivalents) 
+are consumed because a-PRPP 
+formation in Reaction 1 followed by PPi
+release in Reaction 2 represents the loss 
+of 2 A TP equivalents.
+
+
+[Page 62]
+• The dependence of purine biosynthesis on folic acid (Vit. B9) 
+compounds at Steps 4 and 10 means that antagonists of folic acid 
+metabolism (for example, methotrexate) indirectly inhibit purine 
+formation and, in turn, nucleic acid synthesis, cell growth, and cell 
+division. 
+• Clearly, rapidly dividing cells such as malignancies or infective bacteria 
+are more susceptible to these antagonists than slower-growing normal 
+cells. 
+• Also among the folic acid antagonists are sulfonamides. 
+– Folic acid is a vitamin for animals and is obtained in the diet. In contrast, bacteria 
+synthesize folic acid from precursors, including p-aminobenzoic acid (P ABA), and 
+thus are more susceptible to sulfonamides than are animal cells.
+
+
+[Page 63]
+AMP and GMP are Synthesized from IMP
+• AMP Synthesis
+Step 1: The 6-O of inosine is displaced 
+by aspartate to yield 
+adenylosuccinate. The energy 
+required to drive this reaction is 
+derived from GTP hydrolysis. The 
+enzyme is adenylosuccinate
+synthetase. AMP is a competitive 
+inhibitor (with respect to the 
+substrate IMP) of adenylosuccinate
+synthetase. 
+Step 2: Adenylosuccinase (also known 
+as adenylosuccinate lyase, the same 
+enzyme catalyzing Step 9 in the 
+purine pathway) carries out the 
+nonhydrolytic removal of fumarate
+from adenylosuccinate, leaving 
+AMP.
+
+
+[Page 64]
+AMP and GMP are Synthesized from IMP
+• GMP Synthesis
+Step 1: IMP dehydrogenase employs the 
+substrates NAD+ and H2O in catalyzing 
+oxidation of IMP at C-2. The products 
+are xanthylic acid (XMP or xanthosine
+monophosphate), NADH, and H+. 
+GMP is a competitive inhibitor (with 
+respect to IMP) of IMP dehydrogenase. 
+Step 2: Transfer of the amido-N of 
+glutamine to the C-2 position of XMP 
+yields GMP. This ATP-dependent 
+reaction is catalyzed by GMP 
+synthetase. 
+• Besides GMP, the products are 
+glutamate, AMP, and PPi. Hydrolysis of 
+PPi to two Pi by ubiquitous 
+pyrophosphatases pulls this reaction to 
+completion.
+
+
+[Page 65]
+ATP-Dependent Kinases Form Nucleoside Diphosphates and 
+Triphosphates from the Nucleoside Monophosphates
+• The products of de novo purine biosynthesis are the nucleoside 
+monophosphates AMP and GMP. These nucleotides are converted by 
+successive phosphorylation reactions into their metabolically prominent 
+triphosphate forms, ATP and GTP. 
+• The first phosphorylation, to give the nucleoside diphosphate forms, is 
+carried out by two base-specific, ATP-dependent kinases, adenylate kinase
+and guanylate kinase.
+Adenylate kinase: AMP + ATP 2 ADP
+Guanylate kinase: GMP + ATP GDP + ADP
+• These nucleoside monophosphate kinases also act on deoxynucleoside
+monophosphates to give dADP or dGDP
+• Oxidative phosphorylation is primarily responsible for the conversion of 
+ADP into ATP. 
+– A TP then serves as the phosphoryl donor for synthesis of the other nucleoside 
+triphosphates from their corresponding NDPs in a reaction catalyzed by 
+nucleoside diphosphate kinase, a nonspecific enzyme. For e.g., 
+, GDP + A TP GTP + ADP
+
+[Page 66]
+Purine Salvage
+• Nucleic acid turnover (synthesis and degradation) is an 
+ongoing metabolic process in most cells. 
+• Messenger RNA in particular is actively synthesized and 
+degraded. These degradative processes lead to the release 
+of free purines in the form of adenine, guanine, and 
+hypoxanthine (the base in IMP). These substances represent 
+a metabolic investment by cells. 
+• Salvage pathways exist to recover them in useful form. 
+Salvage reactions involve resynthesis of nucleotides from 
+bases via phosphoribosyltransferases.
+Base + PRPP nucleoside-5'-phosphate + Ppi
+
+[Page 67]
+• Subsequent hydrolysis of PPi to 
+inorganic phosphate by 
+pyrophosphatases renders the 
+phosphoribosyltransferase reaction 
+irreversible. 
+• The purine phosphoribosyltransferases
+are adenine 
+phosphoribosyltransferase (APRT),
+which mediates AMP formation, and 
+hypoxanthine-guanine 
+phosphoribosyltransferase
+(HGPRT), which can act on either 
+hypoxanthine to form IMP or guanine 
+to form GMP
+
+
+[Page 68]
+Purine Degradation
+• Nucleic acids are ubiquitous in cellular 
+material, significant amounts are ingested 
+in the diet. Nucleic acids are degraded in 
+the digestive tract to nucleotides by 
+various nucleases and phosphodiesterases. 
+• The various nucleotides are first converted 
+to nucleosides by intracellular 
+nucleotidases.
+• Nucleosides are then degraded by the 
+enzyme purine nucleoside phosphorylase 
+(PNP) to release the purine base and 
+ribose-l-P.
+• Adenosine nor 
+deoxyadenosinenucleosides are first 
+converted to inosine by adenosine 
+deaminase. The PNP products are merged 
+into xanthine by guanine deaminase and 
+xanthine oxidase, and xanthine is then 
+oxidized to uric acid by this latter enzyme. 
+
+
+[Page 69]
+Disorders of Purine metabolism
+• Severe combined immunodeficiency syndrome, or SCID, is a group of 
+related inherited disorders characterized by the lack of an immune 
+response to infectious disease. 
+• This immunological insufficiency is attributable to the inability of B and T 
+lymphocytes to proliferate and produce antibodies in reaction to an 
+antigenic challenge.
+• About 30% of SCID patients suffer from a deficiency in the enzyme 
+adenosine deaminase (ADA).
+• ADA deficiency is also implicated in a variety of other diseases, including 
+AIDS, anemia, and various lymphomas and leukemias.
+• ADA is a Zn2+-dependent enzyme, and Zn2+ deficiency can also lead to 
+reduced immune function
+If ADA is deficient or absent, deoxyadenosine is 
+not converted into deoxyinosine as normal. 
+Instead, it is salvaged by a nucleoside kinase, 
+which converts it to dAMP, leading to 
+accumulation of dA TPand inhibition of 
+deoxynucleotide synthesis. Thus, DNA 
+replication is stalled. 
+
+[Page 70]
+Disruptions in Nucleotide Metabolism 
+can cause pathological conditions
+• Xanthine oxidase catalyzes the 
+conversion of xanthine into uric acid, the 
+final common pathway for the 
+degradation of purine nucleotides.
+• Uric acid ionizes to form urate.
+• High blood levels of urate induce gout, a 
+painful disease that results from the 
+accumulation of urate crystal in the 
+joints.
+• Administration of allopurinol, a suicide 
+inhibitor of the oxidase, relieves the 
+symptoms of gout. Purines are then 
+excreted as xanthine and hypoxanthine.
+• Urate is a potent antioxidant, and urate in 
+the blood may prevent oxidative damage.
+A Cartoon about Gout
+Micrograph of Sodium Urate Crystals
+
+[Page 71]
+• Gout is the clinical term describing excessive uric acid 
+accumulation in body fluids. Uric acid and urate salts are 
+rather insoluble in water and tend to precipitate from solution 
+if produced in excess. 
+• The most common symptom of gout is arthritic pain in the 
+joints as a result of urate deposition in cartilaginous tissue. 
+The joint of the big toe is particularly susceptible. 
+• Urate crystals may also appear as kidney stones and lead to 
+painful obstruction of the urinary tract. 
+• Hyperuricemia, chronic elevation of blood uric acid levels, 
+occurs in about 3% of the population as a consequence of 
+impaired excretion of uric acid or overproduction of purines. 
+• Purine-rich foods (such as caviar—fish eggs rich in nucleic 
+acids) may exacerbate the condition. The biochemical causes 
+of gout are varied. However, a common treatment is 
+allopurinol. 
+• This hypoxanthine analog binds tightly to xanthine oxidase, 
+thereby inhibiting its activity and preventing uric acid 
+formation. Hypoxanthine and xanthine do not accumulate to 
+harmful concentrations because they are more soluble and 
+thus more easily excreted. 
+
+
+[Page 72]
+• Lesch-Nyhan syndrome results if 
+hypoxanthine-guanine 
+phosphoribosyltransferase (HGPRT) is missing. 
+HGPRT is an enzyme in the salvage pathway 
+for guanylate and inosinate.
+• Lesch-Nyhan patients suffer from compulsive 
+self-destructive behavior, mental deficiency, 
+and gout.
+• Folic acid plays a crucial role in development 
+of the fetus. Insufficient folic acid uptake 
+during pregnancy can result in neural-tube 
+defects such as spina bifida.
+• Spina bifida is characterized by incomplete 
+neural tube formation.
+Disruptions in Nucleotide Metabolism 
+can cause pathological conditions
+DID YOU KNOW?
+Uric acid is a component of urine. 
+When exposed to chlorine, the 
+chemical commonly used to disinfect 
+swimming pools, uric acid generates 
+cyanogen chloride and trichloramine. 
+Both chemicals are toxic. 
+Trichloramine in particular reduces 
+lung function and causes itchy eyes 
+and runny noses. Urea also results in 
+trichloramine synthesis. While sweat 
+introduces some uric acid, more than 
+90% comes from urine. So please, 
+practice proper pool etiquette.
+
+[Page 73]
+Biosynthesis of Pyrimidines
+• In contrast to purines, pyrimidines are 
+not synthesized as nucleotide 
+derivatives. 
+• Instead, the pyrimidine ring system is 
+completed before a ribose-5-P moiety 
+is attached. 
+• Also, only two precursors, 
+carbamoyl-P and aspartic acid, 
+contribute atoms to the six-membered
+pyrimidine ring , compared to seven 
+precursors for the 9 purine atoms. 
+• Thymidylate synthase and 
+dihydrofolate reductase are 
+targets of chemotherapy for 
+cancer treatment.
+• Fluorouracil, an anticancer 
+drug, is converted into 
+fluorodeoxyuridylate (F-
+dUMP) by cancer cells. F-
+dUMP is a suicide inhibitor 
+of thymidylate synthase.
+
+[Page 74]
+• The reaction catalyzed by 
+carbamoyl phosphate synthetase II 
+(CPS II). Note that, in contrast to 
+carbamoyl phosphate synthetase I, 
+CPS II uses the amide of glutamine, 
+not NH4
++, to form carbamoyl-P. 
+• Step 1: The first ATP consumed in 
+carbamoyl phosphate synthesis is 
+used in forming carboxy-phosphate, 
+an activated form of CO2.
+• Step 2: Carboxy-phosphate (also 
+called carbonyl-phosphate) then 
+reacts with the glutamine amide to 
+yield carbamate and glutamate.
+• Step 3: Carbamate is 
+phosphorylated by the second ATP 
+to give ADP and carbamoyl
+phosphate.
+
+
+[Page 75]
+• The de novo pyrimidine
+biosynthetic pathway. 
+• Step 1: Carbamoyl-P 
+synthesis. 
+• Step 2: Condensation of 
+carbamoyl phosphate and 
+aspartate to yield 
+carbamoyl-aspartate is 
+catalyzed by aspartate
+transcarbamoylase
+(ATCase).
+• Step 3: An intramolecular
+condensation catalyzed 
+by dihydroorotase gives 
+the six-membered
+heterocyclic ring 
+characteristic of 
+pyrimidines. The product 
+is dihydroorotate (DHO). 
+.
+
+
+[Page 76]
+• Step 4: The oxidation of DHO 
+by dihydroorotate
+dehydrogenase gives orotate. 
+(In bacteria, NAD+ is the 
+electron acceptor from DHO.) 
+• Step 5: PRPP provides the 
+ribose-5-P moiety that 
+transforms orotate into 
+orotidine-5'-monophosphate, a 
+pyrimidine nucleotide. Note 
+that orotate
+phosphoribosyltransferase joins 
+N-1 of the pyrimidine to the 
+ribosyl group in appropriate b-
+configuration. PPi hydrolysis 
+renders this reaction 
+thermodynamically favorable. 
+• Step 6: Decarboxylation of 
+OMP by OMP decarboxylase
+yields UMP.
+
+
+[Page 77]
+• The two prominent pyrimidine ribonucleotide products are derived from 
+UMP via the same unbranched pathway. 
+• First, UDP is formed from UMP via an ATP-dependent nucleoside 
+monophosphate kinase.
+UMP + ATP UDP + ADP
+• Then, UTP is formed by nucleoside diphosphate kinase.
+UDP + ATP UTP + ADP
+• Amination of UTP at the 6-position gives CTP. The enzyme, CTP 
+synthetase, is a glutamine amidotransferase. ATP hydrolysis provides the 
+energy to drive the reaction. 
+• dTMP production is dependent on dUMP formation from dCDP and dUDP
+synthesis. If the dCDP pathway is traced from the common pyrimidine
+precursor, UMP, it will proceed as follows: UMP UDP UTP CTP 
+CDP dCDP dCMP dUMP dTMP
+
+
+[Page 78]
+Pyrimidine degradation
+• Like purines, free pyrimidines can be salvaged and 
+recycled to form nucleotides via phosphoribosyltransferase
+reactions similar to those discussed earlier. 
+• Pyrimidine catabolism results in degradation of the 
+pyrimidine ring to products reminiscent of the original 
+substrates, aspartate, CO2, and ammonia. 
+• b-Alanine can be recycled into the synthesis of coenzyme 
+A. 
+• Catabolism of the pyrimidine base, thymine (5-
+methyluracil) yields b-amino-isobutyric acid instead of b-
+alanine. 
+• ATP, GTP, UTP, and CTP serve important coenzymic
+functions in metabolism and are the immediate precursors 
+for ribonucleic acid (RNA) synthesis. 
+• Roughly 90% of the total nucleic acid in cells is RNA, with 
+the remainder being deoxyribonucleic acid (DNA). 
+• DNA differs from RNA in being a polymer of 
+deoxyribonucleotides, one of which is deoxythymidylic
+acid. 
+
+
+[Page 79]
+Deoxyribonucleotide Biosynthesis
+• The deoxyribonucleotides have only one metabolic purpose: to serve as 
+precursors for DNA synthesis. 
+• In most organisms, ribonucleoside diphosphates (NDPs) are the substrates 
+for deoxyribonucleotide formation. Reduction at the 2'-position of the ribose 
+ring in NDPs produces 2'-deoxy forms of these nucleotides. 
+• This reaction involves replacement of the 2'-OH by a hydride ion (H:-) and is 
+catalyzed by an enzyme known as ribonucleotide reductase.
+• Enzymatic ribonucleotide reduction involves a free radical mechanism, and 
+three classes of ribonucleotide reductases are known, differing from each 
+other in their mechanisms of free radical generation.
+Deoxyribonucleotide synthesis involves 
+reduction at the 2'-position of the ribose ring of 
+nucleoside diphosphates.
+
+[Page 80]
+• 5-Fluorouracil (5-FU) is a thymine analog. It is converted in vivo to 
+5'-fluorouridylate by a PRPP-dependent phosphoribosyltransferase, 
+and passes through the reactions of dNTP synthesis, culminating 
+ultimately as 2'-deoxy-5-fluorouridylic acid, a potent inhibitor of 
+dTMP synthase. 
+• 5-FU is used as a chemotherapeutic agent in the treatment of cancer. 
+• Similarly, 5-fluorocytosine is used as an antifungal drug because 
+fungi, unlike mammals, can convert it to 2'-deoxy-5-fluorouridylate. 
+• Further, malarial parasites can use exogenous orotate to make 
+pyrimidines for nucleic acid synthesis whereas mammals cannot. 
+Thus, 5-fluoroorotate is an effective antimalarial drug because it is 
+selectively toxic to these parasites.
+The structures of 5-fluorouracil (5-FU), 5-
+fluorocytosine, and 5-fluoroorotate.
+
+[Page 81]
+Diagram of Anticancer Drug Targets
+Anticancer drug targets. Thymidylate
+synthase and dihydrofolate reductase are choice 
+targets in cancer chemotherapy because the 
+generation of large quantities of precursors for 
+DNA synthesis is required for rapidly dividing 
+cancer cells.
+
+
+===== SOURCE_FILE: nexus/Biochemistry/Notes/Study Material Drive Link.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1BmjNan0EKbXYBKu2cnTgoVrWRKNcPN4K?usp=drive_link
+
+
+===== SOURCE_FILE: nexus/Biochemistry/PYQs/PYQ Dec 2022.pdf =====
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+Page 1 of 1 0 7 D F 3 - 1 8 B T C 101J 
+ 
+Reg. No. 
+ 
+ 
+B.Tech. DEGREE EXAMINATION, DECEMBER 2022 
+Third Semester 
+ 
+18BTC101J - BIOCHEMISTRY 
+(For the candidates admitted from the academic year 2020-2021 to 2021-2022) 
+Note: 
+(i) Part - A should be answered in OMR sheet within first 40 minutes and OM R sheet should be handed 
+over to hall invigilator at the end of 40th minute. 
+(ii) Part - B should be answered in answer booklet. 
+ 
+Time: 2½ Hours Max. Marks: 75 
+ 
+PART – B (5 × 10 = 50 Marks) 
+Answer ALL Questions 
+ 
+ 
+ 
+Marks 
+ 
+ 
+BL 
+ 
+ 
+CO 
+ 
+ 
+PO 
+26. a. Write an essay on the different types of polysaccharide. Add a short note on 
+lectins. 
+ 
+10 3 
+ 
+1 1,1
+3 
+(OR) 
+ b. Explain the structure and organization of proteins, and mention the chemical 
+bonds involved in it. 
+ 
+ 
+10 3 
+ 
+1 1,1
+3 
+27. a. Explain the biochemical reactions that occur in TCA cycle and describe how 
+the citric acid cycle is regulated. 
+ 
+10 4 
+ 
+1 1,4
+,13 
+(OR) 
+ b. Classify the diabetes mellitus and list out the complic ations associated with 
+them. Add a note on insulin release in the pancreas. 
+ 
+10 4 
+ 
+1 1,4
+,13 
+28. a. Write an essay on the important biomolecules that are de rived from amino 
+acids. 
+ 
+10 3 3 1,4
+,14 
+(OR) 
+ b. Solve the step by step process of how the two nitrogen from amino acids are 
+removed as urea in our body. 
+ 
+10 3 3 1,4
+,14 
+29. a. List out the steps and identify the repeated steps of fa tty acids degradation. 
+ 
+10 4 4 1,4
+,15 
+(OR) 
+ b. Describe the pathway through which purine nucleotide s ynthesis occurs. 
+ 
+10 4 4 1,4
+,15 
+30. a. Describe the key components of the electron transport ch ain, and add notes 
+on how they are arranged? 
+ 
+10 4 5 4,5
+,15 
+(OR) 
+ b. Describe how the light reactions and the Calvin cycle are coordinated. 
+ 
+10 4 5 4,5
+,15 
+ 
+* * * * *
+
+
+===== SOURCE_FILE: nexus/Biochemistry/PYQs/PYQ May 2023.pdf =====
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+Note: (i) (ii) Time: 3 Hours 
+Reg. No. R 
+Part -A should be answered in OMR sheet within first 40 minutes and OMR sheet should be handed over to hall invigilator at the end of 40th minute. Part -B and Part -C should be answered in answer booklet. 
+(A) Proteins 
+B.Tech. DEGREE EXAMINATION, MAY 2023 Second Semester (For the candidates admitted from the academic year 2022-2023) 
+1. A phosphodiester bond is present between (A) Fatty acids in a diglyceride (C) Amino acids in proteins 
+(C) 
+(C) Carbohydrates 
+22 
+21BTC101T -BIOCHEMISTRY 
+PART -A (20 x 1 = 20Marks) Answer ALL Questions 
+3. a-D-glucose and B-D-glucose are (A) Epimers 
+2. Which of the following macromolecules have the general molecular formula (CH;0)n? 
+Keto-ALDO pairs 
+(A) Glycogen (C) Fructose 
+(A) Stromal matrix 
+(B) Monosaccharides in carbohydrates (D) Nucleotides in DNA 
+(C) Photo system -I 
+(B) Lipids 
+o37 
+(D) Nucleic acids 
+4. The phospholipid that prevents the adherence of inner surface of lungs (A) Phosphoinositides (C) Cephalin 
+(B) Anomers 
+5. Which of the following has the highest standard reduction potential? (A) NAD (C) Oxygen 
+(D) Constitutional isomers (B) Lecithin (D) Plasmogens 
+6. The following is the most preferred source of energy for the brain (B) FMN (D) Pyruvate (B) Glucose (D) Fatty acids 7. Light independent reactions in photosynthesis takes place at (B) Thylakoid lumen (D) Photo system -II 8. The following uncouples electron transport in the mitochondrion from the production of chemical energy in the form of adenosine triphosphate (ATP) (A) Thymine (B) Thermogenin (C) Cytochromes (D) Heme 
+Max. Marks: 75 
+Marks BL CO PO 
+1 
+1 
+1 
+1 
+2 
+1 
+2 
+1 
+1 1,4 
+1 1.4 
+1 1,4 
+1 1,4 
+2 1,3 
+2 1,3 
+2 1,3 
+2 1.3 
+
+[Page 2]
+9. Which of the following are the major sites for glycogen storage (A) Muscle and brain (C) Liver and kidney 10. Which of the following is the precursor of glycogen? (A) UDP glucose (C) Glycerol 3-phsophate of gluconeogenesis 11. Which of the following hormones maintain blood glucose level by activation (A) Epinephrine (C) Glucagon (A) Oxidative decarboxylation (C) Dehydration 
+P'age 2 of 3 
+(A) Alanine 
+12. The following reactions generate acetyl CoA from pyruvate 
+(C) Choline degraded to (A) Fumarate (C) Pyruvale 
+13. One of the following is NOT an amino acid 
+(A) Glutamate 
+(A) a-keto glutarate 
+(B) Muscle and liver (D) Adipose tissue 
+14. The amino acids are said to be ketogenic when the carbon skeleton is finally 
+(C) Oxalo acetate 
+(B) Malate 
+(A) Acetyl CoA 
+(D) Leucine and lysine 
+(C) Malonyl CoA 
+15. The following amino acid do not participate in transamination 
+(B) Insulin 
+(A) Orotidine monophosphate 
+(D) Nor-epinephrine 
+(C) Xanthosine monophosphate 
+16. The common compound shared by both TCA cycle and urea cycle is 
+(B) Reduction 
+(A) Aspartate and glutamine (C) Asparagine and leucine 20. Ketone bodies are formed from (A) Acetyl CoA (C) Acetoacetate 
+(D) Dephosphorylation 
+(B) Proline (D) Glycine 
+17. The following is the source of all carbon atoms in cholesterol 
+(B) Acetyl CoA (D) Succinyl CoA (B) Tryptophan (D) Lysine 
+18. The parent nucleotide synthesized in the biosynthesis of purines is 
+(B) Fumarate (D) Succinyl CoA (B) Propionyl CoA (D) Acetoacetyl CoA 
+19. The amino acids required for the synthesis of pyrimidines are (B) Adenyl succinate (D) Inosine monophosphate (B) Alanine and cysteine (D) Methionine and tyrosine (B) Acetone (D) Propionyl CoA 
+1 
+1 
+2 
+2 
+2 
+3 
+1 
+3 L4 
+2 
+14 
+3 L4 
+| 4 1.2 
+| 4 
+4 1,2 
+4 1,2 
+1,2 4 
+29MF221BTC101T 
+4 
+S 1,2 
+1,2 
+5 1.2 
+(C) Alanine 
+
+[Page 3]
+PART-B (5 x 8 = 40 Marks) Answer ALL Qucstions ) a What are enzymes? Draw the activation energy diagram with and without the cnzyme and describe the major classes of enzymes. (OR) b What is pH? Decfine Bronsted-Lowry acid and base and derive the Henderson-Hasselbalch cquation. 22.a. Givc an account on photorespiration and explain how C4 plants avoid photorespiration. (OR) b. What is shuttle pathway? Explain one of the shuttle pathways in detail. 23.a. What is diabetes mellitus? Describe briefly about the blood glucose level regulation by insulin. (OR) b. What is glycogenolysis? Which organs carryout this process? Briefly describe about glycogenolysis. 24. a. Write the salient features of transamination of amino acids and describe the mechanism of transamination in detail. (OR) 
+Marks 
+b. Mention any four amino acid metabolic disorders and describe about phenylketonuria in detail. 25. a. Discuss the steps involved in the B-oxidation of fatty acid. (OR) b. Explain the process by which pyrimidines are synthesized. PART C(1x 15=15 Marks) Answer ANY ONE Questions 
+8 
+BL 
+2.3 1 
+8 
+26. Explain the electron transport chain with the help of a diagram and discuss the synthesis of ATP by oxidative phosphorylation with the help of chemiosmotic theory / hypothesis proposed by Peter Mitchell. 
+2,3 
+CO 
+2,3 
+8 
+27. Ammonia is a toxic product of nitrogen (amino acid) metabolism and it must be removed from the body. Explain the mechanism of removal of ammonia from body. 
+2,3 
+2 
+2,3 
+Marks 
+2 
+1S 
+2 
+PO 
+1 1,4 
+2 
+2 
+1,4 
+2 
+2 
+3 
+1,3 
+4 
+4 
+BL 
+1,3 
+4 
+4 
+1,4 
+1,4 
+5 
+2 4 
+2 
+1,2 4 
+1,2 
+CO P 
+4 
+1,
+
+
+===== SOURCE_FILE: nexus/Biochemistry/PYQs/biochem pyq txt/PYQ Dec 2022.txt =====
+CATEGORY: PYQs
+STATUS: ok
+
+Reg. No. 
+ 
+
+ 
+
+B.Tech. DEGREE EXAMINATION, DECEMBER 2022 
+
+Third Semester 
+ 
+
+18BTC101J - BIOCHEMISTRY 
+(For the candidates admitted from the academic year 2020-2021 to 2021-2022) 
+
+Note: 
+(i) Part - A should be answered in OMR sheet within first 40 minutes and OMR sheet should be handed 
+
+over to hall invigilator at the end of 40th minute. 
+(ii) Part - B should be answered in answer booklet. 
+
+ 
+Time: 2½ Hours Max. Marks: 75 
+ 
+
+PART – B (5 × 10 = 50 Marks) 
+ 
+
+Answer ALL Questions Marks BL CO PO 
+
+ 
+26. a. Write an essay on the different types of polysaccharide. Add a short note on 10 3 1 1,1
+
+ 3 
+lectins. 
+ 
+
+(OR) 
+
+ b. Explain the structure and organization of proteins, and mention the chemical 10 3 1 1,1
+ 3 
+
+bonds involved in it. 
+ 
+
+ 
+
+27. a. Explain the biochemical reactions that occur in TCA cycle and describe how 10 4 1 1,4
+ ,13 
+
+the citric acid cycle is regulated. 
+ 
+
+(OR) 
+
+ b. Classify the diabetes mellitus and list out the complications associated with 10 4 1 1,4
+ ,13 
+
+them. Add a note on insulin release in the pancreas. 
+ 
+
+28. a. Write an essay on the important biomolecules that are derived from amino 10 3 3 1,4
+,14 
+
+acids. 
+ 
+
+(OR) 
+
+ b. Solve the step by step process of how the two nitrogen from amino acids are 10 3 3 1,4
+,14 
+
+removed as urea in our body. 
+ 
+
+29. a. List out the steps and identify the repeated steps of fatty acids degradation. 10 4 4 1,4
+ ,15 
+
+(OR) 
+
+ b. Describe the pathway through which purine nucleotide synthesis occurs. 10 4 4 1,4
+ ,15 
+
+30. a. Describe the key components of the electron transport chain, and add notes 10 4 5 4,5
+,15 
+
+on how they are arranged? 
+ 
+
+(OR) 
+
+ b. Describe how the light reactions and the Calvin cycle are coordinated. 10 4 5 4,5
+ ,15 
+
+ 
+* * * * * 
+
+Page 1 of 1 07DF3-18BTC101J
+
+
+===== SOURCE_FILE: nexus/Biochemistry/PYQs/biochem pyq txt/PYQ May 2023.txt =====
+CATEGORY: PYQs
+STATUS: ok
+
+Reg. No. R 22 o37 
+
+B.Tech. DEGREE EXAMINATION, MAY 2023 
+Second Semester 
+
+21BTC101T - BIOCHEMISTRY 
+(For the candidates admitted from the academic year 2022-2023) 
+
+Note: 
+(i) Part - A should be answered in OMR sheet within first 40 minutes and OMR sheet should be handed 
+
+over to hall invigilator at the end of 40th minute. 
+(ii) Part -B and Part -Cs hould be answered in answer booklet. 
+
+Time: 3 Hours Max. Marks: 75 
+
+Marks BL CO PO 
+
+PART - A (20 x 1 = 20Marks) 
+Answer ALL Questions 
+
+1 2 1 1,4 
+1. A phosphodiester bond is present between 
+
+(A) Fatty acids in a diglyceride (B) Monosaccharides in 
+carbohydrates 
+
+(C) Amino acids in proteins (D) Nucleotides in DNA 
+1 1.4 
+
+2. Which of the following macromolecules have the general molecular formula 
+(CH;0)n? 
+(A) Proteins (B) Lipids 
+
+(C) Carbohydrates (D) Nucleic acids 
+1 1 1 1,4 
+
+3. a-D-glucose and B-D-glucose are 
+(A) Epimers (B) Anomers 
+(C) Keto-ALDOpairs (D) Constitutional isomers 
+
+1 1 1,4 
+4. The phospholipid that prevents the adherence of inner surface of lungs 
+
+(A) Phosphoinositides (B) Lecithin 
+(C) Cephalin (D) Plasmogens 
+
+5. Which of the following has the highest standard reduction potential? 1 2 2 1,3 
+
+(A) NAD (B) FMN 
+(C) Oxygen (D) Pyruvate 
+
+6. The following is the most preferred source of energy for the brain 2 1,3 
+
+(A) Glycogen (B) Glucose 
+(C) Fructose (D) Fatty acids 
+
+7. Light independent reactions in photosynthesis takes place at 1 2 1,3 
+
+(A) Stromal matrix (B) Thylakoid lumen 
+(C) Photo system -I (D) Photo system -II 
+
+8. The following uncouples electron transport in the mitochondrion from the 2 1.3 
+
+production of chemical energy in the form of 
+(A) Thymine adenosine triphosphate (ATP) 
+(C) Cytochromes (B) Thermogenin 
+
+(D) Heme 
+
+
+9. Which of the following are the major sites for glycogen storage 3 
+14 
+
+(A) Muscle and brain (B) Muscle and liver 
+(C) Liver and kidney (D) Adipose tissue 
+
+10. Which of the following is the precursor of glycogen? 
+(A) UDP glucose (B) Malate 
+(C) Glycerol 3-phsophate (D) Leucine and lysine 
+
+11. Which of the following hormones maintain blood glucose level by activation 2 
+
+of gluconeogenesis 3 L4 
+
+(A) Epinephrine (B) Insulin 
+(C) Glucagon (D) Nor-epinephrine 
+
+12. The following reactions generate acetyl CoA from pyruvate 1 
+3 L4 
+
+(A) Oxidative decarboxylation (B) Reduction 
+(C) Dehydration (D) Dephosphorylation 
+
+13. One of the following is NOT an amino acid 4 1,2 
+
+(A) Alanine (B) Proline 
+(C) Choline (D) Glycine 
+
+14. The amino acids are said to be ketogenic when the 
+degraded to carbon skeleton is finally | 4 1.2 
+
+(A) Fumarate (B) Acetyl CoA 
+(C) Pyruvale (D) Succinyl CoA 
+
+15. The following amino acid do not participate in transamination | 4 1,2 
+(A) Glutamate 4 
+
+(B) Tryptophan 
+(C) Alanine (D) Lysine 
+
+16. The common compound shared by both TCA cycle and urea cycle is 2 4 1,2 
+
+(A) a-keto glutarate 4 
+(B) Fumarate 
+
+(C) Oxalo acetate (D) Succinyl CoA 
+17. The following is the source of all carbon atoms in cholesterol 2 S 1,2 
+
+(A) AcetylCoA (B) PropionylCoA 
+(C) Malonyl CoA (D) Acetoacetyl CoA 
+
+18. The parent nucleotide synthesized in the biosynthesis of purines is 1 1,2 
+
+(A) Orotidine monophosphate (B) Adenyl succinate 
+(C) Xanthosine monophosphate (D) Inosine monophosphate 
+
+19. The amino acids required for the synthesis of pyrimidines are 1 5 1.2 
+
+(A) Aspartate and glutamine (B) Alanine and cysteine 
+(C) Asparagine and leucine (D) Methionine and tyrosine 
+
+20. Ketone bodies are formed from 2 
+
+(A) Acetyl CoA (B) Acetone 
+(C) Acetoacetate (D) Propionyl CoA 
+
+P'age 2 of 3 29MF221BTC101T 
+
+
+PART- B (5 x 8 = 40 Marks) Marks BL CO PO 
+
+Answer ALL Qucstions 
+
+) a What are enzymes? Draw the activation energy diagram with and without 2.3 1 1,4 
+
+the cnzyme and describe the major classes of enzymes. 
+
+(OR) 
+2,3 1 1,4 
+
+b What is pH? Decfine Bronsted-Lowry acid and base and derive the 
+Henderson-Hasselbalch cquation. 
+
+2,3 2 1,3 
+22.a. Givc an account on photorespiration and explain how C4 plants avoid 
+
+photorespiration. 
+
+(OR) 8 2,3 2 1,3 
+b. What is shuttle pathway? Explain one of the shuttle pathways in detail. 
+
+2 1,4 
+23.a. What is diabetes mellitus? Describe briefly about the blood glucose level 
+
+regulation by insulin. 
+
+(OR) 
+2,3 3 1,4 
+
+b. What is glycogenolysis? Which organs carryout this process? Briefly 
+describe about glycogenolysis. 
+
+8 2 4 2 
+24. a. Write the salient features of transamination of amino acids and describe the 4 
+
+mechanismof transamination in detail. 
+
+(OR) 
+b. Mention any four amino acid metabolic disorders and describe about 2 4 1,2 
+
+4 
+
+phenylketonuria in detail. 
+8 2 
+
+25. a. Discuss the steps involved in the B-oxidation of fatty acid. 1,2 
+
+(OR) 
+b. Explain the process by which pyrimidines are synthesized. 2 5 1, 
+
+PART C(1x 15=15 Marks) Marks BL CO P 
+
+Answer ANY ONE Questions 
+
+26. Explain the electron transport chain with the help of a 2 
+
+the diagram and 
+synthesis discuss 4 
+
+of ATP by oxidative 
+chemiosmotic phosphorylation with the help 
+
+theory of 
+/ hypothesis proposed by Peter Mitchell. 
+
+27. Ammonia is a toxic product of 
+be nitrogen 
+
+r emoved (amino acid) 
+from the body. metabolism and it must 1S 4 4 
+
+from body. Explain the mechanism of removal of ammonia

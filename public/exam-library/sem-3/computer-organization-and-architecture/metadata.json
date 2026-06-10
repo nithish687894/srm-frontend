@@ -1,0 +1,17 @@
+{
+  "semester": "sem-3",
+  "semesterLabel": "Sem 3",
+  "subject": "Computer Organization And Architecture",
+  "subjectSlug": "computer-organization-and-architecture",
+  "readiness": "Partial",
+  "statusMessage": "Some scanned resources still need OCR, so this subject may be partial.",
+  "availableContent": {
+    "notes": true,
+    "pyqs": true,
+    "importantQuestions": false,
+    "revision": true
+  },
+  "sourceCount": 3,
+  "questionCount": 50,
+  "updatedAt": "2026-06-07T14:44:59.195Z"
+}

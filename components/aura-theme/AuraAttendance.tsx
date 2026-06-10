@@ -231,18 +231,82 @@ export default function AuraAttendance({
           box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         .sticky-header.visible { transform: translateY(0); }
+
+        .attendance-page {
+          color: var(--text-main);
+        }
+        .attendance-page .aura-card,
+        .attendance-page .liquid-card {
+          background: linear-gradient(145deg, rgba(18, 14, 30, 0.90), rgba(8, 7, 14, 0.92));
+          border: 1px solid rgba(216, 180, 254, 0.12);
+          box-shadow: 0 18px 42px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.06);
+        }
+
+        body.theme-light .attendance-page {
+          color: #17111f;
+        }
+        body.theme-light .attendance-page .aura-card,
+        body.theme-light .attendance-page .liquid-card {
+          background: linear-gradient(145deg, rgba(255,255,255,0.94), rgba(243,238,255,0.90)) !important;
+          border: 1px solid rgba(88, 61, 145, 0.18) !important;
+          box-shadow: 0 18px 38px rgba(88,61,145,0.12), inset 0 1px 0 rgba(255,255,255,0.86) !important;
+          color: #17111f !important;
+        }
+        body.theme-light .sticky-header {
+          background: linear-gradient(135deg, rgba(255,255,255,0.88), rgba(243,238,255,0.82)) !important;
+          border-color: rgba(88,61,145,0.16) !important;
+          box-shadow: 0 12px 30px rgba(46,32,74,0.14), inset 0 1px 0 rgba(255,255,255,0.72) !important;
+        }
+        body.theme-light .sticky-header .sticky-title {
+          color: #1f1830 !important;
+        }
+        body.theme-light .sticky-header .sticky-avg {
+          color: rgba(31,24,48,0.58) !important;
+        }
+        body.theme-light .attendance-page [style*="color: #fff"],
+        body.theme-light .attendance-page [style*="color: '#fff'"],
+        body.theme-light .attendance-page [style*="color: #ffffff"],
+        body.theme-light .attendance-page [style*="color: '#ffffff'"] {
+          color: #17111f !important;
+        }
+        body.theme-light .attendance-page [style*="rgba(0,0,0,0.25)"],
+        body.theme-light .attendance-page [style*="rgba(0, 0, 0, 0.25)"],
+        body.theme-light .attendance-page [style*="rgba(0,0,0,0.2)"] {
+          background: rgba(88,61,145,0.07) !important;
+          border-color: rgba(88,61,145,0.12) !important;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.62) !important;
+        }
+        body.theme-light .attendance-page [style*="rgba(255,255,255,0.03)"],
+        body.theme-light .attendance-page [style*="rgba(255, 255, 255, 0.02)"],
+        body.theme-light .attendance-page [style*="rgba(255, 255, 255, 0.04)"],
+        body.theme-light .attendance-page [style*="rgba(255, 255, 255, 0.06)"] {
+          background: rgba(88,61,145,0.06) !important;
+          border-color: rgba(88,61,145,0.12) !important;
+        }
+        body.theme-light .attendance-page [style*="rgba(22, 16, 36"],
+        body.theme-light .attendance-page [style*="rgba(10, 8, 20"] {
+          background: linear-gradient(145deg, rgba(255,255,255,0.94), rgba(243,238,255,0.90)) !important;
+          border-color: rgba(88,61,145,0.18) !important;
+        }
+        body.theme-light .attendance-page [style*="var(--text-muted)"],
+        body.theme-light .attendance-page [style*="AURA_COLORS.sub"] {
+          color: rgba(23,17,31,0.58) !important;
+        }
+        body.theme-light .attendance-page button {
+          color: inherit;
+        }
       `}} />
 
       {/* Sticky Scroll Header */}
       <div className={`sticky-header ${isScrolled ? 'visible' : ''}`}>
-        <span style={{ fontSize: '13px', fontWeight: 900, color: '#fff' }}>Lumina Sync</span>
+        <span className="sticky-title" style={{ fontSize: '13px', fontWeight: 900, color: '#fff' }}>Lumina Sync</span>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-          <span style={{ fontSize: '11px', fontWeight: 800, color: AURA_COLORS.sub }}>AVG <span style={{color: AURA_COLORS.primary}}>{stats.overallAvg.toFixed(1)}%</span></span>
+          <span className="sticky-avg" style={{ fontSize: '11px', fontWeight: 800, color: AURA_COLORS.sub }}>AVG <span style={{color: AURA_COLORS.primary}}>{stats.overallAvg.toFixed(1)}%</span></span>
           {stats.atRisk > 0 && <span style={{ fontSize: '10px', background: 'rgba(255,45,85,0.1)', border: '1px solid rgba(255,45,85,0.2)', color: AURA_COLORS.red, padding: '4px 8px', borderRadius: '100px', fontWeight: 900 }}>{stats.atRisk} AT RISK</span>}
         </div>
       </div>
 
-      <div style={{ flex: 1, padding: "100px 0 140px 0", position: 'relative', zIndex: 1 }}>
+      <div className="attendance-page" style={{ flex: 1, padding: "100px 0 140px 0", position: 'relative', zIndex: 1 }}>
         
         {/* Header Section */}
         <div style={{ textAlign: 'center', marginBottom: '24px' }}>

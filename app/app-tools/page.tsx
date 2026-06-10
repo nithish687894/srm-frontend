@@ -9,6 +9,7 @@ import {
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import LoadingSkeleton from "@/components/aura-theme/LoadingSkeleton";
+import { WhatIfCalculator } from "@/components/aura-theme/WhatIfCalculator";
 
 const THEME = {
   bg: "#050505",
@@ -168,6 +169,12 @@ export default function AppToolsPage() {
           <div style={{ display: 'flex', gap: '24px' }}>
             <MenuIcon icon={IdCard} label="Student Dashboard" color="#fff" onClick={() => router.push('/portal/student-dashboard')} />
             <MenuIcon icon={GraduationCap} label="Grade & Credit" color="#fff" onClick={() => router.push('/portal/grade-mark-credit')} />
+          </div>
+
+          {/* FORESIGHT ENGINE */}
+          <SectionHeader title="FORESIGHT ENGINE" />
+          <div style={{ marginBottom: "20px" }}>
+            <WhatIfCalculator />
           </div>
 
           {/* QUICK ACTIONS */}

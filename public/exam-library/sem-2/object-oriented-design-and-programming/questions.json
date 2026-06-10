@@ -1,0 +1,2454 @@
+[
+  {
+    "id": "q-1",
+    "text": "Basic concept of OOPs",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-2",
+    "text": "Features of OOPs",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-3",
+    "text": "C++ Access Specifiers",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-4",
+    "text": "Write a C++ program for",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-5",
+    "text": "Draw a Use case diagram for any one application ( Some time they will ask this",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-6",
+    "text": "Draw a Class diagram for any one application ( Some time they will ask this",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-7",
+    "text": "Types of constructors with an example",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-8",
+    "text": "Destructor with an example",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-9",
+    "text": "Method Overloading with an example",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-10",
+    "text": "Operator Overloading with an example",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-11",
+    "text": "Draw a UML Interaction Diagrams (Sequence Diagram / Collaboration",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-12",
+    "text": "Multiple Inheritance with an example",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-13",
+    "text": "Multilevel inheritance with an example",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-14",
+    "text": "Hierarchical with an example",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-15",
+    "text": "Hybrid Inheritance with an example",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-16",
+    "text": "Friend function with an example",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-17",
+    "text": "Virtual function with an example",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-18",
+    "text": "Pure Virtual function with an example",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-19",
+    "text": "Abstract class with an example",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-20",
+    "text": "Interface or Pure abstract class with an example",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-21",
+    "text": "Draw UML State Chart Diagram for any one application ( Some time they will",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-22",
+    "text": "Draw UML Activity Diagram for any one application ( Some time they will ask",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-23",
+    "text": "Function template",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-24",
+    "text": "Exception handling (try, throw, catch and multiple catch)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-25",
+    "text": "Types of exceptions",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-26",
+    "text": "Package diagram , Component diagram and Deployment diagram for following",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-27",
+    "text": "Sequence Container: Vector, List, Deque, Array, Stack with an example.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-28",
+    "text": "Associative Containers: Map, Multimap with an example.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-29",
+    "text": "Algorithms: find(), count(), sort(), search(), merge(), for_each(), transform() with an",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/Important Questions.pdf"
+  },
+  {
+    "id": "q-30",
+    "text": "Which of the following explains Polymorphism? (L1) (Page no 19)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-31",
+    "text": "A) intfunc(int, int);",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-32",
+    "text": "C) intfunc(float);",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-33",
+    "text": "Find how many bytes are occupied by the following data types in a 32-bit system. (L1) (Page no 70)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-34",
+    "text": "B) Type long double",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-35",
+    "text": "Which of the following is a important role of a function? (L1) (Page no 210)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-36",
+    "text": "A) give a name to a block of code",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-37",
+    "text": "B) reduce program size",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-38",
+    "text": "C) accept arguments and provide a return value",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-39",
+    "text": "D) help organize a program into conceptual units",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-40",
+    "text": "The Unified Modeling Language is ………………………(L1) (Page no 27)- Reference-5",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-41",
+    "text": "A) a program that builds physical models.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-42",
+    "text": "B) a way to look at the organization of a program",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-43",
+    "text": "C) the combination of C++ and FORTRAN",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-44",
+    "text": "D) helpful in developing software systems.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-45",
+    "text": "In C++, a function contained within a class is called ………………..(L1) (Page no 25)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-46",
+    "text": "A) a member function",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-47",
+    "text": "C) a class function",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-48",
+    "text": "What happens if the base and derived class contains definition of a function with same prototype?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-49",
+    "text": "A) Compiler reports an error on compilation",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-50",
+    "text": "B) Only base class function will get called irrespective of object",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-51",
+    "text": "C) Only derived class function will get called irrespective of object",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-52",
+    "text": "D) Base class object will call base class function and derived class object will call derived class object will call",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-53",
+    "text": "Which one of the following option is correct about the statement given below? The compiler checks the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-54",
+    "text": "Which of the following functions are performed by a constructor? (L1)(Page no 32)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-55",
+    "text": "A) Construct a new class",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-56",
+    "text": "B) Construct a new object",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-57",
+    "text": "C) Construct a new function",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-58",
+    "text": "D) Initialize objects",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-59",
+    "text": "Which of the following is the correct class of the object cout(L1) (Page no 38)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-60",
+    "text": "In UML, diagrams which captures system static structure and provide foundation for other models is",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-61",
+    "text": "A) Deployment diagram",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-62",
+    "text": "C) Component diagram",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-63",
+    "text": "Find the error produced by compiler when private members are accessed? (L1) (Page no 31)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-64",
+    "text": "A) Can’t access private message",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-65",
+    "text": "B) Code unreachable",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-66",
+    "text": "Choose the default access specifier for the class member(L1) (Page no 40)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-67",
+    "text": "D) None of the above",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-68",
+    "text": "Which of the following is CPP style type-casting? (L1) (Page no 42)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-69",
+    "text": "A) per=total/ (float)m",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-70",
+    "text": "B) per=total/float(m)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-71",
+    "text": "C) per = (float)total/m",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-72",
+    "text": "What is the output of the following program? (L1) (Page no 37)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-73",
+    "text": "A) RRM B) SRM C) SRR D) None of these",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-74",
+    "text": "What does the following statement mean? (L1) (Page no 42)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-75",
+    "text": "A) pointer to a pointer",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-76",
+    "text": "B) pointer to an array of chars",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-77",
+    "text": "C) pointer to function taking a char* argument and returns an int",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-78",
+    "text": "D) function taking a char* argument and returning a pointer to int",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-79",
+    "text": "Which of the following concepts of OOPS means exposing only necessary information to client? (L1) (Page",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-80",
+    "text": "Which of the following is illegal? (L1) (Page no 36)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-81",
+    "text": "B) string s, *sp = 0;",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-82",
+    "text": "C) int i; double* dp = &i;",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-83",
+    "text": "Which member can never be accessed by inherited classes? (L1) (Page no 45)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-84",
+    "text": "A) Private member function",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-85",
+    "text": "B) Public member function",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-86",
+    "text": "C) Protected member function",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-87",
+    "text": "D) All can be accessed",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-88",
+    "text": "Analyze the code and choose the correct Ans? (L4) (Page no 37)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-89",
+    "text": "A) b is assigned to a",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-90",
+    "text": "B) p now points to b",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-91",
+    "text": "C) a is assigned to b",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-92",
+    "text": "D) q now points to a",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-93",
+    "text": "Mention the size_t integer type in C++ is? (L2) (Page no 52)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-94",
+    "text": "A) Unsigned integer of at least 64 bits",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-95",
+    "text": "B) Signed integer of at least 16 bits",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-96",
+    "text": "C) Unsigned integer of at least 16 bits",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-97",
+    "text": "D) Signed integer of at least 64 bits",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-98",
+    "text": "Abstraction and encapsulation are fundamental principles that underlie the object oriented",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-99",
+    "text": "A. Neither I nor II is correct",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-100",
+    "text": "B. Both I and II are correct",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-101",
+    "text": "C. Only II is correct",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-102",
+    "text": "D. Only I is correct",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-103",
+    "text": "A. Howzhat WYSIWYG YACC Whatizi t done",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-104",
+    "text": "B. Howzhat WYSIWYG done YACC Whatizit",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-105",
+    "text": "C. Yl>.CC Whatizit Howzhat WYSIWYG done",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-106",
+    "text": "D. none of the above",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-107",
+    "text": "The following program (L2) (Page no 31)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-108",
+    "text": "A. will compile successfully if statement 1 is removed",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-109",
+    "text": "B. will compile successfully if statement 2 is removed",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-110",
+    "text": "C. will compile successfully if statement 3 is removed",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-111",
+    "text": "D. will run successfully and print 34 5",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-112",
+    "text": "What will be the output of the following code? (L2) (Page no 36)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-113",
+    "text": "D) something destroying 2this is i in main destroying 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-114",
+    "text": "Match the following concepts and their best possible descriptions. (L2) (Page no 42)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-115",
+    "text": "Predict the output of following C++ program(L2) (page no 43)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-116",
+    "text": "A. A non-zero value",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-117",
+    "text": "Predict the output following program. (L2) (Page no 43)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-118",
+    "text": "Output of following program? (L2) (page no 43)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-119",
+    "text": "A. Normal Constructor called",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-120",
+    "text": "B. Normal Constructor called",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-121",
+    "text": "Analyze the Output. (L4) (Page no 44)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-122",
+    "text": "A. Constructor Called. Before fun() called. After fun() called.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-123",
+    "text": "B. Before fun() called. Constructor Called. Constructor Called. After fun() called.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-124",
+    "text": "C. Before fun() called. Constructor Called. After fun() called.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-125",
+    "text": "What is the output of following program? (L2) (page no 43)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-126",
+    "text": "Consider the following class definitions in a hypothetical Object-Oriented language that supports",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-127",
+    "text": "Which of the following is true about the following program(L4) (Page no 72)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-128",
+    "text": "c. Compiles and runs fine",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-129",
+    "text": "What will be the out of the following program? (L4) (page no 56)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-130",
+    "text": "Analyze the Output. (L4) (Page no 74)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-131",
+    "text": "Analyze the output. (L4) (Page no 53)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-132",
+    "text": "A. inside constructor something destroying 2this is i in main destroying 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-133",
+    "text": "B. inside constructor something this is i in main destroying 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-134",
+    "text": "C. inside constructor something destroying 2this is i in main",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-135",
+    "text": "D. something destroying 2this is i in main destroying 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-136",
+    "text": "Analyze the Output (L4) (Page no 68)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-137",
+    "text": "While overloading binary operators using member function, it requires ___ arguments.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-138",
+    "text": "Which of the followings are true about constructors?[L1]Page no:227",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-139",
+    "text": "A class can have more than one constructor.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-140",
+    "text": "They can be inherited.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-141",
+    "text": "Their address can be referred.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-142",
+    "text": "Constructors cannot be declared in protected section of the class.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-143",
+    "text": "Constructors cannot return values.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-144",
+    "text": "Which of the following keyword is used to overload an operator?[L1]Page no:319",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-145",
+    "text": "What will happen if a class is not having any name?[L1]Page no:238",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-146",
+    "text": "a. it cannot have a destructor",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-147",
+    "text": "b. It cannot have a constructor.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-148",
+    "text": "c. It is not allowed.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-149",
+    "text": "Which inheritance type is used in the class given below? [L1] Page no:319",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-150",
+    "text": "a. Multilevel inheritance",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-151",
+    "text": "b. Multiple inheritance",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-152",
+    "text": "c. Hybrid inheritance",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-153",
+    "text": "Which of the following operators cannot be overloaded?[L1] Page no:319",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-154",
+    "text": "In which of the following a virtual call is resolved at the time of compilation?[L2] Page no:319",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-155",
+    "text": "a. From inside the destructor.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-156",
+    "text": "b. From inside the constructor.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-157",
+    "text": "c. From inside the main ().",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-158",
+    "text": "Which of the following operator is overloaded for object cout?[L1] page no:319",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-159",
+    "text": "Assume class TEST. Which of the following statements is/are responsible to invoke copy constructor? [L2]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-160",
+    "text": "Which of the following is the perfect set of operators that can’t be overloaded in",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-161",
+    "text": "b. >>, <<, ?, *, sizeof()",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-162",
+    "text": "c. :: , . , .* , ?:",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-163",
+    "text": "d. :: , ->, * , new, delete",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-164",
+    "text": "How many operators are supported by C++?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-165",
+    "text": "A non-member function that is given access to all members of a class within it is",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-166",
+    "text": "a. Access function",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-167",
+    "text": "b. Friend function",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-168",
+    "text": "c. Operator functions",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-169",
+    "text": "Which of the following operators should be preferred to overload as a global function rather than a",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-170",
+    "text": "b. Comparison Operator",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-171",
+    "text": "c. Insertion Operator <<",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-172",
+    "text": "We can overload which of the following C++ operators.[L2] Page no:319",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-173",
+    "text": "a. Arithmetic operator (+, -, *, /)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-174",
+    "text": "b. Class Member Access Operators (., .*)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-175",
+    "text": "c. Size operator (sizeof)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-176",
+    "text": "d. Conditional operator (?:)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-177",
+    "text": "Operator overloading is also called …………….. polymorphism.[L1] Page no:319",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-178",
+    "text": "d. Completion time",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-179",
+    "text": "Operator overloading is done with the help of a special function called ……………, which describes the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-180",
+    "text": "a. overloading function",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-181",
+    "text": "c. detail function",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-182",
+    "text": "d. operator function",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-183",
+    "text": "Overload an operator by naming it a[L1] Page no:319",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-184",
+    "text": "Which of the function operator cannot be over loaded[L2] Page no:319",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-185",
+    "text": "Kind of diagrams which are used to show interactions between series of messages are classified as[L1]",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-186",
+    "text": "a. activity diagrams",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-187",
+    "text": "b. state chart diagrams",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-188",
+    "text": "c. collaboration diagrams",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-189",
+    "text": "d. object lifeline diagrams",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-190",
+    "text": "Dynamic aspects related to a system are shown with help of[L1] Page no:35",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-191",
+    "text": "a. sequence diagrams",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-192",
+    "text": "b. interaction diagrams",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-193",
+    "text": "c. deployment diagrams",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-194",
+    "text": "d. use case diagrams",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-195",
+    "text": "Locate which of these are true with respect to the message arrows?[L2] Page no:357",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-196",
+    "text": "a) The synchronous message arrow is used when a sending individual continues execution after sending the message",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-197",
+    "text": "b) The asynchronous message arrow is used when a sending individual suspends execution after sending the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-198",
+    "text": "c) The dashed arrow is used either to show the return of control from a synchronous message or to create a",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-199",
+    "text": "d) All of the mentioned",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-200",
+    "text": "Recognize the following statements and find which is correct ?[L2]Page no:371",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-201",
+    "text": "Implement and find the output of the following C++ code?[L3] Page no:319",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-202",
+    "text": "a) B1's capacity is small",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-203",
+    "text": "b) B2's capacity is small",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-204",
+    "text": "d) Segmentation fault",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-205",
+    "text": "Solve the function prototype of the operator function which we need to define in this",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-206",
+    "text": "b) bool operator==(Box b){}",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-207",
+    "text": "c) bool operator==(Box b);",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-208",
+    "text": "d) Box operator==();",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-209",
+    "text": "Judge the operator to be overloaded in the following code to make the program error free?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-210",
+    "text": "Define the syntax of overloading operator + for class A?[L1] Page no:319",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-211",
+    "text": "a) A operator+(argument_list){}",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-212",
+    "text": "b) A operator[+](argument_list){}",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-213",
+    "text": "c) int +(argument_list){}",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-214",
+    "text": "d) int [+](argument_list){}",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-215",
+    "text": "State which of the following statements is NOT valid about operator overloading?[L1] Page no:319",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-216",
+    "text": "b) The overloaded operator must have at least one operand of its class type",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-217",
+    "text": "c) The overloaded operators follow the syntax rules of the original operator",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-218",
+    "text": "d) The overloaded operator must not have at least one operand of its class type.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-219",
+    "text": "Identify the three different types of message arrows?[L2]Page no:357",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  },
+  {
+    "id": "q-220",
+    "text": "a) Synchronous, asynchronous, asynchronous with instance creation",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Object Oriented Design And Programming/PYQs/MCQ For All Units.pdf"
+  }
+]

@@ -9,6 +9,7 @@ import BroadcastBanner from "@/components/BroadcastBanner";
 import JsonLd from "@/components/seo/JsonLd";
 import InstallPWA from "@/components/InstallPWA";
 import AttendanceBadge from "@/components/AttendanceBadge";
+import CacheUpgrade from "@/components/CacheUpgrade";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -102,10 +103,18 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${jakartaSans.variable} ${jetbrainsMono.variable} ${orbitron.variable} ${playfair.variable} ${bebas.variable}`}>
-      <body style={{ margin: 0, padding: 0 }}>
+      <body className="splash-active" style={{ margin: 0, padding: 0 }}>
+        <style>{`
+          body.splash-active .srmx-top-status-bar,
+          body.splash-active .srmx-mobile-nav,
+          body.splash-active .desktop-sidebar {
+            display: none !important;
+          }
+        `}</style>
         <JsonLd />
         <Providers>
           <ThemeWrapper>
+            <CacheUpgrade />
             <AppLaunchSplash>
               <BroadcastBanner />
               <InstallPWA />

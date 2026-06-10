@@ -1,0 +1,123 @@
+[
+  {
+    "id": "q-1",
+    "text": "i. Part -A should be answered in OMR sheet within first 40 minutes and OMR sheet should be handed over to",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Computer Networks/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-2",
+    "text": "The topology that involves tokens.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Computer Networks/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-3",
+    "text": "How many total links are required to connect 12 devices in a fully connected mesh",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Computer Networks/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-4",
+    "text": "What is the frequency range of the coaxial cable?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Computer Networks/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-5",
+    "text": "You are given the IP Address of 193.103.20.0 /24 and need 50 Subnets. How many",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Computer Networks/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-6",
+    "text": "hosts per network, and total networks do you get once subnetted?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Computer Networks/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-7",
+    "text": "Teh implies that all subnets obtained from the same subnet- mask.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Computer Networks/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-8",
+    "text": "how many usable host addresses will there be per subnet?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Computer Networks/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-9",
+    "text": "If you wanted to have 12 subnets with a Class C network ID, which subnet mask",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Computer Networks/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-10",
+    "text": "Packets of the same session may be routed through different paths in 1 2 3",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Computer Networks/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-11",
+    "text": "The address resolution protocol (ARP) is used for",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 5 sem6/Computer Networks/PYQs/PYQ Jan 2024.pdf"
+  }
+]

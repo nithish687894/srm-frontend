@@ -1,0 +1,458 @@
+## nexus sem 2/Electronic System And PCB Design/PYQs/CT PYQs CT - 1.url
+
+CATEGORY: PYQs
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1C0f3I2pygqlVbKiZo8nctDwi-Q9w8onS?usp=sharing
+
+---
+
+## nexus sem 2/Electronic System And PCB Design/PYQs/CT PYQs CT - 2.url
+
+CATEGORY: PYQs
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/15Cc2IpgLFczcF8KVE59JlVAeMLUDUyvg?usp=sharing
+
+---
+
+## nexus sem 2/Electronic System And PCB Design/PYQs/Important Questions - Topics.pdf
+
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+21ECC101J – Electronic System and PCB Design -Important Questions
+Unit 1: Semiconductor Fundamentals and Devices 
+ Classification of Semiconductors
+ Doping in Semiconductors
+ Conductivity of Semiconductors
+ Energy Distribution and Fermi Level
+ Carrier Concentration in Intrinsic Semiconductor and Mass-Action Law
+ Drift and Diffusion Current
+ Einstein Relationship for Semiconductors
+ Basic PN Junction and Applications
+ Bipolar Junction Transistor (BJT)
+ MOSFETs
+ Challenges for Nano MOSFETs (Scaling Issues)
+ SOI MOSFET and Double Gate MOSFET (Working Principle)
+ FinFET and IGFET (Basic Concept)
+Unit 2: Power Devices and Fabrication (12 Hours)
+ Introduction to Power Electronics
+ Applications and Role of Power Electronics
+ Introduction to Power Semiconductor Devices
+ Operating Characteristics:
+o Power Diodes
+o Gunn Diode
+o Schottky Diode
+o IMPATT Diode
+ Thyristor, PNPN Diode, Silicon Controlled Rectifier (SCR), Thyristor 
+Rating
+ Physics and Switching Characteristics:
+o Power BJT
+Downloaded by THE HELPER (srmpyqs@gmail.com)
+lOMoARcPSD|52021650
+
+
+[Page 2]
+o Power MOSFET
+ Monolithic Fabrication Process:
+o Diodes
+o Capacitors
+o Resistors
+Unit 3: Power Supplies and Measurement Instruments (12 Hours)
+ Basic Building Block of Power Supply and Requirements
+ Rectifiers:
+o Half-Wave
+o Full-Wave
+o Using SCR
+ Voltage Regulators:
+o Line and Load Regulation
+o Problem Solving
+ Switched Mode Power Supply (SMPS):
+o Classifications
+o Advantages and Comparison
+ Wave Shaping Circuits
+ Multivibrators:
+o Astable
+o Monostable
+o Bistable
+ Measurement Instruments (Block Diagram and Working Principle):
+o Ammeter
+o Digital Voltmeter
+o Digital Multimeter
+o Cathode Ray Oscilloscope (CRO)
+o Spectrum Analyzer
+Downloaded by THE HELPER (srmpyqs@gmail.com)
+lOMoARcPSD|52021650
+
+
+[Page 3]
+o Energy Meter
+o Power Meter
+o Distortion Meter
+Unit 4: PCB Design Concepts (12 Hours)
+ Concept of PCB Design
+ Components of PCB
+ Classifications and Manufacturing of PCB
+ Layout Planning and Design Block Diagram
+ Importance of PCB Design
+ Mechanical Design of PCB
+ Types of Boards
+ Mounting Techniques
+ Stress Analysis
+ Electrical Design Consideration of PCB
+ Rules for:
+o Component Placement
+o Power Supply and Ground
+o Connections Layout
+ Component Assembly in PCB
+Unit 5: Advanced PCB Design and Application (12 Hours)
+ Environmental Factors on PCB Design
+ Cooling and Packaging of PCB
+ Layout Design Checklist
+ Design Rules:
+o Analog PCB
+o Digital PCB
+ Common Problems in Digital PCBs:
+o Reflections
+Downloaded by THE HELPER (srmpyqs@gmail.com)
+lOMoARcPSD|52021650
+
+
+[Page 4]
+o Cross-talk
+o Signal Noise
+o Interference
+ PCB Design for:
+o High Frequency Circuits
+o Fast Pulse Circuits
+o Microwave Circuits
+Downloaded by THE HELPER (srmpyqs@gmail.com)
+lOMoARcPSD|52021650
+
+---
+
+## nexus sem 2/Electronic System And PCB Design/PYQs/PYQ May 2023.pdf
+
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+Note: () 
+Time: 3 hours 
+21ECCI01J -ELECTRONIC SYSTEM ANDD PCB DESIGN (For the candidates adnitted from the acddemic year 2021 -2022 & 2022-2023) Part -A should be answered in OMR sheCT whin first 40 minutes and OMR sheet should be handei over to hall invigilator at the end of 40 minute. 
+B.Tech. /M.Tech (Integrated) DEGREE EXAMINATION, MAY 2023 
+Part-B& Part -C should be angwered in answe bonklet. 
+Reg. No. 
+I. The depletion layer across a pt -n junction lies (A) Mostly in the p* region 
+(A) 9.96 mA 
+(C) Equally in both the p* region D) Entirely in the pt region and n-region 
+(C) 9.3 mA 
+PART -A (20 x 1 = 20 Marks) Answer ALL Questions 
+2. A silicon diode has a saturation current of 9.5 d at room temperature of 300 K. Calculate the saturation current at 500 K. 
+Second Semester 
+(A) Silicon oxide (C) Silicon 
+3. In an NPN ransistor, if the EB junction and CB junction are reverse biased, the transistor will operate in (A) Active region (C) Cut-off 
+5. Schottky junction is a (A) Semiconductor-compound 
+4. Which layer isolates gate tcrminal from semiconductor 
+(A) 2 
+(B) Mostly in the n region 
+semiconductor (C) Metal-insulator 
+(C) 4 
+(A) 2 (C) 4 
+(B) 10.96 mA (D) 8.5 mA 
+(B) Saturation region (D) Inverted region 
+(B) Silicon dioxide (D) Silica hetcro junction. 
+6. The number of semiconductor layers in impatt diode is 
+(B) Conductor-insulator (D) Metal-semiconductor 
+(B) 3 (D) 5 7 A power transistor has a verlically oriented alternating P-type and n-type doping. 
+Max. Marks: ?5 
+(B) 3 (D) 5 
+layer structure of 
+Mars BL 
+29MF2-ICCIR! 
+
+[Page 2]
+S. The minimum current required to hold the silicon control rectifier is ON state is 
+10. A bistable multivibrator is a (A) Frec running oscillator (C) Saw tooth wave generator 
+12. 
+9. In a full-wavc rectifier, the D.C load current equals lA. How much D.C. curent is carricd by each diode? (A) 0.5 A (C) 2 A 
+13. 
+11. A 
+14. 
+16. 
+15. 
+(A) Latching current (C) Leakage current 
+17. 
+'aye 2 of4 
+(C) Ammeter 
+measures the magnitude of an input signal versus frequency with in the full frequcncy range of the instrument. (A) Network analyzer 
+(C) Distortion meter 
+(C) Proto board 
+is used to deternmine specific frequencies that cause distortion in electronic devices. (A) Energy metcr 
+(A) Single-sided 
+(B) Holding current (D) Reverse current 
+(C) Multi-layered 
+provides both the plhysical structure for mounting and holding electronic components as well as clectrical inter connections. (A) Circuit area (B) Printed circuit board (D) Nciwork board 
+(B) 1 A (D) 0 A 
+(A) Mechanical 
+(B) Triggered oscillator (D) Crystal oscillator 
+printed circuit boards have wiring patterns on both sides of the insulating material. 
+(C) Functional 
+(B) Cathode ray oscilloscope (D) Spectrum analyzer 
+(A) Poly urcthane (C) Gold 
+(B) Power mctcr (D) Volt meter 
+design requirements include size, shape and weight, location of components and their mounting. 
+(A) 300 MHz (C) 100 MHz 
+(B) Double-sided (D) Plate-sided 
+components are those which have leads that can be inserted mounting holes in the circuit board. (A) Surface mount (C) Through-hole 
+(B) Elecrical (D) Environmental 
+(B) Discrete (D) Integrated is uscd as protective coating for PCB. (B) GaAS (D) Glass 18. In digital circuits, the signal which has a frequency above be referred as a high frequency signal. (B) 200 GHz (D) 250 KHz 
+can 
+1 
+I 
+1 
+1 
+I 2 1 
+1 
+1 
+1 
+1 
+3 
+3 
+1 
+3 
+4 
+4 
+29MF2-21ECCIC 
+
+[Page 3]
+19. A conductor on a PCB will behave as a transmission line if its length (L) is (A) (C) 
+20. A 
+tr 
+100n sec tr 
+100nsec 
+ground plane on the other side. (A) Strip line (C) Micro strip line 
+i. 
+is a double sided PCB with conductor line on side and a 
+b.i. Compare BJT and MOSFET. 
+ii 
+Page 3 of 4 
+21.a. Determine the current density of a silicon bar when it is biased by electric field of 6V/cm. The mobility of electrons and holes are 1200 cm/Vs and The silicon bar is doped by an acceptor 400 cmVs respectively. concentration of 4x10/cm² and the silicon bar intrinsic value is 1.5x1010 /cm³. 
+PART -B (5 x 8= 40 Marks) Answer ALL Questions 
+ii. Differentiate drift and diffusion current. 
+(OR) 
+22. a. Describe in detail the monolithic fabrication process. 
+(B) 100n sec (D) = tr 
+b. Explain the construction and operation of Gunn diode PNPN diode 
+(OR) 
+tr 
+(B) Suspended strip line (D) Coplanar line 
+(OR) 
+23. a. In an SCR half wave rectifier, the forward breakdown voltage of SCR is 100V for a gate current of ImA.. If a 50Hz sinusoidal voltage of 210V peak is applied. Calculate firing angle, conduction angle, average current, Power output and the time during which SCR remains OFF. Assume load resistance is 100S2 and the holding current to be zero. 
+b. Explain about switched mode power supply, its classifications and advantages. 
+(OR) 
+24. a. Elaborate the major steps in the manufacturing of a single -sided printed circuit board. 
+b. What are the rules for component placement on printed circuit board? 25. a. Explain about the printed circuit board layout design and its check list. 
+(OR) b. List and discuss the problems in design of PCB's for digital circuits. 
+Marks 
+4 
+4 
+8 
+8 
+8 
+8 
+8 
+8 
+1 
+BL 
+2 
+2 
+2 
+2 1 1 
+1 
+2 
+CO 
+3 
+3 
+2 
+3 
+4 
+PO 
+2 
+1 
+2 
+4 1 
+29MF2-21ECC101J 
+
+[Page 4]
+PART -C(1x15 = 15 Marks) Answer ANY ONE Question 26. With necessary diagrams, discuss the construction and working of a n-channel MOSFET. Discuss the pinch-off process associated with a MOSFET. Draw the drain and transfer characteristics of an n-channel MOSFET. 
+27.i. What are line and load regulation? Explain the construction and working of zener shunt regulator. 
+ii. Design a zener shunt voltage regulator with the following specifications; Vo=8V, Vin= 20-30V, I = 30-50 mA, and Iz= 20-40mA. 
+7 
+8 
+2 
+293F2-21E.CCI01.!
+
+---
+
+## nexus sem 2/Electronic System And PCB Design/PYQs/PYQ May 2024.pdf
+
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+Downloaded by THE HELPER (srmpyqs@gmail.com)
+lOMoARcPSD|52021650
+
+
+[Page 2]
+Downloaded by THE HELPER (srmpyqs@gmail.com)
+lOMoARcPSD|52021650
+
+
+[Page 3]
+Downloaded by THE HELPER (srmpyqs@gmail.com)
+lOMoARcPSD|52021650
+
+
+[Page 4]
+Downloaded by THE HELPER (srmpyqs@gmail.com)
+lOMoARcPSD|52021650
+
+---
+
+## nexus sem 2/Electronic System And PCB Design/PYQs/Question Bank - Unit 3.pdf
+
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+ SRM Institute of Science and Technology 
+ Faculty of Engineering and Technology 
+ Department of ECE 
+ Question Bank 
+ 
+COURSE CODE : 21ECC101J SEM : II 
+COURSE NAME : ELECTRONIC SYSTEM AND PCB DESIGN YEAR : I 
+ 
+SYLLABUS 
+UNIT: III 
+Basic Building block of power supply and its requirements, Rectifiers (Half Wave and Full Wave), 
+Rectifier circuits using SCR, V oltage Regulators (Line regulation and Load regulation) and problem 
+solving , Switched Mode Power Supply (SMPS), Classifications of SMPS, Advantages and 
+comparison, Wave Shaping Circuits, Multivibrators (Astable, Monostable and Bistable), Ammeter, 
+Digital voltmeter, Digital multimeter, Cathode Ray Oscilloscope (CRO) , Spectrum Analyzer, Energy 
+Meter, Power meter and distortion meter (block diagram and working principle) 
+Practice: Schematic and PCB Layout in CAD tool. Regulated power supply design.- Full wave 
+rectifier circuit design with fixed voltage regulator, wave shaping circuits. 
+Multiple Choice Questions (Each Question Carries One Mark) 
+1. Which of the following component gives smooth DC output? 
+a) Clamper 
+b) Regulator 
+c) Clipper 
+d) Rectifier. 
+ 
+2. IC LM309 V oltage regulator provides a fixed positive _______ output. 
+a) +10V 
+b) +5V 
+c) +3V 
+d) +1V 
+ 
+3. For a half wave or full wave rectifier the Peak Inverse V oltage of the rectifier is always 
+a) Smaller than the input voltage 
+b) Greater than the input voltage 
+c) Equal to the input voltage 
+d) Greater than the input voltage for full wave rectifier and smaller for the half wave 
+rectifier 
+ 
+4. A simple diode rectifier has ‘ripples’ in the output wave which makes it unsuitable as a DC 
+source. To overcome this one can use_____ 
+a) A capacitor in series with a the load resistance 
+b) A capacitor in parallel to the load resistance 
+c) Both of the mentioned situations will work 
+d) None of the mentioned situations will work. 
+Downloaded by THE HELPER (srmpyqs@gmail.com)
+lOMoARcPSD|52021650
+
+
+[Page 2]
+ 
+5. A circuit that generates square wave is called as____ 
+a) An oscillator 
+b) A modulator 
+c) A Differentiator 
+d) A Multivibrator 
+ 
+6. Monostable multivibrator can also be termed as ____________ 
+a) Full astable multivibrator 
+b) Half bistable multivibrator 
+c) Half astable multivibrator 
+d) Full bistable multivibrator 
+ 
+7. The purpose of trigger circuit in a Cathode Ray Oscilloscope is _____. 
+a) To generate the electron beam 
+b) To synchronise the horizontal and vertical deflections 
+c) To control the power supply unit 
+d) To amplify the input signal. 
+ 
+8. Cathode Ray Oscilloscope (CRO) cannot be used to measure ______ 
+a) Frequency 
+b) Phase 
+c) Power 
+d) V oltage 
+ 
+9. Which of the following meters are not used on D.C. circuits 
+a) Mercury motor meters 
+b) Commutator motor meters 
+c) Induction meters 
+d) None of the above 
+ 
+10. Which of the following instrument measures the amplitude and phase of the signal? 
+a) Network analyzer 
+b) Spectrum analyzer 
+c) Oscilloscope 
+d) Klystron 
+Answer the following Questions (Each Question Carries Four Marks) 
+1. Write short notes on the basic building blocks of power supply. 
+2. Define Form factor and Peak factor. 
+3. For a voltage regulator, the output voltage on no load is observed at 10V , while the full load 
+is observed at 9.8V . Solve the scenario and obtain its load regulation. 
+4. Discuss the operation of monostable multivibrator with its circuit diagram. 
+5. Draw and explain the working principle of a digital multimeter. 
+Downloaded by THE HELPER (srmpyqs@gmail.com)
+lOMoARcPSD|52021650
+
+
+[Page 3]
+6. Draw and explain the working principle of Spectrum analyzer. 
+ 
+Answer the following Questions (Each Question Carries Twelve Marks) 
+1. Discuss the operation, working principle of full wave rectifier with neat sketches. 
+2. With neat circuit and waveform, discuss the operation of SCR half wave rectifier. 
+3. Draw and explain Switched Mode Power Supply circuit (SMPS) with the standard circuit 
+components. 
+4. Explain the following with neat block diagram : Ammeter, Cathode Ray Oscilloscope and 
+Power meter. 
+ 
+Case study: 
+1. Explain how voltage regulation is achieved in the rectifier circuit. Discuss any measures taken 
+to maintain a stable output voltage. 
+2. Design the circuit to toggle between states based on external trigger pulses. Discuss the 
+triggering mechanism for transitioning between the two stable states. How is the circuit 
+triggered to change its state? 
+ 
+ 
+ 
+Online Courses : 
+https://www.coursera.org/learn/semiconductor-physics?specialization=semiconductor-devices 
+https://www.coursera.org/learn/diode-pn-junction-metal-semiconductor-
+contact?specialization=semiconductor-devices 
+https://www.coursera.org/learn/transistor-field-effect-transistor-bipolar-junction-
+transistor?specialization=semiconductor-devices 
+ 
+ 
+ 
+Downloaded by THE HELPER (srmpyqs@gmail.com)
+lOMoARcPSD|52021650

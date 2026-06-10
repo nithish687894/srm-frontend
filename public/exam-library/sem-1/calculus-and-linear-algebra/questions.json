@@ -1,0 +1,2422 @@
+[
+  {
+    "id": "q-1",
+    "text": "(a) Find the eigenvalues of the matrix -1 0",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/CT1 Papers 2025.pdf"
+  },
+  {
+    "id": "q-2",
+    "text": "Expand x'y + 3y -2 in powers of (x-1) and (y+2) using Taylor's series up to second degree terms.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/CT1 Papers 2025.pdf"
+  },
+  {
+    "id": "q-3",
+    "text": "(a) Ifz= xy+xy, where x = at',y = 2at, then find without direct substitution.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/CT1 Papers 2025.pdf"
+  },
+  {
+    "id": "q-4",
+    "text": "Verify Cayley Hamilton theorem for the matrix 21",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/CT1 Papers 2025.pdf"
+  },
+  {
+    "id": "q-5",
+    "text": "Find the eigenvalues and eigenvectors of the matrix",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/CT1 Papers 2025.pdf"
+  },
+  {
+    "id": "q-6",
+    "text": "Expand esiny in powers of (x-1) and (y -;) using",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/CT1 Papers 2025.pdf"
+  },
+  {
+    "id": "q-7",
+    "text": "(a) If xe Y-2ye* = 1, then find",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/CT1 Papers 2025.pdf"
+  },
+  {
+    "id": "q-8",
+    "text": "Verify Cayley Hamilton theorem for the matrix",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/CT1 Papers 2025.pdf"
+  },
+  {
+    "id": "q-9",
+    "text": "and hence find A-,",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/CT1 Papers 2025.pdf"
+  },
+  {
+    "id": "q-10",
+    "text": "The matrix of the quadratic form 2 2 2",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-11",
+    "text": "2 3 1 2 2 3 3 1x 5x x 2x x 2x x 6x x     is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-12",
+    "text": "1 3 1 2 3 1 4 4 1 4 3",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-13",
+    "text": "1 1 3 2 1 4 3 1 3 4 1",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-14",
+    "text": "The number of positive terms in the canonical form is called",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-15",
+    "text": "A homogeneous polynomial of second degree in any number of variables is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-16",
+    "text": "Find the eigen values of 2A if",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-17",
+    "text": "Find the sum and product of the eigen values of",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-18",
+    "text": "The eigen values of an orthogonal matrix have the absolute value ______",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-19",
+    "text": "All the eigen values of a symmetric matrix with real elements are",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-20",
+    "text": "Find the nature of the quadratic form 2 2 22x 3y 2z 2xy  ",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-21",
+    "text": "Write the Q.F. defined by the matrix",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-22",
+    "text": "2 3 1 2 1 3 1 2 3 1 2 1 3",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-23",
+    "text": "2 3 1 2 1 3 1 2 3 1 2 1 3",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-24",
+    "text": "Find the eigen values of the matrix 21",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-25",
+    "text": "Find the eigen values of 10A if 12A 03",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-26",
+    "text": "2 10(a) 1,3 (b) 3,1 (c) 3 ,1 (d) 0,2",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-27",
+    "text": "If the sum of two eigen values and trace of a 3 x 3 matrix A are equal, find the value of A",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-28",
+    "text": "Find the characteristic equation of the matrix",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-29",
+    "text": "Find the nature of the quadratic form",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-30",
+    "text": "2 3 1 2 2 3 3 1x 2x 3x 2x x 2x x 2x x    ",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-31",
+    "text": "Find the eigen values of",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-32",
+    "text": "The matrix of the quadratic form 2 x xy is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-33",
+    "text": "1/ 2 1 2 0 1/ 2 1 2( ) ( ) ( ) ( )1/ 2 0 2 0 1/ 2 1 1 0",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-34",
+    "text": "Two eigen values of the matrix",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-35",
+    "text": "Two of the eigen values of 3 x 3 matrix A are 2, 1 and |A| = 12. Find the third eigen value",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-36",
+    "text": "If A is an orthogonal matrix then",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-37",
+    "text": "Two eigen values of",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-38",
+    "text": "Find the inverse of the eigen values of the matrix if 12A 54",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-39",
+    "text": "Find rank and index of the QF whose canonical form is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-40",
+    "text": "Find signature of the QF whose canonical form is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-41",
+    "text": "The eigen vectors corresponding to the distinct eigen values of a real symmetric matrix are",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-42",
+    "text": "Find the characteristic equation of the matrix 01A 23",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-43",
+    "text": "2 2 2(a) 3 2 0 (b) 3 2 0 (c) 3 3 0 (d) 6 3 0               ",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-44",
+    "text": "If f(x,y) is an implicit function then",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-45",
+    "text": "If f (x , y) = cosxcosy then",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-46",
+    "text": "The stationary points of",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-47",
+    "text": "u and v are functionally dependent if their jacobian val ue is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-48",
+    "text": "The stationary points of f(x,y)=",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-49",
+    "text": "The point (0,0) for f(x, y)=",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-50",
+    "text": "(iii) saddle point",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-51",
+    "text": "(iii) a saddle point",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-52",
+    "text": "Which of the following is the general solution to d2y",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-53",
+    "text": "Solution of ( D2 + 4)y = 0 is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-54",
+    "text": "The P.I of ( D2 + 4)y = sin 2 x is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-55",
+    "text": "The equation ( a0x2D2 + a1xD + a2) y = Q(x) is called, where a0, a 1, a 2 ∈ C",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-56",
+    "text": "Use the transformation z = log x , convert the D.E x2y",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-57",
+    "text": "The solution of ( D2 + 2D + 1)y = 7 is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-58",
+    "text": "The P.I of ( D − 1)2y = ex sin x is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-59",
+    "text": "The P.I of ( D − 1)2y = x is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-60",
+    "text": "If 1 ± 2i are the roots of A.E of a diﬀerential equation f(D)y = 0 then the general solution",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-61",
+    "text": "Convert the equation (5 + 2 x)2y",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-62",
+    "text": "The P. I of ( D2 + 4)y = sinh 2 x is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-63",
+    "text": "(b) yp = sinh 2x",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-64",
+    "text": "(c) yp = − sinh 2x",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-65",
+    "text": "(d) yp = − sinh 2x",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-66",
+    "text": "The P.I of ( D2 + 6D + 5)y = e−x is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-67",
+    "text": "The solution of ( D2 − 2aD + a2)y = 0 is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-68",
+    "text": "The P.I of ( D2 + 16)y = cos 4 x is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-69",
+    "text": "sin 2x (b) x sin 4x",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-70",
+    "text": "cos 2x (d) x cos 4x",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-71",
+    "text": "The C.F of D2y + y = cosecx is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-72",
+    "text": "If y1 = cos ax, y 2 = sin ax then the value of y1y",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-73",
+    "text": "Solve ( D2 + 1) y = 0 given y(0) = 0 , y ′(0) = 1",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-74",
+    "text": "The P.I of ( D − 2)2y = e2x is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-75",
+    "text": "The P.I of ( D2 + 4)y = sin(2 x + 5) is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-76",
+    "text": "sin(2x + 5) (b) x",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-77",
+    "text": "sin(2x + 5) (c) − x",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-78",
+    "text": "cos(2x + 5) (d) x",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-79",
+    "text": "Solve ( x2D2 + xD + 1) y = 0 is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-80",
+    "text": "The roots of the auxiliary equation ( m2 − 4) = 0 are",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-81",
+    "text": "The solution of ( x2D2 − 7xD + 12) y = 0 is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-82",
+    "text": "If y1 = cos x, y 2 = sin x then the value of y1y",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-83",
+    "text": "If three roots of the auxiliary equation become equal to t he real number a, then the corre-",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-84",
+    "text": "The values of eax",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-85",
+    "text": "a 2. a 3. a 4. a 5. a 6. a 7. d 8. b 9. c 10. b 11. a",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-86",
+    "text": "a 13. c 14. b 15. b 16. d 17. a 18. a 19. c 20. b 21. b",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-87",
+    "text": "c 23. c 24. a 25. a",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-88",
+    "text": "If the radius of curvature and curvature of a curve at any point are ρ and κ respectively, then",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-89",
+    "text": "The locus of center of curvature is called",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-90",
+    "text": "The envelope of the family of curvesAα2 + Bα + C = 0 (α is parameter) is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-91",
+    "text": "The curvature of the straight line is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-92",
+    "text": "The radius of curvature of the curvey = 4 sinx at x = π",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-93",
+    "text": "The envelope of ty − x = at2, t is the parameter is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-94",
+    "text": "The curvature at any point of the circle is equal to− − − of its raduis",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-95",
+    "text": "What is the radius of curvature at (4, 3) on the curvex2 + y2 = 25",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-96",
+    "text": "What is the curvature of a circle of radius 3",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-97",
+    "text": "Find the envelope of the curvey = mx + a",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-98",
+    "text": "The radius of curvature ofy = ex at x = 0 is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-99",
+    "text": "The radius of curvature of the curvey = log sec x at any point of it is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-100",
+    "text": "In an ellipse the radius of curvature at the end of which axis is equal to the semi latus rectum of",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-101",
+    "text": "The radius of curvature of the curvex = t2, y = t at t = 1 is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-102",
+    "text": "Evolute of a curve is the envelope of− − −− of that curve",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-103",
+    "text": "The evolute of the cycloidx = a (θ − sin θ) , y = a (1 − cos θ) is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-104",
+    "text": "A curve which touches each member of a family of the curvesis called − − − of that family",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-105",
+    "text": "The envelope of family of linesy = mx + am2 (where m istheparameter) is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-106",
+    "text": "The envelope of the family of linesx",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-107",
+    "text": "The radius of curvature at any point on the curver = eθ is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-108",
+    "text": "The radius of curvature in Cartesian coordinates is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-109",
+    "text": "The radius of curvature in polar coordinates is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-110",
+    "text": "The radius of curvature in parametric coordinates is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-111",
+    "text": "The equation of circle of curvature at any point (x, y ) with center of curvature x, y and with",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-112",
+    "text": "d 2. b 3. d 4. d 5. c 6. b 7. c 8. a 9. c 10. b 11. a 12. a",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-113",
+    "text": "b 14. a 15. b 16. c 17. b 18. b 19. b 20. d 21. a 22. d 23.",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-114",
+    "text": "The value of ) 4 , 4 (β is -----------",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-115",
+    "text": "\u0002(\u0004, \u0006) is equal to ------------",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-116",
+    "text": "1 (n n−ΓΓ is equal to --------",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-117",
+    "text": "4)]1[log(xx is equal to -----------",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-118",
+    "text": "The value of θ θ",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-119",
+    "text": "The series is convergent if",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-120",
+    "text": "The series is divergent if",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-121",
+    "text": "If is a series of positive term such that lwherel>1, then the series is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-122",
+    "text": "If is a series of positive term such that l ,then the series is convergent",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-123",
+    "text": "By D’Alambert’s Ratio test l ,the series is convergent when",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-124",
+    "text": "By Raabe’s test l ,the series is divergent when",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-125",
+    "text": "A series is said absolutely convergent if the series",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-126",
+    "text": "A series is saidconditionally convergent if the series",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-127",
+    "text": "An absolutely convergent series is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/MCQ Unit 1 to 5.pdf"
+  },
+  {
+    "id": "q-128",
+    "text": "2-1) A=-20 45 0 (A) -1,-10 (C) -1, 10 B) 1,-10 (D) 1,10 I2 2 2 Ifz=23y2+ Sy, then find (A) 4x+5y C) 4x+6y (B) 4x-5y D) 4x+6y +5xy 2 2 6. dy If fiz, y} is an implicit function, thenis dx (A) l) fio (C) i (B) ofloy (D) (/ 093F1-21MAB101T Page 1 of 4",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/PYQ Jan 2023.pdf"
+  },
+  {
+    "id": "q-129",
+    "text": "2 2 7. If flr,y)=r'y + siny +e, then find S,1r) (A) 2 (C) 27+e B) 27-e (D) 0 121 8. Ifu and v are functionally dependent, then their Jacobian value is (A) Zero (C) One (B) Positive (D) Negative 12 3 1 9. Solution of (D* +4)y =0 (B) y= Acos 2x+Bsin V2x (A) y= (Ar +B)e (C) y=Acos 2x + Bsin2x D) y= Ae\" + Be 1131 10. The value of D-a (A) xe (B)a (C) (D)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/PYQ Jan 2023.pdf"
+  },
+  {
+    "id": "q-130",
+    "text": "3 that .Ifu =u(x,y) and r=e cos6 and y=esin0 b. If show",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/PYQ Jan 2023.pdf"
+  },
+  {
+    "id": "q-131",
+    "text": "2.4 2.4.62.4.6.8 0. Test the convergence of the Serncs 43.56 3.5.7.8 3.5.7.9.10 (OR) 4 5 2 8 +.00.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/PYQ Jan 2023.pdf"
+  },
+  {
+    "id": "q-132",
+    "text": "2 27. Find the dimensions of the rectangular box open at the top, of maximum 15 42 2 capacity whose surface area is 432 sq.cm.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/PYQ Jan 2023.pdf"
+  },
+  {
+    "id": "q-133",
+    "text": "Testttre convergenoe ofthe series i,,, 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-134",
+    "text": "b. solu\" (*2D2+xD-g)y-+. - (oR)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-135",
+    "text": "1 ' a' p;n6 the equation of the circle of curvature of the parabo la y2 - 12*at the point (3, 6).",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-136",
+    "text": "a-i. State the axioms of convergence of series by comparison test.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-137",
+    "text": "The characteristics equation of the matrix ,=(1 |",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-138",
+    "text": "If u- *y2 +*2y, wherex : a*, y:Zatthat4'dt",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-139",
+    "text": "The x = rcos;, y = r sirL e,then the Jacobian of r, y with respect to'' e (;'\" (*))",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-140",
+    "text": "Maclaurin series for errr is",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-141",
+    "text": "The solution of @2+4)Y:0 is",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-142",
+    "text": "+ (x +Y)+ >'-:-::-+ \"\"",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-143",
+    "text": "As per D,Alembert's ratio tes! rf Eunis a series of positive terms and",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-144",
+    "text": "Th\" particular integral of the differential equation 1OZ -lO +Z)y cosr is",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-145",
+    "text": "1' Th\" complementary f,rnction of (D2 + 4D + 4)y = \"-2* i\"",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-146",
+    "text": "T\\ecomplementary firnction or (*2 o2 + axD + 2)t = *2 * ji'",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-147",
+    "text": "The radius of curvature of the curvey:'%; t#",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-148",
+    "text": "The radius of curvature of a circle at any point is same as its",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-149",
+    "text": "' Use Cayley-Hamilton theorem to find 43, given that n =1, 4)'",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-150",
+    "text": "Findtheeigenvalues ofthe*utti* l=l I 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-151",
+    "text": "Q. Part-A( 3*8-24 Marks) Marks BL CO PO",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/CT1 Papers 2025.txt"
+  },
+  {
+    "id": "q-152",
+    "text": "Find the eigenvalues and eigenvectors of the matrix 8 2 2",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/CT1 Papers 2025.txt"
+  },
+  {
+    "id": "q-153",
+    "text": "(a) Find the eigenvalues of the matrix",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/CT1 Papers 2025.txt"
+  },
+  {
+    "id": "q-154",
+    "text": "Expand x'y +3 y - 2 in powers of (x-1) and (y+2) 8 3 2 1,2",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/CT1 Papers 2025.txt"
+  },
+  {
+    "id": "q-155",
+    "text": "(a) Ifz= xy+xy, where x = at',y = 2at, then find",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/CT1 Papers 2025.txt"
+  },
+  {
+    "id": "q-156",
+    "text": "Reduce the Quadratic form 3x + 5x +3x 13 4 1,2",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/CT1 Papers 2025.txt"
+  },
+  {
+    "id": "q-157",
+    "text": "Verify2 Ca1yley H amilton theorem for the matrix 13 3 1 1,2",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/CT1 Papers 2025.txt"
+  },
+  {
+    "id": "q-158",
+    "text": "2 8 CO Marks Scored",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/CT1 Papers 2025.txt"
+  },
+  {
+    "id": "q-159",
+    "text": "Find the eigenvalues and eigenvectors of the matrix",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/CT1 Papers 2025.txt"
+  },
+  {
+    "id": "q-160",
+    "text": "Expand esiny in powers of (x-1) and (y - ;) using 8 3 2 1,2",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/CT1 Papers 2025.txt"
+  },
+  {
+    "id": "q-161",
+    "text": "(a) If xe Y-2ye* = 1, then find dy",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/CT1 Papers 2025.txt"
+  },
+  {
+    "id": "q-162",
+    "text": "Q. (Answer any TW0 Questions)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/CT1 Papers 2025.txt"
+  },
+  {
+    "id": "q-163",
+    "text": "Verify Cayley Hamilton theorem for the matrix 13",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/CT1 Papers 2025.txt"
+  },
+  {
+    "id": "q-164",
+    "text": "The matrix of the quadratic form x2 5x2  x2",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-165",
+    "text": "2 3  2x1x2  2x2x3  6x3x1 is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-166",
+    "text": "The number of positive terms in the canonical form is called",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-167",
+    "text": "A homogeneous polynomial of second degree in any number of variables is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-168",
+    "text": "Find the eigen values of A2 if A  0 2 6 ",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-169",
+    "text": "Find the sum and product of the eigen values of A  1 2 1 ",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-170",
+    "text": "The eigen values of an orthogonal matrix have the absolute value ______",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-171",
+    "text": "All the eigen values of a symmetric matrix with real elements are",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-172",
+    "text": "Find the nature of the quadratic form 2x2 3y2  2z2  2xy",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-173",
+    "text": "Write the Q.F. defined by the matrix   ",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-174",
+    "text": "2 3 1 2 1 3 1 2 3  x1x2 7x1x3",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-175",
+    "text": "2 3 1 2 1 3 1 2 3  x1x2 14x1x3",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-176",
+    "text": "Find the eigen values of the matrix  ",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-177",
+    "text": "Find the eigen values of 10 1 2",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-178",
+    "text": "If the sum of two eigen values and trace of a 3 x 3 matrix A are equal, find the value of A",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-179",
+    "text": "Find the characteristic equation of the matrix A  2 1 4 ",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-180",
+    "text": "Find the nature of the quadratic form x2  2x2 3x2",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-181",
+    "text": "2 3  2x1x2  2x2x3  2x3x1",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-182",
+    "text": "Find the eigen values of A   2 1 1 ",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-183",
+    "text": "The matrix of the quadratic form 2",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-184",
+    "text": "Two eigen values of the matrix  ",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-185",
+    "text": "Two of the eigen values of 3 x 3 matrix A are 2, 1 and |A| = 12. Find the third eigen value",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-186",
+    "text": "If A is an orthogonal matrix then",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-187",
+    "text": "Two eigen values of A   1 3 2 ",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-188",
+    "text": "Find the inverse of the eigen values of the matrix if A  ",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-189",
+    "text": "Find rank and index of the QF whose canonical form is 3y2 3y2",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-190",
+    "text": "Find signature of the QF whose canonical form is 2y2  y2  y2",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-191",
+    "text": "The eigen vectors corresponding to the distinct eigen values of a real symmetric matrix are",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-192",
+    "text": "Find the characteristic equation of the matrix A  ",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-193",
+    "text": "If Z= +3 then what is ?",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-194",
+    "text": "u= is homogeneous function of degree",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-195",
+    "text": "If u=a +2hxy+b then using Euler’s theorem find x + y = ?",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-196",
+    "text": "If f(x , y) = then what is (1 , 1) ?",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-197",
+    "text": "if z= log ( +xy+ ) then what is x +y =?",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-198",
+    "text": "If f(x,y) is an implicit function then =?",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-199",
+    "text": "If f(x , y) = ?",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-200",
+    "text": "If f (x , y) = cosxcosy then (0, 0)=?",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-201",
+    "text": "If f (x , y) = then (1 , 1) is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-202",
+    "text": "If rt - at ( a , b ) then the point is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-203",
+    "text": "The stationary points of are",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-204",
+    "text": "If x= and y=2uv then J is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-205",
+    "text": "If x=r and y=r Then what is = ?",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-206",
+    "text": "If v= + then is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-207",
+    "text": "u and v are functionally dependent if their jacobian value is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-208",
+    "text": "if and = then =?",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-209",
+    "text": "The stationary points of f(x,y)= are",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-210",
+    "text": "The point (0,0) for f(x, y)= is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-211",
+    "text": "If f(x, y)= where x= rcos and y= rsin then is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-212",
+    "text": "If f(x, y)= y+siny+ then (1, ) is",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-213",
+    "text": "u = is homogeneous function of degree",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-214",
+    "text": "If u = then x + y = ?",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-215",
+    "text": "If u = , v = then = ?",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-216",
+    "text": ", y= r z=z then = ?",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-217",
+    "text": "If u= and v=x+y then = ?",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-218",
+    "text": "(iii) saddle point",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-219",
+    "text": "(iii) a saddle point",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  },
+  {
+    "id": "q-220",
+    "text": "Which of the following is the general solution to d2y",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus/Calculus And Linear Algebra/PYQs/pyq txt/MCQ Unit 1 to 5.txt"
+  }
+]

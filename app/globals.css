@@ -1721,13 +1721,13 @@ body.theme-lumina {
    THEME — LIGHT (Aesthetic Clean Light)
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 body.theme-light, .theme-light {
-  --bg-root: #f7f5ff;
-  --bg-surface: #ffffff;
-  --bg-elevated: #f0edf8;
-  --border: rgba(0, 0, 0, 0.08);
-  --text-primary: #15111d;
-  --text-secondary: rgba(21, 17, 29, 0.66);
-  --text-muted: rgba(21, 17, 29, 0.42);
+  --bg-root: #f4f0ff;
+  --bg-surface: rgba(251, 248, 255, 0.78);
+  --bg-elevated: rgba(243, 237, 255, 0.82);
+  --border: rgba(74, 54, 112, 0.12);
+  --text-primary: #1b1428;
+  --text-secondary: rgba(27, 20, 40, 0.68);
+  --text-muted: rgba(27, 20, 40, 0.46);
 
   --accent: #BF5AF2;
   --accent-secondary: #6366f1;
@@ -1735,60 +1735,63 @@ body.theme-light, .theme-light {
   --accent-cyan: #06b6d4;
   --accent-bg: rgba(191, 90, 242, 0.08);
 
-  --nav-bg: rgba(245, 245, 249, 0.85);
-  --nav-blur: 24px;
+  --nav-bg: rgba(28, 20, 44, 0.88);
+  --nav-blur: 28px;
 
-  --glass-bg: rgba(0, 0, 0, 0.02);
-  --glass-bg-hover: rgba(0, 0, 0, 0.04);
-  --glass-glare: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  --glass-bg: rgba(255, 255, 255, 0.48);
+  --glass-bg-hover: rgba(255, 255, 255, 0.64);
+  --glass-glare: inset 0 1px 0 rgba(255, 255, 255, 0.72);
 
-  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.08);
-  --shadow-panel: 0 -10px 40px rgba(0, 0, 0, 0.04);
-  --shadow-elevated: 0 10px 40px rgba(0, 0, 0, 0.06);
+  --shadow-card: 0 14px 38px rgba(74, 54, 112, 0.08), 0 1px 0 rgba(255, 255, 255, 0.72);
+  --shadow-panel: 0 -14px 44px rgba(40, 28, 64, 0.16);
+  --shadow-elevated: 0 18px 54px rgba(74, 54, 112, 0.12);
 
   /* Unified Theme Variables */
-  --app-bg: radial-gradient(circle at 50% -10%, rgba(191, 90, 242, 0.08), transparent 52%),
-    radial-gradient(circle at 100% 100%, rgba(6, 182, 212, 0.05), transparent 42%),
-    #f7f5ff;
-  --card-bg: rgba(255, 255, 255, 0.82);
-  --card-elevated: rgba(255, 255, 255, 0.94);
-  --card-border: rgba(52, 43, 76, 0.1);
-  --text-main: #15111d;
-  --text-muted: rgba(21, 17, 29, 0.62);
-  --text-soft: rgba(21, 17, 29, 0.42);
+  --app-bg: radial-gradient(circle at 20% -10%, rgba(191, 90, 242, 0.14), transparent 42%),
+    radial-gradient(circle at 96% 8%, rgba(143, 146, 255, 0.10), transparent 36%),
+    radial-gradient(circle at 80% 100%, rgba(6, 182, 212, 0.08), transparent 44%),
+    linear-gradient(180deg, #f8f4ff 0%, #eee9fb 52%, #e8f0ff 100%);
+  --card-bg: rgba(250, 247, 255, 0.68);
+  --card-elevated: rgba(255, 255, 255, 0.76);
+  --card-border: rgba(74, 54, 112, 0.12);
+  --text-main: #1b1428;
+  --text-muted: rgba(27, 20, 40, 0.64);
+  --text-soft: rgba(27, 20, 40, 0.44);
   --accent-primary: #BF5AF2;
   --accent-secondary: #6366f1;
-  --nav-bg: rgba(255, 255, 255, 0.85);
-  --nav-border: rgba(0, 0, 0, 0.06);
+  --nav-bg: rgba(28, 20, 44, 0.88);
+  --nav-border: rgba(255, 255, 255, 0.12);
   --success: #0f9f6e;
   --warning: #b7791f;
   --danger: #d92d52;
-  --glow-primary: rgba(191, 90, 242, 0.08);
+  --glow-primary: rgba(191, 90, 242, 0.14);
   --skel-bg: rgba(0, 0, 0, 0.06);
-  --skel-card-bg: rgba(255, 255, 255, 0.75);
-  --skel-inner-bg: rgba(0, 0, 0, 0.03);
+  --skel-card-bg: rgba(255, 255, 255, 0.54);
+  --skel-inner-bg: rgba(74, 54, 112, 0.05);
 
   background:
-    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(191, 90, 242, 0.05), transparent 50%),
-    radial-gradient(ellipse 60% 40% at 80% 90%, rgba(6, 182, 212, 0.04), transparent 50%),
-    #f7f5ff;
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(191, 90, 242, 0.12), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 90%, rgba(6, 182, 212, 0.08), transparent 50%),
+    linear-gradient(180deg, #f8f4ff 0%, #eee9fb 52%, #e8f0ff 100%);
   background-attachment: fixed;
-  color: #111111;
+  color: #1b1428;
 }
 
 /* Light Theme Component Overrides */
 .theme-light .min-card {
-  background: #ffffff !important;
-  border-color: rgba(0, 0, 0, 0.06) !important;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.03), 0 0 1px rgba(0, 0, 0, 0.08) !important;
+  background: var(--card-bg) !important;
+  border-color: var(--card-border) !important;
+  box-shadow: var(--shadow-card) !important;
+  backdrop-filter: blur(28px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(150%) !important;
 }
 .theme-light .min-card::before {
-  background: linear-gradient(135deg, rgba(191, 90, 242, 0.02) 0%, transparent 40%) !important;
+  background: linear-gradient(135deg, rgba(191, 90, 242, 0.07) 0%, transparent 44%, rgba(6, 182, 212, 0.05) 100%) !important;
 }
 .theme-light .min-card:hover {
-  background: #ffffff !important;
-  border-color: rgba(191, 90, 242, 0.25) !important;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.07), 0 0 1px rgba(0, 0, 0, 0.08) !important;
+  background: rgba(255, 255, 255, 0.78) !important;
+  border-color: rgba(191, 90, 242, 0.22) !important;
+  box-shadow: 0 18px 50px rgba(74, 54, 112, 0.12), 0 0 26px rgba(191, 90, 242, 0.08) !important;
 }
 .theme-light .action-btn {
   background: rgba(191, 90, 242, 0.05) !important;
@@ -1802,39 +1805,42 @@ body.theme-light, .theme-light {
 .theme-light .srmx-mobile-nav,
 .theme-light .srmx-nav-bar {
   background: var(--nav-bg) !important;
-  border-top: 1px solid rgba(0, 0, 0, 0.05) !important;
-  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.03) !important;
+  border-top: 1px solid var(--nav-border) !important;
+  box-shadow: 0 -12px 44px rgba(28, 20, 44, 0.24), inset 0 1px 0 rgba(255,255,255,0.08) !important;
 }
 
 .theme-light .srmx-desktop-nav {
-  background: rgba(255, 255, 255, 0.78) !important;
+  background: rgba(255, 255, 255, 0.58) !important;
   border-color: var(--nav-border) !important;
-  box-shadow: 0 10px 36px rgba(52, 43, 76, 0.08) !important;
+  box-shadow: 0 16px 44px rgba(74, 54, 112, 0.12) !important;
+  backdrop-filter: blur(28px) saturate(155%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(155%) !important;
 }
 .theme-light .nav-item {
-  color: rgba(0, 0, 0, 0.45) !important;
+  color: rgba(255, 255, 255, 0.62) !important;
 }
 .theme-light .nav-item:hover {
-  color: rgba(0, 0, 0, 0.7) !important;
+  color: rgba(255, 255, 255, 0.88) !important;
 }
 .theme-light .nav-item.active {
-  color: #BF5AF2 !important;
+  color: #ffffff !important;
+  text-shadow: 0 0 14px rgba(191, 90, 242, 0.45) !important;
 }
 .theme-light .nav-item.active::after {
   background: #BF5AF2 !important;
   box-shadow: 0 0 10px rgba(191, 90, 242, 0.4) !important;
 }
 .theme-light .drawer-item-icon {
-  background: rgba(0, 0, 0, 0.02) !important;
-  border-color: rgba(0, 0, 0, 0.04) !important;
+  background: rgba(191, 90, 242, 0.08) !important;
+  border-color: rgba(191, 90, 242, 0.14) !important;
 }
 .theme-light .drawer-item-icon.active {
   background: rgba(191, 90, 242, 0.08) !important;
   border-color: rgba(191, 90, 242, 0.15) !important;
 }
 .theme-light .vault-card {
-  background: rgba(0, 0, 0, 0.02) !important;
-  border-color: rgba(0, 0, 0, 0.06) !important;
+  background: rgba(255, 255, 255, 0.54) !important;
+  border-color: var(--card-border) !important;
 }
 .theme-light h1, .theme-light h2, .theme-light h3, .theme-light h4, .theme-light p, .theme-light span, .theme-light div {
   text-shadow: none !important;
@@ -1871,22 +1877,22 @@ body.theme-light, .theme-light {
 .theme-light .bg-\[\#110c1e\],
 .theme-light .bg-\[\#110c1e\]\/95,
 .theme-light .bg-zinc-950 {
-  background-color: var(--app-bg) !important;
+  background: var(--app-bg) !important;
 }
 
 .theme-light .bg-white\/5,
 .theme-light .bg-white\/\[0\.05\],
 .theme-light .bg-white\/\[0\.02\],
 .theme-light .bg-white\/\[0\.03\] {
-  background-color: rgba(0, 0, 0, 0.03) !important;
+  background-color: rgba(255, 255, 255, 0.46) !important;
 }
 
 .theme-light .bg-white\/10 {
-  background-color: rgba(0, 0, 0, 0.06) !important;
+  background-color: rgba(255, 255, 255, 0.58) !important;
 }
 
 .theme-light .bg-white\/\[0\.01\] {
-  background-color: rgba(0, 0, 0, 0.01) !important;
+  background-color: rgba(255, 255, 255, 0.32) !important;
 }
 
 .theme-light .from-black,
@@ -1895,8 +1901,8 @@ body.theme-light, .theme-light {
 .theme-light .to-black,
 .theme-light .to-\[\#030306\],
 .theme-light .to-\[\#050508\] {
-  --tw-gradient-from: #f7f5ff var(--tw-gradient-from-position) !important;
-  --tw-gradient-to: #f7f5ff var(--tw-gradient-to-position) !important;
+  --tw-gradient-from: #f4f0ff var(--tw-gradient-from-position) !important;
+  --tw-gradient-to: #e8f0ff var(--tw-gradient-to-position) !important;
 }
 
 .theme-light .border-white\/5,
@@ -1915,16 +1921,16 @@ body.theme-light, .theme-light {
 .theme-light .liquid-card {
   background: var(--card-bg) !important;
   border-color: var(--card-border) !important;
-  box-shadow: 0 10px 30px rgba(191, 90, 242, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+  box-shadow: var(--shadow-card) !important;
   color: var(--text-main) !important;
 }
 
 .theme-light .aura-card:hover,
 .theme-light .premium-card:hover,
 .theme-light .liquid-card:hover {
-  background: rgba(255, 255, 255, 0.95) !important;
+  background: rgba(255, 255, 255, 0.76) !important;
   border-color: rgba(191, 90, 242, 0.25) !important;
-  box-shadow: 0 15px 40px rgba(191, 90, 242, 0.08), 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+  box-shadow: 0 18px 50px rgba(74, 54, 112, 0.12), 0 0 28px rgba(191, 90, 242, 0.08) !important;
 }
 
 .theme-light .aura-blob {
@@ -1933,7 +1939,7 @@ body.theme-light, .theme-light {
 }
 
 .theme-light .twinkling-star {
-  display: none !important;
+  opacity: 0.22 !important;
 }
 
 /* Inner panels of cards */
@@ -1947,7 +1953,7 @@ body.theme-light, .theme-light {
 .theme-light div[style*="background: rgba(0, 0, 0, 0.25)"],
 .theme-light div[style*="background: rgba(0,0,0,0.2)"],
 .theme-light div[style*="background: rgba(0, 0, 0, 0.2)"] {
-  background: rgba(255, 255, 255, 0.72) !important;
+  background: rgba(255, 255, 255, 0.56) !important;
   border-color: var(--card-border) !important;
 }
 
@@ -1959,7 +1965,7 @@ body.theme-light, .theme-light {
 .theme-light div[style*="background: rgba(255, 255, 255, 0.03)"],
 .theme-light div[style*="background: rgba(255,255,255,0.05)"],
 .theme-light div[style*="background: rgba(255, 255, 255, 0.05)"] {
-  background: rgba(255, 255, 255, 0.7) !important;
+  background: rgba(255, 255, 255, 0.46) !important;
   border-color: var(--card-border) !important;
 }
 

@@ -1,0 +1,17 @@
+{
+  "semester": "sem-3",
+  "semesterLabel": "Sem 3",
+  "subject": "Numerical Methods Analysis",
+  "subjectSlug": "numerical-methods-analysis",
+  "readiness": "Partial",
+  "statusMessage": "Some scanned resources still need OCR, so this subject may be partial.",
+  "availableContent": {
+    "notes": true,
+    "pyqs": true,
+    "importantQuestions": false,
+    "revision": true
+  },
+  "sourceCount": 11,
+  "questionCount": 2,
+  "updatedAt": "2026-06-07T14:44:59.195Z"
+}

@@ -1,0 +1,1203 @@
+[
+  {
+    "id": "q-1",
+    "text": "•how do we describe what we know about the world ?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-2",
+    "text": "•how do we describe it concisely ?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-3",
+    "text": "•how do we generate new pieces of knowledge ?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-4",
+    "text": "•how do we deal with uncertain knowledge ?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-5",
+    "text": "and/or our actions don’t produce the expected results?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-6",
+    "text": "•how do we generate new facts from old ?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-7",
+    "text": "•how do we generate new concepts ?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-8",
+    "text": "new environments ?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-9",
+    "text": "What is knowledge representation?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-10",
+    "text": "What to Represent?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-11",
+    "text": "It TELLs the knowledge base what it perceives.",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-12",
+    "text": "It ASKs the knowledge base what action it should perform.",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-13",
+    "text": "It performs the chosen action.",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-14",
+    "text": "\\what it already knows\" [McCarthy '59]",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-15",
+    "text": "\\it must rst be capable of being told\" [McCarthy '59]",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-16",
+    "text": "\\automatically deduces for itself a suciently wide class of",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-17",
+    "text": "@ T = 1 What follows?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-18",
+    "text": "•How much can we say in this language?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-19",
+    "text": "• Which logical expressions to use?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-20",
+    "text": "• Which inference rules to apply?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-21",
+    "text": "•Why is logic so hard?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-22",
+    "text": "¬at(John, X) ∨ at(Rover, X)",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-23",
+    "text": "at(John, school)",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-24",
+    "text": "¬at(Rover, school) (this is the added clause)",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-25",
+    "text": "it_is_raining ∨ it_is_sunny",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-26",
+    "text": "¬it_is_sunny ∨ I_stay_dry",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-27",
+    "text": "¬it_is_raining ∨ I_take_umbrella",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-28",
+    "text": "¬I_take_umbrella ∨ I_stay_dry",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-29",
+    "text": "(5, 2) ¬it_is_sunny",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-30",
+    "text": "(6, 1) it_is_raining",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-31",
+    "text": "(5, 4) ¬I_take_umbrella",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-32",
+    "text": "(8, 3) ¬it_is_raining",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-33",
+    "text": "Eliminate all ↔ connectives",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-34",
+    "text": "Eliminate all → connectives",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-35",
+    "text": "Reduce the scope of each negation symbol to a single predicate",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-36",
+    "text": "Standardize variables: rename all variables so that each quantifier has its own unique variable name",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-37",
+    "text": "Eliminate existential quantification by introducing Skolem",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-38",
+    "text": "Remove universal quantifiers by (1) moving them all to the left end; (2) making the scope of each the entire sentence; and (3) dropping the “prefix” part",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-39",
+    "text": "Put into conjunctive normal form (conjunction of disjunctions) using distributive and associative laws",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-40",
+    "text": "Split conjuncts into separate clauses",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-41",
+    "text": "Standardize variables so each clause contains only variable names that do not occur in any other clause",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-42",
+    "text": "Reduce scope of negation",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-43",
+    "text": "Standardize variables",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-44",
+    "text": "Eliminate existential quantification",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-45",
+    "text": "Drop universal quantification symbols",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-46",
+    "text": "Convert to conjunction of disjunctions",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-47",
+    "text": "Create separate clauses",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-48",
+    "text": "Standardize variables",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-49",
+    "text": "Tuna. Did Curiosity kill the cat?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-50",
+    "text": "A. (∃x) Dog(x) ∧ Owns(Jack,x)",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-51",
+    "text": "B. (∀x) ((∃y) Dog(y) ∧ Owns(x, y)) → AnimalLover(x)",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-52",
+    "text": "C. (∀x) AnimalLover(x) → ((∀y) Animal(y) → ¬Kills(x,y))",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-53",
+    "text": "D. Kills(Jack,Tuna) ∨ Kills(Curiosity,Tuna)",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-54",
+    "text": "F. (∀x) Cat(x) → Animal(x)",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-55",
+    "text": "G. Kills(Curiosity, Tuna) GOAL",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-56",
+    "text": "B. (¬Dog(y), ¬Owns(x, y), AnimalLover(x))",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-57",
+    "text": "C. (¬AnimalLover(a), ¬Animal(b), ¬Kills(a,b))",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-58",
+    "text": "D. (Kills(Jack,Tuna), Kills(Curiosity,Tuna))",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-59",
+    "text": "F. (¬Cat(z), Animal(z))",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-60",
+    "text": "What does or should a node represent?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-61",
+    "text": "•A class of objects?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-62",
+    "text": "•An instance of an class?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-63",
+    "text": "•The canonical instance of a class?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-64",
+    "text": "•The set of all instances of a class?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-65",
+    "text": "objects (or classes of objects) through their attributes?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-66",
+    "text": "semantic network formalisms?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-67",
+    "text": "M. Minsky (1974) A Framework for Representing Knowledge, MIT-AI Laboratory Memo 306",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-68",
+    "text": "A DAG with nodes labeled with variable",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-69",
+    "text": "Domain for each random variable,",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-70",
+    "text": "Set of conditional probability tables for",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-71",
+    "text": "Identify nodes which are the random variables and the possible",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-72",
+    "text": "Structure- It is used to represent causal relationships between the",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-73",
+    "text": "Probability- Quantifying relationship between nodes. Conditional",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-74",
+    "text": "Markov property- Bayesian Belied Networks require assumption of",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-75",
+    "text": "Classical Planning Environments",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-76",
+    "text": "Non classical Planning Environments",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-77",
+    "text": "Goal state (next state)",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-78",
+    "text": "State Representation",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-79",
+    "text": "Goal Representation",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-80",
+    "text": "Generate a goal to achieve",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-81",
+    "text": "Construct a plan to achieve goal from current state",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-82",
+    "text": "Execute plan until finished",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-83",
+    "text": "Begin again with new goal",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-84",
+    "text": "It allows negative literals.",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-85",
+    "text": "It makes use of quantified variables along with the disjunctions",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-86",
+    "text": "Conditional post-conditions are allowed.",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-87",
+    "text": "Variables with different types at the same time are allowed and",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-88",
+    "text": "Objects can have type specifications.",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-89",
+    "text": "It can have negative pre-conditions.",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-90",
+    "text": "The add and delete lists can be conditional.",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-91",
+    "text": "In some cases, it also allows numeric values.",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-92",
+    "text": "First, evaluate the difference between Initial State and final State.",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-93",
+    "text": "Select the various operators which can be applied for each",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-94",
+    "text": "Apply the operator at each difference, which reduces the difference",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-95",
+    "text": "i) O-Start, a state in which O?s preconditions are satisfied.",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-96",
+    "text": "Logic programs and rule sets",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-97",
+    "text": "Finite state machines",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-98",
+    "text": "Problem solving system",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-99",
+    "text": "Inputs X, arrive through the preconnected path",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-100",
+    "text": "Input is modeled using real weights W. The weights are usually",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-101",
+    "text": "Calculate the output for every neuron from the input layer, to the",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-102",
+    "text": "Calculate the error in the outputs.",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-103",
+    "text": "Travel back from the output layer to the hidden layer to adjust the",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-104",
+    "text": "Keep repeating the process until the desired output is achieved.",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-105",
+    "text": "Policy-A policy is a mapping from the perceived states of the environment to",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-106",
+    "text": "Optional model of the environment",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-107",
+    "text": "There is no interaction with the environment.",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-108",
+    "text": "New problems cannot be solved.",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  },
+  {
+    "id": "q-109",
+    "text": "Inference Engine(Rules of Engine)",
+    "unit": "Ungrouped",
+    "topic": "Unit 5",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Artificial Intelligence/Notes/Unit 5.pdf"
+  }
+]

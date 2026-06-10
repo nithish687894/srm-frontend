@@ -1,0 +1,33 @@
+===== SOURCE_FILE: sem 3/Foundation of Data Science (FDS)/Notes/Unit - 1.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://docs.google.com/presentation/d/1eRjk9eZNr0sOG-ncszUUWPfbb1dKI4zF/edit?usp=sharing&ouid=104856686103320873965&rtpof=true&sd=true
+
+
+===== SOURCE_FILE: sem 3/Foundation of Data Science (FDS)/Notes/Unit - 2.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://docs.google.com/presentation/d/1c6Zbk5MyXCwDvTuE_iSiXpIeO76MsEVt/edit?usp=sharing&ouid=104856686103320873965&rtpof=true&sd=true
+
+
+===== SOURCE_FILE: sem 3/Foundation of Data Science (FDS)/Notes/Unit - 3.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://docs.google.com/presentation/d/18ejquzHtyxYaIT0WbxRsu2oSv3oxCnOk/edit?usp=sharing&ouid=104856686103320873965&rtpof=true&sd=true
+
+
+===== SOURCE_FILE: sem 3/Foundation of Data Science (FDS)/Notes/Unit - 4.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://docs.google.com/presentation/d/1_-3HCMV7acelt1xEosk7KZH88GFV7CJZ/edit?usp=sharing&ouid=104856686103320873965&rtpof=true&sd=true
+
+
+===== SOURCE_FILE: sem 3/Foundation of Data Science (FDS)/Notes/Unit - 5.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://docs.google.com/presentation/d/1Z2BJwTvLaHxpK70yqtXL3qefJSebzdOp/edit?usp=sharing&ouid=104856686103320873965&rtpof=true&sd=true

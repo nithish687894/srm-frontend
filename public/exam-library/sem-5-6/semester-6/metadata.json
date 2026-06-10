@@ -1,0 +1,17 @@
+{
+  "semester": "sem-5-6",
+  "semesterLabel": "Sem 5/6",
+  "subject": "Semester 6",
+  "subjectSlug": "semester-6",
+  "readiness": "Ready",
+  "statusMessage": "Ready",
+  "availableContent": {
+    "notes": true,
+    "pyqs": true,
+    "importantQuestions": true,
+    "revision": true
+  },
+  "sourceCount": 16,
+  "questionCount": 6,
+  "updatedAt": "2026-06-07T14:44:59.195Z"
+}

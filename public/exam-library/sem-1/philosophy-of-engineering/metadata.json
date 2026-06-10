@@ -1,0 +1,17 @@
+{
+  "semester": "sem-1",
+  "semesterLabel": "Sem 1",
+  "subject": "Philosophy Of Engineering",
+  "subjectSlug": "philosophy-of-engineering",
+  "readiness": "Partial",
+  "statusMessage": "Some scanned resources still need OCR, so this subject may be partial.",
+  "availableContent": {
+    "notes": true,
+    "pyqs": true,
+    "importantQuestions": false,
+    "revision": true
+  },
+  "sourceCount": 8,
+  "questionCount": 220,
+  "updatedAt": "2026-06-07T14:44:59.195Z"
+}

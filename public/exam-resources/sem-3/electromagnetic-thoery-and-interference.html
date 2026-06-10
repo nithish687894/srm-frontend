@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Electromagnetic Thoery And Interference - Sem 3 - SRM Nexus</title>
+  <style>
+    @page { margin: 18mm 14mm; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: #14121f;
+      background: #f7f7fb;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.58;
+    }
+    body::before {
+      content: "srmnexus.app";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      display: grid;
+      place-items: center;
+      color: rgba(191, 90, 242, 0.12);
+      font-size: clamp(42px, 10vw, 110px);
+      font-weight: 900;
+      transform: rotate(-28deg);
+      pointer-events: none;
+      letter-spacing: 0;
+    }
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 28px 20px 42px;
+      background:
+        linear-gradient(rgba(255,255,255,0.92), rgba(255,255,255,0.92)),
+        repeating-linear-gradient(-28deg, transparent 0 120px, rgba(191,90,242,0.045) 120px 122px);
+    }
+    header {
+      border-bottom: 1px solid rgba(20,20,40,0.12);
+      padding-bottom: 18px;
+      margin-bottom: 22px;
+    }
+    .brand {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: #6f6781;
+      font-size: 12px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 10px 0 0;
+      font-size: 30px;
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .pill {
+      border: 1px solid rgba(20,20,40,0.12);
+      border-radius: 999px;
+      padding: 7px 10px;
+      color: #574d68;
+      background: rgba(255,255,255,0.72);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin: 0;
+      font: 13.5px/1.62 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      color: #15131f;
+    }
+    footer {
+      margin-top: 28px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(20,20,40,0.12);
+      color: #6f6781;
+      font-size: 12px;
+      font-weight: 750;
+    }
+    @media print {
+      body { background: white; }
+      .page { padding: 0; max-width: none; background: white; }
+      body::before { color: rgba(191, 90, 242, 0.10); }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div class="brand">
+        <span>SRM Nexus Exam Resource</span>
+        <span>srmnexus.app</span>
+      </div>
+      <h1>Electromagnetic Thoery And Interference</h1>
+      <div class="meta">
+        <span class="pill">Sem 3</span>
+        <span class="pill">Watermarked study resource</span>
+        <span class="pill">Generated from local SRM dataset</span>
+      </div>
+    </header>
+    <pre>===== SOURCE_FILE: sem 3/Electromagnetic Thoery And Interference/Notes/More Study Materials.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1exhsgpKYt-nfqqCo8EMioOXMikGWoVBQ?usp=drive_link
+
+
+===== SOURCE_FILE: sem 3/Electromagnetic Thoery And Interference/Notes/Unit - 1.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1mZVdTKuVKQOrykbLFezy38bUgwyDIfcN?usp=drive_link
+
+
+===== SOURCE_FILE: sem 3/Electromagnetic Thoery And Interference/Notes/Unit - 2.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1CTlGQCzhezIz_Y94oYK2ixlwDlOnJYpV?usp=drive_link
+
+
+===== SOURCE_FILE: sem 3/Electromagnetic Thoery And Interference/Notes/Unit - 3.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1L3IrAluTTFhMbjRRuq-z72-LxuH9aXGf?usp=drive_link
+
+
+===== SOURCE_FILE: sem 3/Electromagnetic Thoery And Interference/Notes/Unit - 4.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1-5D8OWGYpDGwFNrSfEJ5QijGPK0e9z0n?usp=drive_link
+
+
+===== SOURCE_FILE: sem 3/Electromagnetic Thoery And Interference/Notes/Unit - 5.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/16z0IvoRKru89LrJnD0_s-o2QH2tblSjo?usp=drive_link
+
+
+===== SOURCE_FILE: sem 3/Electromagnetic Thoery And Interference/PYQs/PYQs Coming Soon.pdf =====
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+Question Bank 
+21ECC205T (Electromagnetic Theory and Interference) 
+ 
+1. Given point P ( -2, 6, 3) and vector 𝑨 = 𝑦 𝒂𝒙 + (𝑥 + 𝑧)𝒂𝒚, express P and A in 
+cylindrical and spherical coordinates. Evaluate A at P in the Cartesian, cylindrical, and 
+spherical systems. 
+2. Given tht 𝑭 = 𝑥2𝒂𝒙 − 𝑥𝑧𝒂𝒚 − 𝑦2𝒂𝒛, calculate the circulation of F around the (closed) 
+path shown in the below figure. 
+ 
+3. Determine the gradient of 𝑼 = 𝜌𝑧 𝑠𝑖𝑛𝜙 + 𝑧2𝑐𝑜𝑠2𝝓 + 𝜌2. 
+4. Determine the divergence of 𝑽 =
+1
+𝑟2 𝑐𝑜𝑠𝜃𝒂𝒓 + 𝑟 sinθ 𝑐𝑜𝑠 𝜙 𝒂𝜽 + 𝑐𝑜𝑠𝜃 𝒂𝝓. 
+5. Evaluate both sides of divergence theorem for field 𝐷 = 2𝑥𝑦 𝒂𝒙 + 𝑥2 𝒂𝒚
+𝐶
+𝑚2, formed 
+by planes 𝑥 = 0 𝑎𝑛𝑑 𝑥 = 2, 𝑦 = 0 𝑎𝑛𝑑 𝑦 = 1, 𝑧 = 0 𝑎𝑛𝑑 𝑧 = 2. 
+6. Given that D = (5r 2/4)ar (C/m2) in spherical coordinates, evaluate both sides of the 
+divergence theorem for the volume enclosed by r = 1 and r = 2. 
+7. Determine the curl of 𝑾 = 𝜌 𝑠𝑖𝑛𝜙𝒂𝝆 + 𝜌2𝑧 𝒂𝝓 + 𝑧 𝑐𝑜𝑠𝜙 𝒂𝒛. 
+8. For a vector field A, show explicitly that 𝛁. (𝛁 × 𝑨) = 0 
+9. For a scalar field V, show that 𝛁 × (∇𝑉) = 0; that is, the curl of the gradient of any 
+scalar field vanishes. 
+10. What is coulomb’s law? Write the expressions for Force and electric filed strength due 
+to N point charges. 
+11. A square plate described by -2 ≤ x ≤ 2, -2 ≤ y ≤ 2, z = 0 carries a charge 12y mC/m 2. 
+Find the total charge on the plate. 
+12. Point charges 5 nC and -2 nC are located at (2, 0, 4) and (-3, 0, 5), respectively. 
+(i) Determine the force on a 1 nC point charge located at (1, -3, 7). 
+(ii) Find the electric field 
+E
+ at (1, -3, 7). 
+13. Point charges -4 µC and 5 µC are located at (2, -1, 3) and (0, 4, -2), respectively. 
+Calculate the electric filed intensity at (1, 0, 1). 
+14. Define electric field intensity and write the expression for electric field intensity due to 
+a point charge, a line charge distribution, a surface charge distribution and a volume 
+charge distribution. 
+15. Derive an expres sion for the electric field due to a line charge distribution at a 
+perpendicular distance ‘r’ from the line charge. What will be the form of the expression 
+if the line joining the point of interest and the line charge exactly bisects the line charge 
+distribution. Discuss the special case when the line charge length is infinity. 
+ 
+
+
+[Page 2]
+ 
+16. Find the electric field a distance z above the midpoint between two equal charges ( q), 
+a distance d apart as shown in the figure below. 
+ 
+17. Find E at the point p (1, 5, 2) m in free space if a point charge of 6 µC is at (0,0,1), the 
+uniform charge density 𝜌𝐿 = 180 𝑛𝐶/𝑚 along X-axis. 
+18. Find the electric field a distance z above one end of a straight-line segment of length L 
+as shown in the figure b elow that carries a uniform line charge λ. Discuss the special 
+case when 𝑧 ≫ 𝐿. 
+ 
+19. A circular ring of charge with a radius of 5 m lies in z = 0 plane with center at origin. 
+If the 𝜌𝐿 = 10 𝑛𝐶/𝑚, find the point charge Q placed at the origin which will produce 
+the same E at the point (0, 0, 5) m as shown in the figure below. 
+ 
+20. Give a brief discussion on electric flux and electric flux density. Mention the relation 
+between electric flux density and electric field intensity. Comment on the similar and 
+dissimilar nature of electric field intensity and electric flux density. Write down the 
+expressions for electric flux density due to point charge, line charge, surface charge , 
+and volume charge distribution. 
+21. Determine the electric flux density D at (4, 0, 3) if there is a point charge -5π at (4, 0, 
+0) and a line charge 3π mC/m along the y-axis. 
+22. A point charge of 6 µC is located at the origin and a uniform line charge density of 
+180nC/m lies along the x-axis. Find (i) D at point A (0,0,4) and (ii) D at point B (1,2,4). 
+
+
+[Page 3]
+23. State the Gauss law of electrostatic. Express the mathematical representation of Gauss 
+law in terms of both electric field intensity and electric flux density. From the integral 
+form of Gaus law derive the differential form of Gauss law. 
+24. Using Gauss law, find the electric flux density due to a point charge at a distance r 
+from the point charge. Also, find the electric field intensity due to the point charge 
+using both Gauss law and Coulomb's law assuming the point charge to be in free space. 
+25. Using Gauss law, find the electric flux density and electric field intensity due t o an 
+infinitely long straight wire placed in free space. Assume the line charge density to be 
+𝜌𝑙. Compare the result with that obtained question 15. 
+26. Suppose the electric field in some region is found to be 𝑬 = 𝑘𝑟3𝒓̂, in spherical 
+coordinates (k is some constant). 
+a) Find the charge density 𝜌. 
+b) Find the total charge contained in a sphere of radius R, centered at the origin. 
+27. If 𝑫 = (2𝑟2 + 𝑧)𝒙̂ + 4𝑥𝑦𝒚̂ + 𝑥𝒛̂ C/m2, find 
+a) The volume charge density at (-1, 0, 3) 
+b) The flux through the cube defined by 0 ≤ 𝑥 ≤ 1, 0 ≤ 𝑥 ≤ 1, 0 ≤ 𝑥 ≤ 1 
+c) The total charge enclosed by the cube. 
+28. Given that 𝑫 =
+𝟓𝒓𝟐
+𝟒 𝒓̂ C/m2. Evaluate both side of divergence theorem for the volume 
+enclosed by 𝑟 = 4 𝑚 and 𝜃 = 𝜋 4⁄ . 
+ 
+ 
+Note: 
+All the vector quantities are represented by bold faced letters. 
+To make students acquainted with various notations, in some questions the unit vectors are 
+written as (𝒂𝒙, 𝒂𝒚, 𝒂𝒛), (𝒂𝒓, 𝒂𝜽, 𝒂𝝓) and in some questions they are represented as (𝒙, 𝒚, 𝒛), 
+(𝒓, 𝜽, 𝝓).
+
+
+===== SOURCE_FILE: sem 3/Electromagnetic Thoery And Interference/PYQs/Question Bank.pdf =====
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+Question Bank 
+21ECC205T (Electromagnetic Theory and Interference) 
+ 
+1. Given point P ( -2, 6, 3) and vector 𝑨 = 𝑦 𝒂𝒙 + (𝑥 + 𝑧)𝒂𝒚, express P and A in 
+cylindrical and spherical coordinates. Evaluate A at P in the Cartesian, cylindrical, and 
+spherical systems. 
+2. Given tht 𝑭 = 𝑥2𝒂𝒙 − 𝑥𝑧𝒂𝒚 − 𝑦2𝒂𝒛, calculate the circulation of F around the (closed) 
+path shown in the below figure. 
+ 
+3. Determine the gradient of 𝑼 = 𝜌𝑧 𝑠𝑖𝑛𝜙 + 𝑧2𝑐𝑜𝑠2𝝓 + 𝜌2. 
+4. Determine the divergence of 𝑽 =
+1
+𝑟2 𝑐𝑜𝑠𝜃𝒂𝒓 + 𝑟 sinθ 𝑐𝑜𝑠 𝜙 𝒂𝜽 + 𝑐𝑜𝑠𝜃 𝒂𝝓. 
+5. Evaluate both sides of divergence theorem for field 𝐷 = 2𝑥𝑦 𝒂𝒙 + 𝑥2 𝒂𝒚
+𝐶
+𝑚2, formed 
+by planes 𝑥 = 0 𝑎𝑛𝑑 𝑥 = 2, 𝑦 = 0 𝑎𝑛𝑑 𝑦 = 1, 𝑧 = 0 𝑎𝑛𝑑 𝑧 = 2. 
+6. Given that D = (5r 2/4)ar (C/m2) in spherical coordinates, evaluate both sides of the 
+divergence theorem for the volume enclosed by r = 1 and r = 2. 
+7. Determine the curl of 𝑾 = 𝜌 𝑠𝑖𝑛𝜙𝒂𝝆 + 𝜌2𝑧 𝒂𝝓 + 𝑧 𝑐𝑜𝑠𝜙 𝒂𝒛. 
+8. For a vector field A, show explicitly that 𝛁. (𝛁 × 𝑨) = 0 
+9. For a scalar field V, show that 𝛁 × (∇𝑉) = 0; that is, the curl of the gradient of any 
+scalar field vanishes. 
+10. What is coulomb’s law? Write the expressions for Force and electric filed strength due 
+to N point charges. 
+11. A square plate described by -2 ≤ x ≤ 2, -2 ≤ y ≤ 2, z = 0 carries a charge 12y mC/m 2. 
+Find the total charge on the plate. 
+12. Point charges 5 nC and -2 nC are located at (2, 0, 4) and (-3, 0, 5), respectively. 
+(i) Determine the force on a 1 nC point charge located at (1, -3, 7). 
+(ii) Find the electric field 
+E
+ at (1, -3, 7). 
+13. Point charges -4 µC and 5 µC are located at (2, -1, 3) and (0, 4, -2), respectively. 
+Calculate the electric filed intensity at (1, 0, 1). 
+14. Define electric field intensity and write the expression for electric field intensity due to 
+a point charge, a line charge distribution, a surface charge distribution and a volume 
+charge distribution. 
+15. Derive an expres sion for the electric field due to a line charge distribution at a 
+perpendicular distance ‘r’ from the line charge. What will be the form of the expression 
+if the line joining the point of interest and the line charge exactly bisects the line charge 
+distribution. Discuss the special case when the line charge length is infinity. 
+ 
+
+
+[Page 2]
+ 
+16. Find the electric field a distance z above the midpoint between two equal charges ( q), 
+a distance d apart as shown in the figure below. 
+ 
+17. Find E at the point p (1, 5, 2) m in free space if a point charge of 6 µC is at (0,0,1), the 
+uniform charge density 𝜌𝐿 = 180 𝑛𝐶/𝑚 along X-axis. 
+18. Find the electric field a distance z above one end of a straight-line segment of length L 
+as shown in the figure b elow that carries a uniform line charge λ. Discuss the special 
+case when 𝑧 ≫ 𝐿. 
+ 
+19. A circular ring of charge with a radius of 5 m lies in z = 0 plane with center at origin. 
+If the 𝜌𝐿 = 10 𝑛𝐶/𝑚, find the point charge Q placed at the origin which will produce 
+the same E at the point (0, 0, 5) m as shown in the figure below. 
+ 
+20. Give a brief discussion on electric flux and electric flux density. Mention the relation 
+between electric flux density and electric field intensity. Comment on the similar and 
+dissimilar nature of electric field intensity and electric flux density. Write down the 
+expressions for electric flux density due to point charge, line charge, surface charge , 
+and volume charge distribution. 
+21. Determine the electric flux density D at (4, 0, 3) if there is a point charge -5π at (4, 0, 
+0) and a line charge 3π mC/m along the y-axis. 
+22. A point charge of 6 µC is located at the origin and a uniform line charge density of 
+180nC/m lies along the x-axis. Find (i) D at point A (0,0,4) and (ii) D at point B (1,2,4). 
+
+
+[Page 3]
+23. State the Gauss law of electrostatic. Express the mathematical representation of Gauss 
+law in terms of both electric field intensity and electric flux density. From the integral 
+form of Gaus law derive the differential form of Gauss law. 
+24. Using Gauss law, find the electric flux density due to a point charge at a distance r 
+from the point charge. Also, find the electric field intensity due to the point charge 
+using both Gauss law and Coulomb's law assuming the point charge to be in free space. 
+25. Using Gauss law, find the electric flux density and electric field intensity due t o an 
+infinitely long straight wire placed in free space. Assume the line charge density to be 
+𝜌𝑙. Compare the result with that obtained question 15. 
+26. Suppose the electric field in some region is found to be 𝑬 = 𝑘𝑟3𝒓̂, in spherical 
+coordinates (k is some constant). 
+a) Find the charge density 𝜌. 
+b) Find the total charge contained in a sphere of radius R, centered at the origin. 
+27. If 𝑫 = (2𝑟2 + 𝑧)𝒙̂ + 4𝑥𝑦𝒚̂ + 𝑥𝒛̂ C/m2, find 
+a) The volume charge density at (-1, 0, 3) 
+b) The flux through the cube defined by 0 ≤ 𝑥 ≤ 1, 0 ≤ 𝑥 ≤ 1, 0 ≤ 𝑥 ≤ 1 
+c) The total charge enclosed by the cube. 
+28. Given that 𝑫 =
+𝟓𝒓𝟐
+𝟒 𝒓̂ C/m2. Evaluate both side of divergence theorem for the volume 
+enclosed by 𝑟 = 4 𝑚 and 𝜃 = 𝜋 4⁄ . 
+ 
+ 
+Note: 
+All the vector quantities are represented by bold faced letters. 
+To make students acquainted with various notations, in some questions the unit vectors are 
+written as (𝒂𝒙, 𝒂𝒚, 𝒂𝒛), (𝒂𝒓, 𝒂𝜽, 𝒂𝝓) and in some questions they are represented as (𝒙, 𝒚, 𝒛), 
+(𝒓, 𝜽, 𝝓).</pre>
+    <footer>srmnexus.app • Local dataset resource • Use with official course material where required.</footer>
+  </main>
+</body>
+</html>

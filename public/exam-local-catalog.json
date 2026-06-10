@@ -1,0 +1,630 @@
+{
+  "1": [
+    {
+      "subject": "Basic Civil Mechanical Workshop",
+      "notes": [
+        {
+          "name": "Basic Civil Mechanical Workshop - SRM Nexus dataset",
+          "url": "/exam-resources/sem-1/basic-civil-mechanical-workshop.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Biochemistry",
+      "notes": [
+        {
+          "name": "Biochemistry - SRM Nexus dataset",
+          "url": "/exam-resources/sem-1/biochemistry.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Biology",
+      "notes": [
+        {
+          "name": "Biology - SRM Nexus dataset",
+          "url": "/exam-resources/sem-1/biology.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Biomedical Sensors",
+      "notes": [
+        {
+          "name": "Biomedical Sensors - SRM Nexus dataset",
+          "url": "/exam-resources/sem-1/biomedical-sensors.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Calculus And Linear Algebra",
+      "notes": [
+        {
+          "name": "Calculus And Linear Algebra - SRM Nexus dataset",
+          "url": "/exam-resources/sem-1/calculus-and-linear-algebra.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Cell Biology",
+      "notes": [
+        {
+          "name": "Cell Biology - SRM Nexus dataset",
+          "url": "/exam-resources/sem-1/cell-biology.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Chemistry",
+      "notes": [
+        {
+          "name": "Chemistry - SRM Nexus dataset",
+          "url": "/exam-resources/sem-1/chemistry.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Fundamental Of Economics FOE",
+      "notes": [
+        {
+          "name": "Fundamental Of Economics FOE - SRM Nexus dataset",
+          "url": "/exam-resources/sem-1/fundamental-of-economics-foe.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Introduction To Computational Biology",
+      "notes": [
+        {
+          "name": "Introduction To Computational Biology - SRM Nexus dataset",
+          "url": "/exam-resources/sem-1/introduction-to-computational-biology.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Microbiology",
+      "notes": [
+        {
+          "name": "Microbiology - SRM Nexus dataset",
+          "url": "/exam-resources/sem-1/microbiology.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Philosophy Of Engineering",
+      "notes": [
+        {
+          "name": "Philosophy Of Engineering - SRM Nexus dataset",
+          "url": "/exam-resources/sem-1/philosophy-of-engineering.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    }
+  ],
+  "2": [
+    {
+      "subject": "Advanced Calculus And Complex Analysis",
+      "notes": [
+        {
+          "name": "Advanced Calculus And Complex Analysis - SRM Nexus dataset",
+          "url": "/exam-resources/sem-2/advanced-calculus-and-complex-analysis.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Building Materials In The Built Environment",
+      "notes": [
+        {
+          "name": "Building Materials In The Built Environment - SRM Nexus dataset",
+          "url": "/exam-resources/sem-2/building-materials-in-the-built-environment.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Communicative English",
+      "notes": [
+        {
+          "name": "Communicative English - SRM Nexus dataset",
+          "url": "/exam-resources/sem-2/communicative-english.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Electrical And Electronics Engineering",
+      "notes": [
+        {
+          "name": "Electrical And Electronics Engineering - SRM Nexus dataset",
+          "url": "/exam-resources/sem-2/electrical-and-electronics-engineering.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Electromagnetic Physics",
+      "notes": [
+        {
+          "name": "Electromagnetic Physics - SRM Nexus dataset",
+          "url": "/exam-resources/sem-2/electromagnetic-physics.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Electronic System And PCB Design",
+      "notes": [
+        {
+          "name": "Electronic System And PCB Design - SRM Nexus dataset",
+          "url": "/exam-resources/sem-2/electronic-system-and-pcb-design.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Engineering Mechanics",
+      "notes": [
+        {
+          "name": "Engineering Mechanics - SRM Nexus dataset",
+          "url": "/exam-resources/sem-2/engineering-mechanics.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Object Oriented Design And Programming",
+      "notes": [
+        {
+          "name": "Object Oriented Design And Programming - SRM Nexus dataset",
+          "url": "/exam-resources/sem-2/object-oriented-design-and-programming.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Programming For Problem Solving",
+      "notes": [
+        {
+          "name": "Programming For Problem Solving - SRM Nexus dataset",
+          "url": "/exam-resources/sem-2/programming-for-problem-solving.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Semiconductor Physics And Computational Methods",
+      "notes": [
+        {
+          "name": "Semiconductor Physics And Computational Methods - SRM Nexus dataset",
+          "url": "/exam-resources/sem-2/semiconductor-physics-and-computational-methods.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    }
+  ],
+  "3": [
+    {
+      "subject": "Advanced Programming Practice",
+      "notes": [
+        {
+          "name": "Advanced Programming Practice - SRM Nexus dataset",
+          "url": "/exam-resources/sem-3/advanced-programming-practice.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Basic Chemical Engineering",
+      "notes": [
+        {
+          "name": "Basic Chemical Engineering - SRM Nexus dataset",
+          "url": "/exam-resources/sem-3/basic-chemical-engineering.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Biochemistry",
+      "notes": [
+        {
+          "name": "Biochemistry - SRM Nexus dataset",
+          "url": "/exam-resources/sem-3/biochemistry.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Computer Organization And Architecture",
+      "notes": [
+        {
+          "name": "Computer Organization And Architecture - SRM Nexus dataset",
+          "url": "/exam-resources/sem-3/computer-organization-and-architecture.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Data Structures And Algorithm",
+      "notes": [
+        {
+          "name": "Data Structures And Algorithm - SRM Nexus dataset",
+          "url": "/exam-resources/sem-3/data-structures-and-algorithm.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Design Thinking And Methodology",
+      "notes": [
+        {
+          "name": "Design Thinking And Methodology - SRM Nexus dataset",
+          "url": "/exam-resources/sem-3/design-thinking-and-methodology.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Digital Logic Design",
+      "notes": [
+        {
+          "name": "Digital Logic Design - SRM Nexus dataset",
+          "url": "/exam-resources/sem-3/digital-logic-design.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Electromagnetic Thoery And Interference",
+      "notes": [
+        {
+          "name": "Electromagnetic Thoery And Interference - SRM Nexus dataset",
+          "url": "/exam-resources/sem-3/electromagnetic-thoery-and-interference.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Foundation of Data Science FDS",
+      "notes": [
+        {
+          "name": "Foundation of Data Science FDS - SRM Nexus dataset",
+          "url": "/exam-resources/sem-3/foundation-of-data-science-fds.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Genetics And Cytogenetics",
+      "notes": [
+        {
+          "name": "Genetics And Cytogenetics - SRM Nexus dataset",
+          "url": "/exam-resources/sem-3/genetics-and-cytogenetics.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Microbiology",
+      "notes": [
+        {
+          "name": "Microbiology - SRM Nexus dataset",
+          "url": "/exam-resources/sem-3/microbiology.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Numerical Methods Analysis",
+      "notes": [
+        {
+          "name": "Numerical Methods Analysis - SRM Nexus dataset",
+          "url": "/exam-resources/sem-3/numerical-methods-analysis.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Operating Systems",
+      "notes": [
+        {
+          "name": "Operating Systems - SRM Nexus dataset",
+          "url": "/exam-resources/sem-3/operating-systems.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Social Engineering",
+      "notes": [
+        {
+          "name": "Social Engineering - SRM Nexus dataset",
+          "url": "/exam-resources/sem-3/social-engineering.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Solid State Devices",
+      "notes": [
+        {
+          "name": "Solid State Devices - SRM Nexus dataset",
+          "url": "/exam-resources/sem-3/solid-state-devices.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Transforms And Boundary Value Problems",
+      "notes": [
+        {
+          "name": "Transforms And Boundary Value Problems - SRM Nexus dataset",
+          "url": "/exam-resources/sem-3/transforms-and-boundary-value-problems.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    }
+  ],
+  "4": [
+    {
+      "subject": "Artificial Intelligence",
+      "notes": [
+        {
+          "name": "Artificial Intelligence - SRM Nexus dataset",
+          "url": "/exam-resources/sem-4/artificial-intelligence.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Bioprocess Engineering",
+      "notes": [
+        {
+          "name": "Bioprocess Engineering - SRM Nexus dataset",
+          "url": "/exam-resources/sem-4/bioprocess-engineering.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Cell Communication And Signaling",
+      "notes": [
+        {
+          "name": "Cell Communication And Signaling - SRM Nexus dataset",
+          "url": "/exam-resources/sem-4/cell-communication-and-signaling.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "CGA",
+      "notes": [
+        {
+          "name": "CGA - SRM Nexus dataset",
+          "url": "/exam-resources/sem-4/cga.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Chemical Engineering Principles",
+      "notes": [
+        {
+          "name": "Chemical Engineering Principles - SRM Nexus dataset",
+          "url": "/exam-resources/sem-4/chemical-engineering-principles.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Database Management Systems",
+      "notes": [
+        {
+          "name": "Database Management Systems - SRM Nexus dataset",
+          "url": "/exam-resources/sem-4/database-management-systems.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Design And Analysis Of Algorithms",
+      "notes": [
+        {
+          "name": "Design And Analysis Of Algorithms - SRM Nexus dataset",
+          "url": "/exam-resources/sem-4/design-and-analysis-of-algorithms.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Molecular Biology",
+      "notes": [
+        {
+          "name": "Molecular Biology - SRM Nexus dataset",
+          "url": "/exam-resources/sem-4/molecular-biology.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Signal Processing",
+      "notes": [
+        {
+          "name": "Signal Processing - SRM Nexus dataset",
+          "url": "/exam-resources/sem-4/signal-processing.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Social Engineering",
+      "notes": [
+        {
+          "name": "Social Engineering - SRM Nexus dataset",
+          "url": "/exam-resources/sem-4/social-engineering.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Software Process",
+      "notes": [
+        {
+          "name": "Software Process - SRM Nexus dataset",
+          "url": "/exam-resources/sem-4/software-process.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    }
+  ],
+  "5": [
+    {
+      "subject": "Computer Networks",
+      "notes": [
+        {
+          "name": "Computer Networks - SRM Nexus dataset",
+          "url": "/exam-resources/sem-5-6/computer-networks.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Discrete Mathematics",
+      "notes": [
+        {
+          "name": "Discrete Mathematics - SRM Nexus dataset",
+          "url": "/exam-resources/sem-5-6/discrete-mathematics.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Full Stack Web Development",
+      "notes": [
+        {
+          "name": "Full Stack Web Development - SRM Nexus dataset",
+          "url": "/exam-resources/sem-5-6/full-stack-web-development.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Semester 6",
+      "notes": [
+        {
+          "name": "Semester 6 - SRM Nexus dataset",
+          "url": "/exam-resources/sem-5-6/semester-6.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    }
+  ],
+  "6": [
+    {
+      "subject": "Computer Networks",
+      "notes": [
+        {
+          "name": "Computer Networks - SRM Nexus dataset",
+          "url": "/exam-resources/sem-5-6/computer-networks.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Discrete Mathematics",
+      "notes": [
+        {
+          "name": "Discrete Mathematics - SRM Nexus dataset",
+          "url": "/exam-resources/sem-5-6/discrete-mathematics.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Full Stack Web Development",
+      "notes": [
+        {
+          "name": "Full Stack Web Development - SRM Nexus dataset",
+          "url": "/exam-resources/sem-5-6/full-stack-web-development.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    },
+    {
+      "subject": "Semester 6",
+      "notes": [
+        {
+          "name": "Semester 6 - SRM Nexus dataset",
+          "url": "/exam-resources/sem-5-6/semester-6.pdf",
+          "local": true,
+          "watermarked": true
+        }
+      ]
+    }
+  ]
+}

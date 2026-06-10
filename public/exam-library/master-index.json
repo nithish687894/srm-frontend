@@ -1,0 +1,3363 @@
+{
+  "generatedAt": "2026-06-08T05:27:06.906Z",
+  "source": "local-public-exam-library",
+  "noGoogleDrive": true,
+  "noGeminiForViewing": true,
+  "semesters": [
+    {
+      "id": "sem-1",
+      "label": "Sem 1",
+      "subjectCount": 11,
+      "subjects": [
+        {
+          "slug": "basic-civil-mechanical-workshop",
+          "name": "Basic Civil Mechanical Workshop",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 1,
+          "path": "/exam-library/sem-1/basic-civil-mechanical-workshop"
+        },
+        {
+          "slug": "biochemistry",
+          "name": "Biochemistry",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": true,
+            "revision": true
+          },
+          "questionCount": 118,
+          "sourceCount": 9,
+          "path": "/exam-library/sem-1/biochemistry"
+        },
+        {
+          "slug": "biology",
+          "name": "Biology",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 126,
+          "sourceCount": 3,
+          "path": "/exam-library/sem-1/biology"
+        },
+        {
+          "slug": "biomedical-sensors",
+          "name": "Biomedical Sensors",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": false,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 1,
+          "path": "/exam-library/sem-1/biomedical-sensors"
+        },
+        {
+          "slug": "calculus-and-linear-algebra",
+          "name": "Calculus And Linear Algebra",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 220,
+          "sourceCount": 15,
+          "path": "/exam-library/sem-1/calculus-and-linear-algebra"
+        },
+        {
+          "slug": "cell-biology",
+          "name": "Cell Biology",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 73,
+          "sourceCount": 5,
+          "path": "/exam-library/sem-1/cell-biology"
+        },
+        {
+          "slug": "chemistry",
+          "name": "Chemistry",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": true,
+            "revision": true
+          },
+          "questionCount": 162,
+          "sourceCount": 11,
+          "path": "/exam-library/sem-1/chemistry"
+        },
+        {
+          "slug": "fundamental-of-economics-foe",
+          "name": "Fundamental Of Economics FOE",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 2,
+          "path": "/exam-library/sem-1/fundamental-of-economics-foe"
+        },
+        {
+          "slug": "introduction-to-computational-biology",
+          "name": "Introduction To Computational Biology",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 92,
+          "sourceCount": 5,
+          "path": "/exam-library/sem-1/introduction-to-computational-biology"
+        },
+        {
+          "slug": "microbiology",
+          "name": "Microbiology",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 25,
+          "sourceCount": 4,
+          "path": "/exam-library/sem-1/microbiology"
+        },
+        {
+          "slug": "philosophy-of-engineering",
+          "name": "Philosophy Of Engineering",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 220,
+          "sourceCount": 8,
+          "path": "/exam-library/sem-1/philosophy-of-engineering"
+        }
+      ]
+    },
+    {
+      "id": "sem-2",
+      "label": "Sem 2",
+      "subjectCount": 10,
+      "subjects": [
+        {
+          "slug": "advanced-calculus-and-complex-analysis",
+          "name": "Advanced Calculus And Complex Analysis",
+          "readiness": "Ready",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 30,
+          "sourceCount": 7,
+          "path": "/exam-library/sem-2/advanced-calculus-and-complex-analysis"
+        },
+        {
+          "slug": "building-materials-in-the-built-environment",
+          "name": "Building Materials In The Built Environment",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 3,
+          "path": "/exam-library/sem-2/building-materials-in-the-built-environment"
+        },
+        {
+          "slug": "communicative-english",
+          "name": "Communicative English",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": true,
+            "revision": true
+          },
+          "questionCount": 23,
+          "sourceCount": 12,
+          "path": "/exam-library/sem-2/communicative-english"
+        },
+        {
+          "slug": "electrical-and-electronics-engineering",
+          "name": "Electrical And Electronics Engineering",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": true,
+            "revision": true
+          },
+          "questionCount": 220,
+          "sourceCount": 13,
+          "path": "/exam-library/sem-2/electrical-and-electronics-engineering"
+        },
+        {
+          "slug": "electromagnetic-physics",
+          "name": "Electromagnetic Physics",
+          "readiness": "Ready",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 128,
+          "sourceCount": 3,
+          "path": "/exam-library/sem-2/electromagnetic-physics"
+        },
+        {
+          "slug": "electronic-system-and-pcb-design",
+          "name": "Electronic System And PCB Design",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 65,
+          "sourceCount": 6,
+          "path": "/exam-library/sem-2/electronic-system-and-pcb-design"
+        },
+        {
+          "slug": "engineering-mechanics",
+          "name": "Engineering Mechanics",
+          "readiness": "Ready",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 27,
+          "sourceCount": 1,
+          "path": "/exam-library/sem-2/engineering-mechanics"
+        },
+        {
+          "slug": "object-oriented-design-and-programming",
+          "name": "Object Oriented Design And Programming",
+          "readiness": "Ready",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": true,
+            "revision": true
+          },
+          "questionCount": 220,
+          "sourceCount": 11,
+          "path": "/exam-library/sem-2/object-oriented-design-and-programming"
+        },
+        {
+          "slug": "programming-for-problem-solving",
+          "name": "Programming For Problem Solving",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": true,
+            "revision": true
+          },
+          "questionCount": 220,
+          "sourceCount": 17,
+          "path": "/exam-library/sem-2/programming-for-problem-solving"
+        },
+        {
+          "slug": "semiconductor-physics-and-computational-methods",
+          "name": "Semiconductor Physics And Computational Methods",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 83,
+          "sourceCount": 13,
+          "path": "/exam-library/sem-2/semiconductor-physics-and-computational-methods"
+        }
+      ]
+    },
+    {
+      "id": "sem-3",
+      "label": "Sem 3",
+      "subjectCount": 16,
+      "subjects": [
+        {
+          "slug": "advanced-programming-practice",
+          "name": "Advanced Programming Practice",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 1,
+          "path": "/exam-library/sem-3/advanced-programming-practice"
+        },
+        {
+          "slug": "basic-chemical-engineering",
+          "name": "Basic Chemical Engineering",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 1,
+          "path": "/exam-library/sem-3/basic-chemical-engineering"
+        },
+        {
+          "slug": "biochemistry",
+          "name": "Biochemistry",
+          "readiness": "Ready",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": true,
+            "revision": true
+          },
+          "questionCount": 29,
+          "sourceCount": 2,
+          "path": "/exam-library/sem-3/biochemistry"
+        },
+        {
+          "slug": "computer-organization-and-architecture",
+          "name": "Computer Organization And Architecture",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 50,
+          "sourceCount": 3,
+          "path": "/exam-library/sem-3/computer-organization-and-architecture"
+        },
+        {
+          "slug": "data-structures-and-algorithm",
+          "name": "Data Structures And Algorithm",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 0,
+          "sourceCount": 3,
+          "path": "/exam-library/sem-3/data-structures-and-algorithm"
+        },
+        {
+          "slug": "design-thinking-and-methodology",
+          "name": "Design Thinking And Methodology",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 3,
+          "path": "/exam-library/sem-3/design-thinking-and-methodology"
+        },
+        {
+          "slug": "digital-logic-design",
+          "name": "Digital Logic Design",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 0,
+          "sourceCount": 7,
+          "path": "/exam-library/sem-3/digital-logic-design"
+        },
+        {
+          "slug": "electromagnetic-thoery-and-interference",
+          "name": "Electromagnetic Thoery And Interference",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 68,
+          "sourceCount": 8,
+          "path": "/exam-library/sem-3/electromagnetic-thoery-and-interference"
+        },
+        {
+          "slug": "foundation-of-data-science-fds",
+          "name": "Foundation of Data Science FDS",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": false,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 0,
+          "sourceCount": 5,
+          "path": "/exam-library/sem-3/foundation-of-data-science-fds"
+        },
+        {
+          "slug": "genetics-and-cytogenetics",
+          "name": "Genetics And Cytogenetics",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 0,
+          "sourceCount": 7,
+          "path": "/exam-library/sem-3/genetics-and-cytogenetics"
+        },
+        {
+          "slug": "microbiology",
+          "name": "Microbiology",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 25,
+          "sourceCount": 4,
+          "path": "/exam-library/sem-3/microbiology"
+        },
+        {
+          "slug": "numerical-methods-analysis",
+          "name": "Numerical Methods Analysis",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 2,
+          "sourceCount": 11,
+          "path": "/exam-library/sem-3/numerical-methods-analysis"
+        },
+        {
+          "slug": "operating-systems",
+          "name": "Operating Systems",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 10,
+          "sourceCount": 6,
+          "path": "/exam-library/sem-3/operating-systems"
+        },
+        {
+          "slug": "social-engineering",
+          "name": "Social Engineering",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 2,
+          "path": "/exam-library/sem-3/social-engineering"
+        },
+        {
+          "slug": "solid-state-devices",
+          "name": "Solid State Devices",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 0,
+          "sourceCount": 8,
+          "path": "/exam-library/sem-3/solid-state-devices"
+        },
+        {
+          "slug": "transforms-and-boundary-value-problems",
+          "name": "Transforms And Boundary Value Problems",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 0,
+          "sourceCount": 8,
+          "path": "/exam-library/sem-3/transforms-and-boundary-value-problems"
+        }
+      ]
+    },
+    {
+      "id": "sem-4",
+      "label": "Sem 4",
+      "subjectCount": 11,
+      "subjects": [
+        {
+          "slug": "artificial-intelligence",
+          "name": "Artificial Intelligence",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": true,
+            "revision": true
+          },
+          "questionCount": 109,
+          "sourceCount": 8,
+          "path": "/exam-library/sem-4/artificial-intelligence"
+        },
+        {
+          "slug": "bioprocess-engineering",
+          "name": "Bioprocess Engineering",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 23,
+          "sourceCount": 8,
+          "path": "/exam-library/sem-4/bioprocess-engineering"
+        },
+        {
+          "slug": "cell-communication-and-signaling",
+          "name": "Cell Communication And Signaling",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 2,
+          "path": "/exam-library/sem-4/cell-communication-and-signaling"
+        },
+        {
+          "slug": "cga",
+          "name": "CGA",
+          "readiness": "Ready",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": true,
+            "revision": true
+          },
+          "questionCount": 165,
+          "sourceCount": 5,
+          "path": "/exam-library/sem-4/cga"
+        },
+        {
+          "slug": "chemical-engineering-principles",
+          "name": "Chemical Engineering Principles",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 0,
+          "sourceCount": 7,
+          "path": "/exam-library/sem-4/chemical-engineering-principles"
+        },
+        {
+          "slug": "database-management-systems",
+          "name": "Database Management Systems",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 5,
+          "path": "/exam-library/sem-4/database-management-systems"
+        },
+        {
+          "slug": "design-and-analysis-of-algorithms",
+          "name": "Design And Analysis Of Algorithms",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": true,
+            "revision": true
+          },
+          "questionCount": 220,
+          "sourceCount": 2,
+          "path": "/exam-library/sem-4/design-and-analysis-of-algorithms"
+        },
+        {
+          "slug": "molecular-biology",
+          "name": "Molecular Biology",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 1,
+          "path": "/exam-library/sem-4/molecular-biology"
+        },
+        {
+          "slug": "signal-processing",
+          "name": "Signal Processing",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 2,
+          "path": "/exam-library/sem-4/signal-processing"
+        },
+        {
+          "slug": "social-engineering",
+          "name": "Social Engineering",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 1,
+          "path": "/exam-library/sem-4/social-engineering"
+        },
+        {
+          "slug": "software-process",
+          "name": "Software Process",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 1,
+          "path": "/exam-library/sem-4/software-process"
+        }
+      ]
+    },
+    {
+      "id": "sem-5-6",
+      "label": "Sem 5/6",
+      "subjectCount": 4,
+      "subjects": [
+        {
+          "slug": "computer-networks",
+          "name": "Computer Networks",
+          "readiness": "Partial",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 11,
+          "sourceCount": 8,
+          "path": "/exam-library/sem-5-6/computer-networks"
+        },
+        {
+          "slug": "discrete-mathematics",
+          "name": "Discrete Mathematics",
+          "readiness": "Needs OCR",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": false
+          },
+          "questionCount": 0,
+          "sourceCount": 1,
+          "path": "/exam-library/sem-5-6/discrete-mathematics"
+        },
+        {
+          "slug": "full-stack-web-development",
+          "name": "Full Stack Web Development",
+          "readiness": "Ready",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": false,
+            "revision": true
+          },
+          "questionCount": 20,
+          "sourceCount": 1,
+          "path": "/exam-library/sem-5-6/full-stack-web-development"
+        },
+        {
+          "slug": "semester-6",
+          "name": "Semester 6",
+          "readiness": "Ready",
+          "availableContent": {
+            "notes": true,
+            "pyqs": true,
+            "importantQuestions": true,
+            "revision": true
+          },
+          "questionCount": 6,
+          "sourceCount": 16,
+          "path": "/exam-library/sem-5-6/semester-6"
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "id": "sem-1/basic-civil-mechanical-workshop/folder",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Basic Civil Mechanical Workshop",
+      "subjectSlug": "basic-civil-mechanical-workshop",
+      "category": "Subject Folder",
+      "title": "Basic Civil Mechanical Workshop PYQ Folder",
+      "path": "/exam-library/sem-1/basic-civil-mechanical-workshop/",
+      "type": "folder",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Notes"
+      ],
+      "resourceCount": 0,
+      "questionCount": 0,
+      "sourceCount": 1
+    },
+    {
+      "id": "sem-1/biochemistry/folder",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Biochemistry",
+      "subjectSlug": "biochemistry",
+      "category": "Subject Folder",
+      "title": "Biochemistry PYQ Folder",
+      "path": "/exam-library/sem-1/biochemistry/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 3,
+      "questionCount": 118,
+      "sourceCount": 9
+    },
+    {
+      "id": "/exam-library/sem-1/biochemistry/pyqs/01_PYQ May 2023.pdf",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Biochemistry",
+      "subjectSlug": "biochemistry",
+      "category": "PYQs",
+      "title": "01 PYQ May 2023",
+      "fileName": "01_PYQ May 2023.pdf",
+      "path": "/exam-library/sem-1/biochemistry/pyqs/01_PYQ May 2023.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-1/biochemistry/pyqs/02_PYQ Dec 2022.pdf",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Biochemistry",
+      "subjectSlug": "biochemistry",
+      "category": "PYQs",
+      "title": "02 PYQ Dec 2022",
+      "fileName": "02_PYQ Dec 2022.pdf",
+      "path": "/exam-library/sem-1/biochemistry/pyqs/02_PYQ Dec 2022.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-1/biochemistry/pyqs/03_PYQ Nov 2019.pdf",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Biochemistry",
+      "subjectSlug": "biochemistry",
+      "category": "PYQs",
+      "title": "03 PYQ Nov 2019",
+      "fileName": "03_PYQ Nov 2019.pdf",
+      "path": "/exam-library/sem-1/biochemistry/pyqs/03_PYQ Nov 2019.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-1/biology/folder",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Biology",
+      "subjectSlug": "biology",
+      "category": "Subject Folder",
+      "title": "Biology PYQ Folder",
+      "path": "/exam-library/sem-1/biology/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 3,
+      "questionCount": 126,
+      "sourceCount": 3
+    },
+    {
+      "id": "/exam-library/sem-1/biology/pyqs/01_PYQ Dec 2025.pdf",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Biology",
+      "subjectSlug": "biology",
+      "category": "PYQs",
+      "title": "01 PYQ Dec 2025",
+      "fileName": "01_PYQ Dec 2025.pdf",
+      "path": "/exam-library/sem-1/biology/pyqs/01_PYQ Dec 2025.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-1/biology/pyqs/02_PYQ Dec 2024.pdf",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Biology",
+      "subjectSlug": "biology",
+      "category": "PYQs",
+      "title": "02 PYQ Dec 2024",
+      "fileName": "02_PYQ Dec 2024.pdf",
+      "path": "/exam-library/sem-1/biology/pyqs/02_PYQ Dec 2024.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-1/biology/pyqs/03_PYQ Dec 2023.pdf",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Biology",
+      "subjectSlug": "biology",
+      "category": "PYQs",
+      "title": "03 PYQ Dec 2023",
+      "fileName": "03_PYQ Dec 2023.pdf",
+      "path": "/exam-library/sem-1/biology/pyqs/03_PYQ Dec 2023.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-1/biomedical-sensors/folder",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Biomedical Sensors",
+      "subjectSlug": "biomedical-sensors",
+      "category": "Subject Folder",
+      "title": "Biomedical Sensors PYQ Folder",
+      "path": "/exam-library/sem-1/biomedical-sensors/",
+      "type": "folder",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Notes"
+      ],
+      "resourceCount": 1,
+      "questionCount": 0,
+      "sourceCount": 1
+    },
+    {
+      "id": "/exam-library/sem-1/biomedical-sensors/pyqs/01_PYQ May 2023.pdf",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Biomedical Sensors",
+      "subjectSlug": "biomedical-sensors",
+      "category": "PYQs",
+      "title": "01 PYQ May 2023",
+      "fileName": "01_PYQ May 2023.pdf",
+      "path": "/exam-library/sem-1/biomedical-sensors/pyqs/01_PYQ May 2023.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "sem-1/calculus-and-linear-algebra/folder",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Calculus And Linear Algebra",
+      "subjectSlug": "calculus-and-linear-algebra",
+      "category": "Subject Folder",
+      "title": "Calculus And Linear Algebra PYQ Folder",
+      "path": "/exam-library/sem-1/calculus-and-linear-algebra/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 0,
+      "questionCount": 220,
+      "sourceCount": 15
+    },
+    {
+      "id": "sem-1/cell-biology/folder",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Cell Biology",
+      "subjectSlug": "cell-biology",
+      "category": "Subject Folder",
+      "title": "Cell Biology PYQ Folder",
+      "path": "/exam-library/sem-1/cell-biology/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 2,
+      "questionCount": 73,
+      "sourceCount": 5
+    },
+    {
+      "id": "/exam-library/sem-1/cell-biology/pyqs/01_PYQ Dec 2022.pdf",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Cell Biology",
+      "subjectSlug": "cell-biology",
+      "category": "PYQs",
+      "title": "01 PYQ Dec 2022",
+      "fileName": "01_PYQ Dec 2022.pdf",
+      "path": "/exam-library/sem-1/cell-biology/pyqs/01_PYQ Dec 2022.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-1/cell-biology/pyqs/02_PYQ Nov 2019.pdf",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Cell Biology",
+      "subjectSlug": "cell-biology",
+      "category": "PYQs",
+      "title": "02 PYQ Nov 2019",
+      "fileName": "02_PYQ Nov 2019.pdf",
+      "path": "/exam-library/sem-1/cell-biology/pyqs/02_PYQ Nov 2019.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-1/chemistry/folder",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Chemistry",
+      "subjectSlug": "chemistry",
+      "category": "Subject Folder",
+      "title": "Chemistry PYQ Folder",
+      "path": "/exam-library/sem-1/chemistry/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 1,
+      "questionCount": 162,
+      "sourceCount": 11
+    },
+    {
+      "id": "/exam-library/sem-1/chemistry/pyqs/01_More PYQs.pdf",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Chemistry",
+      "subjectSlug": "chemistry",
+      "category": "PYQs",
+      "title": "01 More PYQs",
+      "fileName": "01_More PYQs.pdf",
+      "path": "/exam-library/sem-1/chemistry/pyqs/01_More PYQs.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "sem-1/fundamental-of-economics-foe/folder",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Fundamental Of Economics FOE",
+      "subjectSlug": "fundamental-of-economics-foe",
+      "category": "Subject Folder",
+      "title": "Fundamental Of Economics FOE PYQ Folder",
+      "path": "/exam-library/sem-1/fundamental-of-economics-foe/",
+      "type": "folder",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Notes"
+      ],
+      "resourceCount": 3,
+      "questionCount": 0,
+      "sourceCount": 2
+    },
+    {
+      "id": "/exam-library/sem-1/fundamental-of-economics-foe/pyqs/01_PYQ May 2024.pdf",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Fundamental Of Economics FOE",
+      "subjectSlug": "fundamental-of-economics-foe",
+      "category": "PYQs",
+      "title": "01 PYQ May 2024",
+      "fileName": "01_PYQ May 2024.pdf",
+      "path": "/exam-library/sem-1/fundamental-of-economics-foe/pyqs/01_PYQ May 2024.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-1/fundamental-of-economics-foe/pyqs/02_PYQ Jan 2024.pdf",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Fundamental Of Economics FOE",
+      "subjectSlug": "fundamental-of-economics-foe",
+      "category": "PYQs",
+      "title": "02 PYQ Jan 2024",
+      "fileName": "02_PYQ Jan 2024.pdf",
+      "path": "/exam-library/sem-1/fundamental-of-economics-foe/pyqs/02_PYQ Jan 2024.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-1/fundamental-of-economics-foe/pyqs/03_PYQ Dec 2023.pdf",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Fundamental Of Economics FOE",
+      "subjectSlug": "fundamental-of-economics-foe",
+      "category": "PYQs",
+      "title": "03 PYQ Dec 2023",
+      "fileName": "03_PYQ Dec 2023.pdf",
+      "path": "/exam-library/sem-1/fundamental-of-economics-foe/pyqs/03_PYQ Dec 2023.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-1/introduction-to-computational-biology/folder",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Introduction To Computational Biology",
+      "subjectSlug": "introduction-to-computational-biology",
+      "category": "Subject Folder",
+      "title": "Introduction To Computational Biology PYQ Folder",
+      "path": "/exam-library/sem-1/introduction-to-computational-biology/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 3,
+      "questionCount": 92,
+      "sourceCount": 5
+    },
+    {
+      "id": "/exam-library/sem-1/introduction-to-computational-biology/pyqs/01_PYQ Jan 2024.pdf",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Introduction To Computational Biology",
+      "subjectSlug": "introduction-to-computational-biology",
+      "category": "PYQs",
+      "title": "01 PYQ Jan 2024",
+      "fileName": "01_PYQ Jan 2024.pdf",
+      "path": "/exam-library/sem-1/introduction-to-computational-biology/pyqs/01_PYQ Jan 2024.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-1/introduction-to-computational-biology/pyqs/02_PYQ Dec 2023.pdf",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Introduction To Computational Biology",
+      "subjectSlug": "introduction-to-computational-biology",
+      "category": "PYQs",
+      "title": "02 PYQ Dec 2023",
+      "fileName": "02_PYQ Dec 2023.pdf",
+      "path": "/exam-library/sem-1/introduction-to-computational-biology/pyqs/02_PYQ Dec 2023.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-1/introduction-to-computational-biology/pyqs/03_PYQ Jul 2023.pdf",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Introduction To Computational Biology",
+      "subjectSlug": "introduction-to-computational-biology",
+      "category": "PYQs",
+      "title": "03 PYQ Jul 2023",
+      "fileName": "03_PYQ Jul 2023.pdf",
+      "path": "/exam-library/sem-1/introduction-to-computational-biology/pyqs/03_PYQ Jul 2023.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-1/microbiology/folder",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Microbiology",
+      "subjectSlug": "microbiology",
+      "category": "Subject Folder",
+      "title": "Microbiology PYQ Folder",
+      "path": "/exam-library/sem-1/microbiology/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 0,
+      "questionCount": 25,
+      "sourceCount": 4
+    },
+    {
+      "id": "sem-1/philosophy-of-engineering/folder",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Philosophy Of Engineering",
+      "subjectSlug": "philosophy-of-engineering",
+      "category": "Subject Folder",
+      "title": "Philosophy Of Engineering PYQ Folder",
+      "path": "/exam-library/sem-1/philosophy-of-engineering/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 3,
+      "questionCount": 220,
+      "sourceCount": 8
+    },
+    {
+      "id": "/exam-library/sem-1/philosophy-of-engineering/pyqs/01_PYQ Jan 2024.pdf",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Philosophy Of Engineering",
+      "subjectSlug": "philosophy-of-engineering",
+      "category": "PYQs",
+      "title": "01 PYQ Jan 2024",
+      "fileName": "01_PYQ Jan 2024.pdf",
+      "path": "/exam-library/sem-1/philosophy-of-engineering/pyqs/01_PYQ Jan 2024.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-1/philosophy-of-engineering/pyqs/02_PYQ Dec 2023.pdf",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Philosophy Of Engineering",
+      "subjectSlug": "philosophy-of-engineering",
+      "category": "PYQs",
+      "title": "02 PYQ Dec 2023",
+      "fileName": "02_PYQ Dec 2023.pdf",
+      "path": "/exam-library/sem-1/philosophy-of-engineering/pyqs/02_PYQ Dec 2023.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-1/philosophy-of-engineering/pyqs/03_PYQ Jul 2023.pdf",
+      "semester": "Sem 1",
+      "semesterId": "sem-1",
+      "subject": "Philosophy Of Engineering",
+      "subjectSlug": "philosophy-of-engineering",
+      "category": "PYQs",
+      "title": "03 PYQ Jul 2023",
+      "fileName": "03_PYQ Jul 2023.pdf",
+      "path": "/exam-library/sem-1/philosophy-of-engineering/pyqs/03_PYQ Jul 2023.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-2/advanced-calculus-and-complex-analysis/folder",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Advanced Calculus And Complex Analysis",
+      "subjectSlug": "advanced-calculus-and-complex-analysis",
+      "category": "Subject Folder",
+      "title": "Advanced Calculus And Complex Analysis PYQ Folder",
+      "path": "/exam-library/sem-2/advanced-calculus-and-complex-analysis/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 3,
+      "questionCount": 30,
+      "sourceCount": 7
+    },
+    {
+      "id": "/exam-library/sem-2/advanced-calculus-and-complex-analysis/pyqs/01_PYQ Jul 2025 (Paper - 2).pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Advanced Calculus And Complex Analysis",
+      "subjectSlug": "advanced-calculus-and-complex-analysis",
+      "category": "PYQs",
+      "title": "01 PYQ Jul 2025 (Paper   2)",
+      "fileName": "01_PYQ Jul 2025 (Paper - 2).pdf",
+      "path": "/exam-library/sem-2/advanced-calculus-and-complex-analysis/pyqs/01_PYQ Jul 2025 (Paper - 2).pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-2/advanced-calculus-and-complex-analysis/pyqs/02_PYQ May 2025.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Advanced Calculus And Complex Analysis",
+      "subjectSlug": "advanced-calculus-and-complex-analysis",
+      "category": "PYQs",
+      "title": "02 PYQ May 2025",
+      "fileName": "02_PYQ May 2025.pdf",
+      "path": "/exam-library/sem-2/advanced-calculus-and-complex-analysis/pyqs/02_PYQ May 2025.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-2/advanced-calculus-and-complex-analysis/pyqs/03_PYQ May 2022.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Advanced Calculus And Complex Analysis",
+      "subjectSlug": "advanced-calculus-and-complex-analysis",
+      "category": "PYQs",
+      "title": "03 PYQ May 2022",
+      "fileName": "03_PYQ May 2022.pdf",
+      "path": "/exam-library/sem-2/advanced-calculus-and-complex-analysis/pyqs/03_PYQ May 2022.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-2/building-materials-in-the-built-environment/folder",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Building Materials In The Built Environment",
+      "subjectSlug": "building-materials-in-the-built-environment",
+      "category": "Subject Folder",
+      "title": "Building Materials In The Built Environment PYQ Folder",
+      "path": "/exam-library/sem-2/building-materials-in-the-built-environment/",
+      "type": "folder",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Notes"
+      ],
+      "resourceCount": 0,
+      "questionCount": 0,
+      "sourceCount": 3
+    },
+    {
+      "id": "sem-2/communicative-english/folder",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Communicative English",
+      "subjectSlug": "communicative-english",
+      "category": "Subject Folder",
+      "title": "Communicative English PYQ Folder",
+      "path": "/exam-library/sem-2/communicative-english/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 3,
+      "questionCount": 23,
+      "sourceCount": 12
+    },
+    {
+      "id": "/exam-library/sem-2/communicative-english/pyqs/01_PYQ May 2024.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Communicative English",
+      "subjectSlug": "communicative-english",
+      "category": "PYQs",
+      "title": "01 PYQ May 2024",
+      "fileName": "01_PYQ May 2024.pdf",
+      "path": "/exam-library/sem-2/communicative-english/pyqs/01_PYQ May 2024.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-2/communicative-english/pyqs/02_PYQ Nov 2019.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Communicative English",
+      "subjectSlug": "communicative-english",
+      "category": "PYQs",
+      "title": "02 PYQ Nov 2019",
+      "fileName": "02_PYQ Nov 2019.pdf",
+      "path": "/exam-library/sem-2/communicative-english/pyqs/02_PYQ Nov 2019.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-2/communicative-english/pyqs/03_PYQ May 2019.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Communicative English",
+      "subjectSlug": "communicative-english",
+      "category": "PYQs",
+      "title": "03 PYQ May 2019",
+      "fileName": "03_PYQ May 2019.pdf",
+      "path": "/exam-library/sem-2/communicative-english/pyqs/03_PYQ May 2019.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-2/electrical-and-electronics-engineering/folder",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Electrical And Electronics Engineering",
+      "subjectSlug": "electrical-and-electronics-engineering",
+      "category": "Subject Folder",
+      "title": "Electrical And Electronics Engineering PYQ Folder",
+      "path": "/exam-library/sem-2/electrical-and-electronics-engineering/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 3,
+      "questionCount": 220,
+      "sourceCount": 13
+    },
+    {
+      "id": "/exam-library/sem-2/electrical-and-electronics-engineering/pyqs/01_PYQ Jan 2023.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Electrical And Electronics Engineering",
+      "subjectSlug": "electrical-and-electronics-engineering",
+      "category": "PYQs",
+      "title": "01 PYQ Jan 2023",
+      "fileName": "01_PYQ Jan 2023.pdf",
+      "path": "/exam-library/sem-2/electrical-and-electronics-engineering/pyqs/01_PYQ Jan 2023.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-2/electrical-and-electronics-engineering/pyqs/02_PYQ Jul 2022.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Electrical And Electronics Engineering",
+      "subjectSlug": "electrical-and-electronics-engineering",
+      "category": "PYQs",
+      "title": "02 PYQ Jul 2022",
+      "fileName": "02_PYQ Jul 2022.pdf",
+      "path": "/exam-library/sem-2/electrical-and-electronics-engineering/pyqs/02_PYQ Jul 2022.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-2/electrical-and-electronics-engineering/pyqs/03_PYQ May 2019.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Electrical And Electronics Engineering",
+      "subjectSlug": "electrical-and-electronics-engineering",
+      "category": "PYQs",
+      "title": "03 PYQ May 2019",
+      "fileName": "03_PYQ May 2019.pdf",
+      "path": "/exam-library/sem-2/electrical-and-electronics-engineering/pyqs/03_PYQ May 2019.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-2/electromagnetic-physics/folder",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Electromagnetic Physics",
+      "subjectSlug": "electromagnetic-physics",
+      "category": "Subject Folder",
+      "title": "Electromagnetic Physics PYQ Folder",
+      "path": "/exam-library/sem-2/electromagnetic-physics/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 3,
+      "questionCount": 128,
+      "sourceCount": 3
+    },
+    {
+      "id": "/exam-library/sem-2/electromagnetic-physics/pyqs/01_PYQ Dec 2023.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Electromagnetic Physics",
+      "subjectSlug": "electromagnetic-physics",
+      "category": "PYQs",
+      "title": "01 PYQ Dec 2023",
+      "fileName": "01_PYQ Dec 2023.pdf",
+      "path": "/exam-library/sem-2/electromagnetic-physics/pyqs/01_PYQ Dec 2023.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-2/electromagnetic-physics/pyqs/02_PYQ Jul 2022.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Electromagnetic Physics",
+      "subjectSlug": "electromagnetic-physics",
+      "category": "PYQs",
+      "title": "02 PYQ Jul 2022",
+      "fileName": "02_PYQ Jul 2022.pdf",
+      "path": "/exam-library/sem-2/electromagnetic-physics/pyqs/02_PYQ Jul 2022.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-2/electromagnetic-physics/pyqs/03_PYQ Nov 2019.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Electromagnetic Physics",
+      "subjectSlug": "electromagnetic-physics",
+      "category": "PYQs",
+      "title": "03 PYQ Nov 2019",
+      "fileName": "03_PYQ Nov 2019.pdf",
+      "path": "/exam-library/sem-2/electromagnetic-physics/pyqs/03_PYQ Nov 2019.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-2/electronic-system-and-pcb-design/folder",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Electronic System And PCB Design",
+      "subjectSlug": "electronic-system-and-pcb-design",
+      "category": "Subject Folder",
+      "title": "Electronic System And PCB Design PYQ Folder",
+      "path": "/exam-library/sem-2/electronic-system-and-pcb-design/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 3,
+      "questionCount": 65,
+      "sourceCount": 6
+    },
+    {
+      "id": "/exam-library/sem-2/electronic-system-and-pcb-design/pyqs/01_PYQ Nov 2025.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Electronic System And PCB Design",
+      "subjectSlug": "electronic-system-and-pcb-design",
+      "category": "PYQs",
+      "title": "01 PYQ Nov 2025",
+      "fileName": "01_PYQ Nov 2025.pdf",
+      "path": "/exam-library/sem-2/electronic-system-and-pcb-design/pyqs/01_PYQ Nov 2025.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-2/electronic-system-and-pcb-design/pyqs/02_PYQ Jul 2025.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Electronic System And PCB Design",
+      "subjectSlug": "electronic-system-and-pcb-design",
+      "category": "PYQs",
+      "title": "02 PYQ Jul 2025",
+      "fileName": "02_PYQ Jul 2025.pdf",
+      "path": "/exam-library/sem-2/electronic-system-and-pcb-design/pyqs/02_PYQ Jul 2025.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-2/electronic-system-and-pcb-design/pyqs/03_PYQ Nov 2024.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Electronic System And PCB Design",
+      "subjectSlug": "electronic-system-and-pcb-design",
+      "category": "PYQs",
+      "title": "03 PYQ Nov 2024",
+      "fileName": "03_PYQ Nov 2024.pdf",
+      "path": "/exam-library/sem-2/electronic-system-and-pcb-design/pyqs/03_PYQ Nov 2024.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-2/engineering-mechanics/folder",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Engineering Mechanics",
+      "subjectSlug": "engineering-mechanics",
+      "category": "Subject Folder",
+      "title": "Engineering Mechanics PYQ Folder",
+      "path": "/exam-library/sem-2/engineering-mechanics/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 2,
+      "questionCount": 27,
+      "sourceCount": 1
+    },
+    {
+      "id": "/exam-library/sem-2/engineering-mechanics/pyqs/01_PYQ May 2022.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Engineering Mechanics",
+      "subjectSlug": "engineering-mechanics",
+      "category": "PYQs",
+      "title": "01 PYQ May 2022",
+      "fileName": "01_PYQ May 2022.pdf",
+      "path": "/exam-library/sem-2/engineering-mechanics/pyqs/01_PYQ May 2022.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-2/engineering-mechanics/pyqs/02_PYQ Nov 2019.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Engineering Mechanics",
+      "subjectSlug": "engineering-mechanics",
+      "category": "PYQs",
+      "title": "02 PYQ Nov 2019",
+      "fileName": "02_PYQ Nov 2019.pdf",
+      "path": "/exam-library/sem-2/engineering-mechanics/pyqs/02_PYQ Nov 2019.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-2/object-oriented-design-and-programming/folder",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Object Oriented Design And Programming",
+      "subjectSlug": "object-oriented-design-and-programming",
+      "category": "Subject Folder",
+      "title": "Object Oriented Design And Programming PYQ Folder",
+      "path": "/exam-library/sem-2/object-oriented-design-and-programming/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 3,
+      "questionCount": 220,
+      "sourceCount": 11
+    },
+    {
+      "id": "/exam-library/sem-2/object-oriented-design-and-programming/pyqs/01_PYQ Dec 2022.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Object Oriented Design And Programming",
+      "subjectSlug": "object-oriented-design-and-programming",
+      "category": "PYQs",
+      "title": "01 PYQ Dec 2022",
+      "fileName": "01_PYQ Dec 2022.pdf",
+      "path": "/exam-library/sem-2/object-oriented-design-and-programming/pyqs/01_PYQ Dec 2022.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-2/object-oriented-design-and-programming/pyqs/02_PYQ May 2022.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Object Oriented Design And Programming",
+      "subjectSlug": "object-oriented-design-and-programming",
+      "category": "PYQs",
+      "title": "02 PYQ May 2022",
+      "fileName": "02_PYQ May 2022.pdf",
+      "path": "/exam-library/sem-2/object-oriented-design-and-programming/pyqs/02_PYQ May 2022.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-2/object-oriented-design-and-programming/pyqs/03_PYQ Nov 2019.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Object Oriented Design And Programming",
+      "subjectSlug": "object-oriented-design-and-programming",
+      "category": "PYQs",
+      "title": "03 PYQ Nov 2019",
+      "fileName": "03_PYQ Nov 2019.pdf",
+      "path": "/exam-library/sem-2/object-oriented-design-and-programming/pyqs/03_PYQ Nov 2019.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-2/programming-for-problem-solving/folder",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Programming For Problem Solving",
+      "subjectSlug": "programming-for-problem-solving",
+      "category": "Subject Folder",
+      "title": "Programming For Problem Solving PYQ Folder",
+      "path": "/exam-library/sem-2/programming-for-problem-solving/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 3,
+      "questionCount": 220,
+      "sourceCount": 17
+    },
+    {
+      "id": "/exam-library/sem-2/programming-for-problem-solving/pyqs/01_PYQ Jan 2024.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Programming For Problem Solving",
+      "subjectSlug": "programming-for-problem-solving",
+      "category": "PYQs",
+      "title": "01 PYQ Jan 2024",
+      "fileName": "01_PYQ Jan 2024.pdf",
+      "path": "/exam-library/sem-2/programming-for-problem-solving/pyqs/01_PYQ Jan 2024.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-2/programming-for-problem-solving/pyqs/02_PYQ July 2023.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Programming For Problem Solving",
+      "subjectSlug": "programming-for-problem-solving",
+      "category": "PYQs",
+      "title": "02 PYQ July 2023",
+      "fileName": "02_PYQ July 2023.pdf",
+      "path": "/exam-library/sem-2/programming-for-problem-solving/pyqs/02_PYQ July 2023.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-2/programming-for-problem-solving/pyqs/03_PYQ Jan 2019.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Programming For Problem Solving",
+      "subjectSlug": "programming-for-problem-solving",
+      "category": "PYQs",
+      "title": "03 PYQ Jan 2019",
+      "fileName": "03_PYQ Jan 2019.pdf",
+      "path": "/exam-library/sem-2/programming-for-problem-solving/pyqs/03_PYQ Jan 2019.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-2/semiconductor-physics-and-computational-methods/folder",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Semiconductor Physics And Computational Methods",
+      "subjectSlug": "semiconductor-physics-and-computational-methods",
+      "category": "Subject Folder",
+      "title": "Semiconductor Physics And Computational Methods PYQ Folder",
+      "path": "/exam-library/sem-2/semiconductor-physics-and-computational-methods/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 3,
+      "questionCount": 83,
+      "sourceCount": 13
+    },
+    {
+      "id": "/exam-library/sem-2/semiconductor-physics-and-computational-methods/pyqs/01_PYQ Jan 2024.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Semiconductor Physics And Computational Methods",
+      "subjectSlug": "semiconductor-physics-and-computational-methods",
+      "category": "PYQs",
+      "title": "01 PYQ Jan 2024",
+      "fileName": "01_PYQ Jan 2024.pdf",
+      "path": "/exam-library/sem-2/semiconductor-physics-and-computational-methods/pyqs/01_PYQ Jan 2024.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-2/semiconductor-physics-and-computational-methods/pyqs/02_PYQ Jan 2023.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Semiconductor Physics And Computational Methods",
+      "subjectSlug": "semiconductor-physics-and-computational-methods",
+      "category": "PYQs",
+      "title": "02 PYQ Jan 2023",
+      "fileName": "02_PYQ Jan 2023.pdf",
+      "path": "/exam-library/sem-2/semiconductor-physics-and-computational-methods/pyqs/02_PYQ Jan 2023.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-2/semiconductor-physics-and-computational-methods/pyqs/03_PYQ May 2019.pdf",
+      "semester": "Sem 2",
+      "semesterId": "sem-2",
+      "subject": "Semiconductor Physics And Computational Methods",
+      "subjectSlug": "semiconductor-physics-and-computational-methods",
+      "category": "PYQs",
+      "title": "03 PYQ May 2019",
+      "fileName": "03_PYQ May 2019.pdf",
+      "path": "/exam-library/sem-2/semiconductor-physics-and-computational-methods/pyqs/03_PYQ May 2019.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-3/advanced-programming-practice/folder",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Advanced Programming Practice",
+      "subjectSlug": "advanced-programming-practice",
+      "category": "Subject Folder",
+      "title": "Advanced Programming Practice PYQ Folder",
+      "path": "/exam-library/sem-3/advanced-programming-practice/",
+      "type": "folder",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Notes"
+      ],
+      "resourceCount": 0,
+      "questionCount": 0,
+      "sourceCount": 1
+    },
+    {
+      "id": "sem-3/basic-chemical-engineering/folder",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Basic Chemical Engineering",
+      "subjectSlug": "basic-chemical-engineering",
+      "category": "Subject Folder",
+      "title": "Basic Chemical Engineering PYQ Folder",
+      "path": "/exam-library/sem-3/basic-chemical-engineering/",
+      "type": "folder",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Notes"
+      ],
+      "resourceCount": 0,
+      "questionCount": 0,
+      "sourceCount": 1
+    },
+    {
+      "id": "sem-3/biochemistry/folder",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Biochemistry",
+      "subjectSlug": "biochemistry",
+      "category": "Subject Folder",
+      "title": "Biochemistry PYQ Folder",
+      "path": "/exam-library/sem-3/biochemistry/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 3,
+      "questionCount": 29,
+      "sourceCount": 2
+    },
+    {
+      "id": "/exam-library/sem-3/biochemistry/pyqs/01_PYQ May 2023.pdf",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Biochemistry",
+      "subjectSlug": "biochemistry",
+      "category": "PYQs",
+      "title": "01 PYQ May 2023",
+      "fileName": "01_PYQ May 2023.pdf",
+      "path": "/exam-library/sem-3/biochemistry/pyqs/01_PYQ May 2023.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-3/biochemistry/pyqs/02_PYQ Dec 2022.pdf",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Biochemistry",
+      "subjectSlug": "biochemistry",
+      "category": "PYQs",
+      "title": "02 PYQ Dec 2022",
+      "fileName": "02_PYQ Dec 2022.pdf",
+      "path": "/exam-library/sem-3/biochemistry/pyqs/02_PYQ Dec 2022.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-3/biochemistry/pyqs/03_PYQ Nov 2019.pdf",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Biochemistry",
+      "subjectSlug": "biochemistry",
+      "category": "PYQs",
+      "title": "03 PYQ Nov 2019",
+      "fileName": "03_PYQ Nov 2019.pdf",
+      "path": "/exam-library/sem-3/biochemistry/pyqs/03_PYQ Nov 2019.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-3/computer-organization-and-architecture/folder",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Computer Organization And Architecture",
+      "subjectSlug": "computer-organization-and-architecture",
+      "category": "Subject Folder",
+      "title": "Computer Organization And Architecture PYQ Folder",
+      "path": "/exam-library/sem-3/computer-organization-and-architecture/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 3,
+      "questionCount": 50,
+      "sourceCount": 3
+    },
+    {
+      "id": "/exam-library/sem-3/computer-organization-and-architecture/pyqs/01_PYQ Jul 2025.pdf",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Computer Organization And Architecture",
+      "subjectSlug": "computer-organization-and-architecture",
+      "category": "PYQs",
+      "title": "01 PYQ Jul 2025",
+      "fileName": "01_PYQ Jul 2025.pdf",
+      "path": "/exam-library/sem-3/computer-organization-and-architecture/pyqs/01_PYQ Jul 2025.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-3/computer-organization-and-architecture/pyqs/02_PYQ Jun 2025.pdf",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Computer Organization And Architecture",
+      "subjectSlug": "computer-organization-and-architecture",
+      "category": "PYQs",
+      "title": "02 PYQ Jun 2025",
+      "fileName": "02_PYQ Jun 2025.pdf",
+      "path": "/exam-library/sem-3/computer-organization-and-architecture/pyqs/02_PYQ Jun 2025.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-3/computer-organization-and-architecture/pyqs/03_PYQ Nov 2024.pdf",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Computer Organization And Architecture",
+      "subjectSlug": "computer-organization-and-architecture",
+      "category": "PYQs",
+      "title": "03 PYQ Nov 2024",
+      "fileName": "03_PYQ Nov 2024.pdf",
+      "path": "/exam-library/sem-3/computer-organization-and-architecture/pyqs/03_PYQ Nov 2024.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-3/data-structures-and-algorithm/folder",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Data Structures And Algorithm",
+      "subjectSlug": "data-structures-and-algorithm",
+      "category": "Subject Folder",
+      "title": "Data Structures And Algorithm PYQ Folder",
+      "path": "/exam-library/sem-3/data-structures-and-algorithm/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 3,
+      "questionCount": 0,
+      "sourceCount": 3
+    },
+    {
+      "id": "/exam-library/sem-3/data-structures-and-algorithm/pyqs/01_PYQ Nov 2024.pdf",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Data Structures And Algorithm",
+      "subjectSlug": "data-structures-and-algorithm",
+      "category": "PYQs",
+      "title": "01 PYQ Nov 2024",
+      "fileName": "01_PYQ Nov 2024.pdf",
+      "path": "/exam-library/sem-3/data-structures-and-algorithm/pyqs/01_PYQ Nov 2024.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-3/data-structures-and-algorithm/pyqs/02_PYQ Jul 2023.pdf",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Data Structures And Algorithm",
+      "subjectSlug": "data-structures-and-algorithm",
+      "category": "PYQs",
+      "title": "02 PYQ Jul 2023",
+      "fileName": "02_PYQ Jul 2023.pdf",
+      "path": "/exam-library/sem-3/data-structures-and-algorithm/pyqs/02_PYQ Jul 2023.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-3/data-structures-and-algorithm/pyqs/03_PYQ May 2023.pdf",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Data Structures And Algorithm",
+      "subjectSlug": "data-structures-and-algorithm",
+      "category": "PYQs",
+      "title": "03 PYQ May 2023",
+      "fileName": "03_PYQ May 2023.pdf",
+      "path": "/exam-library/sem-3/data-structures-and-algorithm/pyqs/03_PYQ May 2023.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-3/design-thinking-and-methodology/folder",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Design Thinking And Methodology",
+      "subjectSlug": "design-thinking-and-methodology",
+      "category": "Subject Folder",
+      "title": "Design Thinking And Methodology PYQ Folder",
+      "path": "/exam-library/sem-3/design-thinking-and-methodology/",
+      "type": "folder",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Notes"
+      ],
+      "resourceCount": 0,
+      "questionCount": 0,
+      "sourceCount": 3
+    },
+    {
+      "id": "sem-3/digital-logic-design/folder",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Digital Logic Design",
+      "subjectSlug": "digital-logic-design",
+      "category": "Subject Folder",
+      "title": "Digital Logic Design PYQ Folder",
+      "path": "/exam-library/sem-3/digital-logic-design/",
+      "type": "folder",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 0,
+      "questionCount": 0,
+      "sourceCount": 7
+    },
+    {
+      "id": "sem-3/electromagnetic-thoery-and-interference/folder",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Electromagnetic Thoery And Interference",
+      "subjectSlug": "electromagnetic-thoery-and-interference",
+      "category": "Subject Folder",
+      "title": "Electromagnetic Thoery And Interference PYQ Folder",
+      "path": "/exam-library/sem-3/electromagnetic-thoery-and-interference/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 2,
+      "questionCount": 68,
+      "sourceCount": 8
+    },
+    {
+      "id": "/exam-library/sem-3/electromagnetic-thoery-and-interference/pyqs/01_Question Bank.pdf",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Electromagnetic Thoery And Interference",
+      "subjectSlug": "electromagnetic-thoery-and-interference",
+      "category": "PYQs",
+      "title": "01 Question Bank",
+      "fileName": "01_Question Bank.pdf",
+      "path": "/exam-library/sem-3/electromagnetic-thoery-and-interference/pyqs/01_Question Bank.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-3/electromagnetic-thoery-and-interference/pyqs/02_PYQs Coming Soon.pdf",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Electromagnetic Thoery And Interference",
+      "subjectSlug": "electromagnetic-thoery-and-interference",
+      "category": "PYQs",
+      "title": "02 PYQs Coming Soon",
+      "fileName": "02_PYQs Coming Soon.pdf",
+      "path": "/exam-library/sem-3/electromagnetic-thoery-and-interference/pyqs/02_PYQs Coming Soon.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-3/foundation-of-data-science-fds/folder",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Foundation of Data Science FDS",
+      "subjectSlug": "foundation-of-data-science-fds",
+      "category": "Subject Folder",
+      "title": "Foundation of Data Science FDS PYQ Folder",
+      "path": "/exam-library/sem-3/foundation-of-data-science-fds/",
+      "type": "folder",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 3,
+      "questionCount": 0,
+      "sourceCount": 5
+    },
+    {
+      "id": "/exam-library/sem-3/foundation-of-data-science-fds/pyqs/01_PYQ May 2023 Paper - 2.pdf",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Foundation of Data Science FDS",
+      "subjectSlug": "foundation-of-data-science-fds",
+      "category": "PYQs",
+      "title": "01 PYQ May 2023 Paper   2",
+      "fileName": "01_PYQ May 2023 Paper - 2.pdf",
+      "path": "/exam-library/sem-3/foundation-of-data-science-fds/pyqs/01_PYQ May 2023 Paper - 2.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-3/foundation-of-data-science-fds/pyqs/02_PYQ Jul 2025.pdf",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Foundation of Data Science FDS",
+      "subjectSlug": "foundation-of-data-science-fds",
+      "category": "PYQs",
+      "title": "02 PYQ Jul 2025",
+      "fileName": "02_PYQ Jul 2025.pdf",
+      "path": "/exam-library/sem-3/foundation-of-data-science-fds/pyqs/02_PYQ Jul 2025.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-3/foundation-of-data-science-fds/pyqs/03_PYQ May 2025.pdf",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Foundation of Data Science FDS",
+      "subjectSlug": "foundation-of-data-science-fds",
+      "category": "PYQs",
+      "title": "03 PYQ May 2025",
+      "fileName": "03_PYQ May 2025.pdf",
+      "path": "/exam-library/sem-3/foundation-of-data-science-fds/pyqs/03_PYQ May 2025.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-3/genetics-and-cytogenetics/folder",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Genetics And Cytogenetics",
+      "subjectSlug": "genetics-and-cytogenetics",
+      "category": "Subject Folder",
+      "title": "Genetics And Cytogenetics PYQ Folder",
+      "path": "/exam-library/sem-3/genetics-and-cytogenetics/",
+      "type": "folder",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 0,
+      "questionCount": 0,
+      "sourceCount": 7
+    },
+    {
+      "id": "sem-3/microbiology/folder",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Microbiology",
+      "subjectSlug": "microbiology",
+      "category": "Subject Folder",
+      "title": "Microbiology PYQ Folder",
+      "path": "/exam-library/sem-3/microbiology/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 0,
+      "questionCount": 25,
+      "sourceCount": 4
+    },
+    {
+      "id": "sem-3/numerical-methods-analysis/folder",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Numerical Methods Analysis",
+      "subjectSlug": "numerical-methods-analysis",
+      "category": "Subject Folder",
+      "title": "Numerical Methods Analysis PYQ Folder",
+      "path": "/exam-library/sem-3/numerical-methods-analysis/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 2,
+      "questionCount": 2,
+      "sourceCount": 11
+    },
+    {
+      "id": "/exam-library/sem-3/numerical-methods-analysis/pyqs/01_PYQ 2023-2025 Combined.pdf",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Numerical Methods Analysis",
+      "subjectSlug": "numerical-methods-analysis",
+      "category": "PYQs",
+      "title": "01 PYQ 2023 2025 Combined",
+      "fileName": "01_PYQ 2023-2025 Combined.pdf",
+      "path": "/exam-library/sem-3/numerical-methods-analysis/pyqs/01_PYQ 2023-2025 Combined.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-3/numerical-methods-analysis/pyqs/02_Formulas (Unit 1 to 5).pdf",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Numerical Methods Analysis",
+      "subjectSlug": "numerical-methods-analysis",
+      "category": "PYQs",
+      "title": "02 Formulas (Unit 1 To 5)",
+      "fileName": "02_Formulas (Unit 1 to 5).pdf",
+      "path": "/exam-library/sem-3/numerical-methods-analysis/pyqs/02_Formulas (Unit 1 to 5).pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-3/operating-systems/folder",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Operating Systems",
+      "subjectSlug": "operating-systems",
+      "category": "Subject Folder",
+      "title": "Operating Systems PYQ Folder",
+      "path": "/exam-library/sem-3/operating-systems/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 3,
+      "questionCount": 10,
+      "sourceCount": 6
+    },
+    {
+      "id": "/exam-library/sem-3/operating-systems/pyqs/01_PYQ Jul 2025.pdf",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Operating Systems",
+      "subjectSlug": "operating-systems",
+      "category": "PYQs",
+      "title": "01 PYQ Jul 2025",
+      "fileName": "01_PYQ Jul 2025.pdf",
+      "path": "/exam-library/sem-3/operating-systems/pyqs/01_PYQ Jul 2025.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-3/operating-systems/pyqs/02_PYQ May 2025.pdf",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Operating Systems",
+      "subjectSlug": "operating-systems",
+      "category": "PYQs",
+      "title": "02 PYQ May 2025",
+      "fileName": "02_PYQ May 2025.pdf",
+      "path": "/exam-library/sem-3/operating-systems/pyqs/02_PYQ May 2025.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-3/operating-systems/pyqs/03_PYQ Nov 2024.pdf",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Operating Systems",
+      "subjectSlug": "operating-systems",
+      "category": "PYQs",
+      "title": "03 PYQ Nov 2024",
+      "fileName": "03_PYQ Nov 2024.pdf",
+      "path": "/exam-library/sem-3/operating-systems/pyqs/03_PYQ Nov 2024.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-3/social-engineering/folder",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Social Engineering",
+      "subjectSlug": "social-engineering",
+      "category": "Subject Folder",
+      "title": "Social Engineering PYQ Folder",
+      "path": "/exam-library/sem-3/social-engineering/",
+      "type": "folder",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Notes"
+      ],
+      "resourceCount": 1,
+      "questionCount": 0,
+      "sourceCount": 2
+    },
+    {
+      "id": "/exam-library/sem-3/social-engineering/pyqs/01_PYQ CT Papers.pdf",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Social Engineering",
+      "subjectSlug": "social-engineering",
+      "category": "PYQs",
+      "title": "01 PYQ CT Papers",
+      "fileName": "01_PYQ CT Papers.pdf",
+      "path": "/exam-library/sem-3/social-engineering/pyqs/01_PYQ CT Papers.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "sem-3/solid-state-devices/folder",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Solid State Devices",
+      "subjectSlug": "solid-state-devices",
+      "category": "Subject Folder",
+      "title": "Solid State Devices PYQ Folder",
+      "path": "/exam-library/sem-3/solid-state-devices/",
+      "type": "folder",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 0,
+      "questionCount": 0,
+      "sourceCount": 8
+    },
+    {
+      "id": "sem-3/transforms-and-boundary-value-problems/folder",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Transforms And Boundary Value Problems",
+      "subjectSlug": "transforms-and-boundary-value-problems",
+      "category": "Subject Folder",
+      "title": "Transforms And Boundary Value Problems PYQ Folder",
+      "path": "/exam-library/sem-3/transforms-and-boundary-value-problems/",
+      "type": "folder",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 3,
+      "questionCount": 0,
+      "sourceCount": 8
+    },
+    {
+      "id": "/exam-library/sem-3/transforms-and-boundary-value-problems/pyqs/01_PYQ Jul 2025.pdf",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Transforms And Boundary Value Problems",
+      "subjectSlug": "transforms-and-boundary-value-problems",
+      "category": "PYQs",
+      "title": "01 PYQ Jul 2025",
+      "fileName": "01_PYQ Jul 2025.pdf",
+      "path": "/exam-library/sem-3/transforms-and-boundary-value-problems/pyqs/01_PYQ Jul 2025.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-3/transforms-and-boundary-value-problems/pyqs/02_PYQ Nov 2024.pdf",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Transforms And Boundary Value Problems",
+      "subjectSlug": "transforms-and-boundary-value-problems",
+      "category": "PYQs",
+      "title": "02 PYQ Nov 2024",
+      "fileName": "02_PYQ Nov 2024.pdf",
+      "path": "/exam-library/sem-3/transforms-and-boundary-value-problems/pyqs/02_PYQ Nov 2024.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-3/transforms-and-boundary-value-problems/pyqs/03_PYQ Jul 2024.pdf",
+      "semester": "Sem 3",
+      "semesterId": "sem-3",
+      "subject": "Transforms And Boundary Value Problems",
+      "subjectSlug": "transforms-and-boundary-value-problems",
+      "category": "PYQs",
+      "title": "03 PYQ Jul 2024",
+      "fileName": "03_PYQ Jul 2024.pdf",
+      "path": "/exam-library/sem-3/transforms-and-boundary-value-problems/pyqs/03_PYQ Jul 2024.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-4/artificial-intelligence/folder",
+      "semester": "Sem 4",
+      "semesterId": "sem-4",
+      "subject": "Artificial Intelligence",
+      "subjectSlug": "artificial-intelligence",
+      "category": "Subject Folder",
+      "title": "Artificial Intelligence PYQ Folder",
+      "path": "/exam-library/sem-4/artificial-intelligence/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 3,
+      "questionCount": 109,
+      "sourceCount": 8
+    },
+    {
+      "id": "/exam-library/sem-4/artificial-intelligence/pyqs/01_PYQ Dec 2025.pdf",
+      "semester": "Sem 4",
+      "semesterId": "sem-4",
+      "subject": "Artificial Intelligence",
+      "subjectSlug": "artificial-intelligence",
+      "category": "PYQs",
+      "title": "01 PYQ Dec 2025",
+      "fileName": "01_PYQ Dec 2025.pdf",
+      "path": "/exam-library/sem-4/artificial-intelligence/pyqs/01_PYQ Dec 2025.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-4/artificial-intelligence/pyqs/02_PYQ Nov 2024.pdf",
+      "semester": "Sem 4",
+      "semesterId": "sem-4",
+      "subject": "Artificial Intelligence",
+      "subjectSlug": "artificial-intelligence",
+      "category": "PYQs",
+      "title": "02 PYQ Nov 2024",
+      "fileName": "02_PYQ Nov 2024.pdf",
+      "path": "/exam-library/sem-4/artificial-intelligence/pyqs/02_PYQ Nov 2024.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-4/artificial-intelligence/pyqs/03_PYQ May 2024.pdf",
+      "semester": "Sem 4",
+      "semesterId": "sem-4",
+      "subject": "Artificial Intelligence",
+      "subjectSlug": "artificial-intelligence",
+      "category": "PYQs",
+      "title": "03 PYQ May 2024",
+      "fileName": "03_PYQ May 2024.pdf",
+      "path": "/exam-library/sem-4/artificial-intelligence/pyqs/03_PYQ May 2024.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-4/bioprocess-engineering/folder",
+      "semester": "Sem 4",
+      "semesterId": "sem-4",
+      "subject": "Bioprocess Engineering",
+      "subjectSlug": "bioprocess-engineering",
+      "category": "Subject Folder",
+      "title": "Bioprocess Engineering PYQ Folder",
+      "path": "/exam-library/sem-4/bioprocess-engineering/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 0,
+      "questionCount": 23,
+      "sourceCount": 8
+    },
+    {
+      "id": "sem-4/cell-communication-and-signaling/folder",
+      "semester": "Sem 4",
+      "semesterId": "sem-4",
+      "subject": "Cell Communication And Signaling",
+      "subjectSlug": "cell-communication-and-signaling",
+      "category": "Subject Folder",
+      "title": "Cell Communication And Signaling PYQ Folder",
+      "path": "/exam-library/sem-4/cell-communication-and-signaling/",
+      "type": "folder",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Notes"
+      ],
+      "resourceCount": 0,
+      "questionCount": 0,
+      "sourceCount": 2
+    },
+    {
+      "id": "sem-4/cga/folder",
+      "semester": "Sem 4",
+      "semesterId": "sem-4",
+      "subject": "CGA",
+      "subjectSlug": "cga",
+      "category": "Subject Folder",
+      "title": "CGA PYQ Folder",
+      "path": "/exam-library/sem-4/cga/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 3,
+      "questionCount": 165,
+      "sourceCount": 5
+    },
+    {
+      "id": "/exam-library/sem-4/cga/pyqs/01_PYQs Dec 2025.pdf",
+      "semester": "Sem 4",
+      "semesterId": "sem-4",
+      "subject": "CGA",
+      "subjectSlug": "cga",
+      "category": "PYQs",
+      "title": "01 PYQs Dec 2025",
+      "fileName": "01_PYQs Dec 2025.pdf",
+      "path": "/exam-library/sem-4/cga/pyqs/01_PYQs Dec 2025.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-4/cga/pyqs/02_PYQs May 2025.pdf",
+      "semester": "Sem 4",
+      "semesterId": "sem-4",
+      "subject": "CGA",
+      "subjectSlug": "cga",
+      "category": "PYQs",
+      "title": "02 PYQs May 2025",
+      "fileName": "02_PYQs May 2025.pdf",
+      "path": "/exam-library/sem-4/cga/pyqs/02_PYQs May 2025.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-4/cga/pyqs/03_PYQs May 2024.pdf",
+      "semester": "Sem 4",
+      "semesterId": "sem-4",
+      "subject": "CGA",
+      "subjectSlug": "cga",
+      "category": "PYQs",
+      "title": "03 PYQs May 2024",
+      "fileName": "03_PYQs May 2024.pdf",
+      "path": "/exam-library/sem-4/cga/pyqs/03_PYQs May 2024.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-4/chemical-engineering-principles/folder",
+      "semester": "Sem 4",
+      "semesterId": "sem-4",
+      "subject": "Chemical Engineering Principles",
+      "subjectSlug": "chemical-engineering-principles",
+      "category": "Subject Folder",
+      "title": "Chemical Engineering Principles PYQ Folder",
+      "path": "/exam-library/sem-4/chemical-engineering-principles/",
+      "type": "folder",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 0,
+      "questionCount": 0,
+      "sourceCount": 7
+    },
+    {
+      "id": "sem-4/database-management-systems/folder",
+      "semester": "Sem 4",
+      "semesterId": "sem-4",
+      "subject": "Database Management Systems",
+      "subjectSlug": "database-management-systems",
+      "category": "Subject Folder",
+      "title": "Database Management Systems PYQ Folder",
+      "path": "/exam-library/sem-4/database-management-systems/",
+      "type": "folder",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Notes"
+      ],
+      "resourceCount": 0,
+      "questionCount": 0,
+      "sourceCount": 5
+    },
+    {
+      "id": "sem-4/design-and-analysis-of-algorithms/folder",
+      "semester": "Sem 4",
+      "semesterId": "sem-4",
+      "subject": "Design And Analysis Of Algorithms",
+      "subjectSlug": "design-and-analysis-of-algorithms",
+      "category": "Subject Folder",
+      "title": "Design And Analysis Of Algorithms PYQ Folder",
+      "path": "/exam-library/sem-4/design-and-analysis-of-algorithms/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 3,
+      "questionCount": 220,
+      "sourceCount": 2
+    },
+    {
+      "id": "/exam-library/sem-4/design-and-analysis-of-algorithms/pyqs/01_PYQ Dec 2025.pdf",
+      "semester": "Sem 4",
+      "semesterId": "sem-4",
+      "subject": "Design And Analysis Of Algorithms",
+      "subjectSlug": "design-and-analysis-of-algorithms",
+      "category": "PYQs",
+      "title": "01 PYQ Dec 2025",
+      "fileName": "01_PYQ Dec 2025.pdf",
+      "path": "/exam-library/sem-4/design-and-analysis-of-algorithms/pyqs/01_PYQ Dec 2025.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-4/design-and-analysis-of-algorithms/pyqs/02_PYQ May 2025.pdf",
+      "semester": "Sem 4",
+      "semesterId": "sem-4",
+      "subject": "Design And Analysis Of Algorithms",
+      "subjectSlug": "design-and-analysis-of-algorithms",
+      "category": "PYQs",
+      "title": "02 PYQ May 2025",
+      "fileName": "02_PYQ May 2025.pdf",
+      "path": "/exam-library/sem-4/design-and-analysis-of-algorithms/pyqs/02_PYQ May 2025.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-4/design-and-analysis-of-algorithms/pyqs/03_PYQ Nov 2024.pdf",
+      "semester": "Sem 4",
+      "semesterId": "sem-4",
+      "subject": "Design And Analysis Of Algorithms",
+      "subjectSlug": "design-and-analysis-of-algorithms",
+      "category": "PYQs",
+      "title": "03 PYQ Nov 2024",
+      "fileName": "03_PYQ Nov 2024.pdf",
+      "path": "/exam-library/sem-4/design-and-analysis-of-algorithms/pyqs/03_PYQ Nov 2024.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-4/molecular-biology/folder",
+      "semester": "Sem 4",
+      "semesterId": "sem-4",
+      "subject": "Molecular Biology",
+      "subjectSlug": "molecular-biology",
+      "category": "Subject Folder",
+      "title": "Molecular Biology PYQ Folder",
+      "path": "/exam-library/sem-4/molecular-biology/",
+      "type": "folder",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Notes"
+      ],
+      "resourceCount": 0,
+      "questionCount": 0,
+      "sourceCount": 1
+    },
+    {
+      "id": "sem-4/signal-processing/folder",
+      "semester": "Sem 4",
+      "semesterId": "sem-4",
+      "subject": "Signal Processing",
+      "subjectSlug": "signal-processing",
+      "category": "Subject Folder",
+      "title": "Signal Processing PYQ Folder",
+      "path": "/exam-library/sem-4/signal-processing/",
+      "type": "folder",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Notes"
+      ],
+      "resourceCount": 2,
+      "questionCount": 0,
+      "sourceCount": 2
+    },
+    {
+      "id": "/exam-library/sem-4/signal-processing/pyqs/01_PYQ Nov 2025.pdf",
+      "semester": "Sem 4",
+      "semesterId": "sem-4",
+      "subject": "Signal Processing",
+      "subjectSlug": "signal-processing",
+      "category": "PYQs",
+      "title": "01 PYQ Nov 2025",
+      "fileName": "01_PYQ Nov 2025.pdf",
+      "path": "/exam-library/sem-4/signal-processing/pyqs/01_PYQ Nov 2025.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-4/signal-processing/pyqs/02_PYQ May 2025.pdf",
+      "semester": "Sem 4",
+      "semesterId": "sem-4",
+      "subject": "Signal Processing",
+      "subjectSlug": "signal-processing",
+      "category": "PYQs",
+      "title": "02 PYQ May 2025",
+      "fileName": "02_PYQ May 2025.pdf",
+      "path": "/exam-library/sem-4/signal-processing/pyqs/02_PYQ May 2025.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-4/social-engineering/folder",
+      "semester": "Sem 4",
+      "semesterId": "sem-4",
+      "subject": "Social Engineering",
+      "subjectSlug": "social-engineering",
+      "category": "Subject Folder",
+      "title": "Social Engineering PYQ Folder",
+      "path": "/exam-library/sem-4/social-engineering/",
+      "type": "folder",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Notes"
+      ],
+      "resourceCount": 1,
+      "questionCount": 0,
+      "sourceCount": 1
+    },
+    {
+      "id": "/exam-library/sem-4/social-engineering/pyqs/01_PYQ CT Papers.pdf",
+      "semester": "Sem 4",
+      "semesterId": "sem-4",
+      "subject": "Social Engineering",
+      "subjectSlug": "social-engineering",
+      "category": "PYQs",
+      "title": "01 PYQ CT Papers",
+      "fileName": "01_PYQ CT Papers.pdf",
+      "path": "/exam-library/sem-4/social-engineering/pyqs/01_PYQ CT Papers.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "sem-4/software-process/folder",
+      "semester": "Sem 4",
+      "semesterId": "sem-4",
+      "subject": "Software Process",
+      "subjectSlug": "software-process",
+      "category": "Subject Folder",
+      "title": "Software Process PYQ Folder",
+      "path": "/exam-library/sem-4/software-process/",
+      "type": "folder",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Notes"
+      ],
+      "resourceCount": 0,
+      "questionCount": 0,
+      "sourceCount": 1
+    },
+    {
+      "id": "sem-5-6/computer-networks/folder",
+      "semester": "Sem 5/6",
+      "semesterId": "sem-5-6",
+      "subject": "Computer Networks",
+      "subjectSlug": "computer-networks",
+      "category": "Subject Folder",
+      "title": "Computer Networks PYQ Folder",
+      "path": "/exam-library/sem-5-6/computer-networks/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 3,
+      "questionCount": 11,
+      "sourceCount": 8
+    },
+    {
+      "id": "/exam-library/sem-5-6/computer-networks/pyqs/01_PYQ Jul 2025 (Paper - 2).pdf",
+      "semester": "Sem 5/6",
+      "semesterId": "sem-5-6",
+      "subject": "Computer Networks",
+      "subjectSlug": "computer-networks",
+      "category": "PYQs",
+      "title": "01 PYQ Jul 2025 (Paper   2)",
+      "fileName": "01_PYQ Jul 2025 (Paper - 2).pdf",
+      "path": "/exam-library/sem-5-6/computer-networks/pyqs/01_PYQ Jul 2025 (Paper - 2).pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-5-6/computer-networks/pyqs/02_PYQ Jul 2025.pdf",
+      "semester": "Sem 5/6",
+      "semesterId": "sem-5-6",
+      "subject": "Computer Networks",
+      "subjectSlug": "computer-networks",
+      "category": "PYQs",
+      "title": "02 PYQ Jul 2025",
+      "fileName": "02_PYQ Jul 2025.pdf",
+      "path": "/exam-library/sem-5-6/computer-networks/pyqs/02_PYQ Jul 2025.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-5-6/computer-networks/pyqs/03_PYQ Nov 2024.pdf",
+      "semester": "Sem 5/6",
+      "semesterId": "sem-5-6",
+      "subject": "Computer Networks",
+      "subjectSlug": "computer-networks",
+      "category": "PYQs",
+      "title": "03 PYQ Nov 2024",
+      "fileName": "03_PYQ Nov 2024.pdf",
+      "path": "/exam-library/sem-5-6/computer-networks/pyqs/03_PYQ Nov 2024.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-5-6/discrete-mathematics/folder",
+      "semester": "Sem 5/6",
+      "semesterId": "sem-5-6",
+      "subject": "Discrete Mathematics",
+      "subjectSlug": "discrete-mathematics",
+      "category": "Subject Folder",
+      "title": "Discrete Mathematics PYQ Folder",
+      "path": "/exam-library/sem-5-6/discrete-mathematics/",
+      "type": "folder",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Notes"
+      ],
+      "resourceCount": 3,
+      "questionCount": 0,
+      "sourceCount": 1
+    },
+    {
+      "id": "/exam-library/sem-5-6/discrete-mathematics/pyqs/01_PYQ Jul 2025 (Paper - 2).pdf",
+      "semester": "Sem 5/6",
+      "semesterId": "sem-5-6",
+      "subject": "Discrete Mathematics",
+      "subjectSlug": "discrete-mathematics",
+      "category": "PYQs",
+      "title": "01 PYQ Jul 2025 (Paper   2)",
+      "fileName": "01_PYQ Jul 2025 (Paper - 2).pdf",
+      "path": "/exam-library/sem-5-6/discrete-mathematics/pyqs/01_PYQ Jul 2025 (Paper - 2).pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-5-6/discrete-mathematics/pyqs/02_PYQ Jul 2025.pdf",
+      "semester": "Sem 5/6",
+      "semesterId": "sem-5-6",
+      "subject": "Discrete Mathematics",
+      "subjectSlug": "discrete-mathematics",
+      "category": "PYQs",
+      "title": "02 PYQ Jul 2025",
+      "fileName": "02_PYQ Jul 2025.pdf",
+      "path": "/exam-library/sem-5-6/discrete-mathematics/pyqs/02_PYQ Jul 2025.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-5-6/discrete-mathematics/pyqs/03_PYQ May 2025.pdf",
+      "semester": "Sem 5/6",
+      "semesterId": "sem-5-6",
+      "subject": "Discrete Mathematics",
+      "subjectSlug": "discrete-mathematics",
+      "category": "PYQs",
+      "title": "03 PYQ May 2025",
+      "fileName": "03_PYQ May 2025.pdf",
+      "path": "/exam-library/sem-5-6/discrete-mathematics/pyqs/03_PYQ May 2025.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "sem-5-6/full-stack-web-development/folder",
+      "semester": "Sem 5/6",
+      "semesterId": "sem-5-6",
+      "subject": "Full Stack Web Development",
+      "subjectSlug": "full-stack-web-development",
+      "category": "Subject Folder",
+      "title": "Full Stack Web Development PYQ Folder",
+      "path": "/exam-library/sem-5-6/full-stack-web-development/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 1,
+      "questionCount": 20,
+      "sourceCount": 1
+    },
+    {
+      "id": "/exam-library/sem-5-6/full-stack-web-development/pyqs/01_PYQ May 2024.pdf",
+      "semester": "Sem 5/6",
+      "semesterId": "sem-5-6",
+      "subject": "Full Stack Web Development",
+      "subjectSlug": "full-stack-web-development",
+      "category": "PYQs",
+      "title": "01 PYQ May 2024",
+      "fileName": "01_PYQ May 2024.pdf",
+      "path": "/exam-library/sem-5-6/full-stack-web-development/pyqs/01_PYQ May 2024.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "sem-5-6/semester-6/folder",
+      "semester": "Sem 5/6",
+      "semesterId": "sem-5-6",
+      "subject": "Semester 6",
+      "subjectSlug": "semester-6",
+      "category": "Subject Folder",
+      "title": "Semester 6 PYQ Folder",
+      "path": "/exam-library/sem-5-6/semester-6/",
+      "type": "folder",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Notes",
+        "Revision"
+      ],
+      "resourceCount": 3,
+      "questionCount": 6,
+      "sourceCount": 16
+    },
+    {
+      "id": "/exam-library/sem-5-6/semester-6/pyqs/01_PYQ Jul 2025.pdf",
+      "semester": "Sem 5/6",
+      "semesterId": "sem-5-6",
+      "subject": "Semester 6",
+      "subjectSlug": "semester-6",
+      "category": "PYQs",
+      "title": "01 PYQ Jul 2025",
+      "fileName": "01_PYQ Jul 2025.pdf",
+      "path": "/exam-library/sem-5-6/semester-6/pyqs/01_PYQ Jul 2025.pdf",
+      "type": "pdf",
+      "isPremium": false,
+      "tags": [
+        "PYQ",
+        "Question Paper",
+        "Sample"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-5-6/semester-6/pyqs/02_PYQ May 2025.pdf",
+      "semester": "Sem 5/6",
+      "semesterId": "sem-5-6",
+      "subject": "Semester 6",
+      "subjectSlug": "semester-6",
+      "category": "PYQs",
+      "title": "02 PYQ May 2025",
+      "fileName": "02_PYQ May 2025.pdf",
+      "path": "/exam-library/sem-5-6/semester-6/pyqs/02_PYQ May 2025.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    },
+    {
+      "id": "/exam-library/sem-5-6/semester-6/pyqs/03_PYQ May 2024.pdf",
+      "semester": "Sem 5/6",
+      "semesterId": "sem-5-6",
+      "subject": "Semester 6",
+      "subjectSlug": "semester-6",
+      "category": "PYQs",
+      "title": "03 PYQ May 2024",
+      "fileName": "03_PYQ May 2024.pdf",
+      "path": "/exam-library/sem-5-6/semester-6/pyqs/03_PYQ May 2024.pdf",
+      "type": "pdf",
+      "isPremium": true,
+      "tags": [
+        "PYQ",
+        "Question Paper"
+      ]
+    }
+  ]
+}

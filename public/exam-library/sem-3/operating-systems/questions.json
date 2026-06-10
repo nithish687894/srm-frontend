@@ -1,0 +1,112 @@
+[
+  {
+    "id": "q-1",
+    "text": "Abraham Silberschatz, Peter Baer Galvin, Greg Gagne, Operating systems, 9th ed.,",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Operating Systems/Notes/Unit 1.pdf"
+  },
+  {
+    "id": "q-2",
+    "text": "What is an Operating System?",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Operating Systems/Notes/Unit 1.pdf"
+  },
+  {
+    "id": "q-3",
+    "text": "Increased throughput",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Operating Systems/Notes/Unit 1.pdf"
+  },
+  {
+    "id": "q-4",
+    "text": "Economy of scale",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Operating Systems/Notes/Unit 1.pdf"
+  },
+  {
+    "id": "q-5",
+    "text": "Increased reliability – graceful degradation or fault tolerance",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Operating Systems/Notes/Unit 1.pdf"
+  },
+  {
+    "id": "q-6",
+    "text": "Asymmetric Multiprocessing – each processor is assigned a specie",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Operating Systems/Notes/Unit 1.pdf"
+  },
+  {
+    "id": "q-7",
+    "text": "Symmetric Multiprocessing – each processor performs all tasks",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Operating Systems/Notes/Unit 1.pdf"
+  },
+  {
+    "id": "q-8",
+    "text": "“traditional” laptop?",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Operating Systems/Notes/Unit 1.pdf"
+  },
+  {
+    "id": "q-9",
+    "text": "Policy: What will be done?",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Operating Systems/Notes/Unit 1.pdf"
+  },
+  {
+    "id": "q-10",
+    "text": "Mechanism: How to do it?",
+    "unit": "Ungrouped",
+    "topic": "Unit 1",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Operating Systems/Notes/Unit 1.pdf"
+  }
+]

@@ -1,0 +1,33 @@
+===== SOURCE_FILE: sem 4/Database Management Systems/Notes/Unit 2.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: Coming Soon
+
+
+===== SOURCE_FILE: sem 4/Database Management Systems/Notes/Unit 3.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://docs.google.com/presentation/d/1t6wFh5KHGIhBjR3RrLyxouYg7aoYhhOg/edit?usp=drive_link&ouid=104856686103320873965&rtpof=true&sd=true
+
+
+===== SOURCE_FILE: sem 4/Database Management Systems/Notes/Unit 4.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: Coming Soon
+
+
+===== SOURCE_FILE: sem 4/Database Management Systems/PYQs/CT Papers.url =====
+CATEGORY: PYQs
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1a9PAOLGwtLBLxVYwW1ZBc6fDHJ8o5DeG?usp=sharing
+
+
+===== SOURCE_FILE: sem 4/Database Management Systems/PYQs/SEM Papers.url =====
+CATEGORY: PYQs
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1uQLtuQyuoBwXBur2ZQPUp2Q16MjaXtxK?usp=sharing

@@ -1,0 +1,17 @@
+{
+  "semester": "sem-2",
+  "semesterLabel": "Sem 2",
+  "subject": "Electrical And Electronics Engineering",
+  "subjectSlug": "electrical-and-electronics-engineering",
+  "readiness": "Partial",
+  "statusMessage": "Some scanned resources still need OCR, so this subject may be partial.",
+  "availableContent": {
+    "notes": true,
+    "pyqs": true,
+    "importantQuestions": true,
+    "revision": true
+  },
+  "sourceCount": 13,
+  "questionCount": 220,
+  "updatedAt": "2026-06-07T14:44:59.195Z"
+}

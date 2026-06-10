@@ -1,0 +1,12 @@
+===== SOURCE_FILE: sem 4/Cell Communication And Signaling/Notes/More Study Materials.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1hdedsw8Rbc2afD2iExQEBgPUtr7vGL6I?usp=drive_link
+
+
+===== SOURCE_FILE: sem 4/Cell Communication And Signaling/PYQs/Coming Soon.url =====
+CATEGORY: PYQs
+STATUS: url_reference_only
+
+URL:

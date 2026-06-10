@@ -1,0 +1,556 @@
+[
+  {
+    "id": "q-1",
+    "text": "What is MAR and MDR?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-2",
+    "text": "In the instruction ADD LOCA, RO, (A) Memory location of the source operand",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-3",
+    "text": "The small extremely fast, access memory is called as",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-4",
+    "text": "The amount of ROM needed to implement a 4 bit multiplier is",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-5",
+    "text": "32 MB of memory in a computer would require how many bits to address any single byte in a memory?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-6",
+    "text": "In one's complement system the negative values are obtained by complementing each bit of the corresponding",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-7",
+    "text": "In addition of singed numbers, add n-bits and ignore the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-8",
+    "text": "The (A) l's complement (C) Signed numbers 9. The method which has two representations for '0' is called (A) Hashing (B) Binary pair coding (D) Signed magnitude (C) Bit pair coding",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-9",
+    "text": "Which algorithm generates a 2-N bit product? (A) Shortest path algorithm (C) Longest path algorithm",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-10",
+    "text": "The difference between the EPROM and ROM circuitry is",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-11",
+    "text": "What is the purpose of micro instruction executions?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-12",
+    "text": "The DMA controller has",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-13",
+    "text": "Identify the way in which the performance is increased with pipe lining. (A) By decreasing instruction (B) By eliminating data hazards",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-14",
+    "text": "What. (A) Register (C) Tunneling 20. Which of the architecture is power efficient? (A) CISC (C) ISA 21. A process is thrashing if (A) It is spending more time (B) It is spending less time paging paging management than executing executing fault 0ccurs (C) Page infrequently",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-15",
+    "text": "The number of successful accesses to memory stated as a fraction is called",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-16",
+    "text": "In which mapping, the data can be mapped anywhere in the cache 1 I5 1 memory?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-17",
+    "text": "Which of the following is not a type of optical disk",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-18",
+    "text": "Disk access time does not depends on which of the following factors?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-19",
+    "text": "b. Illustrate the different types of addressing modes with examples. 27. a. Describe in detail about carry look ahead adder with example. 0. Ilustrate floatingg point addition with flow chart. 23, a. Explain the architecture of 8086 microprocessor in detail.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-20",
+    "text": "t is the basic difference between vector and array processor?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-21",
+    "text": "b. Compare asynchronous DRAM and synchronous DRAM. 29. a. Define and describe DMA in detail with arbitration.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-22",
+    "text": "a. Explain instruction formats with suitable examples.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-23",
+    "text": "b. Write notes on (i) (ii) 13. a. Write the algorithm to multiply two numbers. Illustrate it to multiple 12 by 5. b.i. Add the following numbers 232.25+136.75 using binary addition. (6 Marks) ii. Subtract 16 from 5 using 2's complement.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-24",
+    "text": "Marks) (5 Marks) (5 Marks) (6 Marks)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": 5,
+    "badges": [
+      "PYQ",
+      "5 Mark"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-25",
+    "text": "a. Describe various peripheral devices in a computer system. (10 Marks) (6 Marks)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": 10,
+    "badges": [
+      "PYQ",
+      "10 Mark"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-26",
+    "text": "B.Tech. DEGREE EXAMINATION, DECEMBER 2018 Third Semester CS0207-COMPUTER ORGANIZATION AND ARCHITECTURE (For the candidates admitted from the academic year 2007-2008 to 2012-2013) Time: Three hours Answer ALL Questions PART-A (10 x 2 = 20 Marks) 1. What are the two ways in which the byte addresses can be assigned across words? 2. Draw the flowchart of basic instruction cycle with interrupt. 3. Represent -307.187510 in double precision format. 4. What is pipelining?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-27",
+    "text": "Namne the two general operations of control transfer. 6. What are controller functions? 7. What is meant by locality of reference? 8. State the differences between memory mapped I/O and I/O mapped IVO. 9. Why I/O devices cannot be directly connected to system bus? 10. What is port? What are the different types of port available?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-28",
+    "text": "b. List the steps needed to execute the machine instruction ADD LoCA, Ro in terms of transfers between the components of registers and memory. Assume that the instruction itself is stored in the memory location INSTR and the address is initially in register PC. 12. a. Multiply each of the following signed two's complement numbers using Booth algorithm (i) A = 010111 and B= 110110 (ii) A =110011 andB = 101100 Where A is multiplicand and B is multiplier. Show each step clearly indicating Booth recoding. b. With example, explain non restoring division technique. 13. a. Draw and explain typical hardwired control unit with state table method.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-29",
+    "text": "a. What is TLB? What is the use of TLB in virtual memory? Explain. b. Discuss in detail optical disks and magnetic tape systems.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-30",
+    "text": "b. Write short notes on 15. a. With neat diagram, explain bus arbitration. (1) (ii)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-31",
+    "text": "What is bus arbitration? PART -B (5x 16 = 80 Marks) 11. a. Define addressing mode and explain various addressing modes with examples. (OR) b. With a neat diagram, explain about the functional units of a computer.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-32",
+    "text": "a. Explain the steps involved in booth recoding with a neat example. (OR) b. With necessary diagram, explain in detail about two-stage instruction pipeline. 13. a. Explain in detail about hardwired control unit. (OR) b. With an example, list out the concept of microprogrammed control. 14. a. Explain in detail about virtual memory organization with a neat diagram. (OR) b. Brief about various mapping functions of cache memory in detail.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-33",
+    "text": "a. Elaborate on data transfer techniques. (OR) b. Explain DMA with a neat diagram.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-34",
+    "text": "a. Explain instruction formats with suitable examples.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-35",
+    "text": "b. Write notes on (i) (i) 13. a. Write the algorithm to multiply two numbers. Illustrate it to multiple 12 by 5. b.i. Add the following numbers 232.25+136.75 using binary addition. (6 Marks) i. Subtract 16 from 5 using 2's complement.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-36",
+    "text": "Marks) (5 Marks)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": 5,
+    "badges": [
+      "PYQ",
+      "5 Mark"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-37",
+    "text": "a. Describe various peripheral devices in a computer system.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-38",
+    "text": "Marks) (6 Marks)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": 10,
+    "badges": [
+      "PYQ",
+      "10 Mark"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-39",
+    "text": "The instruction ’ Add LOCA, Ro",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-40",
+    "text": "Which memory device is generally made of semiconductors? (A) RAM",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-41",
+    "text": "The instruction MOV AX, # 0005H belongs to the addressing mode",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-42",
+    "text": "Booth's algorithm is applied on (A) Decimal numbers",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-43",
+    "text": "The pipelining process is also called as (A) Superscalar operation (C) Von Neumann cycle 10. The situation where in the data of operands are not available is called (A) Data hazard (C) Dead lock 11. A word whose individual bits represent a control signal is (A) Command word (C) Co-ordination word",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-44",
+    "text": "SIMD represents an organization that (C) Ideal pipeline",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-45",
+    "text": "Von Neumann architecture is",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-46",
+    "text": "When instruction i and instruction ;' tends to write in same register (or) memory location, it is called",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-47",
+    "text": "Multithreading allows multiple-threads for sharing functional units of a",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-48",
+    "text": "The correspondence between the main memory blocks and those in that cache is given by (B) Single processor (D) Core i5",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-49",
+    "text": "The temporal aspect of the locality of reference means (A) That the recently executed (B) instruction won't be executed soon (C) That the recently executed (D) instruction will be executed soon again",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  },
+  {
+    "id": "q-50",
+    "text": "a. List and explain the steps involved in the execution of complete instruction. (OR) b. Describe the generation of control signals using hardwires control unit, with necessary diagrams. 31. a. Explain Flynn's classification and the four architectures in detail. (OR) b.i. Elaborate on software parallelism and its types. ii. Brief about the hardware multithreading. 32. a. Discuss on various mapping schemes used in cache design. (OR) b. Explain how virtual memory address translation method works based on the concept of fixed length pages? Discuss with a diagram.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 3/Computer Organization And Architecture/PYQs/PYQ Dec 2022.pdf"
+  }
+]

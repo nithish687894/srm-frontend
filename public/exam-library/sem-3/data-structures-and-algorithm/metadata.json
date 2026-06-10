@@ -1,0 +1,17 @@
+{
+  "semester": "sem-3",
+  "semesterLabel": "Sem 3",
+  "subject": "Data Structures And Algorithm",
+  "subjectSlug": "data-structures-and-algorithm",
+  "readiness": "Partial",
+  "statusMessage": "Some scanned resources still need OCR, so this subject may be partial.",
+  "availableContent": {
+    "notes": true,
+    "pyqs": true,
+    "importantQuestions": false,
+    "revision": true
+  },
+  "sourceCount": 3,
+  "questionCount": 0,
+  "updatedAt": "2026-06-07T14:44:59.195Z"
+}

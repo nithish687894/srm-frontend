@@ -1,0 +1,6 @@
+## sem 4/Social Engineering/PYQs/Imp Questions & MCQs.url
+
+CATEGORY: PYQs
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1o91F0pHEIFDO95eVn_ad6UPyv8Qq7HCS?usp=drive_link

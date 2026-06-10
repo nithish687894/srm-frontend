@@ -1,0 +1,17 @@
+{
+  "semester": "sem-1",
+  "semesterLabel": "Sem 1",
+  "subject": "Biochemistry",
+  "subjectSlug": "biochemistry",
+  "readiness": "Partial",
+  "statusMessage": "Some scanned resources still need OCR, so this subject may be partial.",
+  "availableContent": {
+    "notes": true,
+    "pyqs": true,
+    "importantQuestions": true,
+    "revision": true
+  },
+  "sourceCount": 9,
+  "questionCount": 118,
+  "updatedAt": "2026-06-07T14:44:59.195Z"
+}

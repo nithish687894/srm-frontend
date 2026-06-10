@@ -1,0 +1,1014 @@
+[
+  {
+    "id": "q-1",
+    "text": "In cell division, (A) Cytokinesis",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jan 2023.pdf"
+  },
+  {
+    "id": "q-2",
+    "text": "The term \"Cell\" was given by A) Robert Hooke",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jan 2023.pdf"
+  },
+  {
+    "id": "q-3",
+    "text": "Ribosomes are also known as (A) Power house (C) Protein factory",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jan 2023.pdf"
+  },
+  {
+    "id": "q-4",
+    "text": "Genetic information is stored in the formed of",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jan 2023.pdf"
+  },
+  {
+    "id": "q-5",
+    "text": "DNA is made of hydrogen bands they are (A) lonic bond",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jan 2023.pdf"
+  },
+  {
+    "id": "q-6",
+    "text": "A program compares amino acid query sequence against a protein (D) Non bonded interaction",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jan 2023.pdf"
+  },
+  {
+    "id": "q-7",
+    "text": "Pymol is a (C Hormones",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jan 2023.pdf"
+  },
+  {
+    "id": "q-8",
+    "text": "Synaptic signaling involves (A) Autocrine signals (C) Neurotransmitters",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jan 2023.pdf"
+  },
+  {
+    "id": "q-9",
+    "text": "(C Astrocytes 13. Which of the following cells have star shaped structure?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jan 2023.pdf"
+  },
+  {
+    "id": "q-10",
+    "text": "Parkinson's is caused by",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jan 2023.pdf"
+  },
+  {
+    "id": "q-11",
+    "text": "A) Amyloid plaques",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jan 2023.pdf"
+  },
+  {
+    "id": "q-12",
+    "text": "The connecting weights in a ANN is equivalent to",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jan 2023.pdf"
+  },
+  {
+    "id": "q-13",
+    "text": "D) Synapse (B) Neurofibrillary tangles (D) Spongiform",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jan 2023.pdf"
+  },
+  {
+    "id": "q-14",
+    "text": "Epitope prediction of B cell is based on",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jan 2023.pdf"
+  },
+  {
+    "id": "q-15",
+    "text": "What are the immune processes that happen when we got vaccinated for COVID?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jan 2023.pdf"
+  },
+  {
+    "id": "q-16",
+    "text": "Which one is involved in photosynthesis? 1 1 1 4",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-17",
+    "text": "Name the process where paternal and maternal genetic materia l is",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-18",
+    "text": "An example of single celled eukaryotic organism. 1 1 1 4",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-19",
+    "text": "The organelle that has fluid filled sacs for storage 1 1 1 4",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-20",
+    "text": "What is the lipid related disease? 1 1 2 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-21",
+    "text": "Carbohydrates are poly hydroxyl complex of 1 1 2 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-22",
+    "text": "DNA contains 1 1 2 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-23",
+    "text": "Where is lipopolysaccharide present? 1 1 2 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-24",
+    "text": "Which is not a stop codon? 1 1 3 2",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-25",
+    "text": "Fibrous proteins have 1 1 3 2",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-26",
+    "text": "Amyloidosis is caused by 1 1 3 2",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-27",
+    "text": "PDB database is a 1 1 3 2",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-28",
+    "text": "The multiple projections from the cell body of neurons are 1 1 4 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-29",
+    "text": "Which of the following cells in the brain produced from mon ocytes? 1 1 4 3",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-30",
+    "text": "Multiple sclerosis is a disease caused by 1 1 4 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-31",
+    "text": "Type of machine learning are 1 1 4 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-32",
+    "text": "Immune cells that allows for subsequent recognition of anti gen 1 1 5 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-33",
+    "text": "Name the process a cell such as a neutrophil or a macrophag e use to eat",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-34",
+    "text": "Which is not an auto immune diseases? 1 1 5 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-35",
+    "text": "______ secrete histamines to attract other immune cells. 1 1 5 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-36",
+    "text": "State the properties and applications of stem cells.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-37",
+    "text": "Write a note on BLAST and its uses.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-38",
+    "text": "Describe transcription and the processing of its end product.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-39",
+    "text": "Write the basis of artificial neural network – also descri b e t h e p a r t s o f",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-40",
+    "text": "Illustrate with neat diagrams of humoral immunity.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-41",
+    "text": "How a skin cell is different from a nerve cells?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-42",
+    "text": "If two protein sequences are similar - Explain (Justify)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-43",
+    "text": "(i) How their function will be similar?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/PYQ Jul 2023.pdf"
+  },
+  {
+    "id": "q-44",
+    "text": "In cell division, is for growth and maintenance. 4",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jan 2023.txt"
+  },
+  {
+    "id": "q-45",
+    "text": "The genetic material of a prokaryotic is present in the 1 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jan 2023.txt"
+  },
+  {
+    "id": "q-46",
+    "text": "The term \"Cell\" was given by 1 1 1 4",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jan 2023.txt"
+  },
+  {
+    "id": "q-47",
+    "text": "A) Robert Hooke (B) Jatum",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jan 2023.txt"
+  },
+  {
+    "id": "q-48",
+    "text": "Ribosomes are also known as 4",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jan 2023.txt"
+  },
+  {
+    "id": "q-49",
+    "text": "Genetic information is stored in the formed of 1 2",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jan 2023.txt"
+  },
+  {
+    "id": "q-50",
+    "text": "Blastocyst is 1 1 2 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jan 2023.txt"
+  },
+  {
+    "id": "q-51",
+    "text": "DNA is made of hydrogen bands they are 1 2",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jan 2023.txt"
+  },
+  {
+    "id": "q-52",
+    "text": "A program compares amino acid query sequence against a protein 1 2",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jan 2023.txt"
+  },
+  {
+    "id": "q-53",
+    "text": "The amino acids are assembled into a polypeptide in",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jan 2023.txt"
+  },
+  {
+    "id": "q-54",
+    "text": "C) LHexagone 13. Which of the following cells have star shaped structure?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jan 2023.txt"
+  },
+  {
+    "id": "q-55",
+    "text": "Polio drops are administrated at infant stage because",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jan 2023.txt"
+  },
+  {
+    "id": "q-56",
+    "text": "Epitope prediction of B cell is based on",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jan 2023.txt"
+  },
+  {
+    "id": "q-57",
+    "text": "Give the different organelles of cells. Briefly its structure and function. 10 2 1 4",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jan 2023.txt"
+  },
+  {
+    "id": "q-58",
+    "text": "Describe what is DNA and RNA? 10 2 2 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jan 2023.txt"
+  },
+  {
+    "id": "q-59",
+    "text": "Write the types of secondary structure prediction tools. 10 2 3 2",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jan 2023.txt"
+  },
+  {
+    "id": "q-60",
+    "text": "Describe machine learning and its uses in biology. 10 2 4",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jan 2023.txt"
+  },
+  {
+    "id": "q-61",
+    "text": "Ilustrate with neat diagrams cell mediated immune response. 10 2 5",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jan 2023.txt"
+  },
+  {
+    "id": "q-62",
+    "text": "Detailed overview of stem cell technology. 10 2 1 4",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jan 2023.txt"
+  },
+  {
+    "id": "q-63",
+    "text": "What are the immune",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jan 2023.txt"
+  },
+  {
+    "id": "q-64",
+    "text": "Which one is involved in photosynthesis? 1 1 1 4",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-65",
+    "text": "Name the process where paternal and maternal genetic material is 1 1 1 4",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-66",
+    "text": "An example of single celled eukaryotic organism. 1 1 1 4",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-67",
+    "text": "The organelle that has fluid filled sacs for storage 1 1 1 4",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-68",
+    "text": "What is the lipid related disease? 1 1 2 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-69",
+    "text": "Carbohydrates are poly hydroxyl complex of 1 1 2 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-70",
+    "text": "DNA contains 1 1 2 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-71",
+    "text": "Where is lipopolysaccharide present? 1 1 2 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-72",
+    "text": "Which is not a stop codon? 1 1 3 2",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-73",
+    "text": "Fibrous proteins have 1 1 3 2",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-74",
+    "text": "Amyloidosis is caused by 1 1 3 2",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-75",
+    "text": "PDB database is a 1 1 3 2",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-76",
+    "text": "The multiple projections from the cell body of neurons are 1 1 4 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-77",
+    "text": "Which of the following cells in the brain produced from monocytes? 1 1 4 3",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-78",
+    "text": "Multiple sclerosis is a disease caused by 1 1 4 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-79",
+    "text": "Type of machine learning are 1 1 4 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-80",
+    "text": "Immune cells that allows for subsequent recognition of antigen 1 1 5 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-81",
+    "text": "Name the process a cell such as a neutrophil or a macrophage use to eat 1 1 5 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-82",
+    "text": "Which is not an auto immune diseases? 1 1 5 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-83",
+    "text": "______ secrete histamines to attract other immune cells. 1 1 5 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-84",
+    "text": "State the properties and applications of stem cells. 10 2 1 4",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-85",
+    "text": "Write a note on BLAST and its uses. 10 2 2 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-86",
+    "text": "Describe transcription and the processing of its end product. 10 2 3 2",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-87",
+    "text": "Write the basis of artificial neural network – also describe the parts of 10 2 4 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-88",
+    "text": "Illustrate with neat diagrams of humoral immunity. 10 2 5 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-89",
+    "text": "Explain the types and uses of sequence databases. 10 2 2 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-90",
+    "text": "How a skin cell is different from a nerve cells? 15 4 1 4",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-91",
+    "text": "If two protein sequences are similar - Explain (Justify) 15 4 2 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  },
+  {
+    "id": "q-92",
+    "text": "(i) How their function will be similar?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "nexus sem/Introduction To Computational Biology/PYQs/pyq txt/PYQ Jul 2023.txt"
+  }
+]

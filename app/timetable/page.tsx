@@ -8,7 +8,7 @@ import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import { toPng } from "html-to-image";
 import { extractBatch } from "@/lib/utils";
-import { Share2 } from "lucide-react";
+import { Share2, Star } from "lucide-react";
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
 function parseStart(t: string) { const m = t.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
@@ -172,9 +172,21 @@ export default function TimetablePage() {
     calendar: cachedCalendar, 
     setTimetable, 
     setMyTimetable, 
-    setCalendar 
+    setCalendar,
+    isPremium 
   } = useAuthStore();
   const { theme } = useThemeStore();
+  const [importantSlots, setImportantSlots] = useState<Record<string, boolean>>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("srmx-important-slots");
+      return saved ? JSON.parse(saved) : {};
+    }
+    return {};
+  });
+
+  useEffect(() => {
+    localStorage.setItem("srmx-important-slots", JSON.stringify(importantSlots));
+  }, [importantSlots]);
   const [dayOverride, setDayOverride] = useState<number>(1);
   const [batch, setBatch] = useState<number>(() => {
     const raw = (profile || academicData?.profile)?.["Combo / Batch"] || "";
@@ -611,7 +623,29 @@ export default function TimetablePage() {
 
   return (
     <>
-      <AuraTimetable dayOverride={dayOverride} setDayOverride={setDayOverride} batch={batch} setBatch={setBatch} classes={classes} classesWithBreaks={classesWithBreaks} handleShare={handleShare} sharing={sharing} shareRef={shareRef} fullShareRef={fullShareRef} fullSharing={fullSharing} handleFullShare={handleFullShare} schedule={schedule} studentInitials={studentInitials} onShowStudentInfo={() => setShowStudentInfo(true)} setShowShareModal={setShowShareModal} todayInfo={todayInfo} getNextOccurrence={getNextOccurrence} />
+      <AuraTimetable 
+        dayOverride={dayOverride} 
+        setDayOverride={setDayOverride} 
+        batch={batch} 
+        setBatch={setBatch} 
+        classes={classes} 
+        classesWithBreaks={classesWithBreaks} 
+        handleShare={handleShare} 
+        sharing={sharing} 
+        shareRef={shareRef} 
+        fullShareRef={fullShareRef} 
+        fullSharing={fullSharing} 
+        handleFullShare={handleFullShare} 
+        schedule={schedule} 
+        studentInitials={studentInitials} 
+        onShowStudentInfo={() => setShowStudentInfo(true)} 
+        setShowShareModal={setShowShareModal} 
+        todayInfo={todayInfo} 
+        getNextOccurrence={getNextOccurrence}
+        isPremium={isPremium}
+        importantSlots={importantSlots}
+        setImportantSlots={setImportantSlots}
+      />
       {renderStudentInfoModal()}
       {renderShareModal()}
     </>
@@ -619,7 +653,13 @@ export default function TimetablePage() {
 
 }
 
-function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, classesWithBreaks, handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, schedule, studentInitials, onShowStudentInfo, setShowShareModal, todayInfo, getNextOccurrence }: AnyValue) {
+function AuraTimetable({ 
+  dayOverride, setDayOverride, batch, setBatch, classes, classesWithBreaks, 
+  handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, 
+  schedule, studentInitials, onShowStudentInfo, setShowShareModal, todayInfo, 
+  getNextOccurrence, isPremium, importantSlots, setImportantSlots
+}: AnyValue) {
+  const router = useRouter();
   const currentMin = new Date().getHours() * 60 + new Date().getMinutes();
   const firstStart = classes[0] ? fmt12(classes[0].startTime) : "";
   const lastEnd = classes[classes.length - 1] ? fmt12(classes[classes.length - 1].endTime) : "";
@@ -808,23 +848,92 @@ function AuraTimetable({ dayOverride, setDayOverride, batch, setBatch, classes, 
               const isNso = item.courseCode.includes("NSO") || item.courseType.toLowerCase().includes("practical");
               const cardColor = isNso ? AURA.primary : AURA.secondary;
               const isActive = (currentMin >= parseStart(item.startTime) && currentMin <= parseEnd(item.endTime));
+              const slotKey = `${dayOverride}-${item.courseCode}-${item.startTime}`;
+              const isImportant = !!importantSlots[slotKey];
 
               return (
                 <div key={i} style={{ position: "relative" }}>
                   <div style={{ 
                     position: "absolute", left: "-21px", top: "24px", width: "12px", height: "12px", borderRadius: "50%", 
-                    background: isActive ? AURA.accent : cardColor, border: "3px solid var(--bg-root)", zIndex: 2,
-                    boxShadow: isActive ? `0 0 15px ${AURA.accent}` : "none"
+                    background: isActive ? AURA.accent : (isImportant ? "#FFD700" : cardColor), border: "3px solid var(--bg-root)", zIndex: 2,
+                    boxShadow: isActive ? `0 0 15px ${AURA.accent}` : (isImportant ? "0 0 10px rgba(255, 215, 0, 0.5)" : "none")
                   }} />
                   
-                  <div className="liquid-card" style={{ padding: "20px", border: isActive ? `1px solid ${AURA.accent}55` : "1px solid rgba(255, 255, 255, 0.08)" }}>
+                  <div 
+                    className="liquid-card" 
+                    style={{ 
+                      padding: "20px", 
+                      border: isActive 
+                        ? `1px solid ${AURA.accent}55` 
+                        : (isImportant 
+                            ? "1px solid rgba(255, 215, 0, 0.4)" 
+                            : "1px solid rgba(255, 255, 255, 0.08)"),
+                      boxShadow: isImportant 
+                        ? "0 0 15px rgba(255, 215, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.02)" 
+                        : "none",
+                      transition: "all 0.3s ease"
+                    }}
+                  >
                     {isActive && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: `linear-gradient(90deg, transparent, ${AURA.accent}, transparent)` }} />}
                     
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "12px" }}>
                        <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "var(--text-muted)", fontSize: "12px", fontWeight: 700, background: "rgba(0,0,0,0.3)", padding: "4px 10px", borderRadius: "8px" }}>
                          {fmt12(item.startTime)} — {fmt12(item.endTime)}
                        </div>
-                       {isNso && <div style={{ fontSize: "9px", color: AURA.primary, textTransform: "uppercase", fontWeight: 800, background: `${AURA.primary}22`, padding: "4px 8px", borderRadius: "8px" }}>Practical</div>}
+                       
+                       <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                          {isImportant && (
+                            <span style={{ 
+                              fontSize: "9px", 
+                              color: "#FFD700", 
+                              textTransform: "uppercase", 
+                              fontWeight: 900, 
+                              background: "rgba(255, 215, 0, 0.1)", 
+                              padding: "4px 8px", 
+                              borderRadius: "8px",
+                              border: "1px solid rgba(255, 215, 0, 0.2)",
+                              letterSpacing: "0.05em"
+                            }}>
+                              Important
+                            </span>
+                          )}
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (!isPremium) {
+                                alert("Premium Feature: Flag important review classes, tests, or quizzes. Upgrade to Premium to unlock this feature!");
+                                router.push('/premium');
+                              } else {
+                                setImportantSlots((prev: Record<string, boolean>) => ({
+                                  ...prev,
+                                  [slotKey]: !prev[slotKey]
+                                }));
+                              }
+                            }}
+                            style={{
+                              background: "none",
+                              border: "none",
+                              cursor: "pointer",
+                              padding: "4px",
+                              color: isImportant ? "#FFD700" : "rgba(255,255,255,0.25)",
+                              transition: "all 0.2s ease",
+                              display: "flex",
+                              alignItems: "center",
+                              outline: "none"
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.transform = "scale(1.2)";
+                              e.currentTarget.style.color = isImportant ? "#FFD700" : "rgba(255,255,255,0.6)";
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.transform = "scale(1)";
+                              e.currentTarget.style.color = isImportant ? "#FFD700" : "rgba(255,255,255,0.25)";
+                            }}
+                          >
+                            <Star size={14} fill={isImportant ? "#FFD700" : "none"} />
+                          </button>
+                          {isNso && <div style={{ fontSize: "9px", color: AURA.primary, textTransform: "uppercase", fontWeight: 800, background: `${AURA.primary}22`, padding: "4px 8px", borderRadius: "8px" }}>Practical</div>}
+                       </div>
                     </div>
 
                     <div style={{ fontSize: "22px", fontWeight: "900", color: "var(--text-main)", lineHeight: 1.2, marginBottom: "8px", textTransform: "capitalize", letterSpacing: "-0.5px" }}>

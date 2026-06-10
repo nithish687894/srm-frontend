@@ -36,7 +36,7 @@ export interface TemplateVariables {
   safeSkips?: number;
   studentName?: string;
   topic?: string;
-  [key: string]: any; // fallback for custom/extra fields
+  [key: string]: unknown; // fallback for custom/extra fields
 }
 
 const TEMPLATES_CACHE_KEY = "nexus_pulse_cached_templates";

@@ -1,0 +1,17 @@
+{
+  "semester": "sem-3",
+  "semesterLabel": "Sem 3",
+  "subject": "Advanced Programming Practice",
+  "subjectSlug": "advanced-programming-practice",
+  "readiness": "Needs OCR",
+  "statusMessage": "Some scanned resources still need OCR, so this subject may be partial.",
+  "availableContent": {
+    "notes": true,
+    "pyqs": true,
+    "importantQuestions": false,
+    "revision": false
+  },
+  "sourceCount": 1,
+  "questionCount": 0,
+  "updatedAt": "2026-06-07T14:44:59.195Z"
+}

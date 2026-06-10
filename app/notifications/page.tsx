@@ -14,25 +14,43 @@ interface NotificationItem {
   body: string;
   timestamp: string;
   read: boolean;
+  severity?: string;
+  tone?: string;
+}
+
+interface NotificationAPIItem {
+  _id?: string;
+  id?: string;
+  category?: string;
+  title?: string;
+  body?: string;
+  createdAt?: string;
+  read?: boolean;
+  severity?: string;
+  tone?: string;
 }
 
 export default function NotificationCenterPage() {
   const router = useRouter();
   const { theme } = useThemeStore();
-  const [notifications, setNotifications] = useState<NotificationItem[]>([]);
-  const [mounted, setMounted] = useState(false);
-  const [clearedIds, setClearedIds] = useState<string[]>([]);
-
-  useEffect(() => {
+  const [notifications, setNotifications] = useState<NotificationItem[]>(() => {
+    if (typeof window === "undefined") return [];
+    try {
+      const cached = localStorage.getItem("nexus_cached_notifications_list");
+      return cached ? JSON.parse(cached) as NotificationItem[] : [];
+    } catch {
+      return [];
+    }
+  });
+  const [clearedIds, setClearedIds] = useState<string[]>(() => {
+    if (typeof window === "undefined") return [];
     try {
       const cleared = localStorage.getItem("nexus_cleared_notifications");
-      if (cleared) setClearedIds(JSON.parse(cleared));
-      
-      const cached = localStorage.getItem("nexus_cached_notifications_list");
-      if (cached) setNotifications(JSON.parse(cached));
-    } catch {}
-    setMounted(true);
-  }, []);
+      return cleared ? JSON.parse(cleared) as string[] : [];
+    } catch {
+      return [];
+    }
+  });
 
   const fetchNotifications = useCallback(async () => {
     const token = localStorage.getItem("authToken");
@@ -47,23 +65,23 @@ export default function NotificationCenterPage() {
       if (res.ok) {
         const data = await res.json();
         if (data && Array.isArray(data.notifications)) {
-          const formatted = data.notifications.map((n: any) => ({
-            id: n._id || n.id,
-            category: n.category,
-            title: n.title,
-            body: n.body,
-            timestamp: new Date(n.createdAt).toLocaleDateString("en-US", {
+          const formatted: NotificationItem[] = data.notifications.map((n: NotificationAPIItem) => ({
+            id: String(n._id || n.id || `${n.category || "system"}-${n.createdAt || Date.now()}`),
+            category: n.category || "system",
+            title: n.title || "Notification",
+            body: n.body || "",
+            timestamp: new Date(n.createdAt || Date.now()).toLocaleDateString("en-US", {
               month: "short",
               day: "numeric",
               hour: "2-digit",
               minute: "2-digit",
             }),
-            read: n.read,
+            read: Boolean(n.read),
             severity: n.severity,
             tone: n.tone,
-          }));
+          })).filter((n: NotificationItem) => Boolean(n.id));
 
-          const filtered = formatted.filter((n: any) => !clearedIds.includes(n.id));
+          const filtered = formatted.filter((n: NotificationItem) => !clearedIds.includes(n.id));
           setNotifications(filtered);
           localStorage.setItem("nexus_cached_notifications_list", JSON.stringify(filtered));
         }
@@ -74,10 +92,10 @@ export default function NotificationCenterPage() {
   }, [clearedIds]);
 
   useEffect(() => {
-    if (mounted) {
-      fetchNotifications();
-    }
-  }, [mounted, fetchNotifications]);
+    queueMicrotask(() => {
+      void fetchNotifications();
+    });
+  }, [fetchNotifications]);
 
   const markAllAsRead = async () => {
     const token = localStorage.getItem("authToken");
@@ -102,7 +120,7 @@ export default function NotificationCenterPage() {
 
       const cached = localStorage.getItem("nexus_cached_notifications_list");
       if (cached) {
-        const list = JSON.parse(cached) as any[];
+        const list = JSON.parse(cached) as NotificationItem[];
         const updated = list.map((n) => ({ ...n, read: true }));
         localStorage.setItem("nexus_cached_notifications_list", JSON.stringify(updated));
       }
@@ -139,7 +157,7 @@ export default function NotificationCenterPage() {
 
       const cached = localStorage.getItem("nexus_cached_notifications_list");
       if (cached) {
-        const list = JSON.parse(cached) as any[];
+        const list = JSON.parse(cached) as NotificationItem[];
         const updated = list.map((n) =>
           n.id === id ? { ...n, read: true } : n
         );
@@ -149,8 +167,6 @@ export default function NotificationCenterPage() {
       console.error("Failed to mark notification as read:", err);
     }
   };
-
-  if (!mounted) return null;
 
   const isLight = theme === "light";
   const accentColor = isLight ? "#BF5AF2" : "#FF75C3";

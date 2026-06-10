@@ -1,0 +1,17 @@
+{
+  "semester": "sem-2",
+  "semesterLabel": "Sem 2",
+  "subject": "Advanced Calculus And Complex Analysis",
+  "subjectSlug": "advanced-calculus-and-complex-analysis",
+  "readiness": "Ready",
+  "statusMessage": "Ready",
+  "availableContent": {
+    "notes": true,
+    "pyqs": true,
+    "importantQuestions": false,
+    "revision": true
+  },
+  "sourceCount": 7,
+  "questionCount": 30,
+  "updatedAt": "2026-06-07T14:44:59.195Z"
+}

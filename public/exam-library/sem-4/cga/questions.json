@@ -1,0 +1,1821 @@
+[
+  {
+    "id": "q-1",
+    "text": "A) Data compression",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-2",
+    "text": "B) Image creation and manipulation",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-3",
+    "text": "D) Database design",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-4",
+    "text": "C) Pixel-by-pixel scanning",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-5",
+    "text": "A) Raster displays",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-6",
+    "text": "B) Vector displays",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-7",
+    "text": "D) Plasma displays",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-8",
+    "text": "Which algorithm is used for drawing a straight line efficiently?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-9",
+    "text": "A) Filling polygons",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-10",
+    "text": "A) Assigning memory to CPU",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-11",
+    "text": "B) Identifying pixel location in frame buffer",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-12",
+    "text": "B) Filling polygons",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-13",
+    "text": "B) Boundary color is found",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-14",
+    "text": "B) Pixel intensity values",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-15",
+    "text": "B) Word processing",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-16",
+    "text": "C) High-end graphics processing",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-17",
+    "text": "D) All of the above",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-18",
+    "text": "A) One extra dimension",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-19",
+    "text": "B) Two extra dimensions",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-20",
+    "text": "A) Single transformation",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-21",
+    "text": "B) Multiple transformations combined",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-22",
+    "text": "C) Reflection only",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-23",
+    "text": "B) y coordinate sign",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-24",
+    "text": "A) Model to screen coordinates",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-25",
+    "text": "B) Screen to model",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-26",
+    "text": "B) Outside portions",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-27",
+    "text": "C) Polygon filling",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-28",
+    "text": "A) Uses parametric equations",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-29",
+    "text": "A) Polygon clipping",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-30",
+    "text": "B) Selected world region",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-31",
+    "text": "A) World coordinates",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-32",
+    "text": "B) Device coordinate region",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-33",
+    "text": "C) Pixel is colored",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-34",
+    "text": "A) Translation only",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-35",
+    "text": "C) Composite transformations",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-36",
+    "text": "A) Distance constant",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-37",
+    "text": "A) Parallel lines remain parallel",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-38",
+    "text": "B) Realistic depth effect",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-39",
+    "text": "C) Vanishing points",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-40",
+    "text": "A) Imaginary plane",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-41",
+    "text": "B) Outside view volume",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-42",
+    "text": "A) World to eye coordinates",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-43",
+    "text": "B) Not commutative",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-44",
+    "text": "B) Parallel projection",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-45",
+    "text": "A) Parallel projection",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-46",
+    "text": "B) Perspective projection",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-47",
+    "text": "A) Number of pixels",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-48",
+    "text": "B) Number of polygons",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-49",
+    "text": "A) Painter’s algorithm",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-50",
+    "text": "A) Binary Space Partitioning",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-51",
+    "text": "B) Basic Scan Process",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-52",
+    "text": "C) Buffer Space Partition",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-53",
+    "text": "A) Light intensity",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-54",
+    "text": "B) Background light",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-55",
+    "text": "C) Reflected light",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-56",
+    "text": "B) Color variation",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-57",
+    "text": "C) Continuous tone",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-58",
+    "text": "A) Persistence of vision",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-59",
+    "text": "A) Intermediate frames",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-60",
+    "text": "B) Important poses",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-61",
+    "text": "B) Intermediate frames",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-62",
+    "text": "A) Subtractive model",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-63",
+    "text": "A) Hue, Saturation, Value",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-64",
+    "text": "B) High, Speed, V oltage",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-65",
+    "text": "C) Hue, Shade, Vector",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-66",
+    "text": "A) Lossless compression",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-67",
+    "text": "B) Lossy compression",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-68",
+    "text": "A) Brightness range",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-69",
+    "text": "A) Transformations",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-70",
+    "text": "bit color supports",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-71",
+    "text": "C) 16 million colors",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/All units MCQs.pdf"
+  },
+  {
+    "id": "q-72",
+    "text": "List three use cases that explains DDA line drawing algorithm",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-73",
+    "text": "List out the output primitives. Identify the curve attributes and its type with the help of neat",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-74",
+    "text": "You are developing a graphics application that requires drawing a line efficiently on a pixel",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-75",
+    "text": "Developer needs to design a graphics and animation model. Can you suggest any five",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-76",
+    "text": "What is scan line conversion? Compare and contrast about Random scan and Raster scan with",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-77",
+    "text": "Use Midpoint circle algorithm calculate the pixel that will be with an origin center (0,8) of a",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-78",
+    "text": "Illustrate with neat diagram about the following Video display devices:",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-79",
+    "text": "Derive the decision parameter for “Mid-point circle Algorithm”",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-80",
+    "text": "List three use cases that explains Bresenham’s line drawing algorithm",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-81",
+    "text": "List out the output primitives. Identify the Line attributes and its type with the help of neat",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-82",
+    "text": "You are working on a graphics program that needs to draw a line on a pixel grid as efficiently",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-83",
+    "text": "A developer needs to design a graphics and animation model. Can you suggest any five",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-84",
+    "text": "Explain in detail about CRT monitors and color CRT monitors with an neat diagram",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-85",
+    "text": "Write brief about any two open-source software related to computer graphics and animation",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-86",
+    "text": "In a digital clock application, the designer needs to draw a circular clock face with a diameter",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-87",
+    "text": "Derive the decision parameter for “Bresenham’s Line drawing Algorithm” and how it differs",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-88",
+    "text": "Explain in detail about the 2D transformation and other transformations with an Example",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-89",
+    "text": "Difference between DDA Line Drawing Algorithm and Bresenhams Line Drawing",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-90",
+    "text": "List out the output primitives. Identify the Area fill attributes, Pattern fill attributes, text",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-91",
+    "text": "Drawing a line on a pixel grid effectively is a requirement of the graphics program you are",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-92",
+    "text": "Illustrate with neat diagram about the following Video display devices:",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-93",
+    "text": "i. Direct view storage tube",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-94",
+    "text": "List the types of scans and its operating characteristics for the display technologies with a",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-95",
+    "text": "Use Midpoint circle algorithm calculate the pixel that will be with an origin center (0,10) of",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-96",
+    "text": "You are programming a low -power microcontroller to draw thousands of lines per second.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-97",
+    "text": "You are designing software for a low -power embedded display. The system must draw",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-98",
+    "text": "Use Midpoint circle algorithm calculate the pixel that will be with an origin center (0,7) of a",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-99",
+    "text": "Explain briefly about input and output devices",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-100",
+    "text": "Illustrate with neat diagram about the following Video display devices:",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-101",
+    "text": "You are developing a graphics application that requires drawing a line efficiently on a pixel",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-102",
+    "text": "Demonstrate in detail the 2D transformation and how two sequential reflections around the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-103",
+    "text": "Discuss about matrix representation and give the composite transformation for Scaling",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-104",
+    "text": "Show the two successive translation about either of the coordinate axis is equivalent to a",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-105",
+    "text": "Illustrate with given example A(4,9) B(7,13) and C(10,16) by 3 units in X direction and 4 in",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-106",
+    "text": "Discuss about matrix representation and homogeneous coordinates and give the composite",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-107",
+    "text": "Explain in detail about the 2D transformation and three successive reflections about the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-108",
+    "text": "A student is working on a computer graphics program to display only the visible part of",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-109",
+    "text": "Given a clipping window A (10, 10), B (70, 10), C (70, 50), D (10, 50). Using Cohen",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-110",
+    "text": "and Y (100, 20). In a game rendering system, a polygon representing an object is partially",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-111",
+    "text": "Imagine you are developing a navigation display system for a drone. The drone’s camera",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-112",
+    "text": "You are developing a 2D animation editor where users draw lines that extend beyond the screen",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-113",
+    "text": "A developer is working on a graphics system where multiple lines must be clipped efficiently",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-114",
+    "text": "A student is using a graphics software to edit shapes: The student draws a triangle with points",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-115",
+    "text": "The student draws a rectangle A (0,0), B (0,4), C (3,4), D (3,0) and applies a shear effect. Find the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-116",
+    "text": "You are working as a graphics developer for a 2D animation software used in designing maps and",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-117",
+    "text": "Explain in detail about the 2D transformation and two successive reflection about the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-118",
+    "text": "Illustrate with given example A(3,8) B(6,12) and C(9,15) by 4 units in X direction and 5 in Y",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-119",
+    "text": "Discuss about matrix representation and homogeneous coordinates and give the composite",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-120",
+    "text": "A developer is creating a 3D animation where objects need to move, rotate, and resize",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-121",
+    "text": "A virtual camera system is implemented in an animation software. Explain the 3D viewing",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-122",
+    "text": "Evaluate parallel vs perspective projection in terms of realism and computational",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-123",
+    "text": "You are developing a 3D animation scene where an object moves, rotates, and scales",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-124",
+    "text": "A game development company is designing a 3D animation engine where objects must be",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-125",
+    "text": "A point P(2, 3, 4) is subjected to the following sequence of transformations in a 3D",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-126",
+    "text": "A company is developing a 3D flight simulation system where real-world terrain, aircraft,",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-127",
+    "text": "A Design Engineer 3D graphics application where multiple objects overlap on the screen.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-128",
+    "text": "on X axis, 2 on Y axis and 2 on Z axis and find out the new coordinates of the object.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-129",
+    "text": "A 3D object is placed above a mirror lying on the ground (XY -plane). You want to find",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-130",
+    "text": "You stand on a railway track and observe that the rails seem to meet at a distance. Why do",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-131",
+    "text": "You are a graphics programmer working for a game development company. Your team is",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-132",
+    "text": "While rendering the scene, you notice that some objects incorrectly appear in front of",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-133",
+    "text": "The game also requires highly realistic reflections on surfaces like glass walls and shiny",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-134",
+    "text": "Clip the line L1 with the endpoints (7, 40) and (50, 115) using the Nicholl Lee Nicholl line",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-135",
+    "text": "Illustrate about Composite 3D Transformation? You are designing a 3D drone simulation",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-136",
+    "text": "A rectangular parallelepiped is given having length on x-axis, y-axis and z-axis as 3, -2",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-137",
+    "text": "A mechanical engineer is designing a machine component using a CAD system. The",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-138",
+    "text": "A computer graphics engineer is developing a rendering system where some scenes require",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-139",
+    "text": "A production studio wants to improve realism in animated scenes. Compare surface",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-140",
+    "text": "A developer is designing a real -time computer graphics application for an interactive",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-141",
+    "text": "A designer is developing a computer graphics scene in which the objects appear",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-142",
+    "text": "A large -scale 3D animation scene with complex geometry suffers from performance",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-143",
+    "text": "An animator observes banding effects in smooth color gradients of a rendered scene.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-144",
+    "text": "You are implementing a visibility detection system for curved surfaces in a 3D animation.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-145",
+    "text": "List the contents of vertex table, edge table and surface table for the following polygon",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-146",
+    "text": "You are creating a realistic animated forest scene with sunlight effects. Explain the role of",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-147",
+    "text": "Compare and contrast the given scenario: The scene contains many overlapping polygons,",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-148",
+    "text": "Describe the Back -Face Detection Method. This method is very useful in the visible -",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-149",
+    "text": "in order to conclude the set of all visible-surfaces?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-150",
+    "text": "List the contents of vertex table, edge table and surface table for the following polygon",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-151",
+    "text": "You are drawing multiple transparent glass sheets stacked in space. Which rendering",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-152",
+    "text": "i. A low-poly game renders objects where each face has a single color.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-153",
+    "text": "An animator notices visual artifacts (banding) in gradient regions of a rendered scene",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-154",
+    "text": "State the various color models and explain them.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-155",
+    "text": "Design and develop a Two -Dimensional cartesian Reference frames with real -time",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-156",
+    "text": "Compare and contrast between the RGB and CMY color models.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-157",
+    "text": "Summarize about CIE color model. What are its advantages?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-158",
+    "text": "Given a colour represented in RB colour space as R = 0.2, G = 0.6, B = 0.3, Convert",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-159",
+    "text": "Write in details about numerical methods in computer graphics. consider own dataset",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-160",
+    "text": "Consider a full tone digital image size 1024*768 with 8-bit representations, answer the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-161",
+    "text": "i. How will you capture digital images?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-162",
+    "text": "in adobe Photoshop?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-163",
+    "text": "image or whole image in adobe Photoshop?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-164",
+    "text": "iv. How will You change color modes of the image in Adobe photoshop?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-165",
+    "text": "v. How will you apply lighting effects to a digital image in Adobe Photoshop?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/CGA/PYQs/Question Bank.pdf"
+  }
+]

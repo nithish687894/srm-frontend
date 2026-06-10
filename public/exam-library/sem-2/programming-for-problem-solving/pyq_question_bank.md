@@ -1,0 +1,19640 @@
+## nexus sem 2/Programming For Problem Solving/PYQs/Alternate Question Bank with MCQs.pdf
+
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+PROGRAMMING FOR PROBLEM SOLVING 
+Unit 1 
+Multiple Choice questions MCQ 
+ 
+1. Who is father of C Language? [CLO 1] [PLO1] 
+A. Bjarne Stroustrup B. Dennis Ritchie 
+C. James A. Gosling D. Dr. E.F. Codd 
+2. C Language developed at _____? [CLO 1] [PLO 1] 
+A. AT & T's Bell Laboratories of USA in 1972 
+B. AT & T's Bell Laboratories of USA in 1970 
+C. Sun Microsystems in 1973 
+D. Cambridge University in 1972 
+ 
+3. For 16-bit compiler allowable range for integer constants is ______ ? [CLO 1] [PLO 2] 
+A. -3.4e38 to 3.4e38 
+B. -32767 to 32768 
+C. -32768 to 32767 
+D. -32668 to 32667 
+4. C programs are converted into machine language with the help of [CLO 1] [PLO 1] 
+A. An Editor 
+B. A compiler 
+C. An operating system 
+D. None of the above 
+5. A C variable cannot start with [CLO 1] [PLO 1] 
+A. An alphabet 
+B. A number 
+C. A special symbol other than underscore 
+D. both (b) and (c) 
+ 
+6. Which of the following is allowed in a C Arithmetic Instruction? [CLO 1] [PLO 1] 
+A. [] 
+B. {} 
+C. () 
+D. None of the above 
+7. Which of the following shows the correct hierarchy of arithmetic 
+ operations in C [CLO 1] [PLO 2] 
+A. / + * - 
+B. * -/ + 
+C. + - / * 
+D. * / + - 
+8. Program which is written originally by the programmer is classified as [CLO 1] [PLO 1] 
+A. object code 
+B. machine code 
+C. source program 
+D. interactive programs 
+
+[Page 2]
+9. Data types are differed on the basis of [CLO 1] [PLO 1] 
+A. the way of storage 
+B. the type of operations 
+C. the type of operators used 
+D. both a and b 
+10. Loop statement which is repeated for some given number of times is classified as [CLO 1] 
+A. FOR loop 
+B. GO loop 
+C. REPEAT loop 
+D. GO REPEAT loop 
+11. Type of statement written in sequence and is repeated until the specific condition met is 
+classified as [CLO 1] [PLO 1] 
+A. format 
+B. loop 
+C. case 
+D. condition 
+12. Size of an array is declared by [CLO 1] [PLO 1] 
+A. programmer 
+B. program users 
+C. software 
+D. declared automatically 
+13. Programming language 'FORTRAN' stands for [CLO 1] [PLO 1] 
+A. formula translator 
+B. formula translation 
+C. free translator 
+D. free translation 
+14. Functions that are used in the programs and are defined by the programmers are called 
+ [CLO 1] [PLO 2] 
+A. program layout 
+B. program procedure 
+C. built-in functions 
+D. user-defined function 
+ 
+
+[Page 3]
+15. An assembler translates [CLO 1] [PLO 1] 
+A. machine code into assembly code 
+B. assembly code into machine code 
+C. processing time into manual time 
+D. routine into subroutine 
+16. Name given by a programmer to any particular data is classified as [CLO 1] [PLO 1] 
+A. identifier 
+B. identification 
+C. exponent 
+D. mantissa 
+17.When variable used in program is whole number, the variable is stored as [CLO 1] [PLO 2] 
+A. fixed string 
+B. integers 
+C. negative whole numbers 
+D. positive whole numbers 
+18. In programming, programmers use comments to [CLO 1] [PLO 1] 
+A. highlight program modules 
+B. explain module functions 
+C. explain used variables 
+D. all of above 
+19. Variable which uses the same name in whole program and in its all routines thus best classified 
+as [CLO 1] [PLO 2] 
+A. middle variable 
+B. default variable 
+C. local variable 
+D. global variable 
+20. Statement which is used to make choice between two options and only option is to be performed 
+is written as [CLO 1] [PLO 2] 
+A. if statement 
+B. if else statement 
+C. then else statement 
+D. else one statement 
+ 
+
+[Page 4]
+21. The__________ statement is used to transfer the control to the end of statement block in a loop: 
+a. Continue [CLO 1] [PLO 2] 
+b. Break 
+c. Switch 
+d. Goto 
+22. Which of the following is not a valid variable name declaration? [CLO 1] [PLO 2] 
+ a) int _a3; 
+ b) int a_3; 
+ c) int 3_a; 
+ d) int _3a 
+23. All keywords in C are in [CLO 1] [PLO 2] 
+a) LowerCase letters 
+b) UpperCase letters 
+c) CamelCase letters 
+d) None of the mentioned 
+ 
+24. Which of the following is true for variable names in C? [CLO 1] [PLO 2] 
+a) They can contain alphanumeric characters as well as special characters 
+b) It is not an error to declare a variable to be one of the keywords(like goto, static) 
+c) Variable names cannot start with a digit 
+d) Variable can be of any length 
+ 
+25. The format identifier ‘%i’ is also used for _____ data type? [CLO 1] [PLO 2] 
+a) char 
+b) int 
+c) float 
+d) double 
+ 
+26. Which of the following is a User-defined data type? [CLO 1] [PLO 3] 
+a) typedef int Boolean; 
+b) typedef enum {Mon, Tue, Wed, Thu, Fri} Workdays; 
+c) struct {char name[10], int age}; 
+d) all of the mentioned 
+ 
+27. What is the output of this C code? [CLO 1] [PLO 3] 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. signed char chr; 
+5. chr = 128; 
+6. printf("%d\n", chr); 
+7. return 0; 
+8. } 
+
+[Page 5]
+a) 128 
+b) -128 
+c) Depends on the compiler 
+d) None of the mentioned 
+28. What is the output of this C code? [CLO 1] PLO 3] 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. j = 10; 
+5. printf("%d\n", j++); 
+6. return 0; 
+7. } 
+ a) 10 b) 11 
+c) Compile time error d) 0 
+Explanation : j is not belongs to any data type 
+29. The following code ‘for( ; ; )’ represents an infinite loop. 
+ It can be terminated by. [CLO 1] [PLO 3] 
+ a) break b) exit(0) 
+ c) abort() d) all of the mentioned 
+ 
+30. The keyword ‘break’ cannot be simply used within: [CLO 1] [PLO 3] 
+ a) do-while b) if-else 
+ c) for d) while 
+ 
+31. Which keyword is used to come out of a loop only for that iteration? [CLO 1] [PLO 3] 
+ a) break b) continue 
+ c) return d) none of the mentioned 
+32. The first step in problem solving is --------------- [CLO 1] [PLO 2] 
+a) Understand the problem c)Identify the problem 
+b) Developing algorithm/Flowchart d)Listing the possible outcome 
+33. The solutions which has series of actions to solve a problem are called ------ [CLO 1] [PLO 2] 
+a) Heuristic solutions 
+b) Algorithmic solutions 
+34. The solution can be reached by completing the actions in steps. These steps are called [CLO 1] 
+[PLO 2] 
+a) Sequence c)Algorithm 
+b) Flowchart d)Steps 
+35. Solutions that cannot be reached through a direct set of steps are called --------- [CLO 1][PLO 2] 
+a)Algorithmic solutions b) Heuristic solutions 
+
+[Page 6]
+36. ----------- means the outcome or the completed computer-assisted answer. [CLO 1][PLO 1] 
+ a) Solution b) Result c) Program 
+37. The field of computer that deals with the problem of heuristic solution is called-----[CLO 1] 
+[PLO1] 
+a) Artificial Intelligence 
+b) Expert System c) Computer Management 
+ 
+38. ----------------- means the set of instructions that make up the solution after they have been coded 
+into a programming language. [CLO 1] [PLO1] 
+a) solution b) result c) program d) error 
+ 
+39. ---------------- are organized facts. [CLO 1] [PLO1] 
+a) Data b) Information 
+ 
+40. A language applied for wide range of application is called as ______language[CLO 1][PLO 2] 
+a. Special purpose c)General purpose 
+b. Individual purpose d)Scientific purpose 
+ 
+ 
+41. Compiler converts the source code into ______ [CLO 1][PLO 4] 
+a. C code b. Byte code c. Object code d. Executable code 
+ 
+42. ___________ converts source code to machine language one line at a time. [CLO 1][PLO 4] 
+a. Compiler b. Interpreter c. Assembler d.CPU 
+ 
+43. The program that converts high level language to a machine language is called __________ 
+[CLO 1] [PLO 1] 
+a. Interpreter b. Linker c. Compiler d. Loader 
+ 
+ 
+44. ‘#’ symbol is known to be ______ [PLO 2] [CLO 1] 
+a. Linker b.Compiler c. Assembler d.Preprocessor directive 
+ 
+45. A _______ is a notational system for describing computations in both machine and human 
+readable form [PLO 1] [CLO 1] 
+a. Programming language c.Machine language 
+b. High-level language d.Assembly language 
+ 
+46. ----------------- program converts assembly language into machine language [PLO 2] [CLO 1] 
+ a. compiler b. interpreter c. assembler d. preprocessor directive 
+ 
+47. which symbol is been used for processing in flowchart? Ans: a [CLO 1] [PLO 3] 
+ 
+a) b) c) d) 
+ 
+ 
+ 
+48. which symbol is been used for input/output in flowchart? Ans: c [PLO 3] [CLO 1] 
+
+[Page 7]
+ 
+a) b) c) d) 
+ 
+ 
+49. which symbol is been used for decision making in flowchart? Ans: d [PLO 3] [CLO 1] 
+ 
+a) b) c) d) 
+ 
+ 
+50. which is used as start/stop symbol in flowchart? Ans:b [PLO 3] [CLO 1] 
+ 
+a) b) c) d) 
+ 
+ 
+ 
+51. ------------ is a distinguishing characteristic of human excellence in every area of behavior 
+[CLO 1] [PLO 1] 
+a) creativity b) thinking c) visualization d) problem solving 
+ 
+52. .What is the value of x in this C code? [PLO 2] [CLO 1] 
+#include <stdio.h> 
+ void main() 
+ { 
+ int x = 5 * 9 / 3 + 9; 
+ } 
+(a). 3.75 b) Depends on compiler c) 24 d) 3 
+ 
+53.A character variable can store how many characters at a time? [PLO 2][CLO 1] 
+ (a) 1 character 
+(b)8 characters 
+(c)255 character 
+ 
+54.Which of the following is the correct way of writing comments? [PLO 2] [CLO 1] 
+(a)*/comments/* 
+(b)/*comment*/ 
+(c)**comment** ( 
+d){comment} 
+ 
+55. C programming language is [PLO 1] [CLO 1] 
+(a)object oriented programming language (b)Procedure oriented programming language 
+(c)function oriented programming language (d)None of the above 
+ 
+56.The memory space taken for a char type data is [PLO 2] [CLO 1] 
+(a)2 bytes 
+(b)4 bytes 
+(c)8 bytes 
+ (d)1bytes 
+ 
+57 .The memory space taken for a int type data is [PLO 2] [CLO 1] 
+ (a) 2 bytes 
+ (b) 4 bytes 
+
+[Page 8]
+(c) 8 bytes 
+(d)10bytes 
+ 
+ 
+ 58.The memory space taken for a float type data is [PLO 2] [CLO 1] 
+(a) 2 bytes 
+(b) 4 bytes 
+(c) 8 bytes 
+(d)10bytes 
+ 
+59. What is the only function all programs must contain ? [PLO 2] [CLO 1] 
+(a)start() 
+(b)system() 
+(c)main() 
+(d)program 
+ 
+60.For 16-bit compiler allowable range for integer constants is ________? [PLO 2] [CLO 1] 
+(a) -3.4e38 to 3.4e38 
+(b) -32767 to 32768 
+(c) -32668 to 32667 
+(d) -32768 to 32767 
+ 
+61.Every statement in C program is to be terminated by a__________ [PLO 2] [CLO 1] 
+(a)dot(.) 
+(b)semi-colon(;) 
+(c)colon(:) 
+(d)Question mark(?) 
+ 
+62 The escape sequence „\b‟ is a [PLO 2] [CLO 1] 
+(a)back space 
+(b)next line 
+(c)tab 
+(d)none of the above 
+ 
+63.The memory space taken for a long int type data is [PLO 2] [CLO 1] 
+(a) 2 bytes 
+(b) 4 bytes 
+(c) 8 bytes 
+(d)10bytes 
+ 
+64. which of the following will not valid expressions in C? [PLO2] [CLO 1] 
+(a) a=2+(b=5); 
+(b) a=11%3 
+(c) a=b=c=5 
+(d) b+5=2 
+ 
+ 
+
+[Page 9]
+65. The --------------------- operator is true only when both the operands are true. [PLO 2][CLO 1] 
+a) && 
+b) b) || 
+c) c)! 
+d) d) ?: 
+ 
+66. The ---------------------- statement when executed in a switch statement causes immediate exit 
+from the structure. [CLO 1] [PLO 2]
+ 
+a)goto 
+b) default 
+c) break 
+d) switch 
+ 
+66. The ternary conditional expression using the operator?: could be easily coded using ----------------
+- statement [CLO 1][PLO 2] 
+a)Nested if b) if-else 
+c) if d) for 
+ 
+4 Marks : 
+Unit-1 CLO-1 
+1. Comment “C is mid level language”? [CLO-1][PLO 1] 
+2. What is problem solving? [CLO-1][PLO 1] 
+3. What are the six steps of problem solving? [CLO-1][PLO 1] 
+4. Discuss about how the problems can be solved with computers? [CLO-1][PLO 1] 
+5. What is a program? [CLO-1][PLO 2] 
+6. Why is problem analysis important? [CLO-1][PLO 2] 
+7. What are the tools of problem solving available? [CLO-1][PLO 2] 
+8. How do problem-solving tools help in leading to a solution? [CLO-1][PLO 2] 
+9. Why it is important to test a solution before coding it? [CLO-1][PLO 2] 
+10. What is an algorithm? Give the characteristics of the algorithm. [CLO-1][PLO 2] 
+11. What is a flowchart? Give the symbols/shapes used in the flowchart. 
+[CLO-1][PLO 3] 
+12. Define pseudocode and give its importance with an example. [CLO-1][PLO 2] 
+13. Discuss the difficulties with problem solving in detail. [CLO-1][PLO 2] 
+
+[Page 10]
+14. State the use of %d and %f .Write a printf statement in C using the above 
+mentioned symbols? [CLO-1][PLO 4] 
+15. What is main difference between variable and constant? [CLO-1][PLO 3] 
+16. Explain bitwise left shift operator? [CLO-1][PLO 4] 
+17. Explain primary data types used in C? [CLO-1][PLO 3] 
+18. Difference between formatted & unformatted statement ? [CLO-1][PLO 3] 
+19. What is mean by storage class of variable? [CLO-1][PLO 3] 
+20. Explain with example ++i and i++. [CLO-1][PLO 4] 
+21. Refer all Elab programs. [CLO-1][PLO 3] [PLO 2][PLO 4] 
+ 
+ 
+12 Marks: 
+ 
+1) Explain the evolution of programming languages. [CLO-1][PLO 1] 
+2) Explain the various steps involved in problem solving with diagram. [CLO-1][PLO 1] 
+3) Draw the flowchart and write the algorithm and c code to find the sum and to reverse the 
+digits of given five digit number. [CLO-1][PLO 1] [PLO2] 
+4) Write an algorithm and draw a flow chart to find the factorial and Fibonacci series of given 
+number. [CLO-1][PLO 2] [PLO 3] 
+5) Write a note on Algorithm, Flow chart and Pseudocode. [CLO-1][PLO 3] [PLO 2] 
+6) Explain the scope, lifetime of variable in C with example. [CLO-1][PLO 2][PLO3] 
+7) Write down the algorithm to find the largest number among three given numbers and 
+outline the steps in the algorithm with the inputs 5, 17, 3. [CLO-1][PLO 2][PLO3] 
+8) Draw flowchart to compute the salary of an employee in a company. Assume that there are 
+two types of employees in the company daily wages and regular. Salary is calculated as 
+number of hours worked* wages per hour for daily wagers and basic pay +(% of DA * basic 
+pay)/100 + HRA + medical allowance for regular employees. Sketch the flow of your design 
+for a regular employee with basic pay = 5000, % of DA = 75 % and HRA = 500. (8) 
+[CLO-1][PLO 2][PLO3][PLO4] 
+9) Explain in details about operators with an example [CLO-1][PLO 1] [PLO 2][PLO3] 
+ 
+10) Refer all elab Programs [CLO-1][PLO 3] [PLO 2][PLO 4] 
+ 
+ 
+ 
+
+[Page 11]
+UNIT - II 
+ PART A 
+ 
+1. The --------------------- operator is true only when both the operands are true. 
+e) && b) || c)! d) ?: 
+Answer: a 
+2. The ---------------------- statement when executed in a switch statement causes immediate exit 
+from the structure. 
+a)goto b) default c) break d) switch 
+Answer: c 
+3. The ternary conditional expression using the operator?: could be easily coded using ----------------
+- statement 
+a)Nested if b) if-else c) if d) for 
+Answer: b 
+4. What will be the output when the following segment is executed? 
+Char ch=’a’; 
+Switch(ch) 
+{ 
+case ‘a’: 
+Printf(“A”); 
+case ’b’: 
+Printf(“B”); 
+Default: 
+printf(“C”); 
+} 
+ 
+a)A b)B c)C d) a 
+ Answer: a 
+5. What will be the output of the following segment when executed? 
+int x=10, y=20; 
+if((x<y)||(x+5)>10) 
+printf(%d”,x); 
+else 
+printf(%d”,y); 
+ 
+a)10 b) 20 c) 15 d)5 
+ 
+Answer: a 
+6. The ----------------------- statement is used to skip a part of the statements in a loop. 
+a) Continue b) break c) goto d)switch 
+Answer: a 
+7. A for loop with no test condition is known as --------------- loop 
+a) Infinite b) time delay c) for d) Incrementing 
+Answer: a 
+
+[Page 12]
+8. The sentinel –controlled loop is also known as -----------------------loop 
+a) Indefinite repetition loop c) time delay 
+b) Definite repetition loop d) infinite 
+Answer: a 
+9. In an exit controlled loop the body of the loop is always executed minimum number of ------------ 
+a) 1 time b)2 times c) 3 times d)n times 
+Answer:a 
+10. The while is an --------------------- loop statement. 
+a) Entry-controlled b)exit-controlled c)indefinite repetition 
+d)definite repetition 
+Answer: a 
+11. The ------------------specification is used to read or print integers 
+a)h b)l c)L d)c 
+Answer: a 
+12. To print the data left-justified, must use -------------- in the field specification 
+a) - b) + c) / d) * 
+Answer: a 
+13. By default, the real numbers are printed with a precision of --------------- decimal. 
+a)6 b)2 c)4 d)0 
+Answer:a 
+14. The expression !(x!=y) can be replaced by the expression-------------------- 
+a) x!=y b) x==y c)x=!y d)!x=!y 
+Answer:c 
+15. In a counter controlled loop, variable known as -----------------is used to count the loop 
+operations. 
+a) Counter b)sentinel c)i d)n 
+Answer: a 
+ 
+16. Which of the following special symbol allowed in a variable name? 
+(a) * (asterisk) (b)| (pipeline) (c) - (hyphen) (d) _ (underscore) 
+ 
+17 . Which of the following are invalid variable names? 
+a) Minimum b)n$ c) Integer d) float 
+ 
+18. int a=10; 
+ ++a; 
+ a++; 
+ Printf(“%d”,a); 
+a)10 b) 11 c)12 d) 13 
+ 
+19. int a=11; 
+ a=a%2; 
+ a=a/2; 
+The value of a is, 
+a) 1, 1 b) 5,1 c) 1,5 d)5 
+ 
+ 
+
+[Page 13]
+20. Which of the following is not logical operator? 
+A. & 
+B. && 
+C. || 
+D. ! 
+ 
+21 Which of the following cannot be checked in a switch-case statement? 
+A. Character 
+B. Integer 
+C. Float 
+D. enum 
+ 
+22. What is the output of this C code? 
+ 
+int main() 
+{ 
+ int a = 0, i = 0, b; 
+ for (i = 0;i < 5; i++) 
+ { 
+ a++; 
+ continue; 
+ } 
+} 
+ 
+A. 2 B. 3 
+C. 4 D. 5 
+ 
+23. What is the output of this C code? 
+ 
+ void main() 
+ { 
+ int i = 0, j = 0; 
+ for (i = 0;i < 5; i++) 
+ { 
+ for (j = 0;j < 4; j++) 
+ { 
+ if (i > 1) 
+ break; 
+ } 
+ printf("Hi \n"); 
+ } 
+ } 
+A. Hi is printed 5 times B. Hi is printed 9 times 
+C. Hi is printed 7 times D. Hi is printed 4 times 
+ 
+ 
+ 
+
+[Page 14]
+24. What is the output of this C code? 
+ void main() 
+ { 
+ int i = 0; 
+ int j = 0; 
+ for (i = 0;i < 5; i++) 
+ { 
+ for (j = 0;j < 4; j++) 
+ { 
+ if (i > 1) 
+ continue; 
+ printf("Hi \n"); 
+ } 
+ } 
+ } 
+A. Hi is printed 9 times B. Hi is printed 8 times 
+C. Hi is printed 7 times D. Hi is printed 6 times 
+ 
+25. What is the output of this C code? 
+ 
+ void main() 
+ { 
+ int i = 0; 
+ for (i = 0;i < 5; i++) 
+ if (i < 4) 
+ { 
+ printf("Hello"); 
+ break; 
+ } 
+ } 
+A. Hello is printed 5 times B. Hello is printed 4 times 
+C. Hello D. Hello is printed 3 times 
+ 
+27. What is the output of this C code? 
+ int main() 
+ { 
+ int i = 0; 
+ char c = 'a'; 
+ while (i < 2){ 
+ i++; 
+ switch (c) { 
+ case 'a': 
+ printf("%c ", c); 
+ break; 
+ break; 
+ } 
+ } 
+
+[Page 15]
+ printf("after loop\n"); 
+ } 
+A. a after loop B. a a after loop 
+C. after loop D. None of the mentioned 
+28. int main() 
+ { 
+ printf("before continue "); 
+ continue; 
+ printf("after continue\n"); 
+ } 
+A. Before continue after continue B. Before continue 
+C. after continue D. Compile time error 
+29. What is the output of the code given below? 
+ 
+ int main() 
+ { 
+ printf("%d ", 1); 
+ goto l1; 
+ printf("%d ", 2); 
+ l1:goto l2; 
+ printf("%d ", 3); 
+ l2:printf("%d ", 4); 
+ } 
+A. 1 4 B. Compilation error 
+C. 1 2 4 D. 1 3 4 
+30. What is the output of code given below? 
+ int main() 
+ { 
+ printf("%d ", 1); 
+ l1:l2: 
+ printf("%d ", 2); 
+ printf("%d\n", 3); 
+ } 
+A. Compilation error B. 1 2 3 
+C. 1 2 D. 1 3 
+31. What will happen if in a C program you assign a value to an array element whose subscript 
+exceeds the size of array? 
+A. The element will be set to 0. 
+B. The compiler would report an error. 
+
+[Page 16]
+C. The program may crash if some important data gets overwritten. 
+D. The array size would appropriately grow. 
+ 
+32 .In C, if you pass an array as an argument to a function, what actually gets passed? 
+A. Value of elements in array 
+B. First element of the array 
+C. Base address of the array 
+D. Address of the last element of array 
+ 
+ 
+33. Result of a logical or relational expression in C is? 
+A. True or False 
+B. 0 or 1 
+C. 0 if expression is false and any positive number if expression is true 
+D. None of the mentioned 
+34. What will be the value of d in the following program? 
+ 
+ int main() 
+ { 
+ int a = 10, b = 5, c = 5; 
+ int d; 
+ d = b + c == a; 
+ printf("%d", d); 
+ } 
+A. Syntax error 
+B. 1 
+C. 5 
+D. 10 
+ 
+35. What is the output of this C code? 
+ 
+ int main() 
+ { 
+ int a = 10, b = 5, c = 3; 
+ b != !a; 
+ c = !!a; 
+ printf("%d\t%d", b, c); 
+ } 
+
+[Page 17]
+A. 5 1 
+B. 0 3 
+C. 5 3 
+D. 1 1 
+ 
+36. What is meaning of following declaration ? 
+ int arr[20]; 
+a) Array of size 20 that can have integer address 
+b) None of the above 
+c) Integer array of size 20 
+d) Array of sixe 20 
+37. In C Programming, If we need to store word "INDIA" then syntax is as below – 
+ a) char name[6]={‘I’,’N’,’D’,’I’,’A’,’\0’} 
+b) char name[6]={“I”,”N”,”D”,”I”,”A”} 
+c) char name[6]={‘I’,’N’,’D’,’I’,’A’} 
+d) char name[] ; name=”INDIA” 
+38. what is the way to initialize array? 
+a) int num[6] = {2,4,12,5,45,5}; 
+b) int n{} ={2,4,12,5,45,5}; 
+c) int n{6}={2,4,12}; 
+d) int n(6)={2,4,12,5,45,5}; 
+39. what will be the output of the program? 
+ 
+a) 3, 2,15 
+b) 2, 3, 20 
+c)2, 1, 15 
+d) 1, 2, 5 
+Answer: Option A 
+
+[Page 18]
+Solution: 
+>> int a[5] = {5, 1, 15, 20, 25}; The variable arr is declared as an integer array with a size of 5 and it is initialized to 
+a[0] = 5, a[1] = 1, a[2] = 15, a[3] = 20, a[4] = 25. 
+ 
+>> int i, j, m; The variable i, j, m are declared as an integer type. 
+ 
+>> i = ++a[1]; becomes i = ++1; Hence i = 2 and a[1] = 2 
+ 
+>> j = a[1]++; becomes j = 2++; Hence j = 2 and a[1] = 3. 
+ 
+>> m = a[i++]; becomes m = a[2]; Hence m = 15 and i is incremented by 1(i++ means 2++ so i=3) 
+ 
+>> printf("%d, %d, %d", i, j, m); It prints the value of the variables i, j, m 
+ 
+Hence the output of the program is 3, 2, 15. 
+39. what will be the output of the program? 
+ 
+a) 5 
+b) 6 
+c) 9 
+d) Error 
+e) None of the above 
+Answer: Option C 
+Solution: 
+ x[i] is equivalent to *(x + i), 
+ so (buf + 1)[5] is *(buf + 1 + 5), i.e. buf[6]. 
+40) An array elements are always stored in ____________memory locations 
+a) sequential 
+b) Random 
+c) Sequential and Random 
+d) None of the above 
+ 
+ 
+41) Let x be an array. which of the following operations are illegal? 
+
+[Page 19]
+a) ++x b) x+1 c)x++ d) x*2 
+options: 
+a) I and II 
+b) I,II and III 
+c) II and III 
+d) I, III and IV 
+e) III and IV 
+Answer: Option D 
+Solution: int x[10]; * x will store the base address of array. * 
+Statement I, III and IV is invalid. 
+ 
+Statement I and III : ++x and x++ are throwing en error while compile (lvalue required as increment operand ) 
+Since, x is storing in the address of the array which is static value which cannot be change by the operand. 
+ 
+Statement IV : x*2 is also throw an error while compile (invalid operands to binary * (have 'int *' and 'int') ) 
+ 
+Statement II : x+1 is throw a warning: assignment makes integer from pointer without a cast [enabled by 
+default] 
+42) what is the maximum number of dimensions an array in c may have? 
+ a) 2 
+ b) 8 
+ c) 20 
+ d)50 
+ e) theoretically no limit. the only practical limits are memory size and compilers 
+43) size of the array need not be specified, when 
+ a) initialized is a part of definition 
+ b) it's a declaration 
+ c) it is a formal parameter 
+ d) All of these 
+ 
+ 
+ 
+ 
+ 
+44) what will be the output of the program? 
+
+[Page 20]
+ 
+ 
+a) Equal 
+b) Unequal 
+c) Error 
+d) None of these 
+Answer: Option B 
+Solution: 
+Strings are compared using strcmp() function defined under string.h header file. 
+45) 
+ 
+Unit-2 PART -B 
+1. Give the general syntax of conditional operator? 
+2. Define operator in C. What role an operator plays in C program? 
+3. Differentiate between relational and logical operators used in C? 
+4. Give the types of decision making statements 
+5. What is the general form of switch statement? 
+6. Differentiate do... while.. and while... loop. 
+7. Determine the output of the following and justify your answer 
+ 
+int main() 
+ { 
+ int ch; printf("enter a value between 1 to 2:"); 
+ scanf("%d", &ch); 
+ switch (ch, ch -1){ 
+ case 1: printf("1\n"); break; 
+ case 2: printf("2"); break; 
+ } return 0; } 
+8. Explain the limitations of arrays. 
+
+[Page 21]
+9. Give the steps of looping process. 
+10. Brief the use of continue, goto, break statement and give the syntax. 
+11. What are loop control structures? Explain for loop, while loop and do-while 
+loop with their syntax. 
+12. What do you mean by infinite loop? Give suitable of any infinite loop in a C 
+program. 
+13. Explain break and continue statements with examples. 
+14. Determine the output of the following program justify your answer in a few words. 
+ 
+int main() { 
+float f = 1.0; 
+ switch(f) { 
+case 1.0: printf("one"); break; 
+case 2.0: printf("two"); break; 
+default: prinf("%f", f); 
+}} 
+15. Write a program to print series of number divisible by 3 from 1 to 100 using for 
+loop. 
+16. Write a C program to print 1, 2, 4, 8, 16, 32, 64 …..N using do….while loop 
+(Read N from user). 
+17. What are Arrays in C programming? Give the importance of Array in C 
+language 
+13. What are the rules to declare one dimensional array? 
+14. What do you mean by compile time initialization? Give suitable example of 
+Compile time initialization of C Array. 
+15. Describe the array index out of bound error in context of C array program. 
+ 
+PART C 
+ 
+1) Lucy is celebrating her 15th birthday. Her father promised her that he will buy her a new computer 
+on her birthday if she solves the question asked by him. He asks Lucy to find whether the year on 
+which she had born is leap year or not. Help her to solve this puzzle so that she celebrates her 
+
+[Page 22]
+birthday happily. If her birth year is 2016 and it is a leap year display 2016 is a leap year.? Else 
+display 2016 is not a leap year and check with other leap year conditions 
+2) Write a C program to print the multiplication table of an integer n upto m rows using a while loop 
+ sample input and output 
+ INPUT 
+ 5 
+4 
+ OUTPUT 
+ 1*5=5 
+2*5=10 
+3*5=15 
+4*5=20 
+3) Write a program to generate a following @s triangle: 
+@ @ @ @ @ 
+@ @ @ @ 
+@ @ @ 
+@ @ 
+@ 
+4) Write a program that determines a student’s grade. The program will read three scores and 
+determine the grade based on the following rules: score =90% =>grade=A , score >= 70% 
+and <90% => grade=B, score>=50% and <70% =>grade=C, score<50% =>grade=F 
+ 
+5) i)Why switch case is better than else..if... ladder. Justify. 
+ii)Write a program to read a value (1-7) and print the equivalent day of the week 
+ (i.e. 1-SUN, 2-MON.....) 
+iii) Explain briefly about for loop and Nested for loop with suitable example 
+ 
+iv) Write a program to print the following pattern. 
+12345 
+1234 
+123 
+12 
+1 
+ 
+6.a. i) Write a C program to insert an element at a specified position in the array. 
+ 
+7) ) Write a program to generate a following patterns 
+a) 
+ 
+ 
+ 
+ 
+b) 
+
+
+[Page 23]
+ 
+c) 
+ 
+d) 
+ 
+e) 
+ 
+ 
+8) write c Program for Student mark list generation by using control and looping statements 
+ 
+9) write c program for digit rotation. "For any positive integer, we define a digit rotation as either 
+moving the first digit to the end of the number (left digit rotation), or the last digit to the front of the 
+number (right digit rotation). For example, the number 12345 could be left digit rotated to 23451, or right 
+digit rotated to 51234. 
+10) Write a program to find the sum of positive numbers in an array 
+11) write c program for palindrome strings , two strings A and B, each consisting of lower case alphabets. 
+12) Write a arithmetic operation menu driven program using while(1) 
+ 
+ 13) i) Write short notes on switch case. 
+ii) Program to create a simple calculator, Performing addition, subtraction, multiplication, 
+division depending the input from user. 
+
+[Page 24]
+14) i)write a C program to read 10 nos. and reverse it using array 
+ 
+ii)Concatenate two arrays of length minimum 5 numbers. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+UNIT III 
+PART A 
+
+[Page 25]
+1 ) Which of the following is not possible statically in C? 
+a) Jagged Array 
+b) Rectangular Array 
+c) Cuboidal Array 
+d) Multidimensional Array 
+ 
+2) What is the output of this C code? 
+ #include <stdio.h> 
+ void main() 
+{ 
+int a[2][3] = {1, 2, 3, 4, 5}; 
+int i = 0, j = 0; 
+for (i = 0; i < 2; i++) 
+for (j = 0; j < 3; j++) 
+printf("%d", a[i][j]); 
+ } 
+a) 1 2 3 4 5 0 
+b) 1 2 3 4 5 junk 
+c) 1 2 3 4 5 5 
+d) Run time error 
+ 
+3) Predict the output of below program: 
+#include <stdio.h> 
+ 
+int main() 
+{ 
+ int arr[5]; 
+ 
+ // Assume that base address of arr is 2000 and size of integer 
+ // is 32 bit 
+ arr++; 
+ printf("%u", arr); 
+ 
+ return 0; 
+} 
+ 
+a) 2002 
+b) 2004 
+c) 2020 
+d) lvalue required 
+ 
+
+[Page 26]
+4 ) Predict the output of below program: 
+#include <stdio.h> 
+ 
+int main() 
+{ 
+ int arr[5]; 
+// Assume base address of arr is 2000 and size of integer is 32 bit 
+ printf("%u %u", arr + 1, &arr + 1); 
+ return 0; 
+} 
+i. 2004 2020 
+ii. 2004 2004 
+iii. 2004 Garbage Value 
+iv. The program fails to compile because address of operator cannot be used with 
+array name 
+5) Size of the array need not be specified, when 
+A. Initialization is a part of definition 
+B. It is a declaratrion 
+C. It is a formal parameter 
+D. All of these 
+6) While passing an array as an actual argument, the function call must have the array name 
+A. with empty brackets 
+B. with its size 
+C. alone 
+D. none of the above 
+7) The parameter passing mechanism for an array is 
+A. call by value 
+B. call by value-result 
+C. call by reference 
+D. none of these 
+ 
+ 
+8) Under which of the following conditions, the size of an one-dimensional array need not be 
+specified? 
+
+[Page 27]
+A. when initialization is a part of definition 
+B. when it is a declaration 
+C. when it is a formal parameter and an actual 
+argument 
+D. All of the above 
+9) If a two dimensional array is used as a formal parameter, then 
+A. both the subscripts may be left empty 
+B. the first (row) subscript may be left empty 
+C. the first subscript must be left empty 
+D. both the subscripts must be left empty 
+11) Choose the statement that best defines an array 
+A. It is a collection of items that share a common name 
+B. It is a collection of items that share a common name and occupy consecutive memory location 
+C. It is a collection of items of the same type and storage class that share a common name and 
+occupy consecutive memory locations 
+D. None of the above 
+12) Choose the correct statements 
+A. Array stores data of the same type 
+B. Array can be a part of a structure 
+C. Array of structure is allowed 
+D. All of the above 
+13) What is the output of this C code? 
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. int a[2][3] = {1, 2, 3, 4, 5}; 
+5. int i = 0, j = 0; 
+6. for (i = 0; i < 2; i++) 
+7. for (j = 0; j < 3; j++) 
+8. printf("%d", a[i][j]); 
+9. } 
+a) 1 2 3 4 5 0 
+b) 1 2 3 4 5 junk 
+c) 1 2 3 4 5 5 
+
+[Page 28]
+d) Run time error 
+ 
+Answer: a 
+ 
+14) What is the output of this C code? 
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. int a[2][3] = {1, 2, 3, , 4, 5}; 
+5. int i = 0, j = 0; 
+6. for (i = 0; i < 2; i++) 
+7. for (j = 0; j < 3; j++) 
+8. printf("%d", a[i][j]); 
+9. } 
+a) 1 2 3 junk 4 5 
+b) Compile time error 
+c) 1 2 3 0 4 5 
+d) 1 2 3 3 4 5 
+Answer: b 
+15. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void f(int a[][3]) 
+3. { 
+4. a[0][1] = 3; 
+5. int i = 0, j = 0; 
+6. for (i = 0; i < 2; i++) 
+7. for (j = 0; j < 3; j++) 
+8. printf("%d", a[i][j]); 
+9. } 
+10. void main() 
+11. { 
+12. int a[2][3] = {0}; 
+13. f(a); 
+14. } 
+a) 0 3 0 0 0 0 
+b) Junk 3 junk junk junk junk 
+c) Compile time error 
+d) All junk values 
+ 
+Answer: a 
+ 
+16. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void f(int a[][]) 
+
+[Page 29]
+3. { 
+4. a[0][1] = 3; 
+5. int i = 0, j = 0; 
+6. for (i = 0;i < 2; i++) 
+7. for (j = 0;j < 3; j++) 
+8. printf("%d", a[i][j]); 
+9. } 
+10. void main() 
+11. { 
+12. int a[2][3] = {0}; 
+13. f(a); 
+14. } 
+a) 0 3 0 0 0 0 
+b) Junk 3 junk junk junk junk 
+c) Compile time error 
+d) All junk values 
+ 
+Answer: c 
+ 
+17. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void f(int a[2][]) 
+3. { 
+4. a[0][1] = 3; 
+5. int i = 0, j = 0; 
+6. for (i = 0;i < 2; i++) 
+7. for (j = 0;j < 3; j++) 
+8. printf("%d", a[i][j]); 
+9. } 
+10. void main() 
+11. { 
+12. int a[2][3] = {0}; 
+13. f(a); 
+14. } 
+a) 0 3 0 0 0 0 
+b) Junk 3 junk junk junk junk 
+c) Compile time error 
+d) All junk values 
+ 
+Answer: c 
+ 
+ 
+18. Comment on the following statement: 
+int (*a)[7]; 
+
+[Page 30]
+a) An array “a” of pointers. 
+b) A pointer “a” to an array. 
+c) A ragged array. 
+d) None of the mentioned 
+ 
+Answer: b 
+ 
+19. Comment on the 2 arrays regarding P and Q: 
+1. int *a1[8]; 
+2. int *(a3[8]); 
+3. P. Array of pointers 
+4. Q. Pointer to an array 
+a) a1 is P, a2 is Q 
+b) a1 is P, a2 is P 
+c) a1 is Q, a2 is P 
+d) a1 is Q, a2 is Q 
+ 
+Answer: b 
+ 
+20. Which of the following is not possible statically in C? 
+a) Jagged Array 
+b) Rectangular Array 
+c) Cuboidal Array 
+d) Multidimensional Array 
+ 
+Answer: a 
+ 
+ 
+21. What is the correct syntax to send a 3-dimensional array as a parameter? (Assuming declaration int a[5][4][3];) 
+a) func(a); 
+b) func(&a); 
+c) func(*a); 
+d) func(**a); 
+ 
+Answer: a 
+ 
+ 
+22. Applications of multidimensional array are? 
+a) Matrix-Multiplication 
+b) Minimum Spanning Tree 
+c) Finding connectivity between nodes 
+
+[Page 31]
+d) All of the mentioned 
+Answer: d 
+23. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int ary[2][3]; 
+5. foo(ary); 
+6. } 
+7. void foo(int *ary[]) 
+8. { 
+9. int i = 10, j = 2, k; 
+10. ary[0] = &i; 
+11. ary[1] = &j; 
+12. *ary[0] = 2; 
+13. for (k = 0;k < 2; k++) 
+14. printf("%d\n", *ary[k]); 
+15. } 
+a) 2 2 
+b) Compile time error 
+c) Undefined behaviour 
+d) 10 2 
+ 
+Answer: a 
+ 
+24. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int ary[2][3]; 
+5. foo(ary); 
+6. } 
+7. void foo(int (*ary)[3]) 
+8. { 
+9. int i = 10, j = 2, k; 
+10. ary[0] = &i; 
+11. ary[1] = &j; 
+12. for (k = 0;k < 2; k++) 
+13. printf("%d\n", *ary[k]); 
+14. } 
+a) Compile time error 
+b) 10 2 
+c) Undefined behaviour 
+
+[Page 32]
+d) segmentation fault/code crash 
+ 
+Answer: a 
+ 
+25. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. foo(ary); 
+5. } 
+6. void foo(int **ary) 
+7. { 
+8. int i = 10, k = 10, j = 2; 
+9. int *ary[2]; 
+10. ary[0] = &i; 
+11. ary[1] = &j; 
+12. printf("%d\n", ary[0][1]); 
+13. } 
+a) 10 
+b) 2 
+c) Compile time error 
+d) Undefined behaviour 
+ 
+Answer: d 
+ 
+26. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int ary[2][3][4], j = 20; 
+5. ary[0][0] = &j; 
+6. printf("%d\n", *ary[0][0]); 
+7. } 
+a) Compile time error 
+b) 20 
+c) Address of j 
+d) Undefined behaviour 
+ 
+Answer: a 
+ 
+27. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+
+[Page 33]
+4. int ary[2][3]; 
+5. ary[][] = {{1, 2, 3}, {4, 5, 6}}; 
+6. printf("%d\n", ary[1][0]); 
+7. } 
+a) Compile time error 
+b) 4 
+c) 1 
+d) 2 
+ 
+Answer: a 
+ 
+ 
+28. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. void foo(); 
+5. printf("1 "); 
+6. foo(); 
+7. } 
+8. void foo() 
+9. { 
+10. printf("2 "); 
+11. } 
+a) 1 2 
+b) Compile time error 
+c) 1 2 1 2 
+d) Depends on the compiler 
+ 
+Answer: a 
+ 
+29. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. void foo(), f(); 
+5. f(); 
+6. } 
+7. void foo() 
+8. { 
+9. printf("2 "); 
+10. } 
+11. void f() 
+12. { 
+13. printf("1 "); 
+
+[Page 34]
+14. foo(); 
+15. } 
+a) Compile time error as foo is local to main 
+b) 1 2 
+c) 2 1 
+d) Compile time error due to declaration of functions inside main 
+ 
+Answer: b 
+ 
+30. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. void foo(); 
+5. void f() 
+6. { 
+7. foo(); 
+8. } 
+9. f(); 
+10. } 
+11. void foo() 
+12. { 
+13. printf("2 "); 
+14. } 
+a) 2 2 
+b) 2 
+c) Compile time error 
+d) Depends on the compiler 
+ 
+Answer: d 
+Explanation: Even though the answer is 2, this code will compile fine only with gcc. GNU C supports nesting of functions in C 
+as a language extension whereas standard C compiler doesn’t. 
+31. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void foo(); 
+3. int main() 
+4. { 
+5. void foo(); 
+6. foo(); 
+7. return 0; 
+8. } 
+9. void foo() 
+10. { 
+11. printf("2 "); 
+12. } 
+
+[Page 35]
+a) Compile time error 
+b) 2 
+c) Depends on the compiler 
+d) Depends on the standard 
+ 
+Answer: b 
+ 
+32. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void foo(); 
+3. int main() 
+4. { 
+5. void foo(int); 
+6. foo(1); 
+7. return 0; 
+8. } 
+9. void foo(int i) 
+10. { 
+11. printf("2 "); 
+12. } 
+a) 2 
+b) Compile time error 
+c) Depends on the compiler 
+d) Depends on the standard 
+ 
+Answer: a 
+ 
+33. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void foo(); 
+3. int main() 
+4. { 
+5. void foo(int); 
+6. foo(); 
+7. return 0; 
+8. } 
+9. void foo() 
+10. { 
+11. printf("2 "); 
+12. } 
+a) 2 
+b) Compile time error 
+c) Depends on the compiler 
+
+[Page 36]
+d) Depends on the standard 
+ 
+Answer: b 
+ 
+34. What is the output of this C code? 
+1. include <stdio.h> 
+2. void m() 
+3. { 
+4. printf("hi"); 
+5. } 
+6. void main() 
+7. { 
+8. m(); 
+9. } 
+a) hi 
+b) Run time error 
+c) Nothing 
+d) Varies 
+Answer: a 
+35. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void m(); 
+3. void n() 
+4. { 
+5. m(); 
+6. } 
+7. void main() 
+8. { 
+9. void m() 
+10. { 
+11. printf("hi"); 
+12. } 
+13. } 
+a) hi 
+b) Compile time error 
+c) Nothing 
+d) Varies 
+ 
+Answer: b 
+ 
+36. What is the return-type of the function sqrt() 
+a) int 
+b) float 
+
+[Page 37]
+c) double 
+d) depends on the data type of the parameter 
+ 
+Answer: c 
+ 
+37. Which of the following function declaration is illegal? 
+a) double func(); 
+ int main(){} 
+ double func(){} 
+b) double func(){}; 
+ int main(){} 
+c) int main() 
+ { 
+ double func(); 
+ } 
+ double func(){//statements} 
+d) None of the mentioned 
+ 
+Answer: d 
+ 
+38. What is the output of this code having void return-type function? 
+1. #include <stdio.h> 
+2. void foo() 
+3. { 
+4. return 1; 
+5. } 
+6. void main() 
+7. { 
+8. int x = 0; 
+9. x = foo(); 
+10. printf("%d", x); 
+11. } 
+a) 1 
+b) 0 
+c) Runtime error 
+d) Compile time error 
+ 
+Answer: d 
+ 
+39. What will be the data type returned for the following function? 
+1. #include <stdio.h> 
+2. int func() 
+3. { 
+4. return (double)(char)5.0; 
+5. } 
+
+[Page 38]
+a) char 
+b) int 
+c) double 
+d) multiple type-casting in return is illegal 
+ 
+Answer: b 
+ 
+40. What is the problem in the following declarations? 
+ int func(int); 
+ double func(int); 
+ int func(float); 
+a) A function with same name cannot have different signatures 
+b) A function with same name cannot have different return types 
+c) A function with same name cannot have different number of parameters 
+d) All of the mentioned 
+ 
+Answer: d 
+ 
+41. The output of the code below is 
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. int k = m(); 
+5. printf("%d", k); 
+6. } 
+7. void m() 
+8. { 
+9. printf("hello"); 
+10. } 
+a) hello 5 
+b) Error 
+c) Nothing 
+d) Junk value 
+ 
+Answer: a 
+ 
+42. The output of the code below is 
+1. #include <stdio.h> 
+2. int *m() 
+3. { 
+4. int *p = 5; 
+5. return p; 
+6. } 
+
+[Page 39]
+7. void main() 
+8. { 
+9. int *k = m(); 
+10. printf("%d", k); 
+11. } 
+a) 5 
+b) Junk value 
+c) 0 
+d) Error 
+ 
+Answer: a 
+ 
+43. The output of the code below is 
+1. #include <stdio.h> 
+2. int *m(); 
+3. void main() 
+4. { 
+5. int *k = m(); 
+6. printf("hello "); 
+7. printf("%d", k[0]); 
+8. } 
+9. int *m() 
+10. { 
+11. int a[2] = {5, 8}; 
+12. return a; 
+13. } 
+a) hello 5 8 
+b) hello 5 
+c) hello followed by garbage value 
+d) Compilation error 
+ 
+Answer: c 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Part B 
+
+[Page 40]
+1. What is the need for user defined function? 
+2. Write a multi function program 
+3. List the Elements of user defined function 
+4. Give short note on 2-D array processing. 
+5. Write a C program to find the length of a string. 
+6. HELLO encode it as IFMMP using array 
+7. Show the difference between actual and formal parameter in function with piece of code 
+ 
+8. Compare user define function vs System define function 
+ 
+9. List categories of function 
+10. Explain the concept of function call by reference with a sample program. 
+11. Explain the concept of function call by value with a sample program 
+12. Explain about functions with example 
+13. Discuss Character Arrays 
+14. Predict output of the following program (CLO3) 
+ int main(){ 
+ inta[][]={{1,2},(3,4}}; 
+int i,j; 
+for (i=0;i<2;i++) 
+for(j=0;j<2;j++) 
+printf(“%d”,a[i][j]); 
+retorn 0; 
+} 
+15. Why array index starts from zero? 
+16. Contrast function declaration vs function definition. 
+17. List the advantages of functions. 
+18. Program to Find the 2nd Largest Elements in an Array. 
+19. Write a program to convert the given string (srm university) Lower to upper case 
+ 
+20. Advantages and limitations of multi dimensional array initialization 
+21. Explain call by value and call by reference with an example 
+22. Common programming errors in 2D arrays 
+12. Explain String functions with example 
+ PART C 
+1. Array construction for student mark list for 100 students. output need to display register number, marks of 
+five subjects , CGPA and PASS/Fail Status 
+2. Explain in details about String Functions: gets(), puts(), getchar(), putchar(), printf(), with an example 
+programs 
+3. i)Print the given pattern using 2-D array 
+1234567 
+ 23456 
+
+[Page 41]
+ 345 
+ 4 
+ii) Program to divide one array into two arrays 
+4. i) What are strings in C? Write a C program to read a string in lowercase and convert it to 
+uppercase. 
+ ii) ) Illustrate call by value and call by reference with example for each. 
+ 
+5. i) Find the factorial of 10 using function recursion. 
+ii) What is a string? Explain any 5 string functions. 
+6. Explain in details about String Functions: atoi, strlen, strcat, strcmp with an example 
+7. Functions declaration and definition, Types: Call by Value & Call by Reference with example programs 
+8. Explain and write c program for Function with and without Arguments and no Return Values 
+9. Explain and write c program for Passing Array to Functions with return type, Recursion Functions 
+10. Write c program for Matrix Multiplication using Multi-dimensional array 
+11. Program to Delete duplicate elements from an array 
+INPUT 
+1 3 4 5 3 
+OUTPUT 
+1 3 4 5 
+ 
+b. Write a program to perform Matrix addition and Multiplication using 2-D arrays 
+ 
+12. i) State the importance of functions. List out the different types of Function 
+ ii) Write a swap function using call by value and call by reference 
+ iii) Write a C program to concatenate two strings. 
+ iv) Write a program to read to strings and compare them and print a message that the first string 
+is equal, less or greater than the second one accordingly. 
+13. Write c program for Matrix addition and Matrix Transpose using multi dimensional array 
+14. Given a number , find whether it is a power of 2 or not 
+15. Write a C program to swap elements in cyclic order using call by reference. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+[Page 42]
+UNIT 4 
+ 
+1. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void foo(int*); 
+3. int main() 
+4. { 
+5. int i = 10; 
+6. foo((&i)++); 
+7. } 
+8. void foo(int *p) 
+9. { 
+10. printf("%d\n", *p); 
+11. } 
+a) 10 
+b) Some garbage value 
+c) Compile time error 
+d) Segmentation fault/code crash 
+ 
+Answer: c 
+ 
+2. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void foo(int*); 
+3. int main() 
+4. { 
+5. int i = 10, *p = &i; 
+6. foo(p++); 
+7. } 
+8. void foo(int *p) 
+9. { 
+10. printf("%d\n", *p); 
+11. } 
+a) 10 
+b) Some garbage value 
+c) Compile time error 
+d) Segmentation fault 
+ 
+Answer: a 
+ 
+
+[Page 43]
+3. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void foo(float *); 
+3. int main() 
+4. { 
+5. int i = 10, *p = &i; 
+6. foo(&i); 
+7. } 
+8. void foo(float *p) 
+9. { 
+10. printf("%f\n", *p); 
+11. } 
+a) 10.000000 
+b) 0.000000 
+c) Compile time error 
+d) Undefined behaviour 
+ 
+Answer: b 
+ 
+4. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int i = 97, *p = &i; 
+5. foo(&i); 
+6. printf("%d ", *p); 
+7. } 
+8. void foo(int *p) 
+9. { 
+10. int j = 2; 
+11. p = &j; 
+12. printf("%d ", *p); 
+13. } 
+a) 2 97 
+b) 2 2 
+c) Compile time error 
+d) Segmentation fault/code crash 
+ 
+Answer: a 
+ 
+5. What is the output of this C code? 
+
+[Page 44]
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int i = 97, *p = &i; 
+5. foo(&p); 
+6. printf("%d ", *p); 
+7. return 0; 
+8. } 
+9. void foo(int **p) 
+10. { 
+11. int j = 2; 
+12. *p = &j; 
+13. printf("%d ", **p); 
+14. } 
+a) 2 2 
+b) 2 97 
+c) Undefined behaviour 
+d) Segmentation fault/code crash 
+ 
+Answer: a 
+ 
+6. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int i = 11; 
+5. int *p = &i; 
+6. foo(&p); 
+7. printf("%d ", *p); 
+8. } 
+9. void foo(int *const *p) 
+10. { 
+11. int j = 10; 
+12. *p = &j; 
+13. printf("%d ", **p); 
+14. } 
+a) Compile time error 
+b) 10 10 
+c) Undefined behaviour 
+d) 10 11 
+ 
+
+[Page 45]
+Answer: a 
+ 
+7. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int i = 10; 
+5. int *p = &i; 
+6. foo(&p); 
+7. printf("%d ", *p); 
+8. printf("%d ", *p); 
+9. } 
+10. void foo(int **const p) 
+11. { 
+12. int j = 11; 
+13. *p = &j; 
+14. printf("%d ", **p); 
+15. } 
+a) 11 11 11 
+b) 11 11 Undefined-value 
+c) Compile time error 
+d) Segmentation fault/code-crash 
+ 
+Answer: b 
+ 
+8. What is the output of the code below? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int i = 10; 
+5. int *const p = &i; 
+6. foo(&p); 
+7. printf("%d\n", *p); 
+8. } 
+9. void foo(int **p) 
+10. { 
+11. int j = 11; 
+12. *p = &j; 
+13. printf("%d\n", **p); 
+14. } 
+a) 11 11 
+b) Undefined behaviour 
+c) Compile time error 
+
+[Page 46]
+d) Segmentation fault/code-crash 
+ 
+Answer: a 
+ 
+9. Which of the following are correct syntaxes to send an array a s a parameter to function: 
+a) func(&array); 
+b) func(#array); 
+c) func(*array); 
+d) func(array[size]); 
+ 
+Answer: a. 
+ 
+11. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. int k = 5; 
+5. int *p = &k; 
+6. int **m = &p; 
+7. printf("%d%d%d\n", k, *p, **m); 
+8. } 
+a) 5 5 5 
+b) 5 5 junk value 
+c) 5 junk junk 
+d) Run time error 
+ 
+Answer: a 
+ 
+12. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. int k = 5; 
+5. int *p = &k; 
+6. int **m = &p; 
+7. printf("%d%d%d\n", k, *p, **p); 
+8. } 
+a) 5 5 5 
+b) 5 5 junk value 
+c) 5 junk junk 
+
+[Page 47]
+d) Compile time error 
+ 
+Answer: d. 
+13. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. int k = 5; 
+5. int *p = &k; 
+6. int **m = &p; 
+7. **m = 6; 
+8. printf("%d\n", k); 
+9. } 
+a) 5 
+b) Compile time error 
+c) 6 
+d) Junk 
+ 
+Answer: c 
+ 
+14. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. int a[3] = {1, 2, 3}; 
+5. int *p = a; 
+6. int *r = &p; 
+7. printf("%d", (**r)); 
+8. } 
+a) 1 
+b) Compile time error 
+c) Address of a 
+d) Junk value 
+ 
+Answer: b 
+ 
+15. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+
+[Page 48]
+4. int a[3] = {1, 2, 3}; 
+5. int *p = a; 
+6. int **r = &p; 
+7. printf("%p %p", *r, a); 
+8. } 
+a) Different address is printed 
+b) 1 2 
+c) Same address is printed. 
+d) 1 1 
+View Answer 
+Answer: c 
+Explanation: None. 
+16. How many number of pointer (*) does C have against a pointer variabl e declaration? 
+a) 7 
+b) 127 
+c) 255 
+d) No limits. 
+ 
+Answer: d 
+ 
+17. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int a = 1, b = 2, c = 3; 
+5. int *ptr1 = &a, *ptr2 = &b, *ptr3 = &c; 
+6. int **sptr = &ptr1; //-Ref 
+7. *sptr = ptr2; 
+8. } 
+a) ptr1 points to a 
+b) ptr1 points to b 
+c) sptr points to ptr2 
+d) None of the mentioned 
+ 
+Answer: b 
+ 
+18. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+
+[Page 49]
+4. int a[3] = {1, 2, 3}; 
+5. int *p = a; 
+6. int **r = &p; 
+7. printf("%p %p", *r, a); 
+8. } 
+a) Different address is printed 
+b) 1 2 
+c) Same address is printed. 
+d) 1 1 
+ 
+Answer: c 
+ 
+ 
+PART B 
+1) short notes on Passing Array Element to Function with an example 
+2) Explain Formal and Actual Parameters 
+3) Give the Advantages of using Functions , 
+4) example program for Processor Directives and #define Directives 
+5) write a program for Pointer Declaration and dereferencing, 
+6) write a program for pointers, Void Pointers and size of Void Pointers 
+7. Write algorithm and pseudo code for leap year calculation. [CLO 1] 
+8. Contrast the declaration of break and continue in while and for loop with justification 
+ [CLO 2] 
+9. Limitations of two dimensional arrays. 
+ 
+PART C 
+1) i) c program to read array elements and print the values with their address 
+ 
+7) Justify and explain the different size of data types using pointer variables with example program. 
+ 
+ 
+ 8) i) write a c program to count vowels and consonants in a string using pointer 
+ 
+ ii) Write call by reference and call by value with an example program 
+ 
+ ii) what is Pointers and address operator, explain with an example of Size of Pointer Variable and 
+Pointer, Operator 
+ 2) Explain in details with an example Pointer Declaration and dereferencing, pointers, Void Pointers and 
+size of Void Pointers 
+ 3) write program for Arithmetic Operations, Incrementing Pointers 
+4) what is Constant Pointers, Pointers to array elements and strings 
+ 
+5)what is function pointer & Array of Function Pointers with an example 
+ 
+6write the c program for Accessing Array of Function Pointers, Null Pointers 
+ 
+
+[Page 50]
+ 
+ 
+ 
+ 
+ 
+ 
+ UNIT 5 
+Part A 
+1. Which of the following are themselves a collection of different data types? 
+a) string 
+b) structures 
+c) char 
+d) all of the mentioned 
+View Answer 
+Answer: b 
+Explanation: None. 
+2. User-defined data type can be derived by___________ 
+a) struct 
+b) enum 
+c) typedef 
+d) all of the mentioned 
+ 
+Answer: d 
+ 
+3. Which operator connects the structure name to i ts member name? 
+a) – 
+b) <- 
+c) . 
+d) Both <- and . 
+ 
+Answer: c 
+ 
+4. Which of the following cannot be a structure member? 
+a) Another structure 
+b) Function 
+c) Array 
+
+[Page 51]
+d) None of the mentioned 
+ 
+Answer: b 
+ 
+5. Which of the following structure declaration will throw a n error? 
+a) struct temp{}s; 
+ main(){} 
+b) struct temp{}; 
+ struct temp s; 
+ main(){} 
+c) struct temp s; 
+ struct temp{}; 
+ main(){} 
+d) None of the mentioned 
+Answer: d 
+ 
+6. What is the output of this C code? 
+1. #include <stdio.h> 
+2. struct student 
+3. { 
+4. int no; 
+5. char name[20]; 
+6. } 
+7. void main() 
+8. { 
+9. struct student s; 
+10. s.no = 8; 
+11. printf("hello"); 
+12. } 
+a) Compile time error 
+b) Nothing 
+c) hello 
+d) Varies 
+ 
+Answer: a 
+ 
+7. What is the output of this C code? 
+1. #include <stdio.h> 
+2. struct student 
+3. { 
+4. int no = 5; 
+5. char name[20]; 
+6. }; 
+7. void main() 
+
+[Page 52]
+8. { 
+9. struct student s; 
+10. s.no = 8; 
+11. printf("hello"); 
+12. } 
+a) Nothing 
+b) Compile time error 
+c) hello 
+d) Varies 
+ 
+Answer: b 
+ 
+8. What is the output of this C code? 
+1. #include <stdio.h> 
+2. struct student 
+3. { 
+4. int no; 
+5. char name[20]; 
+6. }; 
+7. void main() 
+8. { 
+9. student s; 
+10. s.no = 8; 
+11. printf("hello"); 
+12. } 
+a) Nothing 
+b) hello 
+c) Compile time error 
+d) Varies 
+ 
+Answer: c 
+ 
+9. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. struct student 
+5. { 
+6. int no; 
+7. char name[20]; 
+8. }; 
+9. struct student s; 
+
+[Page 53]
+10. s.no = 8; 
+11. printf("%d", s.no); 
+12. } 
+a) Nothing 
+b) Compile time error 
+c) Junk 
+d) 8 
+ 
+Answer: d 
+ 
+10. Can the above code be compiled successfully? 
+1. #include <stdio.h> 
+2. struct p 
+3. { 
+4. int k; 
+5. char c; 
+6. float f; 
+7. }; 
+8. int main() 
+9. { 
+10. struct p x = {.c = 97, .f = 3, .k = 1}; 
+11. printf("%f\n", x.f); 
+12. } 
+a) Yes 
+b) No 
+c) Depends on the standard 
+d) Depends on the platform 
+ 
+Answer: c 
+ 
+ 
+11. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. struct student 
+5. { 
+6. int no; 
+7. char name[20]; 
+8. }; 
+9. struct student s; 
+
+[Page 54]
+10. no = 8; 
+11. printf("%d", no); 
+12. } 
+a) Nothing 
+b) Compile time error 
+c) Junk 
+d) 8 
+ 
+Answer: b 
+ 
+12. Number of bytes in memory taken by the below struc ture is 
+1. #include <stdio.h> 
+2. struct test 
+3. { 
+4. int k; 
+5. char c; 
+6. }; 
+a) Multiple of integer size 
+b) integer size+character size 
+c) Depends on the platform 
+d) Multiple of word size 
+ 
+Answer: a 
+ 
+13. What is the output of this C code? 
+1. #include <stdio.h> 
+2. struct 
+3. { 
+4. int k; 
+5. char c; 
+6. }; 
+7. int main() 
+8. { 
+9. struct p; 
+10. p.k = 10; 
+11. printf("%d\n", p.k); 
+12. } 
+a) Compile time error 
+b) 10 
+c) Undefined behaviour 
+
+[Page 55]
+d) Segmentation fault 
+ 
+14. What is the output of this C code? 
+1. #include <stdio.h> 
+2. struct 
+3. { 
+4. int k; 
+5. char c; 
+6. } p; 
+7. int p = 10; 
+8. int main() 
+9. { 
+10. p.k = 10; 
+11. printf("%d %d\n", p.k, p); 
+12. } 
+a) Compile time error 
+b) 10 10 
+c) Depends on the standard 
+d) Depends on the compiler 
+ 
+Answer: a 
+ 
+15. What is the output of this C code? 
+1. #include <stdio.h> 
+2. struct p 
+3. { 
+4. int k; 
+5. char c; 
+6. }; 
+7. int p = 10; 
+8. int main() 
+9. { 
+10. struct p x; 
+11. x.k = 10; 
+12. printf("%d %d\n", x.k, p); 
+13. } 
+a) Compile time error 
+b) 10 10 
+c) Depends on the standard 
+d) Depends on the compiler 
+ 
+
+[Page 56]
+Answer: b 
+ 
+16. What is the output of this C code? 
+1. #include <stdio.h> 
+2. struct p 
+3. { 
+4. int k; 
+5. char c; 
+6. float f; 
+7. }; 
+8. int p = 10; 
+9. int main() 
+10. { 
+11. struct p x = {1, 97}; 
+12. printf("%f %d\n", x.f, p); 
+13. } 
+a) Compile time error 
+b) 0.000000 10 
+c) Somegarbage value 10 
+d) 0 10 
+ 
+Answer: b 
+ 
+17. What is the output of this C code(according to C99 standard)? 
+advertisement 
+1. #include <stdio.h> 
+2. struct p 
+3. { 
+4. int k; 
+5. char c; 
+6. float f; 
+7. }; 
+8. int main() 
+9. { 
+10. struct p x = {.c = 97, .f = 3, .k = 1}; 
+11. printf("%f\n", x.f); 
+12. } 
+a) 3.000000 
+b) Compile time error 
+c) Undefined behaviour 
+d) 1.000000 
+ 
+
+[Page 57]
+Answer: a 
+ 
+18. What is the output of this C code(according to C99 standard)? 
+1. #include <stdio.h> 
+2. struct p 
+3. { 
+4. int k; 
+5. char c; 
+6. float f; 
+7. }; 
+8. int main() 
+9. { 
+10. struct p x = {.c = 97, .k = 1, 3}; 
+11. printf("%f \n", x.f); 
+12. } 
+a) 3.000000 
+b) 0.000000 
+c) Compile time error 
+d) Undefined behaviour 
+ 
+Answer: b 
+ 
+19. What is the output of this C code(according to C99 standard)? 
+1. #include <stdio.h> 
+2. struct p 
+3. { 
+4. int k; 
+5. char c; 
+6. float f; 
+7. }; 
+8. int main() 
+9. { 
+10. struct p x = {.c = 97}; 
+11. printf("%f\n", x.f); 
+12. } 
+a) 0.000000 
+b) Somegarbagevalue 
+c) Compile time error 
+d) None of the mentioned 
+ 
+Answer: a 
+ 
+
+[Page 58]
+ 
+ 
+ 
+ 
+ 
+PART B 
+1. Write algorithm and pseudo code for leap year calculation. 
+2. Contrast the declaration of break and continue in while and for loop with justification 
+3. Limitations of two dimensional arrays. 
+4. Explain about nested pre-processor MACRO 
+5. Categorize the basic operations that can be performed on a file with suitable declarations. 
+6. Write a c program to demonstrate double pointer for accessing the value of another pointer 
+7. Explain about file operations and mode with syntax. 
+8) explain shortly about Initializing Structure, Declaring structure, variable, 
+9) give the example of Structure using typedef, Accessing members 
+10)what is Nested structure, Accessing elements in a structure array, 
+11)write c program for Array of structure, Accessing elements in a structure array 
+12. Explain about file operations and mode with syntax. 
+ 13. Give a brief note about preprocessor directives. 
+14. Differentiate between a union and a structure. 
+15.Write a program to read a file character by character, and display it simultaneously on the 
+screen 
+16) write a program for Passing Array of structure to function, 
+17)write a program for Array of pointers to structures 
+18. Explain about nested pre-processor MACRO 
+19. Categorize the basic operations that can be performed on a file with suitable declarations. 
+20.Write a c program to demonstrate double pointer for accessing the value of another pointer 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ PART C 
+ 
+1) explain in details about Bit Manipulation to structure and Pointer, to structure, Union Basic and 
+declaration with an example 
+ 
+ 
+ 
+ 
+2) explain in details about Accessing Union Members Pointers to Union, Dynamic memory allocation, 
+mallaoc, realloc, free with an example 
+ 
+3) explain in details about Allocating Dynamic Array, Multidimensional array using dynamic memory 
+allocation with an example 
+4) Explain in details about array of structures and accessing elements in a structure array. 
+ 
+5)Write a c program to insert a line at the end of text file 
+6) write a program to copy the content from one file to another file 
+ 7) explain and write the program for library management system using union 
+
+[Page 59]
+14) c program to read array elements and print the values with their address 
+ 
+15) Justify and explain the different size of data types using pointer variables with example program. 
+ 
+16) write a c program to count vowels and consonants in a string using pointer 
+ 
+ 17) Write call by reference and call by value with an example program 
+ 
+ 
+ 
+18) a) i) Explain in details about array of structures and accessing elements in a structure array. 
+ 
+ ii) Write a c program to insert a line at the end of text file 
+ 
+ 19) i) write a program to copy the content from one file to another file 
+ ii) explain and write the program for library management system using union 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+8) write a c program for file: opening, defining, closing, File Modes, File Types, Writing contents into a 
+file 
+ 9) write a c program for Reading file contents, Appending an existing file 
+10)Differentiate between gets() and scanf() 
+(11)Write a program to convert the given string “hello world” to “dlrow olleh”. 
+ 
+12. Write a program that passes a pointer to a structure to a function 
+ 
+13 Briefly discuss about file operations in C 
+ 
+ 
+32(a)Write a program that passes a pointer to a structure to a function 
+ [CLO 5] 
+ (OR) 
+32(b)Briefly discuss about file operations in C [CLO 5]
+
+---
+
+## nexus sem 2/Programming For Problem Solving/PYQs/CT Papers Compilation PYQ.url
+
+CATEGORY: PYQs
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1e0OY2AVToH-FtIpYimh1iE4d0kmW-uUq?usp=drive_link
+
+---
+
+## nexus sem 2/Programming For Problem Solving/PYQs/Important Questions.pdf
+
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+PPS IMPORTANT TOPIC 
+Note: Prepare all topics from all the unit, but concentrate more on the following topics 
+UNIT-1 
+ Compare compiler and interpreter. 
+ What is algorithm? How it is used as a problem-solving tool. 
+ What is pseudo code? How it is used as a problem-solving tool. 
+ Writing algorithms, Pseudo code and Flow Chat for 
+o Fibonacci Series (OR) 
+o Check Number Is Armstrong or Not (OR) 
+o Check a Number is Palindrome or Not (OR) 
+o Find Factorial of a Number (OR) 
+o convert temperature from Fahrenheit to Celsius (OR) 
+o convert temperature from Celsius to Fahrenheit (OR) 
+o prime number or not (OR) 
+o sum of even digits in a number in c (OR) 
+o sum of odd digits in a number in c (OR) 
+o sum of natural numbers (OR) 
+ What is a token? What are different types of tokens available in C language? Explain. 
+(explain the following topic with example Keywords, Identifiers, Constants and Special 
+Characters) 
+ Unformatted Input/Output functions. 
+ Storage Class (Auto, static, extern, register) 
+ Operators (all operators with example) 
+ Operator Precedence (They will give some expression, you have to solve expression using 
+operator precedence rules) 
+ Write C program to read a radius of a Circle as an input and Calculate its Diameter, 
+Circumference, and Area. 
+ Write a C program to swap two numbers without using third variable. 
+ Write a C program to enter length and width of a rectangle as an input and calculate its 
+perimeter and its area. 
+ Write a C program to swap two numbers using bitwise operator. 
+ Read two angle of a triangle as an input and find the third angel. And also read base and 
+height of the triangle as an input from the user and find area of a triangle. 
+ Write a C program to convert temperature from Fahrenheit to Celsius. 
+ Write a C program to enter basic salary and prepare pay slip using following data. TA = 15% 
+of basic, HRA = 8% of basic, Grade Pay = 9000, and PF = 15% of basic. Calculate Gross 
+salary, PF and Net salary and display them. 
+UNIT-2 
+ Explain in detail about Conditional Control Statements. (Simple if, if...else, else if and nested 
+if, Switch case with example) 
+ Explain in detail about Looping Control Statements. (for, While, do.while with example) 
+ Write a c programming to 
+o Fibonacci Series (OR) 
+o Check Number Is Armstrong or Not (OR) 
+o Check a Number is Palindrome or Not (OR) 
+o Find Factorial of a Number (OR) 
+o prime number or not (OR) 
+
+[Page 2]
+o sum of even digits in a number in c (OR) 
+o sum of odd digits in a number in c (OR) 
+o sum of natural numbers (OR) 
+o Find Factorial of a Number Using Recursion. (OR) 
+o They will give some pattern. 
+ Write a c program for 
+o Matrix Addition Program 
+o Matrix Subtraction Program 
+o Matrix Multiplication Program 
+o Sorting element 
+o To Insert An Element Desired or Specific Position In An Array 
+o To Delete Element From Array At Desired Or Specific Position 
+ Pointer 
+ What is dynamic memory allocation? Write and explain the different 
+dynamic memory allocation functions in C 
+UNIT-3 
+ Explain string function with an example. (Prepare all string function with an example). 
+ C Program to Count Vowels, Consonants, Digits and Spaces in Given String or 
+Remove all characters in a string except alphabets or Reverse a string using recursion or find 
+index of character. 
+ Explain Call by Value and Call by Reference with an example. 
+ C function argument and return values. (explain Four types with an example) 
+UNIT-4 
+ Basic Data Types in Python. 
+ Explain in detail about Conditional Control Statements in python 
+ Explain in detail about Looping Control Statements in python. 
+ List function and methods. 
+ Tuple function and methods. 
+ Set methods. 
+ Dictionaries methods. 
+UNIT-5 
+ NumPy ndarray 
+ Slicing arrays in NumPy 
+ Dealing with Rows and Columns in Pandas. 
+ Working with Missing Data 
+ Applying Functions to Data frames 
+ Comparison between Numpy and Pandas 
+ Other Python Libraries
+
+---
+
+## nexus sem 2/Programming For Problem Solving/PYQs/PPS CT1 Papers 24-09-2025.pdf
+
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+4 
+8 
+9 
+B) 123 C) "Hello" D) main 
+Which storage class in C is used to declare variables that are local to a function and retain their values between function calls? A) auto B) register C) static 
+D) extern 
+If int x4,, result of x<<I is: A) 2 B) 8 
+C) 6 
+D) 10 Which of the following is a valid single-line comment in C? A) B) /This is a comment MThis is a comment 
+This is a comment /l 
+D) <-This is a comment--> What is the output of the program kinclude <stdio.h> 
+int main) { int x 2: 
+A) One 
+switch (x) { 
+B) Two 
+D) Error 
+A) 0 B) 4 
+int i: 
+C) 5 
+case l: printf("One"% break: 
+C) Three 
+case 2: printf("T wo"): 
+return 0: 
+break: 
+case 3: printf("Three"): break. 
+What will be printed for the code snippet: 
+default: printf("Default"): 
+for(i -0; ii<5;itt: printf("%d", ): 
+D) Garbage value How many times will "C Programming" be printed? Winclude <stdio.h> 
+int main() 
+1 
+2 
+2 
+1 
+131 
+1.3.1 
+13.1 
+2 2 2 2.1.2 
+2 1 13.1 
+22 2 2.1.2 
+
+[Page 2]
+10 
+int k-2. 
+do 
+B) 
+stop: 
+printf("C Programmingin"): k-
+goto stop: while(k>-1): 
+if(0 
+retun 0: 
+A) One time 
+Two times C) Three times 
+D) Infinite times 
+Guess the output of the following output: #include <stdio.h> int main) { 
+int a -5, b 0; 
+A) True 
+ifla && b) 
+printf("Trucn"); 
+else 
+B) False 
+return 0: 
+printf("Falscin"'): 
+C) Compilation error D) No output 
+2 2 1 L3.1 
+
+[Page 3]
+OSRM 
+Test: CT I 
+Course Code & Title: 21CSSIOLI Programming for Problem Selving Year & Sem: 1 Year /I Sem 
+11 
+Answer any three questions out of four: 
+13 
+14 
+SRM Institute of Science and Technology College of Engineering and Teehnology School of Computing SRM Nagar, Kattankulathr 603203. Chengalpattu Disarict. Tamilnadu Acndemie Year: 2025-2026 (ODD) 
+12 Arobotics project roquires checking whether a number is odd or even 
+Write a program to illustrate the difference between logical and bitwise operators in C. 
+Conditions: 
+using only bitwisc opcrators. Write a C program for the same. 
+Part-B 
+(3x515 Marks) 
+An amusement park has threc types of rides based on height. Manya wants to know if she can go on the Adventure Ride. Her height is 140 cm. Write a C program to decide her cligibility. 
+"Eligible for Giant Ride, if height > 160 cm "Eligible for Adventure Ride, if height > 120 cm and < 160 cm Eligible for Kids Ride, if height< 120 cm 
+COL 
+developer is assigned the task of implementing a key feature for a mobile calculator application. The application should provide users with the ability to select an arithmetic opcration-such as addition. subtraction, multiplication, or division and perform that operation on two user-input numbers. The developer is required to write a program in C that utilizes a switch statement to construct this simple calculator 
+functionality, enabling users to choose their desired mathematical opcration. 
+CO Distribution 
+Course Outcome (CO) and Bloom's level (BL) Coverage in Qucstions 
+CO2 CO) CO4 COS 
+Bioom's tevol Distribution 
+5 
+5 
+5 
+L 
+Date: 24.09, 2025 
+Duratien i Period Max. Marks: 25 
+2 
+3 
+3 
+3 
+2 
+SET C 
+2 
+1 
+1 
+1 
+1.3.1 
+1.3.1 
+13.1 
+13.1 
+
+[Page 4]
+Course Articalation Matrist 
+2 
+SNo 
+3 
+Q. 
+No 
+2 
+3 
+4 
+Course 
+Outcone 
+COI 
+CO2 
+CO3 
+CO4 
+COS 
+Instructions: 
+arrays. 
+POI 
+Course Outcomes (CO): 
+A) 2 
+2 
+Follow proper dress code. ID card is mandatory 
+B) 3 
+2 
+MCQ sheet to be handed over to the faculty after the first 15 minutes. 
+MOBILE PHONES/SMART GADGETS STRICTLY NOT PERMITTED. 
+DO NOT WRITE or MARK anything in the Question Paper (Except Registration Number) 
+Discussion with your classmates is considered as MALPRACTICE, and it results in 0° Mark. 
+DO NOT BORROW anything (Like Calculator, Pen, Pencil, Eraser etc) from others. 
+Question Paper should be submitted along with Answer Booklet. 
+C) 1 
+2 
+CO1: Solve problems through computer programming. Express the basic data types and variables in C 
+CO2: Use appropriate data types in simple data processing applications. To create programs using the concept of 
+D) 0 
+2 
+int a2, b3: 
+2 
+A) main 
+B) define 
+printf("%d", a && b): 
+C) printf 
+PO2 
+D) double 
+3 
+Predict the output of the following C code snippct: 
+PO3 PO4 POS PO6 PO7 
+Which of the following is a keyword in C? 
+Which is valid C expression? 
+A) int mynum 100,000: 
+Question 
+Part -A 
+(1x 10 -10 Marks) 
+Multiple Choice QQuestions 
+POS POP PO10 POIL POI2 
+Marks BL 
+2 
+2 
+CO PO PI 
+Code 
+13.1 
+2.1.2 
+1.3.1 
+
+[Page 5]
+4 
+6 
+7 
+9 
+10 
+B) int ny num-I00000 C) int ny num 1000, 
+D) int Smy num 
+What will be printed after executing the below code sippet 
+A) 7 B) 6 
+C) Error 
+D) Undefined 
+What will be the output of the folowing C code? 
+int x7: printf("%d",x-. 
+Hinclude <stdio.h> 
+int main) 
+1 
+10000: 
+A) Itwill cause a compile-time error B) Itwill cause a run-time error 
+int main 330; 
+printf("d", main). 
+return 0: 
+C) It will run without any error and prints 3 D) It will experience infinite looping Which of the following is NOT true about pseudocode? 
+E) It uses natural language mixed with programming constructs F) Itis not executed on computers G) It helps in designing algorithms H) It requires strict syntax rules like C 
+The following loop exccutes exactly 5 times: forint i-0; ic5; i++)|/body 71 A) Truc, because it runs from 0 to 4. 
+B) False, because it actually executes 6 times (0 to 5). C) True, because condition allows only S iterations. 
+D) False, because loop never runs. 
+C) exit 
+Fill in the blank so the while loop prints numbers from 0 to 4. 
+int i 0; while )t printf"%d ". i): 
+B) break 
+keyword is used to exit from a loop immediately? A) continue 
+D) return Pick the correct staterment about the continue statement. A) It skips the remaining statements in the loop and moves to 
+the next iteration B) It terminates the loop immediately C) Itis sed to exit fron a switch-case 
+D) Itends the program execution 
+1 2 
+2 
+2 
+2 
+2 
+2 
+2 
+2 
+2 
+2 
+131 
+13.1 
+1.3.1 
+2 2.1.2 
+1 1.3.1 
+2.1.2 
+1.3.1 
+
+[Page 6]
+Test: CTI 
+12 
+SRM 
+Course Code & Titie: 21CSSIOLJ Programming for Problem Solving Year & Sem: I Year / L SSem 
+13 
+Answer any three questions out of four: 
+14 
+SRM Institute of Science and Technelogy College of Fngineering and TechnologY School ef Computing SRM Nagar. Kattankolattur 603203. Chengslptt Diarict Tamilnaa Academie Veari 2025-2026 (ODD) 
+In C languagc, illustrate how storage classes handle the variables, in terms of scope and visibility. along with program code. 
+COL 
+Write a pscudocode to convert Celsius to Fabrenheit temperature 
+Prompt the uscr to enter the temperature (in Celsius). Explain how pscudocode makes it easy to translate the logic into a Cprogram. 
+An HR manager wants to automate the employce performance evaluation process in C. The company follows this grading policy: Score >90 Outstanding 
+Score 75 89 Excellent Score 60 74Good Score 40 59 Necds Improvement Score < 40Poor Hclp the IR manager, by writing a C program using an clse-if ladder that accepts an cmployee's score as input and displays their performance rating. 
+CO Distribution 
+CO2 
+Part-B 
+(3x5-15 Marks) 
+Ravi is building a small banking application in C. As part of his projcct. he necds to implement a fcature whcre the digits of a customer's account number must be reversed for cncryption before 
+storage (Eg: 1234 ’ 4321). Ravi decides to use a while loop to solve 
+this. Ilelp Ravi to solve this, using a C program. 
+Course Outcome (CO) and Bloom's level (BL) Coverage in Questions 
+COS CO COS 
+Bloom's level Distribution 
+5 
+5 
+Dates 24.09.2625 Duration i Period Max. Marks: 25 
+BLS 
+3 
+3 
+3 
+SETE 
+2 
+2 
+13.1 
+13.1 
+1.3.1 
+1.3.1 
+
+[Page 7]
+Tet: CT 
+Coune Articutation Matris 
+SRM 
+Course Cede & Tle: 21CSSIoL Programming for Problem Selving Vear & Sem: tVear/ Sem 
+S.Ne Course POI 
+Outeome 
+. 
+Q. 
+No 
+2 
+COT 
+CO2 CO3 
+Instructions: 
+COI 
+COS 
+MCQ sheet to be handed over to the faculty after the first 15 minutes, MOBILE PHONES/ SMART GADGETS STRICTLY NOT PERMITTED. 
+Course COuteomes (CO: 
+SRM Naga, Kattankulathur 603203, Chenpalpatu Diarict. Tamilnadu 
+Academic Vear: 202s-2026 (ODD) 
+DO NOT WRITEor MARK anything in the Question Paper (Except Registration Number) 
+.Follow proper dress code. ID card is mandatory. 
+arrays. 
+PO2 PO3 PO4 POS PO6 PO7 POS 
+. Question Paper should be submited along with Answer Booklet. 
+3 
+" Discussion with your classmates is considercd as MALPRACTICE, and it results in '0' Mark " DO NOT BORROW anything (L.ike Caleulator. Pen, Pencil, Eraser ete.) from others. 
+SRM Institute of Science and Technology College of Engineering and Technology School of Computing 
+A) 7 B) 9 
+co: Solve problems through computer programming. Express the basic data types and variables in C. cOZ: Use appropriate data types in simple data processing aplications. To create programs using the concept of 
+C) 10 D) 8 
+int e$ + 8/4*3-2; Evaluate and find the valuc of e in the expression: 
+int main() 
+What will be the output? 
+int a6; 
+#include<stdio.he 
+return 0; 
+int b a--2; 
+printf("6d", b): 
+PO9 
+Part-A 
+(1x 10-10 Marks) Multiple Choice Questions 
+Question 
+Date: 2409.2024 
+DurationI Period Mas. Marks 25 
+POIO POII POI2 
+SET G 
+Marks BL CO PO 
+2 
+1 
+1 2 
+PI 
+Code 
+1.3.1 
+2.1.2 
+
+[Page 8]
+4 
+5 
+6 
+B) 3 
+C) 2 D) -1 Guess the output of the below code: 
+#include<stdio.h> int main0 double x-78.999: printf("%2f. x)k return 0:. 
+A) 78.99 
+B) 79.00 
+C) 78.90 
+D) Ernor 
+Predict the output of the following code snippet int p I.q-0. printf("%d %d, pt &&q.pk A) 02 
+B) 12 C) 11 
+D) 01 
+The sizeof() operator in C returns: A) Numnber of digits in a value B) Size of memory in bits C) Size of memory in bytes 
+D) Address of variable 
+The keyword used to definc a constant in C is 
+A) const 
+B) #definc 
+C) Both A and B 
+D) Neither A nor B 
+What will be the output of the following code snippet? 
+intxl0. 
+if(x<5) 
+printf("Hello"). 
+clse 
+printf("World")% A) Hello 
+B) Wold 
+C) HelloWorld D) No output 
+How many times, value of "i is checked in the following program 
+#include <stdio.h> 
+int main( 
+int i-0: while (i<3) 
+printf ("ln while loopln"): 
+1 
+1 
+1 
+2 
+2 
+2 
+2 
+2 
+1 
+1 
+1 
+2 
+2 
+1 13.1 
+13.1 
+1.3.1 
+1.3.1 
+2 2.12 
+1 13.1 
+
+[Page 9]
+Answer any three questions out of four: 
+11 
+12 
+13 
+Develop an algorithm, pscudocode and flowchart for finding the factorial of the given number. 
+Write a C program that Swaps two variables without using temporary variables. 
+Fill the code given and explain how the desired output will be 
+generated. 
+#include <stdio.h> 
+int main()0{ int num, sum 0: printf("Fnter a number: "): 
+scanf( / Loop to find divisors for(int i 1;i< 
+if 
+ifC 
+Part-B 
+(3x5-15 Marks) 
+.&num): 
+Sum m 
+else printf("%d is a Perfect Number", num): 
+printf("%d is not a Perfect Number", num): 
+return 0: 
+5 
+5 
+2 
+3 
+3 
+1 
+2 
+13.1 
+L3.1 
+13.1 
+
+[Page 10]
+A) 2 
+B) 1 C) 3 
+D) 4 
+Guess the output for following code snippet: int x-3, switch () case 1: printf("A")% case 2: printf("B"): 
+case 3: printf("C"); default: printf("D"): 
+A) CD B) C C) ABC D) BCD Write the output for the following code snippet? for (int i 1;ic 5, i) if((3) continue: printf("d. i: 
+A) 12345 
+B) 12 C) 1245 
+D) 345 
+1 2 
+2 
+2 
+2 
+2 2.1.2 
+13.1 
+
+[Page 11]
+Test: CTI 
+Course Articulation Matrik: 
+Course Code & Title: 21CSsiOLJ -Programming for Protlem Sotving Year & Sem: I Year /I Sem 
+S.No Cours PO1 
+Outceme 
+SRM 
+Q. 
+N 
+" 
+2 
+Instructions: 
+. . 
+COI 
+. 
+CO2 
+CO3 
+CO4 
+COs 
+2 
+. MOBILE PHONES / SMART GADGETS STRICTLY NOT PERMITTED. 
+SRM Nagar, Kattankulathur-603203.Chengnipatu District. Tanilnadu 
+Academie Year: 2025-2026 (ODD) 
+MCQ sheet to be handed over to the faculty after the first 15 minutes 
+PO2 
+3 
+SRM Institute of Science and TechnoloRy 
+College of Engineering and Technology Sehool of Computing 
+of arrays. 
+Course Outeomes (CO: 
+. Follow proper dress code. ID card is mandatory 
+A) static 
+PO3 PO4 POS PO6 PO7 POS 
+DO NOT WRITE or MARK anything in the Question Paper (Except Registration Number) 
+" Question Paper should be submitted along with Answer Booklet. 
+B) auto 
+Discussion with your classmates is considercd as MALPRACTICE, and it results in 0' Mark DO NOT BORROW anything (Like Calculator, Pen, Pencil, Eraser etc.) from others. 
+C) extern 
+COl: Solve problems through computer programming. Express the basic data types and variables in C. CO2: Use appropriate data types in simple data processing applications. To create programs using the concept 
+D) register 
+What is the default storage class of local variables in C? 
+int shifty: 
+#include<stdio.h> 
+int main(0 
+Question 
+PO9 
+What is the output of the following C code? 
+Part -A 
+(1x 10-10 Marks) Multiple Choice Questions 
+shifty = 0570; shifty = shifty >> 4; 
+Date: 24.09.2025 Duration: I Period 
+Max. Marks 25 
+PO10 POIT PO12 
+SET A 
+Marks BL 
+2 
+CO PO P 
+Code 
+13.1 
+2.1.2 
+
+[Page 12]
+8 
+7 
+4 
+5 
+3 
+) 
+E) The value of shifty is l S00 F) The value of shifty is 4300 G) The value of shifty is $700 H) The value of shifty is 2700 The following three C language statements is equivalent to which single statement? yy+k 
+A) 2x y+2: B) 2xt)+(44y): C) z(xt+) +(yt+): 
+C) 
+shifty shifty <<6; 
+D) z(xt)+(ty) + 1: Which of the following identifiers is invalid? 
+printt("The value of shifty is 9%o, shifty); 
+B) id 
+A) student 1 
+C) 9marks D) firstName Which statement is correct about string in C? A) It isa keyword B) it is stored as a character array ending with 0' C) It can store numbers only 
+Which of the following produces compile-time eror? 
+D) It has dynamic memory allocation by default 
+A) 45 
+B) x+ 
++x 
+D) xt-l 
+What is the output of the following C code? #include<stdio.h> 
+int main0 
+int k; 
+A) 4 16 
+B) 4 10 16 
+for(k=0; k< 20; k=k+ 2)( if(k %3 = 1) printt("%d", k): 
+0612 18 
+D) |47 10 13 16 19 
+With respect to following "for" loops in C, pick the best statement 
+Assume that there is a prior declaration of '" in all cases 
+for (1 < 10; i = 0; i++)//) 
+for (i< 10; it+;i= 0) // () 
+1 
+1 
+2 
+2 
+1 
+2 
+2 
+2 
+1 
+2 
+2 
+1 
+1 1.3.1 
+131 
+13.1 
+131 
+2 2.1.2 
+13.1 
+
+[Page 13]
+10 
+A) All the above for" loops would compile successfully Except (iii), the behaviour of all thc other "for" loops depend on compiler implementation. 
+for (=0; i< 10;i++) /I/ (H) for (i = 0; t+;i<10) // (iv) for (it+; i =0;i<10)// () for (it*;i <0;i=10) // (v) 
+B) Only (iii) would compile successfully. 
+C) Only (ii) and (iv) would compile successfully but 
+behaviour of (iv) would depend on compiler 
+implementation. 
+D) All the above for" loops would compile successfully. 
+What is the output of the following C code? 
+A) 
+B) 
+#include<stdio.h> 
+int main(0 
+int index; 
+for(index= 1; index <=5; index+)( 
+1245 
+12345 
+C) 12245 
+D) 12354 
+printf("%d", index); if (index 3) 
+continue: 
+Which of the following statement is correct for switch controlling 
+expression? 
+A) "switch" control expression can be empty as well. 
+B) Only int can be used in "switch" control expression. 
+C) All types i.e. int, char and float can be used in "switch" 
+control expression. 
+D) Both int and char can be used in "switch control 
+expression. 
+1 
+2 
+2 2 
+2 
+2 2.1.2 
+13.1
+
+---
+
+## nexus sem 2/Programming For Problem Solving/PYQs/PPS CT1 Papers ALL SETS 2025.pdf
+
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+Test: CTI 
+Course Articulation Matui: 
+S.No 
+SRM 
+Course Code & Title: 2CSSO Prooammino for Problem Solving 
+Year & Sem: l ear /| Sem 
+Q. No 
+5 
+Corse Outcome 
+Instrnctions: 
+6 
+CO) 
+CO4 (05 
+Course Outcomes (CO): 
+A) +t 
+I'O 
+MCÌ shcet to be handed over lo the faculty after the first 15 minutes. 
+Follow proper dress code. |D card is mandatory. 
+B) % C)+ 
+2 
+Question Paper should be submitted along with Answer Booklet. 
+MOBILI PHONLS SMARIGADGLIS STRICILY NOTPERMITTED. 
+DO NOT WRUE or MARK any thing in the Question Paper (Except Registration Number) 
+Discussion with your cdassnmates is considered as MALPRACTICE, and it results in '0' Mark. 
+DO NO BORROW anvthing (Like Caleulator, Pen, Pencil, Eraser etc.) from others. 
+CO1: Solve problems through computer prouramming. Express the basic data types and variables in C. 
+CO2:Use approprhate data types in sinple data processing applications. To create programs using the concept of arrays. 
+Which operator has the lowest priority? 
+SRM Ins 
+rO) 
+A) 'A' 
+College of Engincering and Techn School of Computing 
+SRINgar. Kaltkulathur 603203. Chengalpattu District. Tamiadu 
+Academic Year: 2025-2026 (ODD) 
+AY int main() { return 0; D) int main() { } 
+Y main 
+Which of the following is the correet structure of a C program? 
+B) main() { return 0;r 
+B) 123 C) "Hello" 
+C) void main() { return 0; Which of the following is not avalid constant in C? 
+A) auto B) register g static D) extern 2 
+Part -A (1x 10 = 10 Marks) Question 
+B) 8 C) 6 D) 10 
+Which storage class in C is used to decjare variables that are local to a function and retain their values between function calls? 
+If int x=4:, result of x<<| is: 
+P0 PO6 PO8 
+A), /* This is a comment */ Which of the following is a valid single-line commeht in C? BX I/ This is a comment C) #This is a comment D) <--This is a commnent -
+PO9 
+Multiple Choice Questions 
+Date: 24.09.2025 Duration: I Period Max. Mlarks: 25 
+1 
+POIO 
+Marks BL 
+1 
+1 
+1 
+1 
+2 
+2 
+2 
+1 
+CO 1 
+1 
+1 
+POI2 
+1 
+PO 
+1 
+1 
+PI Code 1.3.1 
+2.1.2 
+1.3.1 
+1.3.1 
+1.3.1 
+1.3.1 
+
+[Page 2]
+10 
+One 
+D) Emor O Three 
+B) 4 
+1What will be pinted for the code snippet: 
+D) 
+defanlt rintfDefault ). 
+fori 0,i< $;it). printf("%od", i): D) Garbage value How many times will "C Programming" be printed? 
+brcak break 
+#include <stdio.h> do { 
+byeak 
+int main() { 
+stop: 
+int k = 2: k--; printf("C Programmingn"): 
+A), One time 
+if(k == 0) goto stop; } while(k>-l); 
+Two times return 0:; 
+Y True B) False 
+C) Three times Infinite times Guess the output of the following output: #include <stdio.h> int main(){ 
+eise int a = 5, b=0, ifla && b) printf{"Trueln"): printf("Falseln"): return 0: 
+C) Compilation error D) No output 
+1 2 
+2 
+2 
+1 L3.1 
+2 2.1.2 
+1 1.3.1 
+
+[Page 3]
+CSRM 
+Test: CTI ourse Code & Tite: 21CSStO1J -Programming for Problem Solving Year & Sem: 1 Year / I Sem 
+11 Answer any three questions out of four: 
+12 13 
+14 
+20 15 10 
+SRM Institute of Science and Technology College of Engineering and Technology School of Computing SRM Nagar, Kattankulathur-603203. Chengalpattu District, Tamilnadu Academie Year: 2025-2026 (0DD) 
+Conditions: 
+Write a program to illustrate the difference between logical and bitwise operators in C. A robotics project requires checking whether a number is odd or even using only bitwise operators. Write a C program for the same. An amusement park has three types of rides based on height. Manya wants to know if she can g0 on the Adventure Ride. Her height is 140 cm. Write a C program to decide her eligibility. 
+Part -B (3 x5= 15 Marks) 
+CO1 
+" Eligible for Giant Ride, if height >= 160 cm " Eligible for Adventure Ride. if height >= 120 cm and < 160 cm 
+Course Outcome (CO) and Bloom's level (BL) Coverage in Questions 
+" Eligible for Kids Ride, if height < 120 cm 
+CO Distribution 
+A developer is assigned the task of implementing a key feature for a mobile calculator application. The application should provide users with the ability to select an arithmetic operation-such as addition, subtraction, multiplication, or division-and perform that operation on two user-input numbers. The developer is required to write a program in C that utilizes a switch statement to construct this simple calculator functíonality, enabling users to choose their desired mathematical operation. 
+CO2 C03 CO4 CO5 
+Bloom's Level Distribution 
+5 5 5 
+S BL1 BL2 O BL3 O BL4 BL5 
+Date: 24.09.2025 Duration: 1 Period Max. Marks: 25 
+2 3 3 
+3 
+1 
+1 
+2 
+SET C 
+2 
+1 1 
+13.1 13.1 1.3.1 
+13.1
+
+---
+
+## nexus sem 2/Programming For Problem Solving/PYQs/PYQ Jan 2023.pdf
+
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+Reg. No. oloa |o o5| 
+B.Tech/ M.Tech (Integrated) DEGREE EXAMINATION, JANUARY 2023 First Semester 
+21 CSS101J-PROGRAMMING FOR PROBLEM SOLVING (For the candidates admitted from the academic year 2022-2023) Note: ) Part A should be answered in OMR sheet within first 40 minutes and OMR sheet should be handed 
+over to hall invigilator at the end of 40th minute. Part-B and Part -C should be answered in answer booklet. (ii) Max. Marks: 75 Time: 3 Hours Marks BL CO PO PART A (20 x 1 = 20Marks) Answer ALL Questions 1. Find the output for the following statement. printf ("%d", sizeof ("Hello "); (B) 6 (D) 2 (A) 5 C) 1 2 1 1 2. What is the output for the following expression in C? n =5-2* 7-9: (A) -18 (C) 9 (B) 12 (D)1 2 1 1 3. Determine the correct output. float c = 3.14; prinf ("f, c%2); (A) 1.0 C) Compile error (B) 0 (D) 0.14 2 2 4. Find the meaning of following statement: f=(xv)? x :y; (A) fpoints to max of x & y (C) fpoints to addition of x & y (B) fpoints to min of x &y (D) Compile error I 21 5. The 'continue' statement cannot be used with (B) do while (D) switch case (A) while (C) for 12 I 6. Find the correct one to access the 3 element in an array. (A) *a+3 (C)*(* a+ 3) (B)(a +3) (D) &(a +3) 22 2 7. Find the output for the following C code. for (K 1; K< = 5; K+ +); 
+printf ("od", K); (A) 1 2 3 45 (C) (B) 1 23 4 (D) 5 6 Page 1 of 4 06JF1/21CSS101J 
+
+[Page 2]
+S. Size of integer pointer and character pointer in C for 16 bit processor is (A) 2 (C) 4 (B) 2 (D) 4 9. Expected output for the following code is 3 2 2 char str [] = {'g'. T, 'o', b' 10, 'a', T}; printf ("as", str);: (A) global (C) globloal (B) glob (D) al T0. The operator used to get value at an address stored in a pointer variable is (A) (C) && 
+2 3 (B) & (D) 11. The keyword used to transfer the control from a function back to the calling function in C is (A) goto (C) retum 
+4 
+(B) back (D) goback 
+4 12. If both the strings are same, a string function strcmp( )returns (A) 1 (C) 2 (B)-1 (D) 13. Keyword used for function in Python language is (A) function (C) fun (B) def (D) define 
+2 2 14. The following python code will print print (ype (5/2)) print (ype 5//2)) (A) float int float (B) float float (D) int int (C) int 2 2 15. Find the length of the following list in python len (["hello", 2, 4. 6]) (A) 8 (C) 4 (B) 6 (D) 3 
+1 5 16. Representation of python tuple is (A){} (C) [1,2, 3] (B) {1,2, 3} (D) (1,2, 3) 1 5 17. Number of elements present in the series S1 is SI = pd.series (range (1, 6)) print(Sl) (A) 4 (C) 6 (B) (D) 7 
+18. Numpy is often used along with packages like (A) Node.js (C) SciPy (B) Matplotlib (D) Both (B) and (C) 06JF 1/21CSs101J Page 2 of 4 
+
+[Page 3]
+19. Size attribute in Numpy is used to find (A) shape (C) objects (B) date and time (D) number of items 20. Library used to create data frame is (A) Sklearn (C) Pandas (B) Data frame (D) Random 
+Marks L cO PO PART B (5 x 8 = 40 Marks) Answer ALL Questions 2 21. a. Describe various storage classes in C programming with suitable example. (OR) 3 2 post-increment, pre-decrement, about pre-increment, b. Describe post-decrement, conditional operators, cach with suitable example. 2 22. a.i. Write a C program to find the factorial of a given number. 2 2 4 ii. Write the necessary conditions for switch-case in C. 
+2 (OR) 2 4+4 b. Explain about ) (ii) void pointer with an example in C NULL pointer with an exanple in C 
+8 4 3 2 23. a. Write a C program to find whether the given string is palindrome or not. Explain the string functions used in this program. (OR) 2 4 4 b. Explain the concept of passing the aray as an argument to function. Illustrate with C program to find the sum two matrices. 
+5 2 24. a. Describe any four operations performed on tuples in Python programming. (OR) 5 2 b. Write a Python program to print the following Floyd triangle. 2 3 4 56 
+4 4 5 2 25. a.i. Explain the significant features of the pandas library 
+A 5 2 ii. Write a Python program to create a Numpy array filled with all zeros. (OR) A b.i. List out various features of Numpy. 1. Describe about the different types of data structures in pandas. 
+06JF1/21CSSi01J Page 3 of 44 
+
+[Page 4]
+-
+eGrat 
+CO MArks 91. 
+PART C (1 x 15 =15 Marks) Answer ANY ONE Question 32 2 26.i. The National Highways Department announces a scheme for four whceler riders in the toll gate for its 50th year celebration. If the vehicle number is divisible by both 7 and 3, then they should pay one-third of the fec. If the vehicle number is divisible by 7 or 3, then they should pay half of the fee. Otherwise they have to pay full fees. Write a C program for the given Scenario. 7 3 32 ii. Writea C program to replace all vowels with star (*) and print the output 8 4 2 27.i. Write a Python program to check whether the given list is in sorted order or 
+not. If the given list is in sorted order then print true, else print false. 
+4 5 2 i. Write a python program to create two sets Setl and Set2 by getting input from user and determine whether the given sets Setl and Set2 are disjoint or not. 
+*** *
+
+---
+
+## nexus sem 2/Programming For Problem Solving/PYQs/PYQ Jun 2023.pdf
+
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+Note: () (ii) Time: 3 Hours 
+BTech/ M.Tech (ntegrated) DGREE ENAMINATION, UNE 2023 
+Part -Nhould tbe AAWered in OMR heet witlbin iet 40 mimes and OMI shee ahould be handed over to hall invigilator at the ond of 4oh nimte. 
+(A) 3 (C) 6 
+Z1CSST01|-PROORAMMING HOR POLEM tiOLVIN (For the condidates dniued iom the comte 
+Part -B And PartC ahould be anawered in anawer booklet 
+Pege l f 4 
+Reg. No 
+programming? 
+I The CxprcNsion 4 +6/3 *2 2 +7 %3 ovaluates t) 
+2. Which of the following is appropriate position for writing comments in C (A) Anywhere in the code (C) Before hender file scction 
+(A) && (C) | 
+A 
+PARTA (20 x 1 20Murlw) 
+(A) char > int > ont 
+'iat & Necond Nenester 
+(C) char< int < double 
+Annwer ALL Queations 
+3. Which is corcct with rCspect to the sizc of the data types? 
+clement alilL|A|/] 
+(A) Character 
+(A) (((a + I) + /) + k) + 1) (C) ((a+)+) +k+) 
+(C) Float 
+4. Which of the following is not logical opcrntor? 
+# include <stdio.h int main () 
+(B) 4 (D) 7 
+int a switch (a) 
+(B) Before function (D) Beford NCction 
+(B) int > char > loat (D) double (B) &R (D) ! 5. What would be the cquivalent point cxpression for referring the arny 
+calling 
+7. What is the output of the following program? 
+Variable 
+6. Which of the following cannot be checked in a switch-casc statement? (B) Integer (D) Enum 
+char> int 
+the main 
+(B) (*(*(*a +)+ ) +k) +l) (D) (a+i)+j+k*) 
+Mux, Marks; 75 
+declaration 
+
+[Page 2]
+(B) (1, 3, 2, 1,3] 
+(D) [1,3. 2, 3, 2, 1J 
+O1JEISI.1CSU 
+(A) (2, 6,4] (C) [1,3,2, 1,3, 2) 
+15. Suppose listl is [1,3,2), 
+ists are mutable (C) Tuples are immutable 
+while (D) are immutables are mutable while tests 
+mutable (A) 
+immutable 
+14. Choose the correct option with respect t 
+are 
+(0) -py (A) -python . Wich of the following 
+is the correct extension 
+of the python ie: 
+(D) p (B) pl 
+(C) String size is not mentioned 
+characters (D) String cannot contain special 
+(A) Character array, ary is a string 
+end (B) ary has no null character 
+at the 
+char ary []=Hello...!"; 12. Choose a correct statement 
+about 
+C string. 
+1 1 3 1 
+(C) 25 25 
+(D) Compiler error 
+(A) 25 1234 
+(B) 25 0 
+returm 0; printf ("%d %d", b, p); 
+int *p =b; int b = 25; |/ b memory 
+{ #include <stdio.h> 11. What is the output of C program? 
+1 1 3 I 
+(C) Recursive function (A) Selffunction 10. A function which calls itself calleda (D) Static function (B) Auto function 
+131 
+(C) Go back (A) Switch 
+(D) Return 
+function is 9. The keyword used to transfer 
+control from a function 
+(B) Goto 
+1 131 
+(C) for (A) do while The keyword 'break cannot be simply used within (D) while (B) if else 
+(C) No output (A) ABCDEFGH 
+(D) Compiler (B) EFGH 
+error 
+printf ("EFGH"); printf (ABCD"); 
+what is listl * 2? Tuples 
+Both 
+tuples and 
+tuples and lists are (B) 
+Both lists to python? 
+location = 1234; 
+back to the caling 
+
+[Page 3]
+25. a. Write short notes on numpy array attributes. (OR) 
+b. 
+(OR) 
+4 
+8 
+24. a. Write the various data types in python with example. 
+3 
+23. a. Differentiate 
+getchar (), 
+and b. 
+8 2 3 I 
+b. Write 
+8 I 2 1 
+(OR) 
+biggest number among the 
+b. Write a suitable 
+C program to explain the pre and post increment 
+operator. 
+8 2 1 1 
+(OR) 
+example. 21. a. List down various storage classes in C. Explain about storage class with 
+Answer ALL Questions PART-B 
+(5 x 8= 40 Marks) 
+Marks BI. CO PO 
+(C) dtypes (A) Dtypes 
+(D) datatypes (B) DTypes 
+of each column 
+in data frame? 
+20. Which of the following attribute of data frame js used to display data ype 
+(C) Pandas 
+(D) Random 
+(A) Python 
+(B) Data frame 
+19. Which library is to be imported for creating data frame? 
+(C) Numerical programe 
+(D) Nonlinear python 
+(A) Numerical python 
+(B) Natural python 
+18. What does Numpy stand for? 
+(C) [5, 6, 7] 
+(D) (2,4, 6] 
+1 
+(A) [2, 3, 4) 
+(B) [0, 1, 2] 
+5 1 
+print (a [2:5]) a = np. a range (10) 
+import numpy as np 
+17. What is the output of the following 
+code? 
+(C) != 
+(D) <= 
+1 
+(A) & 16. Which of these is not a bit wise operator? (B) &= 
+1 
+Write the input and output functions in python with example. 
+putchar () with a suitable C programming 
+(OR) 
+with suitable a example: call 
+by value Explain 
+call by reference. 
+a C program to compute the sum of the first 10 natural numberS. 
+three using if condition. 
+22. a. Write a C program to get 3 numbers 
+as input from the user and print the 8 1 2 1 
+
+[Page 4]
+flow chart. multiply the last digit and second last digit. Also write the algorithm 
+and 
+27. Develop 
+a C program 
+to read a three digit 
+15 2 2 2 
+draw the flow chart and algorithm. 
+10% of basic salary. Write a C program 
+to calculate 
+his gross salary. Also 
+35% of basic salary, house rent allowance 
+is 27% of basic 
+Answer 
+ANY ONE Question 
+PART -C(1x15 
+=15 Marks) 
+Marks 
+BL Co PO 
+b. Explain with an example numpy indexing. 
+2 5 1 
+number 
+from the user and 
+salary, and TA is 
+26. Kannan's 
+basic salary is given as input through 
+the keyboard. 
+His D.A is 15 2 1 2
+
+---
+
+## nexus sem 2/Programming For Problem Solving/PYQs/PYQ Nov 2018.pdf
+
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+31. a.i. List the advantages of uniting function in C programming.
+ii. Define preprocessor and its directives with suitable exampres.
+b.i. Define pointer.
+(oR)
+ii. Write aprogftlm to e4plain tle usage ofpointer.
+32. a.i. Explain dynamic memory allocation in detail.
+ii. Explain Stucture within Structure.
+( Marks)
+(8 Marks)
+(8 Marks)
+(a Marks)
+Notei
+(i)
+(i0
+Time: Three Hours
+B.Tech. DEGREE EXAMINATION, NOYEMBER 2018
+First Semester
+I 8CSS I O l J _ PROGRAMMING FOR PROBLEM SOLVING(For the candidates admitted during the academic year zoia-r-"*araJ
+Part - A should be answered in oMR sheet within first 45 minutes and oMR sheet shoutd be handedover to hall invigilator at the end of 45fi minute.
+Ihrt - B and Part - C should be answered in answer booklet.
+b.i.
+u.
+write aprogram to urite ,Hello worrd,toot}-o, ur".
+Discuss all file opening modes in c programming language with respect to file handring.
+PART-A(20x1=20Marks)
+AnswerALL euestions
+Max. Marks: 100
++**,t*
+1. Who is the fatherofC langu4ge?
+(A) Bjame Stoustrup
+(C) Dennis Ritchie @) James A.Gosling
+@) Dr.E.F.Codd
+which of the following type of operators have the highest
+(B) Equality operators
+@) Arithmetic opemtors
+@) floats and doubles
+(D) ints and chars
+20M:1/ltcsslou
+2. In C programming languagq
+precedeirce.
+(A) Relational operators
+(C) Logical operato,rs
+3. Bitwise operators can operate upon?
+(A) Doubte and chars
+(C) ints and floats
+4. What type of value does ,.size of'retum?
+(B)
+(D)
+5. Relational operators cannot be used on
+(A) Strucrure -l; rorg(C) Srings 6oj rroai
+6. What is the type of the berow assignment expression ifr is of type flaat,yis of type int?y =x+ y;
+(A) int @) float(C) There is no type for an assignment (D) double
+expression
+7' which keyword is used to come out of a loop onry for that iteration?(A) Break tel 
+-Continue
+(C) Return 1ny f"r*inrt"
+8. In cxpression i - gO +,fO, first firnction called depends on _.!t] Compiler (B) Associativib, 
+"f 
+( ) operator(C) PrecedenceofO.and+operator iOi f"ttorigtioitdJJrpor"ion
+(A) Char
+(C) Unsigned int
+Short
+Long
+2ONFU IECSS1O1J
+Page 4 of4
+Page I of ,l
+
+[Page 2]
+9. Set of consecutive memory location is called as
+11. If the two strings are identical, then strcmp ( ) function retums'
+(B) 0
+(D) True
+(B) Extracting a substring out of a string
+two (D) Comparing the two strings to define the
+larger one
+(B) Need not start on the first column
+@) Comes before the first executable statement
+14. Can we use a function as aParameter of another function?
+(A) Yes, and we can use the function (B) Yes, but we call the function again to get
+value conveniently the value, not as convenient as in using
+PART-B (5 x 4=2A Marks)
+Answer AI{Y FM Questions
+21. Explain the structure of a C program-
+22. Defme pseudo code and mention the advantage'
+23. What are the differences between L value and R value in expression?
+24. what is the difference between a "breako' and "continue" statement?
+25. Differentiate between "call by value" and o'call by reference"'
+26. What is parameter? Mention the difference between formal and actual parameters-
+27. Writethe difference between union and structure'
+PART-C(5x12=60Marks)
+AnswerALL Questions
+28- a.i. write the algorithm and pseudo code that takes mimrtes as input and displays the total
+number of hours and minutes.
+ii. Ifthe marks obtained by a student in six different subjects are input through the keyboard,
+write a C program to frnA out the aggregate marks and percentage marks obtained by the
+L*p
+Pointer
+10. Array with last element'n' will always have array size equal to
+(A) Function
+(C) Array
+(A) n
+(C) n-l
+(A) I
+(c) -l
+12. String concatenation means
+(A) Combining two strings
+(C) Partitioning the string into
+strings
+13. A preprocessor command
+(A) Need not start on a new line
+(C) Has # as the first character
+(B)
+(D)
+(B) n+r
+(D) n+l
+(A) Integer
+(C) Array
+(A) Nothing
+(C) Null
+i
+20. FILE reserved word is
+(A) A structure tag declared in stdio.h
+(C) Pointer to the struchre defined in
+stdio.h
+Page 2 of ,l
+Comment on the following pointer declarations? int * ptr, p;
+(A) ptr is a pointer to integer, p is not (B) ptr and p, bojh are pointers to integer
+iCi i* is pointer to intiger, p may or (D) ptr and p both are not pointers to integer
+may not be
+How will you free the allocated memory?
+(A) remove (var-name); (B) free (var-name);
+(C) delete (var-name); (D) dalloc (var-name);
+What is the similarity between a structure, union and enumeration?
+(A) All of them let you define new (B) Allofthemletyoudefinenewdatatypes
+values
+(c) All of them let you define new @) Allofthemletyoudefinenewstructure
+pointers
+(oR)
+b.i. Analyze the various storage classes in c with suitable examples.
+ii- Write a C program to get two numbers as input from the user, then perform Bitwise-AND
+and Bitwise-OR and print the results. (4 Marks)
+29. a. Analyze the C programming operator precedence and associativity with suitable examples.
+(oR)
+b. Explain the various decision making statements in C with an example for each'
+30. a. write the purpose of following functions with suitable examples
+(i) getso
+(ii) getcharo
+(iii) puts ( )
+(iv) putchar ( )
+(") strleno
+(vi) strcpy ( )
+t6.
+17.
+18.
+(C) No, C does not suPPort it
+15. Address stored in the pointer variable is of type 
+-
+(D) This case is comPiler
+(B) Floating
+(D) Character
+(B) EOF
+(D) Depends on comPiler
+(B) One of the basic data tYPes in C
+(D) It is a type name defined in stdio.h
+(8 Marks)
+19. If there is any error while opening a file, fopen will retum
+(oR)
+b. Write about
+(i) Recursion function with an example
+(ii) Function definition with an example
+Pagc 3 of ,l20Nr1/ ltcssl0lJ
+20NF1/ r8CESl0lJ
+
+---
+
+## nexus sem 2/Programming For Problem Solving/PYQs/Question Bank with MCQs.pdf
+
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+PROGRAMMING FOR PROBLEM SOLVING 
+Unit 1 
+Multiple Choice questions MCQ 
+ 
+1. Who is father of C Language? [CLO 1] [PLO1] 
+A. Bjarne Stroustrup B. Dennis Ritchie 
+C. James A. Gosling D. Dr. E.F. Codd 
+2. C Language developed at _____? [CLO 1] [PLO 1] 
+A. AT & T's Bell Laboratories of USA in 1972 
+B. AT & T's Bell Laboratories of USA in 1970 
+C. Sun Microsystems in 1973 
+D. Cambridge University in 1972 
+ 
+3. For 16-bit compiler allowable range for integer constants is ______ ? [CLO 1] [PLO 2] 
+A. -3.4e38 to 3.4e38 
+B. -32767 to 32768 
+C. -32768 to 32767 
+D. -32668 to 32667 
+4. C programs are converted into machine language with the help of [CLO 1] [PLO 1] 
+A. An Editor 
+B. A compiler 
+C. An operating system 
+D. None of the above 
+5. A C variable cannot start with [CLO 1] [PLO 1] 
+A. An alphabet 
+B. A number 
+C. A special symbol other than underscore 
+D. both (b) and (c) 
+ 
+6. Which of the following is allowed in a C Arithmetic Instruction? [CLO 1] [PLO 1] 
+A. [] 
+B. {} 
+C. () 
+D. None of the above 
+7. Which of the following shows the correct hierarchy of arithmetic 
+ operations in C [CLO 1] [PLO 2] 
+A. / + * - 
+B. * -/ + 
+C. + - / * 
+D. * / + - 
+8. Program which is written originally by the programmer is classified as [CLO 1] [PLO 1] 
+A. object code 
+B. machine code 
+C. source program 
+D. interactive programs 
+
+[Page 2]
+9. Data types are differed on the basis of [CLO 1] [PLO 1] 
+A. the way of storage 
+B. the type of operations 
+C. the type of operators used 
+D. both a and b 
+10. Loop statement which is repeated for some given number of times is classified as [CLO 1] 
+A. FOR loop 
+B. GO loop 
+C. REPEAT loop 
+D. GO REPEAT loop 
+11. Type of statement written in sequence and is repeated until the specific condition met is 
+classified as [CLO 1] [PLO 1] 
+A. format 
+B. loop 
+C. case 
+D. condition 
+12. Size of an array is declared by [CLO 1] [PLO 1] 
+A. programmer 
+B. program users 
+C. software 
+D. declared automatically 
+13. Programming language 'FORTRAN' stands for [CLO 1] [PLO 1] 
+A. formula translator 
+B. formula translation 
+C. free translator 
+D. free translation 
+14. Functions that are used in the programs and are defined by the programmers are called 
+ [CLO 1] [PLO 2] 
+A. program layout 
+B. program procedure 
+C. built-in functions 
+D. user-defined function 
+ 
+
+[Page 3]
+15. An assembler translates [CLO 1] [PLO 1] 
+A. machine code into assembly code 
+B. assembly code into machine code 
+C. processing time into manual time 
+D. routine into subroutine 
+16. Name given by a programmer to any particular data is classified as [CLO 1] [PLO 1] 
+A. identifier 
+B. identification 
+C. exponent 
+D. mantissa 
+17.When variable used in program is whole number, the variable is stored as [CLO 1] [PLO 2] 
+A. fixed string 
+B. integers 
+C. negative whole numbers 
+D. positive whole numbers 
+18. In programming, programmers use comments to [CLO 1] [PLO 1] 
+A. highlight program modules 
+B. explain module functions 
+C. explain used variables 
+D. all of above 
+19. Variable which uses the same name in whole program and in its all routines thus best classified 
+as [CLO 1] [PLO 2] 
+A. middle variable 
+B. default variable 
+C. local variable 
+D. global variable 
+20. Statement which is used to make choice between two options and only option is to be performed 
+is written as [CLO 1] [PLO 2] 
+A. if statement 
+B. if else statement 
+C. then else statement 
+D. else one statement 
+ 
+
+[Page 4]
+21. The__________ statement is used to transfer the control to the end of statement block in a loop: 
+a. Continue [CLO 1] [PLO 2] 
+b. Break 
+c. Switch 
+d. Goto 
+22. Which of the following is not a valid variable name declaration? [CLO 1] [PLO 2] 
+ a) int _a3; 
+ b) int a_3; 
+ c) int 3_a; 
+ d) int _3a 
+23. All keywords in C are in [CLO 1] [PLO 2] 
+a) LowerCase letters 
+b) UpperCase letters 
+c) CamelCase letters 
+d) None of the mentioned 
+ 
+24. Which of the following is true for variable names in C? [CLO 1] [PLO 2] 
+a) They can contain alphanumeric characters as well as special characters 
+b) It is not an error to declare a variable to be one of the keywords(like goto, static) 
+c) Variable names cannot start with a digit 
+d) Variable can be of any length 
+ 
+25. The format identifier ‘%i’ is also used for _____ data type? [CLO 1] [PLO 2] 
+a) char 
+b) int 
+c) float 
+d) double 
+ 
+26. Which of the following is a User-defined data type? [CLO 1] [PLO 3] 
+a) typedef int Boolean; 
+b) typedef enum {Mon, Tue, Wed, Thu, Fri} Workdays; 
+c) struct {char name[10], int age}; 
+d) all of the mentioned 
+ 
+27. What is the output of this C code? [CLO 1] [PLO 3] 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. signed char chr; 
+5. chr = 128; 
+6. printf("%d\n", chr); 
+7. return 0; 
+8. } 
+
+[Page 5]
+a) 128 
+b) -128 
+c) Depends on the compiler 
+d) None of the mentioned 
+28. What is the output of this C code? [CLO 1] PLO 3] 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. j = 10; 
+5. printf("%d\n", j++); 
+6. return 0; 
+7. } 
+ a) 10 b) 11 
+c) Compile time error d) 0 
+Explanation : j is not belongs to any data type 
+29. The following code ‘for( ; ; )’ represents an infinite loop. 
+ It can be terminated by. [CLO 1] [PLO 3] 
+ a) break b) exit(0) 
+ c) abort() d) all of the mentioned 
+ 
+30. The keyword ‘break’ cannot be simply used within: [CLO 1] [PLO 3] 
+ a) do-while b) if-else 
+ c) for d) while 
+ 
+31. Which keyword is used to come out of a loop only for that iteration? [CLO 1] [PLO 3] 
+ a) break b) continue 
+ c) return d) none of the mentioned 
+32. The first step in problem solving is --------------- [CLO 1] [PLO 2] 
+a) Understand the problem c)Identify the problem 
+b) Developing algorithm/Flowchart d)Listing the possible outcome 
+33. The solutions which has series of actions to solve a problem are called ------ [CLO 1] [PLO 2] 
+a) Heuristic solutions 
+b) Algorithmic solutions 
+34. The solution can be reached by completing the actions in steps. These steps are called [CLO 1] 
+[PLO 2] 
+a) Sequence c)Algorithm 
+b) Flowchart d)Steps 
+35. Solutions that cannot be reached through a direct set of steps are called --------- [CLO 1][PLO 2] 
+a)Algorithmic solutions b) Heuristic solutions 
+
+[Page 6]
+36. ----------- means the outcome or the completed computer-assisted answer. [CLO 1][PLO 1] 
+ a) Solution b) Result c) Program 
+37. The field of computer that deals with the problem of heuristic solution is called-----[CLO 1] 
+[PLO1] 
+a) Artificial Intelligence 
+b) Expert System c) Computer Management 
+ 
+38. ----------------- means the set of instructions that make up the solution after they have been coded 
+into a programming language. [CLO 1] [PLO1] 
+a) solution b) result c) program d) error 
+ 
+39. ---------------- are organized facts. [CLO 1] [PLO1] 
+a) Data b) Information 
+ 
+40. A language applied for wide range of application is called as ______language[CLO 1][PLO 2] 
+a. Special purpose c)General purpose 
+b. Individual purpose d)Scientific purpose 
+ 
+ 
+41. Compiler converts the source code into ______ [CLO 1][PLO 4] 
+a. C code b. Byte code c. Object code d. Executable code 
+ 
+42. ___________ converts source code to machine language one line at a time. [CLO 1][PLO 4] 
+a. Compiler b. Interpreter c. Assembler d.CPU 
+ 
+43. The program that converts high level language to a machine language is called __________ 
+[CLO 1] [PLO 1] 
+a. Interpreter b. Linker c. Compiler d. Loader 
+ 
+ 
+44. ‘#’ symbol is known to be ______ [PLO 2] [CLO 1] 
+a. Linker b.Compiler c. Assembler d.Preprocessor directive 
+ 
+45. A _______ is a notational system for describing computations in both machine and human 
+readable form [PLO 1] [CLO 1] 
+a. Programming language c.Machine language 
+b. High-level language d.Assembly language 
+ 
+46. ----------------- program converts assembly language into machine language [PLO 2] [CLO 1] 
+ a. compiler b. interpreter c. assembler d. preprocessor directive 
+ 
+47. which symbol is been used for processing in flowchart? Ans: a [CLO 1] [PLO 3] 
+ 
+a) b) c) d) 
+ 
+ 
+ 
+48. which symbol is been used for input/output in flowchart? Ans: c [PLO 3] [CLO 1] 
+
+[Page 7]
+ 
+a) b) c) d) 
+ 
+ 
+49. which symbol is been used for decision making in flowchart? Ans: d [PLO 3] [CLO 1] 
+ 
+a) b) c) d) 
+ 
+ 
+50. which is used as start/stop symbol in flowchart? Ans:b [PLO 3] [CLO 1] 
+ 
+a) b) c) d) 
+ 
+ 
+ 
+51. ------------ is a distinguishing characteristic of human excellence in every area of behavior 
+[CLO 1] [PLO 1] 
+a) creativity b) thinking c) visualization d) problem solving 
+ 
+52. .What is the value of x in this C code? [PLO 2] [CLO 1] 
+#include <stdio.h> 
+ void main() 
+ { 
+ int x = 5 * 9 / 3 + 9; 
+ } 
+(a). 3.75 b) Depends on compiler c) 24 d) 3 
+ 
+53.A character variable can store how many characters at a time? [PLO 2][CLO 1] 
+ (a) 1 character 
+(b)8 characters 
+(c)255 character 
+ 
+54.Which of the following is the correct way of writing comments? [PLO 2] [CLO 1] 
+(a)*/comments/* 
+(b)/*comment*/ 
+(c)**comment** ( 
+d){comment} 
+ 
+55. C programming language is [PLO 1] [CLO 1] 
+(a)object oriented programming language (b)Procedure oriented programming language 
+(c)function oriented programming language (d)None of the above 
+ 
+56.The memory space taken for a char type data is [PLO 2] [CLO 1] 
+(a)2 bytes 
+(b)4 bytes 
+(c)8 bytes 
+ (d)1bytes 
+ 
+57 .The memory space taken for a int type data is [PLO 2] [CLO 1] 
+ (a) 2 bytes 
+ (b) 4 bytes 
+
+[Page 8]
+(c) 8 bytes 
+(d)10bytes 
+ 
+ 
+ 58.The memory space taken for a float type data is [PLO 2] [CLO 1] 
+(a) 2 bytes 
+(b) 4 bytes 
+(c) 8 bytes 
+(d)10bytes 
+ 
+59. What is the only function all programs must contain ? [PLO 2] [CLO 1] 
+(a)start() 
+(b)system() 
+(c)main() 
+(d)program 
+ 
+60.For 16-bit compiler allowable range for integer constants is ________? [PLO 2] [CLO 1] 
+(a) -3.4e38 to 3.4e38 
+(b) -32767 to 32768 
+(c) -32668 to 32667 
+(d) -32768 to 32767 
+ 
+61.Every statement in C program is to be terminated by a__________ [PLO 2] [CLO 1] 
+(a)dot(.) 
+(b)semi-colon(;) 
+(c)colon(:) 
+(d)Question mark(?) 
+ 
+62 The escape sequence „\b‟ is a [PLO 2] [CLO 1] 
+(a)back space 
+(b)next line 
+(c)tab 
+(d)none of the above 
+ 
+63.The memory space taken for a long int type data is [PLO 2] [CLO 1] 
+(a) 2 bytes 
+(b) 4 bytes 
+(c) 8 bytes 
+(d)10bytes 
+ 
+64. which of the following will not valid expressions in C? [PLO2] [CLO 1] 
+(a) a=2+(b=5); 
+(b) a=11%3 
+(c) a=b=c=5 
+(d) b+5=2 
+ 
+ 
+
+[Page 9]
+65. The --------------------- operator is true only when both the operands are true. [PLO 2][CLO 1] 
+a) && 
+b) b) || 
+c) c)! 
+d) d) ?: 
+ 
+66. The ---------------------- statement when executed in a switch statement causes immediate exit 
+from the structure. [CLO 1] [PLO 2]
+ 
+a)goto 
+b) default 
+c) break 
+d) switch 
+ 
+66. The ternary conditional expression using the operator?: could be easily coded using ----------------
+- statement [CLO 1][PLO 2] 
+a)Nested if b) if-else 
+c) if d) for 
+ 
+4 Marks : 
+Unit-1 CLO-1 
+1. Comment “C is mid level language”? [CLO-1][PLO 1] 
+2. What is problem solving? [CLO-1][PLO 1] 
+3. What are the six steps of problem solving? [CLO-1][PLO 1] 
+4. Discuss about how the problems can be solved with computers? [CLO-1][PLO 1] 
+5. What is a program? [CLO-1][PLO 2] 
+6. Why is problem analysis important? [CLO-1][PLO 2] 
+7. What are the tools of problem solving available? [CLO-1][PLO 2] 
+8. How do problem-solving tools help in leading to a solution? [CLO-1][PLO 2] 
+9. Why it is important to test a solution before coding it? [CLO-1][PLO 2] 
+10. What is an algorithm? Give the characteristics of the algorithm. [CLO-1][PLO 2] 
+11. What is a flowchart? Give the symbols/shapes used in the flowchart. 
+[CLO-1][PLO 3] 
+12. Define pseudocode and give its importance with an example. [CLO-1][PLO 2] 
+13. Discuss the difficulties with problem solving in detail. [CLO-1][PLO 2] 
+
+[Page 10]
+14. State the use of %d and %f .Write a printf statement in C using the above 
+mentioned symbols? [CLO-1][PLO 4] 
+15. What is main difference between variable and constant? [CLO-1][PLO 3] 
+16. Explain bitwise left shift operator? [CLO-1][PLO 4] 
+17. Explain primary data types used in C? [CLO-1][PLO 3] 
+18. Difference between formatted & unformatted statement ? [CLO-1][PLO 3] 
+19. What is mean by storage class of variable? [CLO-1][PLO 3] 
+20. Explain with example ++i and i++. [CLO-1][PLO 4] 
+21. Refer all Elab programs. [CLO-1][PLO 3] [PLO 2][PLO 4] 
+ 
+ 
+12 Marks: 
+ 
+1) Explain the evolution of programming languages. [CLO-1][PLO 1] 
+2) Explain the various steps involved in problem solving with diagram. [CLO-1][PLO 1] 
+3) Draw the flowchart and write the algorithm and c code to find the sum and to reverse the 
+digits of given five digit number. [CLO-1][PLO 1] [PLO2] 
+4) Write an algorithm and draw a flow chart to find the factorial and Fibonacci series of given 
+number. [CLO-1][PLO 2] [PLO 3] 
+5) Write a note on Algorithm, Flow chart and Pseudocode. [CLO-1][PLO 3] [PLO 2] 
+6) Explain the scope, lifetime of variable in C with example. [CLO-1][PLO 2][PLO3] 
+7) Write down the algorithm to find the largest number among three given numbers and 
+outline the steps in the algorithm with the inputs 5, 17, 3. [CLO-1][PLO 2][PLO3] 
+8) Draw flowchart to compute the salary of an employee in a company. Assume that there are 
+two types of employees in the company daily wages and regular. Salary is calculated as 
+number of hours worked* wages per hour for daily wagers and basic pay +(% of DA * basic 
+pay)/100 + HRA + medical allowance for regular employees. Sketch the flow of your design 
+for a regular employee with basic pay = 5000, % of DA = 75 % and HRA = 500. (8) 
+[CLO-1][PLO 2][PLO3][PLO4] 
+9) Explain in details about operators with an example [CLO-1][PLO 1] [PLO 2][PLO3] 
+ 
+10) Refer all elab Programs [CLO-1][PLO 3] [PLO 2][PLO 4] 
+ 
+ 
+ 
+
+[Page 11]
+UNIT - II 
+ PART A 
+ 
+1. The --------------------- operator is true only when both the operands are true. 
+e) && b) || c)! d) ?: 
+Answer: a 
+2. The ---------------------- statement when executed in a switch statement causes immediate exit 
+from the structure. 
+a)goto b) default c) break d) switch 
+Answer: c 
+3. The ternary conditional expression using the operator?: could be easily coded using ----------------
+- statement 
+a)Nested if b) if-else c) if d) for 
+Answer: b 
+4. What will be the output when the following segment is executed? 
+Char ch=’a’; 
+Switch(ch) 
+{ 
+case ‘a’: 
+Printf(“A”); 
+case ’b’: 
+Printf(“B”); 
+Default: 
+printf(“C”); 
+} 
+ 
+a)A b)B c)C d) a 
+ Answer: a 
+5. What will be the output of the following segment when executed? 
+int x=10, y=20; 
+if((x<y)||(x+5)>10) 
+printf(%d”,x); 
+else 
+printf(%d”,y); 
+ 
+a)10 b) 20 c) 15 d)5 
+ 
+Answer: a 
+6. The ----------------------- statement is used to skip a part of the statements in a loop. 
+a) Continue b) break c) goto d)switch 
+Answer: a 
+7. A for loop with no test condition is known as --------------- loop 
+a) Infinite b) time delay c) for d) Incrementing 
+Answer: a 
+
+[Page 12]
+8. The sentinel –controlled loop is also known as -----------------------loop 
+a) Indefinite repetition loop c) time delay 
+b) Definite repetition loop d) infinite 
+Answer: a 
+9. In an exit controlled loop the body of the loop is always executed minimum number of ------------ 
+a) 1 time b)2 times c) 3 times d)n times 
+Answer:a 
+10. The while is an --------------------- loop statement. 
+a) Entry-controlled b)exit-controlled c)indefinite repetition 
+d)definite repetition 
+Answer: a 
+11. The ------------------specification is used to read or print integers 
+a)h b)l c)L d)c 
+Answer: a 
+12. To print the data left-justified, must use -------------- in the field specification 
+a) - b) + c) / d) * 
+Answer: a 
+13. By default, the real numbers are printed with a precision of --------------- decimal. 
+a)6 b)2 c)4 d)0 
+Answer:a 
+14. The expression !(x!=y) can be replaced by the expression-------------------- 
+a) x!=y b) x==y c)x=!y d)!x=!y 
+Answer:c 
+15. In a counter controlled loop, variable known as -----------------is used to count the loop 
+operations. 
+a) Counter b)sentinel c)i d)n 
+Answer: a 
+ 
+16. Which of the following special symbol allowed in a variable name? 
+(a) * (asterisk) (b)| (pipeline) (c) - (hyphen) (d) _ (underscore) 
+ 
+17 . Which of the following are invalid variable names? 
+a) Minimum b)n$ c) Integer d) float 
+ 
+18. int a=10; 
+ ++a; 
+ a++; 
+ Printf(“%d”,a); 
+a)10 b) 11 c)12 d) 13 
+ 
+19. int a=11; 
+ a=a%2; 
+ a=a/2; 
+The value of a is, 
+a) 1, 1 b) 5,1 c) 1,5 d)5 
+ 
+ 
+
+[Page 13]
+20. Which of the following is not logical operator? 
+A. & 
+B. && 
+C. || 
+D. ! 
+ 
+21 Which of the following cannot be checked in a switch-case statement? 
+A. Character 
+B. Integer 
+C. Float 
+D. enum 
+ 
+22. What is the output of this C code? 
+ 
+int main() 
+{ 
+ int a = 0, i = 0, b; 
+ for (i = 0;i < 5; i++) 
+ { 
+ a++; 
+ continue; 
+ } 
+} 
+ 
+A. 2 B. 3 
+C. 4 D. 5 
+ 
+23. What is the output of this C code? 
+ 
+ void main() 
+ { 
+ int i = 0, j = 0; 
+ for (i = 0;i < 5; i++) 
+ { 
+ for (j = 0;j < 4; j++) 
+ { 
+ if (i > 1) 
+ break; 
+ } 
+ printf("Hi \n"); 
+ } 
+ } 
+A. Hi is printed 5 times B. Hi is printed 9 times 
+C. Hi is printed 7 times D. Hi is printed 4 times 
+ 
+ 
+ 
+
+[Page 14]
+24. What is the output of this C code? 
+ void main() 
+ { 
+ int i = 0; 
+ int j = 0; 
+ for (i = 0;i < 5; i++) 
+ { 
+ for (j = 0;j < 4; j++) 
+ { 
+ if (i > 1) 
+ continue; 
+ printf("Hi \n"); 
+ } 
+ } 
+ } 
+A. Hi is printed 9 times B. Hi is printed 8 times 
+C. Hi is printed 7 times D. Hi is printed 6 times 
+ 
+25. What is the output of this C code? 
+ 
+ void main() 
+ { 
+ int i = 0; 
+ for (i = 0;i < 5; i++) 
+ if (i < 4) 
+ { 
+ printf("Hello"); 
+ break; 
+ } 
+ } 
+A. Hello is printed 5 times B. Hello is printed 4 times 
+C. Hello D. Hello is printed 3 times 
+ 
+27. What is the output of this C code? 
+ int main() 
+ { 
+ int i = 0; 
+ char c = 'a'; 
+ while (i < 2){ 
+ i++; 
+ switch (c) { 
+ case 'a': 
+ printf("%c ", c); 
+ break; 
+ break; 
+ } 
+ } 
+
+[Page 15]
+ printf("after loop\n"); 
+ } 
+A. a after loop B. a a after loop 
+C. after loop D. None of the mentioned 
+28. int main() 
+ { 
+ printf("before continue "); 
+ continue; 
+ printf("after continue\n"); 
+ } 
+A. Before continue after continue B. Before continue 
+C. after continue D. Compile time error 
+29. What is the output of the code given below? 
+ 
+ int main() 
+ { 
+ printf("%d ", 1); 
+ goto l1; 
+ printf("%d ", 2); 
+ l1:goto l2; 
+ printf("%d ", 3); 
+ l2:printf("%d ", 4); 
+ } 
+A. 1 4 B. Compilation error 
+C. 1 2 4 D. 1 3 4 
+30. What is the output of code given below? 
+ int main() 
+ { 
+ printf("%d ", 1); 
+ l1:l2: 
+ printf("%d ", 2); 
+ printf("%d\n", 3); 
+ } 
+A. Compilation error B. 1 2 3 
+C. 1 2 D. 1 3 
+31. What will happen if in a C program you assign a value to an array element whose subscript 
+exceeds the size of array? 
+A. The element will be set to 0. 
+B. The compiler would report an error. 
+
+[Page 16]
+C. The program may crash if some important data gets overwritten. 
+D. The array size would appropriately grow. 
+ 
+32 .In C, if you pass an array as an argument to a function, what actually gets passed? 
+A. Value of elements in array 
+B. First element of the array 
+C. Base address of the array 
+D. Address of the last element of array 
+ 
+ 
+33. Result of a logical or relational expression in C is? 
+A. True or False 
+B. 0 or 1 
+C. 0 if expression is false and any positive number if expression is true 
+D. None of the mentioned 
+34. What will be the value of d in the following program? 
+ 
+ int main() 
+ { 
+ int a = 10, b = 5, c = 5; 
+ int d; 
+ d = b + c == a; 
+ printf("%d", d); 
+ } 
+A. Syntax error 
+B. 1 
+C. 5 
+D. 10 
+ 
+35. What is the output of this C code? 
+ 
+ int main() 
+ { 
+ int a = 10, b = 5, c = 3; 
+ b != !a; 
+ c = !!a; 
+ printf("%d\t%d", b, c); 
+ } 
+
+[Page 17]
+A. 5 1 
+B. 0 3 
+C. 5 3 
+D. 1 1 
+ 
+36. What is meaning of following declaration ? 
+ int arr[20]; 
+a) Array of size 20 that can have integer address 
+b) None of the above 
+c) Integer array of size 20 
+d) Array of sixe 20 
+37. In C Programming, If we need to store word "INDIA" then syntax is as below – 
+ a) char name[6]={‘I’,’N’,’D’,’I’,’A’,’\0’} 
+b) char name[6]={“I”,”N”,”D”,”I”,”A”} 
+c) char name[6]={‘I’,’N’,’D’,’I’,’A’} 
+d) char name[] ; name=”INDIA” 
+38. what is the way to initialize array? 
+a) int num[6] = {2,4,12,5,45,5}; 
+b) int n{} ={2,4,12,5,45,5}; 
+c) int n{6}={2,4,12}; 
+d) int n(6)={2,4,12,5,45,5}; 
+39. what will be the output of the program? 
+ 
+a) 3, 2,15 
+b) 2, 3, 20 
+c)2, 1, 15 
+d) 1, 2, 5 
+Answer: Option A 
+
+[Page 18]
+Solution: 
+>> int a[5] = {5, 1, 15, 20, 25}; The variable arr is declared as an integer array with a size of 5 and it is initialized to 
+a[0] = 5, a[1] = 1, a[2] = 15, a[3] = 20, a[4] = 25. 
+ 
+>> int i, j, m; The variable i, j, m are declared as an integer type. 
+ 
+>> i = ++a[1]; becomes i = ++1; Hence i = 2 and a[1] = 2 
+ 
+>> j = a[1]++; becomes j = 2++; Hence j = 2 and a[1] = 3. 
+ 
+>> m = a[i++]; becomes m = a[2]; Hence m = 15 and i is incremented by 1(i++ means 2++ so i=3) 
+ 
+>> printf("%d, %d, %d", i, j, m); It prints the value of the variables i, j, m 
+ 
+Hence the output of the program is 3, 2, 15. 
+39. what will be the output of the program? 
+ 
+a) 5 
+b) 6 
+c) 9 
+d) Error 
+e) None of the above 
+Answer: Option C 
+Solution: 
+ x[i] is equivalent to *(x + i), 
+ so (buf + 1)[5] is *(buf + 1 + 5), i.e. buf[6]. 
+40) An array elements are always stored in ____________memory locations 
+a) sequential 
+b) Random 
+c) Sequential and Random 
+d) None of the above 
+ 
+ 
+41) Let x be an array. which of the following operations are illegal? 
+
+[Page 19]
+a) ++x b) x+1 c)x++ d) x*2 
+options: 
+a) I and II 
+b) I,II and III 
+c) II and III 
+d) I, III and IV 
+e) III and IV 
+Answer: Option D 
+Solution: int x[10]; * x will store the base address of array. * 
+Statement I, III and IV is invalid. 
+ 
+Statement I and III : ++x and x++ are throwing en error while compile (lvalue required as increment operand ) 
+Since, x is storing in the address of the array which is static value which cannot be change by the operand. 
+ 
+Statement IV : x*2 is also throw an error while compile (invalid operands to binary * (have 'int *' and 'int') ) 
+ 
+Statement II : x+1 is throw a warning: assignment makes integer from pointer without a cast [enabled by 
+default] 
+42) what is the maximum number of dimensions an array in c may have? 
+ a) 2 
+ b) 8 
+ c) 20 
+ d)50 
+ e) theoretically no limit. the only practical limits are memory size and compilers 
+43) size of the array need not be specified, when 
+ a) initialized is a part of definition 
+ b) it's a declaration 
+ c) it is a formal parameter 
+ d) All of these 
+ 
+ 
+ 
+ 
+ 
+44) what will be the output of the program? 
+
+[Page 20]
+ 
+ 
+a) Equal 
+b) Unequal 
+c) Error 
+d) None of these 
+Answer: Option B 
+Solution: 
+Strings are compared using strcmp() function defined under string.h header file. 
+45) 
+ 
+Unit-2 PART -B 
+1. Give the general syntax of conditional operator? 
+2. Define operator in C. What role an operator plays in C program? 
+3. Differentiate between relational and logical operators used in C? 
+4. Give the types of decision making statements 
+5. What is the general form of switch statement? 
+6. Differentiate do... while.. and while... loop. 
+7. Determine the output of the following and justify your answer 
+ 
+int main() 
+ { 
+ int ch; printf("enter a value between 1 to 2:"); 
+ scanf("%d", &ch); 
+ switch (ch, ch -1){ 
+ case 1: printf("1\n"); break; 
+ case 2: printf("2"); break; 
+ } return 0; } 
+8. Explain the limitations of arrays. 
+
+[Page 21]
+9. Give the steps of looping process. 
+10. Brief the use of continue, goto, break statement and give the syntax. 
+11. What are loop control structures? Explain for loop, while loop and do-while 
+loop with their syntax. 
+12. What do you mean by infinite loop? Give suitable of any infinite loop in a C 
+program. 
+13. Explain break and continue statements with examples. 
+14. Determine the output of the following program justify your answer in a few words. 
+ 
+int main() { 
+float f = 1.0; 
+ switch(f) { 
+case 1.0: printf("one"); break; 
+case 2.0: printf("two"); break; 
+default: prinf("%f", f); 
+}} 
+15. Write a program to print series of number divisible by 3 from 1 to 100 using for 
+loop. 
+16. Write a C program to print 1, 2, 4, 8, 16, 32, 64 …..N using do….while loop 
+(Read N from user). 
+17. What are Arrays in C programming? Give the importance of Array in C 
+language 
+13. What are the rules to declare one dimensional array? 
+14. What do you mean by compile time initialization? Give suitable example of 
+Compile time initialization of C Array. 
+15. Describe the array index out of bound error in context of C array program. 
+ 
+PART C 
+ 
+1) Lucy is celebrating her 15th birthday. Her father promised her that he will buy her a new computer 
+on her birthday if she solves the question asked by him. He asks Lucy to find whether the year on 
+which she had born is leap year or not. Help her to solve this puzzle so that she celebrates her 
+
+[Page 22]
+birthday happily. If her birth year is 2016 and it is a leap year display 2016 is a leap year.? Else 
+display 2016 is not a leap year and check with other leap year conditions 
+2) Write a C program to print the multiplication table of an integer n upto m rows using a while loop 
+ sample input and output 
+ INPUT 
+ 5 
+4 
+ OUTPUT 
+ 1*5=5 
+2*5=10 
+3*5=15 
+4*5=20 
+3) Write a program to generate a following @s triangle: 
+@ @ @ @ @ 
+@ @ @ @ 
+@ @ @ 
+@ @ 
+@ 
+4) Write a program that determines a student’s grade. The program will read three scores and 
+determine the grade based on the following rules: score =90% =>grade=A , score >= 70% 
+and <90% => grade=B, score>=50% and <70% =>grade=C, score<50% =>grade=F 
+ 
+5) i)Why switch case is better than else..if... ladder. Justify. 
+ii)Write a program to read a value (1-7) and print the equivalent day of the week 
+ (i.e. 1-SUN, 2-MON.....) 
+iii) Explain briefly about for loop and Nested for loop with suitable example 
+ 
+iv) Write a program to print the following pattern. 
+12345 
+1234 
+123 
+12 
+1 
+ 
+6.a. i) Write a C program to insert an element at a specified position in the array. 
+ 
+7) ) Write a program to generate a following patterns 
+a) 
+ 
+ 
+ 
+ 
+b) 
+
+
+[Page 23]
+ 
+c) 
+ 
+d) 
+ 
+e) 
+ 
+ 
+8) write c Program for Student mark list generation by using control and looping statements 
+ 
+9) write c program for digit rotation. "For any positive integer, we define a digit rotation as either 
+moving the first digit to the end of the number (left digit rotation), or the last digit to the front of the 
+number (right digit rotation). For example, the number 12345 could be left digit rotated to 23451, or right 
+digit rotated to 51234. 
+10) Write a program to find the sum of positive numbers in an array 
+11) write c program for palindrome strings , two strings A and B, each consisting of lower case alphabets. 
+12) Write a arithmetic operation menu driven program using while(1) 
+ 
+ 13) i) Write short notes on switch case. 
+ii) Program to create a simple calculator, Performing addition, subtraction, multiplication, 
+division depending the input from user. 
+
+[Page 24]
+14) i)write a C program to read 10 nos. and reverse it using array 
+ 
+ii)Concatenate two arrays of length minimum 5 numbers. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+UNIT III 
+PART A 
+
+[Page 25]
+1 ) Which of the following is not possible statically in C? 
+a) Jagged Array 
+b) Rectangular Array 
+c) Cuboidal Array 
+d) Multidimensional Array 
+ 
+2) What is the output of this C code? 
+ #include <stdio.h> 
+ void main() 
+{ 
+int a[2][3] = {1, 2, 3, 4, 5}; 
+int i = 0, j = 0; 
+for (i = 0; i < 2; i++) 
+for (j = 0; j < 3; j++) 
+printf("%d", a[i][j]); 
+ } 
+a) 1 2 3 4 5 0 
+b) 1 2 3 4 5 junk 
+c) 1 2 3 4 5 5 
+d) Run time error 
+ 
+3) Predict the output of below program: 
+#include <stdio.h> 
+ 
+int main() 
+{ 
+ int arr[5]; 
+ 
+ // Assume that base address of arr is 2000 and size of integer 
+ // is 32 bit 
+ arr++; 
+ printf("%u", arr); 
+ 
+ return 0; 
+} 
+ 
+a) 2002 
+b) 2004 
+c) 2020 
+d) lvalue required 
+ 
+
+[Page 26]
+4 ) Predict the output of below program: 
+#include <stdio.h> 
+ 
+int main() 
+{ 
+ int arr[5]; 
+// Assume base address of arr is 2000 and size of integer is 32 bit 
+ printf("%u %u", arr + 1, &arr + 1); 
+ return 0; 
+} 
+i. 2004 2020 
+ii. 2004 2004 
+iii. 2004 Garbage Value 
+iv. The program fails to compile because address of operator cannot be used with 
+array name 
+5) Size of the array need not be specified, when 
+A. Initialization is a part of definition 
+B. It is a declaratrion 
+C. It is a formal parameter 
+D. All of these 
+6) While passing an array as an actual argument, the function call must have the array name 
+A. with empty brackets 
+B. with its size 
+C. alone 
+D. none of the above 
+7) The parameter passing mechanism for an array is 
+A. call by value 
+B. call by value-result 
+C. call by reference 
+D. none of these 
+ 
+ 
+8) Under which of the following conditions, the size of an one-dimensional array need not be 
+specified? 
+
+[Page 27]
+A. when initialization is a part of definition 
+B. when it is a declaration 
+C. when it is a formal parameter and an actual 
+argument 
+D. All of the above 
+9) If a two dimensional array is used as a formal parameter, then 
+A. both the subscripts may be left empty 
+B. the first (row) subscript may be left empty 
+C. the first subscript must be left empty 
+D. both the subscripts must be left empty 
+11) Choose the statement that best defines an array 
+A. It is a collection of items that share a common name 
+B. It is a collection of items that share a common name and occupy consecutive memory location 
+C. It is a collection of items of the same type and storage class that share a common name and 
+occupy consecutive memory locations 
+D. None of the above 
+12) Choose the correct statements 
+A. Array stores data of the same type 
+B. Array can be a part of a structure 
+C. Array of structure is allowed 
+D. All of the above 
+13) What is the output of this C code? 
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. int a[2][3] = {1, 2, 3, 4, 5}; 
+5. int i = 0, j = 0; 
+6. for (i = 0; i < 2; i++) 
+7. for (j = 0; j < 3; j++) 
+8. printf("%d", a[i][j]); 
+9. } 
+a) 1 2 3 4 5 0 
+b) 1 2 3 4 5 junk 
+c) 1 2 3 4 5 5 
+
+[Page 28]
+d) Run time error 
+ 
+Answer: a 
+ 
+14) What is the output of this C code? 
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. int a[2][3] = {1, 2, 3, , 4, 5}; 
+5. int i = 0, j = 0; 
+6. for (i = 0; i < 2; i++) 
+7. for (j = 0; j < 3; j++) 
+8. printf("%d", a[i][j]); 
+9. } 
+a) 1 2 3 junk 4 5 
+b) Compile time error 
+c) 1 2 3 0 4 5 
+d) 1 2 3 3 4 5 
+Answer: b 
+15. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void f(int a[][3]) 
+3. { 
+4. a[0][1] = 3; 
+5. int i = 0, j = 0; 
+6. for (i = 0; i < 2; i++) 
+7. for (j = 0; j < 3; j++) 
+8. printf("%d", a[i][j]); 
+9. } 
+10. void main() 
+11. { 
+12. int a[2][3] = {0}; 
+13. f(a); 
+14. } 
+a) 0 3 0 0 0 0 
+b) Junk 3 junk junk junk junk 
+c) Compile time error 
+d) All junk values 
+ 
+Answer: a 
+ 
+16. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void f(int a[][]) 
+
+[Page 29]
+3. { 
+4. a[0][1] = 3; 
+5. int i = 0, j = 0; 
+6. for (i = 0;i < 2; i++) 
+7. for (j = 0;j < 3; j++) 
+8. printf("%d", a[i][j]); 
+9. } 
+10. void main() 
+11. { 
+12. int a[2][3] = {0}; 
+13. f(a); 
+14. } 
+a) 0 3 0 0 0 0 
+b) Junk 3 junk junk junk junk 
+c) Compile time error 
+d) All junk values 
+ 
+Answer: c 
+ 
+17. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void f(int a[2][]) 
+3. { 
+4. a[0][1] = 3; 
+5. int i = 0, j = 0; 
+6. for (i = 0;i < 2; i++) 
+7. for (j = 0;j < 3; j++) 
+8. printf("%d", a[i][j]); 
+9. } 
+10. void main() 
+11. { 
+12. int a[2][3] = {0}; 
+13. f(a); 
+14. } 
+a) 0 3 0 0 0 0 
+b) Junk 3 junk junk junk junk 
+c) Compile time error 
+d) All junk values 
+ 
+Answer: c 
+ 
+ 
+18. Comment on the following statement: 
+int (*a)[7]; 
+
+[Page 30]
+a) An array “a” of pointers. 
+b) A pointer “a” to an array. 
+c) A ragged array. 
+d) None of the mentioned 
+ 
+Answer: b 
+ 
+19. Comment on the 2 arrays regarding P and Q: 
+1. int *a1[8]; 
+2. int *(a3[8]); 
+3. P. Array of pointers 
+4. Q. Pointer to an array 
+a) a1 is P, a2 is Q 
+b) a1 is P, a2 is P 
+c) a1 is Q, a2 is P 
+d) a1 is Q, a2 is Q 
+ 
+Answer: b 
+ 
+20. Which of the following is not possible statically in C? 
+a) Jagged Array 
+b) Rectangular Array 
+c) Cuboidal Array 
+d) Multidimensional Array 
+ 
+Answer: a 
+ 
+ 
+21. What is the correct syntax to send a 3-dimensional array as a parameter? (Assuming declaration int a[5][4][3];) 
+a) func(a); 
+b) func(&a); 
+c) func(*a); 
+d) func(**a); 
+ 
+Answer: a 
+ 
+ 
+22. Applications of multidimensional array are? 
+a) Matrix-Multiplication 
+b) Minimum Spanning Tree 
+c) Finding connectivity between nodes 
+
+[Page 31]
+d) All of the mentioned 
+Answer: d 
+23. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int ary[2][3]; 
+5. foo(ary); 
+6. } 
+7. void foo(int *ary[]) 
+8. { 
+9. int i = 10, j = 2, k; 
+10. ary[0] = &i; 
+11. ary[1] = &j; 
+12. *ary[0] = 2; 
+13. for (k = 0;k < 2; k++) 
+14. printf("%d\n", *ary[k]); 
+15. } 
+a) 2 2 
+b) Compile time error 
+c) Undefined behaviour 
+d) 10 2 
+ 
+Answer: a 
+ 
+24. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int ary[2][3]; 
+5. foo(ary); 
+6. } 
+7. void foo(int (*ary)[3]) 
+8. { 
+9. int i = 10, j = 2, k; 
+10. ary[0] = &i; 
+11. ary[1] = &j; 
+12. for (k = 0;k < 2; k++) 
+13. printf("%d\n", *ary[k]); 
+14. } 
+a) Compile time error 
+b) 10 2 
+c) Undefined behaviour 
+
+[Page 32]
+d) segmentation fault/code crash 
+ 
+Answer: a 
+ 
+25. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. foo(ary); 
+5. } 
+6. void foo(int **ary) 
+7. { 
+8. int i = 10, k = 10, j = 2; 
+9. int *ary[2]; 
+10. ary[0] = &i; 
+11. ary[1] = &j; 
+12. printf("%d\n", ary[0][1]); 
+13. } 
+a) 10 
+b) 2 
+c) Compile time error 
+d) Undefined behaviour 
+ 
+Answer: d 
+ 
+26. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int ary[2][3][4], j = 20; 
+5. ary[0][0] = &j; 
+6. printf("%d\n", *ary[0][0]); 
+7. } 
+a) Compile time error 
+b) 20 
+c) Address of j 
+d) Undefined behaviour 
+ 
+Answer: a 
+ 
+27. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+
+[Page 33]
+4. int ary[2][3]; 
+5. ary[][] = {{1, 2, 3}, {4, 5, 6}}; 
+6. printf("%d\n", ary[1][0]); 
+7. } 
+a) Compile time error 
+b) 4 
+c) 1 
+d) 2 
+ 
+Answer: a 
+ 
+ 
+28. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. void foo(); 
+5. printf("1 "); 
+6. foo(); 
+7. } 
+8. void foo() 
+9. { 
+10. printf("2 "); 
+11. } 
+a) 1 2 
+b) Compile time error 
+c) 1 2 1 2 
+d) Depends on the compiler 
+ 
+Answer: a 
+ 
+29. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. void foo(), f(); 
+5. f(); 
+6. } 
+7. void foo() 
+8. { 
+9. printf("2 "); 
+10. } 
+11. void f() 
+12. { 
+13. printf("1 "); 
+
+[Page 34]
+14. foo(); 
+15. } 
+a) Compile time error as foo is local to main 
+b) 1 2 
+c) 2 1 
+d) Compile time error due to declaration of functions inside main 
+ 
+Answer: b 
+ 
+30. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. void foo(); 
+5. void f() 
+6. { 
+7. foo(); 
+8. } 
+9. f(); 
+10. } 
+11. void foo() 
+12. { 
+13. printf("2 "); 
+14. } 
+a) 2 2 
+b) 2 
+c) Compile time error 
+d) Depends on the compiler 
+ 
+Answer: d 
+Explanation: Even though the answer is 2, this code will compile fine only with gcc. GNU C supports nesting of functions in C 
+as a language extension whereas standard C compiler doesn’t. 
+31. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void foo(); 
+3. int main() 
+4. { 
+5. void foo(); 
+6. foo(); 
+7. return 0; 
+8. } 
+9. void foo() 
+10. { 
+11. printf("2 "); 
+12. } 
+
+[Page 35]
+a) Compile time error 
+b) 2 
+c) Depends on the compiler 
+d) Depends on the standard 
+ 
+Answer: b 
+ 
+32. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void foo(); 
+3. int main() 
+4. { 
+5. void foo(int); 
+6. foo(1); 
+7. return 0; 
+8. } 
+9. void foo(int i) 
+10. { 
+11. printf("2 "); 
+12. } 
+a) 2 
+b) Compile time error 
+c) Depends on the compiler 
+d) Depends on the standard 
+ 
+Answer: a 
+ 
+33. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void foo(); 
+3. int main() 
+4. { 
+5. void foo(int); 
+6. foo(); 
+7. return 0; 
+8. } 
+9. void foo() 
+10. { 
+11. printf("2 "); 
+12. } 
+a) 2 
+b) Compile time error 
+c) Depends on the compiler 
+
+[Page 36]
+d) Depends on the standard 
+ 
+Answer: b 
+ 
+34. What is the output of this C code? 
+1. include <stdio.h> 
+2. void m() 
+3. { 
+4. printf("hi"); 
+5. } 
+6. void main() 
+7. { 
+8. m(); 
+9. } 
+a) hi 
+b) Run time error 
+c) Nothing 
+d) Varies 
+Answer: a 
+35. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void m(); 
+3. void n() 
+4. { 
+5. m(); 
+6. } 
+7. void main() 
+8. { 
+9. void m() 
+10. { 
+11. printf("hi"); 
+12. } 
+13. } 
+a) hi 
+b) Compile time error 
+c) Nothing 
+d) Varies 
+ 
+Answer: b 
+ 
+36. What is the return-type of the function sqrt() 
+a) int 
+b) float 
+
+[Page 37]
+c) double 
+d) depends on the data type of the parameter 
+ 
+Answer: c 
+ 
+37. Which of the following function declaration is illegal? 
+a) double func(); 
+ int main(){} 
+ double func(){} 
+b) double func(){}; 
+ int main(){} 
+c) int main() 
+ { 
+ double func(); 
+ } 
+ double func(){//statements} 
+d) None of the mentioned 
+ 
+Answer: d 
+ 
+38. What is the output of this code having void return-type function? 
+1. #include <stdio.h> 
+2. void foo() 
+3. { 
+4. return 1; 
+5. } 
+6. void main() 
+7. { 
+8. int x = 0; 
+9. x = foo(); 
+10. printf("%d", x); 
+11. } 
+a) 1 
+b) 0 
+c) Runtime error 
+d) Compile time error 
+ 
+Answer: d 
+ 
+39. What will be the data type returned for the following function? 
+1. #include <stdio.h> 
+2. int func() 
+3. { 
+4. return (double)(char)5.0; 
+5. } 
+
+[Page 38]
+a) char 
+b) int 
+c) double 
+d) multiple type-casting in return is illegal 
+ 
+Answer: b 
+ 
+40. What is the problem in the following declarations? 
+ int func(int); 
+ double func(int); 
+ int func(float); 
+a) A function with same name cannot have different signatures 
+b) A function with same name cannot have different return types 
+c) A function with same name cannot have different number of parameters 
+d) All of the mentioned 
+ 
+Answer: d 
+ 
+41. The output of the code below is 
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. int k = m(); 
+5. printf("%d", k); 
+6. } 
+7. void m() 
+8. { 
+9. printf("hello"); 
+10. } 
+a) hello 5 
+b) Error 
+c) Nothing 
+d) Junk value 
+ 
+Answer: a 
+ 
+42. The output of the code below is 
+1. #include <stdio.h> 
+2. int *m() 
+3. { 
+4. int *p = 5; 
+5. return p; 
+6. } 
+
+[Page 39]
+7. void main() 
+8. { 
+9. int *k = m(); 
+10. printf("%d", k); 
+11. } 
+a) 5 
+b) Junk value 
+c) 0 
+d) Error 
+ 
+Answer: a 
+ 
+43. The output of the code below is 
+1. #include <stdio.h> 
+2. int *m(); 
+3. void main() 
+4. { 
+5. int *k = m(); 
+6. printf("hello "); 
+7. printf("%d", k[0]); 
+8. } 
+9. int *m() 
+10. { 
+11. int a[2] = {5, 8}; 
+12. return a; 
+13. } 
+a) hello 5 8 
+b) hello 5 
+c) hello followed by garbage value 
+d) Compilation error 
+ 
+Answer: c 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Part B 
+
+[Page 40]
+1. What is the need for user defined function? 
+2. Write a multi function program 
+3. List the Elements of user defined function 
+4. Give short note on 2-D array processing. 
+5. Write a C program to find the length of a string. 
+6. HELLO encode it as IFMMP using array 
+7. Show the difference between actual and formal parameter in function with piece of code 
+ 
+8. Compare user define function vs System define function 
+ 
+9. List categories of function 
+10. Explain the concept of function call by reference with a sample program. 
+11. Explain the concept of function call by value with a sample program 
+12. Explain about functions with example 
+13. Discuss Character Arrays 
+14. Predict output of the following program (CLO3) 
+ int main(){ 
+ inta[][]={{1,2},(3,4}}; 
+int i,j; 
+for (i=0;i<2;i++) 
+for(j=0;j<2;j++) 
+printf(“%d”,a[i][j]); 
+retorn 0; 
+} 
+15. Why array index starts from zero? 
+16. Contrast function declaration vs function definition. 
+17. List the advantages of functions. 
+18. Program to Find the 2nd Largest Elements in an Array. 
+19. Write a program to convert the given string (srm university) Lower to upper case 
+ 
+20. Advantages and limitations of multi dimensional array initialization 
+21. Explain call by value and call by reference with an example 
+22. Common programming errors in 2D arrays 
+12. Explain String functions with example 
+ PART C 
+1. Array construction for student mark list for 100 students. output need to display register number, marks of 
+five subjects , CGPA and PASS/Fail Status 
+2. Explain in details about String Functions: gets(), puts(), getchar(), putchar(), printf(), with an example 
+programs 
+3. i)Print the given pattern using 2-D array 
+1234567 
+ 23456 
+
+[Page 41]
+ 345 
+ 4 
+ii) Program to divide one array into two arrays 
+4. i) What are strings in C? Write a C program to read a string in lowercase and convert it to 
+uppercase. 
+ ii) ) Illustrate call by value and call by reference with example for each. 
+ 
+5. i) Find the factorial of 10 using function recursion. 
+ii) What is a string? Explain any 5 string functions. 
+6. Explain in details about String Functions: atoi, strlen, strcat, strcmp with an example 
+7. Functions declaration and definition, Types: Call by Value & Call by Reference with example programs 
+8. Explain and write c program for Function with and without Arguments and no Return Values 
+9. Explain and write c program for Passing Array to Functions with return type, Recursion Functions 
+10. Write c program for Matrix Multiplication using Multi-dimensional array 
+11. Program to Delete duplicate elements from an array 
+INPUT 
+1 3 4 5 3 
+OUTPUT 
+1 3 4 5 
+ 
+b. Write a program to perform Matrix addition and Multiplication using 2-D arrays 
+ 
+12. i) State the importance of functions. List out the different types of Function 
+ ii) Write a swap function using call by value and call by reference 
+ iii) Write a C program to concatenate two strings. 
+ iv) Write a program to read to strings and compare them and print a message that the first string 
+is equal, less or greater than the second one accordingly. 
+13. Write c program for Matrix addition and Matrix Transpose using multi dimensional array 
+14. Given a number , find whether it is a power of 2 or not 
+15. Write a C program to swap elements in cyclic order using call by reference. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+[Page 42]
+UNIT 4 
+ 
+1. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void foo(int*); 
+3. int main() 
+4. { 
+5. int i = 10; 
+6. foo((&i)++); 
+7. } 
+8. void foo(int *p) 
+9. { 
+10. printf("%d\n", *p); 
+11. } 
+a) 10 
+b) Some garbage value 
+c) Compile time error 
+d) Segmentation fault/code crash 
+ 
+Answer: c 
+ 
+2. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void foo(int*); 
+3. int main() 
+4. { 
+5. int i = 10, *p = &i; 
+6. foo(p++); 
+7. } 
+8. void foo(int *p) 
+9. { 
+10. printf("%d\n", *p); 
+11. } 
+a) 10 
+b) Some garbage value 
+c) Compile time error 
+d) Segmentation fault 
+ 
+Answer: a 
+ 
+
+[Page 43]
+3. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void foo(float *); 
+3. int main() 
+4. { 
+5. int i = 10, *p = &i; 
+6. foo(&i); 
+7. } 
+8. void foo(float *p) 
+9. { 
+10. printf("%f\n", *p); 
+11. } 
+a) 10.000000 
+b) 0.000000 
+c) Compile time error 
+d) Undefined behaviour 
+ 
+Answer: b 
+ 
+4. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int i = 97, *p = &i; 
+5. foo(&i); 
+6. printf("%d ", *p); 
+7. } 
+8. void foo(int *p) 
+9. { 
+10. int j = 2; 
+11. p = &j; 
+12. printf("%d ", *p); 
+13. } 
+a) 2 97 
+b) 2 2 
+c) Compile time error 
+d) Segmentation fault/code crash 
+ 
+Answer: a 
+ 
+5. What is the output of this C code? 
+
+[Page 44]
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int i = 97, *p = &i; 
+5. foo(&p); 
+6. printf("%d ", *p); 
+7. return 0; 
+8. } 
+9. void foo(int **p) 
+10. { 
+11. int j = 2; 
+12. *p = &j; 
+13. printf("%d ", **p); 
+14. } 
+a) 2 2 
+b) 2 97 
+c) Undefined behaviour 
+d) Segmentation fault/code crash 
+ 
+Answer: a 
+ 
+6. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int i = 11; 
+5. int *p = &i; 
+6. foo(&p); 
+7. printf("%d ", *p); 
+8. } 
+9. void foo(int *const *p) 
+10. { 
+11. int j = 10; 
+12. *p = &j; 
+13. printf("%d ", **p); 
+14. } 
+a) Compile time error 
+b) 10 10 
+c) Undefined behaviour 
+d) 10 11 
+ 
+
+[Page 45]
+Answer: a 
+ 
+7. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int i = 10; 
+5. int *p = &i; 
+6. foo(&p); 
+7. printf("%d ", *p); 
+8. printf("%d ", *p); 
+9. } 
+10. void foo(int **const p) 
+11. { 
+12. int j = 11; 
+13. *p = &j; 
+14. printf("%d ", **p); 
+15. } 
+a) 11 11 11 
+b) 11 11 Undefined-value 
+c) Compile time error 
+d) Segmentation fault/code-crash 
+ 
+Answer: b 
+ 
+8. What is the output of the code below? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int i = 10; 
+5. int *const p = &i; 
+6. foo(&p); 
+7. printf("%d\n", *p); 
+8. } 
+9. void foo(int **p) 
+10. { 
+11. int j = 11; 
+12. *p = &j; 
+13. printf("%d\n", **p); 
+14. } 
+a) 11 11 
+b) Undefined behaviour 
+c) Compile time error 
+
+[Page 46]
+d) Segmentation fault/code-crash 
+ 
+Answer: a 
+ 
+9. Which of the following are correct syntaxes to send an array a s a parameter to function: 
+a) func(&array); 
+b) func(#array); 
+c) func(*array); 
+d) func(array[size]); 
+ 
+Answer: a. 
+ 
+11. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. int k = 5; 
+5. int *p = &k; 
+6. int **m = &p; 
+7. printf("%d%d%d\n", k, *p, **m); 
+8. } 
+a) 5 5 5 
+b) 5 5 junk value 
+c) 5 junk junk 
+d) Run time error 
+ 
+Answer: a 
+ 
+12. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. int k = 5; 
+5. int *p = &k; 
+6. int **m = &p; 
+7. printf("%d%d%d\n", k, *p, **p); 
+8. } 
+a) 5 5 5 
+b) 5 5 junk value 
+c) 5 junk junk 
+
+[Page 47]
+d) Compile time error 
+ 
+Answer: d. 
+13. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. int k = 5; 
+5. int *p = &k; 
+6. int **m = &p; 
+7. **m = 6; 
+8. printf("%d\n", k); 
+9. } 
+a) 5 
+b) Compile time error 
+c) 6 
+d) Junk 
+ 
+Answer: c 
+ 
+14. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. int a[3] = {1, 2, 3}; 
+5. int *p = a; 
+6. int *r = &p; 
+7. printf("%d", (**r)); 
+8. } 
+a) 1 
+b) Compile time error 
+c) Address of a 
+d) Junk value 
+ 
+Answer: b 
+ 
+15. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+
+[Page 48]
+4. int a[3] = {1, 2, 3}; 
+5. int *p = a; 
+6. int **r = &p; 
+7. printf("%p %p", *r, a); 
+8. } 
+a) Different address is printed 
+b) 1 2 
+c) Same address is printed. 
+d) 1 1 
+View Answer 
+Answer: c 
+Explanation: None. 
+16. How many number of pointer (*) does C have against a pointer variabl e declaration? 
+a) 7 
+b) 127 
+c) 255 
+d) No limits. 
+ 
+Answer: d 
+ 
+17. What is the output of this C code? 
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int a = 1, b = 2, c = 3; 
+5. int *ptr1 = &a, *ptr2 = &b, *ptr3 = &c; 
+6. int **sptr = &ptr1; //-Ref 
+7. *sptr = ptr2; 
+8. } 
+a) ptr1 points to a 
+b) ptr1 points to b 
+c) sptr points to ptr2 
+d) None of the mentioned 
+ 
+Answer: b 
+ 
+18. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+
+[Page 49]
+4. int a[3] = {1, 2, 3}; 
+5. int *p = a; 
+6. int **r = &p; 
+7. printf("%p %p", *r, a); 
+8. } 
+a) Different address is printed 
+b) 1 2 
+c) Same address is printed. 
+d) 1 1 
+ 
+Answer: c 
+ 
+ 
+PART B 
+1) short notes on Passing Array Element to Function with an example 
+2) Explain Formal and Actual Parameters 
+3) Give the Advantages of using Functions , 
+4) example program for Processor Directives and #define Directives 
+5) write a program for Pointer Declaration and dereferencing, 
+6) write a program for pointers, Void Pointers and size of Void Pointers 
+7. Write algorithm and pseudo code for leap year calculation. [CLO 1] 
+8. Contrast the declaration of break and continue in while and for loop with justification 
+ [CLO 2] 
+9. Limitations of two dimensional arrays. 
+ 
+PART C 
+1) i) c program to read array elements and print the values with their address 
+ 
+7) Justify and explain the different size of data types using pointer variables with example program. 
+ 
+ 
+ 8) i) write a c program to count vowels and consonants in a string using pointer 
+ 
+ ii) Write call by reference and call by value with an example program 
+ 
+ ii) what is Pointers and address operator, explain with an example of Size of Pointer Variable and 
+Pointer, Operator 
+ 2) Explain in details with an example Pointer Declaration and dereferencing, pointers, Void Pointers and 
+size of Void Pointers 
+ 3) write program for Arithmetic Operations, Incrementing Pointers 
+4) what is Constant Pointers, Pointers to array elements and strings 
+ 
+5)what is function pointer & Array of Function Pointers with an example 
+ 
+6write the c program for Accessing Array of Function Pointers, Null Pointers 
+ 
+
+[Page 50]
+ 
+ 
+ 
+ 
+ 
+ 
+ UNIT 5 
+Part A 
+1. Which of the following are themselves a collection of different data types? 
+a) string 
+b) structures 
+c) char 
+d) all of the mentioned 
+View Answer 
+Answer: b 
+Explanation: None. 
+2. User-defined data type can be derived by___________ 
+a) struct 
+b) enum 
+c) typedef 
+d) all of the mentioned 
+ 
+Answer: d 
+ 
+3. Which operator connects the structure name to i ts member name? 
+a) – 
+b) <- 
+c) . 
+d) Both <- and . 
+ 
+Answer: c 
+ 
+4. Which of the following cannot be a structure member? 
+a) Another structure 
+b) Function 
+c) Array 
+
+[Page 51]
+d) None of the mentioned 
+ 
+Answer: b 
+ 
+5. Which of the following structure declaration will throw a n error? 
+a) struct temp{}s; 
+ main(){} 
+b) struct temp{}; 
+ struct temp s; 
+ main(){} 
+c) struct temp s; 
+ struct temp{}; 
+ main(){} 
+d) None of the mentioned 
+Answer: d 
+ 
+6. What is the output of this C code? 
+1. #include <stdio.h> 
+2. struct student 
+3. { 
+4. int no; 
+5. char name[20]; 
+6. } 
+7. void main() 
+8. { 
+9. struct student s; 
+10. s.no = 8; 
+11. printf("hello"); 
+12. } 
+a) Compile time error 
+b) Nothing 
+c) hello 
+d) Varies 
+ 
+Answer: a 
+ 
+7. What is the output of this C code? 
+1. #include <stdio.h> 
+2. struct student 
+3. { 
+4. int no = 5; 
+5. char name[20]; 
+6. }; 
+7. void main() 
+
+[Page 52]
+8. { 
+9. struct student s; 
+10. s.no = 8; 
+11. printf("hello"); 
+12. } 
+a) Nothing 
+b) Compile time error 
+c) hello 
+d) Varies 
+ 
+Answer: b 
+ 
+8. What is the output of this C code? 
+1. #include <stdio.h> 
+2. struct student 
+3. { 
+4. int no; 
+5. char name[20]; 
+6. }; 
+7. void main() 
+8. { 
+9. student s; 
+10. s.no = 8; 
+11. printf("hello"); 
+12. } 
+a) Nothing 
+b) hello 
+c) Compile time error 
+d) Varies 
+ 
+Answer: c 
+ 
+9. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. struct student 
+5. { 
+6. int no; 
+7. char name[20]; 
+8. }; 
+9. struct student s; 
+
+[Page 53]
+10. s.no = 8; 
+11. printf("%d", s.no); 
+12. } 
+a) Nothing 
+b) Compile time error 
+c) Junk 
+d) 8 
+ 
+Answer: d 
+ 
+10. Can the above code be compiled successfully? 
+1. #include <stdio.h> 
+2. struct p 
+3. { 
+4. int k; 
+5. char c; 
+6. float f; 
+7. }; 
+8. int main() 
+9. { 
+10. struct p x = {.c = 97, .f = 3, .k = 1}; 
+11. printf("%f\n", x.f); 
+12. } 
+a) Yes 
+b) No 
+c) Depends on the standard 
+d) Depends on the platform 
+ 
+Answer: c 
+ 
+ 
+11. What is the output of this C code? 
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. struct student 
+5. { 
+6. int no; 
+7. char name[20]; 
+8. }; 
+9. struct student s; 
+
+[Page 54]
+10. no = 8; 
+11. printf("%d", no); 
+12. } 
+a) Nothing 
+b) Compile time error 
+c) Junk 
+d) 8 
+ 
+Answer: b 
+ 
+12. Number of bytes in memory taken by the below struc ture is 
+1. #include <stdio.h> 
+2. struct test 
+3. { 
+4. int k; 
+5. char c; 
+6. }; 
+a) Multiple of integer size 
+b) integer size+character size 
+c) Depends on the platform 
+d) Multiple of word size 
+ 
+Answer: a 
+ 
+13. What is the output of this C code? 
+1. #include <stdio.h> 
+2. struct 
+3. { 
+4. int k; 
+5. char c; 
+6. }; 
+7. int main() 
+8. { 
+9. struct p; 
+10. p.k = 10; 
+11. printf("%d\n", p.k); 
+12. } 
+a) Compile time error 
+b) 10 
+c) Undefined behaviour 
+
+[Page 55]
+d) Segmentation fault 
+ 
+14. What is the output of this C code? 
+1. #include <stdio.h> 
+2. struct 
+3. { 
+4. int k; 
+5. char c; 
+6. } p; 
+7. int p = 10; 
+8. int main() 
+9. { 
+10. p.k = 10; 
+11. printf("%d %d\n", p.k, p); 
+12. } 
+a) Compile time error 
+b) 10 10 
+c) Depends on the standard 
+d) Depends on the compiler 
+ 
+Answer: a 
+ 
+15. What is the output of this C code? 
+1. #include <stdio.h> 
+2. struct p 
+3. { 
+4. int k; 
+5. char c; 
+6. }; 
+7. int p = 10; 
+8. int main() 
+9. { 
+10. struct p x; 
+11. x.k = 10; 
+12. printf("%d %d\n", x.k, p); 
+13. } 
+a) Compile time error 
+b) 10 10 
+c) Depends on the standard 
+d) Depends on the compiler 
+ 
+
+[Page 56]
+Answer: b 
+ 
+16. What is the output of this C code? 
+1. #include <stdio.h> 
+2. struct p 
+3. { 
+4. int k; 
+5. char c; 
+6. float f; 
+7. }; 
+8. int p = 10; 
+9. int main() 
+10. { 
+11. struct p x = {1, 97}; 
+12. printf("%f %d\n", x.f, p); 
+13. } 
+a) Compile time error 
+b) 0.000000 10 
+c) Somegarbage value 10 
+d) 0 10 
+ 
+Answer: b 
+ 
+17. What is the output of this C code(according to C99 standard)? 
+advertisement 
+1. #include <stdio.h> 
+2. struct p 
+3. { 
+4. int k; 
+5. char c; 
+6. float f; 
+7. }; 
+8. int main() 
+9. { 
+10. struct p x = {.c = 97, .f = 3, .k = 1}; 
+11. printf("%f\n", x.f); 
+12. } 
+a) 3.000000 
+b) Compile time error 
+c) Undefined behaviour 
+d) 1.000000 
+ 
+
+[Page 57]
+Answer: a 
+ 
+18. What is the output of this C code(according to C99 standard)? 
+1. #include <stdio.h> 
+2. struct p 
+3. { 
+4. int k; 
+5. char c; 
+6. float f; 
+7. }; 
+8. int main() 
+9. { 
+10. struct p x = {.c = 97, .k = 1, 3}; 
+11. printf("%f \n", x.f); 
+12. } 
+a) 3.000000 
+b) 0.000000 
+c) Compile time error 
+d) Undefined behaviour 
+ 
+Answer: b 
+ 
+19. What is the output of this C code(according to C99 standard)? 
+1. #include <stdio.h> 
+2. struct p 
+3. { 
+4. int k; 
+5. char c; 
+6. float f; 
+7. }; 
+8. int main() 
+9. { 
+10. struct p x = {.c = 97}; 
+11. printf("%f\n", x.f); 
+12. } 
+a) 0.000000 
+b) Somegarbagevalue 
+c) Compile time error 
+d) None of the mentioned 
+ 
+Answer: a 
+ 
+
+[Page 58]
+ 
+ 
+ 
+ 
+ 
+PART B 
+1. Write algorithm and pseudo code for leap year calculation. 
+2. Contrast the declaration of break and continue in while and for loop with justification 
+3. Limitations of two dimensional arrays. 
+4. Explain about nested pre-processor MACRO 
+5. Categorize the basic operations that can be performed on a file with suitable declarations. 
+6. Write a c program to demonstrate double pointer for accessing the value of another pointer 
+7. Explain about file operations and mode with syntax. 
+8) explain shortly about Initializing Structure, Declaring structure, variable, 
+9) give the example of Structure using typedef, Accessing members 
+10)what is Nested structure, Accessing elements in a structure array, 
+11)write c program for Array of structure, Accessing elements in a structure array 
+12. Explain about file operations and mode with syntax. 
+ 13. Give a brief note about preprocessor directives. 
+14. Differentiate between a union and a structure. 
+15.Write a program to read a file character by character, and display it simultaneously on the 
+screen 
+16) write a program for Passing Array of structure to function, 
+17)write a program for Array of pointers to structures 
+18. Explain about nested pre-processor MACRO 
+19. Categorize the basic operations that can be performed on a file with suitable declarations. 
+20.Write a c program to demonstrate double pointer for accessing the value of another pointer 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ PART C 
+ 
+1) explain in details about Bit Manipulation to structure and Pointer, to structure, Union Basic and 
+declaration with an example 
+ 
+ 
+ 
+ 
+2) explain in details about Accessing Union Members Pointers to Union, Dynamic memory allocation, 
+mallaoc, realloc, free with an example 
+ 
+3) explain in details about Allocating Dynamic Array, Multidimensional array using dynamic memory 
+allocation with an example 
+4) Explain in details about array of structures and accessing elements in a structure array. 
+ 
+5)Write a c program to insert a line at the end of text file 
+6) write a program to copy the content from one file to another file 
+ 7) explain and write the program for library management system using union 
+
+[Page 59]
+14) c program to read array elements and print the values with their address 
+ 
+15) Justify and explain the different size of data types using pointer variables with example program. 
+ 
+16) write a c program to count vowels and consonants in a string using pointer 
+ 
+ 17) Write call by reference and call by value with an example program 
+ 
+ 
+ 
+18) a) i) Explain in details about array of structures and accessing elements in a structure array. 
+ 
+ ii) Write a c program to insert a line at the end of text file 
+ 
+ 19) i) write a program to copy the content from one file to another file 
+ ii) explain and write the program for library management system using union 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+8) write a c program for file: opening, defining, closing, File Modes, File Types, Writing contents into a 
+file 
+ 9) write a c program for Reading file contents, Appending an existing file 
+10)Differentiate between gets() and scanf() 
+(11)Write a program to convert the given string “hello world” to “dlrow olleh”. 
+ 
+12. Write a program that passes a pointer to a structure to a function 
+ 
+13 Briefly discuss about file operations in C 
+ 
+ 
+32(a)Write a program that passes a pointer to a structure to a function 
+ [CLO 5] 
+ (OR) 
+32(b)Briefly discuss about file operations in C [CLO 5] 
+ 
+ 
+ 
+
+[Page 60]
+SRM Institute of Science and Technology, Ramapuram
+Department of Computer Science and Engineering
+18CSS101J-Programming for Problem Solving
+UNIT 1 MCQ
+1. What is the value of variable z?int x;int y;int z;x=3;y=4;z = ++x * y++;a) 9b) 12c) 16d) 20Answer: c
+2. To represent two different conditions which ofthe following is used.
+a) Rectangle
+b) Diamond
+c) Circle
+d) Parallelogram
+Ans B
+3. Give the output of the following program?#include <stdio.h>main(){ int a=9, b=9;a=b++;b=a++;b=++b;printf("%d %d",a,b);} a) 9,9b) 10,10c) 9,10d) 10,9
+
+
+[Page 61]
+Answer: b
+4. In the below mentioned operators, which of thefollowing has the highest precedence?a) Unary +b) *c) >=d) ==Answer: a
+5. What is the output of the given code?
+counter = 2while counter < 68puts countercounter**=2enda) 2 4 16 64b) 2 4 16c) 2 4 16 256d) None of the mentionedAnswer: b
+6. Which of the following is a valid assignment operator?a) +=b) -=c) *=d) All of the mentionedAnswer: d
+7. The output for the following C code is?#include <stdio.h>void main(){ int x = 97;int y = sizeof(x++);printf("x is %d", x);}a) x is 97b) x is 98c) x is 99d) Run time errorAnswer: a
+8. Give the correct answer for the following C code?#include <stdio.h>void main()
+
+[Page 62]
+{ int x = 4, y, z;y = --x;z = x--;printf("%d%d%d", x, y, z);}a) 3 2 3b) 2 2 3c) 3 2 2d) 2 3 3Answer: d
+9. What will be the output of the following C code?
+#include <stdio.h>void main(){ int x = 4;int *p = &x;int *k = p++;int r = p - k;printf("%d", r);}a) 4b) 8c) 1d) Run time errorAnswer: c
+10. Among the following options, which is not a validrepresentation in bits?a) 8-bitb) 24-bitc) 32-bitd) 64-bitAnswer: b11. Name the entities whose values can be changed?a) Constantsb) Variablesc) Modulesd) TokensAnswer: b
+12. Which is not a basic data type ?a) floatb) intc) real
+
+[Page 63]
+d) charAnswer: c
+13. Name the correct default value of a Boolean type?a) 0b) 1c) Trued) Falsee) -1Answer: Option D
+14. Which of the statements given below are correct?1. We can assign values of any type to variables of typeobject.2. When a variable of a value type is converted to object,it is said to be unboxed.3. When a variable of type object is converted to a valuetype, it is said to be boxed.4. Boolean variable cannot have a value of null.5. When a value type is boxed, an entirely new objectmust be allocated and constructed.a) 2, 5b) 1, 5c) 3, 4d) 2, 3Answer: Option B
+15. Name the correct ways to set a value as 3.14 ina variable pi such that it cannot be modified?a) float pi = 3.14F;b) #define pi 3.14F;c) const float pi = 3.14F;d) const float pi; pi = 3.14F;e) pi = 3.14F;Answer: C
+16. why the variable names beginning with underscoreis not encouraged?a) It is not standard formb) To avoid conflicts since assemblers and loaders usesuch namesc) To avoid conflicts since library routines use suchnamesd) To avoid conflicts with environment variables of anoperating systemAns:c
+17. Mention the variable name which is not valid inC ?a) int number;b) float rate;c) int variable_count;d) int $main;Ans:d
+18. Which among the following options is true forthe variable names in C?
+
+[Page 64]
+a) They can contain alphanumeric characters as well as special charactersb) It is not an error to declare a variable to be oneof the keywords(like goto, static)c) Variable names can’t start with a digitd) Variable can be of any lengthAns:c
+19. Give the output for the following code?#include <stdio.h>int main(){int main = 5;printf(“%d”, main);return 0;} a) compile-time errorb) run-time errorc) run without any error and prints 5d) experience infinite loopingAns:c
+20. Which of the following can never be a variablename in C?a) friendb) truec) volatiled) exportAns: c
+21. Mention the User-defined data type from the following?a) struct {char name[10], int age};b) typedef enum {Mon, Tue, Wed, Thu, Fri} Workdays;c) typedef int Boolean;d) all of the mentionedAnswer:d
+22. What is short int in C programming?a) Basic datatype of Cb) Qualifierc) short is the qualifier and int is the basic data typed) All of the mentionedAns:c
+23. What is the output of this C code?#include <stdio.h>int main(){signed char chr;
+
+[Page 65]
+chr = 128;printf(“%d\n”, chr);return 0;} a) 128b) -128c) Depends on the compilerd) None of the mentionedAns:b
+24. Which of the data types have size that is in variable?a) intb) structc) floatd) doubleAns:b
+25. Mention the User-defined data type?a) typedef int Boolean;b) typedef enum {Mon, Tue, Wed, Thu, Fri} Workdays;c) struct {char name[10], int age};d) All of the mentionedAnswer: Option D
+26. Output of this C code is ?
+int main(){char chr;chr = 128;printf("%d\n", chr);return 0;} a) 128b) – 128c) Depends on the compilerd) None of the mentionedAnswer: Option B
+27. What is the output for the C program ?#include <stdio.h>int main(){ static int i=5;if (--i){printf("%d ",i);
+
+[Page 66]
+main();}} a) 4 3 2 1b) 1 2 3 4c) 4 4 4 4d) 0 0 0 0
+Answer: A
+28. Which of the following is not a storage classin C?a) automatic storage classb) register storage classc) external storage classd) internal storage class
+Ans: d
+29. Scope of which of these in C is not local to theblock in which it is defineda) automatic storage classb) register storage classc) static storage classd) external storage classAns d
+30. Single line comments are denoted by _____.a) //b) \\\\c) /*d) */Answer: A
+31 . How many comment lines are present in the belowprogram -main(){printf(\"Hello World in C //Comment \");printf(\"Hello World in C \"); //Comment//Comment printf(\"Hello World in C \");} a) 1b) 0c) 2d) 3Answer: C
+
+[Page 67]
+32. Comments are case Sensitive !a) Trueb) FalseAnswer: B33. What is the use of getchar()?a) The next input character each time it is calledb) EOF when it encounters end of filec) The next input character each time it is called EOFwhen it encounters end of filed) None of the mentionedAnswer: c
+34. Name the method which uses a list of well-definedinstructions to complete a taska) Algorithmb) Flowchartc) Programsd) FunctionsAns C
+35. Sequence logic will not be used whilea) Accepting input from the userb) Giving output to the userc) Adding two numbersd) Comparing two sets of dataAns B
+36. Flowchart and algorithms are used fora) Better programmingb) Easy understanding and debuggingc) Efficient codingd) All the aboveAns d
+37. What is the default initial value of static storageclass?a) 0b) garbage valuec) 1d) -1Ans a
+38. Resolving errors in a program is known as...
+a) Debuggingb) Refixingc) Error Checkingd) Problem SolvingAns a
+
+[Page 68]
+39. Many features of C were derived from an earlier language called _____.a) FORTRANb) BASICc) Bd) PASCALAns C
+40. C Programming was created at ?a) MIT Universityb) AT&T Bell Laboratoryc) L&T Laboratoryd) Haward UniversityAns B
+41. What will be the output of the following pseudocode?Integer a, bSet a = 15, b = 7a = a mod (a - 3)b = b mod (b – 3)a = a mod 1b = b mod 1Print a + ba) 15b) 7c) 2d) 0[Note-mod finds the remainder after the division ofone number by another. For example, theexpression “5 mod 2” leaves a quotient of 2 and aremainder of 1]Answer: d
+42. What will be the output of the following pseudocode?Integer a, b, cSet b = 5, a = 2, c = 2if(b>a && a>c && c>b)b = a + 1Elsea = b + 1End ifPrint a + b + c[Note-&&: Logical AND - The logical AND operator (&&)returns the Boolean value true(or 1)if both operands--. If (x) gets executed if the valueif(), i.e., x is not zero]a) 2b) 13c) 26d) 5Ans:B
+
+[Page 69]
+UNIT 2 MCQ
+1. Does rational operators in the C language are calculatedwith the short circuit?a) Trueb) Falsec) Depends on the compilerd) Depends on the standard
+Answer: a
+2. What is the outcome of relational or logical operationin C?a) True or Falseb) 0 or 1c) 0 if an expression is false and any positive numberif an expression is trued) None of the mentioned
+Answer: b
+3. What will be the output of the following C code?
+#include <stdio.h>
+int main()
+{
+int a = 20, b = 10, c = 10;
+int d;
+d = b + c == a;
+printf("%d", d);
+}
+a)Syntaxerrorb1c)5d) 10
+Answer: b
+
+[Page 70]
+4. What will be the output of the following C program.
+#include<stdio.h>
+int main()
+{ int a=-1, b=1, c, d;
+c = !a && b;
+d = !a || b;
+printf("%d %d %d %d",a,b,c,d);
+return 0;}
+a) -1 1 1 0b) -1 1 0 0c) -1 1 1 1d) -1 1 0 1
+Ans:- d
+5. Which operator of the following is not a logical orrelational operator?a) !=b) ==c) ||d) =
+Answer: d6. Relational operators will not be used in ____________a) structureb) longc) stringsd) floatAnswer: a
+7. Which are the operators used to relate the valuesof operands to create logical value in Clanguage?
+ a) Logical operator b) Relational operatorc) Assignment operator) None of the above
+
+[Page 71]
+Answer: b
+8. In the following operators which one performs processeson data in binary level?
+ a)Logical operatorb)Bitwise operatorc) Additional operatorsd)None of the above
+Answer: b
+9. How many number of operands needed to unary operatorlogical not (!)?
+a)4
+b)3
+c)2
+d)1
+Answer: d
+10.An expression comprises relational, arithmetic andassignment operators. If interpolationsare not indicated, the order of valuation of the operatorswill be:
+a) Assignment, arithmetic, relational
+b) Relational, assignment, arithmetic
+c) Assignment, relational, arithmetic
+d) Arithmetic, relational, assignment
+Answer: d
+11.Which group has higher priority between (>,<=,<,<==)and (==,!=)?
+a) (>, >=, <, <=) has lower priority (==, !=)b) (>, >=, <, <=) has higher priority (==, !=)c) (>, >=, <, <=) has equal priority with (==, !=)d) None of the above
+Answer: b
+
+[Page 72]
+12.The || and && operators
+A. Relate two Boolean valuesB. Relate two numeric valuesC. Combine two Boolean valuesD. Combine two numeric values
+Answer: C
+13.Increment operators need L-value Expression What willbe the output of the followingprogram?
+#include<stdio.h>int main(){ int i = 10; printf("%d", ++(-i)); return 0;} A) 11B) 10C) -9D) None – l-value required
+Answer: D14.What will be the output of the following C program?
+#include <stdio.h>int main(){ int a = 3, b = -8, c = 2; printf("%d", a % b / c); return 0; }A) 1B) 15C) -9D) 12
+Answer: A
+15.What will be the output of the following C code?
+#include <stdio.h>
+
+[Page 73]
+void main(){ double x = 123828749.66;int y = x;printf("%d\n", y);printf("%lf\n", y);}a) 0, 0.0b) 123828749, 123828749.66c) 12382874, 12382874.0d) 123828749, 0.000000
+Answer: d16.Which of the following selection statement test onlyequality?a) ifb) switchc) if & switchd) none of the mentionedAnswer: b
+17.Which of the following will execute the body of loopcondition is false?
+a) do-whileb) whilec) ford) none of the mentioned
+Answer: a
+18.Which of this following statement is incorrect?
+a) switch statement is more efficient than a set ofnested ifsb) two case constants in the same switch can haveidentical valuesc) switch statement can only test for equality, whereasif statement can evaluate any typeof Boolean expressiond) it is possible to create a nested switch statements
+Answer: b
+
+[Page 74]
+19.The break statement is used to quite from:
+a. DO loopb. FOR loopc. SWITCH SATEMENTd. All of above.
+Answer: d
+20.The advantage of a SWITCH statement over an ELSE-IFstatement:
+a.A default condition can be used in the SWITCH.b. It is easier to understand.c. Several conditions can cause one set of statementsto be executed in a SWITCH.d. Several diffeent statements can be executed ina SWITCH.
+Answer: b
+21.The comma (,) operator is primarily used in conjunctionwith:a. FOR statement.b. IF-ELSE statement.c.DO-While statement.d.All of above.
+Answer: a
+22.The GOTO statement is used:
+a.To permit two dissimilar expressions to appearin condition where only one expressionwould ordinarily use.b. to dismiss loops or to exit from a switch.c.an unconditional transfer of control to a namedlabel.d.to carry out a logical test and then take one oftwo possible actions, depending upon theoutcome of a test.Answer: c23.What is an Array in C language?
+A) A group of elements of same data type.B) An array contains more than one elementC) Array elements are stored in memory in continuousor contiguous locations.D) All the above.
+Answer :d
+
+[Page 75]
+24.An array Index starts with?A) -1B) 0C) 1D) 2
+Answer :b
+25.What is the output of c program?Int main(){Int a[]={5,2,3,4};Int b[4]={10,6,7,8};Printf(“%d,%d”, a[0], b[0]);}A) 5,10B) 2,6C) 0 0D) Compiler error
+Answer : A
+26.Which is correct format for initializing an arrayin C?
+a) int arr[5] = (1,2,3,4,5);b) int arr(3) = {1,2,3,4,5};c) int arr[3] = {1,2,3,4,5};d) int arr(3) = (1,2,3,4,5);
+Answer: c
+27.Which of the following concepts make extensive useof arrays?a) Binary treesb) Scheduling of processesc) Cachingd) Spatial locality
+Answer: d
+
+[Page 76]
+28.What are the disadvantages of arrays?
+a) Data structure like queue or stack cannot be implementedb) There are chances of wastage of memory space ifelements inserted in an array arelesser than the allocated sizec) Index value of an array can be negatived) Elements are sequentially accessed
+Answer: b
+29.Array is accessed by _____________ elements.a) randomlyb) sequentiallyc) exponentiallyd) logarithmically
+Answer: a
+30.What is the output of C program with arrays?
+int main()
+{char str[]={"C","A","T","\0"};
+printf("%s",str);
+return 0;}
+A) CB) CATC) CAT\0D) Compiler error
+Answer: D
+31.What is the output of C program with string arrays?
+int main()
+{ char *p1 = "GOAT";
+char *p2;
+p2 = p1;
+p2="ANT";
+
+[Page 77]
+printf("%s", p1);
+}
+A) ANTB) GOATC) GD) A
+Answer: B
+32.A one-dimensional array contains one-dimensional arraysis calledA. Two-dimensional arrayB. Multi-casting arrayC. Multi-dimensional arrayD. Three-dimensional arrayAnswer: A
+33.Objects in a sequence that have the same type, iscalledA. ArraysB. OperatorsC. FunctionsD. StacksAnswer: A
+34.In an array starting from the beginning and inspectingeach element one after other forfinding an object, until the object is found is calledasA. Linear search algorithmB. SearchingC. InspectingD. All of themAnswer: A
+35.Which of the following technique is used to find valuein an array?A. Binary search algorithmB. Bubble sort
+
+[Page 78]
+C. Linear search algorithmD. All of themAnswer: d
+36.Programmer’s uses _______ for defining their own types.?A. AlgorithmsB. OperatorsC. EnumerationsD. None of themAnswer: c
+37.A I-D array is considered as____?A. ComplexB. SequentialC. LinearD. Both C and BAnswer: d
+38.Array comprising elements are numbered as 0,1,2,3?These numbers are called asA. Subscripts of the arrayB. Index valuesC. Members of an arrayD. Both A and BAnswer: d
+39.Find the output of the code
+#include<stdio.h>void main(){int m[5]={10,20,30,40,50);int a,b,c;a=++m[1];b=m[1]++c=m[i++];
+
+[Page 79]
+printf(“%d,%d,%d”,a,b,c);}
+A. 21,20,30B. 20,21,30C. 22,21,30D. 20,21,40Answer : C
+40.What will be the resulting array after rotating arr[]={2,4, 6, 8, 10} by 2?A. 4, 6, 8, 10, 2B. 10, 2, 4, 6, 8C. 8, 10, 2, 4, 6D. 6, 8, 10, 2, 4
+Answer : D
+41.Which one is used in arrays extensivelyA. SchedulingB. CachingC. Spatial LocalityD. Binary trees
+Answer : C
+42.What is the size of int arr[10] if the int is of 4bytes?A. 4B. 40C. 10D. 14
+Answer : B
+43.The resulting array after reversing arr[]={21,23,25,27,29}isA. 29,27,25,23,21B. 25,27,29,21,23C. 27,29,21,23,25D. 23,25,27,29,21
+Answer : A
+
+[Page 80]
+44.Maximum number of dimensions an array haveA. 8B. 4C. No limitD. 50Answer : C
+45.What does int arr[30] mean?A. Array of size 30B. Integer Array of size 30C. Array of size 30 that have integer addressD. None
+Answer : A
+
+[Page 81]
+UNIT 3 MCQ
+1. ___ quotes is used for character array initialization.(A) Any(B) Double(C) No(D) SingleAnswer: B
+2.Data type for array in C belongs to------------(A) Primitive(B) User defined(C) Derived(D) BasicAnswer: C
+3.Two compare the two strings which of the followingone is used(A) Strcmp ()(B) Strcpy ()(C) Stcp()(D) Stcmp()Answer: A
+4.------------- Array example is matrix(A) Single(B) 2-D(C) 3-D(D) Multi-dimensionalAnswer: B
+5.Array Size should be always -----------(A) Positive(B) Negative
+
+[Page 82]
+(C) Whole number(D) Real numberAnswer: A
+6. The first subscript of 2D array represents the----------- size(A) Row(B) Column(C) Object(D) DiagonalAnswer: A
+7._____ array is an array in which each element isitself an array(A) 1-D(B) 2-D(C) 4-D(D) 5-DAnswer: B
+8.---------- character type is used for indicatingthe terminator of the string.(A) Float(B) Int(C) Null(D) StringAnswer: C
+9.How many Array types available?(A) 1(B) 2(C) 3(D) 4Answer: B10.For write function, how many parameters required?
+
+[Page 83]
+(A) Two(B) Three(C) Four(D) FiveAnswer: A11.Arranging of elements in array with respect toascending or descending is called ___(A) Merging(B) Filtering(C) Sorting(D) OrderingAnswer: C12. The position of array elements always begins from___(A) One(B) Two(C) Three(D) ZeroAnswer: D
+13.What will be the output of the following C code?
+#include <stdio.h>
+int main()
+{
+ARRAY1(ary);
+}
+void ARRAY1(int **ary)
+{
+int i = 10, k = 10, j = 2;
+int *ary[2];
+ary[0] = &i;
+
+[Page 84]
+ary[1] = &j;
+printf("%d\n", ary[0][1]);
+}
+a.22
+b. Compile time error
+c. Undefined behavior
+d.102
+Answer: c
+14.What will be the output for the following program?
+#include <stdio.h>
+int main()
+{
+int ary[2][3];
+ary[][] = {{1, 2, 3}, {4, 2, 6}};
+printf("%d\n", ary[1][0]);
+return 0;
+}
+a.4
+b. Compile time error
+c.2
+d.1
+Answer: a
+15. int (*b)[6];
+a. An array “b” of pointers
+
+[Page 85]
+b. A pointer “b” to an array
+c. A ragged array
+d. None of the mentioned
+Answer: b
+15.Statement on the following 2 arrays with respectto M and N.
+int *x1[8];
+int *(x2[8]);
+M. Array of pointers
+N. Pointer to an array
+A) x1 is M x1 is N
+B) x1 isM, x2 isM
+C) x1 is N, x2 isM
+D) x1 is N, x2 is N
+Answer: b
+16. Which of the following is not possible staticallyin C?
+a. Jagged array
+b. Rectangular array
+c. Cuboidal array
+d. Multidimensionl Array.
+Answer:D
+17.What will be the output of the following C code?
+
+[Page 86]
+#include <stdio.h>
+void main()
+{
+int a[2][3] = {1, 3, 5, 7, 9};
+int i = 0, j = 0;
+for (i = 0; i < 2; i++)
+for (j = 0; j < 3; j++)
+printf("%d", a[i][j]);
+}
+a.135790
+b.13579junk
+c.135799
+d. Run time error
+Answer: a
+18. Write the output of the following C code?
+#include <stdio.h>
+int main()
+{
+char *S1 = "hello, world";
+char *S2 = "hello, world";
+
+[Page 87]
+if (strcmp(S1, S2))
+printf("equal");
+else
+printf("unequal");
+}
+a.equal
+b.Unequal
+c.Compilation errot
+d. Depends on the compiler
+Answer: b
+19. Write the output for the below code.
+#include <stdio.h>
+int main()
+{
+char *str = "hello, word\n";
+printf("%d", strlen(str));
+}
+a. Compilation error
+
+[Page 88]
+b. Undefined behavior
+c.12
+d.11
+Answer: c
+20. Always----------- function adds null character
+a. strcmp()
+b. strcat()
+c. strcpy()
+d. strrev()
+Answer: b
+21.----------- function is not declared in math.h?a) and()b)pow()c)exp()d) acos()
+Answer: a
+22.Which one is correct for multidimensional arrayexample.
+a. int[][] code = {{1,2},{3,4,5}};
+b. int[2][] code = {{1,2},{3,4,5}};
+c. int[][] code={1,2,
+3,4,5};
+d. all
+Answer: A
+
+[Page 89]
+23. The function function1 is called __________ if it calls the same function function1.
+A. indirect recursiveB. direct recursiveC. Both A and BD. None of the aboveAnswer : B
+24. Iteration not requires more system memory thanrecursion.
+A. TRUEB. FALSEC. Can be true or falseD. Can not SayAnswer : A
+25. Write the output of the following C code?
+#include<stdio.h>
+main()
+{
+int n;
+n=f1(3);
+printf("%d",n);
+}
+f1(int x)
+{
+int b;
+if(x==1)
+return 1;
+else
+b=x*f1(x-1);
+
+[Page 90]
+return b;
+}
+a.6
+b.4
+c.12
+d.10
+Answer: a
+26. Findthe error of following function give oncompilation ?
+f(int a,int b){int b;a = 20;return a;}
+a. Missing parentheses in return statement
+b. Function should be define as int f(int a, int b)
+c. Redeclaration if b
+d. No error
+Answer:c
+27.It is essential to declare the sort of a functionwithin the calling program on the off chance thatthe function
+a.Returns an integer
+b.Returns a non-integer value
+c.is not defined in the same file
+d.None of these.
+
+[Page 91]
+Answer:b
+28. What is meant by void?
+a. Representation of NULL data type b. Representation of void pointerc. Error d. None of above
+Answer: A
+29. If the two strings are not identical, then strcmp()function returns
+a. -1 b. 0c. 1 d. Yes
+Answer: c
+30.What is the Format specifier used to print a integerarray in C Printf or Scanf function.?
+A) %c
+B) %CC) %sD) %dAnswer:D
+31. Write the ouptu for the below code.
+int main()
+{
+char ary[]="SRM IST";
+printf("%s",ary);
+return 0;
+}
+
+[Page 92]
+A) S
+B) SRMC) SRMISTD) SRM ISTAnswer : D
+32.How do you convert this char array to string.?
+char str[]={'g','o','o','d'};
+A) str[4] = 0;
+B) str[4] = '\0'
+C) str[]={'g','o','o','d','\0'};
+D) All the options
+Answer : D
+33.Find the output?
+int main()
+{
+char str[]={"G","O","D","\0"};
+printf("%s",str);
+return 0;
+}
+A) Compiler error
+B) GOD
+C) GOD\0
+D)G
+
+[Page 93]
+Answer : A
+34.What is the output of C Program with arrays.?
+int main()
+{
+char str[100];
+scanf("%s", str);
+printf("%s",str);
+return 0;
+}
+//input: WEST INDIES
+A) WEST
+B) WEST INDIES
+C)W
+D) Compiler error
+Answer : D
+35. What is the output of C Program with functions.?
+int main()
+{
+FUN();
+printf("LTD ");
+return 0;
+}
+
+[Page 94]
+void FUN()
+{
+printf("HDFC ");
+}
+A) HDFC LTD
+B) LTD HDFC
+C) LTD
+D) Compiler error
+Answer : D
+36.In C program, Function return -----------------number of value at a time.?
+A) Only One Value
+B) Maximum of two values
+C) Maximum of three values
+D) Maximum of 8 values
+Answer: A
+37.Select the types of function
+A) Library Functions
+B) User Defined Functions
+C) Both Library and User Defined
+D) None
+Answer: C
+38.What is the constrain for number of functionsin a C Program.?
+A) 12
+
+[Page 95]
+B) 24
+C) 56
+D) No limit
+Answer: D
+39. What is the least number of functions to be presentin a C Program?
+A) 1
+B)3
+C) 4
+D) 2
+Answer: A
+40. Each C Program ought to contain which function.?
+A) main()
+B) show()
+C) scanf()
+D) printf()
+Answer: A
+
+[Page 96]
+UNIT 4 MCQ
+1. How will youdeclare the function which is intendedto receive an array as an argumenta. return_type function(type arrayname[])b. return_type function(type arrayname[SIZE])c. return_type function(type *arrayname)d. All of the above
+Ans: d
+2. To storethearrayreturnedfromthefunction,wecandefinea ______whichpointstothat array.a. Structureb. Arrayc. Pointerd. List
+Ans: c
+3. The differencebetweenActualParameters and FormalParameters isthat ActualParameters arethevaluesthatare________thefunctionwhenitisinvokedwhile FormalParameters arethevariablesdefinedbythefunctionthat_________valueswhenthefunction is called.a. Passed to, receivesb. Received by, passc. Prints, processd. Process, prints
+Ans: a
+4. The advantages of using functions are:a. Avoid repetition of codes.b. Increases program readability.c. Divide a complex problem into simpler ones.d. All of the aboveAns: d5. TheC preprocessoris a __________thatis usedautomaticallybytheCcompilertotransform your program before actual compilation.a. Macro processorb. Microprocessorc. Macro controllerd. Micorcontroller
+
+[Page 97]
+Ans: a
+6. Proprocessordirecives are executed ________ compilation.a. Beforeb. Afterc. Duringd. None of the above
+Ans: a
+7. The ________ preprocessor directive is used to pastecode of given file into current file.a. #defineb. #includec. #ifdefd. #pragma
+Ans: b
+8. A macrois a _________whichis replacedbythevalueofmacro.Macroisdefinedby ________ directive.a. segment of code, #pragmab. file, #definec. segment of code, #defined. none of the above
+Ans: c
+9. __________ is used to undefine a macro definition.a. #udefb. #unfedc. #defund. #undef
+Ans: d
+10.What is the output of the following program?#include<stdio.h>#ifndef __MATH_H#error First include then compile#elsevoid main(){float a;a=sqrt(7);printf("%f",a);}#endif
+
+[Page 98]
+a. 2.64575b. 49c. 0.7d. None of the above
+Ans: a
+11.The _____________directiveis used by the compilerto offer machineoroperating-system feature.a. #defineb. #elifc. #included. #pragma 
+Ans: d
+12.Calculate the output of the following program?#include<stdio.h>#define Area(x) x*x#define Costpaint(x,y,z) (z*y + Area (x))void main(){ int A = 8, B= 6, C = 4; clrscr(); printf("The area of square= %d\n", Area(A)); printf("Cost of paint= %d\n", Costpaint(A,B,C));}a. 64b. 88c. 32d. 76
+Ans: b
+13.Identify the value that gets printed in the followingprogram
+#include <stdio.h>int main(){int a=10; //variable declarationint *p; //pointer variable declarationp=&a; //store address of variable a in pointerpprintf("Address stored in a variable p is:%x\n",p);//accessing the addressprintf("Value stored in a variable p is:%d\n",**p);//accessing the valuereturn 0;}
+
+[Page 99]
+a. 10 10b. 10, 60ff08c. 60ffd, 10d. None of the above
+Ans: a
+14.___________ operator can be used to evaluate sizeof a variable/pointer in C.a. size()b. eval()c. sizeof()d. None of the above
+Ans: c
+15.A pointer to void means a ________ pointer that canpoint to any data type.a. Specificb. Genericc. Exactd. Null
+Ans: b
+16.Select the possible arithmetic operations are applicableon the pointer in C language:a. Increment, Decrementb. Addition, Subtractionc. Comparisond. All of the above
+Ans: d
+17.What is the output of the following program:
+#include<stdio.h> void main () { int arr[5] = {1, 2, 3, 4, 5}; int *p = arr; int i; printf("printing array elements...\n"); for(i = 0; i< 5; i++) { printf("%d ",*(p+i)); } 
+
+[Page 100]
+} a. 1, 2, 3, 4, 5b. 5, 4, 3, 2, 1c. 1, 2, 3, 5, 8d. None of the above
+Ans: a
+18.Identify the illegal pointer arithmetic operations:a. Address + Addressb. Address * Addressc. Address % Addressd. All of the above
+Ans: d
+19.What is the output of the given program:
+#include<stdio.h> int addition (); int main () { int result; int (*ptr)(); ptr = &addition; result = (*ptr)(); printf("The sum is %d",result); } int addition() { int a=5, b=2; return a+b; } a. 10b. 3c. 7d. 25Ans: c20.A ______ pointer in C cannot change the address ofthe variable to which it is pointinga. Fixedb. Nullc. Void
+
+[Page 101]
+d. ConstantAns: d21.An array of pointers to strings is an array of characterpointers where each pointer pointsto the ________ of the string or the __________ ofthe string.a. first character, base addressb. last character, last addressc. middle character, middle addressd. None of the aboveAns: a22.A function pointer points to _____, not ____.a. data, codeb. code, datac. type, constd. None of the aboveAns: b23.Identify the correct function pointer declaration:a. int * foo(int)b. int (*foo)(int);c. int (int)(*foo)d. None of the aboveAns: b24.What is the output of the given program:#include <stdio.h>void Hi_function (int times); /* function */int main() {void (*function_ptr)(int); /* function pointerDeclaration */function_ptr = Hi_function; /* pointer assignment*/function_ptr (3); /* function call */return 0;}void Hi_function (int times) {int k;for (k = 0; k < times; k++) printf("Hi");}a. Hi HiHiHiHiHib. Hi HiHiHiHic. Hi HiHiHid. Hi HiHiAns. d25.What is the output of the given program:#include <stdio.h>void* cube (const void* num);int main() {
+
+[Page 102]
+int x, cube_int;x = 4;cube_int = cube (&x);printf("%d cubed is %d\n", x, cube_int);return 0;}
+void* cube (const void *num) {int result;result = (*(int *)num) * (*(int *)num) * (*(int*)num);return result;}a. 2 cubed is 9b. 3 cubed is 28c. 4 cubed is 64d. 5 cubed is 26Ans. c26.What is the output of the given program:#include<stdio.h>main (){int a[3] = {10,20,30};int *p[3],i;for (i=0; i<3; i++)p[i] = &a[i]; //initializing base address ofarrayprintf (“elements of the array are”)for (i=0; i<3; i++)printf ("%d \t", *p[i]); //printing array of pointersgetch();}a. elements of the array are 10 20 30b. elements of the array are 9 19 29c. elements of the array are 11 21 31d. None of the aboveAns. a27.What is the output of the following program:#include<stdio.h>main (){int a = 10;int *p;int **q;p = &a;q = &p;
+
+[Page 103]
+printf("%d",a);printf("%d", *p);printf("%d", **q);}a. 10 10 11b. 10 11 12c. 10 10 10d. None of the aboveAns. d28.Choose the correct way of declaring pointer array:a. datatype pointername [size];b. datatype *pointername [size];c. datatype[size]pointername;d. None of the aboveAns. b29.A ________ is a pointer that does not point to anymemory location.a. Null pointerb. Void pointerc. Array pointerd. String pointerAns. a30.The null pointer basically stores the ____ value.a. Voidb. Intc. Chard. NullAns. d31.__________ is used to initialize a pointer variablewhen the pointer does not point to avalid memory address.a. Voidb. Intc. Chard. NullAns. d32.What is the output of the following program:#include <stdio.h> int main() { int *ptr; printf("Address: %d", ptr); 
+
+[Page 104]
+ printf("Value: %d", *ptr); return 0; } a. Produces outputb. Program crashesc. Show errord. None of the aboveAns. b33.What is the output of the following program:#include <stdio.h> int main() { int *ptr; ptr=(int*)malloc(4*sizeof(int)); if(ptr==NULL) { printf("Memory is not allocated"); } else { printf("Memory is allocated"); } return 0; } a. Memory is not allocatedb. Memory is allocatedc. Shows compiler errord. Program crashesAns. b34.What is the output of the following program:#include <stdio.h> #include <conio.h> #define NUMBER 0 void main() { #if (NUMBER==0) printf("Value of Number is: %d",NUMBER); #endif getch(); } a. Value of Number is: 10
+
+[Page 105]
+b. Value of Number is: 11c. Value of Number is: 0d. Value of Number is 9Ans. c35.The #error preprocessor directive indicates error. The compiler gives fatal errorif #error directive is found and skips further compilationprocess.a. #ifdef, continueb. #error, continuec. #ifdef, skipsd. #error, skipsAns. d36.What is the output of the following program:#include <stdio.h>int main(){char *cities[] = {"Iran", "Iraq"};int i;for(i = 0; i< 2; i++)printf("%s\n", cities[i]);return 0;}a. Iraq, Iranb. India, Iranc. Iran, Iraqd. Iraq, IndiaAns. c37.What is the output of the following program:#include <stdio.h>#include <string.h>void function(char**);int main(){char *str = "Pointer-to-string";int i, j = strlen(str);for(i = 0; i< j; i++)printf("%c", *str++);return 0;}a. gnirts-ot-retnioPb. Pointers to string
+
+[Page 106]
+c. Pointers-to-stringd. All of the aboveAns. c38.Choose the correct way thatexpress the Pointer andarray elementsa. a[i]b. i[a]c. *(a + i)d. All of the above
+Ans. d
+39.What is the output of the following program:#include<stdio.h>int main(){int i = 3;int *j;int **k;j = &i;k = &j;k++;printf("%d ",**k);return 0;}a. Garbage Valueb. Compilation errorc. Runtime errord. Linker errorAns. c
+40.What is the output of the following program:#include<stdio.h>int main(){int i = 3;int *j;j = &i;j++;printf("%d ",*j);return 0;}a. Garbage Valueb. Compilation errorc. Runtime errord. Linker errorAns.a
+
+[Page 107]
+UNIT 5 MCQ
+1. What is the output of the program?#include <stdio.h>struct student{ char *name;};struct student s;struct student fun(void){ s.name = "newton";printf("%s\n", s.name);s.name = "alan";return s;}void main(){struct student m = fun();printf("%s\n", m.name);m.name = "turing";printf("%s\n", s.name);}
+a) newtonalanalanb) run tiime errorc) alanalan newtond) no error
+Answer: a
+2. What will be the output of the program?#include <stdio.h>struct student{char *name;};void main(){struct student s, m;s.name = "st";m = s;printf("%s%s", s.name, m.name);}
+a) Compile time error
+
+[Page 108]
+b) no errorc) runtime errord) stst
+Answer: D
+3. Which return-type cannot be used for a function?a) mainb)intc) voidd) none of the mentioned
+Answer:D
+4. What will be the output of the program?#include <stdio.h>struct temp{int a;} s;voidfunc(struct temp s){s.a = 10;printf("%d\t", s.a);}main(){func(s);printf("%d\t", s.a);}
+a)0b10 20c) 10 0d) (Garbage Value) 10
+Answer:C
+5. Which of the following is not possible??
+a) s1 = s2;b) s1 =! s2;c) (*s1).number = 50;d) None of the mentioned
+Answer: D
+
+[Page 109]
+6. Which operation is illegal in structures?
+a) Typecasting of structureb) nonec) Dynamic allocation of memory for structured) All
+Answer: A
+7. “s.t.b = 10” indicates __________
+a) Syntax Errorb) Structurec) float data typed) variable name
+Answer:B
+8. What will be the output of theprogram?#include <stdio.h>struct student{char *name;};struct student fun(void){struct student s;s.name = "alan";return s;}void main(){struct student m = fun();s.name = "turing";printf("%s", m.name);}a) alanb) Runtime errorc) Compile time errord) Noth
+Answer:C9. What will be the output of the program?#include <stdio.h>struct point
+
+[Page 110]
+{int x;int y;};int main(){struct point p = {1};struct point p1 = {1};if(p == p1)printf("equal\n");elseprintf("not equal\n");}
+a) Compile time errorb) Runtime errorc) depends on the standardd) equal
+Answer: a
+10.What will be the output of theprogram?#include <stdio.h>struct point{int x;int y;};structnotpoint{int x;int y;};struct point foo();int main(){struct point p = {1};structnotpoint p1 = {2, 3};p1 = foo();printf("%d\n", p1.x);}struct point foo(){struct point temp = {1, 2};return temp;}
+
+[Page 111]
+a) Compile time errorb) 1c) Runtime errord) Undefined behaviour
+Answer: a
+11.What will be the output of theprogram?#include <stdio.h>struct point{int x;int y;};structnotpoint{int x;int y;};int main(){struct point p = {1};structnotpoint p1 = p;printf("%d\n", p1.x);}
+a) Compile time errorb) 1c) 0d) Runtime error
+Answer: a
+12.What will be the output of theprogram?#include <stdio.h>struct point{int x;int y;};structnotpoint{int x;int y;};
+
+[Page 112]
+void foo(struct point);int main(){structnotpoint p1 = {1, 2};foo(p1);}void foo(struct point p){printf("%d\n", p.x);}
+a) Compile time errorb) 1c) 0d) Runtime error
+Answer: a
+13.What will be the output of theprogram?#include <stdio.h>struct point{int x;int y;};void foo(struct point*);int main(){struct point p1 = {1, 2};foo(&p1);}void foo(struct point *p){printf("%d\n", *p.x++);}
+a) Compile time errorb) Segmentation faultc)code crashd) Runtime error
+Answer: a
+14.What will be the output of theprogram?#include <stdio.h>struct point
+
+[Page 113]
+{int x;int y;};void foo(struct point*);int main(){struct point p1 = {1, 2};foo(&p1);}void foo(struct point *p){printf("%d\n", *p->x++);}a) Compile time errorb) Runtime errorc) Segmentation faultd) 5
+Answer: a
+15.What will be the output of theprogram?#include <stdio.h>struct student fun(void){struct student{char *name;};struct student s;s.name = "alan";return s;}void main(){struct student m = fun();printf("%s", m.name);}
+a) Compile time errorb) Runtime errorc) Nothingd) code crashAnswer: a
+16.What will be the output of theprogram?
+
+[Page 114]
+#include <stdio.h>struct student{char *name;};struct student fun(void){struct student s;s.name = "alan";return s;}void main(){struct student m = fun();printf("%s", m.name);}
+a) Compiletime errorb) alanc) Run time errord) code crash
+Answer: b
+17.What is the correct syntax to access the member ofthe ith structure?Assuming: struct temp{int b;}s[50];a) s.b.[i];b) b[i].s;c) b[i];d) s[i].b;
+Answer: d
+18.What is the output of theprogram.#include <stdio.h>struct temp{int a;int b;int c;};main(){struct temp p[] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+
+[Page 115]
+}
+a) No Compile time error, generates an array of structureof size 3b) Compile time error, generates an array of structureof size 9c) no Compile time error, illegal declaration ofa multidimensional arrayd) illegal assignment to members of structure
+Answer: a
+19.Which of the following uses structure?a) Arrayb) Binary Treec)linked listd) All
+Answer:D
+20.What is the correct syntax to declare a function foo()which receives an array of structure infunction?a) void foo(struct *var);b) void foo(struct.var);c) void(struct(var));d) none
+Answer: a
+21.What is the output of the program( size of int be4)#include <stdio.h>struct temp{int a;int b;int c;} p[] = {0};main(){printf("%d", sizeof(p));}
+a) 8b) 12c)30d) Can’t be estimatedAnswer: b
+22.What is be the output of the program?
+
+[Page 116]
+#include <stdio.h>struct student{char *name;};struct student s[2];void main(){s[0].name = "alan";s[1] = s[0];printf("%s%s", s[0].name, s[1].name);s[1].name = "turing";printf("%s%s", s[0].name, s[1].name);}
+a) alanalanalanturingb) alanturingturingc) alanturingturingd) run time error
+Answer: a
+23.What isthe output of theprogram?#include <stdio.h>struct student{char *name;};struct student s[2], r[2];void main(){s[0].name = "alan";s[1] = s[0];r = s;printf("%s%s", r[0].name, r[1].name);}
+a)Runtime errorb) Compile time errorc) Variesd) None
+Answer: b24.What is the output of the program?#include <stdio.h>struct student
+
+[Page 117]
+{char *name;};void main(){struct student s[2], r[2];s[1] = s[0] = "alan";printf("%s%s", s[0].name, s[1].name);}
+a) alanalanb) Nonec) Compile time errord) Runtime error
+Answer: c
+25.What is be the output of the program?#include <stdio.h>struct student{};void main(){struct student s[2];printf("%d", sizeof(s));}
+a) 1b) 8c) 10d) 0
+Answer: d
+26.What is the output of the program?#include <stdio.h>struct point{int x;int y;};void foo(struct point*);int main(){struct point p1[] = {1, 2, 3, 4};
+
+[Page 118]
+foo(p1);}void foo(struct point p[]){printf("%d\n", p[1].x);}
+a) Compile time errorb) 3c) 12d) 4
+Answer: b
+27.What is the output of the program?
+#include <stdio.h>struct point{int x;int y;};void foo(struct point*);int main(){struct point p1[] = {1, 2, 3, 4};foo(p1);}void foo(struct point p[]){printf("%d\n", p->x);}
+a) 1b) 2c) 4d) Run time error
+Answer: a
+28.What is the output of theprogram?#include <stdio.h>struct point{int x;int y;
+
+[Page 119]
+};void foo(struct point*);int main(){struct point p1[] = {1, 2, 3, 4};foo(p1);}void foo(struct point p[]){printf("%d %d\n", p->x, ++p->x);}
+a) 2 4b) 2 2c) Compile time errord) Undefined
+Answer: b
+29.What is the output of the program?#include <stdio.h>struct point{int x;int y;} p[] = {1, 2, 3, 4, 5};void foo(struct point*);int main(){foo(p);}void foo(struct point p[]){printf("%d %d\n", p->x, p[2].y);}
+a) 1 0b) Run time errorc) garbage valued) Undefined
+Answer: a
+30.What is the output of the program?#include <stdio.h>struct point
+
+[Page 120]
+{int x;int y;};void foo(struct point*);int main(){struct point p1[] = {1, 2, 3, 4, 5};foo(p1);}void foo(struct point p[]){printf("%d %d\n", p->x, p[3].y);}
+a) Run time errorb) 2 0c) 1 some garbage valued) None
+Answer: c
+31.What is the output of the program?#include <stdio.h>struct point{int x;int y;};void foo(struct point*);int main(){struct point p1[] = {1, 2, 3, 4, 5};foo(p1);}void foo(struct point p[]){printf("%d %d\n", p->x, (p + 2).y);}
+a) Compile time errorb) 2 0c) garbagevalued) Undefined
+Answer: a
+
+[Page 121]
+32.What is the output of the program?#include <stdio.h>struct point{int x;int y;};void foo(struct point*);int main(){struct point p1[] = {1, 2, 3, 4, 5};foo(p1);}void foo(struct point p[]){printf("%d %d\n", p->x, (p + 2)->y);}
+a) Runtime errorb) 1 0c) garbagevalued) undefined
+Answer: b
+33.What is the output of the program?#include <stdio.h>struct student{char *c;};void main(){struct student s[2];printf("%d", sizeof(s));}a) 2b) 3c) 1d) 8
+Answer: d34.What is the output of the program?#include <stdio.h>struct p
+
+[Page 122]
+{int x;char y;};int main(){struct p p1[] = {1, 92, 3, 94, 5, 96};struct p *ptr1 = p1;int x = (sizeof(p1) / 3);if (x == sizeof(int) + sizeof(char))printf("%d\n", ptr1->x);elseprintf("falsen");}
+a) Compile time errorb)Runtime errorc) Undefinedd) false
+Answer: d
+35.What is the output of the program?#include <stdio.h>struct p{int x;char y;};int main(){struct p p1[] = {1, 92, 3, 94, 5, 96};struct p *ptr1 = p1;int x = (sizeof(p1) / sizeof(ptr1));if (x == 1)printf("%d\n", ptr1->x);elseprintf("false\n");}
+a) Compile time errorb) Runtime errorc) falsed) Undefined
+Answer: c
+
+[Page 123]
+36.What is the output of the program?#include <stdio.h>struct p{int x;char y;};typedefstruct p* q*;int main(){struct p p1[] = {1, 92, 3, 94, 5, 96};q ptr1 = p1;printf("%d\n", ptr1->x);}
+a) Compile time errorb) Runtime errotc) Undefinedd) Segmentation fault
+Answer: a
+37.What is the output of the program?#include <stdio.h>struct p{int x;char y;};void foo(struct p* );int main(){typedefstruct p* q;struct p p1[] = {1, 92, 3, 94, 5, 96};foo(p1);}void foo(struct p* p1){ q ptr1 = p1;printf("%d\n", ptr1->x);}
+a) Compile time errorb) Runtime errorc) Segmentation fault
+
+[Page 124]
+d) Undefined
+Answer: a.
+38.Which is an incorrect syntax for pointer to structure?(Assuming structtemp{int b;}*my_struct;)a) *my_struct.b = 10;b) (*my_struct).b = 10;c) my_struct->b = 10;d) Both *my_struct.b = 10; and (*my_struct).b = 10;
+Answer: a
+39.Which is an incorrect syntax to pass by referencea member of a structure?(Assume: structtemp{int a;}s;)a) func(&s.a);b) func(&(s).a);c) func(&(s.a));d) none of the mentioned
+Answer: d
+40.What is the output of the program?#include <stdio.h>struct temp{int a;} s;void change(struct temp);main(){s.a = 10;change(s);printf("%d\n", s.a);}void change(struct temp s){s.a = 1;}a) Output will be 20b) Output will be 10c) Output variesd) Compile time errorAnswer: b
+
+---
+
+## nexus sem 2/Programming For Problem Solving/PYQs/pyq txt/Alternate Question Bank with MCQs.txt
+
+CATEGORY: PYQs
+STATUS: ok
+
+PROGRAMMING FOR PROBLEM SOLVING 
+
+Unit 1 
+
+Multiple Choice questions MCQ 
+ 
+
+1. Who is father of C Language? [CLO 1] [PLO1] 
+A. Bjarne Stroustrup B. Dennis Ritchie 
+C. James A. Gosling D. Dr. E.F. Codd 
+
+2. C Language developed at _____? [CLO 1] [PLO 1] 
+A. AT & T's Bell Laboratories of USA in 1972 
+B. AT & T's Bell Laboratories of USA in 1970 
+C. Sun Microsystems in 1973 
+D. Cambridge University in 1972 
+
+ 
+3. For 16-bit compiler allowable range for integer constants is ______ ? [CLO 1] [PLO 2] 
+
+A. -3.4e38 to 3.4e38 
+B. -32767 to 32768 
+C. -32768 to 32767 
+D. -32668 to 32667 
+
+4. C programs are converted into machine language with the help of [CLO 1] [PLO 1] 
+A. An Editor 
+B. A compiler 
+C. An operating system 
+D. None of the above 
+
+5. A C variable cannot start with [CLO 1] [PLO 1] 
+A. An alphabet 
+B. A number 
+C. A special symbol other than underscore 
+D. both (b) and (c) 
+
+ 
+6. Which of the following is allowed in a C Arithmetic Instruction? [CLO 1] [PLO 1] 
+
+A. [] 
+B. {} 
+C. () 
+D. None of the above 
+
+7. Which of the following shows the correct hierarchy of arithmetic 
+ operations in C [CLO 1] [PLO 2] 
+
+A. / + * - 
+B. * -/ + 
+C. + - / * 
+D. * / + - 
+
+8. Program which is written originally by the programmer is classified as [CLO 1] [PLO 1] 
+
+A. object code 
+
+B. machine code 
+
+C. source program 
+
+D. interactive programs 
+
+
+9. Data types are differed on the basis of [CLO 1] [PLO 1] 
+
+A. the way of storage 
+
+B. the type of operations 
+
+C. the type of operators used 
+
+D. both a and b 
+
+10. Loop statement which is repeated for some given number of times is classified as [CLO 1] 
+
+A. FOR loop 
+
+B. GO loop 
+
+C. REPEAT loop 
+
+D. GO REPEAT loop 
+
+11. Type of statement written in sequence and is repeated until the specific condition met is 
+classified as [CLO 1] [PLO 1] 
+
+A. format 
+
+B. loop 
+
+C. case 
+
+D. condition 
+
+12. Size of an array is declared by [CLO 1] [PLO 1] 
+
+A. programmer 
+
+B. program users 
+
+C. software 
+
+D. declared automatically 
+
+13. Programming language 'FORTRAN' stands for [CLO 1] [PLO 1] 
+
+A. formula translator 
+
+B. formula translation 
+
+C. free translator 
+
+D. free translation 
+
+14. Functions that are used in the programs and are defined by the programmers are called 
+ [CLO 1] [PLO 2] 
+
+A. program layout 
+
+B. program procedure 
+
+C. built-in functions 
+
+D. user-defined function 
+
+ 
+
+
+15. An assembler translates [CLO 1] [PLO 1] 
+
+A. machine code into assembly code 
+
+B. assembly code into machine code 
+
+C. processing time into manual time 
+
+D. routine into subroutine 
+
+16. Name given by a programmer to any particular data is classified as [CLO 1] [PLO 1] 
+
+A. identifier 
+
+B. identification 
+
+C. exponent 
+
+D. mantissa 
+
+17.When variable used in program is whole number, the variable is stored as [CLO 1] [PLO 2] 
+
+A. fixed string 
+
+B. integers 
+
+C. negative whole numbers 
+
+D. positive whole numbers 
+
+18. In programming, programmers use comments to [CLO 1] [PLO 1] 
+
+A. highlight program modules 
+
+B. explain module functions 
+
+C. explain used variables 
+
+D. all of above 
+
+19. Variable which uses the same name in whole program and in its all routines thus best classified 
+as [CLO 1] [PLO 2] 
+
+A. middle variable 
+
+B. default variable 
+
+C. local variable 
+
+D. global variable 
+
+20. Statement which is used to make choice between two options and only option is to be performed 
+is written as [CLO 1] [PLO 2] 
+
+A. if statement 
+
+B. if else statement 
+
+C. then else statement 
+
+D. else one statement 
+
+ 
+
+
+21. The__________ statement is used to transfer the control to the end of statement block in a loop: 
+
+a. Continue [CLO 1] [PLO 2] 
+b. Break 
+c. Switch 
+d. Goto 
+
+22. Which of the following is not a valid variable name declaration? [CLO 1] [PLO 2] 
+ a) int _a3; 
+ b) int a_3; 
+ c) int 3_a; 
+ d) int _3a 
+
+23. All keywords in C are in [CLO 1] [PLO 2] 
+a) LowerCase letters 
+b) UpperCase letters 
+c) CamelCase letters 
+d) None of the mentioned 
+ 
+
+24. Which of the following is true for variable names in C? [CLO 1] [PLO 2] 
+a) They can contain alphanumeric characters as well as special characters 
+b) It is not an error to declare a variable to be one of the keywords(like goto, static) 
+c) Variable names cannot start with a digit 
+d) Variable can be of any length 
+ 
+
+25. The format identifier ‘%i’ is also used for _____ data type? [CLO 1] [PLO 2] 
+a) char 
+b) int 
+c) float 
+d) double 
+ 
+
+26. Which of the following is a User-defined data type? [CLO 1] [PLO 3] 
+a) typedef int Boolean; 
+b) typedef enum {Mon, Tue, Wed, Thu, Fri} Workdays; 
+c) struct {char name[10], int age}; 
+d) all of the mentioned 
+ 
+
+27. What is the output of this C code? [CLO 1] [PLO 3] 
+
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. signed char chr; 
+5. chr = 128; 
+6. printf("%d\n", chr); 
+7. return 0; 
+8. } 
+
+
+a) 128 
+
+b) -128 
+
+c) Depends on the compiler 
+
+d) None of the mentioned 
+
+28. What is the output of this C code? [CLO 1] PLO 3] 
+
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. j = 10; 
+5. printf("%d\n", j++); 
+6. return 0; 
+7. } 
+
+ a) 10 b) 11 
+
+c) Compile time error d) 0 
+
+Explanation : j is not belongs to any data type 
+
+29. The following code ‘for( ; ; )’ represents an infinite loop. 
+
+ It can be terminated by. [CLO 1] [PLO 3] 
+
+ a) break b) exit(0) 
+
+ c) abort() d) all of the mentioned 
+
+ 
+30. The keyword ‘break’ cannot be simply used within: [CLO 1] [PLO 3] 
+ a) do-while b) if-else 
+ c) for d) while 
+
+ 
+31. Which keyword is used to come out of a loop only for that iteration? [CLO 1] [PLO 3] 
+ a) break b) continue 
+ c) return d) none of the mentioned 
+32. The first step in problem solving is --------------- [CLO 1] [PLO 2] 
+
+a) Understand the problem c)Identify the problem 
+b) Developing algorithm/Flowchart d)Listing the possible outcome 
+
+33. The solutions which has series of actions to solve a problem are called ------ [CLO 1] [PLO 2] 
+a) Heuristic solutions 
+b) Algorithmic solutions 
+
+34. The solution can be reached by completing the actions in steps. These steps are called [CLO 1] 
+[PLO 2] 
+
+a) Sequence c)Algorithm 
+b) Flowchart d)Steps 
+
+35. Solutions that cannot be reached through a direct set of steps are called --------- [CLO 1][PLO 2] 
+a)Algorithmic solutions b) Heuristic solutions 
+
+
+36. ----------- means the outcome or the completed computer-assisted answer. [CLO 1][PLO 1] 
+ a) Solution b) Result c) Program 
+37. The field of computer that deals with the problem of heuristic solution is called-----[CLO 1] 
+[PLO1] 
+
+a) Artificial Intelligence 
+b) Expert System c) Computer Management 
+
+ 
+38. ----------------- means the set of instructions that make up the solution after they have been coded 
+into a programming language. [CLO 1] [PLO1] 
+
+a) solution b) result c) program d) error 
+ 
+39. ---------------- are organized facts. [CLO 1] [PLO1] 
+
+a) Data b) Information 
+ 
+40. A language applied for wide range of application is called as ______language[CLO 1][PLO 2] 
+
+a. Special purpose c)General purpose 
+b. Individual purpose d)Scientific purpose 
+
+ 
+ 
+41. Compiler converts the source code into ______ [CLO 1][PLO 4] 
+
+a. C code b. Byte code c. Object code d. Executable code 
+ 
+42. ___________ converts source code to machine language one line at a time. [CLO 1][PLO 4] 
+
+a. Compiler b. Interpreter c. Assembler d.CPU 
+ 
+43. The program that converts high level language to a machine language is called __________ 
+
+[CLO 1] [PLO 1] 
+a. Interpreter b. Linker c. Compiler d. Loader 
+
+ 
+ 
+44. ‘#’ symbol is known to be ______ [PLO 2] [CLO 1] 
+
+a. Linker b.Compiler c. Assembler d.Preprocessor directive 
+ 
+45. A _______ is a notational system for describing computations in both machine and human 
+readable form [PLO 1] [CLO 1] 
+
+a. Programming language c.Machine language 
+b. High-level language d.Assembly language 
+
+ 
+46. ----------------- program converts assembly language into machine language [PLO 2] [CLO 1] 
+ a. compiler b. interpreter c. assembler d. preprocessor directive 
+ 
+47. which symbol is been used for processing in flowchart? Ans: a [CLO 1] [PLO 3] 
+ 
+a) b) c) d) 
+ 
+ 
+ 
+48. which symbol is been used for input/output in flowchart? Ans: c [PLO 3] [CLO 1] 
+
+
+ 
+a) b) c) d) 
+ 
+ 
+49. which symbol is been used for decision making in flowchart? Ans: d [PLO 3] [CLO 1] 
+ 
+a) b) c) d) 
+ 
+ 
+50. which is used as start/stop symbol in flowchart? Ans:b [PLO 3] [CLO 1] 
+ 
+a) b) c) d) 
+ 
+ 
+ 
+51. ------------ is a distinguishing characteristic of human excellence in every area of behavior 
+
+[CLO 1] [PLO 1] 
+a) creativity b) thinking c) visualization d) problem solving 
+
+ 
+52. .What is the value of x in this C code? [PLO 2] [CLO 1] 
+#include <stdio.h> 
+ void main() 
+ { 
+ int x = 5 * 9 / 3 + 9; 
+ } 
+
+(a). 3.75 b) Depends on compiler c) 24 d) 3 
+ 
+53.A character variable can store how many characters at a time? [PLO 2][CLO 1] 
+
+ (a) 1 character 
+(b)8 characters 
+(c)255 character 
+
+ 
+54.Which of the following is the correct way of writing comments? [PLO 2] [CLO 1] 
+
+(a)*/comments/* 
+(b)/*comment*/ 
+(c)**comment** ( 
+d){comment} 
+
+ 
+55. C programming language is [PLO 1] [CLO 1] 
+
+(a)object oriented programming language (b)Procedure oriented programming language 
+(c)function oriented programming language (d)None of the above 
+
+ 
+56.The memory space taken for a char type data is [PLO 2] [CLO 1] 
+
+(a)2 bytes 
+(b)4 bytes 
+(c)8 bytes 
+ (d)1bytes 
+
+ 
+57 .The memory space taken for a int type data is [PLO 2] [CLO 1] 
+
+ (a) 2 bytes 
+ (b) 4 bytes 
+
+
+(c) 8 bytes 
+(d)10bytes 
+
+ 
+ 
+ 58.The memory space taken for a float type data is [PLO 2] [CLO 1] 
+
+(a) 2 bytes 
+(b) 4 bytes 
+(c) 8 bytes 
+(d)10bytes 
+
+ 
+59. What is the only function all programs must contain ? [PLO 2] [CLO 1] 
+
+(a)start() 
+(b)system() 
+(c)main() 
+(d)program 
+
+ 
+60.For 16-bit compiler allowable range for integer constants is ________? [PLO 2] [CLO 1] 
+
+(a) -3.4e38 to 3.4e38 
+(b) -32767 to 32768 
+(c) -32668 to 32667 
+(d) -32768 to 32767 
+
+ 
+61.Every statement in C program is to be terminated by a__________ [PLO 2] [CLO 1] 
+
+(a)dot(.) 
+(b)semi-colon(;) 
+(c)colon(:) 
+(d)Question mark(?) 
+
+ 
+62 The escape sequence „\b‟ is a [PLO 2] [CLO 1] 
+
+(a)back space 
+(b)next line 
+(c)tab 
+(d)none of the above 
+
+ 
+63.The memory space taken for a long int type data is [PLO 2] [CLO 1] 
+
+(a) 2 bytes 
+(b) 4 bytes 
+(c) 8 bytes 
+(d)10bytes 
+
+ 
+64. which of the following will not valid expressions in C? [PLO2] [CLO 1] 
+
+(a) a=2+(b=5); 
+(b) a=11%3 
+(c) a=b=c=5 
+(d) b+5=2 
+
+ 
+ 
+
+
+65. The --------------------- operator is true only when both the operands are true. [PLO 2][CLO 1] 
+a) && 
+b) b) || 
+c) c)! 
+d) d) ?: 
+
+ 
+66. The ---------------------- statement when executed in a switch statement causes immediate exit 
+
+from the structure. [CLO 1] [PLO 2]
+ 
+
+a)goto 
+b) default 
+c) break 
+d) switch 
+
+ 
+66. The ternary conditional expression using the operator?: could be easily coded using ----------------
+
+- statement [CLO 1][PLO 2] 
+a)Nested if b) if-else 
+c) if d) for 
+
+ 
+
+4 Marks : 
+
+Unit-1 CLO-1 
+
+1. Comment “C is mid level language”? [CLO-1][PLO 1] 
+
+2. What is problem solving? [CLO-1][PLO 1] 
+
+3. What are the six steps of problem solving? [CLO-1][PLO 1] 
+
+4. Discuss about how the problems can be solved with computers? [CLO-1][PLO 1] 
+
+5. What is a program? [CLO-1][PLO 2] 
+
+6. Why is problem analysis important? [CLO-1][PLO 2] 
+
+7. What are the tools of problem solving available? [CLO-1][PLO 2] 
+
+8. How do problem-solving tools help in leading to a solution? [CLO-1][PLO 2] 
+
+9. Why it is important to test a solution before coding it? [CLO-1][PLO 2] 
+
+10. What is an algorithm? Give the characteristics of the algorithm. [CLO-1][PLO 2] 
+
+11. What is a flowchart? Give the symbols/shapes used in the flowchart. 
+
+[CLO-1][PLO 3] 
+
+12. Define pseudocode and give its importance with an example. [CLO-1][PLO 2] 
+
+13. Discuss the difficulties with problem solving in detail. [CLO-1][PLO 2] 
+
+
+14. State the use of %d and %f .Write a printf statement in C using the above 
+
+mentioned symbols? [CLO-1][PLO 4] 
+
+15. What is main difference between variable and constant? [CLO-1][PLO 3] 
+
+16. Explain bitwise left shift operator? [CLO-1][PLO 4] 
+
+17. Explain primary data types used in C? [CLO-1][PLO 3] 
+
+18. Difference between formatted & unformatted statement ? [CLO-1][PLO 3] 
+
+19. What is mean by storage class of variable? [CLO-1][PLO 3] 
+
+20. Explain with example ++i and i++. [CLO-1][PLO 4] 
+
+21. Refer all Elab programs. [CLO-1][PLO 3] [PLO 2][PLO 4] 
+
+ 
+ 
+
+12 Marks: 
+ 
+
+1) Explain the evolution of programming languages. [CLO-1][PLO 1] 
+
+2) Explain the various steps involved in problem solving with diagram. [CLO-1][PLO 1] 
+
+3) Draw the flowchart and write the algorithm and c code to find the sum and to reverse the 
+
+digits of given five digit number. [CLO-1][PLO 1] [PLO2] 
+
+4) Write an algorithm and draw a flow chart to find the factorial and Fibonacci series of given 
+
+number. [CLO-1][PLO 2] [PLO 3] 
+
+5) Write a note on Algorithm, Flow chart and Pseudocode. [CLO-1][PLO 3] [PLO 2] 
+
+6) Explain the scope, lifetime of variable in C with example. [CLO-1][PLO 2][PLO3] 
+
+7) Write down the algorithm to find the largest number among three given numbers and 
+outline the steps in the algorithm with the inputs 5, 17, 3. [CLO-1][PLO 2][PLO3] 
+
+8) Draw flowchart to compute the salary of an employee in a company. Assume that there are 
+two types of employees in the company daily wages and regular. Salary is calculated as 
+number of hours worked* wages per hour for daily wagers and basic pay +(% of DA * basic 
+pay)/100 + HRA + medical allowance for regular employees. Sketch the flow of your design 
+for a regular employee with basic pay = 5000, % of DA = 75 % and HRA = 500. (8) 
+[CLO-1][PLO 2][PLO3][PLO4] 
+
+9) Explain in details about operators with an example [CLO-1][PLO 1] [PLO 2][PLO3] 
+ 
+
+10) Refer all elab Programs [CLO-1][PLO 3] [PLO 2][PLO 4] 
+
+ 
+ 
+ 
+
+
+UNIT - II 
+ PART A 
+ 
+
+1. The --------------------- operator is true only when both the operands are true. 
+e) && b) || c)! d) ?: 
+
+Answer: a 
+2. The ---------------------- statement when executed in a switch statement causes immediate exit 
+
+from the structure. 
+a)goto b) default c) break d) switch 
+
+Answer: c 
+3. The ternary conditional expression using the operator?: could be easily coded using ----------------
+
+- statement 
+a)Nested if b) if-else c) if d) for 
+Answer: b 
+
+4. What will be the output when the following segment is executed? 
+Char ch=’a’; 
+Switch(ch) 
+{ 
+case ‘a’: 
+Printf(“A”); 
+case ’b’: 
+Printf(“B”); 
+Default: 
+printf(“C”); 
+} 
+
+ 
+a)A b)B c)C d) a 
+
+ Answer: a 
+5. What will be the output of the following segment when executed? 
+
+int x=10, y=20; 
+if((x<y)||(x+5)>10) 
+printf(%d”,x); 
+else 
+printf(%d”,y); 
+ 
+a)10 b) 20 c) 15 d)5 
+ 
+Answer: a 
+
+6. The ----------------------- statement is used to skip a part of the statements in a loop. 
+a) Continue b) break c) goto d)switch 
+Answer: a 
+
+7. A for loop with no test condition is known as --------------- loop 
+a) Infinite b) time delay c) for d) Incrementing 
+Answer: a 
+
+
+8. The sentinel –controlled loop is also known as -----------------------loop 
+a) Indefinite repetition loop c) time delay 
+b) Definite repetition loop d) infinite 
+Answer: a 
+
+9. In an exit controlled loop the body of the loop is always executed minimum number of ------------ 
+a) 1 time b)2 times c) 3 times d)n times 
+Answer:a 
+
+10. The while is an --------------------- loop statement. 
+a) Entry-controlled b)exit-controlled c)indefinite repetition 
+
+d)definite repetition 
+Answer: a 
+
+11. The ------------------specification is used to read or print integers 
+a)h b)l c)L d)c 
+Answer: a 
+
+12. To print the data left-justified, must use -------------- in the field specification 
+a) - b) + c) / d) * 
+
+Answer: a 
+13. By default, the real numbers are printed with a precision of --------------- decimal. 
+
+a)6 b)2 c)4 d)0 
+Answer:a 
+
+14. The expression !(x!=y) can be replaced by the expression-------------------- 
+a) x!=y b) x==y c)x=!y d)!x=!y 
+
+Answer:c 
+15. In a counter controlled loop, variable known as -----------------is used to count the loop 
+
+operations. 
+a) Counter b)sentinel c)i d)n 
+
+Answer: a 
+ 
+16. Which of the following special symbol allowed in a variable name? 
+
+(a) * (asterisk) (b)| (pipeline) (c) - (hyphen) (d) _ (underscore) 
+ 
+17 . Which of the following are invalid variable names? 
+
+a) Minimum b)n$ c) Integer d) float 
+ 
+18. int a=10; 
+ ++a; 
+ a++; 
+ Printf(“%d”,a); 
+
+a)10 b) 11 c)12 d) 13 
+ 
+19. int a=11; 
+ a=a%2; 
+ a=a/2; 
+
+The value of a is, 
+a) 1, 1 b) 5,1 c) 1,5 d)5 
+
+ 
+ 
+
+
+20. Which of the following is not logical operator? 
+
+A. & 
+
+B. && 
+
+C. || 
+
+D. ! 
+ 
+
+21 Which of the following cannot be checked in a switch-case statement? 
+
+A. Character 
+
+B. Integer 
+
+C. Float 
+
+D. enum 
+ 
+
+22. What is the output of this C code? 
+ 
+int main() 
+{ 
+ int a = 0, i = 0, b; 
+ for (i = 0;i < 5; i++) 
+ { 
+ a++; 
+ continue; 
+ } 
+} 
+ 
+
+A. 2 B. 3 
+C. 4 D. 5 
+
+ 
+23. What is the output of this C code? 
+ 
+ void main() 
+ { 
+ int i = 0, j = 0; 
+ for (i = 0;i < 5; i++) 
+ { 
+ for (j = 0;j < 4; j++) 
+ { 
+ if (i > 1) 
+ break; 
+ } 
+ printf("Hi \n"); 
+ } 
+ } 
+
+A. Hi is printed 5 times B. Hi is printed 9 times 
+C. Hi is printed 7 times D. Hi is printed 4 times 
+
+ 
+ 
+ 
+
+
+24. What is the output of this C code? 
+ void main() 
+ { 
+ int i = 0; 
+ int j = 0; 
+ for (i = 0;i < 5; i++) 
+ { 
+ for (j = 0;j < 4; j++) 
+ { 
+ if (i > 1) 
+ continue; 
+ printf("Hi \n"); 
+ } 
+ } 
+ } 
+
+A. Hi is printed 9 times B. Hi is printed 8 times 
+C. Hi is printed 7 times D. Hi is printed 6 times 
+
+ 
+25. What is the output of this C code? 
+ 
+ void main() 
+ { 
+ int i = 0; 
+ for (i = 0;i < 5; i++) 
+ if (i < 4) 
+ { 
+ printf("Hello"); 
+ break; 
+ } 
+ } 
+
+A. Hello is printed 5 times B. Hello is printed 4 times 
+C. Hello D. Hello is printed 3 times 
+
+ 
+
+27. What is the output of this C code? 
+
+ int main() 
+ { 
+ int i = 0; 
+ char c = 'a'; 
+ while (i < 2){ 
+ i++; 
+ switch (c) { 
+ case 'a': 
+ printf("%c ", c); 
+ break; 
+ break; 
+ } 
+ } 
+
+
+ printf("after loop\n"); 
+ } 
+
+A. a after loop B. a a after loop 
+
+C. after loop D. None of the mentioned 
+
+28. int main() 
+ { 
+ printf("before continue "); 
+ continue; 
+ printf("after continue\n"); 
+ } 
+
+A. Before continue after continue B. Before continue 
+
+C. after continue D. Compile time error 
+
+29. What is the output of the code given below? 
+ 
+ int main() 
+ { 
+ printf("%d ", 1); 
+ goto l1; 
+ printf("%d ", 2); 
+ l1:goto l2; 
+ printf("%d ", 3); 
+ l2:printf("%d ", 4); 
+ } 
+
+A. 1 4 B. Compilation error 
+
+C. 1 2 4 D. 1 3 4 
+
+30. What is the output of code given below? 
+
+ int main() 
+ { 
+ printf("%d ", 1); 
+ l1:l2: 
+ printf("%d ", 2); 
+ printf("%d\n", 3); 
+ } 
+
+A. Compilation error B. 1 2 3 
+
+C. 1 2 D. 1 3 
+
+31. What will happen if in a C program you assign a value to an array element whose subscript 
+exceeds the size of array? 
+
+A. The element will be set to 0. 
+
+B. The compiler would report an error. 
+
+
+C. The program may crash if some important data gets overwritten. 
+
+D. The array size would appropriately grow. 
+ 
+
+32 .In C, if you pass an array as an argument to a function, what actually gets passed? 
+
+A. Value of elements in array 
+
+B. First element of the array 
+
+C. Base address of the array 
+
+D. Address of the last element of array 
+ 
+
+ 
+33. Result of a logical or relational expression in C is? 
+
+A. True or False 
+
+B. 0 or 1 
+
+C. 0 if expression is false and any positive number if expression is true 
+
+D. None of the mentioned 
+
+34. What will be the value of d in the following program? 
+ 
+ int main() 
+ { 
+ int a = 10, b = 5, c = 5; 
+ int d; 
+ d = b + c == a; 
+ printf("%d", d); 
+ } 
+
+A. Syntax error 
+
+B. 1 
+
+C. 5 
+
+D. 10 
+
+ 
+
+35. What is the output of this C code? 
+ 
+ int main() 
+ { 
+ int a = 10, b = 5, c = 3; 
+ b != !a; 
+ c = !!a; 
+ printf("%d\t%d", b, c); 
+ } 
+
+
+A. 5 1 
+
+B. 0 3 
+
+C. 5 3 
+
+D. 1 1 
+
+ 
+
+36. What is meaning of following declaration ? 
+
+ int arr[20]; 
+
+a) Array of size 20 that can have integer address 
+
+b) None of the above 
+
+c) Integer array of size 20 
+
+d) Array of sixe 20 
+
+37. In C Programming, If we need to store word "INDIA" then syntax is as below – 
+
+ a) char name[6]={‘I’,’N’,’D’,’I’,’A’,’\0’} 
+
+b) char name[6]={“I”,”N”,”D”,”I”,”A”} 
+
+c) char name[6]={‘I’,’N’,’D’,’I’,’A’} 
+
+d) char name[] ; name=”INDIA” 
+
+38. what is the way to initialize array? 
+
+a) int num[6] = {2,4,12,5,45,5}; 
+
+b) int n{} ={2,4,12,5,45,5}; 
+
+c) int n{6}={2,4,12}; 
+
+d) int n(6)={2,4,12,5,45,5}; 
+
+39. what will be the output of the program? 
+
+ 
+
+a) 3, 2,15 
+
+b) 2, 3, 20 
+
+c)2, 1, 15 
+
+d) 1, 2, 5 
+
+Answer: Option A 
+
+
+Solution: 
+>> int a[5] = {5, 1, 15, 20, 25}; The variable arr is declared as an integer array with a size of 5 and it is initialized to 
+a[0] = 5, a[1] = 1, a[2] = 15, a[3] = 20, a[4] = 25. 
+ 
+>> int i, j, m; The variable i, j, m are declared as an integer type. 
+ 
+>> i = ++a[1]; becomes i = ++1; Hence i = 2 and a[1] = 2 
+ 
+>> j = a[1]++; becomes j = 2++; Hence j = 2 and a[1] = 3. 
+ 
+>> m = a[i++]; becomes m = a[2]; Hence m = 15 and i is incremented by 1(i++ means 2++ so i=3) 
+ 
+>> printf("%d, %d, %d", i, j, m); It prints the value of the variables i, j, m 
+ 
+Hence the output of the program is 3, 2, 15. 
+
+39. what will be the output of the program? 
+
+ 
+
+a) 5 
+
+b) 6 
+
+c) 9 
+
+d) Error 
+
+e) None of the above 
+
+Answer: Option C 
+Solution: 
+
+ x[i] is equivalent to *(x + i), 
+
+ so (buf + 1)[5] is *(buf + 1 + 5), i.e. buf[6]. 
+
+40) An array elements are always stored in ____________memory locations 
+
+a) sequential 
+
+b) Random 
+
+c) Sequential and Random 
+
+d) None of the above 
+
+ 
+
+ 
+
+41) Let x be an array. which of the following operations are illegal? 
+
+
+a) ++x b) x+1 c)x++ d) x*2 
+
+options: 
+
+a) I and II 
+
+b) I,II and III 
+
+c) II and III 
+
+d) I, III and IV 
+
+e) III and IV 
+
+Answer: Option D 
+Solution: int x[10]; * x will store the base address of array. * 
+Statement I, III and IV is invalid. 
+ 
+Statement I and III : ++x and x++ are throwing en error while compile (lvalue required as increment operand ) 
+Since, x is storing in the address of the array which is static value which cannot be change by the operand. 
+ 
+Statement IV : x*2 is also throw an error while compile (invalid operands to binary * (have 'int *' and 'int') ) 
+ 
+Statement II : x+1 is throw a warning: assignment makes integer from pointer without a cast [enabled by 
+default] 
+
+42) what is the maximum number of dimensions an array in c may have? 
+
+ a) 2 
+
+ b) 8 
+
+ c) 20 
+
+ d)50 
+
+ e) theoretically no limit. the only practical limits are memory size and compilers 
+
+43) size of the array need not be specified, when 
+
+ a) initialized is a part of definition 
+
+ b) it's a declaration 
+
+ c) it is a formal parameter 
+
+ d) All of these 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+44) what will be the output of the program? 
+
+
+ 
+
+ 
+
+a) Equal 
+
+b) Unequal 
+
+c) Error 
+
+d) None of these 
+
+Answer: Option B 
+Solution: 
+
+Strings are compared using strcmp() function defined under string.h header file. 
+
+45) 
+
+ 
+
+Unit-2 PART -B 
+
+1. Give the general syntax of conditional operator? 
+
+2. Define operator in C. What role an operator plays in C program? 
+
+3. Differentiate between relational and logical operators used in C? 
+
+4. Give the types of decision making statements 
+
+5. What is the general form of switch statement? 
+
+6. Differentiate do... while.. and while... loop. 
+7. Determine the output of the following and justify your answer 
+
+ 
+int main() 
+ { 
+ int ch; printf("enter a value between 1 to 2:"); 
+ scanf("%d", &ch); 
+ switch (ch, ch -1){ 
+ case 1: printf("1\n"); break; 
+ case 2: printf("2"); break; 
+ } return 0; } 
+
+8. Explain the limitations of arrays. 
+
+
+9. Give the steps of looping process. 
+
+10. Brief the use of continue, goto, break statement and give the syntax. 
+
+11. What are loop control structures? Explain for loop, while loop and do-while 
+
+loop with their syntax. 
+
+12. What do you mean by infinite loop? Give suitable of any infinite loop in a C 
+
+program. 
+
+13. Explain break and continue statements with examples. 
+14. Determine the output of the following program justify your answer in a few words. 
+
+ 
+int main() { 
+float f = 1.0; 
+ switch(f) { 
+
+case 1.0: printf("one"); break; 
+case 2.0: printf("two"); break; 
+default: prinf("%f", f); 
+
+}} 
+
+15. Write a program to print series of number divisible by 3 from 1 to 100 using for 
+
+loop. 
+
+16. Write a C program to print 1, 2, 4, 8, 16, 32, 64 …..N using do….while loop 
+
+(Read N from user). 
+
+17. What are Arrays in C programming? Give the importance of Array in C 
+
+language 
+
+13. What are the rules to declare one dimensional array? 
+
+14. What do you mean by compile time initialization? Give suitable example of 
+
+Compile time initialization of C Array. 
+
+15. Describe the array index out of bound error in context of C array program. 
+
+ 
+
+PART C 
+
+ 
+
+1) Lucy is celebrating her 15th birthday. Her father promised her that he will buy her a new computer 
+on her birthday if she solves the question asked by him. He asks Lucy to find whether the year on 
+which she had born is leap year or not. Help her to solve this puzzle so that she celebrates her 
+
+
+birthday happily. If her birth year is 2016 and it is a leap year display 2016 is a leap year.? Else 
+display 2016 is not a leap year and check with other leap year conditions 
+
+2) Write a C program to print the multiplication table of an integer n upto m rows using a while loop 
+
+ sample input and output 
+
+ INPUT 
+ 5 
+
+4 
+
+ OUTPUT 
+ 1*5=5 
+
+2*5=10 
+3*5=15 
+4*5=20 
+
+3) Write a program to generate a following @s triangle: 
+@ @ @ @ @ 
+@ @ @ @ 
+@ @ @ 
+@ @ 
+@ 
+
+4) Write a program that determines a student’s grade. The program will read three scores and 
+determine the grade based on the following rules: score =90% =>grade=A , score >= 70% 
+and <90% => grade=B, score>=50% and <70% =>grade=C, score<50% =>grade=F 
+ 
+
+5) i)Why switch case is better than else..if... ladder. Justify. 
+ii)Write a program to read a value (1-7) and print the equivalent day of the week 
+ (i.e. 1-SUN, 2-MON.....) 
+iii) Explain briefly about for loop and Nested for loop with suitable example 
+
+ 
+iv) Write a program to print the following pattern. 
+
+12345 
+1234 
+123 
+12 
+1 
+
+ 
+6.a. i) Write a C program to insert an element at a specified position in the array. 
+
+ 
+
+7) ) Write a program to generate a following patterns 
+
+a) 
+
+ 
+
+ 
+
+ 
+
+ 
+
+b) 
+
+
+ 
+
+c) 
+
+ 
+
+d) 
+
+ 
+
+e) 
+
+ 
+
+ 
+
+8) write c Program for Student mark list generation by using control and looping statements 
+
+ 
+
+9) write c program for digit rotation. "For any positive integer, we define a digit rotation as either 
+moving the first digit to the end of the number (left digit rotation), or the last digit to the front of the 
+number (right digit rotation). For example, the number 12345 could be left digit rotated to 23451, or right 
+digit rotated to 51234. 
+
+10) Write a program to find the sum of positive numbers in an array 
+
+11) write c program for palindrome strings , two strings A and B, each consisting of lower case alphabets. 
+
+12) Write a arithmetic operation menu driven program using while(1) 
+ 
+
+ 13) i) Write short notes on switch case. 
+
+ii) Program to create a simple calculator, Performing addition, subtraction, multiplication, 
+division depending the input from user. 
+
+
+14) i)write a C program to read 10 nos. and reverse it using array 
+ 
+
+ii)Concatenate two arrays of length minimum 5 numbers. 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+UNIT III 
+
+PART A 
+
+
+1 ) Which of the following is not possible statically in C? 
+
+a) Jagged Array 
+
+b) Rectangular Array 
+
+c) Cuboidal Array 
+
+d) Multidimensional Array 
+
+ 
+
+2) What is the output of this C code? 
+
+ #include <stdio.h> 
+ void main() 
+
+{ 
+int a[2][3] = {1, 2, 3, 4, 5}; 
+int i = 0, j = 0; 
+for (i = 0; i < 2; i++) 
+for (j = 0; j < 3; j++) 
+printf("%d", a[i][j]); 
+ } 
+
+a) 1 2 3 4 5 0 
+
+b) 1 2 3 4 5 junk 
+
+c) 1 2 3 4 5 5 
+
+d) Run time error 
+
+ 
+
+3) Predict the output of below program: 
+
+#include <stdio.h> 
+ 
+int main() 
+{ 
+ int arr[5]; 
+ 
+ // Assume that base address of arr is 2000 and size of integer 
+ // is 32 bit 
+ arr++; 
+ printf("%u", arr); 
+ 
+ return 0; 
+} 
+ 
+
+a) 2002 
+
+b) 2004 
+
+c) 2020 
+
+d) lvalue required 
+
+ 
+
+
+4 ) Predict the output of below program: 
+#include <stdio.h> 
+ 
+int main() 
+{ 
+ int arr[5]; 
+// Assume base address of arr is 2000 and size of integer is 32 bit 
+ printf("%u %u", arr + 1, &arr + 1); 
+ return 0; 
+} 
+
+i. 2004 2020 
+
+ii. 2004 2004 
+
+iii. 2004 Garbage Value 
+
+iv. The program fails to compile because address of operator cannot be used with 
+array name 
+
+5) Size of the array need not be specified, when 
+
+A. Initialization is a part of definition 
+
+B. It is a declaratrion 
+
+C. It is a formal parameter 
+
+D. All of these 
+
+6) While passing an array as an actual argument, the function call must have the array name 
+
+A. with empty brackets 
+
+B.with its size 
+
+C.alone 
+
+D.none of the above 
+
+7) The parameter passing mechanism for an array is 
+
+A. call by value 
+
+B. call by value-result 
+
+C. call by reference 
+
+D. none of these 
+
+ 
+
+ 
+
+8) Under which of the following conditions, the size of an one-dimensional array need not be 
+specified? 
+
+
+A. when initialization is a part of definition 
+
+B. when it is a declaration 
+
+C. when it is a formal parameter and an actual 
+argument 
+
+D. All of the above 
+
+9) If a two dimensional array is used as a formal parameter, then 
+
+A. both the subscripts may be left empty 
+
+B.the first (row) subscript may be left empty 
+
+C. the first subscript must be left empty 
+
+D. both the subscripts must be left empty 
+
+11) Choose the statement that best defines an array 
+
+A. It is a collection of items that share a common name 
+
+B. It is a collection of items that share a common name and occupy consecutive memory location 
+
+C. It is a collection of items of the same type and storage class that share a common name and 
+occupy consecutive memory locations 
+
+D. None of the above 
+
+12) Choose the correct statements 
+
+A. Array stores data of the same type 
+
+B. Array can be a part of a structure 
+
+C. Array of structure is allowed 
+
+D. All of the above 
+
+13) What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. int a[2][3] = {1, 2, 3, 4, 5}; 
+5. int i = 0, j = 0; 
+6. for (i = 0; i < 2; i++) 
+7. for (j = 0; j < 3; j++) 
+8. printf("%d", a[i][j]); 
+9. } 
+
+a) 1 2 3 4 5 0 
+
+b) 1 2 3 4 5 junk 
+
+c) 1 2 3 4 5 5 
+
+
+d) Run time error 
+
+ 
+
+Answer: a 
+ 
+
+14) What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. int a[2][3] = {1, 2, 3, , 4, 5}; 
+5. int i = 0, j = 0; 
+6. for (i = 0; i < 2; i++) 
+7. for (j = 0; j < 3; j++) 
+8. printf("%d", a[i][j]); 
+9. } 
+
+a) 1 2 3 junk 4 5 
+
+b) Compile time error 
+
+c) 1 2 3 0 4 5 
+
+d) 1 2 3 3 4 5 
+
+Answer: b 
+
+15. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void f(int a[][3]) 
+3. { 
+4. a[0][1] = 3; 
+5. int i = 0, j = 0; 
+6. for (i = 0; i < 2; i++) 
+7. for (j = 0; j < 3; j++) 
+8. printf("%d", a[i][j]); 
+9. } 
+10. void main() 
+11. { 
+12. int a[2][3] = {0}; 
+13. f(a); 
+14. } 
+
+a) 0 3 0 0 0 0 
+
+b) Junk 3 junk junk junk junk 
+
+c) Compile time error 
+
+d) All junk values 
+
+ 
+
+Answer: a 
+ 
+
+16. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void f(int a[][]) 
+
+
+3. { 
+4. a[0][1] = 3; 
+5. int i = 0, j = 0; 
+6. for (i = 0;i < 2; i++) 
+7. for (j = 0;j < 3; j++) 
+8. printf("%d", a[i][j]); 
+9. } 
+10. void main() 
+11. { 
+12. int a[2][3] = {0}; 
+13. f(a); 
+14. } 
+
+a) 0 3 0 0 0 0 
+
+b) Junk 3 junk junk junk junk 
+
+c) Compile time error 
+
+d) All junk values 
+
+ 
+
+Answer: c 
+ 
+
+17. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void f(int a[2][]) 
+3. { 
+4. a[0][1] = 3; 
+5. int i = 0, j = 0; 
+6. for (i = 0;i < 2; i++) 
+7. for (j = 0;j < 3; j++) 
+8. printf("%d", a[i][j]); 
+9. } 
+10. void main() 
+11. { 
+12. int a[2][3] = {0}; 
+13. f(a); 
+14. } 
+
+a) 0 3 0 0 0 0 
+
+b) Junk 3 junk junk junk junk 
+
+c) Compile time error 
+
+d) All junk values 
+
+ 
+
+Answer: c 
+ 
+
+ 
+
+18. Comment on the following statement: 
+
+int (*a)[7]; 
+
+
+a) An array “a” of pointers. 
+
+b) A pointer “a” to an array. 
+
+c) A ragged array. 
+
+d) None of the mentioned 
+
+ 
+
+Answer: b 
+ 
+
+19. Comment on the 2 arrays regarding P and Q: 
+
+1. int *a1[8]; 
+2. int *(a3[8]); 
+3. P. Array of pointers 
+4. Q. Pointer to an array 
+
+a) a1 is P, a2 is Q 
+
+b) a1 is P, a2 is P 
+
+c) a1 is Q, a2 is P 
+
+d) a1 is Q, a2 is Q 
+
+ 
+
+Answer: b 
+ 
+
+20. Which of the following is not possible statically in C? 
+
+a) Jagged Array 
+
+b) Rectangular Array 
+
+c) Cuboidal Array 
+
+d) Multidimensional Array 
+
+ 
+
+Answer: a 
+ 
+ 
+
+21. What is the correct syntax to send a 3-dimensional array as a parameter? (Assuming declaration int a[5][4][3];) 
+
+a) func(a); 
+
+b) func(&a); 
+
+c) func(*a); 
+
+d) func(**a); 
+
+ 
+
+Answer: a 
+ 
+ 
+
+22. Applications of multidimensional array are? 
+
+a) Matrix-Multiplication 
+
+b) Minimum Spanning Tree 
+
+c) Finding connectivity between nodes 
+
+
+d) All of the mentioned 
+
+Answer: d 
+
+23. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int ary[2][3]; 
+5. foo(ary); 
+6. } 
+7. void foo(int *ary[]) 
+8. { 
+9. int i = 10, j = 2, k; 
+10. ary[0] = &i; 
+11. ary[1] = &j; 
+12. *ary[0] = 2; 
+13. for (k = 0;k < 2; k++) 
+14. printf("%d\n", *ary[k]); 
+15. } 
+
+a) 2 2 
+
+b) Compile time error 
+
+c) Undefined behaviour 
+
+d) 10 2 
+
+ 
+
+Answer: a 
+ 
+
+24. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int ary[2][3]; 
+5. foo(ary); 
+6. } 
+7. void foo(int (*ary)[3]) 
+8. { 
+9. int i = 10, j = 2, k; 
+10. ary[0] = &i; 
+11. ary[1] = &j; 
+12. for (k = 0;k < 2; k++) 
+13. printf("%d\n", *ary[k]); 
+14. } 
+
+a) Compile time error 
+
+b) 10 2 
+
+c) Undefined behaviour 
+
+
+d) segmentation fault/code crash 
+
+ 
+
+Answer: a 
+ 
+
+25. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. foo(ary); 
+5. } 
+6. void foo(int **ary) 
+7. { 
+8. int i = 10, k = 10, j = 2; 
+9. int *ary[2]; 
+10. ary[0] = &i; 
+11. ary[1] = &j; 
+12. printf("%d\n", ary[0][1]); 
+13. } 
+
+a) 10 
+
+b) 2 
+
+c) Compile time error 
+
+d) Undefined behaviour 
+
+ 
+
+Answer: d 
+ 
+
+26. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int ary[2][3][4], j = 20; 
+5. ary[0][0] = &j; 
+6. printf("%d\n", *ary[0][0]); 
+7. } 
+
+a) Compile time error 
+
+b) 20 
+
+c) Address of j 
+
+d) Undefined behaviour 
+
+ 
+
+Answer: a 
+ 
+
+27. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+
+
+4. int ary[2][3]; 
+5. ary[][] = {{1, 2, 3}, {4, 5, 6}}; 
+6. printf("%d\n", ary[1][0]); 
+7. } 
+
+a) Compile time error 
+
+b) 4 
+
+c) 1 
+
+d) 2 
+
+ 
+
+Answer: a 
+ 
+ 
+
+28. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. void foo(); 
+5. printf("1 "); 
+6. foo(); 
+7. } 
+8. void foo() 
+9. { 
+10. printf("2 "); 
+11. } 
+
+a) 1 2 
+
+b) Compile time error 
+
+c) 1 2 1 2 
+
+d) Depends on the compiler 
+
+ 
+
+Answer: a 
+ 
+
+29. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. void foo(), f(); 
+5. f(); 
+6. } 
+7. void foo() 
+8. { 
+9. printf("2 "); 
+10. } 
+11. void f() 
+12. { 
+13. printf("1 "); 
+
+
+14. foo(); 
+15. } 
+
+a) Compile time error as foo is local to main 
+
+b) 1 2 
+
+c) 2 1 
+
+d) Compile time error due to declaration of functions inside main 
+
+ 
+
+Answer: b 
+ 
+
+30. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. void foo(); 
+5. void f() 
+6. { 
+7. foo(); 
+8. } 
+9. f(); 
+10. } 
+11. void foo() 
+12. { 
+13. printf("2 "); 
+14. } 
+
+a) 2 2 
+
+b) 2 
+
+c) Compile time error 
+
+d) Depends on the compiler 
+
+ 
+
+Answer: d 
+Explanation: Even though the answer is 2, this code will compile fine only with gcc. GNU C supports nesting of functions in C 
+as a language extension whereas standard C compiler doesn’t. 
+
+31. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void foo(); 
+3. int main() 
+4. { 
+5. void foo(); 
+6. foo(); 
+7. return 0; 
+8. } 
+9. void foo() 
+10. { 
+11. printf("2 "); 
+12. } 
+
+
+a) Compile time error 
+
+b) 2 
+
+c) Depends on the compiler 
+
+d) Depends on the standard 
+
+ 
+
+Answer: b 
+ 
+
+32. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void foo(); 
+3. int main() 
+4. { 
+5. void foo(int); 
+6. foo(1); 
+7. return 0; 
+8. } 
+9. void foo(int i) 
+10. { 
+11. printf("2 "); 
+12. } 
+
+a) 2 
+
+b) Compile time error 
+
+c) Depends on the compiler 
+
+d) Depends on the standard 
+
+ 
+
+Answer: a 
+ 
+
+33. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void foo(); 
+3. int main() 
+4. { 
+5. void foo(int); 
+6. foo(); 
+7. return 0; 
+8. } 
+9. void foo() 
+10. { 
+11. printf("2 "); 
+12. } 
+
+a) 2 
+
+b) Compile time error 
+
+c) Depends on the compiler 
+
+
+d) Depends on the standard 
+
+ 
+
+Answer: b 
+ 
+
+34. What is the output of this C code? 
+
+1. include <stdio.h> 
+2. void m() 
+3. { 
+4. printf("hi"); 
+5. } 
+6. void main() 
+7. { 
+8. m(); 
+9. } 
+
+a) hi 
+
+b) Run time error 
+
+c) Nothing 
+
+d) Varies 
+
+Answer: a 
+
+35. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void m(); 
+3. void n() 
+4. { 
+5. m(); 
+6. } 
+7. void main() 
+8. { 
+9. void m() 
+10. { 
+11. printf("hi"); 
+12. } 
+13. } 
+
+a) hi 
+
+b) Compile time error 
+
+c) Nothing 
+
+d) Varies 
+
+ 
+
+Answer: b 
+ 
+
+36. What is the return-type of the function sqrt() 
+
+a) int 
+
+b) float 
+
+
+c) double 
+
+d) depends on the data type of the parameter 
+
+ 
+
+Answer: c 
+ 
+
+37. Which of the following function declaration is illegal? 
+
+a) double func(); 
+ int main(){} 
+ double func(){} 
+b) double func(){}; 
+ int main(){} 
+c) int main() 
+ { 
+ double func(); 
+ } 
+ double func(){//statements} 
+d) None of the mentioned 
+
+ 
+Answer: d 
+ 
+
+38. What is the output of this code having void return-type function? 
+
+1. #include <stdio.h> 
+2. void foo() 
+3. { 
+4. return 1; 
+5. } 
+6. void main() 
+7. { 
+8. int x = 0; 
+9. x = foo(); 
+10. printf("%d", x); 
+11. } 
+
+a) 1 
+
+b) 0 
+
+c) Runtime error 
+
+d) Compile time error 
+
+ 
+
+Answer: d 
+ 
+
+39. What will be the data type returned for the following function? 
+
+1. #include <stdio.h> 
+2. int func() 
+3. { 
+4. return (double)(char)5.0; 
+5. } 
+
+
+a) char 
+
+b) int 
+
+c) double 
+
+d) multiple type-casting in return is illegal 
+
+ 
+
+Answer: b 
+ 
+
+40. What is the problem in the following declarations? 
+
+ int func(int); 
+ double func(int); 
+ int func(float); 
+
+a) A function with same name cannot have different signatures 
+
+b) A function with same name cannot have different return types 
+
+c) A function with same name cannot have different number of parameters 
+
+d) All of the mentioned 
+
+ 
+
+Answer: d 
+ 
+
+41. The output of the code below is 
+
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. int k = m(); 
+5. printf("%d", k); 
+6. } 
+7. void m() 
+8. { 
+9. printf("hello"); 
+10. } 
+
+a) hello 5 
+
+b) Error 
+
+c) Nothing 
+
+d) Junk value 
+
+ 
+
+Answer: a 
+ 
+
+42. The output of the code below is 
+
+1. #include <stdio.h> 
+2. int *m() 
+3. { 
+4. int *p = 5; 
+5. return p; 
+6. } 
+
+
+7. void main() 
+8. { 
+9. int *k = m(); 
+10. printf("%d", k); 
+11. } 
+
+a) 5 
+
+b) Junk value 
+
+c) 0 
+
+d) Error 
+
+ 
+
+Answer: a 
+ 
+
+43. The output of the code below is 
+
+1. #include <stdio.h> 
+2. int *m(); 
+3. void main() 
+4. { 
+5. int *k = m(); 
+6. printf("hello "); 
+7. printf("%d", k[0]); 
+8. } 
+9. int *m() 
+10. { 
+11. int a[2] = {5, 8}; 
+12. return a; 
+13. } 
+
+a) hello 5 8 
+
+b) hello 5 
+
+c) hello followed by garbage value 
+
+d) Compilation error 
+
+ 
+
+Answer: c 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Part B 
+
+
+1. What is the need for user defined function? 
+
+2. Write a multi function program 
+
+3. List the Elements of user defined function 
+
+4. Give short note on 2-D array processing. 
+5. Write a C program to find the length of a string. 
+6. HELLO encode it as IFMMP using array 
+7. Show the difference between actual and formal parameter in function with piece of code 
+
+ 
+8. Compare user define function vs System define function 
+
+ 
+9. List categories of function 
+
+10. Explain the concept of function call by reference with a sample program. 
+
+11. Explain the concept of function call by value with a sample program 
+
+12. Explain about functions with example 
+
+13. Discuss Character Arrays 
+
+14. Predict output of the following program (CLO3) 
+ int main(){ 
+ inta[][]={{1,2},(3,4}}; 
+
+int i,j; 
+for (i=0;i<2;i++) 
+for(j=0;j<2;j++) 
+printf(“%d”,a[i][j]); 
+retorn 0; 
+} 
+
+15. Why array index starts from zero? 
+16. Contrast function declaration vs function definition. 
+17. List the advantages of functions. 
+
+nd
+18. Program to Find the 2 Largest Elements in an Array. 
+
+ 
+19. Write a program to convert the given string (srm university) Lower to upper case
+
+ 
+ 
+
+20. Advantages and limitations of multi dimensional array initialization 
+
+21. Explain call by value and call by reference with an example 
+
+22. Common programming errors in 2D arrays 
+
+12. Explain String functions with example 
+
+ PART C 
+
+1. Array construction for student mark list for 100 students. output need to display register number, marks of 
+
+five subjects , CGPA and PASS/Fail Status 
+
+2. Explain in details about String Functions: gets(), puts(), getchar(), putchar(), printf(), with an example 
+
+programs 
+
+3. i)Print the given pattern using 2-D array 
+1234567 
+ 23456 
+
+
+ 345 
+ 4 
+ii) Program to divide one array into two arrays 
+
+4. i) What are strings in C? Write a C program to read a string in lowercase and convert it to 
+uppercase. 
+ ii) ) Illustrate call by value and call by reference with example for each. 
+ 
+5. i) Find the factorial of 10 using function recursion. 
+
+ii) What is a string? Explain any 5 string functions. 
+6. Explain in details about String Functions: atoi, strlen, strcat, strcmp with an example 
+
+7. Functions declaration and definition, Types: Call by Value & Call by Reference with example programs 
+
+8. Explain and write c program for Function with and without Arguments and no Return Values 
+
+9. Explain and write c program for Passing Array to Functions with return type, Recursion Functions 
+
+10. Write c program for Matrix Multiplication using Multi-dimensional array 
+
+11. Program to Delete duplicate elements from an array 
+INPUT 
+1 3 4 5 3 
+OUTPUT 
+1 3 4 5 
+ 
+
+b. Write a program to perform Matrix addition and Multiplication using 2-D arrays 
+ 
+12. i) State the importance of functions. List out the different types of Function 
+ ii) Write a swap function using call by value and call by reference 
+
+ iii) Write a C program to concatenate two strings. 
+ iv) Write a program to read to strings and compare them and print a message that the first string 
+
+is equal, less or greater than the second one accordingly. 
+13. Write c program for Matrix addition and Matrix Transpose using multi dimensional array 
+
+14. Given a number , find whether it is a power of 2 or not 
+
+15. Write a C program to swap elements in cyclic order using call by reference. 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+UNIT 4 
+
+ 
+
+1. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. void foo(int*); 
+3. int main() 
+
+4. { 
+5. int i = 10; 
+
+6. foo((&i)++); 
+7. } 
+
+8. void foo(int *p) 
+9. { 
+
+10. printf("%d\n", *p); 
+11. } 
+
+a) 10 
+
+b) Some garbage value 
+
+c) Compile time error 
+
+d) Segmentation fault/code crash 
+
+ 
+
+Answer: c 
+ 
+
+2. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void foo(int*); 
+
+3. int main() 
+4. { 
+
+5. int i = 10, *p = &i; 
+6. foo(p++); 
+
+7. } 
+8. void foo(int *p) 
+
+9. { 
+10. printf("%d\n", *p); 
+
+11. } 
+
+a) 10 
+
+b) Some garbage value 
+
+c) Compile time error 
+
+d) Segmentation fault 
+
+ 
+
+Answer: a 
+ 
+
+
+3. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void foo(float *); 
+
+3. int main() 
+4. { 
+
+5. int i = 10, *p = &i; 
+6. foo(&i); 
+
+7. } 
+8. void foo(float *p) 
+
+9. { 
+10. printf("%f\n", *p); 
+
+11. } 
+
+a) 10.000000 
+
+b) 0.000000 
+
+c) Compile time error 
+
+d) Undefined behaviour 
+
+ 
+
+Answer: b 
+ 
+
+4. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. int main() 
+
+3. { 
+4. int i = 97, *p = &i; 
+
+5. foo(&i); 
+6. printf("%d ", *p); 
+
+7. } 
+8. void foo(int *p) 
+
+9. { 
+10. int j = 2; 
+
+11. p = &j; 
+12. printf("%d ", *p); 
+
+13. } 
+
+a) 2 97 
+
+b) 2 2 
+
+c) Compile time error 
+
+d) Segmentation fault/code crash 
+
+ 
+
+Answer: a 
+ 
+
+5. What is the output of this C code? 
+
+
+1. #include <stdio.h> 
+2. int main() 
+
+3. { 
+4. int i = 97, *p = &i; 
+
+5. foo(&p); 
+6. printf("%d ", *p); 
+
+7. return 0; 
+8. } 
+
+9. void foo(int **p) 
+10. { 
+
+11. int j = 2; 
+12. *p = &j; 
+
+13. printf("%d ", **p); 
+14. } 
+
+a) 2 2 
+
+b) 2 97 
+
+c) Undefined behaviour 
+
+d) Segmentation fault/code crash 
+
+ 
+
+Answer: a 
+ 
+
+6. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. int main() 
+
+3. { 
+4. int i = 11; 
+
+5. int *p = &i; 
+6. foo(&p); 
+
+7. printf("%d ", *p); 
+8. } 
+
+9. void foo(int *const *p) 
+10. { 
+
+11. int j = 10; 
+12. *p = &j; 
+
+13. printf("%d ", **p); 
+14. } 
+
+a) Compile time error 
+
+b) 10 10 
+
+c) Undefined behaviour 
+
+d) 10 11 
+
+ 
+
+
+Answer: a 
+ 
+
+7. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. int main() 
+3. { 
+
+4. int i = 10; 
+5. int *p = &i; 
+
+6. foo(&p); 
+7. printf("%d ", *p); 
+
+8. printf("%d ", *p); 
+9. } 
+
+10. void foo(int **const p) 
+11. { 
+
+12. int j = 11; 
+13. *p = &j; 
+
+14. printf("%d ", **p); 
+15. } 
+
+a) 11 11 11 
+
+b) 11 11 Undefined-value 
+
+c) Compile time error 
+
+d) Segmentation fault/code-crash 
+
+ 
+
+Answer: b 
+ 
+
+8. What is the output of the code below? 
+
+1. #include <stdio.h> 
+2. int main() 
+
+3. { 
+4. int i = 10; 
+
+5. int *const p = &i; 
+6. foo(&p); 
+
+7. printf("%d\n", *p); 
+8. } 
+
+9. void foo(int **p) 
+10. { 
+
+11. int j = 11; 
+12. *p = &j; 
+
+13. printf("%d\n", **p); 
+14. } 
+
+a) 11 11 
+
+b) Undefined behaviour 
+
+c) Compile time error 
+
+
+d) Segmentation fault/code-crash 
+
+ 
+
+Answer: a 
+ 
+
+9. Which of the following are correct syntaxes to send an array as a parameter to function: 
+
+a) func(&array); 
+
+b) func(#array); 
+
+c) func(*array); 
+
+d) func(array[size]); 
+
+ 
+
+Answer: a. 
+ 
+
+11. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void main() 
+
+3. { 
+4. int k = 5; 
+
+5. int *p = &k; 
+6. int **m = &p; 
+
+7. printf("%d%d%d\n", k, *p, **m); 
+8. } 
+
+a) 5 5 5 
+
+b) 5 5 junk value 
+
+c) 5 junk junk 
+
+d) Run time error 
+
+ 
+
+Answer: a 
+ 
+
+12. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void main() 
+
+3. { 
+4. int k = 5; 
+
+5. int *p = &k; 
+6. int **m = &p; 
+
+7. printf("%d%d%d\n", k, *p, **p); 
+8. } 
+
+a) 5 5 5 
+
+b) 5 5 junk value 
+
+c) 5 junk junk 
+
+
+d) Compile time error 
+
+ 
+
+Answer: d. 
+
+13. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. void main() 
+3. { 
+
+4. int k = 5; 
+5. int *p = &k; 
+
+6. int **m = &p; 
+7. **m = 6; 
+
+8. printf("%d\n", k); 
+9. } 
+
+a) 5 
+
+b) Compile time error 
+
+c) 6 
+
+d) Junk 
+
+ 
+
+Answer: c 
+ 
+
+14. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void main() 
+
+3. { 
+4. int a[3] = {1, 2, 3}; 
+
+5. int *p = a; 
+6. int *r = &p; 
+
+7. printf("%d", (**r)); 
+8. } 
+
+a) 1 
+
+b) Compile time error 
+
+c) Address of a 
+
+d) Junk value 
+
+ 
+
+Answer: b 
+ 
+
+15. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. void main() 
+3. { 
+
+
+4. int a[3] = {1, 2, 3}; 
+5. int *p = a; 
+
+6. int **r = &p; 
+7. printf("%p %p", *r, a); 
+
+8. } 
+
+a) Different address is printed 
+
+b) 1 2 
+
+c) Same address is printed. 
+
+d) 1 1 
+
+View Answer 
+
+Answer: c 
+Explanation: None. 
+
+16. How many number of pointer (*) does C have against a pointer variable declaration? 
+
+a) 7 
+
+b) 127 
+
+c) 255 
+
+d) No limits. 
+
+ 
+
+Answer: d 
+ 
+
+17. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. int main() 
+3. { 
+
+4. int a = 1, b = 2, c = 3; 
+5. int *ptr1 = &a, *ptr2 = &b, *ptr3 = &c; 
+
+6. int **sptr = &ptr1; //-Ref 
+7. *sptr = ptr2; 
+
+8. } 
+
+a) ptr1 points to a 
+
+b) ptr1 points to b 
+
+c) sptr points to ptr2 
+
+d) None of the mentioned 
+
+ 
+
+Answer: b 
+ 
+
+18. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. void main() 
+3. { 
+
+
+4. int a[3] = {1, 2, 3}; 
+5. int *p = a; 
+
+6. int **r = &p; 
+7. printf("%p %p", *r, a); 
+
+8. } 
+
+a) Different address is printed 
+
+b) 1 2 
+
+c) Same address is printed. 
+
+d) 1 1 
+
+ 
+
+Answer: c 
+ 
+ 
+
+PART B 
+
+1) short notes on Passing Array Element to Function with an example 
+2) Explain Formal and Actual Parameters 
+3) Give the Advantages of using Functions , 
+4) example program for Processor Directives and #define Directives 
+5) write a program for Pointer Declaration and dereferencing, 
+6) write a program for pointers, Void Pointers and size of Void Pointers 
+7. Write algorithm and pseudo code for leap year calculation. [CLO 1] 
+8. Contrast the declaration of break and continue in while and for loop with justification 
+
+ [CLO 2] 
+9. Limitations of two dimensional arrays. 
+ 
+PART C 
+
+1) i) c program to read array elements and print the values with their address 
+ ii) what is Pointers and address operator, explain with an example of Size of Pointer Variable and 
+Pointer, Operator 
+ 2) Explain in details with an example Pointer Declaration and dereferencing, pointers, Void Pointers and 
+size of Void Pointers 
+ 
+3) write program for Arithmetic Operations, Incrementing Pointers 
+
+4) what is Constant Pointers, Pointers to array elements and strings 
+ 
+5)what is function pointer & Array of Function Pointers with an example 
+ 
+6write the c program for Accessing Array of Function Pointers, Null Pointers 
+ 
+
+ 
+7) Justify and explain the different size of data types using pointer variables with example program. 
+
+ 
+ 
+ 8) i) write a c program to count vowels and consonants in a string using pointer 
+
+ 
+ ii) Write call by reference and call by value with an example program 
+ 
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ UNIT 5 
+
+Part A 
+
+1. Which of the following are themselves a collection of different data types? 
+
+a) string 
+
+b) structures 
+
+c) char 
+
+d) all of the mentioned 
+
+View Answer 
+
+Answer: b 
+Explanation: None. 
+
+2. User-defined data type can be derived by___________ 
+
+a) struct 
+
+b) enum 
+
+c) typedef 
+
+d) all of the mentioned 
+
+ 
+
+Answer: d 
+ 
+
+3. Which operator connects the structure name to its member name? 
+
+a) – 
+
+b) <- 
+
+c) . 
+
+d) Both <- and . 
+
+ 
+
+Answer: c 
+ 
+
+4. Which of the following cannot be a structure member? 
+
+a) Another structure 
+
+b) Function 
+
+c) Array 
+
+
+d) None of the mentioned 
+
+ 
+
+Answer: b 
+ 
+
+5. Which of the following structure declaration will throw an error? 
+
+a) struct temp{}s; 
+ main(){} 
+b) struct temp{}; 
+ struct temp s; 
+ main(){} 
+c) struct temp s; 
+ struct temp{}; 
+ main(){} 
+d) None of the mentioned 
+
+Answer: d 
+ 
+
+6. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. struct student 
+3. { 
+
+4. int no; 
+5. char name[20]; 
+
+6. } 
+7. void main() 
+
+8. { 
+9. struct student s; 
+
+10. s.no = 8; 
+11. printf("hello"); 
+
+12. } 
+
+a) Compile time error 
+
+b) Nothing 
+
+c) hello 
+
+d) Varies 
+
+ 
+
+Answer: a 
+ 
+
+7. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. struct student 
+3. { 
+
+4. int no = 5; 
+5. char name[20]; 
+
+6. }; 
+7. void main() 
+
+
+8. { 
+9. struct student s; 
+
+10. s.no = 8; 
+11. printf("hello"); 
+
+12. } 
+
+a) Nothing 
+
+b) Compile time error 
+
+c) hello 
+
+d) Varies 
+
+ 
+
+Answer: b 
+ 
+8. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. struct student 
+
+3. { 
+4. int no; 
+
+5. char name[20]; 
+6. }; 
+
+7. void main() 
+8. { 
+
+9. student s; 
+10. s.no = 8; 
+
+11. printf("hello"); 
+12. } 
+
+a) Nothing 
+
+b) hello 
+
+c) Compile time error 
+
+d) Varies 
+
+ 
+
+Answer: c 
+ 
+
+9. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. void main() 
+3. { 
+
+4. struct student 
+5. { 
+
+6. int no; 
+7. char name[20]; 
+
+8. }; 
+9. struct student s; 
+
+
+10. s.no = 8; 
+11. printf("%d", s.no); 
+
+12. } 
+
+a) Nothing 
+
+b) Compile time error 
+
+c) Junk 
+
+d) 8 
+
+ 
+
+Answer: d 
+ 
+
+10. Can the above code be compiled successfully? 
+
+1. #include <stdio.h> 
+
+2. struct p 
+3. { 
+
+4. int k; 
+5. char c; 
+
+6. float f; 
+7. }; 
+
+8. int main() 
+9. { 
+
+10. struct p x = {.c = 97, .f = 3, .k = 1}; 
+11. printf("%f\n", x.f); 
+
+12. } 
+
+a) Yes 
+
+b) No 
+
+c) Depends on the standard 
+
+d) Depends on the platform 
+
+ 
+
+Answer: c 
+ 
+ 
+
+11. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. void main() 
+3. { 
+
+4. struct student 
+5. { 
+
+6. int no; 
+7. char name[20]; 
+
+8. }; 
+9. struct student s; 
+
+
+10. no = 8; 
+11. printf("%d", no); 
+
+12. } 
+
+a) Nothing 
+
+b) Compile time error 
+
+c) Junk 
+
+d) 8 
+
+ 
+
+Answer: b 
+ 
+
+12. Number of bytes in memory taken by the below structure is 
+
+1. #include <stdio.h> 
+
+2. struct test 
+3. { 
+
+4. int k; 
+5. char c; 
+
+6. }; 
+
+a) Multiple of integer size 
+
+b) integer size+character size 
+
+c) Depends on the platform 
+
+d) Multiple of word size 
+
+ 
+
+Answer: a 
+ 
+
+13. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. struct 
+
+3. { 
+4. int k; 
+
+5. char c; 
+6. }; 
+
+7. int main() 
+8. { 
+
+9. struct p; 
+10. p.k = 10; 
+
+11. printf("%d\n", p.k); 
+12. } 
+
+a) Compile time error 
+
+b) 10 
+
+c) Undefined behaviour 
+
+
+d) Segmentation fault 
+
+ 
+
+14. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. struct 
+3. { 
+
+4. int k; 
+5. char c; 
+
+6. } p; 
+7. int p = 10; 
+
+8. int main() 
+9. { 
+
+10. p.k = 10; 
+11. printf("%d %d\n", p.k, p); 
+
+12. } 
+
+a) Compile time error 
+
+b) 10 10 
+
+c) Depends on the standard 
+
+d) Depends on the compiler 
+
+ 
+
+Answer: a 
+ 
+
+15. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. struct p 
+3. { 
+
+4. int k; 
+5. char c; 
+
+6. }; 
+7. int p = 10; 
+
+8. int main() 
+9. { 
+
+10. struct p x; 
+11. x.k = 10; 
+
+12. printf("%d %d\n", x.k, p); 
+13. } 
+
+a) Compile time error 
+
+b) 10 10 
+
+c) Depends on the standard 
+
+d) Depends on the compiler 
+
+ 
+
+
+Answer: b 
+ 
+
+16. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. struct p 
+
+3. { 
+4. int k; 
+
+5. char c; 
+6. float f; 
+
+7. }; 
+8. int p = 10; 
+
+9. int main() 
+10. { 
+
+11. struct p x = {1, 97}; 
+12. printf("%f %d\n", x.f, p); 
+
+13. } 
+
+a) Compile time error 
+
+b) 0.000000 10 
+
+c) Somegarbage value 10 
+
+d) 0 10 
+
+ 
+
+Answer: b 
+ 
+
+17. What is the output of this C code(according to C99 standard)? 
+
+advertisement 
+
+1. #include <stdio.h> 
+2. struct p 
+
+3. { 
+4. int k; 
+
+5. char c; 
+6. float f; 
+
+7. }; 
+8. int main() 
+
+9. { 
+10. struct p x = {.c = 97, .f = 3, .k = 1}; 
+
+11. printf("%f\n", x.f); 
+12. } 
+
+a) 3.000000 
+
+b) Compile time error 
+
+c) Undefined behaviour 
+
+d) 1.000000 
+
+ 
+
+
+Answer: a 
+ 
+
+18. What is the output of this C code(according to C99 standard)? 
+
+1. #include <stdio.h> 
+2. struct p 
+
+3. { 
+4. int k; 
+
+5. char c; 
+6. float f; 
+
+7. }; 
+8. int main() 
+
+9. { 
+10. struct p x = {.c = 97, .k = 1, 3}; 
+
+11. printf("%f \n", x.f); 
+12. } 
+
+a) 3.000000 
+
+b) 0.000000 
+
+c) Compile time error 
+
+d) Undefined behaviour 
+
+ 
+
+Answer: b 
+ 
+
+19. What is the output of this C code(according to C99 standard)? 
+
+1. #include <stdio.h> 
+2. struct p 
+
+3. { 
+4. int k; 
+
+5. char c; 
+6. float f; 
+
+7. }; 
+8. int main() 
+
+9. { 
+10. struct p x = {.c = 97}; 
+
+11. printf("%f\n", x.f); 
+12. } 
+
+a) 0.000000 
+
+b) Somegarbagevalue 
+
+c) Compile time error 
+
+d) None of the mentioned 
+
+ 
+
+Answer: a 
+ 
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+PART B 
+
+1. Write algorithm and pseudo code for leap year calculation. 
+2. Contrast the declaration of break and continue in while and for loop with justification 
+3. Limitations of two dimensional arrays. 
+4. Explain about nested pre-processor MACRO 
+5. Categorize the basic operations that can be performed on a file with suitable declarations. 
+6. Write a c program to demonstrate double pointer for accessing the value of another pointer 
+7. Explain about file operations and mode with syntax. 
+
+8) explain shortly about Initializing Structure, Declaring structure, variable, 
+9) give the example of Structure using typedef, Accessing members 
+10)what is Nested structure, Accessing elements in a structure array, 
+11)write c program for Array of structure, Accessing elements in a structure array 
+12. Explain about file operations and mode with syntax. 
+ 13. Give a brief note about preprocessor directives. 
+14. Differentiate between a union and a structure. 
+15.Write a program to read a file character by character, and display it simultaneously on the 
+screen 
+16) write a program for Passing Array of structure to function, 
+17)write a program for Array of pointers to structures 
+18. Explain about nested pre-processor MACRO 
+19. Categorize the basic operations that can be performed on a file with suitable declarations. 
+20.Write a c program to demonstrate double pointer for accessing the value of another pointer 
+ 
+ 
+ 
+
+ PART C 
+
+ 
+
+ 1) explain in details about Bit Manipulation to structure and Pointer, to structure, Union Basic and 
+declaration with an example 
+ 
+ 2) explain in details about Accessing Union Members Pointers to Union, Dynamic memory allocation, 
+ mallaoc, realloc, free with an example 
+ 
+ 
+
+3) explain in details about Allocating Dynamic Array, Multidimensional array using dynamic memory 
+allocation with an example 
+4) Explain in details about array of structures and accessing elements in a structure array. 
+
+ 
+5)Write a c program to insert a line at the end of text file 
+6) write a program to copy the content from one file to another file 
+ 7) explain and write the program for library management system using union 
+
+
+8) write a c program for file: opening, defining, closing, File Modes, File Types, Writing contents into a 
+file 
+ 9) write a c program for Reading file contents, Appending an existing file 
+10)Differentiate between gets() and scanf() 
+(11)Write a program to convert the given string “hello world” to “dlrow olleh”. 
+ 
+12. Write a program that passes a pointer to a structure to a function 
+ 
+13 Briefly discuss about file operations in C 
+ 
+1 4) c program to read array elements and print the values with their address 
+
+ 
+32(a)Write a program that passes a pointer to a structure to a function 
+15) Justify and explain the different size of data types using pointer variables with example program. 
+ [CLO 5] 
+ 
+ (OR) 
+16) write a c program to count vowels and consonants in a string using pointer 
+32(b)B r iefly dis c u s s about file operations in C [CLO 5] 
+
+ 17) Write call by reference and call by value with an example program 
+ 
+ 
+ 
+18) a) i) Explain in details about array of structures and accessing elements in a structure array. 
+
+ 
+ ii) Write a c program to insert a line at the end of text file 
+ 
+ 19) i) write a program to copy the content from one file to another file 
+ ii) explain and write the program for library management system using union
+
+---
+
+## nexus sem 2/Programming For Problem Solving/PYQs/pyq txt/Important Questions.txt
+
+CATEGORY: PYQs
+STATUS: ok
+
+PPS IMPORTANT TOPIC 
+
+Note: Prepare all topics from all the unit, but concentrate more on the following topics 
+
+UNIT-1 
+
+ Compare compiler and interpreter. 
+ What is algorithm? How it is used as a problem-solving tool. 
+ What is pseudo code? How it is used as a problem-solving tool. 
+ Writing algorithms, Pseudo code and Flow Chat for 
+
+o Fibonacci Series (OR) 
+o Check Number Is Armstrong or Not (OR) 
+o Check a Number is Palindrome or Not (OR) 
+o Find Factorial of a Number (OR) 
+o convert temperature from Fahrenheit to Celsius (OR) 
+o convert temperature from Celsius to Fahrenheit (OR) 
+o prime number or not (OR) 
+o sum of even digits in a number in c (OR) 
+o sum of odd digits in a number in c (OR) 
+o sum of natural numbers (OR) 
+
+ What is a token? What are different types of tokens available in C language? Explain. 
+(explain the following topic with example Keywords, Identifiers, Constants and Special 
+Characters) 
+
+ Unformatted Input/Output functions. 
+ Storage Class (Auto, static, extern, register) 
+ Operators (all operators with example) 
+ Operator Precedence (They will give some expression, you have to solve expression using 
+
+operator precedence rules) 
+ Write C program to read a radius of a Circle as an input and Calculate its Diameter, 
+
+Circumference, and Area. 
+ Write a C program to swap two numbers without using third variable. 
+ Write a C program to enter length and width of a rectangle as an input and calculate its 
+
+perimeter and its area. 
+ Write a C program to swap two numbers using bitwise operator. 
+ Read two angle of a triangle as an input and find the third angel. And also read base and 
+
+height of the triangle as an input from the user and find area of a triangle. 
+ Write a C program to convert temperature from Fahrenheit to Celsius. 
+ Write a C program to enter basic salary and prepare pay slip using following data. TA = 15% 
+
+of basic, HRA = 8% of basic, Grade Pay = 9000, and PF = 15% of basic. Calculate Gross 
+salary, PF and Net salary and display them. 
+
+UNIT-2 
+
+ Explain in detail about Conditional Control Statements. (Simple if, if...else, else if and nested 
+if, Switch case with example) 
+
+ Explain in detail about Looping Control Statements. (for, While, do.while with example) 
+ Write a c programming to 
+
+o Fibonacci Series (OR) 
+o Check Number Is Armstrong or Not (OR) 
+o Check a Number is Palindrome or Not (OR) 
+o Find Factorial of a Number (OR) 
+o prime number or not (OR) 
+
+
+o sum of even digits in a number in c (OR) 
+o sum of odd digits in a number in c (OR) 
+o sum of natural numbers (OR) 
+o Find Factorial of a Number Using Recursion. (OR) 
+o They will give some pattern. 
+
+ Write a c program for 
+o Matrix Addition Program 
+o Matrix Subtraction Program 
+o Matrix Multiplication Program 
+o Sorting element 
+o To Insert An Element Desired or Specific Position In An Array 
+o To Delete Element From Array At Desired Or Specific Position 
+
+ Pointer 
+ What is dynamic memory allocation? Write and explain the different 
+
+dynamic memory allocation functions in C 
+
+UNIT-3 
+
+ Explain string function with an example. (Prepare all string function with an example). 
+ C Program to Count Vowels, Consonants, Digits and Spaces in Given String or 
+
+Remove all characters in a string except alphabets or Reverse a string using recursion or find 
+index of character. 
+
+ Explain Call by Value and Call by Reference with an example. 
+ C function argument and return values. (explain Four types with an example) 
+
+UNIT-4 
+
+ Basic Data Types in Python. 
+ Explain in detail about Conditional Control Statements in python 
+ Explain in detail about Looping Control Statements in python. 
+ List function and methods. 
+ Tuple function and methods. 
+ Set methods. 
+ Dictionaries methods. 
+
+UNIT-5 
+
+ NumPy ndarray 
+ Slicing arrays in NumPy 
+ Dealing with Rows and Columns in Pandas. 
+ Working with Missing Data 
+ Applying Functions to Data frames 
+ Comparison between Numpy and Pandas 
+ Other Python Libraries
+
+---
+
+## nexus sem 2/Programming For Problem Solving/PYQs/pyq txt/PPS CT1 Papers 24-09-2025.txt
+
+CATEGORY: PYQs
+STATUS: ok
+
+B) 123 
+C) "Hello" 
+D) main 
+
+4 Which storage class in C is used to declare variables that are local to 2 
+a function and retain their values between function calls? 131 
+
+A) auto 
+B) register 
+C) static 
+D) extern 
+
+If int x4,, result of x<<I is: 1.3.1 
+A) 2 
+
+B) 8 
+C) 6 
+D) 10 
+
+Which of the following is a valid single-line comment in C? 1 13.1 
+A) This is a comment /l 
+B) /This is a comment 
+
+MThis is a comment 
+D) <- This is a comment--> 
+
+What is the output of the program 2 2 2 2.1.2 
+kinclude <stdio.h> 
+
+int main) { 
+int x 2: 
+switch (x) { 
+
+case l: printf("One"% 
+break: 
+
+case 2: printf("T wo"): 
+break: 
+
+case 3: printf("Three"): 
+break. 
+
+default: printf("Default"): 
+
+return 0: 
+
+A) One 
+B) Two 
+C) Three 
+D) Error 
+
+8 What will be printed for the code snippet: 2 2 1 13.1 
+int i: 
+for(i -0; ii<5;itt: 
+
+printf("%d", ): 
+A) 0 
+B) 4 
+C) 5 
+D) Garbage value 
+
+9 How many times will "C Programming" be printed? 1 22 2 2.1.2 
+Winclude <stdio.h> 
+int main() 
+
+
+int k-2. 
+do 
+
+printf("C Programmingin"): 
+k-
+
+if(0 
+goto stop: 
+
+while(k>-1): 
+stop: 
+
+retun 0: 
+
+A) One time 
+B) Two times 
+C) Three times 
+D) Infinite times 
+
+10 Guess the output of the following output: 2 2 1 L3.1 
+#include <stdio.h> 
+int main) { 
+
+int a - 5, b 0; 
+ifla && b) 
+
+printf("Trucn"); 
+else 
+
+printf("Falscin"'): 
+return 0: 
+
+A) True 
+B) False 
+C) Compilation error 
+D) No output 
+
+
+SRM Institute of 
+OSRM Science and Technology 
+
+College of Engineering and Teehnology SET C 
+
+School of Computing 
+SRM Nagar, Kattankulathr 603203. Chengalpattu Disarict. Tamilnadu 
+
+Acndemie Year: 2025-2026 (ODD) 
+Test: CT I 
+Course Code & Title: 21CSSIOLI Date: 24.09, 2025 
+
+Year &S em: 1Year /I Sem Programming for Problem Selving Duratien iPeriod 
+Max. Marks: 25 
+
+Part- B 
+(3x515 Marks) 
+
+Answer any three questions out of four: 
+11 Write a program to illustrate the difference between logical and 2 1.3.1 
+
+bitwise operators in C. 
+12 Arobotics project roquires checking whether an umber is odd or even 5 3 1 1.3.1 
+
+using only bitwisc opcrators. Write a C program for the same. 
+13 An amusement park has threc types of rides based on height. Manya 5 3 2 1 13.1 
+
+wants to know if she can go on the Adventure Ride. Her height is 140 
+cm. Write a C program to decide her cligibility. 
+Conditions: 
+
+"Eligible for Giant Ride, if height > 160 cm 
+"Eligible for Adventure Ride, if height > 120 cm and < 160 cm 
+
+Eligible for Kids Ride, if height< 120 cm 
+14 developer is assigned the task of implementing a key feature for a 5 3 2 1 13.1 
+
+mobile calculator application. The application should provide users 
+with the ability to select an arithmetic opcration-such as addition. 
+subtraction, multiplication, or division and perform that operation on 
+two user-input numbers. The developer is required to write a program 
+in C that utilizes a switch statement to construct this simple calculator 
+functionality, enabling users to choose their desired mathematical 
+opcration. 
+
+Course Outcome (CO) and Bloom's level (BL) Coverage in Qucstions 
+
+CO Distribution Bioom's tevol Distribution 
+
+L 
+
+COL CO2 CO) CO4 COS 
+
+
+Course Articalation Matrist 
+
+SNo Course POI PO2 PO3 PO4 POS PO6 PO7 POS POP PO10 POIL POI2 
+
+Outcone 
+COI 2 
+
+2 CO2 2 
+3 CO3 2 
+4 CO4 2 3 
+
+COS 2 
+
+Instructions: 
+
+MCQ sheet to be handed over to the faculty after the first 15 minutes. 
+MOBILE PHONES/SMART GADGETS STRICTLY NOT PERMITTED. 
+DO NOT WRITE or MARK anything in the Question Paper (Except Registration Number) 
+
+Discussion with your classmates is considered as MALPRACTICE, and it results in 0° Mark. 
+
+DO NOT BORROW anything (Like Calculator, Pen, Pencil, Eraser etc) from others. 
+
+Follow proper dress code. ID card is mandatory 
+Question Paper should be submitted along with Answer Booklet. 
+
+Course Outcomes (CO): 
+
+CO1: Solve problems through computer programming. Express the basic data types and variables in C 
+
+CO2: Use appropriate data types in simple data processing applications. To create programs using the concept of 
+
+arrays. 
+
+Part - A 
+(1x 10 - 10 Marks) 
+
+Multiple Choice QQuestions 
+Marks BL CO PO PI 
+
+Question 
+Q. Code 
+
+No 13.1 
+
+Predict the output of the following C code snippct: 
+int a2, b3: 
+printf("%d", a && b): 
+
+A) 2 
+B) 3 
+C) 1 
+D) 0 2 2.1.2 
+
+2 Which of the following is a keyword in C? 
+A) main 
+B) define 
+C) printf 
+D) double 2 1.3.1 
+
+Which is valid C expression? 
+3 
+
+A) int mynum 100,000: 
+
+
+B) int ny num- I00000 
+C) int ny num 1000, 
+D) int Smy num 10000: 
+
+4 What will be printed after executing the below code sippet 2 131 
+
+int x7: 
+printf("%d",x-. 
+
+A) 7 
+B) 6 
+C) Error 
+D) Undefined 
+
+What will be the output of the folowing C code? 13.1 
+Hinclude <stdio.h> 
+int main) 
+
+int main 330; 
+printf("d", main). 
+return 0: 
+
+1 
+A) Itwill cause a compile-time error 
+B) Itwill cause a run-time error 
+C) It will run without any error and prints 3 
+D) It will experience infinite looping 
+
+6 Which of the following is NOT true about pseudocode? 1.3.1 
+
+E) It uses natural language mixed with programming constructs 
+F) Itis not executed on computers 
+G) It helps in designing algorithms 
+H) It requires strict syntax rules like C 
+
+7 The following loop exccutes exactly 5 times: 2 2 2 2.1.2 
+forint i-0; ic5; i++)|/body 71 
+
+A) Truc, because itr uns from 0 to 4. 
+B) False, because it actually executes 6 times (0 to 5). 
+C) True, because condition allows only S iterations. 
+D) False, because loop never runs. 
+
+Fill in the blank so the while loop prints numbers from 0 to 4. 1 2 2 1 1.3.1 
+
+int i 0; 
+while )t 
+
+printf"%d ". i): 
+
+9 keyword is used to exit from a loop immediately? 2 2 2 2.1.2 
+A) continue 
+B) break 
+C) exit 
+D) return 
+
+10 Pick the correct staterment about the continue statement. 2 2 1.3.1 
+
+A) It skips the remaining statements in the loop and moves to 
+the next iteration 
+
+B) It terminates the loop immediately 
+C) Itis sed to exit fron a switch-case 
+D) Itends the program execution 
+
+
+SRM 
+SRM Institute of Science and Technelogy 
+
+College of Fngineering and TechnologY SETE 
+School ef Computing 
+
+SRM Nagar. Kattankolattur 603203. Chengslptt Diarict Tamilnaa 
+Academie Veari 2025-2026 (ODD) 
+
+Test: CTI 
+Course Code & Titie: 21CSSIOLJ Dates 24.09.2625 
+Year & Sem: I Year / LSSem Programming for Problem Solving Duration iPeriod 
+
+Max. Marks: 25 
+
+Part-B 
+
+(3x5-15 Marks) 
+Answer any three questions out of four: 
+
+In C languagc, illustrate how storage classes handle the variables, in 5 13.1 
+terms of scope and visibility. along with program code. 
+
+12 Write a pscudocode to convert Celsius to Fabrenheit temperature 3 13.1 
+Prompt the uscr to enter the temperature (in Celsius). Explain how 
+pscudocode makes it easy to translate the logic into a Cprogram. 
+
+13 An HR manager wants to automate the employce performance 3 2 1.3.1 
+
+evaluation process in C. The company follows this grading policy: 
+Score >90 Outstanding 
+
+Score 75 89 Excellent 
+Score 60 74Good 
+
+Score 40 59 Necds Improvement 
+Score < 40Poor 
+
+Hclp the IR manager, by writing a C program using an clse-if ladder 
+that accepts an cmployee's score as input and displays their 
+performance rating. 
+
+14 Ravi is building a small banking application in C. As part of his 5 3 2 1.3.1 
+
+projcct. he necds to implement a fcature whcre the digits of a 
+customer's account number must be reversed for cncryption before 
+storage (Eg: 1234 ’ 4321). Ravi decides to use a while loop to solve 
+this. Ilelp Ravi to solve this, using a C program. 
+
+Course Outcome (CO) and Bloom's level (BL) Coverage in Questions 
+
+Bloom's level Distribution 
+CO Distribution 
+
+BLS 
+
+COL CO2 COS CO COS 
+
+
+SRM Institute of Science 
+SRM and Technology 
+
+College of Engineering and Technology SET G 
+
+School of Computing 
+SRM Naga, Kattankulathur 603203, Chenpalpatu Diarict. Tamilnadu 
+
+Academic Vear: 202s-2026 (ODD) 
+Tet: CT Date: 2409.2024 
+
+Course Cede & Tle: 21CSSIoL Programming for 
+Vear &S em: tVear/ Sem Problem Selving DurationI Period 
+
+Mas. Marks 25 
+Coune Articutation Matris 
+
+S.Ne Course POI PO2 PO3 PO4 POS PO6 PO7 POS PO9 POIO POII POI2 
+Outeome 
+
+COT 
+CO2 3 
+CO3 
+COI 
+COS 
+
+Instructions: 
+MCQ sheet to be handed over to the faculty after the first 15 minutes, 
+MOBILE PHONES/ SMART GADGETS STRICTLY NOT PERMITTED. 
+
+. DO NOT WRITEor MARK anything in the Question Paper (Except Registration Number) 
+" Discussion with your classmates is considercd as MALPRACTICE, and it results in '0' Mark 
+" DO NOT BORROW anything (L.ike Caleulator. Pen, Pencil, Eraser ete.) from others. 
+.Follow proper dress code. ID card is mandatory. 
+. Question Paper should be submited along with Answer Booklet. 
+
+Course COuteomes (CO: 
+
+co: Solve problems through computer programming. Express the basic data types and variables in C. 
+cOZ: Use appropriate data types in simple data processing aplications. To create programs using the concept of 
+
+arrays. 
+Part- A 
+
+(1x 10- 10 Marks) 
+Multiple Choice Questions 
+
+Q. Question Marks BL CO PO PI 
+No Code 
+
+Evaluate and find the valuc of e in the expression: 1 1.3.1 
+inte$+ 8/4*3- 2; 
+
+A) 7 
+B) 9 
+C) 10 
+D) 8 
+
+2 What will be the output? 2 1 2 2.1.2 
+#include<stdio.he 
+int main() 
+
+int a6; 
+int b a--2; 
+printf("6d", b): 
+return 0; 
+
+
+B) 3 
+C) 2 
+D) -1 
+
+Guess the output of the below code: 1 2 1 1 13.1 
+
+#include<stdio.h> 
+int main0 
+
+double x-78.999: 
+printf("%2f. x)k 
+return 0:. 
+
+A) 78.99 
+B) 79.00 
+C) 78.90 
+D) Ernor 
+
+4 Predict the output of the following code snippet 2 1 13.1 
+int p I.q-0. 
+printf("%d %d, pt &&q.pk 
+
+A) 02 
+B) 12 
+C) 11 
+D) 01 
+
+5 The sizeof() operator in C returns: 1 1.3.1 
+A) Numnber of digits in a value 
+
+B) Size of memory in bits 
+C) Size of memory in bytes 
+D) Address of variable 
+
+6 The keyword used to definc a constant in C is 2 1 1.3.1 
+A) const 
+B) #definc 
+C) Both A and B 
+D) Neither A nor B 
+
+What will be the output of the following code snippet? 1 2 2 2 2.12 
+intxl0. 
+if(x<5) 
+printf("Hello"). 
+
+clse 
+
+printf("World")% 
+A) Hello 
+B) Wold 
+C) HelloWorld 
+D) No output 
+
+How many times, value of "i is checked in the following program 2 2 1 13.1 
+#include <stdio.h> 
+int main( 
+
+int i-0: 
+while (i<3) 
+
+printf ("ln while loopln"): 
+
+
+Part- B 
+(3x5-15 Marks) 
+
+Answer any three questions out of four: 
+11 Develop an algorithm, pscudocode and flowchart for finding the 2 13.1 
+
+factorial of the given number. 
+12 Write aC program that Swaps two variables without using temporary 5 3 1 L3.1 
+
+variables. 
+13 Fill thecode given and explain how the desired output will be 5 3 2 13.1 
+
+generated. 
+#include <stdio.h> 
+
+int main()0{ 
+int num, sum 0: 
+printf("Fnter a number: "): 
+scanf( .&num): 
+
+/Loop to find divisors 
+for(int i 1;i< 
+
+ifC 
+Sum m 
+
+if 
+printf("%d is a Perfect Number", num): 
+
+else 
+printf("%d is not a Perfect Number", num): 
+
+return 0: 
+
+
+A) 2 
+B) 1 
+C) 3 
+D) 4 
+
+Guess the output for following code snippet: 1 2 2 2 2.1.2 
+int x-3, 
+switch () 
+
+case 1: printf("A")% 
+case 2: printf("B"): 
+case 3: printf("C"); 
+default: printf("D"): 
+
+A) CD 
+B) C 
+C) ABC 
+D) BCD 
+
+Write the output for the following code snippet? 2 2 13.1 
+
+for (int i 1;ic 5, i) 
+if((3) continue: 
+printf("d. i: 
+
+A) 12345 
+
+B) 12 
+C) 1245 
+D) 345 
+
+
+SRM Institute of Science and TechnoloRy 
+SRM SET A 
+
+College of Engineering and Technology 
+Sehool of Computing 
+
+SRM Nagar, Kattankulathur-603203.Chengnipatu District. Tanilnadu 
+Academie Year: 2025-2026 (ODD) 
+
+Test: CTI Date: 24.09.2025 
+
+Course Code &Title: 21CSsiOLJ -Programming for Protlem Sotving Duration: I Period 
+Year & Sem: I Year /I Sem Max. Marks 25 
+
+Course Articulation Matrik: 
+
+S.No Cours PO1 PO2 PO3 PO4 POS PO6 PO7 POS PO9 PO10 POIT PO12 
+Outceme 
+
+COI 2 
+CO2 
+CO3 
+
+CO4 3 
+COs 
+
+Instructions: 
+" MCQ sheet to be handed over to the faculty after the first 15 minutes 
+. MOBILE PHONES /SMART GADGETS STRICTLY NOT PERMITTED. 
+. DO NOT WRITE or MARK anything in the Question Paper (Except Registration Number) 
+. Discussion with your classmates is considercd as MALPRACTICE, and it results in 0' Mark 
+. DO NOT BORROW anything (Like Calculator, Pen, Pencil, Eraser etc.) from others. 
+. Follow proper dress code. ID card is mandatory 
+" Question Paper should be submitted along with Answer Booklet. 
+
+Course Outeomes (CO: 
+COl: Solve problems through computer programming. Express the basic data types and variables in C. 
+CO2: Use appropriate data types in simple data processing applications. To create programs using the concept 
+
+of arrays. 
+
+Part - A 
+(1x 10- 10 Marks) 
+
+Multiple Choice Questions 
+Question Marks BL CO PO P 
+
+Q. Code 
+N 
+
+What is the default storage class of local variables in C? 13.1 
+
+A) static 
+B) auto 
+C) extern 
+
+D) register 2.1.2 
+2 What is the output of the following C code? 2 
+
+#include<stdio.h> 
+int main(0 
+
+int shifty: 
+shifty = 0570; 
+shifty = shifty >> 4; 
+
+
+shifty shifty <<6; 
+printt("The value of shifty is 9%o, shifty); 
+
+E) The value of shifty is l S00 
+F) The value of shifty is 4300 
+G) The value of shifty is $700 
+H) The value of shifty is 2700 
+
+3 The following three C language statements is equivalent 1 2 1 1.3.1 
+single statement? to which 
+yy+k 
+
+A) 2x y+2: 
+B) 2xt)+(44y): 
+C) z(xt+) +(yt+): 
+D) z(xt)+(ty) + 1: 
+
+4 Which of the following identifiers is invalid? 
+A) student 1 2 131 
+
+B) id 
+C) 9marks 
+D) firstName 
+
+5 Which statement is correct about string in C? 2 1 13.1 
+A) It isa keyword 
+B) it is stored as a character array ending with 0' 
+C) It can store numbers only 
+D) It has dynamic memory allocation by default 
+
+Which of the following produces compile-time eror? 1 1 131 
+A) 45 
+B) x+ 
+
++x 
+
+D) xt-l 
+7 What is the output of the following C code? 1 2 2 2 2.1.2 
+
+#include<stdio.h> 
+int main0 
+
+int k; 
+for(k=0; k< 20; k=k+ 2)( 
+
+if(k %3 = 1) 
+printt("%d", k): 
+
+) 
+A) 41 6 
+B) 4 10 16 
+C) 0612 18 
+D) |47 10 13 16 19 
+
+2 2 13.1 
+8 With respect to following "for" loops in C, pick the best statement 
+
+Assume that there is a prior declaration of '" in all cases 
+
+for (1 < 10; i=0; i++)//) 
+for (i<1 0; it+;i= 0) //( ) 
+
+
+for (=0;i < 10;i++) /I/ (H) 
+for (i = 0; t+;i<10) // (iv) 
+for (it+; i =0;i<10)// () 
+for (it*;i<0;i=10) //( v) 
+
+A) All the above for" loops would compile successfully 
+Except (iii), the behaviour of all thc other "for" loops 
+depend on compiler implementation. 
+
+B) Only (iii) would compile successfully. 
+C) Only (ii) and (iv) would compile successfully but 
+
+behaviour of (iv) would depend on compiler 
+implementation. 
+
+D) All the above for" loops would compile successfully. 
+2 2 2.1.2 
+
+wing C code? 1 2 
+What is the output of the follo
+
+#include<stdio.h> 
+
+int main(0 
+
+int index; 
+
+for(index= 1; index <=5; index+)( 
+printf("%d", index); 
+if (index 3) 
+
+continue: 
+
+A) 1245 
+
+B) 12345 
+C) 12245 
+
+D) 12354 2 2 13.1 
+ollowing statement is correct for switch controlling 
+
+10 Which of the f
+
+expression? 
+can be empty as well. 
+
+A) "switch" control expression 
+l expression. 
+
+B) Only int can be used in "switch" contro
+in "switch" 
+
+C) All types i.e. int, char and float can be used 
+
+control expression. 
+ in "switch control 
+
+D) Both int and char can be used
+
+expression.
+
+---
+
+## nexus sem 2/Programming For Problem Solving/PYQs/pyq txt/PPS CT1 Papers ALL SETS 2025.txt
+
+CATEGORY: PYQs
+STATUS: ok
+
+SRM Ins Techn 
+Enginceringand 
+
+College ofS choolof Computing Tamiadu 
+District. 
+
+SRM Chengalpattu 
+603203. 
+
+Kaltkulathur DD) Date: 24.09.2025 
+
+SRINgar. 2025- 2026 (O
+tion: I Period 
+
+Academic Year: Dura
+
+Max. Mlarks: 25 
+Solving 
+
+for Problem 
+Prooammino 
+
+Test: CTI 2CSSO 
+
+Course Code & Title: 
+ POI2 
+
+Year &S em: l ear /|S em
+POIO 
+
+PO9 
+
+Course Articulation Matui: PO8 
+PO6 P0 
+
+I'O rO) 
+
+S.No Corse 
+Outcome 
+
+2 
+
+CO) 
+
+CO4 
+
+(05 
+utes. 
+
+afterthe first 15 min
+Instrnctions: 
+
+NOTPERMITTED. 
+
+be handed overl ot he faculty 
+MCÌs hcet to STRICILY 
+
+SMARIGADGLIS istration Number) 
+
+MOBILI PHONLS Qu s ion Paper (Except Reg
+Mark. 
+
+ results in '0' 
+DON OT WRUEor MARK anyt hingi n the e t
+
+MALPRACTICE, and it
+nsidered as s. 
+
+es is co f
+Discussion with your cdassnmat
+
+ Caleulator, Pen, Pencil, Eraser etc.) rom other
+
+DO NO BORROW anvthing (Like
+ory. 
+
+Follow properd ress code. |D card is mandat
+
+itted along with Answer Booklet. 
+
+Question Paper should be subm
+
+types and variables in C. 
+Course Outcomes (CO): ncept of arrays. 
+
+ramming. Express the basic data 
+ams using the co
+
+gh computer prou
+
+CO1: Solve problems throu ng applications. To create progr
+
+ta types in sinple data processi
+
+CO2:Use approprhate da Multiple Choice Questions 
+Marks BL CO PO PI 
+
+Part- A (1x 10 = 10 Marks) Code 
+Question 
+
+Q. 1 1.3.1 
+1 1 
+
+No 
+Which operator has the lowest priority? 
+
+A) +t 
+B) % 
+C)+ 1 2.1.2 
+
+1 2 
+tructure of a C program? 
+
+Which of the following is the correet s
+
+AY int main() { return 0; 
+B) main() { return 0;r 
+
+C) void main() { return 0; 
+int main() {} 2 1.3.1 
+
+D) 
+lid constant in C? 
+
+Which of the following is not ava
+
+A) 'A' 
+B) 123 
+C) "Hello" 
+
+1 1 1.3.1 
+Y main 
+
+Which storage class in C is used to decjare variables that are local to 
+
+a function and retain their values between function calls? 
+
+A) auto 
+B) register 
+
+g static 
+D) extern 2 1 1.3.1 
+
+5 If int x=4:, result of x<<| is: 
+2 
+
+B) 8 
+C) 6 
+D) 10 
+
+6 ht in C? 1 1 1 1 1.3.1 
+Which of the following is av alid single-line comme
+
+A), /* This is acomment */ 
+BX I/ This is a comment 
+
+C) #This is acomment 
+D) <-- This is a commnent -
+
+
+brcak 
+
+break 
+
+byeak 
+defanlt rintfDefault ). 
+
+One 
+
+O Three 
+D) Emor 
+
+1What will be pinted for the code snippet: 1 L3.1 
+
+fori 0,i< $;it). 
+printf("%od", i): 
+
+B) 4 
+
+D) Garbage value 
+How many times will "C Programming" be printed? 1 2 2 2 2.1.2 
+
+#include <stdio.h> 
+int main() { 
+
+int k = 2: 
+do { 
+
+printf("C Programmingn"): 
+k--; 
+if(k == 0) 
+
+goto stop; 
+}while(k>-l); 
+
+stop: 
+return 0:; 
+
+A), One time 
+Two times 
+
+C) Three times 
+D) Infinite times 
+
+10 Guess the output of the following output: 2 1 1.3.1 
+
+#include <stdio.h> 
+int main(){ 
+
+int a = 5, b=0, 
+ifla&& b) 
+
+printf{"Trueln"): 
+eise 
+
+printf("Falseln"): 
+return 0: 
+
+YTrue 
+B) False 
+C) Compilation error 
+D) No output 
+
+
+SRM Instituteof Science and Technology SET C 
+
+CSRM College of Engineering and Technology 
+School of Computing 
+
+SRM Nagar, Kattankulathur-603203. Chengalpattu District, Tamilnadu 
+Academie Year: 2025-2026 (0DD) 
+
+Test: CTI Date: 24.09.2025 
+
+ourse Code &T ite: 21CSStO1J -Programming for Problem Solving Duration: 1Period 
+Year & Sem: 1 Max. Marks: 25 
+
+Year / I Sem 
+
+Part - B 
+(3 x5= 15 Marks) 
+
+Answer any three questions out of four: 
+11 Write a program to illustrate the difference between logical and 5 2 1 13.1 
+
+bitwise operators in C. 
+12 A robotics project requires checking whether a number is odd or even 5 3 1 1 13.1 
+
+using only bitwise operators. Write aC program for the same. 
+13 An amusement park has three types of rides based on height. Manya 5 3 2 1 1.3.1 
+
+wants to know if she can g0 on the Adventure Ride. Her height is 140 
+cm. Write a C program to decide her eligibility. 
+Conditions: 
+
+" Eligible for Giant Ride, if height >= 160 cm 
+" Eligible for Adventure Ride. if height >= 120 cm and < 160 cm 
+" Eligible for Kids Ride, if height < 120cm 
+
+14 A developer is assigned the task of implementing a key feature for a 3 2 13.1 
+
+mobile calculator application. The application should provide users 
+with the ability to select an arithmetic operation-such as addition, 
+subtraction, multiplication, or division-and perform that operation on 
+two user-input numbers. The developer is required to write a program 
+in Cthat utilizes a switch statement to construct this simple calculator 
+functíonality, enabling users to choose their desired mathematical 
+operation. 
+
+Course Outcome (CO) and Bloom's level (BL) Coverage in Questions 
+
+CO Distribution Bloom's Level Distribution 
+
+20 
+
+15 S BL1 
+BL2 
+
+10 
+O BL3 
+O BL4 
+
+BL5 
+
+CO1 CO2 C03 CO4 CO5
+
+---
+
+## nexus sem 2/Programming For Problem Solving/PYQs/pyq txt/PYQ Jan 2023.txt
+
+CATEGORY: PYQs
+STATUS: ok
+
+Reg. No. oloa| o o5| 
+
+B.Tech/ M.Tech (Integrated) DEGREE EXAMINATION, JANUARY 2023 
+
+First Semester 
+
+21CSS101J-PROGRAMMING FOR PROBLEM SOLVING 
+ 
+
+(For the candidates admitted from the academic year 2022-2023) 
+
+Note: 
+) Part A should be answered in OMR sheet within first 40 minutes and OMR sheet should be handed 
+
+over to hall invigilator at the end of 40th minute. 
+
+Part- B and Part - C should be answered in answer booklet. 
+(ii) 
+
+Max. Marks: 75 
+Time: 3 Hours 
+
+Marks BL CO PO 
+PART A (20 x 1 = 20Marks) 
+
+Answer ALL Questions 
+1. Find the output for the following statement. 
+
+printf ("%d", sizeof ("Hello "); 
+(A) 5 (B) 6 
+
+C) 1 (D) 2 
+
+2 1 1 
+2. What is the output for the following expression in C? 
+
+n =5-2*7-9: 
+(A) -18 (B) 12 
+(C) 9 (D)1 
+
+2 1 1 
+3. Determine the correct output. 
+
+float c = 3.14; 
+
+prinf ("f, c%2); 
+(A) 1.0 (B) 0 
+C) Compile error (D) 0.14 
+
+2 2 
+4. Find the meaning of following statement: 
+
+f=(xv)? x :y; 
+(A) fpoints to max of x & y (B) fpoints to min ofx &y 
+(C) fpoints to addition of x & y (D) Compile error 
+
+5. The 'continue' statement cannot be used with I 21 
+(A) while (B) do while 
+(C) for (D) switch case 
+
+6. Find the correct one to access the 3 element in an array. 12 I 
+(A) *a+3 (B)(a +3) 
+(C)*(*a +3) (D) &(a +3) 
+
+7. Find the output for the following C code. 22 2 
+for( K 1; K< = 5; K+ +); 
+
+printf ("od", K); 
+
+(A) 1 2 3 45 (B) 1 23 4 
+
+(C) 6 (D) 5 
+
+Page 1 of 4 06JF1/21CSS101J 
+
+
+S. Size of integer pointer and character pointer in C for 16 bit processor is 
+(A) 2 (B) 2 
+(C) 4 (D) 4 
+
+9. Expected output for the following code is 2 3 2 
+
+charstr [] ={'g'. T, 'o', b' 10, 'a', T}; 
+printf ("as", str);: 
+
+(A) global (B) glob 
+(C) globloal (D) al 
+
+T0. The operator used to get value at an address stored in a pointer variable is 2 3 
+
+(A) (B) & 
+(C) && (D) 
+
+11. The keyword used to transfer the control from a function back to the 4 
+
+calling function in C is 
+(A) goto (B) back 
+(C) retum (D) goback 
+
+12. If both the strings are same, a string function strcmp( )returns 4 
+
+(A) 1 (B)-1 
+(C) 2 (D) 
+
+13. Keyword used for function in Python language is 
+(A) function (B) def 
+(C) fun (D) define 
+
+14. The following python code will print 2 2 
+
+print (ype (5/2)) 
+print (ype 5//2)) 
+
+(A) float int (B) float float 
+(C) int float (D) int int 
+
+2 2 
+15. Find the length of the following list in python 
+
+len (["hello", 2, 4. 6]) 
+(A) 8 (B) 6 
+(C) 4 (D) 3 
+
+1 5 
+
+16. Representation of python tuple is 
+
+(A){} (B) {1,2, 3} 
+(C) [1,2, 3] (D) (1,2, 3) 
+
+1 5 
+
+17. Number of elements present in the series S1 is 
+SI = pd.series (range (1, 6)) 
+
+print(Sl) 
+(A) 4 (B) 
+(C) 6 (D) 7 
+
+18. Numpy is often used along with packages like 
+(A) Node.js (B) Matplotlib 
+
+(D) Both (B) and (C) 
+(C) SciPy 
+
+06JF1/21CSs101J 
+Page 2 of 4 
+
+
+19. Size attribute in Numpy is used to find 
+(A) shape (B) date and time 
+(C) objects (D) number of items 
+
+20. Library used to create data frame is 
+(A) Sklearn (B) Data frame 
+(C) Pandas (D) Random 
+
+PART B (5 x 8 =40 Marks) Marks L cO PO 
+
+Answer ALL Questions 
+
+21. a. Describe various storage classes in C programming with suitable example. 2 
+
+(OR) 
+b. Describe about 3 2 
+
+pre-increment, post-increment, pre-decrement, 
+post-decrement, conditional operators, cach with suitable example. 
+
+22. a.i. Write a C program to find the factorial of a given number. 2 
+
+ii. Write the necessary conditions for switch-case in C. 4 2 2 
+
+(OR) 
+b. Explain about 4+4 2 2 
+
+) void pointer with an example in C 
+
+(ii) NULL pointer with an exanple in C 
+
+23. a. Write a C program to find whether the given string is palindrome or not. 8 4 3 2 
+
+Explain the string functions used in this program. 
+
+(OR) 
+b. Explain the concept of passing the aray as an argument to function. 4 4 2 
+
+Illustrate with C program to find the sum two matrices. 
+
+24. a. Describe any four operations performed on tuples in Python programming. 5 2 
+
+(OR) 
+b. Write a Python program to print the following Floyd triangle. 5 2 
+
+2 3 
+4 56 
+
+25. a.i. Explain the significant features of the pandas library 4 4 5 2 
+
+ii. Write a Python program to create a Numpy array filled with all zeros. A 5 2 
+
+(OR) 
+b.i. List out various features of Numpy. A 
+
+1. Describe about the different types of data structures in pandas. 
+
+Page 3 of 44 06JF1/21CSSi01J 
+
+
+-
+
+eGrat 
+
+MArks 91. CO 
+
+PART C (1 x 15 =15 Marks) 
+Answer ANY ONE Question 
+
+32 2 
+
+26.i. The National Highways Department announces a scheme for four whceler 
+
+riders in the toll gate for its 50th year celebration. If the vehicle number is 
+
+divisible by both 7 and 3, then they should pay one-third of the fec. If the 
+
+vehicle number is divisible by 7 or 3, then they should pay half of the fee. 
+
+Otherwise they have to pay full fees. Write a C program for the given 
+
+Scenario. 
+
+7 3 32 
+
+ii. Writea C program to replace all vowels with star (*) and print the output 
+8 4 2 
+
+27.i. Write a Python program to check whether the given list is in sorted order or 
+
+not. If the given list is in sorted order then print true, else print false. 
+
+4 5 2 
+
+i. Write a python program to create two sets Setl and Set2 by getting input 
+from user and determine whether the given sets Setl and Set2 are disjoint 
+or not. 
+
+*** *
+
+---
+
+## nexus sem 2/Programming For Problem Solving/PYQs/pyq txt/PYQ Jun 2023.txt
+
+CATEGORY: PYQs
+STATUS: ok
+
+Reg. No A 
+BTech/ M.Tech (ntegrated) DGREE ENAMINATION, UNE 2023 
+
+'iat & Necond Nenester 
+Z1CSST01|-PROORAMMING HOR POLEM tiOLVIN 
+
+Note: (For the condidates dniued iom the comte 
+() Part - Nhould tbe AAWered in OMR heet witlbin iet 40 mimes and OMI shee ahould be handed 
+
+(ii) over to hall invigilator at the ond of 4oh nimte. 
+Part -B And PartC ahould be anawered in anawer booklet 
+
+Mux, Marks; 75 
+Time: 3 Hours 
+
+PARTA (20 x1 20Murlw) 
+Annwer ALL Queations 
+
+I The CxprcNsion 4+ 6/3* 2 2 +7 %3 ovaluates t) 
+(A) 3 (B) 4 
+(C) 6 (D) 7 
+
+2. Which of the following is appropriate position for writing comments in C 
+
+programming? the main 
+(B) Before calling 
+
+(A) Anywhere in the code function 
+(D) Beford Variable declaration 
+
+(C) Before hender file scction 
+NCction 
+
+3. Which is corcct with rCspect to the sizc of the data types? 
+(B) int >c har > loat 
+
+(A) char > int > ont (D) double char>i nt 
+(C) char< int< double 
+
+4. Which of the following is not logical opcrntor? 
+(B) &R 
+
+(A) && (D) ! 
+(C) | 
+
+5. What would be the cquivalent point cxpression for referring the arny 
+
+clement alilL|A|/] 
+(B) (*(*(*a+ )+ ) +k) +l) 
+
+(A) (((a +I ) +/ ) +k ) +1 ) 
+(C) ((a+)+)+k+) (D) (a+i)+j+k*) 
+
+6. Which of the following cannot be checked in a switch-casc statement? 
+
+(A) Character (B) Integer 
+(D) Enum 
+
+(C) Float 
+
+7. What is the output of thef ollowing program? 
+# include <stdio.h 
+int main () 
+
+int a 
+switch (a) 
+
+Pege l f 4 
+
+
+15. 
+14. . 
+
+6 ) 12. 
+(C) ,4S](u 2(,pAp ose (C) 11. 10. 
+
+C(A)h oose -py-p(ty0 h) on( A)W ich (C) (A) Choose (C)2212553(A4)2 5 
+[1,3,2, mutablei <s#tdinicolu.hd>e WhRSat eefuclfunfrcustinivoc(eCn)t i o(An) A 9. 
+
+T sartuesp lmesu table iu(tAcn)hoctio n Tihe s (C)for w(Ah)idle oh A
+[ HCge h haarry The B Bot CDouEt(CFp) uNGt H(A) o 
+
+listl the Strin
+of ]= lalora.c.t.e!r" ; c
+
+a returm function b(aCSc) Gkw f
+p 0rin;tf =b;in*t pin t { is 
+
+the correct b the keyword keyword ("EFGpHrin"t)f; 
+1,3, is are tuplceos rrect following size ("%d = 
+[ 25; output which 
+21,)3 ,2), 
+
+immutable is
+a rray, 
+
+not statement 'break (ABCDp"r)in; tf 
+option %d", |/ 
+and b of calls 
+
+used 
+m memory 
+iesn tioned ary C to 
+
+b, program? itself transfer cannot what lists with the is 
+a about p); 
+
+is respect correct string 
+while loca1t2io34n; = calleda be 
+
+listl (Ba)r e control simply 
+string. C 
+
+(D) (B) * (D) tot (eD)x tpen(B )ps ioln (D) (B) Compeilr(erDor)r (B)205 funcSfuttianotcni(Dct )Ai ount(oB ) Retur(nD) Got(oB) 
+from whi(lDe) (eBls)e iCfo mpile(rDE )F GH(B) 
+
+2? used 
+[1,3. (1i,m mutabilmeasrem utable pByotthh o characte
+
+Tuples linsts? Srtsr ing end ary 
+3, a within 
+
+of has function 
+2, 2, e tuplesa nd the 
+3, ar cannot no error 
+21,3,] python null back 
+1J mutable 
+
+ie: containc haracter to 
+
+while the 
+
+special caling 
+at 
+
+tests are the 
+1 131 1 
+
+O1JEISI.1CSU 1 
+1 131 
+
+1 3 
+3 I 
+1 
+
+
+25. 24. 23. 22. 21. 
+a. b. a. 
+
+20. 
+and b. a. Write b. a. b. a. 19. 18. 17. 16. 
+
+Write Write ExplavianlDu ebiffyer entiate biggestW rite Write example. List dtypDe(sCty ) pe(sA ) Whoicfh PandPa(yCs) t ho(AWn) hNipchur omgNerarumimcpaeeyl( C rt) ihcoan(Al ) What (C) (A) What (C)!=W(A ) hi&ch Wthriet e each 
+short the down 
+
+number a 
+suitable column of library 
+
+does [5, [[22, p:r5i]n)t (aim poar t a a = is the of 
+input various with program C 
+
+6, 3, np. these 
+program C the notes various Numpy 7] 4) numpayo utput 
+
+ 
+and suitable 
+
+a getchar followiinng is range
+among is 
+
+on data program C PART-B storage data to 
+be stand 
+
+not 
+to (10) as of numpy output QueAsntisowAnLeLsr types (), to 
+
+compute npth e a 
+bit 
+
+example: the get fraamtter?i imported 
+putchar bute for? following 
+
+functions three 3 array in to classes 
+wise 
+
+(5 
+(OR) (OR) (OR) numbers 
+
+python the (OR) explain (OR) 
+using x 
+
+attributes. 8= of for operator? 
+call () 
+
+with sum in creating code? 
+in with if the C. d4at0aty pDeT(sD)y pes(B ) 
+
+data Random(D) frDama(tBae) NonlpinytehNao(pDran)y t tuhroa(nBl) (2,4(D,) 6](B) (D)<=(B&) = 
+python as 
+
+of 
+the condition. 
+
+suitable a input pre Explain Marks) frame 
+example. data [0, 
+
+first and js 1, 
+with from 
+
+post about used frame? 2] 
+
+example. referencec.abll y C 10 programming natural inthec rement 
+storage to 
+
+user display 
+numberS. and 
+
+operator. class print data 
+
+the with ype 
+Marks 1 1 
+
+8 8 8 8 8 
+BI. 
+
+I32 1 
+12I 1 2 
+
+CO 
+4 3 2 1 51 
+
+1 PO 
+1 
+
+
+27. 26. b. 
+mchufalolrwttiD. pelyv elop draw 10K% a3n5%n an's Explain 
+
+the of of 
+the basic
+
+a flow b asic with 
+basic 
+
+C 
+prolagstr am chsaartl asryal. ary, 
+
+an 
+salary example 
+
+digit 
+anWd ritheo use AnswePrA RT 
+
+and algotroit hm. 
+is 
+
+given numpy 
+second read raent -C(1x15 
+
+ap raollgorawma ncCe as ANY 
+indexing. 
+
+lastt hree input 
+ONE 
+
+digit. 
+digit tthoro ugh is =15 
+
+calculate Q uestion 
+27% 
+
+Anulsmo ber Marks) 
+ofth e 
+
+write kehibsy absioca rd. 
+
+the from grosassl ary, 
+algorithm the salary. His 
+
+user and 
+TAD.A 
+
+Also 
+and and is is 
+
+Marks 
+
+15 15 
+PCBOoL 152 
+
+222 2 
+1 
+2
+
+---
+
+## nexus sem 2/Programming For Problem Solving/PYQs/pyq txt/PYQ Nov 2018.txt
+
+CATEGORY: PYQs
+STATUS: ok
+
+31. a.i. List the advantages of uniting function in C programming.
+
+ii. Define preprocessor and its directives with suitable exampres.
+
+(oR) B.Tech. DEGREE EXAMINATION, 
+b.i. NOYEMBER 
+
+Define pointer. 2018
+( Marks) First Semester
+
+ii. Write aprogftlm to e4plain tle usage ofpointer. (8 I 8CSS 
+Marks) I O l J _ PROGRAMMING FOR PROBLEM SOLVING
+
+(For the candidates admitted during the academic year 
+32. a.i. Explain dynamic memory allocation in Notei zoia-r-"*araJ
+
+detail. (8 Marks) (i) Part - A should be answered in oMR sheet within first 45 minutes and 
+over oMR 
+
+ii. Explain Stucture within to hall 
+Structure. invigilator sheet shoutd be handed
+
+at the end of 45fi minute.
+(a Marks) (i0 Ihrt - B and Part - C should be answered in answer booklet.
+
+Time: 
+write Three 
+
+b.i. Hours
+aprogram to urite ,Hello worrd,toot}-o, ur". Max. Marks: 100
+
+u. Discuss all file opening modes in c programming PART-A(20x1=20Marks)
+language with respect to file handring. AnswerALL euestions
+
+1. Who is the fatherofC langu4ge?
++**,t* (A) Bjame Stoustrup
+
+(C) @) James A.Gosling
+Dennis Ritchie @) Dr.E.F.Codd
+
+2. In C programming languagq which of the following type of operators 
+precedeirce. have the highest
+(A) Relational operators (B) 
+(C) Equality operators
+
+Logical operato,rs @) Arithmetic opemtors
+
+3. Bitwise operators can operate upon?
+(A) Doubte and chars
+(C) @) floats and doubles
+
+ints and floats (D) ints and chars
+
+4. What type of value does ,.size of'retum?
+(A) Char (B)
+(C) Short
+
+Unsigned int (D) Long
+
+5. Relational operators cannot be used on
+(A) Strucrure -l; 
+(C) Srings rorg
+
+6oj rroai
+
+6. What is the type of the berow assignment expression 
+y ifr 
+
+=x+ y; is of type flaat,yis of type int?
+(A) int 
+(C) @) float
+
+There is no type for an assignment (D) double
+expression
+
+7' which keyword is used to come out of a loop 
+(A) Break onry-C foonr titnhuaet iteration?
+
+(C) Return tel 
+1ny f"r*inrt"
+
+8. In cxpression i - gO +,fO, first firnction called depends on _.
+!t] Compiler (B) 
+(C) Associativib, ( 
+
+PrecedenceofO.and+operator ) operator
+iOi f"ttorigtioitd"fJ Jrpor"ion
+
+Page 4 of4
+2ONFU IECSS1O1J Page I of ,l
+
+20M:1/ltcsslou
+
+
+PART-B (5 x 4=2A Marks)
+9. Set of consecutive memory location is called as
+
+L*p Answer AI{Y FM 
+(A) Questions
+
+Function (B)
+(C) Array (D) Pointer
+
+21. Explain the structure of a C program-
+
+10. Array with last element'n' will always have array size equal to
+(A) . Defme pseudo code and mention the advantage'
+
+n (B) n+r 22
+(C) n-l (D) n+l
+
+23. What are the differences between L value and R value in expression?
+
+11. If the two strings are identical, then strcmp ( ) function retums'
+(B) "continue" statement?
+
+(A) I 0 24. what is the difference between a "breako' and 
+
+(c) -l (D) True
+25. Differentiate between "call by value" and o'call by reference"'
+
+12. String concatenation means eters-
+(A) Combining two strings (B) Extracting a substring out of a string 26. What is parameter? Mention the difference between formal and actual param
+
+(C) Partitioning the string into two (D) Comparing the two strings to define the
+larger one 27. Writethe difference between union and structure'
+
+strings
+
+PART-C(5x12=60Marks)
+13. A preprocessor command
+
+(A) art on a new line (B) Need not start on the first column AnswerALL Questions
+Need not st
+
+(C) Has # as the first character @) Comes before the first executable statement
+28- a.i. write the algorithm and pseudo code that takes mimrtes as input and displays the total
+
+14. aParameter of another function? number of hours and minutes.
+Can we use a function as 
+(A) Yes, and we can use the function (B) Yes, but we call the function again to get
+
+ent subjects are input through the keyboard,
+value conveniently the value, not as convenient as in using ii. Ifthe marks obtained by a student in six differ
+
+write a C program to frnA out the aggregate marks and percentage marks obtained by the
+
+(C) No, C does not suPPort it (D) This case is comPiler
+
+(oR)
+15. Address stored in the pointer variable is of type (8 
+
+(A) (B) b.i. Analyze the various storage classes in c with suitable examples. Marks)
+Integer Floating
+
+(C) Array (D)- Character
+ii- Write a C program to get two numbers as input from the user, then perform Bitwise-AND
+
+t6. pointer declarations? int * ptr, p; and Bitwise-OR and print the results. (4 Marks)
+Comment on the following 
+(A) ptr is a pointer to integer, p is not (B) ptr and p, bojh are pointers to integer
+
+ ptr and p both are not pointers to integer 29. a. Analyze the C programming operator precedence and associativity with suitable examples.
+iCi i* is pointer to intiger, p may or (D)
+
+may not be (oR)
+17. How will you free the allocated memory?
+
+name); (B) b. Explain the various decision making statements in C with an example for each'
+(A) remove (var- free (var-name);
+(C) delete (var-name); (D) dalloc (var-name);
+
+30. a. write the purpose of following functions with suitable examples
+(i) getso
+
+18. What is the similarity between a structure, union and enumeration?
+(A) All of them let you define new (B) Allofthemletyoudefinenewdatatypes (ii) getcharo
+
+(iii) puts ( 
+values )
+
+(c) All of them let you define new @) Allofthemletyoudefinenewstructure (iv) putchar ( )
+(") strleno
+
+pointers (vi) strcpy ( 
+19. If there is any error while opening a file, fopen will retum )
+
+(A) Nothing (B) EOF
+(C) Null (D) (oR)
+
+Depends on comPiler
+i b. Write about
+
+20. FILE reserved word is (i) Recursion function with an example
+(A) A structure tag declared in stdio.h (B) One of the basic data tYPes in C (ii) Function definition with an example
+(C) Pointer to the struchre defined in (D) It is a type name defined in stdio.h
+
+stdio.h 20NF1/ r8CESl0lJ
+20Nr1/ ltcssl0lJ Pagc 3 of ,l
+
+Page 2 of ,l
+
+---
+
+## nexus sem 2/Programming For Problem Solving/PYQs/pyq txt/Question Bank with MCQs.txt
+
+CATEGORY: PYQs
+STATUS: ok
+
+PROGRAMMING FOR PROBLEM SOLVING 
+
+Unit 1 
+
+Multiple Choice questions MCQ 
+ 
+
+1. Who is father of C Language? [CLO 1] [PLO1] 
+A. Bjarne Stroustrup B. Dennis Ritchie 
+C. James A. Gosling D. Dr. E.F. Codd 
+
+2. C Language developed at _____? [CLO 1] [PLO 1] 
+A. AT & T's Bell Laboratories of USA in 1972 
+B. AT & T's Bell Laboratories of USA in 1970 
+C. Sun Microsystems in 1973 
+D. Cambridge University in 1972 
+
+ 
+3. For 16-bit compiler allowable range for integer constants is ______ ? [CLO 1] [PLO 2] 
+
+A. -3.4e38 to 3.4e38 
+B. -32767 to 32768 
+C. -32768 to 32767 
+D. -32668 to 32667 
+
+4. C programs are converted into machine language with the help of [CLO 1] [PLO 1] 
+A. An Editor 
+B. A compiler 
+C. An operating system 
+D. None of the above 
+
+5. A C variable cannot start with [CLO 1] [PLO 1] 
+A. An alphabet 
+B. A number 
+C. A special symbol other than underscore 
+D. both (b) and (c) 
+
+ 
+6. Which of the following is allowed in a C Arithmetic Instruction? [CLO 1] [PLO 1] 
+
+A. [] 
+B. {} 
+C. () 
+D. None of the above 
+
+7. Which of the following shows the correct hierarchy of arithmetic 
+ operations in C [CLO 1] [PLO 2] 
+
+A. / + * - 
+B. * -/ + 
+C. + - / * 
+D. * / + - 
+
+8. Program which is written originally by the programmer is classified as [CLO 1] [PLO 1] 
+
+A. object code 
+
+B. machine code 
+
+C. source program 
+
+D. interactive programs 
+
+
+9. Data types are differed on the basis of [CLO 1] [PLO 1] 
+
+A. the way of storage 
+
+B. the type of operations 
+
+C. the type of operators used 
+
+D. both a and b 
+
+10. Loop statement which is repeated for some given number of times is classified as [CLO 1] 
+
+A. FOR loop 
+
+B. GO loop 
+
+C. REPEAT loop 
+
+D. GO REPEAT loop 
+
+11. Type of statement written in sequence and is repeated until the specific condition met is 
+classified as [CLO 1] [PLO 1] 
+
+A. format 
+
+B. loop 
+
+C. case 
+
+D. condition 
+
+12. Size of an array is declared by [CLO 1] [PLO 1] 
+
+A. programmer 
+
+B. program users 
+
+C. software 
+
+D. declared automatically 
+
+13. Programming language 'FORTRAN' stands for [CLO 1] [PLO 1] 
+
+A. formula translator 
+
+B. formula translation 
+
+C. free translator 
+
+D. free translation 
+
+14. Functions that are used in the programs and are defined by the programmers are called 
+ [CLO 1] [PLO 2] 
+
+A. program layout 
+
+B. program procedure 
+
+C. built-in functions 
+
+D. user-defined function 
+
+ 
+
+
+15. An assembler translates [CLO 1] [PLO 1] 
+
+A. machine code into assembly code 
+
+B. assembly code into machine code 
+
+C. processing time into manual time 
+
+D. routine into subroutine 
+
+16. Name given by a programmer to any particular data is classified as [CLO 1] [PLO 1] 
+
+A. identifier 
+
+B. identification 
+
+C. exponent 
+
+D. mantissa 
+
+17.When variable used in program is whole number, the variable is stored as [CLO 1] [PLO 2] 
+
+A. fixed string 
+
+B. integers 
+
+C. negative whole numbers 
+
+D. positive whole numbers 
+
+18. In programming, programmers use comments to [CLO 1] [PLO 1] 
+
+A. highlight program modules 
+
+B. explain module functions 
+
+C. explain used variables 
+
+D. all of above 
+
+19. Variable which uses the same name in whole program and in its all routines thus best classified 
+as [CLO 1] [PLO 2] 
+
+A. middle variable 
+
+B. default variable 
+
+C. local variable 
+
+D. global variable 
+
+20. Statement which is used to make choice between two options and only option is to be performed 
+is written as [CLO 1] [PLO 2] 
+
+A. if statement 
+
+B. if else statement 
+
+C. then else statement 
+
+D. else one statement 
+
+ 
+
+
+21. The__________ statement is used to transfer the control to the end of statement block in a loop: 
+
+a. Continue [CLO 1] [PLO 2] 
+b. Break 
+c. Switch 
+d. Goto 
+
+22. Which of the following is not a valid variable name declaration? [CLO 1] [PLO 2] 
+ a) int _a3; 
+ b) int a_3; 
+ c) int 3_a; 
+ d) int _3a 
+
+23. All keywords in C are in [CLO 1] [PLO 2] 
+a) LowerCase letters 
+b) UpperCase letters 
+c) CamelCase letters 
+d) None of the mentioned 
+ 
+
+24. Which of the following is true for variable names in C? [CLO 1] [PLO 2] 
+a) They can contain alphanumeric characters as well as special characters 
+b) It is not an error to declare a variable to be one of the keywords(like goto, static) 
+c) Variable names cannot start with a digit 
+d) Variable can be of any length 
+ 
+
+25. The format identifier ‘%i’ is also used for _____ data type? [CLO 1] [PLO 2] 
+a) char 
+b) int 
+c) float 
+d) double 
+ 
+
+26. Which of the following is a User-defined data type? [CLO 1] [PLO 3] 
+a) typedef int Boolean; 
+b) typedef enum {Mon, Tue, Wed, Thu, Fri} Workdays; 
+c) struct {char name[10], int age}; 
+d) all of the mentioned 
+ 
+
+27. What is the output of this C code? [CLO 1] [PLO 3] 
+
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. signed char chr; 
+5. chr = 128; 
+6. printf("%d\n", chr); 
+7. return 0; 
+8. } 
+
+
+a) 128 
+
+b) -128 
+
+c) Depends on the compiler 
+
+d) None of the mentioned 
+
+28. What is the output of this C code? [CLO 1] PLO 3] 
+
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. j = 10; 
+5. printf("%d\n", j++); 
+6. return 0; 
+7. } 
+
+ a) 10 b) 11 
+
+c) Compile time error d) 0 
+
+Explanation : j is not belongs to any data type 
+
+29. The following code ‘for( ; ; )’ represents an infinite loop. 
+
+ It can be terminated by. [CLO 1] [PLO 3] 
+
+ a) break b) exit(0) 
+
+ c) abort() d) all of the mentioned 
+
+ 
+30. The keyword ‘break’ cannot be simply used within: [CLO 1] [PLO 3] 
+ a) do-while b) if-else 
+ c) for d) while 
+
+ 
+31. Which keyword is used to come out of a loop only for that iteration? [CLO 1] [PLO 3] 
+ a) break b) continue 
+ c) return d) none of the mentioned 
+32. The first step in problem solving is --------------- [CLO 1] [PLO 2] 
+
+a) Understand the problem c)Identify the problem 
+b) Developing algorithm/Flowchart d)Listing the possible outcome 
+
+33. The solutions which has series of actions to solve a problem are called ------ [CLO 1] [PLO 2] 
+a) Heuristic solutions 
+b) Algorithmic solutions 
+
+34. The solution can be reached by completing the actions in steps. These steps are called [CLO 1] 
+[PLO 2] 
+
+a) Sequence c)Algorithm 
+b) Flowchart d)Steps 
+
+35. Solutions that cannot be reached through a direct set of steps are called --------- [CLO 1][PLO 2] 
+a)Algorithmic solutions b) Heuristic solutions 
+
+
+36. ----------- means the outcome or the completed computer-assisted answer. [CLO 1][PLO 1] 
+ a) Solution b) Result c) Program 
+37. The field of computer that deals with the problem of heuristic solution is called-----[CLO 1] 
+[PLO1] 
+
+a) Artificial Intelligence 
+b) Expert System c) Computer Management 
+
+ 
+38. ----------------- means the set of instructions that make up the solution after they have been coded 
+into a programming language. [CLO 1] [PLO1] 
+
+a) solution b) result c) program d) error 
+ 
+39. ---------------- are organized facts. [CLO 1] [PLO1] 
+
+a) Data b) Information 
+ 
+40. A language applied for wide range of application is called as ______language[CLO 1][PLO 2] 
+
+a. Special purpose c)General purpose 
+b. Individual purpose d)Scientific purpose 
+
+ 
+ 
+41. Compiler converts the source code into ______ [CLO 1][PLO 4] 
+
+a. C code b. Byte code c. Object code d. Executable code 
+ 
+42. ___________ converts source code to machine language one line at a time. [CLO 1][PLO 4] 
+
+a. Compiler b. Interpreter c. Assembler d.CPU 
+ 
+43. The program that converts high level language to a machine language is called __________ 
+
+[CLO 1] [PLO 1] 
+a. Interpreter b. Linker c. Compiler d. Loader 
+
+ 
+ 
+44. ‘#’ symbol is known to be ______ [PLO 2] [CLO 1] 
+
+a. Linker b.Compiler c. Assembler d.Preprocessor directive 
+ 
+45. A _______ is a notational system for describing computations in both machine and human 
+readable form [PLO 1] [CLO 1] 
+
+a. Programming language c.Machine language 
+b. High-level language d.Assembly language 
+
+ 
+46. ----------------- program converts assembly language into machine language [PLO 2] [CLO 1] 
+ a. compiler b. interpreter c. assembler d. preprocessor directive 
+ 
+47. which symbol is been used for processing in flowchart? Ans: a [CLO 1] [PLO 3] 
+ 
+a) b) c) d) 
+ 
+ 
+ 
+48. which symbol is been used for input/output in flowchart? Ans: c [PLO 3] [CLO 1] 
+
+
+ 
+a) b) c) d) 
+ 
+ 
+49. which symbol is been used for decision making in flowchart? Ans: d [PLO 3] [CLO 1] 
+ 
+a) b) c) d) 
+ 
+ 
+50. which is used as start/stop symbol in flowchart? Ans:b [PLO 3] [CLO 1] 
+ 
+a) b) c) d) 
+ 
+ 
+ 
+51. ------------ is a distinguishing characteristic of human excellence in every area of behavior 
+
+[CLO 1] [PLO 1] 
+a) creativity b) thinking c) visualization d) problem solving 
+
+ 
+52. .What is the value of x in this C code? [PLO 2] [CLO 1] 
+#include <stdio.h> 
+ void main() 
+ { 
+ int x = 5 * 9 / 3 + 9; 
+ } 
+
+(a). 3.75 b) Depends on compiler c) 24 d) 3 
+ 
+53.A character variable can store how many characters at a time? [PLO 2][CLO 1] 
+
+ (a) 1 character 
+(b)8 characters 
+(c)255 character 
+
+ 
+54.Which of the following is the correct way of writing comments? [PLO 2] [CLO 1] 
+
+(a)*/comments/* 
+(b)/*comment*/ 
+(c)**comment** ( 
+d){comment} 
+
+ 
+55. C programming language is [PLO 1] [CLO 1] 
+
+(a)object oriented programming language (b)Procedure oriented programming language 
+(c)function oriented programming language (d)None of the above 
+
+ 
+56.The memory space taken for a char type data is [PLO 2] [CLO 1] 
+
+(a)2 bytes 
+(b)4 bytes 
+(c)8 bytes 
+ (d)1bytes 
+
+ 
+57 .The memory space taken for a int type data is [PLO 2] [CLO 1] 
+
+ (a) 2 bytes 
+ (b) 4 bytes 
+
+
+(c) 8 bytes 
+(d)10bytes 
+
+ 
+ 
+ 58.The memory space taken for a float type data is [PLO 2] [CLO 1] 
+
+(a) 2 bytes 
+(b) 4 bytes 
+(c) 8 bytes 
+(d)10bytes 
+
+ 
+59. What is the only function all programs must contain ? [PLO 2] [CLO 1] 
+
+(a)start() 
+(b)system() 
+(c)main() 
+(d)program 
+
+ 
+60.For 16-bit compiler allowable range for integer constants is ________? [PLO 2] [CLO 1] 
+
+(a) -3.4e38 to 3.4e38 
+(b) -32767 to 32768 
+(c) -32668 to 32667 
+(d) -32768 to 32767 
+
+ 
+61.Every statement in C program is to be terminated by a__________ [PLO 2] [CLO 1] 
+
+(a)dot(.) 
+(b)semi-colon(;) 
+(c)colon(:) 
+(d)Question mark(?) 
+
+ 
+62 The escape sequence „\b‟ is a [PLO 2] [CLO 1] 
+
+(a)back space 
+(b)next line 
+(c)tab 
+(d)none of the above 
+
+ 
+63.The memory space taken for a long int type data is [PLO 2] [CLO 1] 
+
+(a) 2 bytes 
+(b) 4 bytes 
+(c) 8 bytes 
+(d)10bytes 
+
+ 
+64. which of the following will not valid expressions in C? [PLO2] [CLO 1] 
+
+(a) a=2+(b=5); 
+(b) a=11%3 
+(c) a=b=c=5 
+(d) b+5=2 
+
+ 
+ 
+
+
+65. The --------------------- operator is true only when both the operands are true. [PLO 2][CLO 1] 
+a) && 
+b) b) || 
+c) c)! 
+d) d) ?: 
+
+ 
+66. The ---------------------- statement when executed in a switch statement causes immediate exit 
+
+from the structure. [CLO 1] [PLO 2]
+ 
+
+a)goto 
+b) default 
+c) break 
+d) switch 
+
+ 
+66. The ternary conditional expression using the operator?: could be easily coded using ----------------
+
+- statement [CLO 1][PLO 2] 
+a)Nested if b) if-else 
+c) if d) for 
+
+ 
+
+4 Marks : 
+
+Unit-1 CLO-1 
+
+1. Comment “C is mid level language”? [CLO-1][PLO 1] 
+
+2. What is problem solving? [CLO-1][PLO 1] 
+
+3. What are the six steps of problem solving? [CLO-1][PLO 1] 
+
+4. Discuss about how the problems can be solved with computers? [CLO-1][PLO 1] 
+
+5. What is a program? [CLO-1][PLO 2] 
+
+6. Why is problem analysis important? [CLO-1][PLO 2] 
+
+7. What are the tools of problem solving available? [CLO-1][PLO 2] 
+
+8. How do problem-solving tools help in leading to a solution? [CLO-1][PLO 2] 
+
+9. Why it is important to test a solution before coding it? [CLO-1][PLO 2] 
+
+10. What is an algorithm? Give the characteristics of the algorithm. [CLO-1][PLO 2] 
+
+11. What is a flowchart? Give the symbols/shapes used in the flowchart. 
+
+[CLO-1][PLO 3] 
+
+12. Define pseudocode and give its importance with an example. [CLO-1][PLO 2] 
+
+13. Discuss the difficulties with problem solving in detail. [CLO-1][PLO 2] 
+
+
+14. State the use of %d and %f .Write a printf statement in C using the above 
+
+mentioned symbols? [CLO-1][PLO 4] 
+
+15. What is main difference between variable and constant? [CLO-1][PLO 3] 
+
+16. Explain bitwise left shift operator? [CLO-1][PLO 4] 
+
+17. Explain primary data types used in C? [CLO-1][PLO 3] 
+
+18. Difference between formatted & unformatted statement ? [CLO-1][PLO 3] 
+
+19. What is mean by storage class of variable? [CLO-1][PLO 3] 
+
+20. Explain with example ++i and i++. [CLO-1][PLO 4] 
+
+21. Refer all Elab programs. [CLO-1][PLO 3] [PLO 2][PLO 4] 
+
+ 
+ 
+
+12 Marks: 
+ 
+
+1) Explain the evolution of programming languages. [CLO-1][PLO 1] 
+
+2) Explain the various steps involved in problem solving with diagram. [CLO-1][PLO 1] 
+
+3) Draw the flowchart and write the algorithm and c code to find the sum and to reverse the 
+
+digits of given five digit number. [CLO-1][PLO 1] [PLO2] 
+
+4) Write an algorithm and draw a flow chart to find the factorial and Fibonacci series of given 
+
+number. [CLO-1][PLO 2] [PLO 3] 
+
+5) Write a note on Algorithm, Flow chart and Pseudocode. [CLO-1][PLO 3] [PLO 2] 
+
+6) Explain the scope, lifetime of variable in C with example. [CLO-1][PLO 2][PLO3] 
+
+7) Write down the algorithm to find the largest number among three given numbers and 
+outline the steps in the algorithm with the inputs 5, 17, 3. [CLO-1][PLO 2][PLO3] 
+
+8) Draw flowchart to compute the salary of an employee in a company. Assume that there are 
+two types of employees in the company daily wages and regular. Salary is calculated as 
+number of hours worked* wages per hour for daily wagers and basic pay +(% of DA * basic 
+pay)/100 + HRA + medical allowance for regular employees. Sketch the flow of your design 
+for a regular employee with basic pay = 5000, % of DA = 75 % and HRA = 500. (8) 
+[CLO-1][PLO 2][PLO3][PLO4] 
+
+9) Explain in details about operators with an example [CLO-1][PLO 1] [PLO 2][PLO3] 
+ 
+
+10) Refer all elab Programs [CLO-1][PLO 3] [PLO 2][PLO 4] 
+
+ 
+ 
+ 
+
+
+UNIT - II 
+ PART A 
+ 
+
+1. The --------------------- operator is true only when both the operands are true. 
+e) && b) || c)! d) ?: 
+
+Answer: a 
+2. The ---------------------- statement when executed in a switch statement causes immediate exit 
+
+from the structure. 
+a)goto b) default c) break d) switch 
+
+Answer: c 
+3. The ternary conditional expression using the operator?: could be easily coded using ----------------
+
+- statement 
+a)Nested if b) if-else c) if d) for 
+Answer: b 
+
+4. What will be the output when the following segment is executed? 
+Char ch=’a’; 
+Switch(ch) 
+{ 
+case ‘a’: 
+Printf(“A”); 
+case ’b’: 
+Printf(“B”); 
+Default: 
+printf(“C”); 
+} 
+
+ 
+a)A b)B c)C d) a 
+
+ Answer: a 
+5. What will be the output of the following segment when executed? 
+
+int x=10, y=20; 
+if((x<y)||(x+5)>10) 
+printf(%d”,x); 
+else 
+printf(%d”,y); 
+ 
+a)10 b) 20 c) 15 d)5 
+ 
+Answer: a 
+
+6. The ----------------------- statement is used to skip a part of the statements in a loop. 
+a) Continue b) break c) goto d)switch 
+Answer: a 
+
+7. A for loop with no test condition is known as --------------- loop 
+a) Infinite b) time delay c) for d) Incrementing 
+Answer: a 
+
+
+8. The sentinel –controlled loop is also known as -----------------------loop 
+a) Indefinite repetition loop c) time delay 
+b) Definite repetition loop d) infinite 
+Answer: a 
+
+9. In an exit controlled loop the body of the loop is always executed minimum number of ------------ 
+a) 1 time b)2 times c) 3 times d)n times 
+Answer:a 
+
+10. The while is an --------------------- loop statement. 
+a) Entry-controlled b)exit-controlled c)indefinite repetition 
+
+d)definite repetition 
+Answer: a 
+
+11. The ------------------specification is used to read or print integers 
+a)h b)l c)L d)c 
+Answer: a 
+
+12. To print the data left-justified, must use -------------- in the field specification 
+a) - b) + c) / d) * 
+
+Answer: a 
+13. By default, the real numbers are printed with a precision of --------------- decimal. 
+
+a)6 b)2 c)4 d)0 
+Answer:a 
+
+14. The expression !(x!=y) can be replaced by the expression-------------------- 
+a) x!=y b) x==y c)x=!y d)!x=!y 
+
+Answer:c 
+15. In a counter controlled loop, variable known as -----------------is used to count the loop 
+
+operations. 
+a) Counter b)sentinel c)i d)n 
+
+Answer: a 
+ 
+16. Which of the following special symbol allowed in a variable name? 
+
+(a) * (asterisk) (b)| (pipeline) (c) - (hyphen) (d) _ (underscore) 
+ 
+17 . Which of the following are invalid variable names? 
+
+a) Minimum b)n$ c) Integer d) float 
+ 
+18. int a=10; 
+ ++a; 
+ a++; 
+ Printf(“%d”,a); 
+
+a)10 b) 11 c)12 d) 13 
+ 
+19. int a=11; 
+ a=a%2; 
+ a=a/2; 
+
+The value of a is, 
+a) 1, 1 b) 5,1 c) 1,5 d)5 
+
+ 
+ 
+
+
+20. Which of the following is not logical operator? 
+
+A. & 
+
+B. && 
+
+C. || 
+
+D. ! 
+ 
+
+21 Which of the following cannot be checked in a switch-case statement? 
+
+A. Character 
+
+B. Integer 
+
+C. Float 
+
+D. enum 
+ 
+
+22. What is the output of this C code? 
+ 
+int main() 
+{ 
+ int a = 0, i = 0, b; 
+ for (i = 0;i < 5; i++) 
+ { 
+ a++; 
+ continue; 
+ } 
+} 
+ 
+
+A. 2 B. 3 
+C. 4 D. 5 
+
+ 
+23. What is the output of this C code? 
+ 
+ void main() 
+ { 
+ int i = 0, j = 0; 
+ for (i = 0;i < 5; i++) 
+ { 
+ for (j = 0;j < 4; j++) 
+ { 
+ if (i > 1) 
+ break; 
+ } 
+ printf("Hi \n"); 
+ } 
+ } 
+
+A. Hi is printed 5 times B. Hi is printed 9 times 
+C. Hi is printed 7 times D. Hi is printed 4 times 
+
+ 
+ 
+ 
+
+
+24. What is the output of this C code? 
+ void main() 
+ { 
+ int i = 0; 
+ int j = 0; 
+ for (i = 0;i < 5; i++) 
+ { 
+ for (j = 0;j < 4; j++) 
+ { 
+ if (i > 1) 
+ continue; 
+ printf("Hi \n"); 
+ } 
+ } 
+ } 
+
+A. Hi is printed 9 times B. Hi is printed 8 times 
+C. Hi is printed 7 times D. Hi is printed 6 times 
+
+ 
+25. What is the output of this C code? 
+ 
+ void main() 
+ { 
+ int i = 0; 
+ for (i = 0;i < 5; i++) 
+ if (i < 4) 
+ { 
+ printf("Hello"); 
+ break; 
+ } 
+ } 
+
+A. Hello is printed 5 times B. Hello is printed 4 times 
+C. Hello D. Hello is printed 3 times 
+
+ 
+
+27. What is the output of this C code? 
+
+ int main() 
+ { 
+ int i = 0; 
+ char c = 'a'; 
+ while (i < 2){ 
+ i++; 
+ switch (c) { 
+ case 'a': 
+ printf("%c ", c); 
+ break; 
+ break; 
+ } 
+ } 
+
+
+ printf("after loop\n"); 
+ } 
+
+A. a after loop B. a a after loop 
+
+C. after loop D. None of the mentioned 
+
+28. int main() 
+ { 
+ printf("before continue "); 
+ continue; 
+ printf("after continue\n"); 
+ } 
+
+A. Before continue after continue B. Before continue 
+
+C. after continue D. Compile time error 
+
+29. What is the output of the code given below? 
+ 
+ int main() 
+ { 
+ printf("%d ", 1); 
+ goto l1; 
+ printf("%d ", 2); 
+ l1:goto l2; 
+ printf("%d ", 3); 
+ l2:printf("%d ", 4); 
+ } 
+
+A. 1 4 B. Compilation error 
+
+C. 1 2 4 D. 1 3 4 
+
+30. What is the output of code given below? 
+
+ int main() 
+ { 
+ printf("%d ", 1); 
+ l1:l2: 
+ printf("%d ", 2); 
+ printf("%d\n", 3); 
+ } 
+
+A. Compilation error B. 1 2 3 
+
+C. 1 2 D. 1 3 
+
+31. What will happen if in a C program you assign a value to an array element whose subscript 
+exceeds the size of array? 
+
+A. The element will be set to 0. 
+
+B. The compiler would report an error. 
+
+
+C. The program may crash if some important data gets overwritten. 
+
+D. The array size would appropriately grow. 
+ 
+
+32 .In C, if you pass an array as an argument to a function, what actually gets passed? 
+
+A. Value of elements in array 
+
+B. First element of the array 
+
+C. Base address of the array 
+
+D. Address of the last element of array 
+ 
+
+ 
+33. Result of a logical or relational expression in C is? 
+
+A. True or False 
+
+B. 0 or 1 
+
+C. 0 if expression is false and any positive number if expression is true 
+
+D. None of the mentioned 
+
+34. What will be the value of d in the following program? 
+ 
+ int main() 
+ { 
+ int a = 10, b = 5, c = 5; 
+ int d; 
+ d = b + c == a; 
+ printf("%d", d); 
+ } 
+
+A. Syntax error 
+
+B. 1 
+
+C. 5 
+
+D. 10 
+
+ 
+
+35. What is the output of this C code? 
+ 
+ int main() 
+ { 
+ int a = 10, b = 5, c = 3; 
+ b != !a; 
+ c = !!a; 
+ printf("%d\t%d", b, c); 
+ } 
+
+
+A. 5 1 
+
+B. 0 3 
+
+C. 5 3 
+
+D. 1 1 
+
+ 
+
+36. What is meaning of following declaration ? 
+
+ int arr[20]; 
+
+a) Array of size 20 that can have integer address 
+
+b) None of the above 
+
+c) Integer array of size 20 
+
+d) Array of sixe 20 
+
+37. In C Programming, If we need to store word "INDIA" then syntax is as below – 
+
+ a) char name[6]={‘I’,’N’,’D’,’I’,’A’,’\0’} 
+
+b) char name[6]={“I”,”N”,”D”,”I”,”A”} 
+
+c) char name[6]={‘I’,’N’,’D’,’I’,’A’} 
+
+d) char name[] ; name=”INDIA” 
+
+38. what is the way to initialize array? 
+
+a) int num[6] = {2,4,12,5,45,5}; 
+
+b) int n{} ={2,4,12,5,45,5}; 
+
+c) int n{6}={2,4,12}; 
+
+d) int n(6)={2,4,12,5,45,5}; 
+
+39. what will be the output of the program? 
+
+ 
+
+a) 3, 2,15 
+
+b) 2, 3, 20 
+
+c)2, 1, 15 
+
+d) 1, 2, 5 
+
+Answer: Option A 
+
+
+Solution: 
+>> int a[5] = {5, 1, 15, 20, 25}; The variable arr is declared as an integer array with a size of 5 and it is initialized to 
+a[0] = 5, a[1] = 1, a[2] = 15, a[3] = 20, a[4] = 25. 
+ 
+>> int i, j, m; The variable i, j, m are declared as an integer type. 
+ 
+>> i = ++a[1]; becomes i = ++1; Hence i = 2 and a[1] = 2 
+ 
+>> j = a[1]++; becomes j = 2++; Hence j = 2 and a[1] = 3. 
+ 
+>> m = a[i++]; becomes m = a[2]; Hence m = 15 and i is incremented by 1(i++ means 2++ so i=3) 
+ 
+>> printf("%d, %d, %d", i, j, m); It prints the value of the variables i, j, m 
+ 
+Hence the output of the program is 3, 2, 15. 
+
+39. what will be the output of the program? 
+
+ 
+
+a) 5 
+
+b) 6 
+
+c) 9 
+
+d) Error 
+
+e) None of the above 
+
+Answer: Option C 
+Solution: 
+
+ x[i] is equivalent to *(x + i), 
+
+ so (buf + 1)[5] is *(buf + 1 + 5), i.e. buf[6]. 
+
+40) An array elements are always stored in ____________memory locations 
+
+a) sequential 
+
+b) Random 
+
+c) Sequential and Random 
+
+d) None of the above 
+
+ 
+
+ 
+
+41) Let x be an array. which of the following operations are illegal? 
+
+
+a) ++x b) x+1 c)x++ d) x*2 
+
+options: 
+
+a) I and II 
+
+b) I,II and III 
+
+c) II and III 
+
+d) I, III and IV 
+
+e) III and IV 
+
+Answer: Option D 
+Solution: int x[10]; * x will store the base address of array. * 
+Statement I, III and IV is invalid. 
+ 
+Statement I and III : ++x and x++ are throwing en error while compile (lvalue required as increment operand ) 
+Since, x is storing in the address of the array which is static value which cannot be change by the operand. 
+ 
+Statement IV : x*2 is also throw an error while compile (invalid operands to binary * (have 'int *' and 'int') ) 
+ 
+Statement II : x+1 is throw a warning: assignment makes integer from pointer without a cast [enabled by 
+default] 
+
+42) what is the maximum number of dimensions an array in c may have? 
+
+ a) 2 
+
+ b) 8 
+
+ c) 20 
+
+ d)50 
+
+ e) theoretically no limit. the only practical limits are memory size and compilers 
+
+43) size of the array need not be specified, when 
+
+ a) initialized is a part of definition 
+
+ b) it's a declaration 
+
+ c) it is a formal parameter 
+
+ d) All of these 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+44) what will be the output of the program? 
+
+
+ 
+
+ 
+
+a) Equal 
+
+b) Unequal 
+
+c) Error 
+
+d) None of these 
+
+Answer: Option B 
+Solution: 
+
+Strings are compared using strcmp() function defined under string.h header file. 
+
+45) 
+
+ 
+
+Unit-2 PART -B 
+
+1. Give the general syntax of conditional operator? 
+
+2. Define operator in C. What role an operator plays in C program? 
+
+3. Differentiate between relational and logical operators used in C? 
+
+4. Give the types of decision making statements 
+
+5. What is the general form of switch statement? 
+
+6. Differentiate do... while.. and while... loop. 
+7. Determine the output of the following and justify your answer 
+
+ 
+int main() 
+ { 
+ int ch; printf("enter a value between 1 to 2:"); 
+ scanf("%d", &ch); 
+ switch (ch, ch -1){ 
+ case 1: printf("1\n"); break; 
+ case 2: printf("2"); break; 
+ } return 0; } 
+
+8. Explain the limitations of arrays. 
+
+
+9. Give the steps of looping process. 
+
+10. Brief the use of continue, goto, break statement and give the syntax. 
+
+11. What are loop control structures? Explain for loop, while loop and do-while 
+
+loop with their syntax. 
+
+12. What do you mean by infinite loop? Give suitable of any infinite loop in a C 
+
+program. 
+
+13. Explain break and continue statements with examples. 
+14. Determine the output of the following program justify your answer in a few words. 
+
+ 
+int main() { 
+float f = 1.0; 
+ switch(f) { 
+
+case 1.0: printf("one"); break; 
+case 2.0: printf("two"); break; 
+default: prinf("%f", f); 
+
+}} 
+
+15. Write a program to print series of number divisible by 3 from 1 to 100 using for 
+
+loop. 
+
+16. Write a C program to print 1, 2, 4, 8, 16, 32, 64 …..N using do….while loop 
+
+(Read N from user). 
+
+17. What are Arrays in C programming? Give the importance of Array in C 
+
+language 
+
+13. What are the rules to declare one dimensional array? 
+
+14. What do you mean by compile time initialization? Give suitable example of 
+
+Compile time initialization of C Array. 
+
+15. Describe the array index out of bound error in context of C array program. 
+
+ 
+
+PART C 
+
+ 
+
+1) Lucy is celebrating her 15th birthday. Her father promised her that he will buy her a new computer 
+on her birthday if she solves the question asked by him. He asks Lucy to find whether the year on 
+which she had born is leap year or not. Help her to solve this puzzle so that she celebrates her 
+
+
+birthday happily. If her birth year is 2016 and it is a leap year display 2016 is a leap year.? Else 
+display 2016 is not a leap year and check with other leap year conditions 
+
+2) Write a C program to print the multiplication table of an integer n upto m rows using a while loop 
+
+ sample input and output 
+
+ INPUT 
+ 5 
+
+4 
+
+ OUTPUT 
+ 1*5=5 
+
+2*5=10 
+3*5=15 
+4*5=20 
+
+3) Write a program to generate a following @s triangle: 
+@ @ @ @ @ 
+@ @ @ @ 
+@ @ @ 
+@ @ 
+@ 
+
+4) Write a program that determines a student’s grade. The program will read three scores and 
+determine the grade based on the following rules: score =90% =>grade=A , score >= 70% 
+and <90% => grade=B, score>=50% and <70% =>grade=C, score<50% =>grade=F 
+ 
+
+5) i)Why switch case is better than else..if... ladder. Justify. 
+ii)Write a program to read a value (1-7) and print the equivalent day of the week 
+ (i.e. 1-SUN, 2-MON.....) 
+iii) Explain briefly about for loop and Nested for loop with suitable example 
+
+ 
+iv) Write a program to print the following pattern. 
+
+12345 
+1234 
+123 
+12 
+1 
+
+ 
+6.a. i) Write a C program to insert an element at a specified position in the array. 
+
+ 
+
+7) ) Write a program to generate a following patterns 
+
+a) 
+
+ 
+
+ 
+
+ 
+
+ 
+
+b) 
+
+
+ 
+
+c) 
+
+ 
+
+d) 
+
+ 
+
+e) 
+
+ 
+
+ 
+
+8) write c Program for Student mark list generation by using control and looping statements 
+
+ 
+
+9) write c program for digit rotation. "For any positive integer, we define a digit rotation as either 
+moving the first digit to the end of the number (left digit rotation), or the last digit to the front of the 
+number (right digit rotation). For example, the number 12345 could be left digit rotated to 23451, or right 
+digit rotated to 51234. 
+
+10) Write a program to find the sum of positive numbers in an array 
+
+11) write c program for palindrome strings , two strings A and B, each consisting of lower case alphabets. 
+
+12) Write a arithmetic operation menu driven program using while(1) 
+ 
+
+ 13) i) Write short notes on switch case. 
+
+ii) Program to create a simple calculator, Performing addition, subtraction, multiplication, 
+division depending the input from user. 
+
+
+14) i)write a C program to read 10 nos. and reverse it using array 
+ 
+
+ii)Concatenate two arrays of length minimum 5 numbers. 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+UNIT III 
+
+PART A 
+
+
+1 ) Which of the following is not possible statically in C? 
+
+a) Jagged Array 
+
+b) Rectangular Array 
+
+c) Cuboidal Array 
+
+d) Multidimensional Array 
+
+ 
+
+2) What is the output of this C code? 
+
+ #include <stdio.h> 
+ void main() 
+
+{ 
+int a[2][3] = {1, 2, 3, 4, 5}; 
+int i = 0, j = 0; 
+for (i = 0; i < 2; i++) 
+for (j = 0; j < 3; j++) 
+printf("%d", a[i][j]); 
+ } 
+
+a) 1 2 3 4 5 0 
+
+b) 1 2 3 4 5 junk 
+
+c) 1 2 3 4 5 5 
+
+d) Run time error 
+
+ 
+
+3) Predict the output of below program: 
+
+#include <stdio.h> 
+ 
+int main() 
+{ 
+ int arr[5]; 
+ 
+ // Assume that base address of arr is 2000 and size of integer 
+ // is 32 bit 
+ arr++; 
+ printf("%u", arr); 
+ 
+ return 0; 
+} 
+ 
+
+a) 2002 
+
+b) 2004 
+
+c) 2020 
+
+d) lvalue required 
+
+ 
+
+
+4 ) Predict the output of below program: 
+#include <stdio.h> 
+ 
+int main() 
+{ 
+ int arr[5]; 
+// Assume base address of arr is 2000 and size of integer is 32 bit 
+ printf("%u %u", arr + 1, &arr + 1); 
+ return 0; 
+} 
+
+i. 2004 2020 
+
+ii. 2004 2004 
+
+iii. 2004 Garbage Value 
+
+iv. The program fails to compile because address of operator cannot be used with 
+array name 
+
+5) Size of the array need not be specified, when 
+
+A. Initialization is a part of definition 
+
+B. It is a declaratrion 
+
+C. It is a formal parameter 
+
+D. All of these 
+
+6) While passing an array as an actual argument, the function call must have the array name 
+
+A. with empty brackets 
+
+B.with its size 
+
+C.alone 
+
+D.none of the above 
+
+7) The parameter passing mechanism for an array is 
+
+A. call by value 
+
+B. call by value-result 
+
+C. call by reference 
+
+D. none of these 
+
+ 
+
+ 
+
+8) Under which of the following conditions, the size of an one-dimensional array need not be 
+specified? 
+
+
+A. when initialization is a part of definition 
+
+B. when it is a declaration 
+
+C. when it is a formal parameter and an actual 
+argument 
+
+D. All of the above 
+
+9) If a two dimensional array is used as a formal parameter, then 
+
+A. both the subscripts may be left empty 
+
+B.the first (row) subscript may be left empty 
+
+C. the first subscript must be left empty 
+
+D. both the subscripts must be left empty 
+
+11) Choose the statement that best defines an array 
+
+A. It is a collection of items that share a common name 
+
+B. It is a collection of items that share a common name and occupy consecutive memory location 
+
+C. It is a collection of items of the same type and storage class that share a common name and 
+occupy consecutive memory locations 
+
+D. None of the above 
+
+12) Choose the correct statements 
+
+A. Array stores data of the same type 
+
+B. Array can be a part of a structure 
+
+C. Array of structure is allowed 
+
+D. All of the above 
+
+13) What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. int a[2][3] = {1, 2, 3, 4, 5}; 
+5. int i = 0, j = 0; 
+6. for (i = 0; i < 2; i++) 
+7. for (j = 0; j < 3; j++) 
+8. printf("%d", a[i][j]); 
+9. } 
+
+a) 1 2 3 4 5 0 
+
+b) 1 2 3 4 5 junk 
+
+c) 1 2 3 4 5 5 
+
+
+d) Run time error 
+
+ 
+
+Answer: a 
+ 
+
+14) What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. int a[2][3] = {1, 2, 3, , 4, 5}; 
+5. int i = 0, j = 0; 
+6. for (i = 0; i < 2; i++) 
+7. for (j = 0; j < 3; j++) 
+8. printf("%d", a[i][j]); 
+9. } 
+
+a) 1 2 3 junk 4 5 
+
+b) Compile time error 
+
+c) 1 2 3 0 4 5 
+
+d) 1 2 3 3 4 5 
+
+Answer: b 
+
+15. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void f(int a[][3]) 
+3. { 
+4. a[0][1] = 3; 
+5. int i = 0, j = 0; 
+6. for (i = 0; i < 2; i++) 
+7. for (j = 0; j < 3; j++) 
+8. printf("%d", a[i][j]); 
+9. } 
+10. void main() 
+11. { 
+12. int a[2][3] = {0}; 
+13. f(a); 
+14. } 
+
+a) 0 3 0 0 0 0 
+
+b) Junk 3 junk junk junk junk 
+
+c) Compile time error 
+
+d) All junk values 
+
+ 
+
+Answer: a 
+ 
+
+16. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void f(int a[][]) 
+
+
+3. { 
+4. a[0][1] = 3; 
+5. int i = 0, j = 0; 
+6. for (i = 0;i < 2; i++) 
+7. for (j = 0;j < 3; j++) 
+8. printf("%d", a[i][j]); 
+9. } 
+10. void main() 
+11. { 
+12. int a[2][3] = {0}; 
+13. f(a); 
+14. } 
+
+a) 0 3 0 0 0 0 
+
+b) Junk 3 junk junk junk junk 
+
+c) Compile time error 
+
+d) All junk values 
+
+ 
+
+Answer: c 
+ 
+
+17. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void f(int a[2][]) 
+3. { 
+4. a[0][1] = 3; 
+5. int i = 0, j = 0; 
+6. for (i = 0;i < 2; i++) 
+7. for (j = 0;j < 3; j++) 
+8. printf("%d", a[i][j]); 
+9. } 
+10. void main() 
+11. { 
+12. int a[2][3] = {0}; 
+13. f(a); 
+14. } 
+
+a) 0 3 0 0 0 0 
+
+b) Junk 3 junk junk junk junk 
+
+c) Compile time error 
+
+d) All junk values 
+
+ 
+
+Answer: c 
+ 
+
+ 
+
+18. Comment on the following statement: 
+
+int (*a)[7]; 
+
+
+a) An array “a” of pointers. 
+
+b) A pointer “a” to an array. 
+
+c) A ragged array. 
+
+d) None of the mentioned 
+
+ 
+
+Answer: b 
+ 
+
+19. Comment on the 2 arrays regarding P and Q: 
+
+1. int *a1[8]; 
+2. int *(a3[8]); 
+3. P. Array of pointers 
+4. Q. Pointer to an array 
+
+a) a1 is P, a2 is Q 
+
+b) a1 is P, a2 is P 
+
+c) a1 is Q, a2 is P 
+
+d) a1 is Q, a2 is Q 
+
+ 
+
+Answer: b 
+ 
+
+20. Which of the following is not possible statically in C? 
+
+a) Jagged Array 
+
+b) Rectangular Array 
+
+c) Cuboidal Array 
+
+d) Multidimensional Array 
+
+ 
+
+Answer: a 
+ 
+ 
+
+21. What is the correct syntax to send a 3-dimensional array as a parameter? (Assuming declaration int a[5][4][3];) 
+
+a) func(a); 
+
+b) func(&a); 
+
+c) func(*a); 
+
+d) func(**a); 
+
+ 
+
+Answer: a 
+ 
+ 
+
+22. Applications of multidimensional array are? 
+
+a) Matrix-Multiplication 
+
+b) Minimum Spanning Tree 
+
+c) Finding connectivity between nodes 
+
+
+d) All of the mentioned 
+
+Answer: d 
+
+23. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int ary[2][3]; 
+5. foo(ary); 
+6. } 
+7. void foo(int *ary[]) 
+8. { 
+9. int i = 10, j = 2, k; 
+10. ary[0] = &i; 
+11. ary[1] = &j; 
+12. *ary[0] = 2; 
+13. for (k = 0;k < 2; k++) 
+14. printf("%d\n", *ary[k]); 
+15. } 
+
+a) 2 2 
+
+b) Compile time error 
+
+c) Undefined behaviour 
+
+d) 10 2 
+
+ 
+
+Answer: a 
+ 
+
+24. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int ary[2][3]; 
+5. foo(ary); 
+6. } 
+7. void foo(int (*ary)[3]) 
+8. { 
+9. int i = 10, j = 2, k; 
+10. ary[0] = &i; 
+11. ary[1] = &j; 
+12. for (k = 0;k < 2; k++) 
+13. printf("%d\n", *ary[k]); 
+14. } 
+
+a) Compile time error 
+
+b) 10 2 
+
+c) Undefined behaviour 
+
+
+d) segmentation fault/code crash 
+
+ 
+
+Answer: a 
+ 
+
+25. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. foo(ary); 
+5. } 
+6. void foo(int **ary) 
+7. { 
+8. int i = 10, k = 10, j = 2; 
+9. int *ary[2]; 
+10. ary[0] = &i; 
+11. ary[1] = &j; 
+12. printf("%d\n", ary[0][1]); 
+13. } 
+
+a) 10 
+
+b) 2 
+
+c) Compile time error 
+
+d) Undefined behaviour 
+
+ 
+
+Answer: d 
+ 
+
+26. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. int ary[2][3][4], j = 20; 
+5. ary[0][0] = &j; 
+6. printf("%d\n", *ary[0][0]); 
+7. } 
+
+a) Compile time error 
+
+b) 20 
+
+c) Address of j 
+
+d) Undefined behaviour 
+
+ 
+
+Answer: a 
+ 
+
+27. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+
+
+4. int ary[2][3]; 
+5. ary[][] = {{1, 2, 3}, {4, 5, 6}}; 
+6. printf("%d\n", ary[1][0]); 
+7. } 
+
+a) Compile time error 
+
+b) 4 
+
+c) 1 
+
+d) 2 
+
+ 
+
+Answer: a 
+ 
+ 
+
+28. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. void foo(); 
+5. printf("1 "); 
+6. foo(); 
+7. } 
+8. void foo() 
+9. { 
+10. printf("2 "); 
+11. } 
+
+a) 1 2 
+
+b) Compile time error 
+
+c) 1 2 1 2 
+
+d) Depends on the compiler 
+
+ 
+
+Answer: a 
+ 
+
+29. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. void foo(), f(); 
+5. f(); 
+6. } 
+7. void foo() 
+8. { 
+9. printf("2 "); 
+10. } 
+11. void f() 
+12. { 
+13. printf("1 "); 
+
+
+14. foo(); 
+15. } 
+
+a) Compile time error as foo is local to main 
+
+b) 1 2 
+
+c) 2 1 
+
+d) Compile time error due to declaration of functions inside main 
+
+ 
+
+Answer: b 
+ 
+
+30. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. int main() 
+3. { 
+4. void foo(); 
+5. void f() 
+6. { 
+7. foo(); 
+8. } 
+9. f(); 
+10. } 
+11. void foo() 
+12. { 
+13. printf("2 "); 
+14. } 
+
+a) 2 2 
+
+b) 2 
+
+c) Compile time error 
+
+d) Depends on the compiler 
+
+ 
+
+Answer: d 
+Explanation: Even though the answer is 2, this code will compile fine only with gcc. GNU C supports nesting of functions in C 
+as a language extension whereas standard C compiler doesn’t. 
+
+31. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void foo(); 
+3. int main() 
+4. { 
+5. void foo(); 
+6. foo(); 
+7. return 0; 
+8. } 
+9. void foo() 
+10. { 
+11. printf("2 "); 
+12. } 
+
+
+a) Compile time error 
+
+b) 2 
+
+c) Depends on the compiler 
+
+d) Depends on the standard 
+
+ 
+
+Answer: b 
+ 
+
+32. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void foo(); 
+3. int main() 
+4. { 
+5. void foo(int); 
+6. foo(1); 
+7. return 0; 
+8. } 
+9. void foo(int i) 
+10. { 
+11. printf("2 "); 
+12. } 
+
+a) 2 
+
+b) Compile time error 
+
+c) Depends on the compiler 
+
+d) Depends on the standard 
+
+ 
+
+Answer: a 
+ 
+
+33. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void foo(); 
+3. int main() 
+4. { 
+5. void foo(int); 
+6. foo(); 
+7. return 0; 
+8. } 
+9. void foo() 
+10. { 
+11. printf("2 "); 
+12. } 
+
+a) 2 
+
+b) Compile time error 
+
+c) Depends on the compiler 
+
+
+d) Depends on the standard 
+
+ 
+
+Answer: b 
+ 
+
+34. What is the output of this C code? 
+
+1. include <stdio.h> 
+2. void m() 
+3. { 
+4. printf("hi"); 
+5. } 
+6. void main() 
+7. { 
+8. m(); 
+9. } 
+
+a) hi 
+
+b) Run time error 
+
+c) Nothing 
+
+d) Varies 
+
+Answer: a 
+
+35. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void m(); 
+3. void n() 
+4. { 
+5. m(); 
+6. } 
+7. void main() 
+8. { 
+9. void m() 
+10. { 
+11. printf("hi"); 
+12. } 
+13. } 
+
+a) hi 
+
+b) Compile time error 
+
+c) Nothing 
+
+d) Varies 
+
+ 
+
+Answer: b 
+ 
+
+36. What is the return-type of the function sqrt() 
+
+a) int 
+
+b) float 
+
+
+c) double 
+
+d) depends on the data type of the parameter 
+
+ 
+
+Answer: c 
+ 
+
+37. Which of the following function declaration is illegal? 
+
+a) double func(); 
+ int main(){} 
+ double func(){} 
+b) double func(){}; 
+ int main(){} 
+c) int main() 
+ { 
+ double func(); 
+ } 
+ double func(){//statements} 
+d) None of the mentioned 
+
+ 
+Answer: d 
+ 
+
+38. What is the output of this code having void return-type function? 
+
+1. #include <stdio.h> 
+2. void foo() 
+3. { 
+4. return 1; 
+5. } 
+6. void main() 
+7. { 
+8. int x = 0; 
+9. x = foo(); 
+10. printf("%d", x); 
+11. } 
+
+a) 1 
+
+b) 0 
+
+c) Runtime error 
+
+d) Compile time error 
+
+ 
+
+Answer: d 
+ 
+
+39. What will be the data type returned for the following function? 
+
+1. #include <stdio.h> 
+2. int func() 
+3. { 
+4. return (double)(char)5.0; 
+5. } 
+
+
+a) char 
+
+b) int 
+
+c) double 
+
+d) multiple type-casting in return is illegal 
+
+ 
+
+Answer: b 
+ 
+
+40. What is the problem in the following declarations? 
+
+ int func(int); 
+ double func(int); 
+ int func(float); 
+
+a) A function with same name cannot have different signatures 
+
+b) A function with same name cannot have different return types 
+
+c) A function with same name cannot have different number of parameters 
+
+d) All of the mentioned 
+
+ 
+
+Answer: d 
+ 
+
+41. The output of the code below is 
+
+1. #include <stdio.h> 
+2. void main() 
+3. { 
+4. int k = m(); 
+5. printf("%d", k); 
+6. } 
+7. void m() 
+8. { 
+9. printf("hello"); 
+10. } 
+
+a) hello 5 
+
+b) Error 
+
+c) Nothing 
+
+d) Junk value 
+
+ 
+
+Answer: a 
+ 
+
+42. The output of the code below is 
+
+1. #include <stdio.h> 
+2. int *m() 
+3. { 
+4. int *p = 5; 
+5. return p; 
+6. } 
+
+
+7. void main() 
+8. { 
+9. int *k = m(); 
+10. printf("%d", k); 
+11. } 
+
+a) 5 
+
+b) Junk value 
+
+c) 0 
+
+d) Error 
+
+ 
+
+Answer: a 
+ 
+
+43. The output of the code below is 
+
+1. #include <stdio.h> 
+2. int *m(); 
+3. void main() 
+4. { 
+5. int *k = m(); 
+6. printf("hello "); 
+7. printf("%d", k[0]); 
+8. } 
+9. int *m() 
+10. { 
+11. int a[2] = {5, 8}; 
+12. return a; 
+13. } 
+
+a) hello 5 8 
+
+b) hello 5 
+
+c) hello followed by garbage value 
+
+d) Compilation error 
+
+ 
+
+Answer: c 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Part B 
+
+
+1. What is the need for user defined function? 
+
+2. Write a multi function program 
+
+3. List the Elements of user defined function 
+
+4. Give short note on 2-D array processing. 
+5. Write a C program to find the length of a string. 
+6. HELLO encode it as IFMMP using array 
+7. Show the difference between actual and formal parameter in function with piece of code 
+
+ 
+8. Compare user define function vs System define function 
+
+ 
+9. List categories of function 
+
+10. Explain the concept of function call by reference with a sample program. 
+
+11. Explain the concept of function call by value with a sample program 
+
+12. Explain about functions with example 
+
+13. Discuss Character Arrays 
+
+14. Predict output of the following program (CLO3) 
+ int main(){ 
+ inta[][]={{1,2},(3,4}}; 
+
+int i,j; 
+for (i=0;i<2;i++) 
+for(j=0;j<2;j++) 
+printf(“%d”,a[i][j]); 
+retorn 0; 
+} 
+
+15. Why array index starts from zero? 
+16. Contrast function declaration vs function definition. 
+17. List the advantages of functions. 
+
+nd
+18. Program to Find the 2 Largest Elements in an Array. 
+
+ 
+19. Write a program to convert the given string (srm university) Lower to upper case
+
+ 
+ 
+
+20. Advantages and limitations of multi dimensional array initialization 
+
+21. Explain call by value and call by reference with an example 
+
+22. Common programming errors in 2D arrays 
+
+12. Explain String functions with example 
+
+ PART C 
+
+1. Array construction for student mark list for 100 students. output need to display register number, marks of 
+
+five subjects , CGPA and PASS/Fail Status 
+
+2. Explain in details about String Functions: gets(), puts(), getchar(), putchar(), printf(), with an example 
+
+programs 
+
+3. i)Print the given pattern using 2-D array 
+1234567 
+ 23456 
+
+
+ 345 
+ 4 
+ii) Program to divide one array into two arrays 
+
+4. i) What are strings in C? Write a C program to read a string in lowercase and convert it to 
+uppercase. 
+ ii) ) Illustrate call by value and call by reference with example for each. 
+ 
+5. i) Find the factorial of 10 using function recursion. 
+
+ii) What is a string? Explain any 5 string functions. 
+6. Explain in details about String Functions: atoi, strlen, strcat, strcmp with an example 
+
+7. Functions declaration and definition, Types: Call by Value & Call by Reference with example programs 
+
+8. Explain and write c program for Function with and without Arguments and no Return Values 
+
+9. Explain and write c program for Passing Array to Functions with return type, Recursion Functions 
+
+10. Write c program for Matrix Multiplication using Multi-dimensional array 
+
+11. Program to Delete duplicate elements from an array 
+INPUT 
+1 3 4 5 3 
+OUTPUT 
+1 3 4 5 
+ 
+
+b. Write a program to perform Matrix addition and Multiplication using 2-D arrays 
+ 
+12. i) State the importance of functions. List out the different types of Function 
+ ii) Write a swap function using call by value and call by reference 
+
+ iii) Write a C program to concatenate two strings. 
+ iv) Write a program to read to strings and compare them and print a message that the first string 
+
+is equal, less or greater than the second one accordingly. 
+13. Write c program for Matrix addition and Matrix Transpose using multi dimensional array 
+
+14. Given a number , find whether it is a power of 2 or not 
+
+15. Write a C program to swap elements in cyclic order using call by reference. 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+UNIT 4 
+
+ 
+
+1. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. void foo(int*); 
+3. int main() 
+
+4. { 
+5. int i = 10; 
+
+6. foo((&i)++); 
+7. } 
+
+8. void foo(int *p) 
+9. { 
+
+10. printf("%d\n", *p); 
+11. } 
+
+a) 10 
+
+b) Some garbage value 
+
+c) Compile time error 
+
+d) Segmentation fault/code crash 
+
+ 
+
+Answer: c 
+ 
+
+2. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void foo(int*); 
+
+3. int main() 
+4. { 
+
+5. int i = 10, *p = &i; 
+6. foo(p++); 
+
+7. } 
+8. void foo(int *p) 
+
+9. { 
+10. printf("%d\n", *p); 
+
+11. } 
+
+a) 10 
+
+b) Some garbage value 
+
+c) Compile time error 
+
+d) Segmentation fault 
+
+ 
+
+Answer: a 
+ 
+
+
+3. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void foo(float *); 
+
+3. int main() 
+4. { 
+
+5. int i = 10, *p = &i; 
+6. foo(&i); 
+
+7. } 
+8. void foo(float *p) 
+
+9. { 
+10. printf("%f\n", *p); 
+
+11. } 
+
+a) 10.000000 
+
+b) 0.000000 
+
+c) Compile time error 
+
+d) Undefined behaviour 
+
+ 
+
+Answer: b 
+ 
+
+4. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. int main() 
+
+3. { 
+4. int i = 97, *p = &i; 
+
+5. foo(&i); 
+6. printf("%d ", *p); 
+
+7. } 
+8. void foo(int *p) 
+
+9. { 
+10. int j = 2; 
+
+11. p = &j; 
+12. printf("%d ", *p); 
+
+13. } 
+
+a) 2 97 
+
+b) 2 2 
+
+c) Compile time error 
+
+d) Segmentation fault/code crash 
+
+ 
+
+Answer: a 
+ 
+
+5. What is the output of this C code? 
+
+
+1. #include <stdio.h> 
+2. int main() 
+
+3. { 
+4. int i = 97, *p = &i; 
+
+5. foo(&p); 
+6. printf("%d ", *p); 
+
+7. return 0; 
+8. } 
+
+9. void foo(int **p) 
+10. { 
+
+11. int j = 2; 
+12. *p = &j; 
+
+13. printf("%d ", **p); 
+14. } 
+
+a) 2 2 
+
+b) 2 97 
+
+c) Undefined behaviour 
+
+d) Segmentation fault/code crash 
+
+ 
+
+Answer: a 
+ 
+
+6. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. int main() 
+
+3. { 
+4. int i = 11; 
+
+5. int *p = &i; 
+6. foo(&p); 
+
+7. printf("%d ", *p); 
+8. } 
+
+9. void foo(int *const *p) 
+10. { 
+
+11. int j = 10; 
+12. *p = &j; 
+
+13. printf("%d ", **p); 
+14. } 
+
+a) Compile time error 
+
+b) 10 10 
+
+c) Undefined behaviour 
+
+d) 10 11 
+
+ 
+
+
+Answer: a 
+ 
+
+7. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. int main() 
+3. { 
+
+4. int i = 10; 
+5. int *p = &i; 
+
+6. foo(&p); 
+7. printf("%d ", *p); 
+
+8. printf("%d ", *p); 
+9. } 
+
+10. void foo(int **const p) 
+11. { 
+
+12. int j = 11; 
+13. *p = &j; 
+
+14. printf("%d ", **p); 
+15. } 
+
+a) 11 11 11 
+
+b) 11 11 Undefined-value 
+
+c) Compile time error 
+
+d) Segmentation fault/code-crash 
+
+ 
+
+Answer: b 
+ 
+
+8. What is the output of the code below? 
+
+1. #include <stdio.h> 
+2. int main() 
+
+3. { 
+4. int i = 10; 
+
+5. int *const p = &i; 
+6. foo(&p); 
+
+7. printf("%d\n", *p); 
+8. } 
+
+9. void foo(int **p) 
+10. { 
+
+11. int j = 11; 
+12. *p = &j; 
+
+13. printf("%d\n", **p); 
+14. } 
+
+a) 11 11 
+
+b) Undefined behaviour 
+
+c) Compile time error 
+
+
+d) Segmentation fault/code-crash 
+
+ 
+
+Answer: a 
+ 
+
+9. Which of the following are correct syntaxes to send an array as a parameter to function: 
+
+a) func(&array); 
+
+b) func(#array); 
+
+c) func(*array); 
+
+d) func(array[size]); 
+
+ 
+
+Answer: a. 
+ 
+
+11. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void main() 
+
+3. { 
+4. int k = 5; 
+
+5. int *p = &k; 
+6. int **m = &p; 
+
+7. printf("%d%d%d\n", k, *p, **m); 
+8. } 
+
+a) 5 5 5 
+
+b) 5 5 junk value 
+
+c) 5 junk junk 
+
+d) Run time error 
+
+ 
+
+Answer: a 
+ 
+
+12. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void main() 
+
+3. { 
+4. int k = 5; 
+
+5. int *p = &k; 
+6. int **m = &p; 
+
+7. printf("%d%d%d\n", k, *p, **p); 
+8. } 
+
+a) 5 5 5 
+
+b) 5 5 junk value 
+
+c) 5 junk junk 
+
+
+d) Compile time error 
+
+ 
+
+Answer: d. 
+
+13. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. void main() 
+3. { 
+
+4. int k = 5; 
+5. int *p = &k; 
+
+6. int **m = &p; 
+7. **m = 6; 
+
+8. printf("%d\n", k); 
+9. } 
+
+a) 5 
+
+b) Compile time error 
+
+c) 6 
+
+d) Junk 
+
+ 
+
+Answer: c 
+ 
+
+14. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. void main() 
+
+3. { 
+4. int a[3] = {1, 2, 3}; 
+
+5. int *p = a; 
+6. int *r = &p; 
+
+7. printf("%d", (**r)); 
+8. } 
+
+a) 1 
+
+b) Compile time error 
+
+c) Address of a 
+
+d) Junk value 
+
+ 
+
+Answer: b 
+ 
+
+15. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. void main() 
+3. { 
+
+
+4. int a[3] = {1, 2, 3}; 
+5. int *p = a; 
+
+6. int **r = &p; 
+7. printf("%p %p", *r, a); 
+
+8. } 
+
+a) Different address is printed 
+
+b) 1 2 
+
+c) Same address is printed. 
+
+d) 1 1 
+
+View Answer 
+
+Answer: c 
+Explanation: None. 
+
+16. How many number of pointer (*) does C have against a pointer variable declaration? 
+
+a) 7 
+
+b) 127 
+
+c) 255 
+
+d) No limits. 
+
+ 
+
+Answer: d 
+ 
+
+17. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. int main() 
+3. { 
+
+4. int a = 1, b = 2, c = 3; 
+5. int *ptr1 = &a, *ptr2 = &b, *ptr3 = &c; 
+
+6. int **sptr = &ptr1; //-Ref 
+7. *sptr = ptr2; 
+
+8. } 
+
+a) ptr1 points to a 
+
+b) ptr1 points to b 
+
+c) sptr points to ptr2 
+
+d) None of the mentioned 
+
+ 
+
+Answer: b 
+ 
+
+18. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. void main() 
+3. { 
+
+
+4. int a[3] = {1, 2, 3}; 
+5. int *p = a; 
+
+6. int **r = &p; 
+7. printf("%p %p", *r, a); 
+
+8. } 
+
+a) Different address is printed 
+
+b) 1 2 
+
+c) Same address is printed. 
+
+d) 1 1 
+
+ 
+
+Answer: c 
+ 
+ 
+
+PART B 
+
+1) short notes on Passing Array Element to Function with an example 
+2) Explain Formal and Actual Parameters 
+3) Give the Advantages of using Functions , 
+4) example program for Processor Directives and #define Directives 
+5) write a program for Pointer Declaration and dereferencing, 
+6) write a program for pointers, Void Pointers and size of Void Pointers 
+7. Write algorithm and pseudo code for leap year calculation. [CLO 1] 
+8. Contrast the declaration of break and continue in while and for loop with justification 
+
+ [CLO 2] 
+9. Limitations of two dimensional arrays. 
+ 
+PART C 
+
+1) i) c program to read array elements and print the values with their address 
+ ii) what is Pointers and address operator, explain with an example of Size of Pointer Variable and 
+Pointer, Operator 
+ 2) Explain in details with an example Pointer Declaration and dereferencing, pointers, Void Pointers and 
+size of Void Pointers 
+ 
+3) write program for Arithmetic Operations, Incrementing Pointers 
+
+4) what is Constant Pointers, Pointers to array elements and strings 
+ 
+5)what is function pointer & Array of Function Pointers with an example 
+ 
+6write the c program for Accessing Array of Function Pointers, Null Pointers 
+ 
+
+ 
+7) Justify and explain the different size of data types using pointer variables with example program. 
+
+ 
+ 
+ 8) i) write a c program to count vowels and consonants in a string using pointer 
+
+ 
+ ii) Write call by reference and call by value with an example program 
+ 
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ UNIT 5 
+
+Part A 
+
+1. Which of the following are themselves a collection of different data types? 
+
+a) string 
+
+b) structures 
+
+c) char 
+
+d) all of the mentioned 
+
+View Answer 
+
+Answer: b 
+Explanation: None. 
+
+2. User-defined data type can be derived by___________ 
+
+a) struct 
+
+b) enum 
+
+c) typedef 
+
+d) all of the mentioned 
+
+ 
+
+Answer: d 
+ 
+
+3. Which operator connects the structure name to its member name? 
+
+a) – 
+
+b) <- 
+
+c) . 
+
+d) Both <- and . 
+
+ 
+
+Answer: c 
+ 
+
+4. Which of the following cannot be a structure member? 
+
+a) Another structure 
+
+b) Function 
+
+c) Array 
+
+
+d) None of the mentioned 
+
+ 
+
+Answer: b 
+ 
+
+5. Which of the following structure declaration will throw an error? 
+
+a) struct temp{}s; 
+ main(){} 
+b) struct temp{}; 
+ struct temp s; 
+ main(){} 
+c) struct temp s; 
+ struct temp{}; 
+ main(){} 
+d) None of the mentioned 
+
+Answer: d 
+ 
+
+6. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. struct student 
+3. { 
+
+4. int no; 
+5. char name[20]; 
+
+6. } 
+7. void main() 
+
+8. { 
+9. struct student s; 
+
+10. s.no = 8; 
+11. printf("hello"); 
+
+12. } 
+
+a) Compile time error 
+
+b) Nothing 
+
+c) hello 
+
+d) Varies 
+
+ 
+
+Answer: a 
+ 
+
+7. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. struct student 
+3. { 
+
+4. int no = 5; 
+5. char name[20]; 
+
+6. }; 
+7. void main() 
+
+
+8. { 
+9. struct student s; 
+
+10. s.no = 8; 
+11. printf("hello"); 
+
+12. } 
+
+a) Nothing 
+
+b) Compile time error 
+
+c) hello 
+
+d) Varies 
+
+ 
+
+Answer: b 
+ 
+8. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. struct student 
+
+3. { 
+4. int no; 
+
+5. char name[20]; 
+6. }; 
+
+7. void main() 
+8. { 
+
+9. student s; 
+10. s.no = 8; 
+
+11. printf("hello"); 
+12. } 
+
+a) Nothing 
+
+b) hello 
+
+c) Compile time error 
+
+d) Varies 
+
+ 
+
+Answer: c 
+ 
+
+9. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. void main() 
+3. { 
+
+4. struct student 
+5. { 
+
+6. int no; 
+7. char name[20]; 
+
+8. }; 
+9. struct student s; 
+
+
+10. s.no = 8; 
+11. printf("%d", s.no); 
+
+12. } 
+
+a) Nothing 
+
+b) Compile time error 
+
+c) Junk 
+
+d) 8 
+
+ 
+
+Answer: d 
+ 
+
+10. Can the above code be compiled successfully? 
+
+1. #include <stdio.h> 
+
+2. struct p 
+3. { 
+
+4. int k; 
+5. char c; 
+
+6. float f; 
+7. }; 
+
+8. int main() 
+9. { 
+
+10. struct p x = {.c = 97, .f = 3, .k = 1}; 
+11. printf("%f\n", x.f); 
+
+12. } 
+
+a) Yes 
+
+b) No 
+
+c) Depends on the standard 
+
+d) Depends on the platform 
+
+ 
+
+Answer: c 
+ 
+ 
+
+11. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. void main() 
+3. { 
+
+4. struct student 
+5. { 
+
+6. int no; 
+7. char name[20]; 
+
+8. }; 
+9. struct student s; 
+
+
+10. no = 8; 
+11. printf("%d", no); 
+
+12. } 
+
+a) Nothing 
+
+b) Compile time error 
+
+c) Junk 
+
+d) 8 
+
+ 
+
+Answer: b 
+ 
+
+12. Number of bytes in memory taken by the below structure is 
+
+1. #include <stdio.h> 
+
+2. struct test 
+3. { 
+
+4. int k; 
+5. char c; 
+
+6. }; 
+
+a) Multiple of integer size 
+
+b) integer size+character size 
+
+c) Depends on the platform 
+
+d) Multiple of word size 
+
+ 
+
+Answer: a 
+ 
+
+13. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. struct 
+
+3. { 
+4. int k; 
+
+5. char c; 
+6. }; 
+
+7. int main() 
+8. { 
+
+9. struct p; 
+10. p.k = 10; 
+
+11. printf("%d\n", p.k); 
+12. } 
+
+a) Compile time error 
+
+b) 10 
+
+c) Undefined behaviour 
+
+
+d) Segmentation fault 
+
+ 
+
+14. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. struct 
+3. { 
+
+4. int k; 
+5. char c; 
+
+6. } p; 
+7. int p = 10; 
+
+8. int main() 
+9. { 
+
+10. p.k = 10; 
+11. printf("%d %d\n", p.k, p); 
+
+12. } 
+
+a) Compile time error 
+
+b) 10 10 
+
+c) Depends on the standard 
+
+d) Depends on the compiler 
+
+ 
+
+Answer: a 
+ 
+
+15. What is the output of this C code? 
+
+1. #include <stdio.h> 
+
+2. struct p 
+3. { 
+
+4. int k; 
+5. char c; 
+
+6. }; 
+7. int p = 10; 
+
+8. int main() 
+9. { 
+
+10. struct p x; 
+11. x.k = 10; 
+
+12. printf("%d %d\n", x.k, p); 
+13. } 
+
+a) Compile time error 
+
+b) 10 10 
+
+c) Depends on the standard 
+
+d) Depends on the compiler 
+
+ 
+
+
+Answer: b 
+ 
+
+16. What is the output of this C code? 
+
+1. #include <stdio.h> 
+2. struct p 
+
+3. { 
+4. int k; 
+
+5. char c; 
+6. float f; 
+
+7. }; 
+8. int p = 10; 
+
+9. int main() 
+10. { 
+
+11. struct p x = {1, 97}; 
+12. printf("%f %d\n", x.f, p); 
+
+13. } 
+
+a) Compile time error 
+
+b) 0.000000 10 
+
+c) Somegarbage value 10 
+
+d) 0 10 
+
+ 
+
+Answer: b 
+ 
+
+17. What is the output of this C code(according to C99 standard)? 
+
+advertisement 
+
+1. #include <stdio.h> 
+2. struct p 
+
+3. { 
+4. int k; 
+
+5. char c; 
+6. float f; 
+
+7. }; 
+8. int main() 
+
+9. { 
+10. struct p x = {.c = 97, .f = 3, .k = 1}; 
+
+11. printf("%f\n", x.f); 
+12. } 
+
+a) 3.000000 
+
+b) Compile time error 
+
+c) Undefined behaviour 
+
+d) 1.000000 
+
+ 
+
+
+Answer: a 
+ 
+
+18. What is the output of this C code(according to C99 standard)? 
+
+1. #include <stdio.h> 
+2. struct p 
+
+3. { 
+4. int k; 
+
+5. char c; 
+6. float f; 
+
+7. }; 
+8. int main() 
+
+9. { 
+10. struct p x = {.c = 97, .k = 1, 3}; 
+
+11. printf("%f \n", x.f); 
+12. } 
+
+a) 3.000000 
+
+b) 0.000000 
+
+c) Compile time error 
+
+d) Undefined behaviour 
+
+ 
+
+Answer: b 
+ 
+
+19. What is the output of this C code(according to C99 standard)? 
+
+1. #include <stdio.h> 
+2. struct p 
+
+3. { 
+4. int k; 
+
+5. char c; 
+6. float f; 
+
+7. }; 
+8. int main() 
+
+9. { 
+10. struct p x = {.c = 97}; 
+
+11. printf("%f\n", x.f); 
+12. } 
+
+a) 0.000000 
+
+b) Somegarbagevalue 
+
+c) Compile time error 
+
+d) None of the mentioned 
+
+ 
+
+Answer: a 
+ 
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+PART B 
+
+1. Write algorithm and pseudo code for leap year calculation. 
+2. Contrast the declaration of break and continue in while and for loop with justification 
+3. Limitations of two dimensional arrays. 
+4. Explain about nested pre-processor MACRO 
+5. Categorize the basic operations that can be performed on a file with suitable declarations. 
+6. Write a c program to demonstrate double pointer for accessing the value of another pointer 
+7. Explain about file operations and mode with syntax. 
+
+8) explain shortly about Initializing Structure, Declaring structure, variable, 
+9) give the example of Structure using typedef, Accessing members 
+10)what is Nested structure, Accessing elements in a structure array, 
+11)write c program for Array of structure, Accessing elements in a structure array 
+12. Explain about file operations and mode with syntax. 
+ 13. Give a brief note about preprocessor directives. 
+14. Differentiate between a union and a structure. 
+15.Write a program to read a file character by character, and display it simultaneously on the 
+screen 
+16) write a program for Passing Array of structure to function, 
+17)write a program for Array of pointers to structures 
+18. Explain about nested pre-processor MACRO 
+19. Categorize the basic operations that can be performed on a file with suitable declarations. 
+20.Write a c program to demonstrate double pointer for accessing the value of another pointer 
+ 
+ 
+ 
+
+ PART C 
+
+ 
+
+ 1) explain in details about Bit Manipulation to structure and Pointer, to structure, Union Basic and 
+declaration with an example 
+ 
+ 2) explain in details about Accessing Union Members Pointers to Union, Dynamic memory allocation, 
+ mallaoc, realloc, free with an example 
+ 
+ 
+
+3) explain in details about Allocating Dynamic Array, Multidimensional array using dynamic memory 
+allocation with an example 
+4) Explain in details about array of structures and accessing elements in a structure array. 
+
+ 
+5)Write a c program to insert a line at the end of text file 
+6) write a program to copy the content from one file to another file 
+ 7) explain and write the program for library management system using union 
+
+
+8) write a c program for file: opening, defining, closing, File Modes, File Types, Writing contents into a 
+file 
+ 9) write a c program for Reading file contents, Appending an existing file 
+10)Differentiate between gets() and scanf() 
+(11)Write a program to convert the given string “hello world” to “dlrow olleh”. 
+ 
+12. Write a program that passes a pointer to a structure to a function 
+ 
+13 Briefly discuss about file operations in C 
+ 
+1 4) c program to read array elements and print the values with their address 
+
+ 
+32(a)Write a program that passes a pointer to a structure to a function 
+15) Justify and explain the different size of data types using pointer variables with example program. 
+ [CLO 5] 
+ 
+ (OR) 
+16) write a c program to count vowels and consonants in a string using pointer 
+32(b)B r iefly dis c u s s about file operations in C [CLO 5] 
+
+ 17) Write call by reference and call by value with an example program 
+ 
+ 
+ 
+18) a) i) Explain in details about array of structures and accessing elements in a structure array. 
+
+ 
+ ii) Write a c program to insert a line at the end of text file 
+ 
+ 19) i) write a program to copy the content from one file to another file 
+ ii) explain and write the program for library management system using union 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+SRM Institute of Science and Technology, Ramapuram
+Department of Computer Science and Engineering
+
+18CSS101J-Programming for Problem Solving
+
+UNIT 1 MCQ
+
+1. What is the value of variable z?
+int x;
+int y;
+int z;
+x=3;
+y=4;
+z = ++x * y++;
+
+a) 9
+b) 12
+c) 16
+d) 20
+
+Answer: c
+
+2. To represent two different conditions which of the following is used.
+
+a) Rectangle
+
+b) Diamond
+
+c) Circle
+
+d) Parallelogram
+
+Ans B
+
+3. Give the output of the following program?
+#include <stdio.h>
+main()
+{
+
+int a=9, b=9;
+a=b++;
+b=a++;
+b=++b;
+printf("%d %d",a,b);
+
+}
+a) 9,9
+b) 10,10
+c) 9,10
+d) 10,9
+
+
+Answer: b
+
+4. In the below mentioned operators, which of the following has the highest precedence?
+a) Unary +
+b) *
+c) >=
+d) ==
+
+Answer: a
+
+5. What is the output of the given code?
+
+counter = 2
+while counter < 68
+puts counter
+counter**=2
+end
+
+a) 2 4 16 64
+b) 2 4 16
+c) 2 4 16 256
+d) None of the mentioned
+
+Answer: b
+
+6. Which of the following is a valid assignment operator?
+a) +=
+b) -=
+c) *=
+d) All of the mentioned
+
+Answer: d
+
+7. The output for the following C code is?
+#include <stdio.h>
+void main()
+{
+
+int x = 97;
+int y = sizeof(x++);
+printf("x is %d", x);
+
+}
+a) x is 97
+b) x is 98
+c) x is 99
+d) Run time error
+
+Answer: a
+
+8. Give the correct answer for the following C code?
+#include <stdio.h>
+void main()
+
+
+{
+int x = 4, y, z;
+y = --x;
+z = x--;
+printf("%d%d%d", x, y, z);
+
+}
+a) 3 2 3
+b) 2 2 3
+c) 3 2 2
+d) 2 3 3
+
+Answer: d
+
+9. What will be the output of the following C code?
+
+#include <stdio.h>
+void main()
+{
+
+int x = 4;
+int *p = &x;
+int *k = p++;
+int r = p - k;
+printf("%d", r);
+
+}
+a) 4
+b) 8
+c) 1
+d) Run time error
+
+Answer: c
+
+10. Among the following options, which is not a valid representation in bits?
+a) 8-bit
+b) 24-bit
+c) 32-bit
+d) 64-bit
+
+Answer: b
+11. Name the entities whose values can be changed?
+
+a) Constants
+b) Variables
+c) Modules
+d) Tokens
+
+Answer: b
+
+12. Which is not a basic data type ?
+a) float
+b) int
+c) real
+
+
+d) char
+Answer: c
+
+13. Name the correct default value of a Boolean type?
+a) 0
+b) 1
+c) True
+d) False
+e) -1
+
+Answer: Option D
+
+14. Which of the statements given below are correct?
+1. We can assign values of any type to variables of type object.
+2. When a variable of a value type is converted to object, it is said to be unboxed.
+3. When a variable of type object is converted to a value type, it is said to be boxed.
+4. Boolean variable cannot have a value of null.
+5. When a value type is boxed, an entirely new object must be allocated and constructed.
+a) 2, 5
+b) 1, 5
+c) 3, 4
+d) 2, 3
+
+Answer: Option B
+
+15. Name the correct ways to set a value as 3.14 in a variable pi such that it cannot be modified?
+a) float pi = 3.14F;
+b) #define pi 3.14F;
+c) const float pi = 3.14F;
+d) const float pi; pi = 3.14F;
+e) pi = 3.14F;
+
+Answer: C
+
+16. why the variable names beginning with underscore is not encouraged?
+a) It is not standard form
+b) To avoid conflicts since assemblers and loaders use such names
+c) To avoid conflicts since library routines use such names
+d) To avoid conflicts with environment variables of an operating system
+
+Ans:c
+
+17. Mention the variable name which is not valid in C ?
+a) int number;
+b) float rate;
+c) int variable_count;
+d) int $main;
+
+Ans:d
+
+18. Which among the following options is true for the variable names in C?
+
+
+a) They can contain alphanumeric characters as well as special characters
+b) It is not an error to declare a variable to be one of the keywords(like goto, static)
+c) Variable names can’t start with a digit
+d) Variable can be of any length
+
+Ans:c
+
+19. Give the output for the following code?
+#include <stdio.h>
+int main()
+{
+int main = 5;
+printf(“%d”, main);
+return 0;
+}
+
+a) compile-time error
+b) run-time error
+c) run without any error and prints 5
+d) experience infinite looping
+
+Ans:c
+
+20. Which of the following can never be a variable name in C?
+a) friend
+b) true
+c) volatile
+d) export
+
+Ans: c
+
+21. Mention the User-defined data type from the following?
+a) struct {char name[10], int age};
+b) typedef enum {Mon, Tue, Wed, Thu, Fri} Workdays;
+c) typedef int Boolean;
+d) all of the mentioned
+
+Answer:d
+
+22. What is short int in C programming?
+a) Basic datatype of C
+b) Qualifier
+c) short is the qualifier and int is the basic data type
+d) All of the mentioned
+
+Ans:c
+
+23. What is the output of this C code?
+#include <stdio.h>
+int main()
+{
+signed char chr;
+
+
+chr = 128;
+printf(“%d\n”, chr);
+return 0;
+}
+
+a) 128
+b) -128
+c) Depends on the compiler
+d) None of the mentioned
+
+Ans:b
+
+24. Which of the data types have size that is in variable?
+a) int
+b) struct
+c) float
+d) double
+
+Ans:b
+
+25. Mention the User-defined data type?
+a) typedef int Boolean;
+b) typedef enum {Mon, Tue, Wed, Thu, Fri} Workdays;
+c) struct {char name[10], int age};
+d) All of the mentioned
+
+Answer: Option D
+
+26. Output of this C code is ?
+
+int main()
+{
+char chr;
+chr = 128;
+printf("%d\n", chr);
+return 0;
+}
+
+a) 128
+b) – 128
+c) Depends on the compiler
+d) None of the mentioned
+
+Answer: Option B
+
+27. What is the output for the C program ?
+#include <stdio.h>
+int main()
+{
+
+static int i=5;
+if (--i){
+
+printf("%d ",i);
+
+
+main();
+}
+
+}
+a) 4 3 2 1
+b) 1 2 3 4
+c) 4 4 4 4
+d) 0 0 0 0
+
+Answer: A
+
+28. Which of the following is not a storage class in C?
+a) automatic storage class
+b) register storage class
+c) external storage class
+d) internal storage class
+
+Ans: d
+
+29. Scope of which of these in C is not local to the block in which it is defined
+a) automatic storage class
+b) register storage class
+c) static storage class
+d) external storage class
+
+Ans d
+
+30. Single line comments are denoted by _____.
+a) //
+b) \\\\
+c) /*
+d) */
+
+Answer: A
+
+31 . How many comment lines are present in the below program -
+main()
+{
+printf(\"Hello World in C //Comment \");
+printf(\"Hello World in C \"); //Comment
+//Comment printf(\"Hello World in C \");
+}
+
+a) 1
+b) 0
+c) 2
+d) 3
+
+Answer: C
+
+
+32. Comments are case Sensitive !
+a) True
+b) False
+
+Answer: B
+33. What is the use of getchar()?
+
+a) The next input character each time it is called
+b) EOF when it encounters end of file
+c) The next input character each time it is called EOF when it encounters end of file
+d) None of the mentioned
+
+Answer: c
+
+34. Name the method which uses a list of well-defined instructions to complete a task
+a) Algorithm
+b) Flowchart
+c) Programs
+d) Functions
+
+Ans C
+
+35. Sequence logic will not be used while
+a) Accepting input from the user
+b) Giving output to the user
+c) Adding two numbers
+d) Comparing two sets of data
+
+Ans B
+
+36. Flowchart and algorithms are used for
+a) Better programming
+b) Easy understanding and debugging
+c) Efficient coding
+d) All the above
+
+Ans d
+
+37. What is the default initial value of static storage class?
+a) 0
+b) garbage value
+c) 1
+d) -1
+
+Ans a
+
+38. Resolving errors in a program is known as...
+
+a) Debugging
+b) Refixing
+c) Error Checking
+d) Problem Solving
+
+Ans a
+
+
+39. Many features of C were derived from an earlier language called _____.
+a) FORTRAN
+b) BASIC
+c) B
+d) PASCAL
+
+Ans C
+
+40. C Programming was created at ?
+a) MIT University
+b) AT&T Bell Laboratory
+c) L&T Laboratory
+d) Haward University
+
+Ans B
+
+41. What will be the output of the following pseudocode?
+Integer a, b
+Set a = 15, b = 7
+a = a mod (a - 3)
+b = b mod (b – 3)
+a = a mod 1
+b = b mod 1
+Print a + b
+
+a) 15
+b) 7
+c) 2
+d) 0
+
+[Note-mod finds the remainder after the division of one number by another. For example, the
+expression “5 mod 2” leaves a quotient of 2 and a remainder of 1]
+Answer: d
+
+42. What will be the output of the following pseudocode?
+Integer a, b, c
+Set b = 5, a = 2, c = 2
+if(b>a && a>c && c>b)
+b = a + 1
+Else
+a = b + 1
+End if
+Print a + b + c
+[Note-&&: Logical AND - The logical AND operator (&&) returns the Boolean value true(or 1)
+if both operands--. If (x) gets executed if the value if(), i.e., x is not zero]
+
+a) 2
+b) 13
+c) 26
+d) 5
+
+Ans:B
+
+
+UNIT 2 MCQ
+
+1. Does rational operators in the C language are calculated with the short circuit?
+a) True
+b) False
+c) Depends on the compiler
+d) Depends on the standard
+
+Answer: a
+
+2.  What is the outcome of relational or logical operation in C?
+a) True or False
+b) 0 or 1
+c) 0 if an expression is false and any positive number if an expression is true
+d) None of the mentioned
+
+Answer: b
+
+3. What will be the output of the following C code?
+
+#include <stdio.h>
+
+int main()
+
+{
+
+int a = 20, b = 10, c = 10;
+
+int d;
+
+d = b + c == a;
+
+printf("%d", d);
+
+}
+
+a)Syntaxerror
+b1
+c)5
+d) 10
+
+Answer: b
+
+
+4.  What will be the output of the following C program.
+
+#include<stdio.h>
+
+int main()
+
+{ int a=-1, b=1, c, d;
+
+c = !a && b;
+
+d = !a || b;
+
+printf("%d %d %d %d",a,b,c,d);
+
+return 0;
+}
+
+a) -1 1 1 0
+b) -1 1 0 0
+c) -1 1 1 1
+d) -1 1 0 1
+
+Ans:- d
+
+5. Which operator of the following is not a logical or relational operator?
+a) !=
+b) ==
+c) ||
+d) =
+
+Answer: d
+6.  Relational operators will not be used in ____________
+
+a) structure
+b) long
+c) strings
+d) float
+Answer: a
+
+7. Which are the operators used to relate the values of operands to create logical value in C
+language?
+
+  a) Logical operator
+  b) Relational operator
+
+c) Assignment operator
+) None of the above
+
+
+Answer: b
+
+8. In the following operators which one performs processes on data in binary level?
+
+ a)Logical operator
+b)Bitwise operator
+c) Additional operators
+d)None of the above
+
+Answer: b
+
+9. How many number of operands needed to unary operator logical not (!)?
+
+a)4
+
+b)3
+
+c)2
+
+d)1
+
+Answer: d
+
+10. An expression comprises relational, arithmetic and assignment operators. If interpolations
+are not indicated, the order of valuation of the operators will be:
+
+a) Assignment, arithmetic, relational
+
+b) Relational, assignment, arithmetic
+
+c) Assignment, relational, arithmetic
+
+d) Arithmetic, relational, assignment
+
+Answer: d
+
+11. Which group has higher priority between (>,<=,<,<==) and (==,!=)?
+
+a) (>, >=, <, <=) has lower priority (==, !=)
+b) (>, >=, <, <=) has higher priority (==, !=)
+c) (>, >=, <, <=) has equal priority with (==, !=)
+d) None of the above
+
+Answer: b
+
+
+12. The || and && operators
+
+A. Relate two Boolean values
+B. Relate two numeric values
+C. Combine two Boolean values
+D. Combine two numeric values
+
+Answer: C
+
+13. Increment operators need L-value Expression What will be the output of the following
+program?
+
+#include<stdio.h>
+int main()
+{    int i = 10;
+
+    printf("%d", ++(-i));
+    return 0;
+
+}
+A) 11
+B) 10
+C) -9
+D) None – l-value required
+
+Answer: D
+14. What will be the output of the following C program?
+
+#include <stdio.h>
+int main()
+{ int a = 3, b = -8, c = 2;
+
+    printf("%d", a % b / c);
+  return 0; }
+
+A) 1
+B) 15
+C) -9
+D) 12
+
+Answer: A
+
+15. What will be the output of the following C code?
+
+#include <stdio.h>
+
+
+void main()
+{ double x = 123828749.66;
+
+int y = x;
+printf("%d\n", y);
+printf("%lf\n", y);}
+
+a) 0, 0.0
+b) 123828749, 123828749.66
+c) 12382874, 12382874.0
+d) 123828749, 0.000000
+
+Answer: d
+16. Which of the following selection statement test only equality?
+
+a) if
+b) switch
+c) if & switch
+d) none of the mentioned
+Answer: b
+
+17. Which of the following will execute the body of loop condition is false?
+
+a) do-while
+b) while
+c) for
+d) none of the mentioned
+
+Answer: a
+
+18. Which of this following statement is incorrect?
+
+a) switch statement is more efficient than a set of nested ifs
+b) two case constants in the same switch can have identical values
+c) switch statement can only test for equality, whereas if statement can evaluate any type
+of Boolean expression
+d) it is possible to create a nested switch statements
+
+Answer: b
+
+
+19. The break statement is used to quite from:
+
+a. DO loop
+b. FOR loop
+c. SWITCH SATEMENT
+d. All of above.
+
+Answer: d
+
+20. The advantage of a SWITCH statement over an ELSE-IF statement:
+
+a. A default condition can be used in the SWITCH.
+b. It is easier to understand.
+c. Several conditions can cause one set of statements to be executed in a SWITCH.
+d. Several diffeent statements can be executed in a SWITCH.
+
+Answer: b
+
+21. The comma (,) operator is primarily used in conjunction with:
+a. FOR statement.
+b. IF-ELSE statement.
+c. DO-While statement.
+d. All of above.
+
+Answer: a
+
+22. The GOTO statement is used:
+
+a. To permit two dissimilar expressions to appear in condition where only one expression
+would ordinarily use.
+
+b. to dismiss loops or to exit from a switch.
+c. an unconditional transfer of control to a named label.
+d. to carry out a logical test and then take one of two possible actions, depending upon the
+
+outcome of a test.
+Answer: c
+23. What is an Array in C language?
+
+A) A group of elements of same data type.
+B) An array contains more than one element
+C) Array elements are stored in memory in continuous or contiguous locations.
+D) All the above.
+
+Answer :d
+
+
+24. An array Index starts with?
+A) -1
+B) 0
+C) 1
+D) 2
+
+Answer :b
+
+25. What is the output of c program?
+Int main()
+{
+Int a[]={5,2,3,4};
+Int b[4]={10,6,7,8};
+Printf(“%d,%d”, a[0], b[0]);
+}
+A) 5,10
+B) 2,6
+C) 0 0
+D) Compiler error
+
+Answer : A
+
+26. Which is correct format for initializing an array in C?
+
+a) int arr[5] = (1,2,3,4,5);
+b) int arr(3) = {1,2,3,4,5};
+c) int arr[3] = {1,2,3,4,5};
+d) int arr(3) = (1,2,3,4,5);
+
+Answer: c
+
+27. Which of the following concepts make extensive use of arrays?
+a) Binary trees
+b) Scheduling of processes
+c) Caching
+d) Spatial locality
+
+Answer: d
+
+
+28. What are the disadvantages of arrays?
+
+a) Data structure like queue or stack cannot be implemented
+b) There are chances of wastage of memory space if elements inserted in an array are
+lesser than the allocated size
+c) Index value of an array can be negative
+d) Elements are sequentially accessed
+
+Answer: b
+
+29. Array is accessed by _____________ elements.
+a) randomly
+b) sequentially
+c) exponentially
+d) logarithmically
+
+Answer: a
+
+30. What is the output of C program with arrays?
+
+int main()
+
+{char str[]={"C","A","T","\0"};
+
+printf("%s",str);
+
+return 0;}
+
+A) C
+B) CAT
+C) CAT\0
+D) Compiler error
+
+Answer: D
+
+31. What is the output of C program with string arrays?
+
+int main()
+
+{ char *p1 = "GOAT";
+
+char *p2;
+
+p2 = p1;
+
+p2="ANT";
+
+
+printf("%s", p1);
+
+}
+
+A) ANT
+B) GOAT
+C) G
+D) A
+
+Answer: B
+
+32. A one-dimensional array contains one-dimensional arrays is called
+A. Two-dimensional array
+B. Multi-casting array
+C. Multi-dimensional array
+D. Three-dimensional array
+Answer: A
+
+33. Objects in a sequence that have the same type, is called
+A. Arrays
+B. Operators
+C. Functions
+D. Stacks
+Answer: A
+
+34. In an array starting from the beginning and inspecting each element one after other for
+finding an object, until the object is found is called as
+A. Linear search algorithm
+B. Searching
+C. Inspecting
+D. All of them
+
+Answer: A
+
+35. Which of the following technique is used to find value in an array?
+A. Binary search algorithm
+B. Bubble sort
+
+
+C. Linear search algorithm
+D. All of them
+Answer: d
+
+36. Programmer’s uses _______ for defining their own types.?
+A. Algorithms
+B. Operators
+C. Enumerations
+D. None of them
+Answer: c
+
+37. A I-D array is considered as____?
+A. Complex
+B. Sequential
+C. Linear
+D. Both C and B
+Answer: d
+
+38. Array comprising elements are numbered as 0,1,2,3? These numbers are called as
+A. Subscripts of the array
+B. Index values
+C. Members of an array
+D. Both A and B
+Answer: d
+
+39. Find the output of the code
+
+#include<stdio.h>
+void main()
+{
+int m[5]={10,20,30,40,50);
+int a,b,c;
+a=++m[1];
+b=m[1]++
+c=m[i++];
+
+
+printf(“%d,%d,%d”,a,b,c);
+}
+
+A. 21,20,30
+B. 20,21,30
+C. 22,21,30
+D. 20,21,40
+Answer : C
+
+40. What will be the resulting array after rotating arr[]={2, 4, 6, 8, 10} by 2?
+A. 4, 6, 8, 10, 2
+B. 10, 2, 4, 6, 8
+C. 8, 10, 2, 4, 6
+D. 6, 8, 10, 2, 4
+
+Answer : D
+
+41. Which one is used in arrays extensively
+A. Scheduling
+B. Caching
+C. Spatial Locality
+D. Binary trees
+
+Answer : C
+
+42. What is the size of int arr[10] if the int is of 4 bytes?
+A. 4
+B. 40
+C. 10
+D. 14
+
+Answer : B
+
+43. The resulting array after reversing arr[]={21,23,25,27,29} is
+A. 29,27,25,23,21
+B. 25,27,29,21,23
+C. 27,29,21,23,25
+D. 23,25,27,29,21
+
+Answer : A
+
+
+44. Maximum number of dimensions an array have
+A. 8
+B. 4
+C. No limit
+D. 50
+
+Answer : C
+
+45. What does int arr[30] mean?
+A. Array of size 30
+B. Integer Array of size 30
+C. Array of size 30 that have integer address
+D. None
+
+Answer : A
+
+
+UNIT 3 MCQ
+
+1. ___ quotes is used for character array initialization.
+(A) Any
+(B) Double
+(C) No
+(D) Single
+Answer: B
+
+2. Data type for array in C belongs to------------
+(A) Primitive
+(B) User defined
+(C) Derived
+(D) Basic
+Answer: C
+
+3. Two compare the two strings which of the following one is used
+(A) Strcmp ()
+(B) Strcpy ()
+(C) Stcp()
+(D) Stcmp()
+Answer: A
+
+4. ------------- Array example is matrix
+(A) Single
+(B) 2-D
+(C) 3-D
+(D) Multi-dimensional
+Answer: B
+
+5. Array Size should be always -----------
+(A) Positive
+(B) Negative
+
+
+(C) Whole number
+(D) Real number
+Answer: A
+
+6. The first subscript of 2D array represents the ----------- size
+(A) Row
+(B) Column
+(C) Object
+(D) Diagonal
+Answer: A
+
+7. _____ array is an array in which each element is itself an array
+(A) 1-D
+(B) 2-D
+(C) 4-D
+(D) 5-D
+Answer: B
+
+8. ---------- character type is used for indicating the terminator of the string.
+(A) Float
+(B) Int
+(C) Null
+(D) String
+Answer: C
+
+9. How many Array types available?
+(A) 1
+(B) 2
+(C) 3
+(D) 4
+Answer: B
+10. For write function, how many parameters required?
+
+
+(A) Two
+(B) Three
+(C) Four
+(D) Five
+Answer: A
+11. Arranging of elements in array with respect to ascending or descending is called ___
+(A) Merging
+(B) Filtering
+(C) Sorting
+(D) Ordering
+Answer: C
+12. The position of array elements always begins from ___
+(A) One
+(B) Two
+(C) Three
+(D) Zero
+Answer: D
+
+13. What will be the output of the following C code?
+
+#include <stdio.h>
+
+int main()
+
+{
+
+ARRAY1(ary);
+
+}
+
+void ARRAY1(int **ary)
+
+{
+
+int i = 10, k = 10, j = 2;
+
+int *ary[2];
+
+ary[0] = &i;
+
+
+ary[1] = &j;
+
+printf("%d\n", ary[0][1]);
+
+}
+
+a.22
+
+b. Compile time error
+
+c. Undefined behavior
+
+d.102
+
+Answer: c
+
+14. What will be the output for the following program?
+
+#include <stdio.h>
+
+int main()
+
+{
+
+int ary[2][3];
+
+ary[][] = {{1, 2, 3}, {4, 2, 6}};
+
+printf("%d\n", ary[1][0]);
+
+return 0;
+
+}
+
+a. 4
+
+b. Compile time error
+
+c.2
+
+d.1
+
+Answer: a
+
+15. int (*b)[6];
+
+a. An array “b” of pointers
+
+
+b. A pointer “b” to an array
+
+c. A ragged array
+
+d. None of the mentioned
+
+Answer: b
+
+15. Statement on the following 2 arrays with respect to M and N.
+
+int *x1[8];
+
+int *(x2[8]);
+
+M. Array of pointers
+
+N. Pointer to an array
+
+A) x1 is M x1 is N
+
+B) x1 is M, x2 is M
+
+C) x1 is N, x2 is M
+
+D) x1 is N, x2 is N
+
+Answer: b
+
+16. Which of the following is not possible statically in C?
+
+a. Jagged array
+
+b. Rectangular array
+
+c. Cuboidal array
+
+d. Multidimensionl Array.
+
+Answer:D
+
+17. What will be the output of the following C code?
+
+
+#include <stdio.h>
+
+void main()
+
+{
+
+int a[2][3] = {1, 3, 5, 7, 9};
+
+int i = 0, j = 0;
+
+for (i = 0; i < 2; i++)
+
+for (j = 0; j < 3; j++)
+
+printf("%d", a[i][j]);
+
+}
+
+a.135790
+
+b.13579junk
+
+c.135799
+
+d. Run time error
+
+Answer: a
+
+18.  Write the output of the following C code?
+
+#include <stdio.h>
+
+int main()
+
+{
+
+char *S1 = "hello, world";
+
+char *S2 = "hello, world";
+
+
+if (strcmp(S1, S2))
+
+printf("equal");
+
+else
+
+printf("unequal");
+
+}
+
+a.equal
+
+b.Unequal
+
+c.Compilation errot
+
+d. Depends on the compiler
+
+Answer: b
+
+19. Write the output for the below code.
+
+#include <stdio.h>
+
+int main()
+
+{
+
+char *str = "hello, word\n";
+
+printf("%d", strlen(str));
+
+}
+
+a. Compilation error
+
+
+b. Undefined behavior
+
+c.12
+
+d.11
+
+Answer: c
+
+20. Always----------- function adds null character
+
+a. strcmp()
+
+b. strcat()
+
+c. strcpy()
+
+d. strrev()
+
+Answer: b
+
+21.----------- function is not declared in math.h ?
+a) and()
+b)pow()
+c)exp()
+d) acos()
+
+Answer: a
+
+22.Which one is correct for multidimensional array example.
+
+a. int[][] code = {{1,2},{3,4,5}};
+
+b. int[2][] code = {{1,2},{3,4,5}};
+
+c. int[][] code={1,2,
+
+3,4,5};
+
+d. all
+
+Answer: A
+
+
+23.  The function function1 is called __________ if it calls the same function function1.
+
+A. indirect recursive
+B. direct recursive
+C. Both A and B
+D. None of the above
+
+Answer : B
+
+24.  Iteration not requires more system memory than recursion.
+
+A. TRUE
+B. FALSE
+C. Can be true or false
+D. Can not Say
+
+Answer : A
+
+25. Write the output of the following C code?
+
+#include<stdio.h>
+
+main()
+
+{
+
+int n;
+
+n=f1(3);
+
+printf("%d",n);
+
+}
+
+f1(int x)
+
+{
+
+int b;
+
+if(x==1)
+
+return 1;
+
+else
+
+b=x*f1(x-1);
+
+
+return b;
+
+}
+
+a.6
+
+b.4
+
+c.12
+
+d.10
+
+Answer: a
+
+26.   Find the error of following function give on compilation ?
+
+f(int a,int b)
+{
+int b;
+a = 20;
+return a;
+}
+
+a. Missing parentheses in return statement
+
+b. Function should be define as int f(int a, int b)
+
+c. Redeclaration if b
+
+d. No error
+
+Answer:c
+
+27. It is essential to declare the sort of a function within the calling program on the off chance that
+the function
+
+a.Returns an integer
+
+b.Returns a non-integer value
+
+c.is not defined in the same file
+
+d.None of these.
+
+
+Answer:b
+
+28.  What is meant by void?
+
+a. Representation of NULL data type
+​b. Representation of void pointer
+c. Error​​​
+d. None of above
+
+Answer: A
+
+29. If the two strings are not identical, then strcmp() function returns
+
+a. -1​​​
+b. 0
+c. 1​​​
+d. Yes
+
+Answer: c
+
+30.What is the Format specifier used to print a integer array in C Printf or Scanf function.?
+
+A) %c
+
+B) %C
+C) %s
+D) %d
+Answer:D
+
+31. Write the ouptu for the below code.
+
+int main()
+
+{
+
+char ary[]="SRM IST";
+
+printf("%s",ary);
+
+return 0;
+
+}
+
+
+A) S
+
+B) SRM
+C) SRMIST
+D) SRM IST
+Answer : D
+
+32.How do you convert this char array to string.?
+
+char str[]={'g','o','o','d'};
+
+A) str[4] = 0;
+
+B) str[4] = '\0'
+
+C) str[]={'g','o','o','d','\0'};
+
+D) All the options
+
+Answer : D
+
+33.Find the output?
+
+int main()
+
+{
+
+char str[]={"G","O","D","\0"};
+
+printf("%s",str);
+
+return 0;
+
+}
+
+A) Compiler error
+
+B) GOD
+
+C) GOD\0
+
+D)G
+
+
+Answer : A
+
+34.What is the output of C Program with arrays.?
+
+int main()
+
+{
+
+char str[100];
+
+scanf("%s", str);
+
+printf("%s",str);
+
+return 0;
+
+}
+
+//input: WEST INDIES
+
+A) WEST
+
+B) WEST INDIES
+
+C)W
+
+D) Compiler error
+
+Answer : D
+
+35. What is the output of C Program with functions.?
+
+int main()
+
+{
+
+FUN();
+
+printf("LTD ");
+
+return 0;
+
+}
+
+
+void FUN()
+
+{
+
+printf("HDFC ");
+
+}
+
+A) HDFC LTD
+
+B) LTD HDFC
+
+C) LTD
+
+D) Compiler error
+
+Answer : D
+
+36. In C program, Function return ----------------- number of value at a time.?
+
+A) Only One Value
+
+B) Maximum of two values
+
+C) Maximum of three values
+
+D) Maximum of 8 values
+
+Answer: A
+
+37. Select the types of function
+
+A) Library Functions
+
+B) User Defined Functions
+
+C) Both Library and User Defined
+
+D) None
+
+Answer: C
+
+38. What is the constrain for number of functions in a C Program.?
+
+A) 12
+
+
+B) 24
+
+C) 56
+
+D) No limit
+
+Answer: D
+
+39. What is the least number of functions to be present in a C Program?
+
+A) 1
+
+B)3
+
+C) 4
+
+D) 2
+
+Answer: A
+
+40. Each C Program ought to contain which function.?
+
+A) main()
+
+B) show()
+
+C) scanf()
+
+D) printf()
+
+Answer: A
+
+
+UNIT 4 MCQ
+
+1. How will you declare the function which is intended to receive an array as an argument
+a. return_type function(type arrayname[])
+b. return_type function(type arrayname[SIZE])
+c. return_type function(type *arrayname)
+d. All of the above
+
+Ans: d
+
+2. To store the array returned from the function, we can define a ______ which points to
+that array.
+a. Structure
+b. Array
+c. Pointer
+d. List
+
+Ans: c
+
+3. The difference between Actual Parameters and Formal Parameters is that Actual
+Parameters are the values that are ________ the function when it is invoked while Formal
+Parameters are the variables defined by the function that _________ values when the
+function is called.
+a. Passed to, receives
+b. Received by, pass
+c. Prints, process
+d. Process, prints
+
+Ans: a
+
+4. The advantages of using functions are:
+a. Avoid repetition of codes.
+b. Increases program readability.
+c. Divide a complex problem into simpler ones.
+d. All of the above
+Ans: d
+
+5. The C preprocessor is a __________ that is used automatically by the C compiler to
+transform your program before actual compilation.
+a. Macro processor
+b. Microprocessor
+c. Macro controller
+d. Micorcontroller
+
+
+Ans: a
+
+6. Proprocessordirecives are executed ________ compilation.
+a. Before
+b. After
+c. During
+d. None of the above
+
+Ans: a
+
+7. The ________ preprocessor directive is used to paste code of given file into current file.
+a. #define
+b. #include
+c. #ifdef
+d. #pragma
+
+Ans: b
+
+8. A macro is a _________ which is replaced by the value of macro. Macro is defined
+by ________ directive.
+a. segment of code, #pragma
+b. file, #define
+c. segment of code, #define
+d. none of the above
+
+Ans: c
+
+9. __________ is used to undefine a macro definition.
+a. #udef
+b. #unfed
+c. #defun
+d. #undef
+
+Ans: d
+
+10. What is the output of the following program?
+#include<stdio.h>
+#ifndef __MATH_H
+#error First include then compile
+#else
+void main(){
+
+float a;
+a=sqrt(7);
+
+printf("%f",a);
+}
+#endif
+
+
+a. 2.64575
+b. 49
+c. 0.7
+d. None of the above
+
+Ans: a
+
+11. The _____________ directive is used by the compiler to offer machine or
+operating-system feature.
+a. #define
+b. #elif
+c. #include
+d. #pragma 
+
+Ans: d
+
+12. Calculate the output of the following program?
+#include<stdio.h>
+#define Area(x) x*x
+#define Costpaint(x,y,z) (z*y + Area (x))
+void main()
+{
+   int A = 8, B= 6, C = 4;
+   clrscr();
+   printf("The area of square= %d\n", Area(A));
+   printf("Cost of paint= %d\n", Costpaint(A,B,C));
+}
+a. 64
+b. 88
+c. 32
+d. 76
+
+Ans: b
+
+13. Identify the value that gets printed in the following program
+
+#include <stdio.h>
+int main()
+{
+
+int a=10; //variable declaration
+int *p; //pointer variable declaration
+p=&a; //store address of variable a in pointer p
+
+printf("Address stored in a variable p is:%x\n",p); //accessing the address
+printf("Value stored in a variable p is:%d\n",**p); //accessing the value
+
+return 0;
+}
+
+
+a. 10 10
+b. 10, 60ff08
+c. 60ffd, 10
+d. None of the above
+
+Ans: a
+
+14. ___________ operator can be used to evaluate size of a variable/pointer in C.
+a. size()
+b. eval()
+c. sizeof()
+d. None of the above
+
+Ans: c
+
+15. A pointer to void means a ________ pointer that can point to any data type.
+a. Specific
+b. Generic
+c. Exact
+d. Null
+
+Ans: b
+
+16. Select the possible arithmetic operations are applicable on the pointer in C language:
+a. Increment, Decrement
+b. Addition, Subtraction
+c. Comparison
+d. All of the above
+
+Ans: d
+
+17. What is the output of the following program:
+
+#include<stdio.h>  
+void main ()  
+{  
+    int arr[5] = {1, 2, 3, 4, 5};  
+    int *p = arr;  
+    int i;  
+    printf("printing array elements...\n");  
+    for(i = 0; i< 5; i++)  
+    {  
+        printf("%d  ",*(p+i));  
+    }  
+
+
+}  
+a. 1, 2, 3, 4, 5
+b. 5, 4, 3, 2, 1
+c. 1, 2, 3, 5, 8
+d. None of the above
+
+Ans: a
+
+18. Identify the illegal pointer arithmetic operations:
+a. Address + Address
+b. Address * Address
+c. Address % Address
+d. All of the above
+
+Ans: d
+
+19. What is the output of the given program:
+
+#include<stdio.h>  
+int addition ();  
+int main ()  
+{  
+    int result;   
+    int (*ptr)();  
+    ptr = &addition;  
+    result = (*ptr)();  
+    printf("The sum is %d",result);  
+}  
+int addition()  
+{  
+    int a=5, b=2;   
+    return a+b;  
+}  
+
+a. 10
+b. 3
+c. 7
+d. 25
+Ans: c
+
+20. A ______ pointer in C cannot change the address of the variable to which it is pointing
+a. Fixed
+b. Null
+c. Void
+
+
+d. Constant
+Ans: d
+
+21. An array of pointers to strings is an array of character pointers where each pointer points
+to the ________ of the string or the __________ of the string.
+a. first character, base address
+b. last character, last address
+c. middle character, middle address
+d. None of the above
+Ans: a
+
+22. A function pointer points to _____, not ____.
+a. data, code
+b. code, data
+c. type, const
+d. None of the above
+Ans: b
+
+23. Identify the correct function pointer declaration:
+a. int * foo(int)
+b. int (*foo)(int);
+c. int (int)(*foo)
+d. None of the above
+Ans: b
+
+24. What is the output of the given program:
+#include <stdio.h>
+void Hi_function (int times); /* function */
+int main() {
+void (*function_ptr)(int); /* function pointer Declaration */
+
+function_ptr = Hi_function; /* pointer assignment */
+function_ptr (3); /* function call */
+return 0;}
+void Hi_function (int times) {
+int k;
+for (k = 0; k < times; k++) printf("Hi");}
+
+a. Hi HiHiHiHiHi
+b. Hi HiHiHiHi
+c. Hi HiHiHi
+d. Hi HiHi
+Ans. d
+
+25. What is the output of the given program:
+#include <stdio.h>
+void* cube (const void* num);
+int main() {
+
+
+int x, cube_int;
+x = 4;
+
+cube_int = cube (&x);
+printf("%d cubed is %d\n", x, cube_int);
+return 0;}
+
+void* cube (const void *num) {
+int result;
+result = (*(int *)num) * (*(int *)num) * (*(int *)num);
+return result;}
+
+a. 2 cubed is 9
+b. 3 cubed is 28
+c. 4 cubed is 64
+d. 5 cubed is 26
+Ans. c
+
+26. What is the output of the given program:
+#include<stdio.h>
+main (){
+
+int a[3] = {10,20,30};
+int *p[3],i;
+for (i=0; i<3; i++)
+
+p[i] = &a[i]; //initializing base address of array
+printf (“elements of the array are”)
+
+for (i=0; i<3; i++)
+printf ("%d \t", *p[i]); //printing array of pointers
+getch();
+}
+a. elements of the array are 10 20 30
+b. elements of the array are 9 19 29
+c. elements of the array are 11 21 31
+d. None of the above
+Ans. a
+
+27. What is the output of the following program:
+#include<stdio.h>
+main (){
+
+int a = 10;
+int *p;
+int **q;
+p = &a;
+q = &p;
+
+
+printf("%d",a);
+printf("%d", *p);
+printf("%d", **q);
+}
+a. 10 10 11
+b. 10 11 12
+c. 10 10 10
+d. None of the above
+Ans. d
+
+28. Choose the correct way of declaring pointer array:
+a. datatype pointername [size];
+b. datatype *pointername [size];
+c. datatype[size]pointername;
+d. None of the above
+Ans. b
+
+29. A ________ is a pointer that does not point to any memory location.
+a. Null pointer
+b. Void pointer
+c. Array pointer
+d. String pointer
+Ans. a
+
+30. The null pointer basically stores the ____ value.
+a. Void
+b. Int
+c. Char
+d. Null
+Ans. d
+
+31. __________ is used to initialize a pointer variable when the pointer does not point to a
+valid memory address.
+a. Void
+b. Int
+c. Char
+d. Null
+Ans. d
+
+32. What is the output of the following program:
+#include <stdio.h>  
+int main()  
+{  
+    int *ptr;  
+   printf("Address: %d", ptr);  
+
+
+   printf("Value: %d", *ptr);  
+   return 0;  
+}  
+a. Produces output
+b. Program crashes
+c. Show error
+d. None of the above
+Ans. b
+
+33. What is the output of the following program:
+#include <stdio.h>  
+int main()  
+{  
+    int *ptr;  
+    ptr=(int*)malloc(4*sizeof(int));  
+    if(ptr==NULL)  
+    {  
+        printf("Memory is not allocated");  
+    }  
+    else  
+    {  
+        printf("Memory is allocated");  
+    }  
+    return 0;  
+}  
+a. Memory is not allocated
+b. Memory is allocated
+c. Shows compiler error
+d. Program crashes
+Ans. b
+
+34. What is the output of the following program:
+#include <stdio.h>  
+#include <conio.h>  
+#define NUMBER 0  
+void main() {  
+#if (NUMBER==0)  
+printf("Value of Number is: %d",NUMBER);  
+#endif         
+getch();  
+}  
+a. Value of Number is: 10
+
+
+b. Value of Number is: 11
+c. Value of Number is: 0
+d. Value of Number is 9
+Ans. c
+
+35. The #error preprocessor directive indicates error. The compiler gives fatal error
+if #error directive is found and skips further compilation process.
+a. #ifdef, continue
+b. #error, continue
+c. #ifdef, skips
+d. #error, skips
+Ans. d
+
+36. What is the output of the following program:
+#include <stdio.h>
+int main()
+{
+char *cities[] = {"Iran", "Iraq"};
+int i;
+for(i = 0; i< 2; i++)
+printf("%s\n", cities[i]);
+return 0;
+}
+a. Iraq, Iran
+b. India, Iran
+c. Iran, Iraq
+d. Iraq, India
+Ans. c
+
+37. What is the output of the following program:
+#include <stdio.h>
+#include <string.h>
+void function(char**);
+int main()
+{
+char *str = "Pointer-to-string";
+int i, j = strlen(str);
+for(i = 0; i< j; i++)
+printf("%c", *str++);
+return 0;
+}
+a. gnirts-ot-retnioP
+b. Pointers to string
+
+
+c. Pointers-to-string
+d. All of the above
+Ans. c
+
+38. Choose the correct way that express the Pointer and array elements
+a. a[i]
+b. i[a]
+c. *(a + i)
+d. All of the above
+
+Ans. d
+
+39. What is the output of the following program:
+#include<stdio.h>
+int main(){
+int i = 3;
+int *j;
+int **k;
+j = &i;
+k = &j;
+k++;
+printf("%d ",**k);
+return 0;
+
+}
+a. Garbage Value
+b. Compilation error
+c. Runtime error
+d. Linker error
+Ans. c
+
+40. What is the output of the following program:
+#include<stdio.h>
+int main(){
+int i = 3;
+int *j;
+j = &i;
+j++;
+printf("%d ",*j);
+return 0;
+
+}
+a. Garbage Value
+b. Compilation error
+c. Runtime error
+d. Linker error
+Ans.a
+
+
+UNIT 5 MCQ
+
+1. What is the output of the program?
+#include <stdio.h>
+struct student
+{
+
+char *name;
+};
+
+struct student s;
+struct student fun(void)
+
+{
+s.name = "newton";
+printf("%s\n", s.name);
+s.name = "alan";
+
+return s;
+}
+
+void main()
+{
+
+struct student m = fun();
+printf("%s\n", m.name);
+
+m.name = "turing";
+printf("%s\n", s.name);
+
+}
+
+a) newtonalanalan
+b) run tiime error
+c) alanalan newton
+d) no error
+
+Answer: a
+
+2. What will be the output of the program?
+#include <stdio.h>
+
+struct student
+{
+char *name;
+};
+
+void main()
+{
+
+struct student s, m;
+s.name = "st";
+m = s;
+printf("%s%s", s.name, m.name);
+
+}
+
+a) Compile time error
+
+
+b) no error
+c) runtime error
+d) stst
+
+Answer: D
+
+3. Which return-type cannot be used for a function?
+a) main
+b)int
+c) void
+d) none of the mentioned
+
+Answer:D
+
+4. What will be the output of the program?
+#include <stdio.h>
+
+struct temp
+{
+int a;
+} s;
+
+voidfunc(struct temp s)
+{
+
+s.a = 10;
+printf("%d\t", s.a);
+
+}
+main()
+
+{
+func(s);
+printf("%d\t", s.a);
+
+}
+
+a)0
+b10 20
+c) 10 0
+d) (Garbage Value) 10
+
+Answer:C
+
+5. Which of the following is not possible??
+
+a) s1 = s2;
+b) s1 =! s2;
+c) (*s1).number = 50;
+d) None of the mentioned
+
+Answer: D
+
+
+6. Which operation is illegal in structures?
+
+a) Typecasting of structure
+b) none
+c) Dynamic allocation of memory for structure
+d) All
+
+Answer: A
+
+7. “s.t.b = 10” indicates __________
+
+a) Syntax Error
+b) Structure
+c) float data type
+d) variable name
+
+Answer:B
+
+8. What will be the output of theprogram?
+#include <stdio.h>
+
+struct student
+{
+
+char *name;
+};
+
+struct student fun(void)
+{
+
+struct student s;
+s.name = "alan";
+
+return s;
+}
+
+void main()
+{
+
+struct student m = fun();
+s.name = "turing";
+
+printf("%s", m.name);
+}
+
+a) alan
+b) Runtime error
+c) Compile time error
+d) Noth
+
+Answer:C
+9. What will be the output of the program?
+
+#include <stdio.h>
+struct point
+
+
+{
+int x;
+int y;
+
+};
+int main()
+
+{
+struct point p = {1};
+struct point p1 = {1};
+if(p == p1)
+printf("equal\n");
+else
+printf("not equal\n");
+
+}
+
+a) Compile time error
+b) Runtime error
+c) depends on the standard
+d) equal
+
+Answer: a
+
+10. What will be the output of theprogram?
+#include <stdio.h>
+
+struct point
+{
+
+int x;
+int y;
+
+};
+structnotpoint
+
+{
+int x;
+int y;
+
+};
+struct point foo();
+int main()
+
+{
+struct point p = {1};
+structnotpoint p1 = {2, 3};
+
+p1 = foo();
+printf("%d\n", p1.x);
+
+}
+struct point foo()
+
+{
+struct point temp = {1, 2};
+return temp;
+
+}
+
+
+a) Compile time error
+b) 1
+c) Runtime error
+d) Undefined behaviour
+
+Answer: a
+
+11. What will be the output of theprogram?
+#include <stdio.h>
+
+struct point
+{
+
+int x;
+int y;
+
+};
+structnotpoint
+
+{
+int x;
+int y;
+
+};
+int main()
+
+{
+struct point p = {1};
+structnotpoint p1 = p;
+printf("%d\n", p1.x);
+
+}
+
+a) Compile time error
+b) 1
+c) 0
+d) Runtime error
+
+Answer: a
+
+12. What will be the output of theprogram?
+#include <stdio.h>
+
+struct point
+{
+
+int x;
+int y;
+
+};
+structnotpoint
+
+{
+int x;
+int y;
+
+};
+
+
+void foo(struct point);
+int main()
+
+{
+structnotpoint p1 = {1, 2};
+foo(p1);
+
+}
+void foo(struct point p)
+
+{
+printf("%d\n", p.x);
+
+}
+
+a) Compile time error
+b) 1
+c) 0
+d) Runtime error
+
+Answer: a
+
+13. What will be the output of theprogram?
+#include <stdio.h>
+
+struct point
+{
+
+int x;
+int y;
+
+};
+void foo(struct point*);
+int main()
+
+{
+struct point p1 = {1, 2};
+foo(&p1);
+
+}
+void foo(struct point *p)
+
+{
+printf("%d\n", *p.x++);
+
+}
+
+a) Compile time error
+b) Segmentation fault
+c)code crash
+d) Runtime error
+
+Answer: a
+
+14. What will be the output of theprogram?
+#include <stdio.h>
+
+struct point
+
+
+{
+int x;
+int y;
+
+};
+void foo(struct point*);
+int main()
+
+{
+struct point p1 = {1, 2};
+foo(&p1);
+
+}
+void foo(struct point *p)
+
+{
+printf("%d\n", *p->x++);
+
+}
+a) Compile time error
+b) Runtime error
+c) Segmentation fault
+d) 5
+
+Answer: a
+
+15. What will be the output of theprogram?
+#include <stdio.h>
+
+struct student fun(void)
+{
+
+struct student
+{
+
+char *name;
+};
+
+struct student s;
+s.name = "alan";
+
+return s;
+}
+
+void main()
+{
+
+struct student m = fun();
+printf("%s", m.name);
+
+}
+
+a) Compile time error
+b) Runtime error
+c) Nothing
+d) code crash
+Answer: a
+
+16. What will be the output of theprogram?
+
+
+#include <stdio.h>
+struct student
+
+{char *name;
+};
+
+struct student fun(void)
+{
+
+struct student s;
+s.name = "alan";
+
+return s;
+}
+
+void main()
+{
+
+struct student m = fun();
+printf("%s", m.name);
+
+}
+
+a) Compiletime error
+b) alan
+c) Run time error
+d) code crash
+
+Answer: b
+
+17. What is the correct syntax to access the member of the ith structure?
+Assuming: struct temp
+
+{
+int b;
+}s[50];
+a) s.b.[i];
+b) b[i].s;
+c) b[i];
+d) s[i].b;
+
+Answer: d
+
+18. What is the output of theprogram.
+#include <stdio.h>
+
+struct temp
+{
+
+int a;
+int b;
+int c;
+
+};
+main()
+
+{
+struct temp p[] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+
+
+}
+
+a) No Compile time error, generates an array of structure of size 3
+b) Compile time error, generates an array of structure of size 9
+c) no Compile time error, illegal declaration of a multidimensional array
+d) illegal assignment to members of structure
+
+Answer: a
+
+19. Which of the following uses structure?
+a) Array
+b) Binary Tree
+c)linked list
+d) All
+
+Answer:D
+
+20. What is the correct syntax to declare a function foo() which receives an array of structure in
+function?
+
+a) void foo(struct *var);
+b) void foo(struct.var);
+c) void(struct(var));
+d) none
+
+Answer: a
+
+21. What is the output of the program( size of int be 4)
+#include <stdio.h>
+
+struct temp
+{
+
+int a;
+int b;
+int c;
+
+} p[] = {0};
+main()
+
+{
+printf("%d", sizeof(p));
+
+}
+
+a) 8
+b) 12
+c)30
+d) Can’t be estimated
+Answer: b
+
+22. What is be the output of the program?
+
+
+#include <stdio.h>
+struct student
+
+{
+char *name;
+
+};
+struct student s[2];
+void main()
+
+{
+s[0].name = "alan";
+s[1] = s[0];
+printf("%s%s", s[0].name, s[1].name);
+s[1].name = "turing";
+printf("%s%s", s[0].name, s[1].name);
+
+}
+
+a) alanalanalanturing
+b) alanturingturing
+c) alanturingturing
+d) run time error
+
+Answer: a
+
+23. What isthe output of theprogram?
+#include <stdio.h>
+
+struct student
+{
+
+char *name;
+};
+
+struct student s[2], r[2];
+void main()
+
+{
+s[0].name = "alan";
+s[1] = s[0];
+
+r = s;
+printf("%s%s", r[0].name, r[1].name);
+
+}
+
+a)Runtime error
+b) Compile time error
+c) Varies
+d) None
+
+Answer: b
+24. What is the output of the program?
+
+#include <stdio.h>
+struct student
+
+
+{
+char *name;
+
+};
+void main()
+
+{
+struct student s[2], r[2];
+s[1] = s[0] = "alan";
+printf("%s%s", s[0].name, s[1].name);
+
+}
+
+a) alanalan
+b) None
+c) Compile time error
+d) Runtime error
+
+Answer: c
+
+25. What is be the output of the program?
+#include <stdio.h>
+
+struct student
+{
+};
+
+void main()
+{
+
+struct student s[2];
+printf("%d", sizeof(s));
+
+}
+
+a) 1
+b) 8
+c) 10
+d) 0
+
+Answer: d
+
+26. What is the output of the program?
+#include <stdio.h>
+
+struct point
+{
+
+int x;
+int y;
+
+};
+void foo(struct point*);
+int main()
+
+{
+struct point p1[] = {1, 2, 3, 4};
+
+
+foo(p1);
+}
+
+void foo(struct point p[])
+{
+
+printf("%d\n", p[1].x);
+}
+
+a) Compile time error
+b) 3
+c) 12
+d) 4
+
+Answer: b
+
+27. What is the output of the program?
+
+#include <stdio.h>
+struct point
+
+{
+int x;
+int y;
+
+};
+void foo(struct point*);
+int main()
+
+{
+struct point p1[] = {1, 2, 3, 4};
+foo(p1);
+
+}
+void foo(struct point p[])
+
+{
+printf("%d\n", p->x);
+
+}
+
+a) 1
+b) 2
+c) 4
+d) Run time error
+
+Answer: a
+
+28. What is the output of theprogram?
+#include <stdio.h>
+
+struct point
+{
+
+int x;
+int y;
+
+
+};
+void foo(struct point*);
+int main()
+
+{
+struct point p1[] = {1, 2, 3, 4};
+foo(p1);
+
+}
+void foo(struct point p[])
+
+{
+printf("%d %d\n", p->x, ++p->x);
+
+}
+
+a) 2 4
+b) 2 2
+c) Compile time error
+d) Undefined
+
+Answer: b
+
+29. What is the output of the program?
+#include <stdio.h>
+
+struct point
+{
+
+int x;
+int y;
+
+} p[] = {1, 2, 3, 4, 5};
+void foo(struct point*);
+int main()
+
+{
+foo(p);
+
+}
+void foo(struct point p[])
+
+{
+printf("%d %d\n", p->x, p[2].y);
+
+}
+
+a) 1 0
+b) Run time error
+c) garbage value
+d) Undefined
+
+Answer: a
+
+30. What is the output of the program?
+#include <stdio.h>
+
+struct point
+
+
+{
+int x;
+int y;
+
+};
+void foo(struct point*);
+int main()
+
+{
+struct point p1[] = {1, 2, 3, 4, 5};
+foo(p1);
+
+}
+void foo(struct point p[])
+
+{
+printf("%d %d\n", p->x, p[3].y);
+
+}
+
+a) Run time error
+b) 2 0
+c) 1 some garbage value
+d) None
+
+Answer: c
+
+31. What is the output of the program?
+#include <stdio.h>
+
+struct point
+{
+
+int x;
+int y;
+
+};
+void foo(struct point*);
+int main()
+
+{
+struct point p1[] = {1, 2, 3, 4, 5};
+foo(p1);
+
+}
+void foo(struct point p[])
+
+{
+printf("%d %d\n", p->x, (p + 2).y);
+
+}
+
+a) Compile time error
+b) 2 0
+c) garbagevalue
+d) Undefined
+
+Answer: a
+
+
+32. What is the output of the program?
+#include <stdio.h>
+
+struct point
+{
+
+int x;
+int y;
+
+};
+void foo(struct point*);
+int main()
+
+{
+struct point p1[] = {1, 2, 3, 4, 5};
+foo(p1);
+
+}
+void foo(struct point p[])
+
+{
+printf("%d %d\n", p->x, (p + 2)->y);
+
+}
+
+a) Runtime error
+b) 1 0
+c) garbagevalue
+d) undefined
+
+Answer: b
+
+33. What is the output of the program?
+#include <stdio.h>
+
+struct student
+{
+
+char *c;
+};
+
+void main()
+{
+
+struct student s[2];
+printf("%d", sizeof(s));
+
+}
+a) 2
+b) 3
+c) 1
+d) 8
+
+Answer: d
+34. What is the output of the program?
+
+#include <stdio.h>
+struct p
+
+
+{
+int x;
+char y;
+
+};
+int main()
+
+{
+struct p p1[] = {1, 92, 3, 94, 5, 96};
+struct p *ptr1 = p1;
+int x = (sizeof(p1) / 3);
+if (x == sizeof(int) + sizeof(char))
+printf("%d\n", ptr1->x);
+else
+printf("falsen");
+
+}
+
+a) Compile time error
+b)Runtime error
+c) Undefined
+d) false
+
+Answer: d
+
+35. What is the output of the program?
+#include <stdio.h>
+
+struct p
+{
+
+int x;
+char y;
+
+};
+int main()
+
+{
+struct p p1[] = {1, 92, 3, 94, 5, 96};
+struct p *ptr1 = p1;
+int x = (sizeof(p1) / sizeof(ptr1));
+if (x == 1)
+printf("%d\n", ptr1->x);
+else
+printf("false\n");
+
+}
+
+a) Compile time error
+b) Runtime error
+c) false
+d) Undefined
+
+Answer: c
+
+
+36. What is the output of the program?
+#include <stdio.h>
+
+struct p
+{
+
+int x;
+char y;
+
+};
+typedefstruct p* q*;
+int main()
+
+{
+struct p p1[] = {1, 92, 3, 94, 5, 96};
+
+q ptr1 = p1;
+printf("%d\n", ptr1->x);
+
+}
+
+a) Compile time error
+b) Runtime errot
+c) Undefined
+d) Segmentation fault
+
+Answer: a
+
+37. What is the output of the program?
+#include <stdio.h>
+
+struct p
+{
+
+int x;
+char y;
+
+};
+void foo(struct p* );
+int main()
+
+{
+typedefstruct p* q;
+struct p p1[] = {1, 92, 3, 94, 5, 96};
+foo(p1);
+
+}
+void foo(struct p* p1)
+
+{
+q ptr1 = p1;
+
+printf("%d\n", ptr1->x);
+}
+
+a) Compile time error
+b) Runtime error
+c) Segmentation fault
+
+
+d) Undefined
+
+Answer: a.
+
+38. Which is an incorrect syntax for pointer to structure?
+(Assuming structtemp{int b;}*my_struct;)
+a) *my_struct.b = 10;
+b) (*my_struct).b = 10;
+c) my_struct->b = 10;
+d) Both *my_struct.b = 10; and (*my_struct).b = 10;
+
+Answer: a
+
+39. Which is an incorrect syntax to pass by reference a member of a structure?
+(Assume: structtemp{int a;}s;)
+a) func(&s.a);
+b) func(&(s).a);
+c) func(&(s.a));
+d) none of the mentioned
+
+Answer: d
+
+40. What is the output of the program?
+#include <stdio.h>
+
+struct temp
+{
+
+int a;
+} s;
+
+void change(struct temp);
+main()
+
+{
+s.a = 10;
+change(s);
+printf("%d\n", s.a);
+
+}
+void change(struct temp s)
+
+{
+s.a = 1;
+
+}
+a) Output will be 20
+b) Output will be 10
+c) Output varies
+d) Compile time error
+Answer: b

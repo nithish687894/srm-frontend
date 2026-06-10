@@ -1,0 +1,54 @@
+===== SOURCE_FILE: sem 3/Solid State Devices/Notes/More Study Materials.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1YYADKgMDkHxAntThXYyY2bAbV_qkGMzm?usp=drive_link
+
+
+===== SOURCE_FILE: sem 3/Solid State Devices/Notes/Unit - 1.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1NceSQDrGjzfmcdewiDRf3nzSBhxnWXNb?usp=drive_link
+
+
+===== SOURCE_FILE: sem 3/Solid State Devices/Notes/Unit - 2.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1MCoTgJN7wiUEdjFooqV82peKjquOg8Wo?usp=drive_link
+
+
+===== SOURCE_FILE: sem 3/Solid State Devices/Notes/Unit - 3.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1uJkWbvrMgR4AIMkTCCTau-8aLI9hHJez?usp=drive_link
+
+
+===== SOURCE_FILE: sem 3/Solid State Devices/Notes/Unit - 4.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1fFaBsG-N66CzIK6mCZmUjaDEBHJwdyAQ?usp=drive_link
+
+
+===== SOURCE_FILE: sem 3/Solid State Devices/Notes/Unit - 5.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1ZTvkcUARfHnOqMhxJo2mcDi4wcA4QveA?usp=drive_link
+
+
+===== SOURCE_FILE: sem 3/Solid State Devices/PYQs/Important Topics.url =====
+CATEGORY: PYQs
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1sREDu5FC3d1DLqf6PWADtlmP3VS9WBBu?usp=drive_link
+
+
+===== SOURCE_FILE: sem 3/Solid State Devices/PYQs/PYQs Coming Soon.url =====
+CATEGORY: PYQs
+STATUS: url_reference_only
+
+URL:

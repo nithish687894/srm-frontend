@@ -12,19 +12,23 @@ import Toast from "@/components/Toast";
 import {
   Home, BarChart2, CheckCircle, Clock, Calendar, Wrench, Sparkles, Shield,
   X, ChevronRight, CreditCard, FileText, Bed, Bus, Bell, Award, MonitorPlay, Printer, Briefcase, UserSquare, User, GraduationCap, BookOpen, Settings, MoreHorizontal, Share2, LogOut, LayoutTemplate, LifeBuoy, MessageSquare,
-  Fingerprint, RefreshCw, Cpu
+  Fingerprint, RefreshCw, Cpu, Search, Library, Play, Pause, Headphones, Sun, UserRound, IdCard
 } from "lucide-react";
+import PremiumCheckout from "@/components/PremiumCheckout";
 
 const NAV_MAIN = [
-  { href: "/dashboard", label: "Nexus", icon: Home },
-  { href: "/marks", label: "Marks", icon: BarChart2 },
-  { href: "/attendance", label: "Attendance", icon: CheckCircle },
+  { href: "/dashboard", label: "Home", icon: Home },
+  { href: "/marks", label: "Marks", icon: Award },
+  { href: "/attendance", label: "Attendance", icon: Library },
   { href: "/timetable", label: "Timetable", icon: Clock },
 ] as const;
 
 const NAV_MORE_ITEMS = [
   { href: "/calendar", label: "Calendar", icon: Calendar, color: "#fff" },
-  { href: "/app-tools", label: "Tools", icon: Wrench, color: "#00ff88" },
+  { href: "/exam-library", label: "Exam", icon: BookOpen, color: "#30D158" },
+  { href: "/exam-hub", label: "Exam Hub", icon: BookOpen, color: "#BF5AF2" },
+  { href: "/tools", label: "Academic Tools", icon: Wrench, color: "#00ff88" },
+  { href: "/app-tools", label: "Database Sync", icon: RefreshCw, color: "#34C759" },
   { href: "/ai", label: "AI Tutor", icon: Sparkles, color: "#fff" },
   { href: "/gpa", label: "GPA Calc", icon: GraduationCap, color: "#fff" },
 ] as const;
@@ -54,8 +58,28 @@ export default function Sidebar() {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
+  const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
-  const { theme } = useThemeStore();
+  const { theme, setTheme } = useThemeStore();
+  const [resolvedTheme, setResolvedTheme] = useState<"lumina" | "light">("lumina");
+
+  useEffect(() => {
+    if (!mounted) return;
+    const resolve = () => {
+      if (theme === "system") {
+        setResolvedTheme(window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "lumina");
+      } else {
+        setResolvedTheme(theme === "light" ? "light" : "lumina");
+      }
+    };
+    resolve();
+    if (theme === "system") {
+      const media = window.matchMedia("(prefers-color-scheme: light)");
+      media.addEventListener("change", resolve);
+      return () => media.removeEventListener("change", resolve);
+    }
+  }, [theme, mounted]);
+
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [toast, setToast] = useState<{ title: string; body: string; type: "success" | "error" | "info" } | null>(null);
 
@@ -63,7 +87,8 @@ export default function Sidebar() {
     setToast({ title, body, type });
   };
 
-  const { profile, email, academiaConnected, studentPortalConnected, studentPortalData, academicData } = useAuthStore();
+  const { profile, email, academiaConnected, studentPortalConnected, studentPortalData, academicData, isPremium } = useAuthStore();
+  const [showCheckout, setShowCheckout] = useState(false);
   const userEmail = (email || profile?.Email || "").toLowerCase();
   const isAdmin = ADMIN_EMAILS.some((e) => e.toLowerCase() === userEmail) || profile?.role === "admin" || profile?.Role === "admin";
 
@@ -75,9 +100,12 @@ export default function Sidebar() {
     router.prefetch("/attendance");
     router.prefetch("/timetable");
     router.prefetch("/calendar");
+    router.prefetch("/exam-library");
+    router.prefetch("/exam-hub");
     router.prefetch("/ai");
     router.prefetch("/gpa");
     router.prefetch("/settings/theme");
+    router.prefetch("/tools");
     router.prefetch("/app-tools");
     router.prefetch("/trust");
     return () => clearTimeout(id);
@@ -98,6 +126,7 @@ export default function Sidebar() {
   // User profile details for the More drawer
   const userName = profile?.["Name"] || profile?.Name || "NITHISHKUMAR S";
   const regNo = profile?.["Registration Number"] || profile?.RegNo || "RA2511030010190";
+  const loginUserId = (email || profile?.Email || profile?.email || "").split("@")[0].trim();
   const initials = userName
     .split(" ")
     .filter(Boolean)
@@ -105,6 +134,14 @@ export default function Sidebar() {
     .join("")
     .substring(0, 2)
     .toUpperCase();
+  const profileImage =
+    profile?.photoUrl ||
+    profile?.photoURL ||
+    profile?.picture ||
+    profile?.avatar ||
+    profile?.ProfileImage ||
+    profile?.["Profile Image"] ||
+    profile?.["Photo URL"];
 
   // Dynamic calculated stats for AURA Active Hero Section
   const att = academicData?.attendance || [];
@@ -225,15 +262,19 @@ export default function Sidebar() {
   const hubCardBorder = "rgba(255,255,255,0.06)";
 
   const moreItems = [
+    { href: "/timetable", label: "Class Timetable", icon: Clock, color: "#FFCC00" },
     { href: "/calendar", label: "University Calendar", icon: Calendar, color: "#00E5FF" },
-    { href: "/app-tools", label: "Sync & Connectors", icon: Wrench, color: "#34C759" },
+    { href: "/exam-library", label: "Exam", icon: BookOpen, color: "#30D158" },
+    { href: "/exam-hub", label: "Exam Hub", icon: BookOpen, color: "#BF5AF2" },
+    { href: "/tools", label: "Academic Tools", icon: Wrench, color: "#00ff88" },
+    { href: "/app-tools", label: "Database Sync", icon: RefreshCw, color: "#34C759" },
+    { href: "/chat", label: "Doubt Forums", icon: MessageSquare, color: "#5AC8FA" },
     { href: "/ai", label: "AI Tutor", icon: Sparkles, color: "#BF5AF2" },
     { href: "/gpa", label: "GPA / CGPA Planner", icon: GraduationCap, color: "#FF2D55" },
     ...(isAdmin ? [{ href: "/admin", label: "Admin Control", icon: Shield, color: "#FF9500" }] : []),
   ];
 
   const portalServices = [
-    { href: "/portal/student-dashboard", label: "Student Portal", icon: UserSquare, color: "#00E5FF" },
     { href: "/portal/grade-mark-credit", label: "Grades & Credits", icon: GraduationCap, color: "#FF2D55" },
   ];
 
@@ -243,32 +284,53 @@ export default function Sidebar() {
     <>
       <style>{`
         .srmx-mobile-nav {
-          position: fixed; bottom: 24px; left: 24px; right: 24px;
-          height: 72px; border-radius: 36px;
-          background: rgba(20,15,35,0.8); 
-          backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); 
-          border: none;
+          position: fixed; bottom: 0; left: 0; right: 0;
+          height: calc(64px + env(safe-area-inset-bottom));
+          padding-bottom: env(safe-area-inset-bottom);
+          background: rgba(5, 3, 10, 0.96); 
+          backdrop-filter: blur(22px);
+          -webkit-backdrop-filter: blur(22px);
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
           display: flex; align-items: center; justify-content: space-around;
-          z-index: 99999; box-shadow: 0 30px 60px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.06);
-          padding: 0 12px;
+          z-index: 99999; box-shadow: 0 -10px 28px rgba(0, 0, 0, 0.58), inset 0 1px 0 rgba(255,255,255,0.035);
+          padding: 0 8px;
         }
         .nav-item {
           display: flex; flex-direction: column; align-items: center; justify-content: center;
-          gap: 6px; color: rgba(255,255,255,0.55); font-family: "Plus Jakarta Sans", sans-serif;
-          font-size: 9px; font-weight: 800; cursor: pointer;
-          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); -webkit-tap-highlight-color: transparent;
-          background: none; border: none; outline: none; text-decoration: none; width: 64px;
-          position: relative;
+          gap: 4px; color: rgba(255,255,255,0.58); font-family: "Plus Jakarta Sans", sans-serif;
+          font-size: 9.5px; font-weight: 700; cursor: pointer;
+          letter-spacing: 0;
+          transition: color 0.18s ease, transform 0.18s ease; -webkit-tap-highlight-color: transparent;
+          background: none; border: none; outline: none; text-decoration: none; flex: 1 1 0;
+          min-width: 0;
+          height: 100%; position: relative;
         }
-        .nav-item:hover { color: rgba(255,255,255,0.7); }
-        .nav-item.active { 
-          color: #BF5AF2; 
+        .nav-item:hover, .nav-item:active {
+          color: #ffffff;
         }
-        .nav-item.active::after {
-          content: ""; position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
-          width: 32px; height: 4px; border-radius: 4px;
-          background: #BF5AF2; 
-          box-shadow: 0 0 15px #BF5AF2;
+        .nav-item.active {
+          color: #FF75C3;
+          transform: translateY(-1px);
+        }
+        .nav-item span {
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          line-height: 1.1;
+        }
+        .nav-item svg {
+          flex-shrink: 0;
+          filter: drop-shadow(0 0 0 rgba(0,0,0,0));
+        }
+        .nav-item.active svg {
+          filter: drop-shadow(0 0 8px rgba(255,117,195,0.34));
+        }
+        .nav-item::before {
+          display: none;
+        }
+        .nav-item.active::before {
+          display: none;
         }
         .drawer-item-icon {
           width: 52px; height: 52px; border-radius: 18px;
@@ -331,6 +393,22 @@ export default function Sidebar() {
             opacity: 1;
             transform: scale(1.03);
           }
+        }
+        .popover-enter {
+          animation: popoverEnter 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          transform-origin: top right;
+        }
+        @keyframes popoverEnter {
+          from { opacity: 0; transform: translateY(-10px) scale(0.98); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .row-icon-glow {
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .group:hover .row-icon-glow {
+          box-shadow: 0 0 12px var(--icon-glow);
+          border-color: var(--icon-border);
+          transform: scale(1.05);
         }
 
         @media (min-width: 768px) {
@@ -441,22 +519,150 @@ export default function Sidebar() {
             grid-column: 1 / -1 !important;
           }
         }
+
+        @keyframes drawer-rise {
+          from {
+            opacity: 0;
+            transform: translateY(14px) scale(0.985);
+            filter: blur(5px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+          }
+        }
+
+        @keyframes soft-scan {
+          from { transform: translateX(-130%); opacity: 0; }
+          28% { opacity: 0.55; }
+          to { transform: translateX(130%); opacity: 0; }
+        }
+
+        .settings-dropdown {
+          animation: drawer-rise 220ms cubic-bezier(.2,.8,.2,1) both;
+        }
+
+        .settings-dropdown::before {
+          content: "";
+          position: absolute;
+          left: 18px;
+          right: 18px;
+          top: -1px;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.34), rgba(191,90,242,0.42), transparent);
+          opacity: 0.75;
+        }
+
+        .settings-dropdown::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          background:
+            radial-gradient(circle at 12% 8%, rgba(191,90,242,0.14), transparent 28%),
+            radial-gradient(circle at 92% 0%, rgba(143,146,255,0.10), transparent 30%);
+          opacity: 0.85;
+        }
+
+        .drawer-profile-card {
+          position: relative;
+          overflow: hidden;
+        }
+
+        .drawer-profile-card::after {
+          content: "";
+          position: absolute;
+          inset: -40% -70%;
+          background: linear-gradient(100deg, transparent 35%, rgba(255,255,255,0.11) 50%, transparent 65%);
+          animation: soft-scan 5.4s ease-in-out infinite;
+          pointer-events: none;
+        }
+
+        .drawer-row-surface {
+          position: relative;
+          overflow: hidden;
+        }
+
+        .drawer-row-surface::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          opacity: 0;
+          pointer-events: none;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.045), transparent);
+          transform: translateX(-45%);
+          transition: opacity 180ms ease, transform 260ms ease;
+        }
+
+        .drawer-row-surface:hover::after,
+        .drawer-row-surface:active::after {
+          opacity: 1;
+          transform: translateX(45%);
+        }
       `}</style>
 
       {/* TOP STATUS BAR */}
       {!(path === "/chat" || path.startsWith("/chat/")) && (
-        <div className="fixed top-12 left-6 right-6 z-[99999] flex items-center justify-between pointer-events-none">
-          <div 
-            className="pointer-events-auto flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-md border"
-            style={{ 
-              background: "rgba(255,255,255,0.05)",
-              borderColor: "rgba(255,255,255,0.08)"
-            }}
-          >
-            <div className={`w-1.5 h-1.5 rounded-full ${(academiaConnected || studentPortalConnected) ? "bg-[#94FFD8]" : "bg-amber-500"}`} />
-            <span className="text-[9px] font-black tracking-widest text-white/60 uppercase">{(academiaConnected || studentPortalConnected) ? "SYNCED" : "LOCAL MODE"}</span>
-          </div>
-          <div className="flex gap-2 pointer-events-auto">
+        <div className="srmx-top-status-bar fixed top-12 left-6 right-6 z-[99999] flex items-center justify-end pointer-events-none">
+          <div className="flex gap-2.5 pointer-events-auto">
+            {path === "/dashboard" && (
+              <>
+                <button
+                  onClick={() => { router.push("/exam-library"); }}
+                  className="h-11 rounded-full backdrop-blur-md border flex items-center justify-center gap-2 pl-2.5 pr-3.5 transition-all active:scale-95"
+                  style={{
+                    background: resolvedTheme === "light"
+                      ? "linear-gradient(135deg, rgba(255,255,255,0.90), rgba(248,238,255,0.78))"
+                      : "linear-gradient(135deg, rgba(191,90,242,0.26), rgba(255,117,195,0.10))",
+                    borderColor: resolvedTheme === "light" ? "rgba(191,90,242,0.18)" : "rgba(255,117,195,0.20)",
+                    boxShadow: resolvedTheme === "light" ? "0 10px 24px rgba(191,90,242,0.13)" : "0 10px 26px rgba(191,90,242,0.16), inset 0 1px 0 rgba(255,255,255,0.08)",
+                    color: resolvedTheme === "light" ? "#7B2CBF" : "#FFEAF7",
+                    paddingLeft: "10px",
+                    paddingRight: "14px"
+                  }}
+                  aria-label="Open Exam Library"
+                >
+                  <span
+                    className="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
+                    style={{
+                      background: resolvedTheme === "light" ? "rgba(191,90,242,0.10)" : "rgba(255,255,255,0.075)",
+                      color: "inherit"
+                    }}
+                  >
+                    <BookOpen size={15} strokeWidth={2.5} className="shrink-0" />
+                  </span>
+                  <span className="hidden sm:inline text-[10.5px] font-black uppercase tracking-[0.11em] whitespace-nowrap leading-none">Exam</span>
+                </button>
+                <button
+                  onClick={() => { router.push("/student-portal"); }}
+                  className="h-11 rounded-full backdrop-blur-md border flex items-center justify-center gap-2.5 pl-2.5 pr-4 transition-all active:scale-95"
+                  style={{
+                    background: resolvedTheme === "light"
+                      ? "linear-gradient(135deg, rgba(255,255,255,0.88), rgba(232,243,255,0.74))"
+                      : "linear-gradient(135deg, rgba(51,127,186,0.28), rgba(191,90,242,0.10))",
+                    borderColor: resolvedTheme === "light" ? "rgba(51,127,186,0.18)" : "rgba(147,197,253,0.20)",
+                    boxShadow: resolvedTheme === "light" ? "0 10px 24px rgba(51,127,186,0.14)" : "0 10px 26px rgba(51,127,186,0.16), inset 0 1px 0 rgba(255,255,255,0.08)",
+                    color: resolvedTheme === "light" ? "#1F5F99" : "#EAF4FF",
+                    paddingLeft: "10px",
+                    paddingRight: "16px"
+                  }}
+                  aria-label="Open Student Portal"
+                >
+                  <span
+                    className="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
+                    style={{
+                      background: resolvedTheme === "light" ? "rgba(51,127,186,0.10)" : "rgba(255,255,255,0.075)",
+                      color: "inherit"
+                    }}
+                  >
+                    <IdCard size={15} strokeWidth={2.5} className="shrink-0" />
+                  </span>
+                  <span className="sm:hidden text-[9.5px] font-black uppercase tracking-[0.045em] whitespace-nowrap leading-none">Student Portal</span>
+                  <span className="hidden sm:inline text-[10.5px] font-black uppercase tracking-[0.11em] whitespace-nowrap leading-none">Student Portal</span>
+                </button>
+              </>
+            )}
             <button 
               onClick={() => { router.push("/notifications"); }} 
               className="w-10 h-10 rounded-full backdrop-blur-md border flex items-center justify-center text-white/60 transition-all active:scale-90"
@@ -469,15 +675,26 @@ export default function Sidebar() {
               <Bell size={18} color="#8F92FF" />
             </button>
             <button 
-              onClick={() => { setMenuOpen(true); }} 
-              className="w-10 h-10 rounded-full backdrop-blur-md border flex items-center justify-center text-white/60 transition-all active:scale-90"
+              onClick={() => { setMoreOpen(!moreOpen); }} 
+              className="w-10 h-10 rounded-full border flex items-center justify-center text-white transition-all active:scale-90 relative overflow-hidden shrink-0"
               style={{ 
-                background: "rgba(255, 117, 195, 0.1)",
-                borderColor: "rgba(255, 117, 195, 0.2)",
-                boxShadow: "0 0 15px rgba(255, 117, 195, 0.15)"
+                background: profileImage
+                  ? "rgba(255,255,255,0.06)"
+                  : "linear-gradient(135deg, rgba(191,90,242,0.34) 0%, rgba(143,146,255,0.22) 100%)",
+                borderColor: "rgba(255, 255, 255, 0.14)",
+                boxShadow: `0 0 18px rgba(191,90,242,0.20), inset 0 1px 0 rgba(255,255,255,0.12)` 
               }}
+              aria-label="Open profile menu"
             >
-              <Settings size={18} color="#FF75C3" />
+              {profileImage ? (
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-0 bg-cover bg-center"
+                  style={{ backgroundImage: `url(${String(profileImage)})` }}
+                />
+              ) : (
+                <UserRound size={18} strokeWidth={2.4} className="text-purple-100" />
+              )}
             </button>
           </div>
         </div>
@@ -491,9 +708,6 @@ export default function Sidebar() {
               <div className="flex flex-col gap-3">
                 <button onClick={() => { setMenuOpen(false); router.push("/settings/theme"); }} className="w-full bg-white/5 border border-white/10 text-white flex items-center gap-4 p-4 rounded-2xl font-bold text-sm text-left">
                   <LayoutTemplate size={20} color={THEME.accentPurple} /> Themes & UI
-                </button>
-                <button onClick={() => { setMenuOpen(false); router.push("/settings/notifications"); }} className="w-full bg-white/5 border border-white/10 text-white flex items-center gap-4 p-4 rounded-2xl font-bold text-sm text-left">
-                  <Bell size={20} color="#8F92FF" /> Notifications
                 </button>
                 <button onClick={() => { setMenuOpen(false); router.push("/support"); }} className="w-full bg-white/5 border border-white/10 text-white flex items-center gap-4 p-4 rounded-2xl font-bold text-sm text-left">
                   <LifeBuoy size={20} color="#3673ff" /> Help & Support
@@ -604,52 +818,96 @@ export default function Sidebar() {
               <span>{label}</span>
             </Link>
           ))}
-          <button 
-            onClick={() => setMoreOpen(true)} 
-            className={`nav-item ${moreOpen || isMoreActive ? "active" : ""}`}
-            style={{ background: "none", border: "none", outline: "none" }}
+
+          {/* Premium Tab (Spotify Style) */}
+          <Link
+            href="/premium"
+            className={`nav-item ${isActive("/premium", path) ? "active" : ""}`}
+            style={{ textDecoration: "none" }}
           >
-            <MoreHorizontal size={20} strokeWidth={moreOpen || isMoreActive ? 3 : 2} />
-            <span>More</span>
-          </button>
+            <Sparkles size={20} strokeWidth={isActive("/premium", path) ? 3 : 2} />
+            <span>Premium</span>
+          </Link>
         </nav>
       </div>
 
       {/* INLINE MORE DRAWER (CENTRAL HUB) */}
       {moreOpen && (
         <>
-          {/* Backdrop */}
+          {/* Backdrop to close settings dropdown on tap outside */}
           <div 
             onClick={() => setMoreOpen(false)} 
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[99998]"
-            style={{ animation: 'fadeIn 0.2s ease-out' }}
+            className="fixed inset-0 bg-black/68 backdrop-blur-lg z-[99998] transition-opacity duration-200"
           />
 
-          {/* Bottom Drawer */}
+          {/* Floating Settings Dropdown */}
           <div 
-            className="more-drawer fixed bottom-0 left-0 right-0 max-h-[88vh] z-[99999] rounded-t-[28px] flex flex-col overflow-hidden"
+            className="settings-dropdown popover-enter fixed left-4 right-4 rounded-[28px] flex flex-col p-3.5 border backdrop-blur-2xl overflow-hidden"
             style={{ 
-              background: "var(--card-bg, #110c1e)",
-              boxShadow: `0 -20px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.06)`,
-              animation: 'slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-              paddingBottom: 'calc(20px + env(safe-area-inset-bottom))'
+              top: "6.15rem",
+              zIndex: 100005,
+              maxHeight: "calc(100dvh - 11.5rem - env(safe-area-inset-bottom))",
+              background: resolvedTheme === "light" 
+                ? "linear-gradient(135deg, rgba(246, 241, 255, 0.92) 0%, rgba(232, 239, 255, 0.90) 100%)" 
+                : "linear-gradient(135deg, rgba(16, 12, 28, 0.96) 0%, rgba(10, 7, 18, 0.98) 100%)",
+              borderColor: resolvedTheme === "light" ? "rgba(96, 68, 145, 0.14)" : "rgba(255, 255, 255, 0.08)",
+              boxShadow: resolvedTheme === "light"
+                ? `0 26px 60px rgba(46, 32, 74, 0.18), 0 0 36px rgba(191, 90, 242, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.72)`
+                : `0 25px 60px rgba(0, 0, 0, 0.65), 0 0 40px rgba(191, 90, 242, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.08)`,
             }}
           >
+            {/* Popover Arrow */}
+            <div 
+              className="absolute right-8 -top-2 w-3 h-3 rotate-45 border-t border-l backdrop-blur-2xl"
+              style={{
+                background: resolvedTheme === "light" ? "rgba(246, 241, 255, 0.92)" : "rgba(16, 12, 28, 0.96)",
+                borderColor: resolvedTheme === "light" ? "rgba(96, 68, 145, 0.14)" : "rgba(255, 255, 255, 0.08)",
+              }}
+            />
+
               {/* RowItem helper component inside Sidebar */}
               {(() => {
-                const RowItem = ({ href, label, subtitle, icon: Icon, color, onClick }: AnyValue) => {
+                const GroupContainer = ({ title, children }: AnyValue) => (
+                  <div className="flex flex-col gap-2 mt-4 first:mt-3">
+                    <div className="flex items-center gap-2 pl-2 mb-0.5">
+                      <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${resolvedTheme === "light" ? "bg-purple-600/40" : "bg-purple-300/48"}`} />
+                      <p className={`text-[9.5px] leading-none font-black uppercase tracking-[0.2em] ${resolvedTheme === "light" ? "text-purple-950/52" : "text-white/46"}`}>{title}</p>
+                    </div>
+                    <div className={`flex flex-col gap-1.5 p-1.5 rounded-[23px] border backdrop-blur-md ${resolvedTheme === "light" ? "bg-purple-950/[0.03] border-purple-900/[0.075]" : "bg-white/[0.02] border-white/[0.055]"}`}>
+                      {children}
+                    </div>
+                  </div>
+                );
+
+                const RowItem = ({ href, label, subtitle, icon: Icon, color, onClick, rightElement }: AnyValue) => {
                   const content = (
-                    <div className="flex items-center justify-between w-full py-3.5 px-4 rounded-[20px] bg-white/[0.01] hover:bg-white/[0.04] transition-all active:scale-[0.99] group border border-white/[0.02] hover:border-white/[0.04] text-left">
-                      <div className="flex items-center gap-3.5 min-w-0">
-                        <div className="w-10 h-10 rounded-xl flex items-center justify-center border border-white/5 shrink-0" style={{ background: `${color}12`, color: color }}>
+                    <div className={`drawer-row-surface flex items-center justify-between w-full min-h-[64px] py-3 pl-3 pr-3.5 rounded-[19px] active:scale-[0.99] transition-all duration-300 group text-left ${resolvedTheme === "light" ? "hover:bg-gradient-to-r hover:from-purple-500/[0.04] hover:to-transparent" : "hover:bg-gradient-to-r hover:from-purple-500/[0.06] hover:to-transparent"}`}>
+                      <div className="flex items-center gap-3.5 min-w-0 flex-1">
+                        <div 
+                          className="w-11 h-11 rounded-2xl flex items-center justify-center border shrink-0 row-icon-glow" 
+                          style={{ 
+                            background: `${color}12`, 
+                            color: color, 
+                            borderColor: `${color}20`,
+                            "--icon-glow": `${color}35`,
+                            "--icon-border": `${color}45`
+                          } as React.CSSProperties}
+                        >
                           <Icon size={18} />
                         </div>
-                        <div className="flex flex-col min-w-0">
-                          <span className="text-xs font-black text-white/90 tracking-wide truncate">{label}</span>
-                          <span className="text-[9.5px] text-white/45 font-bold mt-1 leading-normal tracking-wide">{subtitle}</span>
+                        <div className="flex flex-col min-w-0 flex-1">
+                          <span className={`text-[13.5px] font-black tracking-wide uppercase leading-tight ${resolvedTheme === "light" ? "text-black/88" : "text-white/92"}`}>{label}</span>
+                          <span className={`text-[11px] mt-1.5 leading-snug tracking-normal ${resolvedTheme === "light" ? "text-black/62" : "text-white/58"}`}>{subtitle}</span>
                         </div>
                       </div>
-                      <ChevronRight size={14} className="text-white/20 group-hover:text-white/60 group-hover:translate-x-0.5 transition-all duration-300 shrink-0" />
+                      
+                      {rightElement ? (
+                        <div className="shrink-0 relative z-20 ml-3" onClick={e => e.stopPropagation()}>
+                          {rightElement}
+                        </div>
+                      ) : (
+                        <ChevronRight size={15} className={`ml-3 group-hover:translate-x-0.5 transition-all duration-300 shrink-0 ${resolvedTheme === "light" ? "text-black/46 group-hover:text-black/70" : "text-white/38 group-hover:text-white/70"}`} />
+                      )}
                     </div>
                   );
 
@@ -670,191 +928,164 @@ export default function Sidebar() {
 
                 return (
                   <>
-                    <div 
-                      className="shrink-0 flex flex-col w-full relative z-10"
-                      style={{ background: "var(--card-bg, #110c1e)" }}
-                    >
-                      {/* Drag Bar Handle */}
+                    {/* Compact Profile Header */}
+                    <div className={`drawer-profile-card min-h-[68px] flex items-center gap-3.5 px-3.5 py-3 rounded-[24px] border shrink-0 ${resolvedTheme === "light" ? "bg-purple-950/[0.04] border-purple-900/[0.10]" : "bg-white/[0.032] border-white/[0.07]"}`}>
                       <div 
-                        className="w-12 h-1.5 bg-white/20 rounded-full mx-auto mt-4 mb-3 shrink-0 cursor-pointer hover:bg-white/30 active:scale-95 transition-all" 
-                        onClick={() => setMoreOpen(false)} 
-                      />
-
-                      {/* Profile Header Section */}
-                      <div className="flex items-center justify-between px-6 pb-3 pt-1 border-b border-white/5">
-                        <div className="flex items-center gap-3">
-                          <div 
-                            className="w-10 h-10 rounded-full flex items-center justify-center text-black text-xs font-black shrink-0 relative overflow-hidden border border-white/5"
-                            style={{ 
-                              background: `linear-gradient(135deg, ${hubAccent} 0%, #ffffff 200%)`, 
-                              boxShadow: `0 4px 10px ${hubAccentGlow}` 
-                            }}
-                          >
-                            {initials}
-                          </div>
-                          <div className="min-w-0">
-                            <h2 className="text-[11.5px] font-black text-white leading-tight truncate tracking-wide uppercase">{userName}</h2>
-                            <p className="text-[7.5px] text-white/40 font-bold uppercase tracking-widest mt-0.5 tabular-nums">{regNo}</p>
-                            <div className="flex items-center gap-1 mt-0.5">
-                              <span className={`w-1 h-1 rounded-full ${academiaConnected || studentPortalConnected ? "bg-emerald-400 animate-pulse" : "bg-amber-400"}`} />
-                              <span className="text-[7.5px] font-black text-white/30 uppercase tracking-widest">
-                                {academiaConnected || studentPortalConnected ? "Synced" : "Local Mode"}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <button 
-                          onClick={() => setMoreOpen(false)}
-                          className="w-7 h-7 rounded-full flex items-center justify-center bg-white/5 border border-white/5 active:scale-90 hover:bg-white/10 transition-all shrink-0"
-                        >
-                          <X size={12} className="text-white/60" />
-                        </button>
+                        className="w-12 h-12 rounded-[18px] flex items-center justify-center relative overflow-hidden border border-white/10 z-10 shrink-0"
+                        style={{ 
+                          background: "linear-gradient(135deg, rgba(191,90,242,0.32) 0%, rgba(143,146,255,0.20) 100%)", 
+                          boxShadow: `0 8px 22px rgba(191,90,242,0.18), inset 0 1px 0 rgba(255,255,255,0.12)` 
+                        }}
+                      >
+                        <div
+                          className="absolute inset-0 opacity-60"
+                          style={{ 
+                            background: "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.20), transparent 48%)" 
+                          }}
+                        />
+                        <IdCard size={22} strokeWidth={2.25} className="relative z-10 text-purple-100" />
                       </div>
-
-                      {/* Quick Actions */}
-                      <div className="flex gap-2 px-6 py-3 bg-white/[0.01] border-b border-white/5">
-                        <button
-                          onClick={handleRefreshSync}
-                          disabled={isRefreshing}
-                          className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl py-2 px-3 text-[9px] font-black tracking-wider text-white uppercase flex items-center justify-center gap-1.5 transition-all active:scale-95"
-                        >
-                          <RefreshCw size={11} className={isRefreshing ? "animate-spin" : ""} />
-                          <span>{isRefreshing ? "Syncing..." : "Refresh Data"}</span>
-                        </button>
-                        {!studentPortalConnected ? (
-                          <button
-                            onClick={() => { setMoreOpen(false); setIsSyncOpen(true); }}
-                            className="flex-1 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/20 rounded-xl py-2 px-3 text-[9px] font-black tracking-wider text-purple-300 uppercase flex items-center justify-center gap-1.5 transition-all active:scale-95"
-                          >
-                            <Cpu size={11} />
-                            <span>Connect Student Portal</span>
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() => { setMoreOpen(false); setShowStudentInfo(true); }}
-                            className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl py-2 px-3 text-[9px] font-black tracking-wider text-white uppercase flex items-center justify-center gap-1.5 transition-all active:scale-95"
-                          >
-                            <Fingerprint size={11} />
-                            <span>Student ID</span>
-                          </button>
-                        )}
+                      <div className="min-w-0 flex-1 flex flex-col justify-center">
+                        <h2 className={`text-[13px] font-black leading-tight truncate tracking-wide uppercase ${resolvedTheme === "light" ? "text-black" : "text-white"}`}>{userName}</h2>
+                        <div className="flex items-center gap-1.5 mt-1.5">
+                          <span className={`w-1.5 h-1.5 rounded-full ${academiaConnected || studentPortalConnected ? "bg-emerald-400 animate-pulse" : "bg-amber-400"}`} />
+                          <span className={`text-[9px] font-black uppercase tracking-widest leading-none ${resolvedTheme === "light" ? "text-emerald-700/80" : "text-emerald-200/80"}`}>
+                            {academiaConnected || studentPortalConnected ? "Synced" : "Local Mode"}
+                          </span>
+                        </div>
                       </div>
                     </div>
 
-                    {/* SCROLLABLE BODY */}
+                    {/* Scrollable List Items */}
                     <div 
                       ref={scrollRef}
-                      className="more-drawer-body px-5 py-4 flex-1 overflow-y-auto flex flex-col gap-5 w-full relative z-0"
+                      className="flex-1 overflow-y-auto flex flex-col w-full relative z-0"
                       style={{ 
-                        fontFamily: "'Plus Jakarta Sans', sans-serif",
-                        scrollbarWidth: "none"
+                        scrollbarWidth: "none",
+                        paddingBottom: "calc(18px + env(safe-area-inset-bottom))"
                       }}
                     >
-                      {/* 1. ACADEMIC TOOLS */}
-                      <div className="flex flex-col gap-2">
-                        <p className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em] mb-1 pl-1">Academic Tools</p>
-                        <RowItem 
-                          href="/ai" 
-                          label="AI Tutor" 
-                          subtitle="Academic help, insights & instant analysis" 
-                          icon={Sparkles} 
-                          color="#BF5AF2" 
-                        />
-                        <RowItem 
-                          href="/gpa" 
-                          label="GPA / CGPA Planner" 
-                          subtitle="Target forecast and GPA calculator" 
-                          icon={GraduationCap} 
-                          color="#FF2D55" 
-                        />
-                        <RowItem 
-                          href="/calendar" 
-                          label="University Calendar" 
-                          subtitle="Holidays, exams, and key academic events" 
-                          icon={Calendar} 
-                          color="#00E5FF" 
-                        />
-                        <RowItem 
-                          href="/portal/student-dashboard" 
-                          label="Student Portal" 
-                          subtitle="Official personal details & student summary" 
-                          icon={UserSquare} 
-                          color="#FF75C3" 
-                        />
-                        <RowItem 
-                          href="/portal/grade-mark-credit" 
-                          label="Grades & Credits" 
-                          subtitle="Semester grade ledger & credits tracker" 
-                          icon={Award} 
-                          color="#FF9500" 
-                        />
-                      </div>
+                      {/* Group 1: Preferences */}
+                      <GroupContainer title="Preferences">
+                        <div className={`drawer-row-surface w-full min-h-[104px] px-3 py-3 rounded-[19px] transition-all duration-300 ${resolvedTheme === "light" ? "hover:bg-gradient-to-r hover:from-purple-500/[0.035] hover:to-transparent" : "hover:bg-gradient-to-r hover:from-purple-500/[0.055] hover:to-transparent"}`}>
+                          <div className="flex items-center gap-3.5 min-w-0">
+                            <div 
+                              className="w-11 h-11 rounded-2xl flex items-center justify-center border shrink-0 row-icon-glow" 
+                              style={{ 
+                                background: "#A78BFA12", 
+                                color: "#A78BFA", 
+                                borderColor: "#A78BFA20",
+                                "--icon-glow": "#A78BFA35",
+                                "--icon-border": "#A78BFA45"
+                              } as React.CSSProperties}
+                            >
+                              <LayoutTemplate size={18} />
+                            </div>
+                            <div className="flex flex-col min-w-0 flex-1">
+                              <span className={`text-[13.5px] font-black tracking-wide uppercase leading-tight ${resolvedTheme === "light" ? "text-black/88" : "text-white/92"}`}>Appearance</span>
+                              <span className={`text-[11px] mt-1.5 leading-snug tracking-normal ${resolvedTheme === "light" ? "text-black/62" : "text-white/58"}`}>Switch visual themes</span>
+                            </div>
+                          </div>
+                          <div className={`mt-3 grid grid-cols-2 gap-1 p-1 rounded-2xl border relative z-30 transition-all duration-300 ${resolvedTheme === "light" ? "bg-purple-950/[0.045] border-purple-900/[0.07]" : "bg-white/[0.028] border-white/[0.05]"}`}>
+                              <button 
+                                onClick={(e) => { e.stopPropagation(); setTheme("lumina"); }}
+                                className={`h-9 flex items-center justify-center gap-1.5 px-3.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all duration-300 ${
+                                  resolvedTheme === "lumina" 
+                                    ? "text-purple-50 font-black" 
+                                    : "text-white/40 hover:text-white/70 hover:bg-white/[0.02]"
+                                }`}
+                                style={{
+                                  background: resolvedTheme === "lumina" ? "linear-gradient(135deg, rgba(168,85,247,0.30) 0%, rgba(139,92,246,0.24) 100%)" : "transparent"
+                                }}
+                              >
+                                <Sparkles size={11} className="shrink-0" />
+                                Lumina
+                              </button>
+                              <button 
+                                onClick={(e) => { e.stopPropagation(); setTheme("light"); }}
+                                className={`h-9 flex items-center justify-center gap-1.5 px-3.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all duration-300 ${
+                                  resolvedTheme === "light" 
+                                    ? "text-purple-800 shadow-sm font-black border border-purple-900/[0.08]" 
+                                    : "text-white/40 hover:text-white/70 hover:bg-white/[0.02]"
+                                }`}
+                                style={{
+                                  background: resolvedTheme === "light" ? "rgba(255,255,255,0.52)" : "transparent"
+                                }}
+                              >
+                                <Sun size={11} className="shrink-0" />
+                                Light
+                              </button>
+                          </div>
+                        </div>
+                      </GroupContainer>
 
-                      {/* 2. SETTINGS */}
-                      <div className="flex flex-col gap-2">
-                        <p className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em] mb-1 pl-1">Settings</p>
+                       {/* Group 2: System */}
+                      <GroupContainer title="System">
                         <RowItem 
-                          href="/settings/theme" 
-                          label="Appearance" 
-                          subtitle="Personalize workspace visual styles & themes" 
-                          icon={LayoutTemplate} 
-                          color="#A78BFA" 
-                        />
-                        <RowItem 
-                          href="/settings/notifications" 
-                          label="Notifications" 
-                          subtitle="Manage academic alerts and system updates" 
-                          icon={Bell} 
-                          color="#8F92FF" 
+                          href="/tools" 
+                          label="Academic Tools" 
+                          subtitle="Calculators & utilities" 
+                          icon={Wrench} 
+                          color="#00ff88" 
                         />
                         <RowItem 
                           href="/app-tools" 
-                          label="Sync & Connectors" 
-                          subtitle="System diagnostics, sync options & overrides" 
-                          icon={Wrench} 
+                          label="Database Sync" 
+                          subtitle="Sync credentials & status" 
+                          icon={RefreshCw} 
                           color="#34C759" 
+                          rightElement={
+                            <button 
+                              onClick={(e) => { e.stopPropagation(); handleRefreshSync(); }}
+                              disabled={isRefreshing}
+                              className={`mr-2 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[9px] font-black uppercase border active:scale-95 transition-all disabled:opacity-50 ${
+                                resolvedTheme === "light" 
+                                  ? "text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border-emerald-200" 
+                                  : "text-emerald-200 bg-emerald-400/10 hover:bg-emerald-400/15 border-emerald-300/20"
+                              }`}
+                            >
+                              <RefreshCw size={10} className={`shrink-0 ${isRefreshing ? "animate-spin" : ""}`} />
+                              {isRefreshing ? "Syncing" : (academiaConnected || studentPortalConnected ? "Synced" : "Local")}
+                            </button>
+                          }
                         />
-                        <RowItem 
-                          href="/trust" 
-                          label="Privacy & Trust" 
-                          subtitle="Encrypted sessions & secure data practices" 
-                          icon={Shield} 
-                          color="#38BDF8" 
-                        />
-                      </div>
+                      </GroupContainer>
 
-                      {/* 3. SUPPORT */}
-                      <div className="flex flex-col gap-2">
-                        <p className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em] mb-1 pl-1">Support</p>
+                      {/* Group 3: Support */}
+                      <GroupContainer title="Support">
                         <RowItem 
                           href="/support" 
                           label="Help & Support" 
-                          subtitle="Get immediate assistance with Academic OS" 
+                          subtitle="Assistance & details feedback" 
                           icon={LifeBuoy} 
                           color="#00aaff" 
                         />
-                        <RowItem 
-                          href="#" 
-                          label="Logout" 
-                          subtitle="Safely terminate your local active session" 
-                          icon={LogOut} 
-                          color="#ff5555" 
-                          onClick={() => { setMoreOpen(false); handleLogout(); }}
-                        />
-                      </div>
+                      </GroupContainer>
 
-                      {/* 4. ADMIN CONTROL (Only if admin role) */}
+                      <button 
+                        onClick={() => { setMoreOpen(false); handleLogout(); }}
+                        className={`mt-4 w-full min-h-[64px] px-3.5 py-3 rounded-[22px] border flex items-center gap-3.5 text-left active:scale-[0.99] transition-all ${resolvedTheme === "light" ? "bg-red-500/[0.03] border-red-300/30 hover:bg-red-50/30" : "bg-red-500/[0.035] border-red-400/[0.12] hover:bg-red-500/[0.065]"}`}
+                      >
+                        <div className={`w-11 h-11 rounded-2xl flex items-center justify-center border shrink-0 ${resolvedTheme === "light" ? "bg-red-500/10 text-red-600 border-red-300/45" : "bg-red-500/10 text-red-300 border-red-400/20"}`}>
+                          <LogOut size={18} />
+                        </div>
+                        <div className="min-w-0">
+                          <span className={`block text-[13.5px] font-black uppercase tracking-wide leading-tight ${resolvedTheme === "light" ? "text-red-700" : "text-red-200"}`}>Logout</span>
+                          <span className={`block text-[11px] mt-1 leading-snug ${resolvedTheme === "light" ? "text-red-600/70" : "text-red-200/55"}`}>Safely terminate session</span>
+                        </div>
+                      </button>
+
+                      {/* Group 4: Admin (Only if admin role) */}
                       {isAdmin && (
-                        <div className="flex flex-col gap-2">
-                          <p className="text-[9px] font-black text-red-500/40 uppercase tracking-[0.3em] mb-1 pl-1">System Administration</p>
+                        <GroupContainer title="System Admin">
                           <RowItem 
                             href="/admin" 
                             label="Admin Control" 
-                            subtitle="Manage broadcast banner & system telemetry" 
+                            subtitle="Manage telemetry & banner" 
                             icon={Shield} 
                             color="#ef4444" 
                           />
-                        </div>
+                        </GroupContainer>
                       )}
                     </div>
                   </>
@@ -903,7 +1134,7 @@ export default function Sidebar() {
         onSuccess={() => {
           handleRefreshSync();
         }}
-        netId={profile?.["Registration Number"] || profile?.RegNo || ""}
+        netId={loginUserId}
       />
 
       {feedbackOpen && (
@@ -919,6 +1150,13 @@ export default function Sidebar() {
           body={toast.body}
           type={toast.type}
           onClose={() => setToast(null)}
+        />
+      )}
+
+      {showCheckout && (
+        <PremiumCheckout
+          onClose={() => setShowCheckout(false)}
+          showToast={showToast}
         />
       )}
     </>

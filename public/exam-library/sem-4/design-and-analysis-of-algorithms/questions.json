@@ -1,0 +1,2428 @@
+[
+  {
+    "id": "q-1",
+    "text": "______is the first step in solving the problem",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-2",
+    "text": "A. Understanding the Problem",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-3",
+    "text": "B. Identify the Problem",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-4",
+    "text": "C. Evaluate the Solution",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-5",
+    "text": "D. Coding the Problem",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-6",
+    "text": "While solving the problem with computer the most difficult step is ______.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-7",
+    "text": "A. describing the problem",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-8",
+    "text": "B. finding out the cost of the software",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-9",
+    "text": "C. writing the computer instructions",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-10",
+    "text": "D. testing the solution",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-11",
+    "text": "______ solution requires reasoning built on knowledge and experience",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-12",
+    "text": "A. Algorithmic Solution",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-13",
+    "text": "B. Heuristic Solution",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-14",
+    "text": "C. Random Solution",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-15",
+    "text": "D. Brute force Solution",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-16",
+    "text": "The correctness and appropriateness of ___________solution can be checked very",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-17",
+    "text": "A. algorithmic solution",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-18",
+    "text": "B. heuristic solution",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-19",
+    "text": "C. random solution",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-20",
+    "text": "D. Brute force Solution",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-21",
+    "text": "When determining the efficiency of algorithm, the space factor is measured by",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-22",
+    "text": "A. Counting the maximum memory needed by the algorithm",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-23",
+    "text": "B. Counting the minimum memory needed by the algorithm",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-24",
+    "text": "C. Counting the average memory needed by the algorithm",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-25",
+    "text": "D. Counting the maximum disk space needed by the algorithm",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-26",
+    "text": "The elements of an array are stored successively in memory cells because",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-27",
+    "text": "A. by this way computer can keep track only the address of the first element and",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-28",
+    "text": "B. the architecture of computer memory does not allow arrays to store other than",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-29",
+    "text": "The hierarchy of operations is denoted as _____________.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-30",
+    "text": "I. +, - II. Power III. *, / IV. \\, MOD",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-31",
+    "text": "What is the time complexity of following code:",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-32",
+    "text": "Two main measures for the efficiency of an algorithm are",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-33",
+    "text": "A. Processor and memory",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-34",
+    "text": "B. Complexity and capacity",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-35",
+    "text": "What does the algorithmic analysis count?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-36",
+    "text": "A. The number of arithmetic and the operations that are required to run the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-37",
+    "text": "B. The number of lines required by the program",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-38",
+    "text": "C. The number of seconds required by the program to execute",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-39",
+    "text": "An algorithm that indicates the amount of temporary storage required for",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-40",
+    "text": "A. Big Theta θ (f)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-41",
+    "text": "B. Space complexity",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-42",
+    "text": "D. Time Complexity",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-43",
+    "text": "Consider a linked list of n elements. What is the time taken to insert an",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-44",
+    "text": "element after an element pointed by some pointer?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-45",
+    "text": "If the address of A[1][1] and A[2][1] are 1000 and 1010 respectively and each",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-46",
+    "text": "The time factor when determining the efficiency of algorithm is measured by",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-47",
+    "text": "A. Counting microseconds",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-48",
+    "text": "B. Counting the number of key operations",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-49",
+    "text": "C. Counting the number of statements",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-50",
+    "text": "D. Counting the kilobytes of algorithm",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-51",
+    "text": "Time complexities of three algorithms are given. Which should execute the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-52",
+    "text": "slowest for large values of N?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-53",
+    "text": "Which one of the following is the tightest upper bound that represents the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-54",
+    "text": "number of swaps required to sort n number using selection sort?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-55",
+    "text": "How many comparisons are needed for linear Search array when elements are",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-56",
+    "text": "in order in best case?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-57",
+    "text": "The complexity of Bubble sort algorithm is__________",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-58",
+    "text": "What is the time complexity of following code:",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-59",
+    "text": "Which of the given options provides the increasing order of asymptotic",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-60",
+    "text": "complexity of functions f1, f2, f3 and f4?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-61",
+    "text": "How much number of comparisons is required in insertion sort to sort a",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-62",
+    "text": "file if the file is sorted in reverse order?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-63",
+    "text": "The worst-case occur in linear search algorithm when …….",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-64",
+    "text": "A. Item is somewhere in the middle of the array",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-65",
+    "text": "B. Item is not in the array at all",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-66",
+    "text": "C. Item is the last element in the array",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-67",
+    "text": "D. Item is the last element in the array or item is not there at all",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-68",
+    "text": "What is the time complexity of fun()?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-69",
+    "text": "D. Theta (nLognLogn)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-70",
+    "text": "The time complexity of the following C function is (assume n > 0 )",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-71",
+    "text": "A function in which f(n) is Ω(g(n)), if there exist positive values k and c such",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-72",
+    "text": "A. Big Omega Ω (f)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-73",
+    "text": "B. Big Theta θ (f)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-74",
+    "text": "D. Big Alpha α (f)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-75",
+    "text": "The concept of order Big O is important because_______",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-76",
+    "text": "A. It can be used to decide the best algorithm that solves a given problem",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-77",
+    "text": "B. It determines the maximum size of a problem that can be solved in a given",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-78",
+    "text": "C. It is the lower bound of the growth rate of algorithm",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-79",
+    "text": "The upper bound on the time complexity of the nondeterministic sorting",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-80",
+    "text": "In the analysis of algorithms, what plays an important role?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-81",
+    "text": "Which one of the following correctly determines the solution of the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-82",
+    "text": "What is the time complexity of recursive function given below:",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-83",
+    "text": "What is an Algorithm?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-84",
+    "text": "Give the notion of an algorithm.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-85",
+    "text": "Design an algorithm for computing gcd(m,n) using Euclid’s algorithm.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-86",
+    "text": "Design an algorithm to compute the area and circumference of a circle.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-87",
+    "text": "Differentiate Sequential and Parallel Algorithms.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-88",
+    "text": "Write the process for design and analysis of algorithm.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-89",
+    "text": "What are the fundamentals steps for design and analysis of an algorithm?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-90",
+    "text": "Compare Exact and Approximation algorithm.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-91",
+    "text": "What is an Algorithm Design Technique?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-92",
+    "text": "Define Pseudo code.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-93",
+    "text": "Define Flowchart.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-94",
+    "text": "Prove the correctness of an algorithm’s.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-95",
+    "text": "Define algorithm validation.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-96",
+    "text": "What is validation and program verification?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-97",
+    "text": "Define program proving and program verification.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-98",
+    "text": "Write the characteristics of an algorithm.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-99",
+    "text": "What is the Efficiency of algorithm?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-100",
+    "text": "What is time and space complexity?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-101",
+    "text": "What is generality of an algorithm?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-102",
+    "text": "What is algorithm’s Optimality?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-103",
+    "text": "Write an algorithm to find the number of binary digits in the binary",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-104",
+    "text": "What are the types of problems in algorithm?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-105",
+    "text": "How will you measure input size of algorithms?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-106",
+    "text": "What is the average case complexity of linear search algorithm?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-107",
+    "text": "Differentiate searching and sorting algorithm.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-108",
+    "text": "What are combinatorial problems?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-109",
+    "text": "Define a graph and its type.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-110",
+    "text": "Define performance analysis.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-111",
+    "text": "What do you mean by Worst case-Efficiency of an algorithm?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-112",
+    "text": "What do you mean by Best case-Efficiency of an algorithm?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-113",
+    "text": "Define the Average-case efficiency of an algorithm.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-114",
+    "text": "What do you mean by Amortized efficiency?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-115",
+    "text": "How to analyze an algorithm framework?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-116",
+    "text": "How to measure the algorithm’s efficiency?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-117",
+    "text": "What is called the basic operation of an algorithm?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-118",
+    "text": "How to measure an algorithm’s running time?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-119",
+    "text": "Define time and space complexity.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-120",
+    "text": "Write an algorithm for adding ‘n’ natural numbers and find the time and space",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-121",
+    "text": "Define order of growth.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-122",
+    "text": "What is meant by linear search?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-123",
+    "text": "Compare the two functions 2n and n2 for various values of n. Determine when",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-124",
+    "text": "What are the properties of big-Oh notation?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-125",
+    "text": "Define Big oh notation.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-126",
+    "text": "Define little Oh and Omega notations.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-127",
+    "text": "Define Ω notation.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-128",
+    "text": "Define Θ – notation.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-129",
+    "text": "What is the use of Asymptotic Notations?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-130",
+    "text": "What are the properties of asymptotic notations?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-131",
+    "text": "Mention the general plan for analyzing time efficiency of Non recursive",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-132",
+    "text": "Define recursive and non – recursive algorithm.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-133",
+    "text": "What is recurrence equation?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-134",
+    "text": "Define Recurrence relation with an example.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-135",
+    "text": "Give the time complexity 1+3+5+7+….+999.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-136",
+    "text": "Compare order of growth n(n-1)/2 and n2 .",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-137",
+    "text": "Find the order of growth of the following sums.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-138",
+    "text": "Solve the following recurrence relations.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-139",
+    "text": "Consider the following algorithm",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-140",
+    "text": "Design an algorithm to compute the area and Circumference of a circle.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-141",
+    "text": "The (log n)th smallest number of n unsorted numbers can be determined in O(n)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-142",
+    "text": "Write the recursive Fibonacci algorithm and its recurrence relation.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-143",
+    "text": "Describe the steps in analyzing & coding an algorithm.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-144",
+    "text": "Enumerate the problem types used in the design of algorithm.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-145",
+    "text": "What are the steps that need to be followed while designing and analyzing",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-146",
+    "text": "Explain the fundamental of algorithmic problem solving.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-147",
+    "text": "Use the most appropriate notation to indicate the time efficiency class of",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-148",
+    "text": "Consider the following algorithm for the searching problem.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-149",
+    "text": "Explain some of the problem types used in the design of algorithm.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-150",
+    "text": "Define time complexity and space complexity. Write an algorithm for adding ‘n’",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-151",
+    "text": "Explain the general framework for analyzing the efficiency of algorithm.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-152",
+    "text": "Write the Insertion Sort algorithm and estimate its running time.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-153",
+    "text": "What is space complexity? With an example, explain the components of fixed and",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-154",
+    "text": "Variable part in space complexity?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-155",
+    "text": "Show how to implement a stack using two queues. Analyze the running time of",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-156",
+    "text": "Discuss the properties of asymptotic notations.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-157",
+    "text": "Explain the various asymptotic notations used in algorithm design. With an",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-158",
+    "text": "Give the definition and graphical representation of O notations.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-159",
+    "text": "Define asymptotic notations. Distinguish between Asymptotic notation and",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-160",
+    "text": "Prove that for any two functions f(n) and g(n), we have",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-161",
+    "text": "Write the linear search algorithm and analyze for its best worst and average case",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-162",
+    "text": "Discuss about recursive and non-recursive algorithms with example.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-163",
+    "text": "What is the general plan for time efficiency of recursive algorithm and find the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-164",
+    "text": "State the general plan for analyzing the time efficiency of non-recursive",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-165",
+    "text": "Compare the order of the growth of the following.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-166",
+    "text": "Find the closest asymptotic tight bound by solving the recurrence equation",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-167",
+    "text": "Give an algorithm to check whether all the elements in a given array of n-",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-168",
+    "text": "Explain the towers of Hanoi problem and solve it using recursion",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-169",
+    "text": "Prove the time complexity of the matrix multiplication is O(n3)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-170",
+    "text": "Define recurrence equation and explain how solving recurrence equations are",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-171",
+    "text": "Solve the following recurrence relations.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-172",
+    "text": "I. x(n)=x(n-1)+5 for n>1, x(1)=0",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-173",
+    "text": "V. x(n)=x(n/3)+1 for n>1, x(1)=1 (solve for n=3k)",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-174",
+    "text": "Solve the following recurrence relations.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-175",
+    "text": "I. x(n)=x(n-1)+n for n>0,x(0)=0",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-176",
+    "text": "Suppose W satisfies the following recurrence equation and base case (where c is",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-177",
+    "text": "Consider the following recursion algorithm Min1(A[0 -------n-1])",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-178",
+    "text": "What does this algorithm compute?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-179",
+    "text": "Consider the following algorithm.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-180",
+    "text": "i. What does this algorithm compute?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-181",
+    "text": "ii. What is its basic operation?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-182",
+    "text": "iii. How many times is the basic operation executed?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-183",
+    "text": "iv. What is the efficiency class of this algorithm?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-184",
+    "text": "v. Suggest an improved algorithm and indicate its efficiency class. If you cannot",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-185",
+    "text": "Setup a recurrence relation for the algorithms basic operation count and solve it.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-186",
+    "text": "Derive the recurrence relation for Fibonacci series algorithm; also carry out the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-187",
+    "text": "Give the non recursive algorithm for finding the value of the largest element in a",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-188",
+    "text": "Partition and exchange sort is____________",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-189",
+    "text": "Which of the following is not the required condition for binary search algorithm?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-190",
+    "text": "A. The list must be sorted",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-191",
+    "text": "B. There should be the direct access to the middle element in any sub list",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-192",
+    "text": "C. There must be mechanism to delete and/or insert elements in list.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-193",
+    "text": "D. Number values should only be present",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-194",
+    "text": "Which of the following sorting algorithm is of divide and conquer type?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-195",
+    "text": "____________order is the best possible for array sorting algorithm which sorts n",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-196",
+    "text": "The complexity of merge sort algorithm is __________",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-197",
+    "text": "Binary search algorithm cannot be applied to ________",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-198",
+    "text": "A. sorted linked list",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-199",
+    "text": "B. sorted binary trees",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-200",
+    "text": "C. sorted linear array",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-201",
+    "text": "Which of the following is not a limitation of binary search algorithm?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-202",
+    "text": "A. must use a sorted array",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-203",
+    "text": "B. requirement of sorted array is expensive when a lot of insertion and deletions are",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-204",
+    "text": "C. there must be a mechanism to access middle element directly",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ",
+      "Important"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-205",
+    "text": "D. binary search algorithm is not efficient when the data elements more than 1500.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-206",
+    "text": "Which of the following is an external sorting?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-207",
+    "text": "Merging k sorted tables into a single sorted table is called _______",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-208",
+    "text": "The operation that combines the element is of A and B in a single sorted list C with",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-209",
+    "text": "Which of the following is a stable sorting algorithm?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-210",
+    "text": "b) typical in-place quick sort",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-211",
+    "text": "Which of the following is not an in-place sorting algorithm?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-212",
+    "text": "The time complexity of a quick sort algorithm which makes use of median, found",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-213",
+    "text": "Which of the following algorithm design technique is used in the quick sort",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-214",
+    "text": "a) Dynamic programming",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-215",
+    "text": "c) Divide-and-conquer",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-216",
+    "text": "Merge sort uses",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-217",
+    "text": "a) Divide-and-conquer",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-218",
+    "text": "c) Heuristic approach",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-219",
+    "text": "d) Greedy approach",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  },
+  {
+    "id": "q-220",
+    "text": "For merging two sorted lists of size m and n into sorted list of size m+n, we require",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Design And Analysis Of Algorithms/PYQs/Question Bank.pdf"
+  }
+]

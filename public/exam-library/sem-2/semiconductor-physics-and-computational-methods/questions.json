@@ -1,0 +1,917 @@
+[
+  {
+    "id": "q-1",
+    "text": "Which of the following represents a indirect bandgap semiconductor?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-2",
+    "text": "Which fundamental equation governs the quantum mechanical treatment of electrons?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-3",
+    "text": "C) Newton's second law D) Boltzmann equation",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-4",
+    "text": "A) Photon B) Exciton",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-5",
+    "text": "C) Remains unchanged D) Decreases",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-6",
+    "text": "A) Ohmic junction B) Schottky junction",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-7",
+    "text": "C) Conducting junction D) PN junction",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-8",
+    "text": "A) Close to the valence band B) Close to the middle of the band gap",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-9",
+    "text": "C) Close to the conduction band D)In the conduction band",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-10",
+    "text": "A) Diffusion B) Drift",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-11",
+    "text": "C) Pressure D) Ionisation",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-12",
+    "text": "Which is the correct formula for fill factor?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-13",
+    "text": "1 5 1to mention about nanoscale17.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-14",
+    "text": "a.(i)What are the assumptions of classical free electron theory and its key successes? 8 3 1 1",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-15",
+    "text": "(ii) Write a comparison between localized and delocalized wave functions?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-16",
+    "text": "B) Hot point probe",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-17",
+    "text": "a. Analyze the P-N junction diode mechanism under the forward and reverse bias with a",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-18",
+    "text": "b. (i) Discuss the classification of electronic materials based on band gap and resistivity.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-19",
+    "text": "The potential barrier for Si in p-n junction is approximately",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-20",
+    "text": "A) Prof. C V Raman",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-21",
+    "text": "Density of states for",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-22",
+    "text": "An example for two dimensional material is",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-23",
+    "text": "C) Nanoparticle D) Quantum dot",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-24",
+    "text": "In chemical vapour deposition, the precursors are introduced to the reaction chamber in the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-25",
+    "text": "The Fermi's golden rule helps to identify the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-26",
+    "text": "A) Velocity of light B) Momentum of electrons",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-27",
+    "text": "C) Absorption energy of electron D) Transition rate per unit volume",
+    "unit": "Unit V",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-28",
+    "text": "Which process of an electron-hole pair is responsible for emitting light?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-29",
+    "text": "A) Generation B) Recombination",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-30",
+    "text": "C) Ionisation D) Diffusion",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-31",
+    "text": "method is the easiet method to investigate whether the given sample is n-type",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-32",
+    "text": "TCAD stands for",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-33",
+    "text": "A) Topography Computational Aided Design B) Tribilogy Computer-Aided Design",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-34",
+    "text": "C) Technology Computer-Aided Design D) Transmission Computer-Aided Design",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-35",
+    "text": "A) Two probe B) Four probe linear",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-36",
+    "text": "C) Van der Pauw D) Three probe linear",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-37",
+    "text": "a. What is Hall effect? Derive Hall coefficient. Relate the Hall coefficient with Hall",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-38",
+    "text": "a. Explain the construction and working of the physical vapour deposition technique with a",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-39",
+    "text": "a. Define the term density of states for photons. Derive the expression for the density of",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-40",
+    "text": "b. Derive the continuity equation for electron an infinitesimal slice thickness of dx in a",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-41",
+    "text": "b. Derive the Einstein coefficient expression for the ratio between spontaneous and",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-42",
+    "text": "b. Discuss in detail the principle and working of the capacitance-voltage measurement",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-43",
+    "text": "b. With a neat sketch analyze the working of atomic force microscopy.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf"
+  },
+  {
+    "id": "q-44",
+    "text": "(D)Light, Electric current.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-45",
+    "text": "(C)Movement of charge carriers in the presence of an applied electric field.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-46",
+    "text": "(B) Light Emitting Diode",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-47",
+    "text": "(A)Number of atoms in excited state",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-48",
+    "text": "(D)Fermi's Golden Rule",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-49",
+    "text": "(A)Beam Propagation Method",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-50",
+    "text": "(D)Vander Pauw method",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-51",
+    "text": "(B)Diffusion potential",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-52",
+    "text": "(D)0.333 ohm m",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-53",
+    "text": "(B)All three dimensions",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-54",
+    "text": "(a) Hall effect : Difinition of Hall effect with Diagram – 2 marks;",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": 2,
+    "badges": [
+      "PYQ",
+      "2 Mark"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-55",
+    "text": "(a) Difinition and derivation of 2D and 1D – 6 marks ( Each 3 mark s); 0D – explanation -",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-56",
+    "text": "(b) PVD – Diagram – 2 marks; Explanation – 6 Marks",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": 2,
+    "badges": [
+      "PYQ",
+      "2 Mark"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-57",
+    "text": "(i) Derivation for an electron in a periodic field of 1D crystal lattice- Diagram with",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-58",
+    "text": "(i) Construction working principle of TEM - 4 marks",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Jan 2024.pdf"
+  },
+  {
+    "id": "q-59",
+    "text": "a. Explain the absorption and emissions processes with necessary theory and hence derive.the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-60",
+    "text": "a. Describe the Linear and Vander Pauw Four Point Probe technique",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-61",
+    "text": "b. What are the fundamental laws or alsoo?tionz Describe the principle, construction ,np",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-62",
+    "text": "The ave.rage distance travelled by an electon between two successive collisions in the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-63",
+    "text": "a.i. What are Carbon nanotubes (CNT)? Mention the properties of CNTs.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-64",
+    "text": "is aPN Junction, which is forward biased?",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-65",
+    "text": "When light impinges upon a semiconductor to create electron",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-66",
+    "text": "Which type of material is obtained when intrinsic semiconductor is doped with pentavalent",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-67",
+    "text": "is the process of radiative recombination of electron-hole pairs 18. In a quantum wire, the material size is reduced",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-68",
+    "text": "Thp spectral region, where the material changes from being relatively transparent to strongly",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-69",
+    "text": "According to Drudes theory, the velocities of electrons are assumed to have",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-70",
+    "text": "In CVD chamber, the precursors are introduced to the reaction chamber in the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-71",
+    "text": "The physical paxameter that is",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-72",
+    "text": "9 eV. Calculate the velocity of the electron at the Fermi",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-73",
+    "text": "For determining the resistivity of a serniconductor, the diameter of contacts between the",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-74",
+    "text": "Write a note on Enerry bands in solids.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-75",
+    "text": "Describe the nonequilibrium propeties of carriers.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-76",
+    "text": "Whatis a PN Junction? Explain the biasing concgpt in PN Junction.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-77",
+    "text": "Describe the optical absorption and recombination process,",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-78",
+    "text": "Write a note on I-V charaoteristics of a diode",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-79",
+    "text": "Describe the powder method of X-ray diffraction.",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-80",
+    "text": "a.i. What is Density of states? Derive an expression for density of states for a semiconducting",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-81",
+    "text": "Instimulated emissiorq the states at which the life time of atoms is extended is",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-82",
+    "text": "b. Describe the behavior of electron in a periodic potential and hence explain the Kronig Penny",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  },
+  {
+    "id": "q-83",
+    "text": "a,i. What is an extrinsic semiconductor? Describe the variation of Fermi lev,el with carrier",
+    "unit": "Ungrouped",
+    "topic": "Ungrouped",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf"
+  }
+]

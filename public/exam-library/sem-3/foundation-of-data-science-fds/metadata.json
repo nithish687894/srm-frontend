@@ -1,0 +1,17 @@
+{
+  "semester": "sem-3",
+  "semesterLabel": "Sem 3",
+  "subject": "Foundation of Data Science FDS",
+  "subjectSlug": "foundation-of-data-science-fds",
+  "readiness": "Needs OCR",
+  "statusMessage": "Some scanned resources still need OCR, so this subject may be partial.",
+  "availableContent": {
+    "notes": true,
+    "pyqs": false,
+    "importantQuestions": false,
+    "revision": true
+  },
+  "sourceCount": 5,
+  "questionCount": 0,
+  "updatedAt": "2026-06-07T14:44:59.195Z"
+}

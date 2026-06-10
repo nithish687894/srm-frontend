@@ -26,7 +26,7 @@ interface MarksEntry {
  */
 async function triggerBackendDispatch(
   category: string,
-  variables: Record<string, any>
+  variables: Record<string, unknown>
 ): Promise<void> {
   if (typeof window === "undefined") return;
 

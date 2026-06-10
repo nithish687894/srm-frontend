@@ -1,0 +1,12 @@
+===== SOURCE_FILE: sem 3/Social Engineering/Notes/Study Materials.url =====
+CATEGORY: Notes
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/16XDz1RuY1zKHIqvso0-CB3G8iV0QAE5c?usp=drive_link
+
+
+===== SOURCE_FILE: sem 3/Social Engineering/PYQs/Imp Questions & MCQs.url =====
+CATEGORY: PYQs
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1o91F0pHEIFDO95eVn_ad6UPyv8Qq7HCS?usp=drive_link

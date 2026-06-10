@@ -1,0 +1,1012 @@
+===== SOURCE_FILE: sem 2/Semiconductor Physics And Computational Methods/PYQs/CT Papers.url =====
+CATEGORY: PYQs
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/14becqgs_Nxp8tZwXUZ7uy2-ONXJIiWVW?usp=drive_link
+
+
+===== SOURCE_FILE: sem 2/Semiconductor Physics And Computational Methods/PYQs/Important Topics.url =====
+CATEGORY: PYQs
+STATUS: url_reference_only
+
+URL: https://docs.google.com/document/d/1d93T2rn1CXakIU8B9zFSdNvLcIIEFEmA5-XYnyEn6qo/edit?usp=drive_link
+
+
+===== SOURCE_FILE: sem 2/Semiconductor Physics And Computational Methods/PYQs/MCQs & Question Banks.url =====
+CATEGORY: PYQs
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1btJ75w1hj7S5eI8ECiopRQLtLvzsRJbJ?usp=drive_link
+
+
+===== SOURCE_FILE: sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2024.pdf =====
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+Reg. No.
+Time: 3 hours Max. Marks: 75
+Marks BL CO PO
+1. 1 1 1 1
+1 12. i i
+3. i i i i
+i i i4. i
+i i 2 15.
+i i 2 16.
+i 2 I7.
+21 1 18.
+i i 3 39.
+31 1 3
+21DF1-21PYB102JPage 1 of 3
+Note:
+(i) Part - A should be answered in OMR sheet within first 40 minutes and OMR sheet should be handed over to hall 
+invigilator at the end of 40th minute.
+(ii) Part - B & Part - C should be answered in answer booklet.
+PART - A (20 x 1 = 20 Marks) 
+Answer ALL Questions
+with an increase in temperature. 
+B) Increases
+Which of the following represents a indirect bandgap semiconductor?
+A)GaAs B) GaAs and Si
+C)Ge D)Si
+B.TECH / M.TECH. (Integrated) DEGREE EXAMINATION, DECEMBER 2024
+Frist Semester
+21PYB102J - SEMICONDUCTOR PHYSICS AND COMPUTATIONAL METHODS 
+(For the candidates admitted during the academic year 2024-2025)
+B) Psc/IscVSc
+D)Pm*IscVsc
+Which fundamental equation governs the quantum mechanical treatment of electrons?
+A)Maxwell’s equations B) Schrodinger equation
+C) Newton's second law D) Boltzmann equation
+Consider a one-dimensional lattice of length a. The length of the unit cell in the reciprocal 
+lattice is .
+A)l/fl B)7c/<7
+C)47r/a D)a
+The quantization of lattice/atomic vibrations is called as -—
+A) Photon B) Exciton
+C)Phonon D) Magnon
+B)hv = Eg/C
+D)hv>E„ o
+The Fermi level of n-type semiconductor 
+A) Becomes zero
+C) Remains unchanged D) Decreases
+The rectifying metal - semiconductor junction is also called as 
+A) Ohmic junction B) Schottky junction
+C) Conducting junction D) PN junction
+In an intrinsic semiconductor at 0 K, the Fermi level (or chemical potential) is located at 1 
+A) Close to the valence band B) Close to the middle of the band gap
+C) Close to the conduction band D)In the conduction band
+The random motion of holes and free electrons due to thermal agitation is called 
+A) Diffusion B) Drift
+C) Pressure D) Ionisation
+The condition for photon absorption is 
+A)hv = C/Es
+C)hv<Ee o
+10. Which is the correct formula for fill factor?
+A) Pm^sc^sc
+C)Pm/IscVoc
+THE HELPERS
+
+[Page 2]
+1 1 3 3
+31 1 3
+11 1 4
+1 41 1
+4 11 115. 
+i 41 1volts.
+1 1 5 1to mention about nanoscale17.
+i 1 5 1
+1 51 1
+1 1 5 1
+Marks BL CO PO
+21 a.(i)What are the assumptions of classical free electron theory and its key successes? 8 3 1 1
+8 2 1 1
+(ii) Write a comparison between localized and delocalized wave functions?
+8 4 2 1
+(OR)
+Page 2 of 3 21DF1-21PYB102J
+B) Hot point probe 
+D) linear
+22 a. Analyze the P-N junction diode mechanism under the forward and reverse bias with a 
+proper diagram.
+PART - B (5 x 8 = 40 Marks) 
+Answer ALL the Questions
+B)Prof. Richard Feynman 
+D)Prof. Einstein
+dimensional structure is a delta function.
+B)One
+D) Three
+(ii) Calculate the probability of non-occupancy for the energy level which lies 0.01 eV 
+above the Fermi energy level at 27 °C. (KB = 8.625 x 10'5 eV/K)
+(OR)
+b. (i) Discuss the classification of electronic materials based on band gap and resistivity.
+B) Solid
+D) Semisolid
+16. The potential barrier for Si in p-n junction is approximately 
+A) 0.3 B)0.5
+C)0.7 D)0.9
+“There is plenty of room at the bottom” is the phrase by 
+physics.
+A) Prof. C V Raman
+C)Prof. Schrodinger
+18. Density of states for 
+A) Zero
+C)Two
+19. An example for two dimensional material is
+A)Nanowire B) Nanosheet
+C) Nanoparticle D) Quantum dot
+20. In chemical vapour deposition, the precursors are introduced to the reaction chamber in the 
+state.
+A) Liquid
+C) Gaseous
+11. The Fermi's golden rule helps to identify the 
+A) Velocity of light B) Momentum of electrons
+C) Absorption energy of electron D) Transition rate per unit volume
+12. Which process of an electron-hole pair is responsible for emitting light?
+A) Generation B) Recombination
+C) Ionisation D) Diffusion
+13. method is the easiet method to investigate whether the given sample is n-type 
+or p-type semiconductor.
+A) Two probe
+C)Four probe
+14. TCAD stands for 
+A) Topography Computational Aided Design B) Tribilogy Computer-Aided Design
+C) Technology Computer-Aided Design D) Transmission Computer-Aided Design
+method is most suitable for measurement of very high resistivity.
+A) Two probe B) Four probe linear
+C) Van der Pauw D) Three probe linear
+THE HELPERS
+
+[Page 3]
+8 4 2 1
+8 4 3 3
+8 4 3 3
+8 3 4 1
+8 3 4 1
+8 2 5 1
+8 2 5 1
+Marks BL CO PO
+15 426
+15 327
+Explain the special properties of carbon nanotubes.
+******
+21DF1-21PYB102JPage 3 of 3
+24 a. What is Hall effect? Derive Hall coefficient. Relate the Hall coefficient with Hall 
+voltage.
+25 a. Explain the construction and working of the physical vapour deposition technique with a 
+neat sketch.
+23 a. Define the term density of states for photons. Derive the expression for the density of 
+states for photons.
+b. Derive the continuity equation for electron an infinitesimal slice thickness of dx in a 
+one-dimensional system.
+Using the Bloch theorem, explain the Kronig-Penney model in detail with suitable 
+diagrams. Derive the expression for an electron in a periodic potential of a crystal with 
+cases.
+Analyse the construction and working of transmission electron microscopy with a neat 
+sketch.
+PART - C (1 x 15 = 15 Marks) 
+Answer ANY ONE Questions
+(OR)
+b. Derive the Einstein coefficient expression for the ratio between spontaneous and 
+stimulated emission.
+(OR)
+b. Discuss in detail the principle and working of the capacitance-voltage measurement 
+technique.
+(OR)
+b. With a neat sketch analyze the working of atomic force microscopy.
+i i
+4 5
+THE HELPERS
+
+
+===== SOURCE_FILE: sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Dec 2025.pdf =====
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+THE HELPERS
+
+[Page 2]
+THE HELPERS
+
+[Page 3]
+THE HELPERS
+
+[Page 4]
+THE HELPERS
+
+
+===== SOURCE_FILE: sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Jan 2024.pdf =====
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 5]
+` 
+ ` 
+SRM Institute of Science and Technology 
+College of Engineering and Technology 
+DEPARTMENT OF PHYSICS 
+B.Tech/M.Tech Integrated DEGREE EXAMINATION 
+ 
+Faculty Name: Dr. A. Senthil FacultyID: T239 
+Course Code: 21PYB102J 
+Course Name:Semiconductor Physics and Computational Methods 
+Date of Exam: 06/01/2024 Duration:3 Hours 
+ 
+PART—A (20x1=20 Marks) 
+Answer ALL Questions 
+ 
+1. (C)Sommerfeld 
+2. (B)0.5 
+3. (B)Insulator 
+4. (C) e 2X 
+5. (A)Intrinsic 
+6. (D)Light, Electric current. 
+7. (C)Movement of charge carriers in the presence of an applied electric field. 
+8. (B) Light Emitting Diode 
+9. (C)0.87 µm 
+10. (A)Number of atoms in excited state 
+11. (D)Fermi's Golden Rule 
+12. (A)Beam Propagation Method 
+13. (D)Vander Pauw method 
+14. (B)Diffusion potential 
+15. (B)V/I 
+16. (D)0.333 ohm m 
+17. (D)1-100 nm 
+18. (B)All three dimensions 
+19. (C)Gas 
+20. (B)AFM
+
+
+[Page 6]
+ 
+SRM Institute of Science and Technology 
+College of Engineering and Technology 
+DEPARTMENT OF PHYSICS 
+B.Tech/M.Tech Integrated DEGREE EXAMINATION 
+ 
+Faculty Name: Dr. A. Senthil FacultyID: T239 
+Course Code: 21PYB102J 
+Course Name:Semiconductor Physics and Computational Methods 
+Date of Exam: 06/01/2024 Duration:3 Hours 
+ 
+ 
+PART— B(5 x 8= 40 Marks) 
+Answer ALL Questions 
+Q-21 (a) Defination- Diagram-Importance of density of State - 2 marks 
+Definition: Density of States Z (E) dE is defined as the number of available electron states 
+per unit volume in an energy interval (dE). 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Derivation – 6 Marks 
+ 
+ 
+ 
+ 
+ 
+ 
+(OR) 
+ 
+
+
+[Page 7]
+(b) (i) Explanation of Brillouin zone – 2 marks; 
+ 
+ 
+Diagram of Brillouin zone 1D,2D Lattice- 2 marks 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(ii) Concep tof Eigen function,Eigen value and Eigen equations : 3marks ; 
+Examples: 1mark 
+ 
+ In quantum mechanics, if we apply an operator on wave function then the same wave 
+ function is achieved back with a scalar value. In that scenario, the Wave function is called 
+ Eigen function and the scalar value is called Eigenvalue. An equation that includes Eigen 
+ function, operator and Eigen value is called the Eigen equation. 
+ 
+No same function is achieved back after applying differential oper ator, (i.e.Sin 
+and Cos functions are different). Where 3 is eigen value The samefunction is achieved back 
+with a multiple of ‘3’ after applying the differential operator. 
+
+[Page 8]
+Q.22 (a). Variation of Fermi level with temperature for N- type (4 marks) ; 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Variation of Fermi level with temperature for P- type (4 marks) 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(OR) 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+[Page 9]
+ (b) Processes of diffusion involved in formation of a PN junction – 3 
+ 
+ 
+ Continuity equation for transport of mobile charge carriers - 5 marks 
+ 
+ Definition:1 mark 
+Equation with explanation: 4 marks 
+ 
+The contribution of the overall effect when drift, diffusion, and recombination occur 
+simultaneously in a semiconductor material. The governing equation is called the continuity 
+equation 
+The continuity equa tion describes a basic concept, namely that a change in carrier density 
+over time is due to the difference between the incomingand outgoingflux of carriers plus the 
+generation and minus the recombination. 
+Consider an infinitesimal slice with thickness dx l ocated at x. The number of electrons in the 
+slice may increase due to the net current flow into the slice and the net carrier generation in 
+the slice (mainly four components contribution). 
+ 
+
+[Page 10]
+Q.23 (a) Density of state of Photon : Explanation – 2 mark; Equation with explanation: 6 marks 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(OR) 
+ 
+ 
+ 
+ 
+ 
+
+[Page 11]
+( b) (i) Concept and explanation of Fermi Golden rule :3marks 
+ 
+Equation:2 marks 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ (ii) Determine the conversion efficiency of the solar cell 
+if short-circuitcurrent (Isc)=2.8 A, open- circuit voltage (Voc)=0.55V, 
+fillfactor(FF)=0.8,and inputpower(Pin)=10W. 
+Answer: Equation- 1mark; Calculation and Answer -2marks 
+ 
+ Conversion efficiency = 12.32 % 
+ 
+ 
+24. (a) Hall effect : Difinition of Hall effect with Diagram – 2 marks; 
+ Relationship between Hall coefficient and Hall voltage derivation – 6 marks. 
+ 
+
+
+[Page 12]
+ 
+ 
+ 
+(OR) 
+ 
+ 
+ 
+ 
+ 
+ 
+
+[Page 13]
+ (b) (i) Working principle and explanation of Hot probe :3marks ; Diagram: 1 mark 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ (ii) Monte Carlo method – Difinition 1` mark ; 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Explanation of estimation of Pi value – 3 marks 
+ 
+ 
+ 
+ 
+ 
+
+
+[Page 14]
+ 
+ 
+ 
+25. (a) Difinition and derivation of 2D and 1D – 6 marks ( Each 3 mark s); 0D – explanation - 
+ 2 marks; 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+2D 1D 
+0D 
+
+[Page 15]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 2D DOS 
+ 
+ 
+ 1D DOS 
+ 
+ 
+ 
+ 
+ 
+ 
+(OR) 
+25 (b) PVD – Diagram – 2 marks; Explanation – 6 Marks 
+ 
+ Alternative process to electroplating. 
+ 
+ The process is similar to chemical vapour deposition (CVD) except that the raw 
+materials/precursors, i.e. the material that is going to be deposited starts out in solid form, whereas 
+in CVD, the precursors are introduced to the reaction chamber in the gaseous state. 
+ 
+ 
+Evaporation 
+During this stage, a target, consisting of the material to be deposited is bombarded by a high energy 
+source such as a beam of electrons or ions. This dislodges atoms from the surface of the target, 
+‘vaporising’ them. 
+ 
+ 
+ 
+2
+1
+22
+
+ Ek
+Lm
+dE
+dn
+
+22 
+Am
+dE
+dk
+dk
+dn
+dE
+dn 
+
+[Page 16]
+Transport 
+This process simply consists of the movement of ‘vaporised’ atoms from the target to the substrate to be 
+coated and will generally be a straight line affair. 
+Reaction 
+ In some cases coatings will consist of metal oxides, nitrides, carbides and other such materials. 
+ In these cases, the target will consist of the metal. 
+ The atoms of metal will then react with the appropriate gas during the transport stage. 
+For the above examples, the reactive gases may be oxygen, nitrogen and methane. 
+In instances where the coating consists of the target material alone, this step would not be part of the 
+process 
+Deposition 
+This is the process of coating build up on the substrate surface. 
+Depending on the actual process, some reactions between target materials and the reactive gases may also 
+take place at the substrate surface simultaneously with the deposition process. 
+Fig. shows a schematic diagram of the principles behind one common PVD method. 
+ The component that is to be coated is placed in a vacuum chamber. The coating material is evaporated by 
+intense heat from, for example, a tungsten filament. 
+An alternative method is to evaporate the coating material by a complex ion bombardment technique. 
+The coating is then formed by atoms of the coating material being deposited onto the surface of the 
+component being treated. 
+
+
+[Page 17]
+PART—C (1x15=15Marks) 
+Answer ANYONE 
+ 
+26 (i) Derivation for an electron in a periodic field of 1D crystal lattice- Diagram with 
+explanation – 2 marks ; Derivation – 10 marks 
+ According to Kroning and Penney the electrons move in a periodic square well potential. 
+ This potential is produced by the positive ions (ionized atoms) in the lattice. 
+ It is not easy to solve Schrödinger’s equation with these potentials. So, Kroning and Penney 
+approximated these potentials inside the crystal to the shape of rectangular steps as shown in Fig. 
+(c). This model is called Kroning-Penney model of potentials. 
+ 
+ 
+ (ii) Explanation of energy of electron under p 0 ( 3 marks) 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+[Page 18]
+ 
+27 (i) Construction working principle of TEM - 4 marks 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ the electron gun, produces a stream of monochromatic electrons. 
+ This stream is focused to a small, thin, coherent beam by the use of condenser lenses 1 and 2. The 
+first lens (usually controlled by the "spot size knob") largely determines the "spot size"; the 
+general size range of the final spot that strikes the sample. 
+ The second lens (usually controlled by the "intensity or brightness knob" actually changes the size 
+of the spot on the sample; changing it from a wide dispersed spot to a pinpoint beam. 
+ The beam is restricted by the condenser aperture (usually user selectable), knocking out high angle 
+electrons (those far from the optic axis, the dotted line down the center) 
+ The beam strikes the specimen and parts of it are transmitted 
+ This transmitted portion is focused by the objective lens into an image 
+ The image is passed down the column through the projector lenses, being enlarged all the way. 
+ The image strikes the phosphor image screen and light is generated, allowing the user to see the 
+image 
+ 
+Comment on the interaction of electron beam with sasmple in SEM and TEM 
+ – 6 marks 
+ 
+ Specimen Interactions 
+ 
+ TEM- Unscattered Electrons ; Elastically Scattered electrons ; Inelastically Scattered Electrons 
+ 
+ SEM- Backscattered electrons ;Secondoryelectrons ; X-rays ;Auger electrons 
+ 
+ 
+ (ii) Working concept of AFM – 4 marks ; Diagram – 1 mark 
+ 
+ 
+
+[Page 19]
+ The AFM raster scans a sharp probe over the surface of a sample and measures the changes in 
+force between the probe tip and the sample. 
+ 
+Working Concept 
+ The physical parameter probe is a force resulting from different interactions. 
+ The origin of these interactions can be ionic repulsion, van der Waals, capillary, electrostatic and 
+magnetic forces, or elastic and plastic deformations. 
+ Thus, an AFM image is generated by recording the force changes as the probe (or sample) is 
+scanned in the x, y and z directions. 
+ The sample is mounted on a piezoelectric scanner, which ensures three-dimensional positioning 
+with high resolution. 
+ The force is monitored by attaching the probe to a pliable cantilever, which acts as a spring, and 
+measuring the bending or "deflection" of the cantilever. 
+ The larger the cantilever deflection, the higher the force that will be experienced by the probe. 
+ Most instruments today use an optical method to measure the cantilever deflection with high 
+resolution; a laser beam is focused on the free end of the cantilever, and the position of the 
+reflected beam is detected by a photodiode. 
+ AFM cantilevers and probes are typically made of silicon or silicon nitride( nano) by micro 
+fabrication techniques.
+
+
+===== SOURCE_FILE: sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Jul 2023.pdf =====
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+THE HELPERS
+
+[Page 2]
+THE HELPERS
+
+[Page 3]
+THE HELPERS
+
+[Page 4]
+THE HELPERS
+
+
+===== SOURCE_FILE: sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Jul 2025.pdf =====
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+THE HELPERS
+
+[Page 2]
+THE HELPERS
+
+[Page 3]
+THE HELPERS
+
+[Page 4]
+THE HELPERS
+
+
+===== SOURCE_FILE: sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ May 2023.pdf =====
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+THE HELPERS
+
+[Page 2]
+THE HELPERS
+
+
+===== SOURCE_FILE: sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ May 2024.pdf =====
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+THE HELPERS
+
+[Page 2]
+THE HELPERS
+
+[Page 3]
+THE HELPERS
+
+[Page 4]
+THE HELPERS
+
+
+===== SOURCE_FILE: sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2018.pdf =====
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+b.i. What is a Light Emitting diode (LED)? Describe the principle, construction and working of
+(8 Marks)
+(4 MarkO
+30. a. Explain the absorption and emissions processes with necessary theory and hence derive.the
+relation between Einsteins coeflicients.
+b.i. Describe the theory of Drudes ,nou!?llro 0".,."
+conductivity.
+ii. Mention anytwo applications of photovoltaic effect.
+31. a. Describe the Linear and Vander Pauw Four Point Probe technique
+measurements.
+LED.
+ii. Write a note on diffirsion and ddft current.
+B.Tech. DEGREE EXAMINATION, NOYEMBER 2018
+First Semester
+18PYB103J - PITYSICS: SEMICONDUCTOR PITYSICS
+@or the candidates admitted during the academic year 2018-2019)
+Part - A should be answered in OMR sheet within first 45 minutes and OMR sheet should be handed
+b. What are the fundamental laws or alsoo?tionz Describe the principle, construction ,np
+working of UV Visible Spectrophotometer.
+derive the expressionfor electrical
+(10 Marks)
+(2 Marks)
+for eleckical
+( Marks)
+(8 Marks)
+(8 Marks)
+(4 Marks)
+Note:
+(i)
+over to hall invigilator at the end of 45d minute.
+(iD Part - B and Part - C should be answered in answer booklet
+Time: Three Hours
+(A) Collisiontime
+(C) Wave number
+PART-A(20x1=20Marks)
+AnswerALL Questions
+1. The ave.rage distance travelled by an electon between two successive collisions in the
+presence ofapplied field is called
+@) Mean free path
+(D) Drift velocity
+@) Zener diode
+@) Transistor
+Max. Marks: 100
+and holes is the
+direc{ly emit a
+- hole pairs, some of the
+32. a.i. What are Carbon nanotubes (CNT)? Mention the properties of CNTs.
+ii ii. Describe the fabrication of CNT's by Physical Vapor Deposition @VD).
+Describe the principle, construction and working of Scanning Electron Microscope (SEM).
+The band gap is called _, if the crystal momentum of electrons
+same in both the conduction band and the valence band; an electron can
+photon.
+(A) Direct (B) Indirect
+Write a note on Heterojunctions.
+(oR)
+Z.
+3.
+4.
+b.i.
+ii. (C) Crystalline
+temperature above 0K.
+(A) Valence level
+(C) Conduction level
+(A) Restmass
+(C) Zero mass
+(A) Light Emitting diode
+(C) Rectifier
+(A) gain
+(C) amplification
+impurity?
+(A) N-qryesemiconductor
+(C) P-typesemiconductor
+(B) Fermi level
+(D) Density of states
+@) Effectivemass
+@) Accelerated mass
+is aPN Junction, which is forward biased?
+(D) Noncrystalliae
+is the state at which the probability of electron occupation is t/z at any
+**.*tl.*
+When an electron in a periodic potential is acceleiated relative to the lattice in an electric
+field or magnetic field, then the mass of the electon is called the
+6. When light impinges upon a semiconductor to create electron
+cariers are collected at the contact which leads to
+(B) photocunent
+(D) biasing
+7. Which type of material is obtained when intrinsic semiconductor is doped with pentavalent
+(B)
+(D)
+Extrinsic semiconductor
+Insulator
+Page 4 of4 I7I{FI18PYB1O3J Pagc 1 of4 l7NFl18PYB103J
+
+[Page 2]
+8. is the process of radiative recombination of electron-hole pairs 18. In a quantum wire, the material size is reduced
+(A) In three directions
+(C) In one direction
+Charge
+Potential
+effective mass of hole.
+9. Thp spectral region, where the material changes from being relatively transparent to strongly
+absorbing is known as
+(A) Absorption edge
+(C) Valence edge
+10. According to Drudes theory, the velocities of electrons are assumed to have
+velocity given by kinetic theory of gases.
+(A) Rootmeansqure (B) Drift
+(C) Instantaneous (D) Unifomt
+is the creation ofvoltage and electic current tn
+19. In CVD chamber, the precursors are introduced to the reaction chamber in the
+state.
+(A) Liquid
+(C) Semisolid
+20. The physical paxameter that is
+created by electron bombardment.
+(A) Photoluminescence
+(C) Elecftoluminescence
+(A) Acousto- optics
+(C) Eleclrolysis
+@) Cathodoluminescence
+@) Anodoluminescence
+(B) Conduction edge
+(D) Annihilation edge
+(B) In two directions
+@) Infinitely
+(B) Solid
+(D) Gaseous
+probed in AFM resulting from different interactions is
+Force
+Field
+(10 Marks)
+1.9 eV. Calculate the velocity of the electron at the Fermi
+(2 Marks)
+(4 Marks)
+17I\IF'I18PYB1O}I
+(B)
+(D)
+(A)
+(c)
+11.
+13. For determining the resistivity of a serniconductor, the diameter of contacts between the
+proQe and the semiconductor should be , the gap between the probes.
+PART-B(5x4=20Marks)
+ArswerANYFM Questions
+21. Write a note on Enerry bands in solids.
+22. Describe the nonequilibrium propeties of carriers.
+23. Whatis a PN Junction? Explain the biasing concgpt in PN Junction.
+25. Describe the optical absorption and recombination process,
+26. Write a note on I-V charaoteristics of a diode
+27. Describe the powder method of X-ray diffraction.
+PART-C(5x12:60Marks)
+Answer ALL Questions
+28.a.i. What is Density of states? Derive an expression for density of states for a semiconducting
+. (B) Photovoltaics
+(D) Electrophorsis
+a material .rFon exposure
+to light and is a physical and chemical phenomenon
+12. Instimulated emissiorq the states at which the life time of atoms is extended is
+(A) Metastable state (B) Stable state
+(A) Smallerthan
+(C) Equal to
+t4-
+1s. A
+(A) Surface area
+(C) Voltrme
+Pag6 2 of4
+t6-
+17.
+where the applied voltage is varied, and the capacitance is measured and plotted as a function
+ofvoltage.
+(A) Capactive - voltage profiling
+(C) Voltage profrling
+is a method of determining quickly whether a semiconductor sample is n
+(B) Greater than
+@) Double
+is a technique for chmacterizing semiconductor materials and devices,
+@) Currentprofiling
+@) Baising
+@) Surface charge
+(D) Force
+17I\[Fl1EPYBlO}I
+material.
+ii. The Fermi level for potassium is
+level.
+(oR)
+b. Describe the behavior of electron in a periodic potential and hence explain the Kronig Penny
+Model in detail with the cases.
+29.a,i. What is an extrinsic semiconductor? Describe the variation of Fermi lev,el with carrier
+concenfiation and ternperature in an N-Type semiconductor. (8 Marks)
+ii. Determine the position of the Fenni Level in an instinsic semiconductor from the centre of
+forbidden gap at room temperature, if the effective mass of an electron is equal to twice the
+(negative) type or p (positive) type.
+(A) Eleckolysis @) Hot point probe
+(C) Rectification (D) Hydrogenation
+law states that, when a beam of monochromatic light passes tluough an
+absorbing medium, the rate of decrease in intensify with the thickness of the medium, is
+proportional to the intensity of light.
+(A) Larnbert's @) Beer's
+(C) Photoelectric @) Snell's
+Nanoparticles are special mainly because of their
+Page 3 of ,l
+(oR)
+
+
+===== SOURCE_FILE: sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2024.pdf =====
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+THE HELPERS
+
+[Page 2]
+THE HELPERS
+
+[Page 3]
+THE HELPERS
+
+[Page 4]
+THE HELPERS
+
+
+===== SOURCE_FILE: sem 2/Semiconductor Physics And Computational Methods/PYQs/PYQ Nov 2025.pdf =====
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+THE HELPERS
+
+[Page 2]
+THE HELPERS
+
+[Page 3]
+THE HELPERS
+
+[Page 4]
+THE HELPERS

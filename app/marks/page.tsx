@@ -61,12 +61,16 @@ export default function MarksPage() {
     setIsSyncing(true);
     try {
       const res = await dataAPI.getMarks();
-      if (res && res.data) {
+      if (Array.isArray(res?.data) && res.data.length > 0) {
          setAcademicData({ ...(academicData || {}), marks: res.data });
-      } else if (Array.isArray(res)) {
+      } else if (Array.isArray(res) && res.length > 0) {
          setAcademicData({ ...(academicData || {}), marks: res });
       }
-    } catch (e) { console.error(e); } finally { setTimeout(() => setIsSyncing(false), 800); }
+    } catch (e) {
+      console.error("Marks sync failed", e);
+    } finally {
+      setTimeout(() => setIsSyncing(false), 800);
+    }
   };
 
   const { marks, totalScored, totalMax, avgPct } = useMemo(() => {

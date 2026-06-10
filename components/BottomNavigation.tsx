@@ -6,7 +6,9 @@ import Link from "next/link";
 import { authAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
-import { Home, BarChart2, CheckCircle, Clock, Calendar, Wrench, Sparkles, Shield, MoreHorizontal, Settings, LogOut, Wifi, WifiOff, MessageSquare } from "lucide-react";
+import { Home, BarChart2, CheckCircle, Clock, Calendar, Wrench, Sparkles, Shield, MoreHorizontal, Settings, LogOut, Wifi, WifiOff, MessageSquare, Search, Library, BookOpen } from "lucide-react";
+import PremiumCheckout from "@/components/PremiumCheckout";
+import Toast from "@/components/Toast";
 
 type NavEntry = {
   href: string;
@@ -34,6 +36,9 @@ function MoreSheet({
   path,
   onClose,
   onLogout,
+  isPremium,
+  onOpenPremium,
+  isLight,
 }: {
   mounted: boolean;
   moreOpen: boolean;
@@ -42,6 +47,9 @@ function MoreSheet({
   path: string;
   onClose: () => void;
   onLogout: () => void;
+  isPremium: boolean;
+  onOpenPremium: () => void;
+  isLight: boolean;
 }) {
   if (!mounted) return null;
 
@@ -93,6 +101,52 @@ function MoreSheet({
                 })}
               </div>
 
+              {/* Premium Pass Status or Buy Button */}
+              {isPremium ? (
+                <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "8px",
+                    padding: "16px",
+                    background: "rgba(191, 90, 242, 0.08)",
+                    border: "1px solid rgba(191, 90, 242, 0.25)",
+                    borderRadius: "16px",
+                    marginBottom: "16px",
+                  }}
+                >
+                  <Shield size={16} color="#FF75C3" />
+                  <span style={{ color: "#FF75C3", fontWeight: 700, fontSize: "13px", letterSpacing: "0.02em" }}>
+                    Nexus Premium Active
+                  </span>
+                </div>
+              ) : (
+                <button
+                  onClick={onOpenPremium}
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "10px",
+                    padding: "16px",
+                    background: "linear-gradient(135deg, #7B2CBF 0%, #BF5AF2 100%)",
+                    border: "none",
+                    borderRadius: "16px",
+                    cursor: "pointer",
+                    marginBottom: "16px",
+                    boxShadow: "0 8px 20px rgba(123, 44, 191, 0.25)",
+                  }}
+                >
+                  <Sparkles size={16} color="#FFFFFF" style={{ animation: "pulse 2s infinite" }} />
+                  <span style={{ color: "#FFFFFF", fontWeight: 800, fontSize: "13px", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                    Get Premium Pass
+                  </span>
+                </button>
+              )}
+
               <button
                 onClick={onLogout}
                 className="w-full flex items-center justify-center gap-3 p-4 bg-red-500/20 border border-red-500/30 rounded-2xl hover:bg-red-500/30 transition-colors"
@@ -111,7 +165,19 @@ function MoreSheet({
   );
 }
 
-function DesktopNav({ navItems, path, connected }: { navItems: NavEntry[]; path: string; connected: boolean }) {
+function DesktopNav({ 
+  navItems, 
+  path, 
+  connected,
+  isPremium,
+  onPremiumOpen
+}: { 
+  navItems: NavEntry[]; 
+  path: string; 
+  connected: boolean;
+  isPremium: boolean;
+  onPremiumOpen: () => void;
+}) {
   return (
     <div className="srmx-desktop-nav">
       <ConnectionIndicator connected={connected} />
@@ -128,11 +194,53 @@ function DesktopNav({ navItems, path, connected }: { navItems: NavEntry[]; path:
           </Link>
         );
       })}
+      
+      {/* Premium Desktop Button */}
+      <button
+        onClick={onPremiumOpen}
+        className="nav-item"
+        style={{ 
+          background: "none", 
+          border: "none", 
+          outline: "none",
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          gap: "6px",
+          width: "auto",
+          height: "100%",
+          padding: "0 10px",
+          fontFamily: "inherit",
+        }}
+      >
+        {isPremium ? (
+          <Shield size={14} color="#FF75C3" />
+        ) : (
+          <Sparkles size={14} color="#BF5AF2" />
+        )}
+        <span style={{ color: isPremium ? "#FF75C3" : "#BF5AF2", fontWeight: 700 }}>Premium</span>
+      </button>
     </div>
   );
 }
 
-function MobileNav({ navMain, path, moreOpen, isMoreActive, onMoreOpen }: { navMain: NavEntry[]; path: string; moreOpen: boolean; isMoreActive: boolean; onMoreOpen: () => void }) {
+function MobileNav({ 
+  navMain, 
+  path, 
+  moreOpen, 
+  isMoreActive, 
+  onMoreOpen,
+  onPremiumOpen,
+  isPremium
+}: { 
+  navMain: NavEntry[]; 
+  path: string; 
+  moreOpen: boolean; 
+  isMoreActive: boolean; 
+  onMoreOpen: () => void;
+  onPremiumOpen: () => void;
+  isPremium: boolean;
+}) {
   return (
     <div className="srmx-mobile-nav">
       {navMain.map((item) => {
@@ -148,6 +256,20 @@ function MobileNav({ navMain, path, moreOpen, isMoreActive, onMoreOpen }: { navM
           </Link>
         );
       })}
+
+      {/* Premium Tab (Spotify Style) */}
+      <button
+        onClick={onPremiumOpen}
+        className="nav-item"
+        style={{ background: "none", border: "none", outline: "none", fontFamily: "inherit" }}
+      >
+        {isPremium ? (
+          <Shield size={20} color="#FF75C3" style={{ filter: "drop-shadow(0 0 4px rgba(255,117,195,0.4))" }} />
+        ) : (
+          <Sparkles size={20} color="#BF5AF2" style={{ filter: "drop-shadow(0 0 4px rgba(191,90,242,0.4))" }} />
+        )}
+        <span style={{ color: isPremium ? "#FF75C3" : "#BF5AF2", fontWeight: 700 }}>Premium</span>
+      </button>
 
       <button
         onClick={onMoreOpen}
@@ -167,22 +289,29 @@ export default function BottomNavigation() {
   const [mounted, setMounted] = useState(false);
   const { theme } = useThemeStore();
 
-  const { profile, email, studentPortalConnected } = useAuthStore();
+  const { profile, email, studentPortalConnected, isPremium } = useAuthStore();
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [toast, setToast] = useState<{ title: string; body: string; type: "success" | "error" | "info" } | null>(null);
+  const showToast = (title: string, body: string, type: "success" | "error" | "info" = "success") => {
+    setToast({ title, body, type });
+  };
   const ADMIN_EMAILS = ["ns4770@srmist.edu.in", "ts0014@srmist.edu.in"];
   const userEmail = (email || profile?.Email || profile?.["Email"] || "").toLowerCase();
   const isAdmin = ADMIN_EMAILS.map(e => e.toLowerCase()).includes(userEmail);
 
   // Main navigation items (always visible)
   const NAV_MAIN = [
-    { href: "/dashboard", label: "Nexus", icon: Home },
-    { href: "/marks", label: "Marks", icon: BarChart2 },
-    { href: "/attendance", label: "Attendance", icon: CheckCircle },
-    { href: "/timetable", label: "Timetable", icon: Clock },
+    { href: "/dashboard", label: "Home", icon: Home },
+    { href: "/marks", label: "Search", icon: Search },
+    { href: "/attendance", label: "Your Library", icon: Library },
   ];
 
   // More navigation items (in bottom sheet)
   const NAV_MORE = [
+    { href: "/timetable", label: "Timetable", icon: Clock },
     { href: "/chat", label: "Chat", icon: MessageSquare },
+    { href: "/exam-library", label: "Exam", icon: BookOpen },
+    { href: "/exam-hub", label: "Exam Hub", icon: BookOpen },
     { href: "/calendar", label: "Calendar", icon: Calendar },
     { href: "/app-tools", label: "Tools", icon: Wrench },
     { href: "/ai", label: "AI", icon: Sparkles },
@@ -190,7 +319,7 @@ export default function BottomNavigation() {
     { href: "/settings", label: "Settings", icon: Settings },
   ];
 
-  const isMoreActive = NAV_MORE.some(item => path === item.href);
+  const isMoreActive = NAV_MORE.some(item => path === item.href || path.startsWith(item.href + "/"));
 
   useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
@@ -207,12 +336,26 @@ export default function BottomNavigation() {
     <>
       {/* Desktop Navigation */}
       <div className="hidden md:block">
-        <DesktopNav navItems={NAV_MAIN.concat(NAV_MORE)} path={path} connected={studentPortalConnected} />
+        <DesktopNav 
+          navItems={NAV_MAIN.concat(NAV_MORE)} 
+          path={path} 
+          connected={studentPortalConnected} 
+          isPremium={isPremium}
+          onPremiumOpen={() => setShowCheckout(true)}
+        />
       </div>
 
       {/* Mobile Navigation */}
       <div className="block md:hidden">
-        <MobileNav navMain={NAV_MAIN} path={path} moreOpen={moreOpen} isMoreActive={isMoreActive} onMoreOpen={() => setMoreOpen(true)} />
+        <MobileNav 
+          navMain={NAV_MAIN} 
+          path={path} 
+          moreOpen={moreOpen} 
+          isMoreActive={isMoreActive} 
+          onMoreOpen={() => setMoreOpen(true)} 
+          onPremiumOpen={() => setShowCheckout(true)}
+          isPremium={isPremium}
+        />
         <MoreSheet
           mounted={mounted}
           moreOpen={moreOpen}
@@ -224,8 +367,30 @@ export default function BottomNavigation() {
             setMoreOpen(false);
             handleLogout();
           }}
+          isPremium={isPremium}
+          onOpenPremium={() => {
+            setMoreOpen(false);
+            setShowCheckout(true);
+          }}
+          isLight={theme === "light"}
         />
       </div>
+
+      {toast && (
+        <Toast
+          title={toast.title}
+          body={toast.body}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
+
+      {showCheckout && (
+        <PremiumCheckout
+          onClose={() => setShowCheckout(false)}
+          showToast={showToast}
+        />
+      )}
 
       <style jsx>{`
         .connection-indicator {
@@ -260,63 +425,50 @@ export default function BottomNavigation() {
           bottom: 0;
           left: 0;
           right: 0;
-          height: calc(72px + env(safe-area-inset-bottom));
+          height: calc(60px + env(safe-area-inset-bottom));
           padding-bottom: env(safe-area-inset-bottom);
-          background: rgba(10, 10, 12, 0.95);
-          backdrop-filter: blur(24px);
-          -webkit-backdrop-filter: blur(24px);
-          border-top: 1px solid rgba(255,255,255,0.08);
+          background: #000000;
+          border-top: 1px solid #121212;
           display: flex;
           align-items: center;
           justify-content: space-around;
           z-index: 100;
-          box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.6);
         }
-
 
         .nav-item {
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          gap: 4px;
-          color: rgba(255, 255, 255, 0.55);
-          font-family: 'Space Mono', monospace;
-          font-size: 10px;
+          gap: 6px;
+          color: #b3b3b3;
+          font-family: 'Plus Jakarta Sans', sans-serif;
+          font-weight: 500;
+          font-size: 11px;
+          letter-spacing: -0.012em;
           position: relative;
           cursor: pointer;
-          transition: color 0.2s ease, text-shadow 0.2s ease;
-          width: 60px;
+          transition: color 0.15s ease;
+          width: 20%;
           height: 100%;
           -webkit-tap-highlight-color: transparent;
         }
 
-        .nav-item:hover {
-          color: #fff;
+        .nav-item:hover, .nav-item:active {
+          color: #ffffff;
         }
 
         .nav-item.active {
-          color: #FF75C3;
-          text-shadow: 0 0 12px rgba(255, 117, 195, 0.7);
+          color: #ffffff;
         }
 
         .nav-item::before {
-          content: '';
-          position: absolute;
-          top: 0px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 0px;
-          height: 2px;
-          border-radius: 4px;
-          background: transparent;
-          transition: all 0.2s ease;
+          display: none;
         }
 
         .nav-item.active::before {
-          width: 30px;
-          background: currentColor;
-          box-shadow: 0 0 10px currentColor;
+          display: none;
         }
       `}</style>
     </>

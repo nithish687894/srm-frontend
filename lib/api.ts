@@ -136,11 +136,45 @@ export const dataAPI = {
     API.get(`/api/v1/unsplash?query=${encodeURIComponent(query)}`).then((r) => r.data),
 };
 
+export const studentPortalAPI = {
+  status: () => API.get("/api/student-portal/status").then((r) => r.data),
+  connect: (payload: { netId?: string; username?: string; password: string; captcha: string; captchaToken: string }) =>
+    API.post("/api/student-portal/connect", payload).then((r) => r.data),
+  disconnect: () => API.post("/api/student-portal/disconnect").then((r) => r.data),
+  getPage: (key: string) => API.get(`/api/student-portal/page/${encodeURIComponent(key)}`).then((r) => r.data),
+  refreshPage: (key: string) => API.post(`/api/student-portal/refresh/${encodeURIComponent(key)}`).then((r) => r.data),
+};
+
 export const chatAPI = {
   getHistory: (room: string, before?: string) =>
     API.get(`/api/v1/chat/history?room=${room}${before ? `&before=${before}` : ""}`).then((r) => r.data),
   getCohorts: () =>
     API.get("/api/v1/chat/cohorts").then((r) => r.data),
+};
+
+export const examHubAPI = {
+  ask: (payload: {
+    question: string;
+    semester?: number;
+    subjectName?: string;
+    unit?: string;
+    topic?: string;
+    resourceType?: string;
+    mode?: string;
+    officialOnly?: boolean;
+    limit?: number;
+  }) => API.post("/api/v1/exam/chat", payload).then((r) => r.data),
+};
+
+export const paymentAPI = {
+  createOrder: (planId: string, buddyEmail?: string) =>
+    API.post("/api/payment/create-order", { planId, buddyEmail }).then((r) => r.data),
+  verifyPayment: (payload: {
+    razorpay_order_id: string;
+    razorpay_payment_id: string;
+    razorpay_signature: string;
+  }) =>
+    API.post("/api/payment/verify", payload).then((r) => r.data),
 };
 
 export { API };

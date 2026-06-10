@@ -1,0 +1,255 @@
+[
+  {
+    "id": "q-1",
+    "text": "Model classification- Model Formulation-",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Bioprocess Engineering/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-2",
+    "text": "Unstructured Models",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Bioprocess Engineering/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-3",
+    "text": "Phases of batch growth cycle",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Bioprocess Engineering/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-4",
+    "text": "Multiple substrate models and model Inhibition,",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Bioprocess Engineering/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-5",
+    "text": "Models of growth and non-growth product inhibition",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Bioprocess Engineering/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-6",
+    "text": "Models for the growth of fungi, Plant cell and Animal cells,",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Bioprocess Engineering/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-7",
+    "text": "Structured models",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Bioprocess Engineering/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-8",
+    "text": "Models of metabolites and growth-compartmental Models",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Bioprocess Engineering/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-9",
+    "text": "Models of product formation.",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Bioprocess Engineering/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-10",
+    "text": "Why do Mathematical Modelling?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Bioprocess Engineering/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-11",
+    "text": "Why do Mathematical Modelling?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Bioprocess Engineering/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-12",
+    "text": "– What are the variables (dependent, independent, parameters)?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Bioprocess Engineering/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-13",
+    "text": "– What are the constraints?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Bioprocess Engineering/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-14",
+    "text": "– What boundary conditions?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Bioprocess Engineering/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-15",
+    "text": "– What initial conditions?",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Bioprocess Engineering/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-16",
+    "text": "+ KS/CS)(1 + CS/KI )",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Bioprocess Engineering/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-17",
+    "text": "+ KS/CS)(1 + CS/KI )",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Bioprocess Engineering/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-18",
+    "text": "+ KS/CS)(1 + Cp/Kp )",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Bioprocess Engineering/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-19",
+    "text": "+ KS/CS)(1 + CI/KI )",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Bioprocess Engineering/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-20",
+    "text": "E. Bailey and David F. Ollis",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Bioprocess Engineering/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-21",
+    "text": "L. Shuler and Fikret Kargi, page:176-183.",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Bioprocess Engineering/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-22",
+    "text": "phenyl acetic acid- which form a side chain of penicillin",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Bioprocess Engineering/Notes/Unit 4.pdf"
+  },
+  {
+    "id": "q-23",
+    "text": "penicillin acyl-transferase which attaches activated phenylacetate to 6",
+    "unit": "Ungrouped",
+    "topic": "Unit 4",
+    "marks": null,
+    "badges": [
+      "PYQ"
+    ],
+    "source": "sem 4/Bioprocess Engineering/Notes/Unit 4.pdf"
+  }
+]

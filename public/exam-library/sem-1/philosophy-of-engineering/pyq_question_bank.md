@@ -1,0 +1,1027 @@
+## nexus sem/Philosophy Of Engineering/PYQs/Important Topics & Exam Pattern.url
+
+CATEGORY: PYQs
+STATUS: url_reference_only
+
+URL: https://docs.google.com/document/d/1WGW5jJVAoTk7598I9wLGGUVpJNds1__W7QIiqOlPEl8/edit?usp=sharing
+
+---
+
+## nexus sem/Philosophy Of Engineering/PYQs/MCQ & Question Bank.url
+
+CATEGORY: PYQs
+STATUS: url_reference_only
+
+URL: https://drive.google.com/drive/folders/1um6ctu9sT624qLw5U1SD0PL1OETqmSCM?usp=drive_link
+
+---
+
+## nexus sem/Philosophy Of Engineering/PYQs/MCQ Test 2025.pdf
+
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+Philosophy of Engineering (POE) – CT1 (All 20
+ Questions with Options and Answers)
+Title: Philosophy of Engineering (POE) - CT1 (1 to 20)
+1. Define Engineering:
+a) Study of natural laws
+b) Application of science, mathematics, and technology to solve problems
+c) Understanding of society
+d) Philosophical analysis
+Answer: b) Application of science, mathematics, and technology to solve problems
+2. A team compares how water systems were managed in ancient villages, medieval castles, and
+modern smart cities.
+a) Scientific Inquiry
+b) Historical comparison of engineering development
+c) Technological Impact Assessment
+d) Philosophical Reflection
+Answer: b) Historical comparison of engineering development
+3. Name the five elements of STEAM.
+a) Science, Technology, Engineering, Arts, Mathematics
+b) Science, Technology, Economics, Arts, Management
+c) Statistics, Technology, Engineering, Arts, Management
+d) Science, Technology, English, Arts, Mathematics
+Answer: a) Science, Technology, Engineering, Arts, Mathematics
+4. In a class, students debate whether adding music, design, and aesthetics improves engineering
+problem-solving.
+a) STEAM Pyramid – Art context
+b) Attributes of Engineers
+c) Industrial Age Innovations
+d) Social Development Theories
+Answer: a) STEAM Pyramid – Art context
+5. Which is NOT a desired attribute of an engineer?
+a) Logical Thinking
+b) Communication
+c) Lack of adaptability
+d) Problem Solving
+Answer: c) Lack of adaptability
+6. An engineer is recruited for creativity, persistence, and teamwork skills. Which framework
+describes these qualities?
+a) Engineering Habits of Mind
+b) STEAM Pyramid
+c) Medieval Engineering History
+d) Industrial Economy framework
+Answer: a) Engineering Habits of Mind
+7. Find the subject linking science and technology with engineering.
+a) Mathematics
+b) Philosophy
+
+
+[Page 2]
+c) Arts
+d) History
+Answer: a) Mathematics
+8. A group presents on Roman bridges, medieval aqueducts, and AI-enabled smart bridges.
+a) Historical comparison of engineering development
+b) Engineering Design Methodology
+c) Ontological Study
+d) Analytical Design
+Answer: a) Historical comparison of engineering development
+9. Which of the following is NOT in STEAM?
+a) Science
+b) Mathematics
+c) Economics
+d) Engineering
+Answer: c) Economics
+10. A report highlights an engineer who is innovative, ethical, and a successful leader. Which
+practice evaluates such attributes?
+a) Historical Comparison
+b) STEAM Pyramid
+c) Case Study on Attributes of Engineers
+d) Habits of Mind framework
+Answer: c) Case Study on Attributes of Engineers
+11. Why has engineering evolved historically?
+a) For political influence
+b) For solving problems with science and technology
+c) For entertainment
+d) For arts promotion
+Answer: b) For solving problems with science and technology
+12. Label the role of philosophy of engineering.
+a) To improve coding practices
+b) To understand engineering’s foundation and its social role
+c) To study artistic concepts
+d) To calculate efficiency
+Answer: b) To understand engineering’s foundation and its social role
+13. Name the ancient structure often cited as an example of early engineering philosophy.
+a) Great Wall of China
+b) Pyramids of Giza
+c) Stonehenge
+d) Colosseum
+Answer: b) Pyramids of Giza
+14. What does Ontology in Engineering primarily deal with?
+a) Study of the physical properties of materials
+b) Study of the existence and relationships of engineering concepts
+c) Study of economic feasibility of projects
+d) Study of mathematical optimization methods
+Answer: b) Study of the existence and relationships of engineering concepts
+15. Product Life Cycle Ontology advantage for EVs:
+a) It focuses on marketing and sales only
+
+
+[Page 3]
+b) It integrates processes across different life cycle stages
+c) It improves coding efficiency
+d) It avoids recycling processes
+Answer: b) It integrates processes across different life cycle stages
+16. Which of the following best describes Reference Ontology?
+a) A set of informal practices engineers use
+b) A universal framework describing common engineering concepts
+c) A tool for financial planning
+d) A system for coding programming languages
+Answer: b) A universal framework describing common engineering concepts
+17. Application Ontology focuses on:
+a) Domain-specific implementation of engineering concepts
+b) Historical analysis of engineering development
+c) General attributes of an engineer
+d) The STEAM Pyramid
+Answer: a) Domain-specific implementation of engineering concepts
+18. Smart city ontology approach:
+a) Case-based Study
+b) Reference Ontology with Concept Mapping
+c) Historical Analysis
+d) Mathematical Ontology
+Answer: b) Reference Ontology with Concept Mapping
+19. Which method is often used in building Ontologies in Engineering?
+a) Data Tables
+b) Concept/Mind Mapping
+c) Empirical Research
+d) Flowcharting
+Answer: b) Concept/Mind Mapping
+20. An engineer is tasked with developing a domain-specific ontology for railway systems (signals,
+stations, tracks). Which type of ontology is most suitable?
+a) Reference Ontology
+b) Application Ontology
+c) Flowchart Ontology
+d) Mathematical Ontology
+Answer: b) Application Ontology
+
+---
+
+## nexus sem/Philosophy Of Engineering/PYQs/PYQ Jan 2023.pdf
+
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+Reg. No. B2oO3PT74 
+B.Tech./ M. Tech (lntegrated) DEGREE EXAMINATION, JANUARY 2023 First Semester 
+21GNH101J-PHIL.OSOPHY OF ENGINEERING (For the candidates admitted firom the academic year 2022-2023) Note: deo artA Should de answered in OMR sheet within first 40 minutes and OMR sheet should be na 
+over to hall invigilator at the end of 40th minute. Part-Band Part-C should be answered in answer booklet. (i) (i) Time: 3 Hours Max. Marks: 75 
+Mark nI, CO ro 
+PART-A (20 x 1 -20Marks) Answer ALL Questions cra . Mathematics and science were applied in all the ficlds in . 
+(A) Ancient era (C) Renaissance era (B) Middle era () Modern era 
+2 engineering developed during the industrial revolution. 
+(A) Mechanical (C) Aeronautical (B) Chemical (D) Electrical 
+3. can be viewed as an activity that forms or changes culture. 
+(A) Science (C) Arts (B) Engineering (D) Technology 
+oriented process of designing and making tools 4. Enginecering is the and systems. (A) Science (C) Design B) Goal (D) Technology 2 2 is the branch of philosophy that studies concepts such as 5. existence, being and becoming. (A) Ontology (C) Engineering (B) First-order logic (D) Axiology 1 21 identifies ontology's function with respect to its accuracy and 6. comprehensiveness. (A) Quantity (C)Weakness (B) Strength (D) Quality 7. Which of the following ontology is specific-domain independent? (A) Foundational (C) Domain 
+22 (B) Reference (D) Application 8. Choose the last stage of product life cycle from the options listed below. (A) Product maturity (C) Product decline 
+2 (B) Product growth (D) Product development Page 1 of 3 07JF1-21GNH101J 
+
+[Page 2]
+is the total of all engineered tools, devices and processes available (B) Engineering (D) Knowledge le. 1 9 (A) Technology (C) Science 10. In which quadrant, social sciences fall-engineer as (A) Scientist (C) Doer 23 (3) Sociologist D) Designer 11. Persuaders are active in (A) Artistic G)Enterprising phase of RIASEC model. (B) Social D) Investigative 12. A division of epistemology which is crucial to develop scientific initiatives1 is called 31 (A) Design epistemology C) Activity epistemology (B) Planning epistemology (D) Timing epistemology 241 method asks for a question to the user or a person. (A) Scientific C)Technical 13. (B) Engineering D) Research 14. If the objective of your project is to invent a new product or environment, then (A) Scientific (C) Technology method you will follow? (B) Technical D) Engineering 114 1 model is called as instructional systems design. (A) RAISEC model (C) Scientific model 15. (B) ADDIE model D) Engineering model 16. Transformation of design into product falls under stage of CDIO 1 142 process. (A) Conceive C)Implement B) Design (D) Operate field there exists minimum contribution from engineering and 17. In society. (A) Health C) Space 124 1 (B) Water (D) Modern homes should hold paramount of safety, health and welfare of the public. (A) Engineers C) Social welfare 18. 114 
+(B) Artistics D) Innovators 19. 3Es stand for I4 
+1 (A) Ethics, equality and economics (B) Economics, environmental and equality C) Equality, environmental and () Environmental, ethics and ethics economics 
+
+[Page 3]
+20. Which one of the listed engineering associations deal with puo1a conference? (A) National society of engineers (B) IEEE (C) Society of women engineers (D) ISCA 
+Marks BL CO PO 
+PART B (4 x 10 40 Marks) Answer ANY FOUR Questions 10 1 21. Explain in detail about the relationship between arts, mathematics, science, technology and engineering, 10 1 1I 22. Draw the STEAM pyramid and explain its components. 2 1 23.i. Briefly explain the ontological layers with neat sketch. 2 ii. List the difference between ontologies with neat table. 5 13 24.i. State the definition and difference between science, engineering and technology. 5 13 ii. Explain the four dimensions of engineering with neat sketch. 10 4 1 25. State the difference between scientific method and engineering design with neat diagram. 10 5 1 1 26. Brief the aspects of 3E's that could lead to sustainable development. 
+Marks BL CO PO PART C(1x15=15 Marks) Answer ANY ONE Questions 
+15 5 4 3 27. Create one course as an illustration. Write down the significance of each stages of the ADDIE model in the course. How do you map various stages of ADDIE model with teaching learning process? Do you believe that the course would have been more beneficial if you had included the stages which are missed? Mention and defend the stages that you believe should be included. Do you believe the outcomes would be worth the effort given the amount of work required to move through each stage? Justify. 28. In order to find new drugs, XYZ pharmaceuticals is doing research and 15 5 experiments. Think about this scenario and list out the challenges related to science, engineering and technology. Describe each challenges and figure out the possible solutions. Decide whether science or engineering or technology is more appropriate in this situation. Justify your choice. 
+* *** 
+Page 3 of 3 97TF1 71CI
+
+---
+
+## nexus sem/Philosophy Of Engineering/PYQs/PYQ May 2023.pdf
+
+CATEGORY: PYQs
+STATUS: ok
+
+[Page 1]
+31MF1/2-21GNH1013 
+(C) As decided by manufacturer 
+(A) Higher 
+(D) Lower 
+selling price will be 
+8. When a product is in its decline stage of its product life cycle, the average 
+(B) Average 
+1 
+1 2 1 
+(C) Product maturity (A) Product development 
+(D) Product decline 
+7. What happens in the first stage of product life cycle? (B) Product growth 
+1 1 2 1 
+(C) Theoretical (A) Reference 
+(D) Metaphysical 
+domain and task 
+(B) Application. 
+6 
+ontologies describes concepts depending both on a particular 
+1 2 1 
+(C) Ontology (A) Physiology 5 
+belongs to the major branch of metaphysics. (D) Sociology (B) Biology 
+1 1 2 
+(C) 1998 (A) 1947 4. The frst steam engine was built in (D) 1647 (B) 1698 
+1 1 1 1 
+(C) 1174 and 1200 
+(A) 1114 and 1200 
+(D) 1074 and 1200 
+3. Modern ERA is between 
+(B) 1104 and 1200 
+1 
+(C) English 
+1 1 1 
+(A) Greek 
+(D) Arabic 
+2. The term engine is derived from (B) Latin 
+(C) Teotihulan 
+1 1 1 1 
+(A) Imhotep 
+(D) Saqqara 
+1. The earliest Civil Engineer is known by name (B) Babylon 
+Answer ALL Questions 
+1 
+1 1 1 
+PART-A (20 x 1 = 20Marks) 
+Marks BL 
+CO PO 
+Time: 3 Hours 
+Max. Marks: 75 
+(ü) Part -B and Part -C should be answered in answer booklet. 
+i) over to hall invigilator at the end of 40th minute. 
+Part -A should be answered in OMR sheet within frst 40 minutes and OMR sheet should be handed 
+Note: 
+(For the candidates admitted from the academic year 2022-2023) 
+21GNHI01J 
+-PHILOSOPHY 
+OF ENGINEERING 
+First/ Second Semester 
+B.Tech/ M.Tech (Integrated) DEGREE EXAMINATION, 
+MAY 2023 
+Reg. No. RA2 
+O37 
+2 1 
+
+[Page 2]
+Paee 
+(C) Doctors 
+(D) Engineers (B) Teachers 
+(A) Actors 20. 
+are involved in planning and managing 
+projects 
+1 2 5I 
+(C) Equity (A) Sustainability compromising 
+the ability of future generations 
+to meet their needs 
+19. Development 
+which meets the needs of current generations 
+without 
+(D) Integrity (B) Diversity 
+1 1 
+(C) 1897 (A) 1997 
+(D) 1889 (B) 1979. 
+1 2 5 1 
+(C) Ethical 
+(D) Equity 
+(A) Environment 
+(B) Economic 
+1 
+17. 
+is the most discussed 
+aspect of sustainability. 
+(C) Development phase (A) Evaluation phase 
+14 
+16. The prototype creation is involved in (D) Design phase (B) Implementation phase phase of addie model. 
+(C) Communicate results 
+(D) Establish constraints 
+4 
+(A) Define problem 15. The final stage of engineering 
+design process is (B) Research ideas 
+1 
+(C) 6 (A) 2 
+(D) 8 (B) 4 
+1 
+14. 
+number of parts are involved in evaluation 
+phase. 
+(C) Holland code 
+(D) Engineering method 
+13. The (A) Scientific method 
+test your hypothesis 
+by doing an experiment (B) Addie model 
+3 2 
+(C) Thinkers 
+(D) Doers (B) Helpers 
+1 
+12. (A) Creators focus on ideas 
+2 
+(C) 6" (A) 2 11, Holland's theory describes 
+(D) 8 (B) 4 number of basic personality 
+types. 
+3 
+(C) Execution 
+(D) Epistemology 
+products 10. Design as (A) Activity 
+(B) Planning 
+1 
+(C) Technology 
+is related to the conceptualization 
+stages of making 
+new 
+(A) Engineering 
+(B) Social (D) Science 
+9. 
+is the study of the natural world as it is 
+51 
+18. The American 
+Association 
+of Engineering 
+Societies 
+was established 
+in 
+
+[Page 3]
+28. Give detailed notes on RAISEC model. 
+15 
+1 2 
+27. What do you mean by product life cycle? Explain its stages in detail. 
+15 
+1 2 
+Answer ANY ONE Question 
+PART -C(1× 
+15 =15 Marks) 
+Marks 
+BL CO PC 
+26. Mention the professional 
+organizations 
+engineers 
+detailed note. 25. What do you mean by CDIO engineers 
+in industry? 
+Explain in detail. 
+10 
+1 5 1 
+10 
+1 4 
+method and engineering 
+design. 
+1 
+between scientific 
+10 
+1 2 1 
+23. What are the four dimensions 
+dimensions. 22. Explain reference ontology with 
+10 
+1 3 1 
+21. Explain briefly on 
+regard to application 
+ontology. 
+10 
+1 2 1 
+non-motivated functions. 
+10 
+1 1 1 
+Answer 
+ANY FOUR Questions 
+PART -B (4 × 10 = 40 
+Marks 
+BL CO PO 
+available 
+with a for 
+24. Differentiate 
+of engineering? 
+Write short notes on these 
+Marks)
+
+---
+
+## nexus sem/Philosophy Of Engineering/PYQs/pyq txt/MCQ Test 2025.txt
+
+CATEGORY: PYQs
+STATUS: ok
+
+Philosophy of Engineering (POE) – CT1 (All 20
+Questions with Options and Answers)
+
+Title: Philosophy of Engineering (POE) - CT1 (1 to 20)
+
+1. Define Engineering:
+a) Study of natural laws
+b) Application of science, mathematics, and technology to solve problems
+c) Understanding of society
+d) Philosophical analysis
+Answer: b) Application of science, mathematics, and technology to solve problems
+
+2. A team compares how water systems were managed in ancient villages, medieval castles, and
+modern smart cities.
+a) Scientific Inquiry
+b) Historical comparison of engineering development
+c) Technological Impact Assessment
+d) Philosophical Reflection
+Answer: b) Historical comparison of engineering development
+
+3. Name the five elements of STEAM.
+a) Science, Technology, Engineering, Arts, Mathematics
+b) Science, Technology, Economics, Arts, Management
+c) Statistics, Technology, Engineering, Arts, Management
+d) Science, Technology, English, Arts, Mathematics
+Answer: a) Science, Technology, Engineering, Arts, Mathematics
+
+4. In a class, students debate whether adding music, design, and aesthetics improves engineering
+problem-solving.
+a) STEAM Pyramid – Art context
+b) Attributes of Engineers
+c) Industrial Age Innovations
+d) Social Development Theories
+Answer: a) STEAM Pyramid – Art context
+
+5. Which is NOT a desired attribute of an engineer?
+a) Logical Thinking
+b) Communication
+c) Lack of adaptability
+d) Problem Solving
+Answer: c) Lack of adaptability
+
+6. An engineer is recruited for creativity, persistence, and teamwork skills. Which framework
+describes these qualities?
+a) Engineering Habits of Mind
+b) STEAM Pyramid
+c) Medieval Engineering History
+d) Industrial Economy framework
+Answer: a) Engineering Habits of Mind
+
+7. Find the subject linking science and technology with engineering.
+a) Mathematics
+b) Philosophy
+
+
+c) Arts
+d) History
+Answer: a) Mathematics
+
+8. A group presents on Roman bridges, medieval aqueducts, and AI-enabled smart bridges.
+a) Historical comparison of engineering development
+b) Engineering Design Methodology
+c) Ontological Study
+d) Analytical Design
+Answer: a) Historical comparison of engineering development
+
+9. Which of the following is NOT in STEAM?
+a) Science
+b) Mathematics
+c) Economics
+d) Engineering
+Answer: c) Economics
+
+10. A report highlights an engineer who is innovative, ethical, and a successful leader. Which
+practice evaluates such attributes?
+a) Historical Comparison
+b) STEAM Pyramid
+c) Case Study on Attributes of Engineers
+d) Habits of Mind framework
+Answer: c) Case Study on Attributes of Engineers
+
+11. Why has engineering evolved historically?
+a) For political influence
+b) For solving problems with science and technology
+c) For entertainment
+d) For arts promotion
+Answer: b) For solving problems with science and technology
+
+12. Label the role of philosophy of engineering.
+a) To improve coding practices
+b) To understand engineering’s foundation and its social role
+c) To study artistic concepts
+d) To calculate efficiency
+Answer: b) To understand engineering’s foundation and its social role
+
+13. Name the ancient structure often cited as an example of early engineering philosophy.
+a) Great Wall of China
+b) Pyramids of Giza
+c) Stonehenge
+d) Colosseum
+Answer: b) Pyramids of Giza
+
+14. What does Ontology in Engineering primarily deal with?
+a) Study of the physical properties of materials
+b) Study of the existence and relationships of engineering concepts
+c) Study of economic feasibility of projects
+d) Study of mathematical optimization methods
+Answer: b) Study of the existence and relationships of engineering concepts
+
+15. Product Life Cycle Ontology advantage for EVs:
+a) It focuses on marketing and sales only
+
+
+b) It integrates processes across different life cycle stages
+c) It improves coding efficiency
+d) It avoids recycling processes
+Answer: b) It integrates processes across different life cycle stages
+
+16. Which of the following best describes Reference Ontology?
+a) A set of informal practices engineers use
+b) A universal framework describing common engineering concepts
+c) A tool for financial planning
+d) A system for coding programming languages
+Answer: b) A universal framework describing common engineering concepts
+
+17. Application Ontology focuses on:
+a) Domain-specific implementation of engineering concepts
+b) Historical analysis of engineering development
+c) General attributes of an engineer
+d) The STEAM Pyramid
+Answer: a) Domain-specific implementation of engineering concepts
+
+18. Smart city ontology approach:
+a) Case-based Study
+b) Reference Ontology with Concept Mapping
+c) Historical Analysis
+d) Mathematical Ontology
+Answer: b) Reference Ontology with Concept Mapping
+
+19. Which method is often used in building Ontologies in Engineering?
+a) Data Tables
+b) Concept/Mind Mapping
+c) Empirical Research
+d) Flowcharting
+Answer: b) Concept/Mind Mapping
+
+20. An engineer is tasked with developing a domain-specific ontology for railway systems (signals,
+stations, tracks). Which type of ontology is most suitable?
+a) Reference Ontology
+b) Application Ontology
+c) Flowchart Ontology
+d) Mathematical Ontology
+Answer: b) Application Ontology
+
+---
+
+## nexus sem/Philosophy Of Engineering/PYQs/pyq txt/PYQ Jan 2023.txt
+
+CATEGORY: PYQs
+STATUS: ok
+
+Reg. No.B2oO3PT74 
+
+B.Tech./ M. Tech (lntegrated) DEGREE EXAMINATION, JANUARY 2023 
+
+First Semester 
+
+ERING 
+21GNH101J- PHIL.OSOPHY OF ENGINE
+
+2023) 
+(For the candidates admitted firom the academic year 2022-
+
+deo 
+Note: d be na 
+
+t 40 minutes and OMR sheet shoul
+
+(i) artA Should de answered in OMR sheet within firs
+
+over to hall invigilator at the end of 40th minute. 
+
+(i) Part- Band Part-C should be answered in answer booklet. 
+Max. Marks: 75 
+
+Time: 3 Hours ro 
+nI, CO 
+
+Mark 
+
+PART-A (20 x 1 - 20Marks) 
+Answer ALL Questions 
+
+cra 
+in all the ficlds in 
+
+. 
+
+. Mathematics and science were applied 
+(B) Middle era 
+
+(A) Ancient era 
+() Modern era 
+
+(C) Renaissance era 
+
+trial revolution. 
+
+2 engineering developed during the indus
+
+(B) Chemical 
+(A) Mechanical (D) Electrical 
+(C) Aeronautical 
+
+at forms or changes culture. 
+viewed as an activity th
+
+3. can be (B) Engineering 
+(A) Science (D) Technology 
+(C) Arts 
+
+nd making tools 
+
+4. Enginecering is the oriented process of designing a
+
+and systems. B) Goal 
+(A) Science (D) Technology 
+(C) Design 2 2 
+
+tudies concepts such as 
+
+is the branch of philosophy that s
+
+5. . 
+existence, being and becoming (B) First-order logic 
+(A) Ontology (D) Axiology 
+(C) Engineering 
+
+1 21 
+cy and 
+
+identifies ontology's function with respect to its accura
+
+6. 
+comprehensiveness. 
+
+(B) Strength 
+(A) Quantity 
+
+(D) Quality 
+(C)Weakness 
+
+22 
+main independent? 
+
+7. Which of the following ontology is specific-do
+(B) Reference 
+
+(A) Foundational 
+(C) Domain (D) Application 
+
+2 
+8. Choose the last stage of product life cycle from the options listed below. 
+
+(A) Product maturity (B) Product growth 
+(C) Product decline (D) Product development 
+
+Page 1 of3 07JF1-21GNH101J 
+
+
+9 is the total of all engineered tools, devices and processes availabllee. 1 
+
+(A) Technology (B) Engineering 
+(C) Science (D) Knowledge 
+
+10. In which quadrant, social sciences fall-engineer as 
+
+(A) Scientist (3) Sociologist 23 
+(C) Doer D) Designer 
+
+11. Persuaders are active in phase of RIASEC model. 
+
+(A) Artistic (B) Social 
+
+G)Enterprising D) Investigative 
+
+12. A division of epistemology whichis crucial to develop scientific initiatives1 
+31 
+
+is called 
+(A) Design epistemology (B) Planning epistemology 
+C) Activity epistemology (D) Timing epistemology 
+
+13. method asks for a question to the user or a person. 241 
+(A) Scientific (B) Engineering 
+C)Technical D) Research 
+
+14. Ift he objective of your project is to invent a new product or environment, 
+then method you will follow? 
+(A) Scientific (B) Technical 
+(C) Technology D) Engineering 
+
+15. model is called as instructional systems design. 114 1 
+(A) RAISEC model (B) ADDIE model 
+(C) Scientific model D) Engineering model 
+
+16. Transformation of design into product falls under stageo f CDIO 1 142 
+
+process. 
+(A) Conceive B) Design 
+C)Implement (D) Operate 
+
+17. In field there exists minimum contribution 124 1 
+society. from engineering and 
+
+(A) Health 
+(B) Water 
+
+C) Space (D) Modern homes 
+18. should hold paramount of 114 
+
+(A) Engineers safety, health and welfare of the 
+C) Social welfare (B) Artistics public. 
+
+D) Innovators 
+19. 3Es stand for 
+
+I4 
+
+(A) 1 
+Ethics, equality and economics (B) Economics, environmental and 
+
+C) Equality, environmental and equality 
+() 
+
+ethics Environmental, ethics and 
+economics 
+
+
+20. Which one of the listed engineering associations deal with puo1a 
+conference? 
+(A) National society of engineers (B) IEEE 
+
+(C) Society of women engineers (D) ISCA 
+
+Marks BL CO PO 
+
+PART B (4 x 10 40 Marks) 
+Answer ANY FOUR Questions 
+
+10 1 
+
+21. Explain in detail about the relationship between arts, mathematics, science, 
+
+technology and engineering, 
+10 1 1I 
+
+22. Draw the STEAM pyramid and explain its components. 
+2 1 
+
+23.i. Briefly explain the ontological layers with neat sketch. 
+2 
+
+ii. List the difference between ontologies with neat table. 
+
+5 13 
+
+24.i. State the definition and difference between science, engineering and 
+
+technology. 
+5 13 
+
+ii. Explain the four dimensions of engineering with neat sketch. 
+10 4 1 
+
+25. State the difference between scientific method and engineering design with 
+
+neat diagram. 
+10 1 5 1 
+
+26. Brief the aspects of 3E's that could lead to sustainable development. 
+
+Marks BL CO PO 
+PART C(1x15=15 Marks) 
+
+Answer ANY ONE Questions 
+
+27. Create one course as an illustration. Write down the significance of each 15 5 4 3 
+
+stages of the ADDIE model in the course. How do you map various stages 
+of ADDIE model with teaching learning process? Do you believe that the 
+course would have been more beneficial if you had included the stages 
+which are missed? Mention and defend the stages that you believe should 
+be included. Do you believe the outcomes would be worth the effort given 
+the amount of work required to move through each stage? Justify. 
+
+28. In order to find new drugs, XYZ pharmaceuticals is doing research and 15 5 
+
+experiments. Think about this scenario and list out the challenges related to 
+science, engineering and technology. Describe each challenges and figure 
+out the possible solutions. Decide whether science or engineering or 
+technology is more appropriate in this situation. Justify your choice. 
+
+* *** 
+
+Page 3 of 3 
+
+97TF1 71CI
+
+---
+
+## nexus sem/Philosophy Of Engineering/PYQs/pyq txt/PYQ May 2023.txt
+
+CATEGORY: PYQs
+STATUS: ok
+
+THiomuers: 3 Note: 
+(ü) i) 
+
+8. 7. 6 5 4. 3. 2. 1. 
+H(C)i ghes(Aer) llingWhen dmePvraeotuldoruPipctr(Cymot) deunc(Att) WThaht eorReteifcea(Crl)e ncd(Aeo) matianasn dk OPnhtoylsoigo(Cy)l og(yA) 19(9C8) 19(A4)7 The (C) M(Ao) dern Englis(hC) Gre(eAk) TThe eotihuIlma(Cnh) ote(pA) The Part over Part 
+As a happens frst 1174 1114 term earliest - to -A B.Tech/ 
+
+decided prpicreo duct ontologies belongs steam ERA engine and Bhasllh ould 
+will and and 
+
+in 
+by be is the to engine 1200 1200 
+
+is Civil inviPgairlt ator (For 
+2b1Ge NH M.Tech 
+
+between is -C 
+derived EngineePrA RT-A answered thIe 01J 
+
+manufacturer in its first describes the 
+major was candidates ReNgo. . 
+
+QuAensstwioAeLnLr s should at the 
+decline (Integrated) 
+
+stage 
+branch built from is end
+
+known (20 be in 
+
+stage of concepts answered OMR -
+PoHfI LaOdmSiOttePdH Y SemSeFecisortnsedtr/ 
+
+product in 40th RA2 
+1x= 
+
+LoAwve(Der) rage(B ) oPfrd oedcPul(iDrcgn)otredo wuct(MBht) etapAhpypsilcica(aDl) t ion(B.) SocioloBg(iyDo) log(yB) 
+of 16(4D7) 169(B8) (D) (B) 
+
+its life depending 
+metaphysics. Arab(iDc) Lat(iBn) SaqqBa(raDab) ylo(nB) by minute. 
+
+sheet DEGREE 
+name2 0Marks) in within from 
+
+answer 
+product 1074 1104 the 
+
+cycle? and and booklet. frastc adEemXicA MOINFAT ION, 
+ENGIN4E0E RING 
+
+life both 1200 1200 minutes year 
+cycle, O37 
+
+on 20a2nd2 -2023) 
+the a 
+
+average particular OMR MAY 
+sheet 2023 
+
+31MF1/2-21GNH1013 Marks BMLaM rkaxs.: 75 
+1 should 
+
+1 1 1 1 
+1 1 
+
+121 1 1 
+121 1 111 1 111 
+
+be 
+CPOO handed 
+
+2 2 1 1 2 
+1 1 1 1 
+
+
+Paee 
+ 18. 17. 
+
+20. 19. 16. 15. 14. Th1e3 . 12. 11, Design10 . as 9. 
+DoctoArs(cC )t ors(A S) usctaoEimnquapDibtryo(iCe l)mviteyi(slA o)i npgm ent 189(7C) 199(A7) EThne vEirtohnicma(Cl) eDne(tA v) eloEpmvpahelaunseat(pC th) iCaos(noeA ) m mThe unreicspuarltoDte(sbCe )l feimn(eA ) The (C) 6(A) 2 HSolclaicmeondne(dCet) thifoid(Ac) ThinCkerer(Csa) tor(As) (HC) 6ol"l(Aa) n d2E'sx ecutAioc(nCt) ip vriot(Ayd) ucts TecEhnngoliongeey(C)r in(Ag) 
+
+American prototype final 
+are is fiodceuasson 
+
+stage is 
+number theory 
+
+involved the the 
+eation test 
+
+twhe hich Association most cr study of 
+ability your 
+
+engineering of describes 
+discussed is 
+
+in meets parts of 
+hypothesis related 
+
+planning is the 
+of involved 
+
+future of are natural 
+the Engineering aspect design involved to 
+
+enerationsn eeds in by the 
+and g number world 
+
+ngin sD) ) co E nceptualization 
+Teeemar(cah near(gBs) i ngIn teDgriiv(tDye) rsity(B 18(D891) 979(B.) EEcqounitoy(Dm ) Imic(B p) lemoDepfenhs taigas(peDnth i) aosne (c B)o nEssttraaRbinelitssseh(aiDd r)pecarh(soB )c ess (D) E8n(Bg ) in4me eethriondg( D)d 
+
+doing 
+in mAoddei(leB ) DHoee(lrDps) ers(B) E(D)p i8st(Be ) m4o loPglayn (nD)i ng( B) Scienc ( )
+
+sustainability. SeoDc i(aBl) 
+of Societies as 
+
+evaluation an of it 
+currteont phase is experiment basic is 
+
+projects meet 
+was of 
+
+addie phase. personality 
+stages 
+
+genetrhaetiri ons established 
+needs model. of 
+
+types. making 
+without in 
+
+new 
+
+5I12 1 1 1 1 1 1 
+
+1 2 14 2 2 
+
+51 5 4 3 3 
+1 1 
+
+
+28. 27. 26. Dif2f5. erentiat2e4. 23. 22. 21. 
+Give What detaiMlneoedtne .t ion What dimensions. What Explain Explain 
+
+detailed do do 
+you the you r
+
+are 
+thee ference briefly 
+
+notes mean professional means bceietwnetiefnic four oAnns wePrA RT 
+on by by dimensionnoso ntno-lomgfyou tnivctaiotends . 
+
+RAISEC product AnswePr ART CDIO ANY -B 
+
+-C(1
+life o×r ganizationesn gineers with (4 
+
+ANY FOUR × 
+
+model. method orfeg ard 10 
+cycle? engineering? = 
+
+ONE 15 Questions 40 
+in and to 
+
+Explain =15 
+Question industry? application Marks) 
+
+available engineering 
+Marks) 
+
+Write 
+its 
+
+stages wiftohr Eaxp lain 
+shoornt tology. 
+
+engineers design. 
+in in notes 
+
+detail. detail. 
+on 
+
+these 
+Marks 
+
+10 
+10 10 
+
+Marks 10 10 10 
+
+15 15 CPBOOL 
+1 112 111 
+
+BL 1 1 112 
+1 1 3 
+
+CO 5 4 
+
+2 2 1 
+PC 1 
+
+1
