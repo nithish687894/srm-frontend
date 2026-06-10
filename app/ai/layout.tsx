@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useAuthStore } from "@/lib/store";
 import PremiumLock from "@/components/aura-theme/PremiumLock";
 
-export default function ToolsLayout({ children }: { children: React.ReactNode }) {
+export default function AILayout({ children }: { children: React.ReactNode }) {
   const isPremium = useAuthStore((state) => state.isPremium);
   const [mounted, setMounted] = useState(false);
 
@@ -18,9 +18,9 @@ export default function ToolsLayout({ children }: { children: React.ReactNode })
   if (!isPremium) {
     return (
       <PremiumLock
-        title="Tools Hub Locked"
-        description="Unlock advanced analytical tools including the Bunk Budget Attendance Planner, Regulation Grade Predictor, and Target CGPA Seekers."
-        badge="Premium Hub"
+        title="AI Tutor Locked"
+        description="Unlock instant academic help, research insights, and interactive course analysis with the AI Tutor."
+        badge="Premium Assistant"
       />
     );
   }

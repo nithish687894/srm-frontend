@@ -1,12 +1,13 @@
 "use client";
 import { useState, useMemo, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/store";
 import { dataAPI } from "@/lib/api";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
 import { 
   Calculator, TrendingUp, AlertCircle, ArrowRight, Clock, 
   Calendar, Award, Sparkles, CheckCircle2, Target, Flame, 
-  Zap, RotateCcw, HelpCircle, ChevronRight, Check
+  Zap, RotateCcw, HelpCircle, ChevronRight, Check, LockKeyhole
 } from "lucide-react";
 
 const AURA = {
@@ -47,6 +48,9 @@ function buildSlotToCourseMap(myTT: AnyValue[]) {
 }
 
 export function WhatIfCalculator({ marks: initialMarks }: AnyValue) {
+  const isPremium = useAuthStore((state) => state.isPremium);
+  const router = useRouter();
+
   // 1. Core Zustand Integrations for zero-lag hydration
   const academicData = useAuthStore((state) => state.academicData);
   const studentPortalData = useAuthStore((state) => state.studentPortalData);
@@ -406,6 +410,75 @@ export function WhatIfCalculator({ marks: initialMarks }: AnyValue) {
       [`test_${testIdx}`]: Math.max(0, Math.min(max, num)),
     }));
   };
+
+  // Premium lock gating for free users
+  if (!isPremium) {
+    return (
+      <div
+        style={{
+          background: "linear-gradient(135deg, rgba(255, 255, 255, 0.01) 0%, rgba(191, 90, 242, 0.01) 100%)",
+          backdropFilter: "blur(40px)",
+          border: "1px solid rgba(192, 132, 252, 0.15)",
+          borderRadius: "32px",
+          padding: "20px 24px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "16px",
+          boxShadow: "0 15px 30px rgba(0, 0, 0, 0.25)",
+          position: "relative",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+          <div
+            style={{
+              width: "48px",
+              height: "48px",
+              borderRadius: "16px",
+              background: "rgba(191, 90, 242, 0.08)",
+              border: "1px solid rgba(191, 90, 242, 0.2)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: AURA.purple,
+              flexShrink: 0
+            }}
+          >
+            <LockKeyhole size={20} />
+          </div>
+          <div style={{ minWidth: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+              <h3 style={{ fontSize: "14px", fontWeight: 900, color: AURA.text, margin: 0 }}>Unified Academic Planner</h3>
+              <span style={{ fontSize: '7.5px', fontWeight: 900, background: 'rgba(255, 149, 0, 0.12)', color: '#FF9500', padding: '2px 6px', borderRadius: '100px', border: '1px solid rgba(255, 149, 0, 0.2)', letterSpacing: '0.05em' }}>PREMIUM</span>
+            </div>
+            <p style={{ fontSize: "11px", color: AURA.sub, margin: "4px 0 0", fontWeight: 650, lineHeight: 1.4 }}>
+              Unlock Foresight Engine to simulate grades, predict internal marks, and forecast final exam targets.
+            </p>
+          </div>
+        </div>
+        
+        <button
+          onClick={() => router.push('/premium')}
+          style={{
+            background: `linear-gradient(135deg, ${AURA.purple}, ${AURA.pink})`,
+            color: '#fff',
+            border: 'none',
+            padding: '10px 18px',
+            borderRadius: '12px',
+            fontSize: '11px',
+            fontWeight: 950,
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+            cursor: 'pointer',
+            boxShadow: '0 6px 16px rgba(191,90,242,0.2)',
+            flexShrink: 0
+          }}
+        >
+          Upgrade
+        </button>
+      </div>
+    );
+  }
 
   // UI closed fallback trigger button
   if (!isOpen) {
