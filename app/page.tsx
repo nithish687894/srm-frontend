@@ -823,6 +823,112 @@ export default function LoginPage() {
             width: 100%;
           }
         }
+
+        .teaser-container {
+          max-width: 800px;
+          margin: 0 auto;
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 36px;
+          animation: slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .teaser-logo {
+          display: inline-block;
+          padding: 16px;
+          background: rgba(139, 92, 246, 0.08);
+          border-radius: 24px;
+          border: 1px solid rgba(139, 92, 246, 0.15);
+          margin-bottom: 4px;
+          transition: all 0.3s ease;
+        }
+
+        .teaser-desc {
+          font-size: 16px;
+          color: rgba(255, 255, 255, 0.55);
+          line-height: 1.6;
+          margin: 16px auto 0;
+          font-weight: 500;
+          max-width: 580px;
+        }
+
+        .countdown-row {
+          display: flex;
+          gap: 12px;
+          justify-content: center;
+          width: 100%;
+          flex-wrap: nowrap;
+        }
+
+        .teaser-title {
+          font-size: clamp(30px, 7vw, 76px);
+          font-weight: 950;
+          letter-spacing: -0.04em;
+          line-height: 1.1;
+          margin: 0;
+        }
+
+        .teaser-preview-heading {
+          font-size: 14px;
+          font-weight: 900;
+          letter-spacing: 0.15em;
+          color: rgba(255, 255, 255, 0.45);
+          text-transform: uppercase;
+          margin-bottom: 28px;
+        }
+
+        @media (max-width: 480px) {
+          .teaser-container {
+            gap: 24px;
+          }
+          .teaser-logo {
+            padding: 12px;
+            border-radius: 18px;
+          }
+          .teaser-logo img {
+            width: 60px !important;
+            height: 60px !important;
+          }
+          .teaser-title {
+            letter-spacing: -0.03em;
+          }
+          .teaser-desc {
+            font-size: 14px;
+            line-height: 1.5;
+            padding: 0 8px;
+          }
+          .countdown-row {
+            gap: 8px;
+          }
+          .countdown-segment {
+            padding: 12px 6px;
+            min-width: 70px;
+            border-radius: 14px;
+          }
+          .countdown-number {
+            font-size: 28px;
+            margin-bottom: 2px;
+          }
+          .countdown-label {
+            font-size: 8px;
+            letter-spacing: 0.05em;
+          }
+          .teaser-preview-heading {
+            font-size: 11px;
+            margin-bottom: 18px;
+            letter-spacing: 0.1em;
+          }
+          .teaser-grid {
+            margin-top: 24px;
+            gap: 12px;
+          }
+          .teaser-feature-card {
+            padding: 18px;
+            border-radius: 16px;
+          }
+        }
       `}</style>
 
       <div className="lp-root">
@@ -893,12 +999,11 @@ export default function LoginPage() {
 
         <section className="hero-section">
           {showTeaser ? (
-            <div style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "36px", animation: "slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1)" }}>
+            <div className="teaser-container">
               {/* Logo / Bypass Trigger */}
               <div 
-                className="teaser-logo-container" 
+                className="teaser-logo-container teaser-logo" 
                 onClick={handleLogoClick}
-                style={{ display: "inline-block", padding: "16px", background: "rgba(139, 92, 246, 0.08)", borderRadius: "24px", border: "1px solid rgba(139, 92, 246, 0.15)", marginBottom: "4px" }}
               >
                 <img src="/nexus-logo.png" alt="Logo" style={{ width: "72px", height: "72px", filter: "drop-shadow(0 0 25px rgba(255, 117, 195, 0.5))" }} />
               </div>
@@ -908,16 +1013,16 @@ export default function LoginPage() {
                 <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "8px 16px", borderRadius: "999px", background: "rgba(139, 92, 246, 0.1)", border: "1px solid rgba(139, 92, 246, 0.2)", color: "#CD93FF", fontSize: "11px", fontWeight: 900, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "16px" }}>
                   <Lock size={12} style={{ color: "#FF75C3" }} /> Launching July 20, 2026
                 </div>
-                <h1 style={{ fontSize: "clamp(42px, 7vw, 76px)", fontWeight: 950, letterSpacing: "-0.04em", lineHeight: 1.1, margin: 0 }}>
+                <h1 className="teaser-title">
                   SRM Nexus is <span style={{ background: "linear-gradient(135deg, #BF5AF2 0%, #FF75C3 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Coming Soon</span>
                 </h1>
-                <p style={{ fontSize: "16px", color: "rgba(255,255,255,0.55)", lineHeight: 1.6, margin: "16px auto 0", fontWeight: 500, maxWidth: "580px" }}>
+                <p className="teaser-desc">
                   Get ready for the ultimate academic companion. Predictive class forecasting, real-time alerts, and advanced GPA estimation, built specifically for SRM students.
                 </p>
               </div>
 
               {/* Ticking Countdown Ticker */}
-              <div style={{ display: "flex", gap: "12px", justifyContent: "center", width: "100%", flexWrap: "wrap" }}>
+              <div className="countdown-row">
                 {[
                   { label: "Days", val: timeLeft.days },
                   { label: "Hours", val: timeLeft.hours },
@@ -984,7 +1089,7 @@ export default function LoginPage() {
 
               {/* 5 Premium Features Grid */}
               <div style={{ width: "100%" }}>
-                <h3 style={{ fontSize: "14px", fontWeight: 900, letterSpacing: "0.15em", color: "rgba(255, 255, 255, 0.45)", textTransform: "uppercase", marginBottom: "28px" }}>
+                <h3 className="teaser-preview-heading">
                   Exclusive Features Preview
                 </h3>
                 <div className="teaser-grid">
