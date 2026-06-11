@@ -19,6 +19,54 @@ function parseTimeRange(t: string): { start: string, end: string } {
   return { start: t, end: t };
 }
 
+// Stable hash function to generate consistent timetables for mock friends
+function hashCode(str: string) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return Math.abs(hash);
+}
+
+function generateFriendTimetable(nameOrReg: string, myCourses: AnyValue[]) {
+  const hash = hashCode(nameOrReg || "Akash");
+  const days = [1, 2, 3, 4, 5].map(day => {
+    const classes: ScheduleItem[] = [];
+    const daySeed = hash + day;
+    
+    PERIODS.forEach((period, pIdx) => {
+      const isClass = ((daySeed * (pIdx + 1)) % 10) > 4;
+      if (isClass) {
+        const courseIndex = (daySeed + pIdx) % Math.max(1, myCourses.length);
+        const course = myCourses[courseIndex] || {
+          courseTitle: "Professional Elective",
+          courseCode: "18CS303T",
+          courseType: "Theory",
+          facultyName: "Dr. Rajesh Kumar",
+          roomNo: "TP402"
+        };
+        
+        classes.push({
+          slot: `P${pIdx + 1}`,
+          startTime: period.start,
+          endTime: period.end,
+          courseTitle: course.courseTitle || course.courseName || "Core Course",
+          courseCode: course.courseCode || "18CS101T",
+          courseType: course.courseType || "Theory",
+          facultyName: course.facultyName || "TBA",
+          roomNo: course.roomNo || "TBA"
+        });
+      }
+    });
+    
+    return { day: `Day ${day}`, classes };
+  });
+  
+  return days;
+}
+
+
+
 const PERIODS = [
   { id: 1, start: "08:00", end: "08:50" },
   { id: 2, start: "08:50", end: "09:40" },
@@ -176,6 +224,19 @@ export default function TimetablePage() {
     isPremium 
   } = useAuthStore();
   const { theme } = useThemeStore();
+  const [activeTab, setActiveTab] = useState<"schedule" | "friends">("schedule");
+  const [selectedFriend, setSelectedFriend] = useState<AnyValue | null>(null);
+  const [syncedFriends, setSyncedFriends] = useState<AnyValue[]>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("srmx-synced-friends");
+      return saved ? JSON.parse(saved) : [];
+    }
+    return [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("srmx-synced-friends", JSON.stringify(syncedFriends));
+  }, [syncedFriends]);
   const [importantSlots, setImportantSlots] = useState<Record<string, boolean>>(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("srmx-important-slots");
@@ -621,6 +682,8 @@ export default function TimetablePage() {
 
   const studentInitials = studentInfo?.Name ? studentInfo.Name.substring(0, 2).toUpperCase() : "ST";
 
+  const myCourses = myTTQ.data?.data?.courses || myTTQ.data?.data || [];
+
   return (
     <>
       <AuraTimetable 
@@ -645,6 +708,14 @@ export default function TimetablePage() {
         isPremium={isPremium}
         importantSlots={importantSlots}
         setImportantSlots={setImportantSlots}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        selectedFriend={selectedFriend}
+        setSelectedFriend={setSelectedFriend}
+        myCourses={myCourses}
+        generateFriendTimetable={generateFriendTimetable}
+        syncedFriends={syncedFriends}
+        setSyncedFriends={setSyncedFriends}
       />
       {renderStudentInfoModal()}
       {renderShareModal()}
@@ -657,13 +728,59 @@ function AuraTimetable({
   dayOverride, setDayOverride, batch, setBatch, classes, classesWithBreaks, 
   handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, 
   schedule, studentInitials, onShowStudentInfo, setShowShareModal, todayInfo, 
-  getNextOccurrence, isPremium, importantSlots, setImportantSlots
+  getNextOccurrence, isPremium, importantSlots, setImportantSlots,
+  activeTab, setActiveTab, selectedFriend, setSelectedFriend, myCourses, generateFriendTimetable,
+  syncedFriends, setSyncedFriends
 }: AnyValue) {
   const router = useRouter();
   const currentMin = new Date().getHours() * 60 + new Date().getMinutes();
   const firstStart = classes[0] ? fmt12(classes[0].startTime) : "";
   const lastEnd = classes[classes.length - 1] ? fmt12(classes[classes.length - 1].endTime) : "";
   const totalClasses = classes.length;
+
+  const handleAddFriend = (val: string) => {
+    const trimmed = val.trim();
+    if (!trimmed) return;
+    const exists = syncedFriends.some(
+      (f: any) => f.regNo.toUpperCase() === trimmed.toUpperCase() || f.name.toLowerCase() === trimmed.toLowerCase()
+    );
+    if (exists) {
+      alert("Friend already added to Quick Connect list.");
+      return;
+    }
+    const isReg = /^[a-zA-Z]{2}\d+$/i.test(trimmed);
+    const newFriend = {
+      name: isReg ? `Friend (${trimmed})` : trimmed,
+      regNo: trimmed.toUpperCase(),
+      initials: trimmed.substring(0, 2).toUpperCase(),
+      status: "pending"
+    };
+    const updated = [...syncedFriends, newFriend];
+    setSyncedFriends(updated);
+    setSelectedFriend(newFriend);
+  };
+
+  const handleApproveFriend = (regNo: string) => {
+    const updated = syncedFriends.map((f: any) => {
+      if (f.regNo === regNo) {
+        return { ...f, status: "approved" };
+      }
+      return f;
+    });
+    setSyncedFriends(updated);
+    const updatedFriend = updated.find((f: any) => f.regNo === regNo);
+    if (updatedFriend) {
+      setSelectedFriend(updatedFriend);
+    }
+  };
+
+  const handleRemoveFriend = (regNo: string) => {
+    const updated = syncedFriends.filter((f: any) => f.regNo !== regNo);
+    setSyncedFriends(updated);
+    if (selectedFriend?.regNo === regNo) {
+      setSelectedFriend(null);
+    }
+  };
 
   const AURA = {
     bg: "var(--bg-root)",
@@ -673,6 +790,52 @@ function AuraTimetable({
     card: "var(--card-bg)",
     border: "var(--card-border)",
   };
+
+  const friendTimetable = useMemo(() => {
+    if (!selectedFriend) return [];
+    return generateFriendTimetable(selectedFriend.regNo || selectedFriend.name, myCourses);
+  }, [selectedFriend, myCourses]);
+
+  const friendClasses = useMemo(() => {
+    if (!selectedFriend || !friendTimetable) return [];
+    const targetRow = friendTimetable.find((s: AnyValue) => {
+      const header = String(s.day || "");
+      const dOrder = parseInt(header.match(/\d+/)?.[0] || "0");
+      return dOrder === dayOverride;
+    });
+    return targetRow?.classes || [];
+  }, [friendTimetable, dayOverride, selectedFriend]);
+
+  const comparisonList = useMemo(() => {
+    return PERIODS.map((period, pIdx) => {
+      const myClass = classes.find((c: any) => {
+        const classStart = parseStart(c.startTime);
+        const classEnd = parseEnd(c.endTime);
+        const periodStart = parseStart(period.start);
+        const periodEnd = parseEnd(period.end);
+        return classStart < periodEnd && classEnd > periodStart;
+      });
+      const friendClass = friendClasses.find((c: any) => {
+        const classStart = parseStart(c.startTime);
+        const classEnd = parseEnd(c.endTime);
+        const periodStart = parseStart(period.start);
+        const periodEnd = parseEnd(period.end);
+        return classStart < periodEnd && classEnd > periodStart;
+      });
+      const isMyFree = !myClass;
+      const isFriendFree = !friendClass;
+      const bothFree = isMyFree && isFriendFree;
+      return {
+        period: pIdx + 1,
+        time: `${period.start} - ${period.end}`,
+        myStatus: myClass ? (myClass.courseTitle || myClass.courseCode) : "Free",
+        friendStatus: friendClass ? (friendClass.courseTitle || friendClass.courseCode) : "Free",
+        bothFree,
+        isMyFree,
+        isFriendFree
+      };
+    });
+  }, [classes, friendClasses]);
 
   return (
     <div style={{ background: "var(--app-bg)", minHeight: "100dvh", display: "flex", flexDirection: "column", color: "var(--text-main)", fontFamily: "'Plus Jakarta Sans', sans-serif", position: "relative" }}>
@@ -761,6 +924,34 @@ function AuraTimetable({
            </div>
         </div>
 
+        {/* View Switcher Toggle */}
+        <div style={{ display: "flex", background: "rgba(0,0,0,0.4)", borderRadius: "16px", padding: "4px", border: "1px solid rgba(255,255,255,0.08)", marginBottom: "32px", maxWidth: "340px" }}>
+          <button 
+            onClick={() => setActiveTab("schedule")}
+            style={{
+              flex: 1, padding: "10px 16px", borderRadius: "12px", border: "none", fontSize: "12px", fontWeight: 800,
+              background: activeTab === "schedule" ? "linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-purple) 100%)" : "transparent",
+              color: activeTab === "schedule" ? "#fff" : "var(--text-muted)",
+              transition: "all 0.3s ease", cursor: "pointer"
+            }}
+          >
+            My Schedule
+          </button>
+          <button 
+            onClick={() => setActiveTab("friends")}
+            style={{
+              flex: 1, padding: "10px 16px", borderRadius: "12px", border: "none", fontSize: "12px", fontWeight: 800,
+              background: activeTab === "friends" ? "linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-purple) 100%)" : "transparent",
+              color: activeTab === "friends" ? "#fff" : "var(--text-muted)",
+              transition: "all 0.3s ease", cursor: "pointer",
+              display: "flex", alignItems: "center", justifyContent: "center", gap: "6px"
+            }}
+          >
+            Friends Sync
+            <span style={{ fontSize: "8px", fontWeight: 900, background: "rgba(255,255,255,0.15)", color: "#fff", padding: "2px 6px", borderRadius: "6px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Premium</span>
+          </button>
+        </div>
+
         {/* Today's Context Banner */}
         {todayInfo ? (
           <div className="liquid-card" style={{ marginBottom: "32px", padding: "16px 20px", border: `1px solid ${AURA.border}`, background: "rgba(255, 255, 255, 0.01)" }}>
@@ -806,158 +997,430 @@ function AuraTimetable({
           </div>
         )}
 
-        {/* Day Overview Card */}
-        {totalClasses > 0 && (
-          <div className="liquid-card" style={{ marginBottom: "40px" }}>
-             <div style={{ position: "absolute", top: "-50px", right: "-50px", width: "150px", height: "150px", background: `radial-gradient(circle, ${AURA.accent}33 0%, transparent 70%)`, filter: "blur(40px)", zIndex: 0 }} />
-             <div style={{ position: "relative", zIndex: 1, display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                <div>
-                  <div style={{ fontSize: "11px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.15em", color: AURA.accent, marginBottom: "8px" }}>Day Overview</div>
-                  <div style={{ fontSize: "32px", fontWeight: 900, letterSpacing: "-1px" }}>
-                    {firstStart} - {lastEnd}
-                  </div>
-                </div>
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.05)", width: "60px", height: "60px", borderRadius: "20px", border: "1px solid rgba(255,255,255,0.1)" }}>
-                  <div style={{ fontSize: "24px", fontWeight: 900, color: AURA.accent, lineHeight: 1 }}>{totalClasses}</div>
-                  <div style={{ fontSize: "9px", fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase" }}>Classes</div>
-                </div>
-             </div>
-          </div>
-        )}
+        {activeTab === "schedule" ? (
+          <>
+            {/* Day Overview Card */}
+            {totalClasses > 0 && (
+              <div className="liquid-card" style={{ marginBottom: "40px" }}>
+                 <div style={{ position: "absolute", top: "-50px", right: "-50px", width: "150px", height: "150px", background: `radial-gradient(circle, ${AURA.accent}33 0%, transparent 70%)`, filter: "blur(40px)", zIndex: 0 }} />
+                 <div style={{ position: "relative", zIndex: 1, display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                    <div>
+                      <div style={{ fontSize: "11px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.15em", color: AURA.accent, marginBottom: "8px" }}>Day Overview</div>
+                      <div style={{ fontSize: "32px", fontWeight: 900, letterSpacing: "-1px" }}>
+                        {firstStart} - {lastEnd}
+                      </div>
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.05)", width: "60px", height: "60px", borderRadius: "20px", border: "1px solid rgba(255,255,255,0.1)" }}>
+                      <div style={{ fontSize: "24px", fontWeight: 900, color: AURA.accent, lineHeight: 1 }}>{totalClasses}</div>
+                      <div style={{ fontSize: "9px", fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase" }}>Classes</div>
+                    </div>
+                 </div>
+              </div>
+            )}
 
-        {/* Timeline Classes */}
-        {totalClasses === 0 ? (
-          <div style={{ textAlign: "center", color: "var(--text-muted)", marginTop: "60px", fontSize: "14px", fontWeight: 600 }}>No classes scheduled for Day {dayOverride}.</div>
+            {/* Timeline Classes */}
+            {totalClasses === 0 ? (
+              <div style={{ textAlign: "center", color: "var(--text-muted)", marginTop: "60px", fontSize: "14px", fontWeight: 600 }}>No classes scheduled for Day {dayOverride}.</div>
+            ) : (
+              <div style={{ position: "relative", paddingLeft: "16px", display: "flex", flexDirection: "column", gap: "20px" }}>
+                <div style={{ position: "absolute", left: "0", top: "20px", bottom: "20px", width: "2px", background: "linear-gradient(to bottom, var(--card-border), transparent)" }} />
+                
+                {classesWithBreaks.map((item: AnyValue, i: number) => {
+                  if (item.isBreak) {
+                    return (
+                      <div key={`break-${i}`} style={{ display: "flex", alignItems: "center", gap: "16px", position: "relative", opacity: 0.7 }}>
+                        <div style={{ position: "absolute", left: "-19px", width: "8px", height: "8px", borderRadius: "50%", background: "var(--text-soft)", border: "2px solid var(--bg-root)" }} />
+                        <div style={{ background: "rgba(255,255,255,0.03)", padding: "8px 16px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.05)", display: "flex", gap: "12px", alignItems: "center", flex: 1 }}>
+                           <div style={{ fontSize: "10px", color: AURA.secondary, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase" }}>Break</div>
+                           <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 600 }}>{fmt12(item.startTime)} - {fmt12(item.endTime)}</div>
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  const isNso = item.courseCode.includes("NSO") || item.courseType.toLowerCase().includes("practical");
+                  const cardColor = isNso ? AURA.primary : AURA.secondary;
+                  const isActive = (currentMin >= parseStart(item.startTime) && currentMin <= parseEnd(item.endTime));
+                  const slotKey = `${dayOverride}-${item.courseCode}-${item.startTime}`;
+                  const isImportant = !!importantSlots[slotKey];
+
+                  return (
+                    <div key={i} style={{ position: "relative" }}>
+                      <div style={{ 
+                        position: "absolute", left: "-21px", top: "24px", width: "12px", height: "12px", borderRadius: "50%", 
+                        background: isActive ? AURA.accent : (isImportant ? "#FFD700" : cardColor), border: "3px solid var(--bg-root)", zIndex: 2,
+                        boxShadow: isActive ? `0 0 15px ${AURA.accent}` : (isImportant ? "0 0 10px rgba(255, 215, 0, 0.5)" : "none")
+                      }} />
+                      
+                      <div 
+                        className="liquid-card" 
+                        style={{ 
+                          padding: "20px", 
+                          border: isActive 
+                            ? `1px solid ${AURA.accent}55` 
+                            : (isImportant 
+                                ? "1px solid rgba(255, 215, 0, 0.4)" 
+                                : "1px solid rgba(255, 255, 255, 0.08)"),
+                          boxShadow: isImportant 
+                            ? "0 0 15px rgba(255, 215, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.02)" 
+                            : "none",
+                          transition: "all 0.3s ease"
+                        }}
+                      >
+                        {isActive && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: `linear-gradient(90deg, transparent, ${AURA.accent}, transparent)` }} />}
+                        
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "12px" }}>
+                           <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "var(--text-muted)", fontSize: "12px", fontWeight: 700, background: "rgba(0,0,0,0.3)", padding: "4px 10px", borderRadius: "8px" }}>
+                             {fmt12(item.startTime)} — {fmt12(item.endTime)}
+                           </div>
+                           
+                           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                              {isImportant && (
+                                <span style={{ 
+                                  fontSize: "9px", 
+                                  color: "#FFD700", 
+                                  textTransform: "uppercase", 
+                                  fontWeight: 900, 
+                                  background: "rgba(255, 215, 0, 0.1)", 
+                                  padding: "4px 8px", 
+                                  borderRadius: "8px",
+                                  border: "1px solid rgba(255, 215, 0, 0.2)",
+                                  letterSpacing: "0.05em"
+                                }}>
+                                  Important
+                                </span>
+                              )}
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (!isPremium) {
+                                    alert("Premium Feature: Flag important review classes, tests, or quizzes. Upgrade to Premium to unlock this feature!");
+                                    router.push('/premium');
+                                  } else {
+                                    setImportantSlots((prev: Record<string, boolean>) => ({
+                                      ...prev,
+                                      [slotKey]: !prev[slotKey]
+                                    }));
+                                  }
+                                }}
+                                style={{
+                                  background: "none",
+                                  border: "none",
+                                  cursor: "pointer",
+                                  padding: "4px",
+                                  color: isImportant ? "#FFD700" : "rgba(255,255,255,0.25)",
+                                  transition: "all 0.2s ease",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  outline: "none"
+                                }}
+                                onMouseEnter={(e) => {
+                                  e.currentTarget.style.transform = "scale(1.2)";
+                                  e.currentTarget.style.color = isImportant ? "#FFD700" : "rgba(255,255,255,0.6)";
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.currentTarget.style.transform = "scale(1)";
+                                  e.currentTarget.style.color = isImportant ? "#FFD700" : "rgba(255,255,255,0.25)";
+                                }}
+                              >
+                                <Star size={14} fill={isImportant ? "#FFD700" : "none"} />
+                              </button>
+                              {isNso && <div style={{ fontSize: "9px", color: AURA.primary, textTransform: "uppercase", fontWeight: 800, background: `${AURA.primary}22`, padding: "4px 8px", borderRadius: "8px" }}>Practical</div>}
+                           </div>
+                        </div>
+
+                        <div style={{ fontSize: "22px", fontWeight: "900", color: "var(--text-main)", lineHeight: 1.2, marginBottom: "8px", textTransform: "capitalize", letterSpacing: "-0.5px" }}>
+                          {item.courseTitle.toLowerCase()}
+                        </div>
+                        
+                        <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", marginTop: "16px" }}>
+                          <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                            <span style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>Course Code</span>
+                            <span style={{ fontSize: "12px", color: cardColor, fontWeight: 700 }}>{item.courseCode}</span>
+                          </div>
+                          <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                            <span style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>Room</span>
+                            <span style={{ fontSize: "12px", color: "var(--text-main)", fontWeight: 700 }}>{item.roomNo || "TBA"}</span>
+                          </div>
+                          <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                            <span style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>Faculty</span>
+                            <span style={{ fontSize: "12px", color: "var(--text-main)", fontWeight: 700 }}>{(item.facultyName || "TBA").replace(/\s*\(\d+\)/, "")}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </>
         ) : (
-          <div style={{ position: "relative", paddingLeft: "16px", display: "flex", flexDirection: "column", gap: "20px" }}>
-            <div style={{ position: "absolute", left: "0", top: "20px", bottom: "20px", width: "2px", background: "linear-gradient(to bottom, var(--card-border), transparent)" }} />
-            
-            {classesWithBreaks.map((item: AnyValue, i: number) => {
-              if (item.isBreak) {
-                return (
-                  <div key={`break-${i}`} style={{ display: "flex", alignItems: "center", gap: "16px", position: "relative", opacity: 0.7 }}>
-                    <div style={{ position: "absolute", left: "-19px", width: "8px", height: "8px", borderRadius: "50%", background: "var(--text-soft)", border: "2px solid var(--bg-root)" }} />
-                    <div style={{ background: "rgba(255,255,255,0.03)", padding: "8px 16px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.05)", display: "flex", gap: "12px", alignItems: "center", flex: 1 }}>
-                       <div style={{ fontSize: "10px", color: AURA.secondary, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase" }}>Break</div>
-                       <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 600 }}>{fmt12(item.startTime)} - {fmt12(item.endTime)}</div>
-                    </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+            {/* Friends Selector Card */}
+            <div className="liquid-card" style={{ padding: "24px", border: `1px solid ${AURA.border}` }}>
+              <h3 style={{ fontSize: "16px", fontWeight: 900, color: "var(--text-main)", marginBottom: "4px" }}>Nexus Sync Engine</h3>
+              <p style={{ fontSize: "11px", color: "var(--text-muted)", marginBottom: "16px", fontWeight: 600 }}>Compare your schedule with classmates to find perfect times to meet, study, or grab lunch.</p>
+              
+              {/* Custom Search field */}
+              <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
+                <input 
+                  id="friend-search-input"
+                  type="text" 
+                  placeholder="Enter Friend's Name or Registration No..." 
+                  style={{
+                    flex: 1, background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.1)",
+                    borderRadius: "14px", padding: "12px 16px", fontSize: "13px", color: "#fff",
+                    outline: "none"
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleAddFriend(e.currentTarget.value);
+                      e.currentTarget.value = "";
+                    }
+                  }}
+                />
+                <button
+                  onClick={() => {
+                    const input = document.getElementById("friend-search-input") as HTMLInputElement;
+                    if (input && input.value.trim()) {
+                      handleAddFriend(input.value);
+                      input.value = "";
+                    }
+                  }}
+                  style={{
+                    background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)",
+                    borderRadius: "14px", padding: "0 16px", color: "#fff", fontSize: "13px",
+                    fontWeight: 800, cursor: "pointer", transition: "all 0.2s"
+                  }}
+                >
+                  Add
+                </button>
+              </div>
+
+              {/* Dynamic Quick Connect list */}
+              <div>
+                <div style={{ fontSize: "10px", color: "var(--text-soft)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "10px" }}>Synced Friends (Quick Connect)</div>
+                {syncedFriends.length === 0 ? (
+                  <div style={{ padding: "20px", textAlign: "center", color: "var(--text-muted)", fontSize: "12px", background: "rgba(255,255,255,0.01)", border: "1px dashed rgba(255,255,255,0.05)", borderRadius: "16px", fontWeight: 600 }}>
+                    No friends added yet. Enter a name or registration number above to send a sync request.
                   </div>
-                );
-              }
-
-              const isNso = item.courseCode.includes("NSO") || item.courseType.toLowerCase().includes("practical");
-              const cardColor = isNso ? AURA.primary : AURA.secondary;
-              const isActive = (currentMin >= parseStart(item.startTime) && currentMin <= parseEnd(item.endTime));
-              const slotKey = `${dayOverride}-${item.courseCode}-${item.startTime}`;
-              const isImportant = !!importantSlots[slotKey];
-
-              return (
-                <div key={i} style={{ position: "relative" }}>
-                  <div style={{ 
-                    position: "absolute", left: "-21px", top: "24px", width: "12px", height: "12px", borderRadius: "50%", 
-                    background: isActive ? AURA.accent : (isImportant ? "#FFD700" : cardColor), border: "3px solid var(--bg-root)", zIndex: 2,
-                    boxShadow: isActive ? `0 0 15px ${AURA.accent}` : (isImportant ? "0 0 10px rgba(255, 215, 0, 0.5)" : "none")
-                  }} />
-                  
-                  <div 
-                    className="liquid-card" 
-                    style={{ 
-                      padding: "20px", 
-                      border: isActive 
-                        ? `1px solid ${AURA.accent}55` 
-                        : (isImportant 
-                            ? "1px solid rgba(255, 215, 0, 0.4)" 
-                            : "1px solid rgba(255, 255, 255, 0.08)"),
-                      boxShadow: isImportant 
-                        ? "0 0 15px rgba(255, 215, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.02)" 
-                        : "none",
-                      transition: "all 0.3s ease"
-                    }}
-                  >
-                    {isActive && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: `linear-gradient(90deg, transparent, ${AURA.accent}, transparent)` }} />}
-                    
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "12px" }}>
-                       <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "var(--text-muted)", fontSize: "12px", fontWeight: 700, background: "rgba(0,0,0,0.3)", padding: "4px 10px", borderRadius: "8px" }}>
-                         {fmt12(item.startTime)} — {fmt12(item.endTime)}
-                       </div>
-                       
-                       <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                          {isImportant && (
-                            <span style={{ 
-                              fontSize: "9px", 
-                              color: "#FFD700", 
-                              textTransform: "uppercase", 
-                              fontWeight: 900, 
-                              background: "rgba(255, 215, 0, 0.1)", 
-                              padding: "4px 8px", 
-                              borderRadius: "8px",
-                              border: "1px solid rgba(255, 215, 0, 0.2)",
-                              letterSpacing: "0.05em"
-                            }}>
-                              Important
-                            </span>
-                          )}
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              if (!isPremium) {
-                                alert("Premium Feature: Flag important review classes, tests, or quizzes. Upgrade to Premium to unlock this feature!");
-                                router.push('/premium');
-                              } else {
-                                setImportantSlots((prev: Record<string, boolean>) => ({
-                                  ...prev,
-                                  [slotKey]: !prev[slotKey]
-                                }));
-                              }
-                            }}
-                            style={{
-                              background: "none",
-                              border: "none",
-                              cursor: "pointer",
-                              padding: "4px",
-                              color: isImportant ? "#FFD700" : "rgba(255,255,255,0.25)",
-                              transition: "all 0.2s ease",
-                              display: "flex",
-                              alignItems: "center",
-                              outline: "none"
-                            }}
-                            onMouseEnter={(e) => {
-                              e.currentTarget.style.transform = "scale(1.2)";
-                              e.currentTarget.style.color = isImportant ? "#FFD700" : "rgba(255,255,255,0.6)";
-                            }}
-                            onMouseLeave={(e) => {
-                              e.currentTarget.style.transform = "scale(1)";
-                              e.currentTarget.style.color = isImportant ? "#FFD700" : "rgba(255,255,255,0.25)";
-                            }}
-                          >
-                            <Star size={14} fill={isImportant ? "#FFD700" : "none"} />
-                          </button>
-                          {isNso && <div style={{ fontSize: "9px", color: AURA.primary, textTransform: "uppercase", fontWeight: 800, background: `${AURA.primary}22`, padding: "4px 8px", borderRadius: "8px" }}>Practical</div>}
-                       </div>
-                    </div>
-
-                    <div style={{ fontSize: "22px", fontWeight: "900", color: "var(--text-main)", lineHeight: 1.2, marginBottom: "8px", textTransform: "capitalize", letterSpacing: "-0.5px" }}>
-                      {item.courseTitle.toLowerCase()}
-                    </div>
-                    
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", marginTop: "16px" }}>
-                      <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                        <span style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>Course Code</span>
-                        <span style={{ fontSize: "12px", color: cardColor, fontWeight: 700 }}>{item.courseCode}</span>
+                ) : (
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(145px, 1fr))", gap: "10px" }}>
+                    {syncedFriends.map((friend: any) => (
+                      <div
+                        key={friend.regNo}
+                        onClick={() => setSelectedFriend(friend)}
+                        style={{
+                          background: selectedFriend?.regNo === friend.regNo ? "rgba(148, 255, 216, 0.08)" : "rgba(255,255,255,0.02)",
+                          border: selectedFriend?.regNo === friend.regNo ? `1.5px solid ${AURA.accent}` : "1px solid rgba(255,255,255,0.06)",
+                          borderRadius: "16px", padding: "10px 12px", display: "flex", alignItems: "center", gap: "10px",
+                          textAlign: "left", cursor: "pointer", transition: "all 0.2s",
+                          position: "relative"
+                        }}
+                      >
+                        <div style={{
+                          width: "30px", height: "30px", borderRadius: "10px",
+                          background: selectedFriend?.regNo === friend.regNo ? AURA.accent : "rgba(255,255,255,0.05)",
+                          color: selectedFriend?.regNo === friend.regNo ? "#000" : "#fff",
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                          fontSize: "10px", fontWeight: 900
+                        }}>
+                          {friend.initials}
+                        </div>
+                        <div style={{ minWidth: 0, flex: 1, paddingRight: "18px" }}>
+                          <div style={{ fontSize: "12px", fontWeight: 800, color: "var(--text-main)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                            {friend.name}
+                          </div>
+                          <div style={{ fontSize: "9px", color: friend.status === "pending" ? "#FF9500" : "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontWeight: 700 }}>
+                            {friend.status === "pending" ? "⏳ Pending" : friend.regNo}
+                          </div>
+                        </div>
+                        {/* Remove button */}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleRemoveFriend(friend.regNo);
+                          }}
+                          style={{
+                            position: "absolute", right: "8px", top: "50%", transform: "translateY(-50%)",
+                            background: "none", border: "none", color: "rgba(255,255,255,0.2)",
+                            fontSize: "16px", cursor: "pointer", display: "flex", alignItems: "center",
+                            justifyContent: "center", outline: "none", padding: "4px"
+                          }}
+                          onMouseEnter={(e) => { e.currentTarget.style.color = "#FF453A"; }}
+                          onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.2)"; }}
+                        >
+                          ×
+                        </button>
                       </div>
-                      <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                        <span style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>Room</span>
-                        <span style={{ fontSize: "12px", color: "var(--text-main)", fontWeight: 700 }}>{item.roomNo || "TBA"}</span>
-                      </div>
-                      <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                        <span style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>Faculty</span>
-                        <span style={{ fontSize: "12px", color: "var(--text-main)", fontWeight: 700 }}>{(item.facultyName || "TBA").replace(/\s*\(\d+\)/, "")}</span>
-                      </div>
-                    </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Selected Friend Comparison Grid */}
+            {selectedFriend ? (
+              selectedFriend.status === "pending" ? (
+                /* Pending Approval Screen */
+                <div className="liquid-card" style={{ padding: "40px 24px", border: `1px solid ${AURA.border}`, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
+                  <div style={{
+                    width: "56px", height: "56px", borderRadius: "50%",
+                    background: "rgba(255, 149, 0, 0.1)", color: "#FF9500",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: "20px", marginBottom: "8px"
+                  }}>
+                    ⏳
+                  </div>
+                  <div>
+                    <h4 style={{ fontSize: "16px", fontWeight: 900, color: "#fff", margin: "0 0 6px" }}>Sync Request Pending</h4>
+                    <p style={{ fontSize: "11px", color: "var(--text-muted)", maxWidth: "320px", margin: "0 auto", lineHeight: 1.5, fontWeight: 600 }}>
+                      Sharing timetables requires mutual consent. We have sent a sync request to <strong>{selectedFriend.name}</strong> ({selectedFriend.regNo}).
+                    </p>
+                  </div>
+                  <div style={{ display: "flex", gap: "10px", marginTop: "12px", flexWrap: "wrap", justifyContent: "center" }}>
+                    <button
+                      onClick={() => handleApproveFriend(selectedFriend.regNo)}
+                      style={{
+                        background: "linear-gradient(135deg, #30d158 0%, #24b045 100%)",
+                        color: "#fff", border: "none", borderRadius: "12px", padding: "8px 16px",
+                        fontSize: "11px", fontWeight: 800, cursor: "pointer",
+                        boxShadow: "0 4px 12px rgba(48, 209, 88, 0.2)"
+                      }}
+                    >
+                      Approve Request (Simulate Friend)
+                    </button>
+                    <button
+                      onClick={() => handleRemoveFriend(selectedFriend.regNo)}
+                      style={{
+                        background: "rgba(255,255,255,0.05)",
+                        color: "var(--text-muted)", border: "1px solid rgba(255,255,255,0.1)",
+                        borderRadius: "12px", padding: "8px 16px",
+                        fontSize: "11px", fontWeight: 800, cursor: "pointer"
+                      }}
+                    >
+                      Cancel Request
+                    </button>
                   </div>
                 </div>
-              );
-            })}
+              ) : (
+                /* Selected Friend Comparison Grid */
+                <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                  {/* Active Comparison Status Header */}
+                  <div className="liquid-card" style={{ padding: "20px 24px", border: `1px solid ${AURA.border}`, background: "rgba(255, 255, 255, 0.01)" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
+                      <div>
+                        <span style={{ fontSize: "10px", color: AURA.accent, fontWeight: 800, letterSpacing: "0.05em" }}>SYNCED COMPARISON</span>
+                        <h4 style={{ fontSize: "18px", fontWeight: 900, color: "#fff", margin: "2px 0 0" }}>
+                          You & {selectedFriend.name}
+                        </h4>
+                        <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "4px", fontWeight: 600 }}>
+                          Found <strong style={{ color: "#34c759", fontWeight: 900 }}>{comparisonList.filter(c => c.bothFree).length}</strong> matching free slots on Day {dayOverride}.
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => {
+                          const firstFree = comparisonList.find(c => c.bothFree);
+                          if (firstFree) {
+                            alert(`Meetup requested with ${selectedFriend.name} on Day Order ${dayOverride}, Period ${firstFree.period} (${firstFree.time})!`);
+                          } else {
+                            alert(`Meetup requested with ${selectedFriend.name} for Day Order ${dayOverride}!`);
+                          }
+                        }}
+                        style={{
+                          background: `linear-gradient(135deg, ${AURA.secondary}ee, ${AURA.primary}ee)`,
+                          color: "#fff", border: "none", borderRadius: "14px", padding: "10px 18px",
+                          fontSize: "11px", fontWeight: 900, cursor: "pointer", textTransform: "uppercase",
+                          letterSpacing: "0.05em", boxShadow: `0 4px 15px ${AURA.secondary}44`
+                        }}
+                      >
+                        Schedule Meetup
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* The Timeline Comparison List */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+                    {comparisonList.map((item, idx) => {
+                      const statusColor = item.bothFree 
+                        ? "rgba(52, 199, 89, 0.08)"
+                        : (item.isMyFree || item.isFriendFree 
+                            ? "rgba(255, 255, 255, 0.01)"
+                            : "rgba(255, 45, 85, 0.03)");
+                      
+                      const borderColor = item.bothFree 
+                        ? "rgba(52, 199, 89, 0.25)"
+                        : (item.isMyFree || item.isFriendFree 
+                            ? "rgba(255, 255, 255, 0.05)"
+                            : "rgba(255, 45, 85, 0.12)");
+
+                      return (
+                        <div key={idx} style={{
+                          background: statusColor,
+                          border: `1px solid ${borderColor}`,
+                          borderRadius: "20px",
+                          padding: "16px 20px",
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "10px",
+                          boxShadow: item.bothFree ? "0 0 20px rgba(52, 199, 89, 0.03)" : "none",
+                          position: "relative"
+                        }}>
+                          {item.bothFree && (
+                            <div style={{
+                              position: "absolute", left: 0, top: 0, bottom: 0, width: "3px",
+                              background: "#34c759", borderRadius: "3px 0 0 3px"
+                            }} />
+                          )}
+                          
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                            <div style={{ fontSize: "10px", color: "var(--text-muted)", fontWeight: 800, textTransform: "uppercase" }}>
+                              Period {item.period} ({item.time})
+                            </div>
+                            {item.bothFree ? (
+                              <span style={{
+                                background: "#34c759", color: "#000", fontSize: "9px", fontWeight: 900,
+                                padding: "3px 8px", borderRadius: "8px", textTransform: "uppercase", letterSpacing: "0.05em"
+                              }}>
+                                Match! Both Free
+                              </span>
+                            ) : (
+                              <span style={{
+                                background: "rgba(255,255,255,0.05)", color: "var(--text-muted)", fontSize: "9px", fontWeight: 850,
+                                padding: "3px 8px", borderRadius: "8px", textTransform: "uppercase"
+                              }}>
+                                {item.isMyFree ? `${selectedFriend.name} Busy` : item.isFriendFree ? "You Busy" : "Both Busy"}
+                              </span>
+                            )}
+                          </div>
+                          
+                          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", borderTop: "1px dashed rgba(255,255,255,0.05)", paddingTop: "8px" }}>
+                            <div>
+                              <div style={{ fontSize: "8px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>Your Schedule</div>
+                              <div style={{ fontSize: "12px", fontWeight: 700, color: item.isMyFree ? "#34c759" : "var(--text-main)", textTransform: "capitalize", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                {item.myStatus.toLowerCase()}
+                              </div>
+                            </div>
+                            <div>
+                              <div style={{ fontSize: "8px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>{selectedFriend.name}&apos;s Schedule</div>
+                              <div style={{ fontSize: "12px", fontWeight: 700, color: item.isFriendFree ? "#34c759" : "var(--text-main)", textTransform: "capitalize", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                {item.friendStatus.toLowerCase()}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )
+            ) : (
+              <div className="liquid-card" style={{ padding: "40px 24px", border: `1px solid ${AURA.border}`, textAlign: "center" }}>
+                <span style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 700 }}>
+                  Select a friend from Synced Friends or type their registration number above to begin.
+                </span>
+              </div>
+            )}
           </div>
         )}
 

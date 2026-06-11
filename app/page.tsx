@@ -718,8 +718,10 @@ export default function LoginPage() {
           -webkit-backdrop-filter: blur(15px);
           border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 20px;
-          padding: 20px 24px;
-          min-width: 100px;
+          padding: 20px 12px;
+          flex: 1;
+          min-width: 60px;
+          max-width: 120px;
           text-align: center;
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
           transition: all 0.3s ease;
@@ -825,8 +827,11 @@ export default function LoginPage() {
         }
 
         .teaser-container {
+          width: 100%;
           max-width: 800px;
           margin: 0 auto;
+          padding: 0 20px;
+          box-sizing: border-box;
           text-align: center;
           display: flex;
           flex-direction: column;
@@ -859,7 +864,9 @@ export default function LoginPage() {
           gap: 12px;
           justify-content: center;
           width: 100%;
+          max-width: 600px;
           flex-wrap: nowrap;
+          box-sizing: border-box;
         }
 
         .teaser-title {
@@ -879,7 +886,7 @@ export default function LoginPage() {
           margin-bottom: 28px;
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 768px) {
           .teaser-container {
             gap: 24px;
           }

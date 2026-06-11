@@ -295,6 +295,11 @@ export default function Sidebar() {
           z-index: 99999; box-shadow: 0 -10px 28px rgba(0, 0, 0, 0.58), inset 0 1px 0 rgba(255,255,255,0.035);
           padding: 0 8px;
         }
+        @media (min-width: 768px) {
+          .srmx-mobile-nav {
+            display: none !important;
+          }
+        }
         .nav-item {
           display: flex; flex-direction: column; align-items: center; justify-content: center;
           gap: 4px; color: rgba(255,255,255,0.58); font-family: "Plus Jakarta Sans", sans-serif;
@@ -412,12 +417,16 @@ export default function Sidebar() {
         }
 
         @media (min-width: 768px) {
-          main, .page-main, .swipe-wrapper > div:last-child {
-            padding-left: 288px !important;
+          main:not(.dashboard-main), .page-main, .swipe-wrapper > div:last-child {
+            padding-left: 270px !important;
             padding-right: 32px !important;
           }
+          .page-content {
+            margin-left: 0 !important;
+            margin-right: auto !important;
+          }
           .fixed.top-12 {
-            left: 288px !important;
+            left: 270px !important;
           }
           .fixed.top-12 button {
             display: none !important;
@@ -425,23 +434,120 @@ export default function Sidebar() {
         }
 
         @media (min-width: 1180px) {
-          main, .page-main, .swipe-wrapper > div:last-child {
-            padding-left: 320px !important;
+          main:not(.dashboard-main), .page-main, .swipe-wrapper > div:last-child {
+            padding-left: 270px !important;
             padding-right: 48px !important;
           }
           .fixed.top-12 {
-            left: 320px !important;
+            left: 270px !important;
             right: 48px !important;
           }
         }
 
         .desktop-sidebar {
+          position: fixed;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          width: 270px;
+          height: 100vh;
+          background: rgba(8, 6, 16, 0.65);
+          backdrop-filter: blur(40px) saturate(140%);
+          -webkit-backdrop-filter: blur(40px) saturate(140%);
+          border-right: 1px solid rgba(255, 255, 255, 0.05);
+          box-shadow: 4px 0 40px rgba(0, 0, 0, 0.45);
+          padding: 28px 22px;
+          flex-direction: column;
+          z-index: 99999;
+          overflow-y: auto;
           display: none !important;
         }
+        
+        .theme-light .desktop-sidebar {
+          background: rgba(245, 240, 255, 0.75);
+          border-right: 1px solid rgba(96, 68, 145, 0.12);
+          box-shadow: 4px 0 32px rgba(46, 32, 74, 0.04);
+        }
+
         @media (min-width: 768px) {
           .desktop-sidebar {
             display: flex !important;
           }
+        }
+
+        .desktop-nav-link {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          padding: 12px 16px;
+          border-radius: 16px;
+          transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+          color: rgba(255, 255, 255, 0.4);
+          background: transparent;
+          border: 1px solid transparent;
+          font-size: 13px;
+          font-weight: 700;
+          text-decoration: none;
+        }
+        .desktop-nav-link:hover {
+          color: rgba(255, 255, 255, 0.85);
+          background: rgba(255, 255, 255, 0.03);
+          transform: translateX(4px);
+        }
+        .desktop-nav-link.active {
+          color: #ffffff;
+          background: rgba(191, 90, 242, 0.15);
+          border-color: rgba(255, 255, 255, 0.06);
+          box-shadow: 0 8px 20px rgba(191, 90, 242, 0.06);
+        }
+
+        .theme-light .desktop-nav-link {
+          color: rgba(27, 20, 40, 0.5);
+        }
+        .theme-light .desktop-nav-link:hover {
+          color: #1b1428;
+          background: rgba(191, 90, 242, 0.04);
+          transform: translateX(4px);
+        }
+        .theme-light .desktop-nav-link.active {
+          color: #8b5cf6;
+          background: rgba(191, 90, 242, 0.08);
+          border-color: rgba(191, 90, 242, 0.12);
+          box-shadow: 0 8px 20px rgba(191, 90, 242, 0.04);
+        }
+
+        .desktop-sidebar-separator {
+          border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .theme-light .desktop-sidebar-separator {
+          border-top: 1px solid rgba(96, 68, 145, 0.08);
+        }
+
+        .desktop-sidebar-separator-b {
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .theme-light .desktop-sidebar-separator-b {
+          border-bottom: 1px solid rgba(96, 68, 145, 0.08);
+        }
+
+        .desktop-profile-name {
+          color: #ffffff;
+        }
+        .desktop-profile-reg {
+          color: rgba(255, 255, 255, 0.4);
+        }
+        .theme-light .desktop-profile-name {
+          color: #1b1428;
+        }
+        .theme-light .desktop-profile-reg {
+          color: rgba(27, 20, 40, 0.5);
+        }
+
+        .desktop-sidebar-section-title {
+          color: rgba(255, 255, 255, 0.2);
+        }
+        .theme-light .desktop-sidebar-section-title {
+          color: rgba(27, 20, 40, 0.3);
         }
 
         .more-drawer {
@@ -725,18 +831,10 @@ export default function Sidebar() {
         )}
 
       {/* DESKTOP SIDEBAR NAVIGATION */}
-      <div className="desktop-sidebar" style={{
-        position: "fixed", left: "24px", top: "24px", bottom: "24px", width: "248px",
-        background: "rgba(20,15,35,0.85)",
-        backdropFilter: "blur(40px)",
-        borderRadius: "32px", border: `1.5px solid ${hubCardBorder}`,
-        boxShadow: `0 20px 40px rgba(0,0,0,0.5), 0 0 30px ${hubAccentGlow}`,
-        padding: "22px", flexDirection: "column",
-        zIndex: 99999, overflowY: "auto"
-      }}>
+      <div className="desktop-sidebar">
          {/* Top Profile Area */}
          <div>
-           <div className="flex items-center gap-3 pb-6 border-b border-white/5 mb-6">
+            <div className="flex items-center gap-3 pb-6 desktop-sidebar-separator-b mb-6">
               <div 
                 className="w-11 h-11 rounded-full flex items-center justify-center text-black text-sm font-black shrink-0"
                 style={{ 
@@ -747,41 +845,33 @@ export default function Sidebar() {
                 {initials}
               </div>
               <div className="min-w-0">
-                <h3 className="text-sm font-black text-white leading-tight truncate">{userName}</h3>
-                <p className="text-[9px] text-white/40 font-bold uppercase tracking-widest mt-1 tabular-nums">{regNo.substring(0, 10)}...</p>
+                <h3 className="text-sm font-black desktop-profile-name leading-tight truncate">{userName}</h3>
+                <p className="text-[9px] font-bold uppercase tracking-widest mt-1 tabular-nums desktop-profile-reg">{regNo.substring(0, 10)}...</p>
               </div>
-           </div>
+            </div>
 
            {/* Main Links */}
            <div className="flex flex-col gap-2">
-             <p className="text-[8px] font-black text-white/20 uppercase tracking-[0.25em] mb-2 pl-1">Nexus Core</p>
+             <p className="text-[8px] font-black desktop-sidebar-section-title uppercase tracking-[0.25em] mb-2 pl-1">Nexus Core</p>
              {NAV_MAIN.map(({ href, label, icon: Icon }) => (
                <Link 
                  key={href} 
                  href={href} 
                  prefetch={true}
-                 className={`flex items-center gap-3.5 px-4 py-3 rounded-2xl text-left transition-all ${isActive(href, path) ? "text-white" : "text-white/40 hover:text-white/70"}`}
-                 style={{ 
-                   background: isActive(href, path) ? hubAccentGlow : "transparent",
-                   border: isActive(href, path) ? `1px solid ${hubCardBorder}` : "1px solid transparent"
-                 }}
+                 className={`desktop-nav-link ${isActive(href, path) ? "active" : ""}`}
                >
-                 <Icon size={18} color={isActive(href, path) ? hubAccent : "currentColor"} />
+                 <Icon size={18} color={isActive(href, path) ? hubAccent : (resolvedTheme === "light" ? "rgba(27,20,40,0.5)" : "currentColor")} />
                  <span className="text-xs font-black tracking-wide">{label}</span>
                </Link>
              ))}
 
-             <p className="text-[8px] font-black text-white/20 uppercase tracking-[0.25em] mt-4 mb-2 pl-1">Extended Tools</p>
+             <p className="text-[8px] font-black desktop-sidebar-section-title uppercase tracking-[0.25em] mt-4 mb-2 pl-1">Extended Tools</p>
              {moreItems.map(({ href, label, icon: Icon, color }) => (
                <Link 
                  key={href} 
                  href={href} 
                  prefetch={true}
-                 className={`flex items-center gap-3.5 px-4 py-3 rounded-2xl text-left transition-all ${isActive(href, path) ? "text-white" : "text-white/40 hover:text-white/70"}`}
-                 style={{ 
-                   background: isActive(href, path) ? hubAccentGlow : "transparent",
-                   border: isActive(href, path) ? `1px solid ${hubCardBorder}` : "1px solid transparent"
-                 }}
+                 className={`desktop-nav-link ${isActive(href, path) ? "active" : ""}`}
                >
                  <Icon size={18} color={isActive(href, path) ? hubAccent : color} />
                  <span className="text-xs font-black tracking-wide">{label}</span>
@@ -791,45 +881,44 @@ export default function Sidebar() {
          </div>
 
          {/* Bottom Actions */}
-         <div className="mt-auto pt-6 border-t border-white/5 flex flex-col gap-2">
-           <button 
-             onClick={() => router.push("/settings/theme")}
-             className="flex items-center gap-3.5 px-4 py-3 rounded-2xl text-left transition-all text-white/40 hover:text-white/70 w-full"
-           >
-             <Settings size={18} />
-             <span className="text-xs font-black tracking-wide">Settings</span>
-           </button>
-           <button 
-             onClick={handleLogout}
-             className="flex items-center gap-3.5 px-4 py-3 rounded-2xl text-left transition-all text-red-500/80 hover:text-red-500 w-full"
-           >
-             <LogOut size={18} />
-             <span className="text-xs font-black tracking-wide uppercase font-sans">Sign Out</span>
-           </button>
+         <div className="mt-auto pt-6 desktop-sidebar-separator flex flex-col gap-2">
+            <button 
+              onClick={() => router.push("/settings/theme")}
+              className="desktop-nav-link w-full"
+            >
+              <Settings size={18} color={resolvedTheme === "light" ? "rgba(27,20,40,0.5)" : "currentColor"} />
+              <span className="text-xs font-black tracking-wide">Settings</span>
+            </button>
+            <button 
+              onClick={handleLogout}
+              className="desktop-nav-link w-full text-red-500/80 hover:text-red-500"
+              style={{ color: "rgba(239, 68, 68, 0.85)" }}
+            >
+              <LogOut size={18} color="rgba(239, 68, 68, 0.85)" />
+              <span className="text-xs font-black tracking-wide uppercase font-sans">Sign Out</span>
+            </button>
          </div>
       </div>
 
       {/* BOTTOM NAV BAR (FLAT STYLE) */}
-      <div className="md:hidden">
-        <nav className="srmx-mobile-nav" aria-label="Main navigation">
-          {NAV_MAIN.map(({ href, label, icon: Icon }) => (
-            <Link key={href} href={href} prefetch={true} className={`nav-item ${isActive(href, path) ? "active" : ""}`}>
-              <Icon size={20} strokeWidth={isActive(href, path) ? 3 : 2} />
-              <span>{label}</span>
-            </Link>
-          ))}
-
-          {/* Premium Tab (Spotify Style) */}
-          <Link
-            href="/premium"
-            className={`nav-item ${isActive("/premium", path) ? "active" : ""}`}
-            style={{ textDecoration: "none" }}
-          >
-            <Sparkles size={20} strokeWidth={isActive("/premium", path) ? 3 : 2} />
-            <span>Premium</span>
+      <nav className="srmx-mobile-nav" aria-label="Main navigation">
+        {NAV_MAIN.map(({ href, label, icon: Icon }) => (
+          <Link key={href} href={href} prefetch={true} className={`nav-item ${isActive(href, path) ? "active" : ""}`}>
+            <Icon size={20} strokeWidth={isActive(href, path) ? 3 : 2} />
+            <span>{label}</span>
           </Link>
-        </nav>
-      </div>
+        ))}
+
+        {/* Premium Tab (Spotify Style) */}
+        <Link
+          href="/premium"
+          className={`nav-item ${isActive("/premium", path) ? "active" : ""}`}
+          style={{ textDecoration: "none" }}
+        >
+          <Sparkles size={20} strokeWidth={isActive("/premium", path) ? 3 : 2} />
+          <span>Premium</span>
+        </Link>
+      </nav>
 
       {/* INLINE MORE DRAWER (CENTRAL HUB) */}
       {moreOpen && (

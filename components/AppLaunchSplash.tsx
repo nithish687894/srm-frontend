@@ -279,9 +279,9 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
           opacity: 1;
           transform: scale(1);
         }
-        body.splash-active .srmx-top-status-bar,
-        body.splash-active .srmx-mobile-nav,
-        body.splash-active .desktop-sidebar {
+        body:has(.nexus-splash) .srmx-top-status-bar,
+        body:has(.nexus-splash) .srmx-mobile-nav,
+        body:has(.nexus-splash) .desktop-sidebar {
           display: none !important;
         }
         .nexus-update-card {

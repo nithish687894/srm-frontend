@@ -170,6 +170,7 @@ export default function DashboardPage() {
   const setTimetable = useAuthStore((state) => state.setTimetable);
   const setMyTimetable = useAuthStore((state) => state.setMyTimetable);
   const setCalendar = useAuthStore((state) => state.setCalendar);
+  const setPremium = useAuthStore((state) => state.setPremium);
 
   const [data, setData] = useState<AnyValue>(academicData || null);
   const [loading, setLoading] = useState(!academicData);
@@ -443,6 +444,11 @@ export default function DashboardPage() {
     dataAPI.getUnified()
       .then(d => {
         if (d && d.success) {
+          // Sync premium status from backend
+          if (d.isPremium !== undefined) {
+            setPremium(d.isPremium, d.premiumExpiresAt);
+          }
+
           // Phase 2: Merge the data so existing components (which expect 'academia' format) still work
           const mergedData = {
             ...d.academia,

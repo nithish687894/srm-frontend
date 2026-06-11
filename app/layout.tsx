@@ -103,11 +103,11 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${jakartaSans.variable} ${jetbrainsMono.variable} ${orbitron.variable} ${playfair.variable} ${bebas.variable}`}>
-      <body className="splash-active" style={{ margin: 0, padding: 0 }}>
+      <body style={{ margin: 0, padding: 0 }}>
         <style>{`
-          body.splash-active .srmx-top-status-bar,
-          body.splash-active .srmx-mobile-nav,
-          body.splash-active .desktop-sidebar {
+          body:has(.nexus-splash) .srmx-top-status-bar,
+          body:has(.nexus-splash) .srmx-mobile-nav,
+          body:has(.nexus-splash) .desktop-sidebar {
             display: none !important;
           }
         `}</style>
