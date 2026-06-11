@@ -98,7 +98,7 @@ export const useAuthStore = create<AuthStore>()(
       academicAlertsEnabled: false,
       academicAlertsPrompted: false,
 
-      isPremium: false,
+      isPremium: true,
       premiumExpiresAt: null,
 
       // ── Auth Actions ──────────────────────────────────────────────────────
@@ -120,7 +120,7 @@ export const useAuthStore = create<AuthStore>()(
           timetable: null,
           myTimetable: null,
           calendar: null,
-          isPremium: false,
+          isPremium: true,
           premiumExpiresAt: null,
         });
       },
@@ -206,7 +206,7 @@ export const useAuthStore = create<AuthStore>()(
           calendar: null,
           academicAlertsEnabled: false,
           academicAlertsPrompted: false,
-          isPremium: false,
+          isPremium: true,
           premiumExpiresAt: null,
         });
       },
@@ -230,7 +230,7 @@ export const useAuthStore = create<AuthStore>()(
           calendar: null,
           academicAlertsEnabled: false,
           academicAlertsPrompted: false,
-          isPremium: false,
+          isPremium: true,
           premiumExpiresAt: null,
         });
       },
