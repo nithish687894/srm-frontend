@@ -116,8 +116,6 @@ export default function StudentPortalPage() {
   const premiumStatus = { isPremiumActive: isPremium };
   const totalServices = STUDENT_PORTAL_PAGES.length;
 
-  if (!mounted) return <LoadingSkeleton />;
-
   const filteredGroups = useMemo(() => {
     const search = query.trim().toLowerCase();
 
@@ -133,6 +131,8 @@ export default function StudentPortalPage() {
       return { title: category, services };
     }).filter((group) => group.services.length > 0);
   }, [query]);
+
+  if (!mounted) return <LoadingSkeleton />;
 
   const handlePageAction = (page: StudentPortalPageConfig) => {
     const action = getStudentPortalPageAction(page, premiumStatus);

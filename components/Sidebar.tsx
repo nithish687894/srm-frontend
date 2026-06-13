@@ -710,13 +710,13 @@ export default function Sidebar() {
 
       {/* TOP STATUS BAR */}
       {!(path === "/chat" || path.startsWith("/chat/")) && (
-        <div className="srmx-top-status-bar fixed top-12 left-6 right-6 z-[99999] flex items-center justify-end pointer-events-none">
+        <div className="srmx-top-status-bar fixed top-8 sm:top-12 left-4 right-4 sm:left-6 sm:right-6 z-[99999] flex items-center justify-end pointer-events-none">
           <div className="flex gap-2.5 pointer-events-auto">
             {path === "/dashboard" && (
               <>
                 <button
                   onClick={() => { router.push("/exam-library"); }}
-                  className="h-11 rounded-full backdrop-blur-md border flex items-center justify-center gap-2 pl-2.5 pr-3.5 transition-all active:scale-95"
+                  className="h-11 w-11 sm:w-auto rounded-full backdrop-blur-md border flex items-center justify-center gap-2 pl-0 pr-0 sm:pl-2.5 sm:pr-3.5 transition-all active:scale-95 shrink-0"
                   style={{
                     background: resolvedTheme === "light"
                       ? "linear-gradient(135deg, rgba(255,255,255,0.90), rgba(248,238,255,0.78))"
@@ -724,8 +724,6 @@ export default function Sidebar() {
                     borderColor: resolvedTheme === "light" ? "rgba(191,90,242,0.18)" : "rgba(255,117,195,0.20)",
                     boxShadow: resolvedTheme === "light" ? "0 10px 24px rgba(191,90,242,0.13)" : "0 10px 26px rgba(191,90,242,0.16), inset 0 1px 0 rgba(255,255,255,0.08)",
                     color: resolvedTheme === "light" ? "#7B2CBF" : "#FFEAF7",
-                    paddingLeft: "10px",
-                    paddingRight: "14px"
                   }}
                   aria-label="Open Exam Library"
                 >
@@ -742,7 +740,7 @@ export default function Sidebar() {
                 </button>
                 <button
                   onClick={() => { router.push("/student-portal"); }}
-                  className="h-11 rounded-full backdrop-blur-md border flex items-center justify-center gap-2.5 pl-2.5 pr-4 transition-all active:scale-95"
+                  className="h-11 w-11 sm:w-auto rounded-full backdrop-blur-md border flex items-center justify-center gap-2.5 pl-0 pr-0 sm:pl-2.5 sm:pr-4 transition-all active:scale-95 shrink-0"
                   style={{
                     background: resolvedTheme === "light"
                       ? "linear-gradient(135deg, rgba(255,255,255,0.88), rgba(232,243,255,0.74))"
@@ -750,8 +748,6 @@ export default function Sidebar() {
                     borderColor: resolvedTheme === "light" ? "rgba(51,127,186,0.18)" : "rgba(147,197,253,0.20)",
                     boxShadow: resolvedTheme === "light" ? "0 10px 24px rgba(51,127,186,0.14)" : "0 10px 26px rgba(51,127,186,0.16), inset 0 1px 0 rgba(255,255,255,0.08)",
                     color: resolvedTheme === "light" ? "#1F5F99" : "#EAF4FF",
-                    paddingLeft: "10px",
-                    paddingRight: "16px"
                   }}
                   aria-label="Open Student Portal"
                 >
@@ -764,14 +760,13 @@ export default function Sidebar() {
                   >
                     <IdCard size={15} strokeWidth={2.5} className="shrink-0" />
                   </span>
-                  <span className="sm:hidden text-[9.5px] font-black uppercase tracking-[0.045em] whitespace-nowrap leading-none">Student Portal</span>
                   <span className="hidden sm:inline text-[10.5px] font-black uppercase tracking-[0.11em] whitespace-nowrap leading-none">Student Portal</span>
                 </button>
               </>
             )}
             <button 
               onClick={() => { router.push("/notifications"); }} 
-              className="w-10 h-10 rounded-full backdrop-blur-md border flex items-center justify-center text-white/60 transition-all active:scale-90"
+              className="w-11 h-11 rounded-full backdrop-blur-md border flex items-center justify-center text-white/60 transition-all active:scale-90 shrink-0"
               style={{ 
                 background: "rgba(143, 146, 255, 0.1)",
                 borderColor: "rgba(143, 146, 255, 0.2)",
@@ -782,7 +777,7 @@ export default function Sidebar() {
             </button>
             <button 
               onClick={() => { setMoreOpen(!moreOpen); }} 
-              className="w-10 h-10 rounded-full border flex items-center justify-center text-white transition-all active:scale-90 relative overflow-hidden shrink-0"
+              className="w-11 h-11 rounded-full border flex items-center justify-center text-white transition-all active:scale-90 relative overflow-hidden shrink-0"
               style={{ 
                 background: profileImage
                   ? "rgba(255,255,255,0.06)"

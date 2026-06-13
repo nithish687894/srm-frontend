@@ -4,7 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { useAuthStore } from "@/lib/store";
 
-const SOCKET_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const SOCKET_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  (process.env.NODE_ENV === "development" ? "http://localhost:5000" : "");
 
 export function useSocket() {
   const { authToken } = useAuthStore();
@@ -13,7 +15,7 @@ export function useSocket() {
   const socketRef = useRef<Socket | null>(null);
 
   useEffect(() => {
-    if (!authToken) {
+    if (!authToken || !SOCKET_URL) {
       if (socketRef.current) {
         socketRef.current.disconnect();
         socketRef.current = null;
