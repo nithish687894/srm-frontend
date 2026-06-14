@@ -194,7 +194,11 @@ export default function LoginPage() {
     } catch (e: any) {
       setLoading(false);
       setLoginPhase("idle");
-      setError(e?.response?.data?.error || "LOGIN FAILED");
+      let errMsg = e?.response?.data?.error || "LOGIN FAILED";
+      if (!errMsg.toLowerCase().includes("try again")) {
+        errMsg = errMsg.endsWith(".") ? `${errMsg} Please try again.` : `${errMsg}. Please try again.`;
+      }
+      setError(errMsg);
     }
   }
 
@@ -215,7 +219,11 @@ export default function LoginPage() {
     } catch (e: any) {
       setLoading(false);
       setLoginPhase("idle");
-      setError(e?.response?.data?.error || "DEMO LOGIN FAILED");
+      let errMsg = e?.response?.data?.error || "DEMO LOGIN FAILED";
+      if (!errMsg.toLowerCase().includes("try again")) {
+        errMsg = errMsg.endsWith(".") ? `${errMsg} Please try again.` : `${errMsg}. Please try again.`;
+      }
+      setError(errMsg);
     }
   }
 

@@ -438,6 +438,28 @@ export default function DashboardPage() {
     }
   }, []);
 
+  // Sync local states with cached Zustand data after store hydration
+  useEffect(() => {
+    if (academicData) {
+      if (!data) {
+        setData(academicData);
+      }
+      const raw = academicData.profile?.["Combo / Batch"] || "";
+      const b = extractBatch(raw);
+      if (b !== batch) {
+        setBatch(b);
+      }
+    }
+    if (cachedTimetable && !ttData) {
+      setTTData(cachedTimetable);
+    }
+    if (cachedMyTimetable && !myTTData) {
+      setMyTTData(cachedMyTimetable);
+    }
+    if (cachedCalendar && !calData) {
+      setCalData(cachedCalendar);
+    }
+  }, [academicData, data, batch, cachedTimetable, ttData, cachedMyTimetable, myTTData, cachedCalendar, calData]);
 
   useEffect(() => {
     if (!ready) return;

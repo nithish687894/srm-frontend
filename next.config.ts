@@ -12,6 +12,7 @@ if (!BACKEND_URL) {
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  devIndicators: false,
   async rewrites() {
     return [
       {
