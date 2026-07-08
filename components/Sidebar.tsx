@@ -952,12 +952,11 @@ export default function Sidebar() {
               {/* RowItem helper component inside Sidebar */}
               {(() => {
                 const GroupContainer = ({ title, children }: AnyValue) => (
-                  <div className="flex flex-col gap-2 mt-4 first:mt-3">
-                    <div className="flex items-center gap-2 pl-2 mb-0.5">
-                      <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${resolvedTheme === "light" ? "bg-purple-600/40" : "bg-purple-300/48"}`} />
-                      <p className={`text-[9.5px] leading-none font-black uppercase tracking-[0.2em] ${resolvedTheme === "light" ? "text-purple-950/52" : "text-white/46"}`}>{title}</p>
+                  <div className="flex flex-col mt-5 first:mt-2">
+                    <div className="flex items-center pl-4 mb-2">
+                      <p className={`text-[11px] font-bold uppercase tracking-[0.18em] ${resolvedTheme === "light" ? "text-purple-900/60" : "text-white/40"}`}>{title}</p>
                     </div>
-                    <div className={`flex flex-col gap-1.5 p-1.5 rounded-[23px] border backdrop-blur-md ${resolvedTheme === "light" ? "bg-purple-950/[0.03] border-purple-900/[0.075]" : "bg-white/[0.02] border-white/[0.055]"}`}>
+                    <div className={`flex flex-col rounded-[24px] border overflow-hidden ${resolvedTheme === "light" ? "bg-white/60 border-purple-900/10 divide-y divide-purple-900/5" : "bg-white/[0.02] border-white/[0.05] divide-y divide-white/5"}`}>
                       {children}
                     </div>
                   </div>
@@ -965,23 +964,21 @@ export default function Sidebar() {
 
                 const RowItem = ({ href, label, subtitle, icon: Icon, color, onClick, rightElement }: AnyValue) => {
                   const content = (
-                    <div className={`drawer-row-surface flex items-center justify-between w-full min-h-[64px] py-3 pl-3 pr-3.5 rounded-[19px] active:scale-[0.99] transition-all duration-300 group text-left ${resolvedTheme === "light" ? "hover:bg-gradient-to-r hover:from-purple-500/[0.04] hover:to-transparent" : "hover:bg-gradient-to-r hover:from-purple-500/[0.06] hover:to-transparent"}`}>
-                      <div className="flex items-center gap-3.5 min-w-0 flex-1">
+                    <div className={`flex items-center justify-between w-full min-h-[68px] py-3 px-4 transition-colors group text-left ${resolvedTheme === "light" ? "hover:bg-purple-500/[0.04] active:bg-purple-500/[0.08]" : "hover:bg-white/[0.03] active:bg-white/[0.06]"}`}>
+                      <div className="flex items-center gap-4 min-w-0 flex-1">
                         <div 
-                          className="w-11 h-11 rounded-2xl flex items-center justify-center border shrink-0 row-icon-glow" 
+                          className="w-11 h-11 rounded-[16px] flex items-center justify-center border shrink-0" 
                           style={{ 
                             background: `${color}12`, 
                             color: color, 
                             borderColor: `${color}20`,
-                            "--icon-glow": `${color}35`,
-                            "--icon-border": `${color}45`
-                          } as React.CSSProperties}
+                          }}
                         >
                           <Icon size={18} />
                         </div>
                         <div className="flex flex-col min-w-0 flex-1">
-                          <span className={`text-[13.5px] font-black tracking-wide uppercase leading-tight ${resolvedTheme === "light" ? "text-black/88" : "text-white/92"}`}>{label}</span>
-                          <span className={`text-[11px] mt-1.5 leading-snug tracking-normal ${resolvedTheme === "light" ? "text-black/62" : "text-white/58"}`}>{subtitle}</span>
+                          <span className={`text-[14px] font-black tracking-wide uppercase leading-tight ${resolvedTheme === "light" ? "text-black/90" : "text-white/90"}`}>{label}</span>
+                          <span className={`text-[11.5px] mt-1 leading-snug tracking-normal ${resolvedTheme === "light" ? "text-black/60" : "text-white/50"}`}>{subtitle}</span>
                         </div>
                       </div>
                       
@@ -990,7 +987,7 @@ export default function Sidebar() {
                           {rightElement}
                         </div>
                       ) : (
-                        <ChevronRight size={15} className={`ml-3 group-hover:translate-x-0.5 transition-all duration-300 shrink-0 ${resolvedTheme === "light" ? "text-black/46 group-hover:text-black/70" : "text-white/38 group-hover:text-white/70"}`} />
+                        <ChevronRight size={16} className={`ml-3 group-hover:translate-x-0.5 transition-all duration-300 shrink-0 ${resolvedTheme === "light" ? "text-black/40 group-hover:text-black/70" : "text-white/30 group-hover:text-white/60"}`} />
                       )}
                     </div>
                   );
@@ -1013,27 +1010,27 @@ export default function Sidebar() {
                 return (
                   <>
                     {/* Compact Profile Header */}
-                    <div className={`drawer-profile-card min-h-[68px] flex items-center gap-3.5 px-3.5 py-3 rounded-[24px] border shrink-0 ${resolvedTheme === "light" ? "bg-purple-950/[0.04] border-purple-900/[0.10]" : "bg-white/[0.032] border-white/[0.07]"}`}>
+                    <div className={`min-h-[76px] flex items-center gap-4 px-4 py-4 rounded-[24px] border shrink-0 ${resolvedTheme === "light" ? "bg-purple-950/[0.04] border-purple-900/[0.10]" : "bg-white/[0.03] border-white/[0.08]"}`}>
                       <div 
-                        className="w-12 h-12 rounded-[18px] flex items-center justify-center relative overflow-hidden border border-white/10 z-10 shrink-0"
+                        className="w-14 h-14 rounded-[18px] flex items-center justify-center relative overflow-hidden border border-white/10 z-10 shrink-0"
                         style={{ 
-                          background: "linear-gradient(135deg, rgba(191,90,242,0.32) 0%, rgba(143,146,255,0.20) 100%)", 
-                          boxShadow: `0 8px 22px rgba(191,90,242,0.18), inset 0 1px 0 rgba(255,255,255,0.12)` 
+                          background: "linear-gradient(135deg, rgba(191,90,242,0.4) 0%, rgba(143,146,255,0.25) 100%)", 
+                          boxShadow: `0 8px 24px rgba(191,90,242,0.2), inset 0 1px 0 rgba(255,255,255,0.15)` 
                         }}
                       >
                         <div
                           className="absolute inset-0 opacity-60"
                           style={{ 
-                            background: "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.20), transparent 48%)" 
+                            background: "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.25), transparent 48%)" 
                           }}
                         />
-                        <IdCard size={22} strokeWidth={2.25} className="relative z-10 text-purple-100" />
+                        <IdCard size={24} strokeWidth={2} className="relative z-10 text-white" />
                       </div>
                       <div className="min-w-0 flex-1 flex flex-col justify-center">
-                        <h2 className={`text-[13px] font-black leading-tight truncate tracking-wide uppercase ${resolvedTheme === "light" ? "text-black" : "text-white"}`}>{userName}</h2>
-                        <div className="flex items-center gap-1.5 mt-1.5">
-                          <span className={`w-1.5 h-1.5 rounded-full ${academiaConnected || studentPortalConnected ? "bg-emerald-400 animate-pulse" : "bg-amber-400"}`} />
-                          <span className={`text-[9px] font-black uppercase tracking-widest leading-none ${resolvedTheme === "light" ? "text-emerald-700/80" : "text-emerald-200/80"}`}>
+                        <h2 className={`text-[15px] font-black leading-tight truncate tracking-wide uppercase ${resolvedTheme === "light" ? "text-black" : "text-white"}`}>{userName}</h2>
+                        <div className="flex items-center gap-2 mt-1.5">
+                          <span className={`w-2 h-2 rounded-full ${academiaConnected || studentPortalConnected ? "bg-emerald-400 animate-pulse" : "bg-amber-400"}`} />
+                          <span className={`text-[10px] font-black uppercase tracking-widest leading-none ${resolvedTheme === "light" ? "text-emerald-700/80" : "text-emerald-300"}`}>
                             {academiaConnected || studentPortalConnected ? "Synced" : "Local Mode"}
                           </span>
                         </div>
@@ -1051,52 +1048,51 @@ export default function Sidebar() {
                     >
                       {/* Group 1: Preferences */}
                       <GroupContainer title="Preferences">
-                        <div className={`drawer-row-surface w-full min-h-[104px] px-3 py-3 rounded-[19px] transition-all duration-300 ${resolvedTheme === "light" ? "hover:bg-gradient-to-r hover:from-purple-500/[0.035] hover:to-transparent" : "hover:bg-gradient-to-r hover:from-purple-500/[0.055] hover:to-transparent"}`}>
-                          <div className="flex items-center gap-3.5 min-w-0">
+                        <div className={`flex flex-col w-full px-4 py-4 transition-colors text-left ${resolvedTheme === "light" ? "hover:bg-purple-500/[0.04]" : "hover:bg-white/[0.03]"}`}>
+                          <div className="flex items-center gap-4 min-w-0">
                             <div 
-                              className="w-11 h-11 rounded-2xl flex items-center justify-center border shrink-0 row-icon-glow" 
+                              className="w-11 h-11 rounded-[16px] flex items-center justify-center border shrink-0" 
                               style={{ 
                                 background: "#A78BFA12", 
                                 color: "#A78BFA", 
                                 borderColor: "#A78BFA20",
-                                "--icon-glow": "#A78BFA35",
-                                "--icon-border": "#A78BFA45"
-                              } as React.CSSProperties}
+                              }}
                             >
                               <LayoutTemplate size={18} />
                             </div>
                             <div className="flex flex-col min-w-0 flex-1">
-                              <span className={`text-[13.5px] font-black tracking-wide uppercase leading-tight ${resolvedTheme === "light" ? "text-black/88" : "text-white/92"}`}>Appearance</span>
-                              <span className={`text-[11px] mt-1.5 leading-snug tracking-normal ${resolvedTheme === "light" ? "text-black/62" : "text-white/58"}`}>Switch visual themes</span>
+                              <span className={`text-[14px] font-black tracking-wide uppercase leading-tight ${resolvedTheme === "light" ? "text-black/90" : "text-white/90"}`}>Appearance</span>
+                              <span className={`text-[11.5px] mt-1 leading-snug tracking-normal ${resolvedTheme === "light" ? "text-black/60" : "text-white/50"}`}>Switch visual themes</span>
                             </div>
                           </div>
-                          <div className={`mt-3 grid grid-cols-2 gap-1 p-1 rounded-2xl border relative z-30 transition-all duration-300 ${resolvedTheme === "light" ? "bg-purple-950/[0.045] border-purple-900/[0.07]" : "bg-white/[0.028] border-white/[0.05]"}`}>
+                          
+                          <div className={`mt-4 grid grid-cols-2 gap-2 p-1.5 rounded-[18px] border transition-all duration-300 ${resolvedTheme === "light" ? "bg-purple-950/[0.04] border-purple-900/[0.08]" : "bg-black/40 border-white/[0.08]"}`}>
                               <button 
                                 onClick={(e) => { e.stopPropagation(); setTheme("lumina"); }}
-                                className={`h-9 flex items-center justify-center gap-1.5 px-3.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all duration-300 ${
+                                className={`h-10 flex items-center justify-center gap-2 px-3.5 rounded-[14px] text-[11px] font-black uppercase tracking-wider transition-all duration-300 ${
                                   resolvedTheme === "lumina" 
-                                    ? "text-purple-50 font-black" 
-                                    : "text-white/40 hover:text-white/70 hover:bg-white/[0.02]"
+                                    ? "text-purple-50 border border-purple-500/30 shadow-lg" 
+                                    : "text-white/40 hover:text-white/80 hover:bg-white/[0.04]"
                                 }`}
                                 style={{
-                                  background: resolvedTheme === "lumina" ? "linear-gradient(135deg, rgba(168,85,247,0.30) 0%, rgba(139,92,246,0.24) 100%)" : "transparent"
+                                  background: resolvedTheme === "lumina" ? "linear-gradient(135deg, rgba(168,85,247,0.40) 0%, rgba(139,92,246,0.30) 100%)" : "transparent"
                                 }}
                               >
-                                <Sparkles size={11} className="shrink-0" />
+                                <Sparkles size={13} className="shrink-0" />
                                 Lumina
                               </button>
                               <button 
                                 onClick={(e) => { e.stopPropagation(); setTheme("light"); }}
-                                className={`h-9 flex items-center justify-center gap-1.5 px-3.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all duration-300 ${
+                                className={`h-10 flex items-center justify-center gap-2 px-3.5 rounded-[14px] text-[11px] font-black uppercase tracking-wider transition-all duration-300 ${
                                   resolvedTheme === "light" 
-                                    ? "text-purple-800 shadow-sm font-black border border-purple-900/[0.08]" 
-                                    : "text-white/40 hover:text-white/70 hover:bg-white/[0.02]"
+                                    ? "text-purple-900 shadow-sm border border-purple-900/10" 
+                                    : "text-white/40 hover:text-white/80 hover:bg-white/[0.04]"
                                 }`}
                                 style={{
-                                  background: resolvedTheme === "light" ? "rgba(255,255,255,0.52)" : "transparent"
+                                  background: resolvedTheme === "light" ? "#ffffff" : "transparent"
                                 }}
                               >
-                                <Sun size={11} className="shrink-0" />
+                                <Sun size={13} className="shrink-0" />
                                 Light
                               </button>
                           </div>
@@ -1146,18 +1142,20 @@ export default function Sidebar() {
                         />
                       </GroupContainer>
 
-                      <button 
-                        onClick={() => { setMoreOpen(false); handleLogout(); }}
-                        className={`mt-4 w-full min-h-[64px] px-3.5 py-3 rounded-[22px] border flex items-center gap-3.5 text-left active:scale-[0.99] transition-all ${resolvedTheme === "light" ? "bg-red-500/[0.03] border-red-300/30 hover:bg-red-50/30" : "bg-red-500/[0.035] border-red-400/[0.12] hover:bg-red-500/[0.065]"}`}
-                      >
-                        <div className={`w-11 h-11 rounded-2xl flex items-center justify-center border shrink-0 ${resolvedTheme === "light" ? "bg-red-500/10 text-red-600 border-red-300/45" : "bg-red-500/10 text-red-300 border-red-400/20"}`}>
-                          <LogOut size={18} />
-                        </div>
-                        <div className="min-w-0">
-                          <span className={`block text-[13.5px] font-black uppercase tracking-wide leading-tight ${resolvedTheme === "light" ? "text-red-700" : "text-red-200"}`}>Logout</span>
-                          <span className={`block text-[11px] mt-1 leading-snug ${resolvedTheme === "light" ? "text-red-600/70" : "text-red-200/55"}`}>Safely terminate session</span>
-                        </div>
-                      </button>
+                      <div className="mt-5">
+                        <button 
+                          onClick={() => { setMoreOpen(false); handleLogout(); }}
+                          className={`w-full min-h-[68px] px-4 py-3 rounded-[24px] border flex items-center gap-4 text-left active:scale-[0.98] transition-all ${resolvedTheme === "light" ? "bg-red-500/[0.04] border-red-500/20 hover:bg-red-500/[0.08]" : "bg-red-500/[0.04] border-red-500/20 hover:bg-red-500/[0.08]"}`}
+                        >
+                          <div className={`w-11 h-11 rounded-[16px] flex items-center justify-center border shrink-0 ${resolvedTheme === "light" ? "bg-red-500/10 text-red-600 border-red-500/30" : "bg-red-500/10 text-red-400 border-red-500/30"}`}>
+                            <LogOut size={18} />
+                          </div>
+                          <div className="min-w-0">
+                            <span className={`block text-[14px] font-black uppercase tracking-wide leading-tight ${resolvedTheme === "light" ? "text-red-700" : "text-red-400"}`}>Logout</span>
+                            <span className={`block text-[11.5px] mt-1 leading-snug ${resolvedTheme === "light" ? "text-red-600/70" : "text-red-400/60"}`}>Safely terminate session</span>
+                          </div>
+                        </button>
+                      </div>
 
                       {/* Group 4: Admin (Only if admin role) */}
                       {isAdmin && (
