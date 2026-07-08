@@ -2116,3 +2116,29 @@ body.theme-light, .theme-light {
   }
 }
 
+/* ━━ MOBILE PERFORMANCE OPTIMIZATIONS ━━ */
+@media (max-width: 768px) {
+  /* Reduce heavy blur filters which severely impact iOS/Android performance */
+  .aura-blob {
+    filter: blur(60px) !important;
+  }
+  
+  /* Simplify glassmorphism on mobile */
+  .theme-aura .min-card,
+  .theme-aura .liquid-card {
+    backdrop-filter: blur(16px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+  }
+  
+  /* Reduce heavy radial and conic gradients on mobile */
+  body.theme-aura {
+    background-attachment: scroll !important;
+  }
+  
+  /* Remove heavy animations */
+  .theme-aura .launch-splash,
+  .nexus-splash {
+    background-attachment: scroll !important;
+  }
+}

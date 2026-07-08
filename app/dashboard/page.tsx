@@ -1461,63 +1461,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Cyberpunk Stacked Scrolling Terminal Console */}
-          <div style={{
-            width: '280px',
-            height: '76px',
-            background: 'rgba(5, 5, 8, 0.5)',
-            backdropFilter: 'blur(20px)',
-            border: '1.2px solid rgba(191, 90, 242, 0.15)',
-            borderRadius: '16px',
-            padding: '12px 16px',
-            margin: '0 auto',
-            textAlign: 'left',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-end',
-            boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.8)'
-          }}>
-            {rollingSteps.map((log) => (
-              <div 
-                key={log.index} 
-                className="aura-rolling-log"
-                style={{
-                  fontSize: '9px',
-                  fontFamily: 'monospace',
-                  fontWeight: 800,
-                  letterSpacing: '0.04em',
-                  color: log.isLatest ? '#ffffff' : 'rgba(255,255,255,0.7)',
-                  opacity: 1,
-                  transition: 'all 0.3s'
-                }}
-              >
-                <span style={{ color: log.isLatest ? '#FF2D55' : 'rgba(255, 45, 85, 0.75)', marginRight: '6px' }}>
-                  {log.hex}
-                </span>
-                <span style={{ color: log.isLatest ? '#00E5FF' : 'rgba(0, 229, 255, 0.75)', marginRight: '8px' }}>
-                  {log.prefix}
-                </span>
-                <span style={{ color: log.isLatest ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.65)' }}>
-                  {log.text}
-                </span>
-                {log.isLatest ? (
-                  <span style={{
-                    display: 'inline-block',
-                    width: '5px',
-                    height: '9px',
-                    background: '#00E5FF',
-                    marginLeft: '4px',
-                    verticalAlign: 'middle',
-                    animation: 'aura-cursor-blink 0.8s infinite'
-                  }} />
-                ) : (
-                  <span style={{ color: '#34C759', marginLeft: '6px', fontSize: '8px' }}>
-                    ✓
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
+
         </div>
 
         {/* Bottom Holographic Version readouts */}
