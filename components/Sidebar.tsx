@@ -956,7 +956,7 @@ export default function Sidebar() {
                     <div className="flex items-center pl-4 mb-2">
                       <p className={`text-[11px] font-bold uppercase tracking-[0.18em] ${resolvedTheme === "light" ? "text-purple-900/60" : "text-white/40"}`}>{title}</p>
                     </div>
-                    <div className={`flex flex-col rounded-[24px] border overflow-hidden ${resolvedTheme === "light" ? "bg-white/60 border-purple-900/10 divide-y divide-purple-900/5" : "bg-white/[0.02] border-white/[0.05] divide-y divide-white/5"}`}>
+                    <div className={`flex flex-col rounded-[24px] overflow-hidden ${resolvedTheme === "light" ? "bg-white/50 divide-y divide-purple-900/5" : "bg-black/20 divide-y divide-white/5"}`}>
                       {children}
                     </div>
                   </div>
@@ -967,11 +967,10 @@ export default function Sidebar() {
                     <div className={`flex items-center justify-between w-full min-h-[68px] py-3 px-4 transition-colors group text-left ${resolvedTheme === "light" ? "hover:bg-purple-500/[0.04] active:bg-purple-500/[0.08]" : "hover:bg-white/[0.03] active:bg-white/[0.06]"}`}>
                       <div className="flex items-center gap-4 min-w-0 flex-1">
                         <div 
-                          className="w-11 h-11 rounded-[16px] flex items-center justify-center border shrink-0" 
+                          className="w-11 h-11 rounded-[16px] flex items-center justify-center shrink-0" 
                           style={{ 
-                            background: `${color}12`, 
+                            background: `${color}15`, 
                             color: color, 
-                            borderColor: `${color}20`,
                           }}
                         >
                           <Icon size={18} />
@@ -1010,12 +1009,12 @@ export default function Sidebar() {
                 return (
                   <>
                     {/* Compact Profile Header */}
-                    <div className={`min-h-[76px] flex items-center gap-4 px-4 py-4 rounded-[24px] border shrink-0 ${resolvedTheme === "light" ? "bg-purple-950/[0.04] border-purple-900/[0.10]" : "bg-white/[0.03] border-white/[0.08]"}`}>
+                    <div className={`min-h-[76px] flex items-center gap-4 px-4 py-4 rounded-[24px] shrink-0 ${resolvedTheme === "light" ? "bg-white/50" : "bg-black/20"}`}>
                       <div 
-                        className="w-14 h-14 rounded-[18px] flex items-center justify-center relative overflow-hidden border border-white/10 z-10 shrink-0"
+                        className="w-14 h-14 rounded-[18px] flex items-center justify-center relative overflow-hidden z-10 shrink-0"
                         style={{ 
-                          background: "linear-gradient(135deg, rgba(191,90,242,0.4) 0%, rgba(143,146,255,0.25) 100%)", 
-                          boxShadow: `0 8px 24px rgba(191,90,242,0.2), inset 0 1px 0 rgba(255,255,255,0.15)` 
+                          background: "linear-gradient(135deg, rgba(191,90,242,0.5) 0%, rgba(143,146,255,0.3) 100%)", 
+                          boxShadow: `0 8px 24px rgba(191,90,242,0.25)` 
                         }}
                       >
                         <div
@@ -1051,11 +1050,10 @@ export default function Sidebar() {
                         <div className={`flex flex-col w-full px-4 py-4 transition-colors text-left ${resolvedTheme === "light" ? "hover:bg-purple-500/[0.04]" : "hover:bg-white/[0.03]"}`}>
                           <div className="flex items-center gap-4 min-w-0">
                             <div 
-                              className="w-11 h-11 rounded-[16px] flex items-center justify-center border shrink-0" 
+                              className="w-11 h-11 rounded-[16px] flex items-center justify-center shrink-0" 
                               style={{ 
-                                background: "#A78BFA12", 
+                                background: "#A78BFA15", 
                                 color: "#A78BFA", 
-                                borderColor: "#A78BFA20",
                               }}
                             >
                               <LayoutTemplate size={18} />
@@ -1066,12 +1064,12 @@ export default function Sidebar() {
                             </div>
                           </div>
                           
-                          <div className={`mt-4 grid grid-cols-2 gap-2 p-1.5 rounded-[18px] border transition-all duration-300 ${resolvedTheme === "light" ? "bg-purple-950/[0.04] border-purple-900/[0.08]" : "bg-black/40 border-white/[0.08]"}`}>
+                          <div className={`mt-4 grid grid-cols-2 gap-2 p-1.5 rounded-[18px] transition-all duration-300 ${resolvedTheme === "light" ? "bg-black/[0.03]" : "bg-black/40"}`}>
                               <button 
                                 onClick={(e) => { e.stopPropagation(); setTheme("lumina"); }}
                                 className={`h-10 flex items-center justify-center gap-2 px-3.5 rounded-[14px] text-[11px] font-black uppercase tracking-wider transition-all duration-300 ${
                                   resolvedTheme === "lumina" 
-                                    ? "text-purple-50 border border-purple-500/30 shadow-lg" 
+                                    ? "text-purple-50 shadow-lg" 
                                     : "text-white/40 hover:text-white/80 hover:bg-white/[0.04]"
                                 }`}
                                 style={{
@@ -1085,12 +1083,9 @@ export default function Sidebar() {
                                 onClick={(e) => { e.stopPropagation(); setTheme("light"); }}
                                 className={`h-10 flex items-center justify-center gap-2 px-3.5 rounded-[14px] text-[11px] font-black uppercase tracking-wider transition-all duration-300 ${
                                   resolvedTheme === "light" 
-                                    ? "text-purple-900 shadow-sm border border-purple-900/10" 
+                                    ? "text-purple-900 shadow-sm bg-white" 
                                     : "text-white/40 hover:text-white/80 hover:bg-white/[0.04]"
                                 }`}
-                                style={{
-                                  background: resolvedTheme === "light" ? "#ffffff" : "transparent"
-                                }}
                               >
                                 <Sun size={13} className="shrink-0" />
                                 Light
@@ -1118,10 +1113,10 @@ export default function Sidebar() {
                             <button 
                               onClick={(e) => { e.stopPropagation(); handleRefreshSync(); }}
                               disabled={isRefreshing}
-                              className={`mr-2 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[9px] font-black uppercase border active:scale-95 transition-all disabled:opacity-50 ${
+                              className={`mr-2 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[9px] font-black uppercase border-none active:scale-95 transition-all disabled:opacity-50 ${
                                 resolvedTheme === "light" 
-                                  ? "text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border-emerald-200" 
-                                  : "text-emerald-200 bg-emerald-400/10 hover:bg-emerald-400/15 border-emerald-300/20"
+                                  ? "text-emerald-700 bg-emerald-500/10 hover:bg-emerald-500/15" 
+                                  : "text-emerald-200 bg-emerald-400/15 hover:bg-emerald-400/20"
                               }`}
                             >
                               <RefreshCw size={10} className={`shrink-0 ${isRefreshing ? "animate-spin" : ""}`} />
@@ -1145,9 +1140,9 @@ export default function Sidebar() {
                       <div className="mt-5">
                         <button 
                           onClick={() => { setMoreOpen(false); handleLogout(); }}
-                          className={`w-full min-h-[68px] px-4 py-3 rounded-[24px] border flex items-center gap-4 text-left active:scale-[0.98] transition-all ${resolvedTheme === "light" ? "bg-red-500/[0.04] border-red-500/20 hover:bg-red-500/[0.08]" : "bg-red-500/[0.04] border-red-500/20 hover:bg-red-500/[0.08]"}`}
+                          className={`w-full min-h-[68px] px-4 py-3 rounded-[24px] flex items-center gap-4 text-left active:scale-[0.98] transition-all ${resolvedTheme === "light" ? "bg-red-500/[0.08] hover:bg-red-500/[0.12]" : "bg-red-500/[0.08] hover:bg-red-500/[0.12]"}`}
                         >
-                          <div className={`w-11 h-11 rounded-[16px] flex items-center justify-center border shrink-0 ${resolvedTheme === "light" ? "bg-red-500/10 text-red-600 border-red-500/30" : "bg-red-500/10 text-red-400 border-red-500/30"}`}>
+                          <div className={`w-11 h-11 rounded-[16px] flex items-center justify-center shrink-0 ${resolvedTheme === "light" ? "bg-red-500/10 text-red-600" : "bg-red-500/10 text-red-400"}`}>
                             <LogOut size={18} />
                           </div>
                           <div className="min-w-0">
