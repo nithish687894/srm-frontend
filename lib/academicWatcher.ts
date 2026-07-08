@@ -95,7 +95,7 @@ function checkAttendanceAlerts(attendance: AttendanceSubject[]): void {
       subject: name,
       attendance: pct.toFixed(1),
       requiredAttendance: 75,
-      studentName: "Nithish",
+      studentName: (() => { try { const s = localStorage.getItem('auth-store'); const p = s ? JSON.parse(s)?.state?.profile : null; return p?.Name || p?.name || 'Student'; } catch { return 'Student'; } })(),
     });
   });
 }
@@ -119,7 +119,7 @@ function checkMarksAlerts(marks: MarksEntry[]): void {
 
     // Trigger backend notification dispatch for marks update
     triggerBackendDispatch("marks_update", {
-      studentName: "Nithish",
+      studentName: (() => { try { const s = localStorage.getItem('auth-store'); const p = s ? JSON.parse(s)?.state?.profile : null; return p?.Name || p?.name || 'Student'; } catch { return 'Student'; } })(),
     });
   }
 }
