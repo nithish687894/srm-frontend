@@ -250,7 +250,8 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
     transition: isGestureActive ? "none" : "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
     opacity: 1 - Math.min(Math.abs(offset) / winWidth, 0.4),
     width: "100%",
-    willChange: isGestureActive ? "transform, opacity" : "auto"
+    willChange: isGestureActive ? "transform, opacity" : "auto",
+    overflowX: "hidden" as const
   };
 
   const hideSidebar = ["/", "/setup", "/terms", "/privacy", "/trust"].includes(pathname);

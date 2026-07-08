@@ -1,4 +1,3 @@
-import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs";
 
 const BACKEND_URL =
@@ -10,7 +9,8 @@ if (!BACKEND_URL) {
   throw new Error("BACKEND_URL or NEXT_PUBLIC_API_URL must be set for production builds.");
 }
 
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   reactCompiler: true,
   devIndicators: false,
   async rewrites() {

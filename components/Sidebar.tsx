@@ -28,7 +28,6 @@ const NAV_MORE_ITEMS = [
   { href: "/exam-library", label: "Exam", icon: BookOpen, color: "#30D158" },
   { href: "/exam-hub", label: "Exam Hub", icon: BookOpen, color: "#BF5AF2" },
   { href: "/tools", label: "Academic Tools", icon: Wrench, color: "#00ff88" },
-  { href: "/app-tools", label: "Database Sync", icon: RefreshCw, color: "#34C759" },
   { href: "/ai", label: "AI Tutor", icon: Sparkles, color: "#fff" },
   { href: "/gpa", label: "GPA Calc", icon: GraduationCap, color: "#fff" },
 ] as const;
@@ -267,7 +266,6 @@ export default function Sidebar() {
     { href: "/exam-library", label: "Exam", icon: BookOpen, color: "#30D158" },
     { href: "/exam-hub", label: "Exam Hub", icon: BookOpen, color: "#BF5AF2" },
     { href: "/tools", label: "Academic Tools", icon: Wrench, color: "#00ff88" },
-    { href: "/app-tools", label: "Database Sync", icon: RefreshCw, color: "#34C759" },
     { href: "/chat", label: "Doubt Forums", icon: MessageSquare, color: "#5AC8FA" },
     { href: "/ai", label: "AI Tutor", icon: Sparkles, color: "#BF5AF2" },
     { href: "/gpa", label: "GPA / CGPA Planner", icon: GraduationCap, color: "#FF2D55" },
@@ -1102,27 +1100,6 @@ export default function Sidebar() {
                           subtitle="Calculators & utilities" 
                           icon={Wrench} 
                           color="#00ff88" 
-                        />
-                        <RowItem 
-                          href="/app-tools" 
-                          label="Database Sync" 
-                          subtitle="Sync credentials & status" 
-                          icon={RefreshCw} 
-                          color="#34C759" 
-                          rightElement={
-                            <button 
-                              onClick={(e) => { e.stopPropagation(); handleRefreshSync(); }}
-                              disabled={isRefreshing}
-                              className={`mr-2 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[9px] font-black uppercase border-none active:scale-95 transition-all disabled:opacity-50 ${
-                                resolvedTheme === "light" 
-                                  ? "text-emerald-700 bg-emerald-500/10 hover:bg-emerald-500/15" 
-                                  : "text-emerald-200 bg-emerald-400/15 hover:bg-emerald-400/20"
-                              }`}
-                            >
-                              <RefreshCw size={10} className={`shrink-0 ${isRefreshing ? "animate-spin" : ""}`} />
-                              {isRefreshing ? "Syncing" : (academiaConnected || studentPortalConnected ? "Synced" : "Local")}
-                            </button>
-                          }
                         />
                       </GroupContainer>
 
