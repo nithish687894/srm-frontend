@@ -23,7 +23,7 @@ export default function LoginPage() {
 
   // Teaser page states
   const [showTeaser, setShowTeaser] = useState(true);
-  const [logoClicks, setLogoClicks] = useState(0);
+  const logoClicksRef = useRef(0);
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [emailInput, setEmailInput] = useState("");
   const [waitlistLoading, setWaitlistLoading] = useState(false);
@@ -56,12 +56,14 @@ export default function LoginPage() {
     }
   }, []);
 
-  // Admin bypass checks (URL param & SessionStorage)
+  // Admin bypass checks and Date launch checks
   useEffect(() => {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
       const isBypassed = params.get("bypass") === "true" || sessionStorage.getItem("adminBypass") === "true";
-      if (isBypassed) {
+      const targetDate = new Date("2026-07-15T00:00:00").getTime();
+      const now = new Date().getTime();
+      if (isBypassed || now >= targetDate) {
         setShowTeaser(false);
       }
     }
@@ -90,9 +92,9 @@ export default function LoginPage() {
     }
   }, []);
 
-  // Countdown ticker to 20 July 2026
+  // Countdown ticker to 15 July 2026
   useEffect(() => {
-    const targetDate = new Date("2026-07-20T00:00:00").getTime();
+    const targetDate = new Date("2026-07-15T00:00:00").getTime();
 
     const updateCountdown = () => {
       const now = new Date().getTime();
@@ -100,6 +102,7 @@ export default function LoginPage() {
 
       if (difference <= 0) {
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        setShowTeaser(false);
         return;
       }
 
@@ -136,17 +139,20 @@ export default function LoginPage() {
     });
   }, []);
 
-  // Admin bypass logo handler
+  // Admin bypass logo handler (uses useRef to avoid state race conditions)
   const handleLogoClick = () => {
-    setLogoClicks((prev) => {
-      const next = prev + 1;
-      if (next >= 5) {
+    logoClicksRef.current += 1;
+    if (logoClicksRef.current >= 5) {
+      logoClicksRef.current = 0;
+      const passcode = prompt("Enter developer passcode:");
+      if (passcode === "srmxdev2026") {
         setShowTeaser(false);
         sessionStorage.setItem("adminBypass", "true");
-        return 0;
+        sessionStorage.setItem("developerPasscode", passcode);
+      } else if (passcode !== null) {
+        alert("Invalid passcode.");
       }
-      return next;
-    });
+    }
   };
 
   // Waitlist submission handler
@@ -181,10 +187,14 @@ export default function LoginPage() {
     const finalEmail = email.includes("@") ? email : `${email.trim()}@srmist.edu.in`;
     
     try {
-      const extra = connector === "student-portal" ? {
-        captcha: captchaAnswer,
-        captchaToken: captchaData?.captchaToken
-      } : {};
+      const devBypassCode = typeof window !== "undefined" ? sessionStorage.getItem("developerPasscode") : null;
+      const extra: any = {
+        ...(connector === "student-portal" ? {
+          captcha: captchaAnswer,
+          captchaToken: captchaData?.captchaToken
+        } : {}),
+        ...(devBypassCode ? { developerPasscode: devBypassCode } : {})
+      };
 
       const res = await authAPI.login(finalEmail, password, connector, extra);
       setAuthData(res.token, res.refreshToken, finalEmail);
@@ -237,6 +247,12 @@ export default function LoginPage() {
           font-family: 'Plus Jakarta Sans', sans-serif;
           overflow-x: hidden;
           position: relative;
+        }
+
+        .lp-root.teaser-mode {
+          height: 100vh;
+          height: 100svh;
+          overflow: hidden;
         }
 
         .nebula-bg {
@@ -764,6 +780,7 @@ export default function LoginPage() {
           cursor: pointer;
           user-select: none;
           transition: transform 0.3s ease;
+          touch-action: manipulation;
         }
         
         .teaser-logo-container:active {
@@ -946,7 +963,7 @@ export default function LoginPage() {
         }
       `}</style>
 
-      <div className="lp-root">
+      <div className={`lp-root ${showTeaser ? "teaser-mode" : ""}`}>
         <div className="nebula-bg" />
 
         <div>
@@ -1020,13 +1037,24 @@ export default function LoginPage() {
                 className="teaser-logo-container teaser-logo" 
                 onClick={handleLogoClick}
               >
-                <img src="/nexus-logo.png" alt="Logo" style={{ width: "72px", height: "72px", filter: "drop-shadow(0 0 25px rgba(255, 117, 195, 0.5))" }} />
+                <img 
+                  src="/nexus-logo.png" 
+                  alt="Logo" 
+                  draggable={false}
+                  style={{ 
+                    width: "72px", 
+                    height: "72px", 
+                    filter: "drop-shadow(0 0 25px rgba(255, 117, 195, 0.5))",
+                    userSelect: "none",
+                    WebkitUserDrag: "none"
+                  } as any} 
+                />
               </div>
 
               {/* Title & Badge */}
               <div>
                 <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "8px 16px", borderRadius: "999px", background: "rgba(139, 92, 246, 0.1)", border: "1px solid rgba(139, 92, 246, 0.2)", color: "#CD93FF", fontSize: "11px", fontWeight: 900, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "16px" }}>
-                  <Lock size={12} style={{ color: "#FF75C3" }} /> Launching July 20, 2026
+                  <Lock size={12} style={{ color: "#FF75C3" }} /> Launching July 15, 2026
                 </div>
                 <h1 className="teaser-title">
                   SRM Nexus is <span style={{ background: "linear-gradient(135deg, #BF5AF2 0%, #FF75C3 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Coming Soon</span>
@@ -1068,7 +1096,7 @@ export default function LoginPage() {
                       You're on the list!
                     </div>
                     <div style={{ fontSize: "13px", color: "rgba(255, 255, 255, 0.6)", fontWeight: 600 }}>
-                      We'll notify you the moment we launch on July 20, 2026.
+                      We'll notify you the moment we launch on July 15, 2026.
                     </div>
                   </div>
                 ) : (
@@ -1102,54 +1130,7 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              {/* 5 Premium Features Grid */}
-              <div style={{ width: "100%" }}>
-                <h3 className="teaser-preview-heading">
-                  Exclusive Features Preview
-                </h3>
-                <div className="teaser-grid">
-                  {[
-                    {
-                      title: "Ad-free Academic Tracking",
-                      desc: "Clean, dark dashboard showcasing your marks and attendance without interruptions or ads.",
-                      icon: <Shield size={24} style={{ color: "#bf5af2" }} />,
-                      glow: "rgba(191, 90, 242, 0.15)"
-                    },
-                    {
-                      title: "Predictive Class Skipper",
-                      desc: "Plan your absences without dropping below 75%. Simulates skip risks and bunk buffers.",
-                      icon: <MonitorPlay size={24} style={{ color: "#ff75c3" }} />,
-                      glow: "rgba(255, 117, 195, 0.15)"
-                    },
-                    {
-                      title: "Priority Database Sync",
-                      desc: "High-speed synchronizations update marks and timetable data instantly with zero queues.",
-                      icon: <Zap size={24} style={{ color: "#00d4ff" }} />,
-                      glow: "rgba(0, 212, 255, 0.15)"
-                    },
-                    {
-                      title: "Target GPA Estimator",
-                      desc: "Simulate and forecast exactly what marks are required in internal exams to hit your target grade.",
-                      icon: <TrendingUp size={24} style={{ color: "#30d158" }} />,
-                      glow: "rgba(48, 209, 88, 0.15)"
-                    },
-                    {
-                      title: "Real-time Push Alerts",
-                      desc: "Get instant desktop/browser notifications when new marks or attendance entries are recorded.",
-                      icon: <Bell size={24} style={{ color: "#ff9f0a" }} />,
-                      glow: "rgba(255, 159, 10, 0.15)"
-                    }
-                  ].map((feat, idx) => (
-                    <div key={idx} className="teaser-feature-card">
-                      <div style={{ width: "48px", height: "48px", borderRadius: "14px", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "18px", boxShadow: `0 0 20px ${feat.glow}` }}>
-                        {feat.icon}
-                      </div>
-                      <h4 style={{ fontSize: "16px", fontWeight: 800, color: "#ffffff", margin: "0 0 8px 0" }}>{feat.title}</h4>
-                      <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.5)", lineHeight: 1.5, margin: 0, fontWeight: 500 }}>{feat.desc}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              {/* Features grid removed to keep screen non-scrollable */}
             </div>
           ) : (
             <>
