@@ -84,47 +84,8 @@ export default function AuraDashboard({
 
   return (
     <AuraBackground theme={activeTheme} stars={stars}>
+      {/* Dashboard-specific responsive styles (animations inherited from AuraBackground) */}
       <style dangerouslySetInnerHTML={{ __html: `
-        .ai-border {
-          position: absolute; inset: 0; border-radius: inherit;
-          padding: 1px;
-          background: linear-gradient(45deg, transparent, rgba(192, 132, 252, 0.18), transparent);
-          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-          -webkit-mask-composite: xor;
-          mask-composite: exclude;
-          pointer-events: none;
-          animation: border-breathe 4s ease-in-out infinite;
-        }
-        
-        @keyframes border-breathe {
-          0%, 100% { opacity: 0.3; }
-          50% { opacity: 1; }
-        }
-
-        .floating { animation: floating 6s ease-in-out infinite; }
-        @keyframes floating {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
-        }
-
-        @keyframes shimmer {
-          0% { background-position: 200% center; }
-          100% { background-position: -200% center; }
-        }
-
-        .shimmer-text {
-          background: linear-gradient(90deg, var(--text-main) 0%, var(--text-muted) 50%, var(--text-main) 100%);
-          background-size: 200% auto;
-          color: transparent;
-          -webkit-background-clip: text;
-          background-clip: text;
-          animation: shimmer 3s linear infinite;
-        }
-
-        .tabular-nums {
-          font-variant-numeric: tabular-nums;
-        }
-        
         .hide-scrollbar::-webkit-scrollbar {
           display: none;
         }
@@ -675,7 +636,7 @@ export default function AuraDashboard({
 
 
         {/* Analytics Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+        <div className="dashboard-analytics-grid">
           <div onClick={() => router.push('/attendance')} className="premium-card" style={{ padding: '24px', borderRadius: '32px', cursor: 'pointer' }}>
              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                 <div style={{ width: '40px', height: '40px', borderRadius: '16px', background: 'rgba(0, 229, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

@@ -13,6 +13,14 @@ if (!BACKEND_URL) {
 const nextConfig = {
   reactCompiler: true,
   devIndicators: false,
+  compress: true,
+  poweredByHeader: false,
+  images: {
+    formats: ['image/avif', 'image/webp'],
+  },
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
+  },
   async rewrites() {
     return [
       {

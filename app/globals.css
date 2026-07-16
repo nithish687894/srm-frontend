@@ -1035,6 +1035,291 @@ h4 { font-weight: 740; }
   backface-visibility: hidden;
 }
 
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SIDEBAR & NAVIGATION STYLES
+   (Moved from Sidebar.tsx inline <style> for performance)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.srmx-mobile-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: calc(64px + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  background: rgba(5, 3, 10, 0.96);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex; align-items: center; justify-content: space-around;
+  z-index: 99999; box-shadow: 0 -10px 28px rgba(0, 0, 0, 0.58), inset 0 1px 0 rgba(255,255,255,0.035);
+  padding: 0 8px;
+}
+@media (min-width: 768px) {
+  .srmx-mobile-nav {
+    display: none !important;
+  }
+}
+.nav-item {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px; color: rgba(255,255,255,0.58); font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 9.5px; font-weight: 700; cursor: pointer;
+  letter-spacing: 0;
+  transition: color 0.18s ease, transform 0.18s ease; -webkit-tap-highlight-color: transparent;
+  background: none; border: none; outline: none; text-decoration: none; flex: 1 1 0;
+  min-width: 0;
+  height: 100%; position: relative;
+}
+.nav-item:hover, .nav-item:active {
+  color: #ffffff;
+}
+.nav-item.active {
+  color: #FF75C3;
+  transform: translateY(-1px);
+}
+.nav-item span {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.1;
+}
+.nav-item svg {
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 0 rgba(0,0,0,0));
+}
+.nav-item.active svg {
+  filter: drop-shadow(0 0 8px rgba(255,117,195,0.34));
+}
+.nav-item::before {
+  display: none;
+}
+.nav-item.active::before {
+  display: none;
+}
+.drawer-item-icon {
+  width: 52px; height: 52px; border-radius: 18px;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s ease;
+}
+.drawer-item-icon.active {
+  background: rgba(191, 90, 242, 0.08);
+  border-color: rgba(191, 90, 242, 0.15);
+  color: #BF5AF2;
+}
+.matrix-font { font-family: "JetBrains Mono", "Courier New", monospace; }
+.nav-indicator {
+   content: ""; position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
+   width: 32px; height: 4px; border-radius: 4px;
+}
+.popover-enter {
+  animation: popoverEnter 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: top right;
+}
+@keyframes popoverEnter {
+  from { opacity: 0; transform: translateY(-10px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.row-icon-glow {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.group:hover .row-icon-glow {
+  box-shadow: 0 0 12px var(--icon-glow);
+  border-color: var(--icon-border);
+  transform: scale(1.05);
+}
+
+@media (min-width: 768px) {
+  main:not(.dashboard-main), .page-main, .swipe-wrapper > div:last-child {
+    padding-left: 270px !important;
+    padding-right: 32px !important;
+  }
+  .page-content {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+  }
+  .fixed.top-12 {
+    left: 270px !important;
+  }
+  .fixed.top-12 button {
+    display: none !important;
+  }
+}
+
+@media (min-width: 1180px) {
+  main:not(.dashboard-main), .page-main, .swipe-wrapper > div:last-child {
+    padding-left: 270px !important;
+    padding-right: 48px !important;
+  }
+  .fixed.top-12 {
+    left: 270px !important;
+    right: 48px !important;
+  }
+}
+
+.desktop-sidebar {
+  position: fixed;
+  left: 0; top: 0; bottom: 0;
+  width: 270px; height: 100vh;
+  background: rgba(8, 6, 16, 0.65);
+  backdrop-filter: blur(40px) saturate(140%);
+  -webkit-backdrop-filter: blur(40px) saturate(140%);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 4px 0 40px rgba(0, 0, 0, 0.45);
+  padding: 28px 22px;
+  flex-direction: column;
+  z-index: 99999;
+  overflow-y: auto;
+  display: none !important;
+}
+.theme-light .desktop-sidebar {
+  background: rgba(245, 240, 255, 0.75);
+  border-right: 1px solid rgba(96, 68, 145, 0.12);
+  box-shadow: 4px 0 32px rgba(46, 32, 74, 0.04);
+}
+@media (min-width: 768px) {
+  .desktop-sidebar {
+    display: flex !important;
+  }
+}
+
+.desktop-nav-link {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 16px; border-radius: 16px;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  color: rgba(255, 255, 255, 0.4);
+  background: transparent;
+  border: 1px solid transparent;
+  font-size: 13px; font-weight: 700;
+  text-decoration: none;
+}
+.desktop-nav-link:hover {
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.03);
+  transform: translateX(4px);
+}
+.desktop-nav-link.active {
+  color: #ffffff;
+  background: rgba(191, 90, 242, 0.15);
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 8px 20px rgba(191, 90, 242, 0.06);
+}
+.theme-light .desktop-nav-link {
+  color: rgba(27, 20, 40, 0.5);
+}
+.theme-light .desktop-nav-link:hover {
+  color: #1b1428;
+  background: rgba(191, 90, 242, 0.04);
+  transform: translateX(4px);
+}
+.theme-light .desktop-nav-link.active {
+  color: #8b5cf6;
+  background: rgba(191, 90, 242, 0.08);
+  border-color: rgba(191, 90, 242, 0.12);
+  box-shadow: 0 8px 20px rgba(191, 90, 242, 0.04);
+}
+
+.desktop-sidebar-separator {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.theme-light .desktop-sidebar-separator {
+  border-top: 1px solid rgba(96, 68, 145, 0.08);
+}
+.desktop-sidebar-separator-b {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.theme-light .desktop-sidebar-separator-b {
+  border-bottom: 1px solid rgba(96, 68, 145, 0.08);
+}
+.desktop-profile-name {
+  color: #ffffff;
+}
+.desktop-profile-reg {
+  color: rgba(255, 255, 255, 0.4);
+}
+.theme-light .desktop-profile-name {
+  color: #1b1428;
+}
+.theme-light .desktop-profile-reg {
+  color: rgba(27, 20, 40, 0.5);
+}
+.desktop-sidebar-section-title {
+  color: rgba(255, 255, 255, 0.2);
+}
+.theme-light .desktop-sidebar-section-title {
+  color: rgba(27, 20, 40, 0.3);
+}
+
+.more-drawer {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 0;
+  width: min(calc(100vw - 16px), 640px);
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%);
+}
+.more-drawer-body {
+  overscroll-behavior: contain;
+}
+.more-drawer-body::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes drawer-rise {
+  from { opacity: 0; transform: translateY(14px) scale(0.985); filter: blur(5px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+@keyframes soft-scan {
+  from { transform: translateX(-130%); opacity: 0; }
+  28% { opacity: 0.55; }
+  to { transform: translateX(130%); opacity: 0; }
+}
+
+.settings-dropdown {
+  animation: drawer-rise 220ms cubic-bezier(.2,.8,.2,1) both;
+}
+.settings-dropdown::before {
+  content: "";
+  position: absolute;
+  left: 18px; right: 18px; top: -1px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.34), rgba(191,90,242,0.42), transparent);
+  opacity: 0.75;
+}
+.settings-dropdown::after {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(191,90,242,0.14), transparent 28%),
+    radial-gradient(circle at 92% 0%, rgba(143,146,255,0.10), transparent 30%);
+  opacity: 0.85;
+}
+
+.drawer-profile-card {
+  position: relative; overflow: hidden;
+}
+.drawer-profile-card::after {
+  content: "";
+  position: absolute; inset: -40% -70%;
+  background: linear-gradient(100deg, transparent 35%, rgba(255,255,255,0.11) 50%, transparent 65%);
+  animation: soft-scan 5.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.drawer-row-surface {
+  position: relative; overflow: hidden;
+}
+.drawer-row-surface::after {
+  content: "";
+  position: absolute; inset: 0;
+  opacity: 0; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.045), transparent);
+  transform: translateX(-45%);
+  transition: opacity 180ms ease, transform 260ms ease;
+}
+.drawer-row-surface:hover::after,
+.drawer-row-surface:active::after {
+  opacity: 1;
+  transform: translateX(45%);
+}
+
 /* Content visibility for off-screen page sections */
 .page-content > * {
   content-visibility: auto;
@@ -1166,179 +1451,6 @@ body.nexus-panel-active .swipe-wrapper {
     filter: blur(0);
   }
 }
-
-@keyframes floatShrink {
-  0% {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-    filter: blur(0);
-  }
-  100% {
-    transform: translateY(80px) scale(0.92);
-    opacity: 0;
-    filter: blur(12px);
-  }
-}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   NEXUS MOTION HIERARCHY SYSTEM
-   Level 1: Hero — Slow, elegant, breathing
-   Level 2: Panel — Strong spring physics
-   Level 3: Bento — Tiny hover/parallax only
-   Level 4: Utility — Almost static
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-
-/* Level 1 — Hero Motion (AURA Status, AI indicators) */
-.motion-hero {
-  transition: opacity var(--motion-hero-duration) var(--motion-hero-ease),
-              transform var(--motion-hero-duration) var(--motion-hero-ease);
-}
-
-@keyframes heroBreathe {
-  0%, 100% {
-    opacity: 0.7;
-    transform: scale(1);
-    filter: brightness(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.02);
-    filter: brightness(1.08);
-  }
-}
-
-@keyframes heroGlow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(168, 85, 247, 0.08);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(168, 85, 247, 0.2);
-  }
-}
-
-/* Level 2 — Panel Motion (Drawer, overlays) */
-.motion-panel {
-  transition: transform var(--motion-panel-duration) var(--motion-panel-ease),
-              opacity var(--motion-panel-duration) var(--motion-panel-ease);
-}
-
-/* Level 3 — Bento Tiles (subtle hover parallax only) */
-.motion-bento {
-  transition: transform var(--motion-bento-duration) var(--motion-bento-ease),
-              background var(--motion-bento-duration) var(--motion-bento-ease),
-              box-shadow var(--motion-bento-duration) var(--motion-bento-ease);
-}
-.motion-bento:hover {
-  transform: translateY(-2px);
-}
-.motion-bento:active {
-  transform: scale(0.97) !important;
-  transition-duration: 0.1s;
-}
-
-/* Level 4 — Utility Items (near-static, fast micro-transitions) */
-.motion-utility {
-  transition: color var(--motion-utility-duration) var(--motion-utility-ease),
-              background var(--motion-utility-duration) var(--motion-utility-ease),
-              opacity var(--motion-utility-duration) var(--motion-utility-ease);
-}
-.motion-utility:active {
-  transform: scale(0.98);
-}
-
-/* ── Dynamic Light Response ── */
-@keyframes ambientShift {
-  0% {
-    background-position: 0% 50%;
-    filter: hue-rotate(0deg);
-  }
-  50% {
-    background-position: 100% 50%;
-    filter: hue-rotate(8deg);
-  }
-  100% {
-    background-position: 0% 50%;
-    filter: hue-rotate(0deg);
-  }
-}
-
-.ambient-responsive {
-  background-size: 200% 200%;
-  animation: ambientShift 20s ease-in-out infinite;
-}
-
-/* Scroll-reactive light CSS custom property target */
-.nexus-scroll-glow {
-  --scroll-glow-opacity: 0.15;
-  transition: --scroll-glow-opacity 0.8s ease;
-}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   ADAPTIVE GPU PERFORMANCE GUARD OVERRIDES (.theme-perf-low)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.theme-perf-low,
-.theme-perf-low *,
-html.theme-perf-low,
-body.theme-perf-low {
-  /* Eliminate complex, expensive GPU multi-pass filters */
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  filter: none !important;
-
-  /* Promote elements to GPU and pre-allocate compositor layer */
-  will-change: transform, opacity;
-  transform: translate3d(0, 0, 0);
-}
-
-/* Specific class fallbacks for performance mode */
-.theme-perf-low .aura-blob,
-.theme-perf-low .launch-splash-glow,
-.theme-perf-low .launch-splash-glow-pulse {
-  display: none !important;
-  animation: none !important;
-}
-
-/* Login background simplification */
-.theme-perf-low .nebula-bg {
-  background: radial-gradient(circle at 50% 50%, #08060f 0%, #000000 100%) !important;
-  animation: none !important;
-  filter: none !important;
-}
-
-/* Glassmorphism fallback to highly performant solid backdrops */
-.theme-perf-low .login-container {
-  background: rgba(12, 12, 16, 0.98) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9) !important;
-}
-
-.theme-perf-low .min-card,
-.theme-perf-low .liquid-card,
-.theme-perf-low .feature-card {
-  background: #0f0f12 !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6) !important;
-}
-
-/* Eliminate layout shifts on low-end device scrolling */
-.theme-perf-low .min-card:hover {
-  transform: none !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-/* Accelerate navigation transitions */
-.theme-perf-low .srmx-mobile-nav,
-.theme-perf-low .srmx-nav-bar {
-  background: #08080a !important;
-  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.8) !important;
-}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   PAGE TRANSITIONS — Smooth Route Changes
-   Eliminates black flash between pages.
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-
-
 
 @keyframes floatShrink {
   0% {
@@ -2125,20 +2237,86 @@ body.theme-light, .theme-light {
   
   /* Simplify glassmorphism on mobile */
   .theme-aura .min-card,
-  .theme-aura .liquid-card {
+  .theme-aura .liquid-card,
+  .theme-lumina .min-card,
+  .theme-lumina .liquid-card {
     backdrop-filter: blur(16px) saturate(140%) !important;
     -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
   }
   
   /* Reduce heavy radial and conic gradients on mobile */
-  body.theme-aura {
+  body.theme-aura,
+  body.theme-lumina {
     background-attachment: scroll !important;
   }
   
   /* Remove heavy animations */
   .theme-aura .launch-splash,
+  .theme-lumina .launch-splash,
   .nexus-splash {
     background-attachment: scroll !important;
   }
+
+  /* Disable card hover lift on touch screens */
+  .premium-card:hover,
+  .aura-card:hover,
+  .liquid-card:hover {
+    transform: none !important;
+  }
 }
+
+/* ━━ GPU COMPOSITING HINTS & LAYOUT CONTAINMENT ━━ */
+.premium-card,
+.aura-card,
+.liquid-card {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.dashboard-main > * {
+  contain: layout style paint;
+}
+
+/* ━━ FASTER TOUCH RESPONSE ━━ */
+.premium-card,
+.aura-card,
+.liquid-card,
+.nav-item,
+.desktop-nav-link,
+.settings-dropdown button,
+.settings-dropdown a {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ━━ RESPONSIVE DASHBOARD ANALYTICS GRID ━━ */
+.dashboard-analytics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 360px) {
+  .dashboard-analytics-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+/* ━━ RESPONSIVE TODAY STATS — EXTRA-SMALL PHONES ━━ */
+@media (max-width: 320px) {
+  .today-stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 6px !important;
+  }
+  .today-stats-grid > div:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+  .skip-stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 6px !important;
+  }
+}
+

@@ -17,6 +17,16 @@ interface AuraBackgroundProps {
 export default function AuraBackground({ theme, stars, children, style = {} }: AuraBackgroundProps) {
   const selectedTheme = useThemeStore((state) => state.theme);
   const [systemLight, setSystemLight] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    // Detect mobile viewport to skip heavy GPU effects
+    const mql = window.matchMedia("(max-width: 768px)");
+    setIsMobile(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
 
   React.useEffect(() => {
     if (selectedTheme !== "system") return;
@@ -34,6 +44,9 @@ export default function AuraBackground({ theme, stars, children, style = {} }: A
         ["--card-border" as AnyValue]: theme.cardBorder,
         ["--app-bg" as AnyValue]: theme.bg,
       };
+
+  // Skip heavy effects on mobile or light theme
+  const showHeavyEffects = !isLight && !isMobile;
 
   return (
     <div 
@@ -55,17 +68,18 @@ export default function AuraBackground({ theme, stars, children, style = {} }: A
     >
       <style dangerouslySetInnerHTML={{ __html: `
         .aura-blob {
-          position: fixed; width: 600px; height: 600px;
-          border-radius: 50%; filter: blur(150px);
-          opacity: 0.35; z-index: 0; pointer-events: none;
+          position: fixed; width: 400px; height: 400px;
+          border-radius: 50%; filter: blur(100px);
+          opacity: 0.3; z-index: 0; pointer-events: none;
           animation: orbit 24s infinite ease-in-out;
           transition: background 1.5s ease-in-out;
+          contain: strict;
         }
         @keyframes orbit {
-          0% { transform: rotate(0deg) translate(80px) scale(1) rotate(0deg); border-radius: 50% 50% 50% 50%; }
-          33% { transform: rotate(120deg) translate(120px) scale(1.15) rotate(-120deg); border-radius: 42% 58% 48% 52%; }
-          66% { transform: rotate(240deg) translate(100px) scale(0.9) rotate(-240deg); border-radius: 58% 42% 55% 45%; }
-          100% { transform: rotate(360deg) translate(80px) scale(1) rotate(-360deg); border-radius: 50% 50% 50% 50%; }
+          0% { transform: rotate(0deg) translate(60px) scale(1) rotate(0deg); border-radius: 50% 50% 50% 50%; }
+          33% { transform: rotate(120deg) translate(90px) scale(1.1) rotate(-120deg); border-radius: 42% 58% 48% 52%; }
+          66% { transform: rotate(240deg) translate(75px) scale(0.92) rotate(-240deg); border-radius: 58% 42% 55% 45%; }
+          100% { transform: rotate(360deg) translate(60px) scale(1) rotate(-360deg); border-radius: 50% 50% 50% 50%; }
         }
         
         .aura-card, .premium-card, .liquid-card {
@@ -141,11 +155,11 @@ export default function AuraBackground({ theme, stars, children, style = {} }: A
       {/* SVG Grain Noise */}
       <GlassNoise />
 
-      {/* Twinkling Starfield (Night sky) */}
-      <StarField stars={stars} visible={!isLight && theme.starrySky} />
+      {/* Twinkling Starfield — skip on mobile for GPU savings */}
+      {showHeavyEffects && <StarField stars={stars} visible={theme.starrySky} />}
 
-      {/* Rotating Diffused Color Orbs */}
-      <OrbLayer blobs={isLight ? [] : theme.blobs} />
+      {/* Rotating Diffused Color Orbs — skip on mobile for GPU savings */}
+      {showHeavyEffects && <OrbLayer blobs={theme.blobs} />}
 
       {/* Wrapped Page Content */}
       <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", flex: 1 }}>
@@ -154,3 +168,4 @@ export default function AuraBackground({ theme, stars, children, style = {} }: A
     </div>
   );
 }
+

@@ -195,7 +195,7 @@ export default function DashboardPage() {
 
 
 
-  const formatLastSynced = (dateInput: AnyValue) => {
+  const formatLastSynced = useCallback((dateInput: AnyValue) => {
     if (!dateInput) return "Never";
     try {
       const d = new Date(dateInput);
@@ -214,9 +214,9 @@ export default function DashboardPage() {
     } catch {
       return "Recently";
     }
-  };
+  }, [currentTime]);
 
-  const renderAcademicIntegrityHub = (mode: "default" | "matrix" | "aura" = "default") => {
+  const renderAcademicIntegrityHub = useCallback((mode: "default" | "matrix" | "aura" = "default") => {
     const isMatrix = mode === "matrix";
     const isAura = mode === "aura";
     // Fall back to local Zustand cache if the newly fetched object is empty or expired
@@ -410,7 +410,7 @@ export default function DashboardPage() {
         )}
       </div>
     );
-  };
+  }, [data, studentPortalData, studentPortalConnected, marks, formatLastSynced]);
   const [showStudentInfo, setShowStudentInfo] = useState(false);
   const [isSyncModalOpen, setIsSyncModalOpen] = useState(false);
   const [broadcast, setBroadcast] = useState<AnyValue>(null);
