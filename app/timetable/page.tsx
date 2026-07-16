@@ -863,22 +863,141 @@ function AuraTimetable({
           overflow: hidden;
           transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
+        .timetable-main {
+          width: 100%;
+          min-width: 0;
+          max-width: 100%;
+          overflow-x: clip;
+          box-sizing: border-box;
+        }
+
+        .schedule-header,
+        .schedule-header-copy,
+        .schedule-header-actions,
+        .schedule-view-switcher,
+        .schedule-view-button,
+        .day-overview-row,
+        .day-overview-copy,
+        .today-calendar-copy {
+          min-width: 0;
+          box-sizing: border-box;
+        }
+
+        .schedule-view-switcher {
+          width: 100%;
+        }
+
+        .schedule-view-button {
+          overflow: hidden;
+        }
+
+        .day-overview-time {
+          font-size: clamp(24px, 7.4vw, 32px);
+          white-space: nowrap;
+        }
+
+        @media (max-width: 480px) {
+          .schedule-header {
+            padding: 14px !important;
+            gap: 10px;
+          }
+
+          .schedule-header-copy {
+            flex: 1 1 auto;
+          }
+
+          .schedule-header-copy > div:last-child {
+            font-size: 14px !important;
+            white-space: nowrap;
+          }
+
+          .schedule-header-actions {
+            flex: 0 1 auto;
+            gap: 6px !important;
+          }
+
+          .schedule-export-button,
+          .schedule-batch-button {
+            padding: 8px 10px !important;
+          }
+
+          .schedule-profile-button {
+            width: 38px !important;
+            height: 38px !important;
+            border-radius: 12px !important;
+          }
+
+          .schedule-view-switcher {
+            max-width: none !important;
+          }
+
+          .schedule-view-button {
+            padding: 10px 8px !important;
+          }
+
+          .schedule-premium-badge {
+            padding-inline: 5px !important;
+            flex-shrink: 0;
+          }
+
+          .day-overview-card {
+            padding: 20px !important;
+          }
+
+          .day-overview-row {
+            align-items: center !important;
+            gap: 12px;
+          }
+
+          .day-overview-copy {
+            flex: 1 1 auto;
+          }
+
+          .day-overview-count {
+            width: 56px !important;
+            height: 56px !important;
+            border-radius: 18px !important;
+            flex: 0 0 56px;
+          }
+
+          .today-calendar-copy {
+            overflow-wrap: anywhere;
+          }
+        }
+
+        @media (max-width: 370px) {
+          .schedule-header {
+            align-items: flex-start !important;
+            flex-direction: column;
+          }
+
+          .schedule-header-actions {
+            width: 100%;
+            justify-content: space-between;
+          }
+
+          .day-overview-time {
+            font-size: 22px;
+          }
+        }
       `}} />
 
       {/* Animated Aura Blobs */}
       <div className="aura-blob" style={{ background: AURA.secondary, top: '-200px', right: '-100px' }} />
       <div className="aura-blob" style={{ background: AURA.accent, bottom: '-200px', left: '-100px', animationDelay: '-10s' }} />
 
-      <main style={{ flex: 1, position: "relative", zIndex: 1, padding: "110px 20px 200px", color: "var(--text-main)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <main className="timetable-main" style={{ flex: 1, position: "relative", zIndex: 1, padding: "110px 20px 200px", color: "var(--text-main)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         
         {/* Header with Batch Selector */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px", marginTop: "28px", background: "rgba(255,255,255,0.03)", padding: "16px 20px", borderRadius: "24px", border: "1px solid rgba(255,255,255,0.05)", backdropFilter: "blur(20px)" }}>
-           <div>
+        <div className="schedule-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px", marginTop: "28px", background: "rgba(255,255,255,0.03)", padding: "16px 20px", borderRadius: "24px", border: "1px solid rgba(255,255,255,0.05)", backdropFilter: "blur(20px)" }}>
+           <div className="schedule-header-copy">
               <div style={{ fontSize: "10px", color: AURA.primary, textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800 }}>SEMESTER SCHEDULE</div>
               <div style={{ fontSize: "16px", fontWeight: 800, color: "var(--text-main)", marginTop: "2px" }}>Day {dayOverride} — Batch {batch}</div>
            </div>
-           <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+           <div className="schedule-header-actions" style={{ display: "flex", gap: "10px", alignItems: "center" }}>
              <button 
+               className="schedule-export-button"
                onClick={() => setShowShareModal(true)} 
                style={{ 
                  background: AURA.secondary, 
@@ -901,7 +1020,7 @@ function AuraTimetable({
              </button>
              <div style={{ display: "flex", background: "rgba(0,0,0,0.4)", borderRadius: "14px", padding: "4px", border: "1px solid rgba(255,255,255,0.1)" }}>
                {[1, 2].map(b => (
-                 <button key={b} onClick={() => setBatch(b)}
+                 <button className="schedule-batch-button" key={b} onClick={() => setBatch(b)}
                    style={{
                      padding: "8px 14px", borderRadius: "10px", border: "none", fontSize: "12px", fontWeight: 800,
                      background: batch === b ? AURA.accent : "transparent",
@@ -911,7 +1030,8 @@ function AuraTimetable({
                    }}>B{b}</button>
                ))}
              </div>
-             <button 
+              <button
+                className="schedule-profile-button"
                onClick={onShowStudentInfo}
                style={{
                  width: "40px", height: "40px", borderRadius: "14px", background: "rgba(255,255,255,0.05)", color: "var(--text-main)",
@@ -925,8 +1045,9 @@ function AuraTimetable({
         </div>
 
         {/* View Switcher Toggle */}
-        <div style={{ display: "flex", background: "rgba(0,0,0,0.4)", borderRadius: "16px", padding: "4px", border: "1px solid rgba(255,255,255,0.08)", marginBottom: "32px", maxWidth: "340px" }}>
+        <div className="schedule-view-switcher" style={{ display: "flex", background: "rgba(0,0,0,0.4)", borderRadius: "16px", padding: "4px", border: "1px solid rgba(255,255,255,0.08)", marginBottom: "32px", maxWidth: "340px" }}>
           <button 
+            className="schedule-view-button"
             onClick={() => setActiveTab("schedule")}
             style={{
               flex: 1, padding: "10px 16px", borderRadius: "12px", border: "none", fontSize: "12px", fontWeight: 800,
@@ -938,6 +1059,7 @@ function AuraTimetable({
             My Schedule
           </button>
           <button 
+            className="schedule-view-button"
             onClick={() => setActiveTab("friends")}
             style={{
               flex: 1, padding: "10px 16px", borderRadius: "12px", border: "none", fontSize: "12px", fontWeight: 800,
@@ -948,7 +1070,7 @@ function AuraTimetable({
             }}
           >
             Friends Sync
-            <span style={{ fontSize: "8px", fontWeight: 900, background: "rgba(255,255,255,0.15)", color: "#fff", padding: "2px 6px", borderRadius: "6px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Premium</span>
+            <span className="schedule-premium-badge" style={{ fontSize: "8px", fontWeight: 900, background: "rgba(255,255,255,0.15)", color: "#fff", padding: "2px 6px", borderRadius: "6px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Premium</span>
           </button>
         </div>
 
@@ -962,8 +1084,8 @@ function AuraTimetable({
                   background: todayInfo.isHoliday ? "#FF7597" : AURA.accent, 
                   boxShadow: `0 0 10px ${todayInfo.isHoliday ? "#FF7597" : AURA.accent}` 
                 }} />
-                <div>
-                  <span style={{ fontSize: "10px", color: "var(--text-soft)", fontWeight: 800, letterSpacing: "0.05em" }}>TODAY&apos;S CALENDAR</span>
+                 <div className="today-calendar-copy">
+                   <span style={{ fontSize: "10px", color: "var(--text-soft)", fontWeight: 800, letterSpacing: "0.05em" }}>TODAY&apos;S CALENDAR</span>
                   <div style={{ fontSize: "13px", fontWeight: 800, color: "var(--text-main)", marginTop: "2px" }}>
                     {formatDateNicely(todayInfo.isoDate)} — {todayInfo.isHoliday ? `Holiday (${todayInfo.event || "No classes"})` : `Day Order ${todayInfo.dayOrder}`}
                   </div>
@@ -987,7 +1109,7 @@ function AuraTimetable({
           <div className="liquid-card" style={{ marginBottom: "32px", padding: "16px 20px", border: `1px solid ${AURA.border}`, background: "rgba(255, 255, 255, 0.01)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#FF7597", boxShadow: "0 0 10px #FF7597" }} />
-              <div>
+              <div className="today-calendar-copy">
                 <span style={{ fontSize: "10px", color: "var(--text-soft)", fontWeight: 800, letterSpacing: "0.05em" }}>TODAY&apos;S CALENDAR</span>
                 <div style={{ fontSize: "13px", fontWeight: 800, color: "var(--text-main)", marginTop: "2px" }}>
                   {new Date().toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" })} — Weekend / Holiday (No classes)
@@ -1001,16 +1123,16 @@ function AuraTimetable({
           <>
             {/* Day Overview Card */}
             {totalClasses > 0 && (
-              <div className="liquid-card" style={{ marginBottom: "40px" }}>
+              <div className="liquid-card day-overview-card" style={{ marginBottom: "40px" }}>
                  <div style={{ position: "absolute", top: "-50px", right: "-50px", width: "150px", height: "150px", background: `radial-gradient(circle, ${AURA.accent}33 0%, transparent 70%)`, filter: "blur(40px)", zIndex: 0 }} />
-                 <div style={{ position: "relative", zIndex: 1, display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                    <div>
+                 <div className="day-overview-row" style={{ position: "relative", zIndex: 1, display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                    <div className="day-overview-copy">
                       <div style={{ fontSize: "11px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.15em", color: AURA.accent, marginBottom: "8px" }}>Day Overview</div>
-                      <div style={{ fontSize: "32px", fontWeight: 900, letterSpacing: "-1px" }}>
+                      <div className="day-overview-time" style={{ fontWeight: 900, letterSpacing: "-1px" }}>
                         {firstStart} - {lastEnd}
                       </div>
                     </div>
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.05)", width: "60px", height: "60px", borderRadius: "20px", border: "1px solid rgba(255,255,255,0.1)" }}>
+                    <div className="day-overview-count" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.05)", width: "60px", height: "60px", borderRadius: "20px", border: "1px solid rgba(255,255,255,0.1)" }}>
                       <div style={{ fontSize: "24px", fontWeight: 900, color: AURA.accent, lineHeight: 1 }}>{totalClasses}</div>
                       <div style={{ fontSize: "9px", fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase" }}>Classes</div>
                     </div>

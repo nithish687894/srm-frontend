@@ -438,7 +438,7 @@ export default function DashboardPage() {
   // Sync local states with cached Zustand data after store hydration
   useEffect(() => {
     if (academicData) {
-      if (!data) {
+      if (academicData !== data) {
         setData(academicData);
       }
       const raw = academicData.profile?.["Combo / Batch"] || "";
@@ -1004,6 +1004,7 @@ export default function DashboardPage() {
         marksTargetBrief={marksTargetBrief}
         safeSubjectsCount={safeSubjectsCount}
         riskySubjectsCount={riskySubjectsCount}
+        onConnectPortal={() => setIsSyncModalOpen(true)}
       />
     );
   })();

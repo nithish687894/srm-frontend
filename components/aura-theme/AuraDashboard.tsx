@@ -19,12 +19,13 @@ export default function AuraDashboard({
   onShowStudentInfo, broadcast, renderAcademicIntegrityHub,
   upcomingEvents, marks,
   tomorrowSkipStats, totalSafeSkips, nextRiskyClassText,
-  safeSubjectsCount, riskySubjectsCount,
+  safeSubjectsCount, riskySubjectsCount, onConnectPortal,
   currentClass, currentClassMeta, nextClassMeta
 }: AnyValue) {
   const router = useRouter();
   const { activeTheme, stars } = useAuraTheme();
   const isPremium = useAuthStore((state) => state.isPremium);
+  const studentPortalConnected = useAuthStore((state) => state.studentPortalConnected);
   
   // Notification prompt state selectors
   const academicAlertsPrompted = useAuthStore((state) => state.academicAlertsPrompted);
@@ -274,7 +275,7 @@ export default function AuraDashboard({
           const isDemo = data?.profile?.["Name"] === "AURA NEBULA DEMO" || 
                          data?.profile?.["Registration Number"] === "RA2311003010999" || 
                          (typeof window !== "undefined" && localStorage.getItem("userEmail")?.toLowerCase()?.includes("demo"));
-          if (!isDemo) return null;
+          if (!isDemo || studentPortalConnected) return null;
           return (
             <div style={{
               background: 'linear-gradient(135deg, rgba(255, 45, 85, 0.15) 0%, rgba(191, 90, 242, 0.1) 100%)',
@@ -297,14 +298,7 @@ export default function AuraDashboard({
                 </div>
               </div>
               <button
-                onClick={() => {
-                  try {
-                    localStorage.removeItem("authToken");
-                    localStorage.removeItem("refreshToken");
-                    localStorage.removeItem("userEmail");
-                  } catch {}
-                  window.location.href = "/";
-                }}
+                onClick={onConnectPortal}
                 style={{
                   background: '#FF2D55',
                   color: '#fff',
