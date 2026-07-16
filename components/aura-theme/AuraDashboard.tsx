@@ -102,9 +102,54 @@ export default function AuraDashboard({
           display: flex;
           flex-direction: column;
           gap: 24px;
-          max-width: 1400px;
+          max-width: 1280px;
           margin: 0 auto;
           width: 100%;
+        }
+
+        .dashboard-top-banners {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          width: 100%;
+        }
+
+        .dashboard-grid-layout {
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+          width: 100%;
+        }
+
+        .dashboard-col-main, .dashboard-col-side {
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+          width: 100%;
+        }
+
+        .dashboard-analytics-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 16px;
+        }
+
+        @media (min-width: 1024px) {
+          .dashboard-grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            align-items: start;
+            gap: 32px;
+          }
+          .dashboard-analytics-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        @media (min-width: 1280px) {
+          .dashboard-grid-layout {
+            grid-template-columns: 1.3fr 1fr;
+          }
         }
 
         .today-stats-grid {
@@ -191,7 +236,7 @@ export default function AuraDashboard({
       `}} />
 
       <main className="dashboard-main">
-        
+        <div className="dashboard-top-banners">
         {/* Demo Mode Warning Banner */}
         {(() => {
           const isDemo = data?.profile?.["Name"] === "AURA NEBULA DEMO" || 
@@ -332,6 +377,10 @@ export default function AuraDashboard({
             </div>
           </div>
         )}
+        </div>
+
+        <div className="dashboard-grid-layout">
+          <div className="dashboard-col-main">
 
         {/* Today Command Center */}
         <div className="premium-card" style={{ padding: '24px', borderRadius: '32px', position: 'relative', display: 'flex', flexDirection: 'column', gap: '18px' }}>
@@ -472,6 +521,37 @@ export default function AuraDashboard({
             </div>
           </div>
         </div>
+
+        {/* Analytics Grid */}
+        <div className="dashboard-analytics-grid">
+          <div onClick={() => router.push('/attendance')} className="premium-card" style={{ padding: '24px', borderRadius: '32px', cursor: 'pointer' }}>
+             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                <div style={{ width: '40px', height: '40px', borderRadius: '16px', background: 'rgba(0, 229, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                   <Activity size={18} color={AURA.cyan} />
+                </div>
+                <ChevronRight size={16} color={AURA.sub} />
+             </div>
+             <div style={{ fontSize: '32px', fontWeight: 900, color: AURA.text }} className="tabular-nums">{avgAtt}%</div>
+             <div style={{ fontSize: '11px', color: AURA.subBright, marginTop: '6px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Attendance</div>
+          </div>
+
+          <div onClick={() => router.push('/marks')} className="premium-card" style={{ padding: '24px', borderRadius: '32px', cursor: 'pointer' }}>
+             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                <div style={{ width: '40px', height: '40px', borderRadius: '16px', background: 'rgba(255, 45, 85, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                   <Award size={18} color={AURA.pink} />
+                </div>
+                <ChevronRight size={16} color={AURA.subBright} />
+             </div>
+             <div style={{ fontSize: '32px', fontWeight: 900, color: AURA.text }} className="tabular-nums">{avgMarks}%</div>
+             <div style={{ fontSize: '11px', color: AURA.subBright, marginTop: '6px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Academic</div>
+          </div>
+        </div>
+
+        {/* Official Hub Integration */}
+        {renderAcademicIntegrityHub && renderAcademicIntegrityHub("aura")}
+
+          </div>
+          <div className="dashboard-col-side">
 
         {/* Can I skip tomorrow? Card */}
         <div className="premium-card" style={{ padding: '24px', borderRadius: '32px', position: 'relative', display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -637,37 +717,6 @@ export default function AuraDashboard({
         </div>
 
 
-
-        {/* Analytics Grid */}
-        <div className="dashboard-analytics-grid">
-          <div onClick={() => router.push('/attendance')} className="premium-card" style={{ padding: '24px', borderRadius: '32px', cursor: 'pointer' }}>
-             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                <div style={{ width: '40px', height: '40px', borderRadius: '16px', background: 'rgba(0, 229, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                   <Activity size={18} color={AURA.cyan} />
-                </div>
-                <ChevronRight size={16} color={AURA.sub} />
-             </div>
-             <div style={{ fontSize: '32px', fontWeight: 900, color: AURA.text }} className="tabular-nums">{avgAtt}%</div>
-             <div style={{ fontSize: '11px', color: AURA.subBright, marginTop: '6px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Attendance</div>
-          </div>
-
-          <div onClick={() => router.push('/marks')} className="premium-card" style={{ padding: '24px', borderRadius: '32px', cursor: 'pointer' }}>
-             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                <div style={{ width: '40px', height: '40px', borderRadius: '16px', background: 'rgba(255, 45, 85, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                   <Award size={18} color={AURA.pink} />
-                </div>
-                <ChevronRight size={16} color={AURA.subBright} />
-             </div>
-             <div style={{ fontSize: '32px', fontWeight: 900, color: AURA.text }} className="tabular-nums">{avgMarks}%</div>
-             <div style={{ fontSize: '11px', color: AURA.subBright, marginTop: '6px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Academic</div>
-          </div>
-        </div>
-
-
-
-        {/* Official Hub Integration */}
-        {renderAcademicIntegrityHub && renderAcademicIntegrityHub("aura")}
-
         {/* Holographic Identity Passport (Student ID) */}
         <button 
           onClick={onShowStudentInfo} 
@@ -764,6 +813,8 @@ export default function AuraDashboard({
                </div>
             </div>
          </section>
+          </div>
+        </div>
       </main>
       {toast && (
         <Toast
