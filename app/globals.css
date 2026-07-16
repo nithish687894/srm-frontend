@@ -1039,6 +1039,28 @@ h4 { font-weight: 740; }
    SIDEBAR & NAVIGATION STYLES
    (Moved from Sidebar.tsx inline <style> for performance)
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* Header shortcuts use explicit responsive spacing. Combining base and `sm:`
+   padding utilities caused the desktop pills to retain zero padding in some
+   production builds, leaving their icon discs clipped against the border. */
+.srmx-header-pill {
+  width: 44px;
+  padding: 0;
+  gap: 0;
+}
+
+@media (min-width: 640px) {
+  .srmx-header-pill {
+    width: auto;
+    padding: 7px 14px 7px 9px;
+    gap: 8px;
+  }
+
+  .srmx-header-pill-portal {
+    padding-right: 16px;
+    gap: 10px;
+  }
+}
+
 .srmx-mobile-nav {
   position: fixed; bottom: 0; left: 0; right: 0;
   height: calc(64px + env(safe-area-inset-bottom));

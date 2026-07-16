@@ -355,7 +355,7 @@ export default function Sidebar() {
               <>
                 <button
                   onClick={() => { router.push("/exam-library"); }}
-                  className="h-11 w-11 sm:w-auto rounded-full backdrop-blur-md border flex items-center justify-center gap-2 pl-0 pr-0 sm:pl-2.5 sm:pr-3.5 transition-all active:scale-95 shrink-0"
+                  className="srmx-header-pill srmx-header-pill-exam h-11 rounded-full backdrop-blur-md border flex items-center justify-center transition-all active:scale-95 shrink-0"
                   style={{
                     background: resolvedTheme === "light"
                       ? "linear-gradient(135deg, rgba(255,255,255,0.90), rgba(248,238,255,0.78))"
@@ -379,7 +379,7 @@ export default function Sidebar() {
                 </button>
                 <button
                   onClick={() => { router.push("/student-portal"); }}
-                  className="h-11 w-11 sm:w-auto rounded-full backdrop-blur-md border flex items-center justify-center gap-2.5 pl-0 pr-0 sm:pl-2.5 sm:pr-4 transition-all active:scale-95 shrink-0"
+                  className="srmx-header-pill srmx-header-pill-portal h-11 rounded-full backdrop-blur-md border flex items-center justify-center transition-all active:scale-95 shrink-0"
                   style={{
                     background: resolvedTheme === "light"
                       ? "linear-gradient(135deg, rgba(255,255,255,0.88), rgba(232,243,255,0.74))"
