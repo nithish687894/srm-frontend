@@ -1,21 +1,26 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export function usePerfGuard() {
-  const [isLowPerf, setIsLowPerf] = useState(false);
-
   useEffect(() => {
     if (typeof window === "undefined") return;
+
+    const applyMode = (isLowPerf: boolean) => {
+      document.documentElement.classList.toggle("theme-perf-low", isLowPerf);
+      const nextMode = isLowPerf ? "low" : "high";
+      if (localStorage.getItem("srmx_perf_mode_auto") !== nextMode) {
+        localStorage.setItem("srmx_perf_mode_auto", nextMode);
+      }
+      window.dispatchEvent(new CustomEvent("srmx-perf-mode", { detail: nextMode }));
+    };
 
     // 1. Check manual local storage override first (user preferred performance mode)
     const manualOverride = localStorage.getItem("srmx_perf_mode");
     if (manualOverride === "low") {
-      setTimeout(() => setIsLowPerf(true), 0);
-      document.documentElement.classList.add("theme-perf-low");
+      applyMode(true);
       return;
     } else if (manualOverride === "high") {
-      setTimeout(() => setIsLowPerf(false), 0);
-      document.documentElement.classList.remove("theme-perf-low");
+      applyMode(false);
       return;
     }
 
@@ -34,16 +39,9 @@ export function usePerfGuard() {
     const isBudgetAndroid = ua.includes("android") && (lowCPU || lowRAM);
 
     if (isMobile && (isBudgetAndroid || lowCPU || lowRAM)) {
-      setTimeout(() => setIsLowPerf(true), 0);
-      document.documentElement.classList.add("theme-perf-low");
-      // Persist the auto-detected state for consistent loading fallback
-      localStorage.setItem("srmx_perf_mode_auto", "low");
+      applyMode(true);
     } else {
-      setTimeout(() => setIsLowPerf(false), 0);
-      document.documentElement.classList.remove("theme-perf-low");
-      localStorage.setItem("srmx_perf_mode_auto", "high");
+      applyMode(false);
     }
   }, []);
-
-  return isLowPerf;
 }

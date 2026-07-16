@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Orbitron, Playfair_Display, Bebas_Neue, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 import SwipeLayout from "@/components/SwipeLayout";
@@ -21,7 +21,6 @@ const jakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-jakarta",
-  weight: ["400", "500", "600", "700", "800"],
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -29,28 +28,6 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
   variable: "--font-jetbrains",
   weight: ["400", "700"],
-});
-
-const orbitron = Orbitron({
-  subsets: ["latin"],
-  variable: "--font-orbitron",
-  display: "swap",
-  fallback: ["monospace"],
-});
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
-  display: "swap",
-  fallback: ["serif"],
-});
-
-const bebas = Bebas_Neue({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-bebas",
-  display: "swap",
-  fallback: ["sans-serif"],
 });
 
 export const metadata: Metadata = {
@@ -102,7 +79,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jakartaSans.variable} ${jetbrainsMono.variable} ${orbitron.variable} ${playfair.variable} ${bebas.variable}`}>
+    <html lang="en" className={`${inter.variable} ${jakartaSans.variable} ${jetbrainsMono.variable}`}>
       <body style={{ margin: 0, padding: 0 }}>
         <style>{`
           body:has(.nexus-splash) .srmx-top-status-bar,

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import VersionGuard from "./VersionGuard";
 import { usePerfGuard } from "@/hooks/usePerfGuard";
 import { syncPulseTemplates } from "@/lib/pulseEngine";
+import { scheduleIdleTask } from "@/lib/scheduleIdle";
 
 export default function ThemeWrapper({ children }: { children: React.ReactNode }) {
   const { theme } = useThemeStore();
@@ -21,8 +22,10 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
   useEffect(() => {
     if (!mounted) return;
 
-    // Prefetch and cache templates from the backend
-    syncPulseTemplates().catch(() => {});
+    // Notification templates are non-critical; keep them off the startup path.
+    const cancelTemplateSync = scheduleIdleTask(() => {
+      syncPulseTemplates().catch(() => {});
+    }, 3500);
 
     const resolveAndApply = () => {
       let active: "lumina" | "light" = "lumina";
@@ -48,8 +51,13 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
       const media = window.matchMedia("(prefers-color-scheme: light)");
       const handler = () => resolveAndApply();
       media.addEventListener("change", handler);
-      return () => media.removeEventListener("change", handler);
+      return () => {
+        cancelTemplateSync();
+        media.removeEventListener("change", handler);
+      };
     }
+
+    return cancelTemplateSync;
   }, [theme, mounted]);
 
   return (

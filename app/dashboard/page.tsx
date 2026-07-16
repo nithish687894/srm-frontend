@@ -7,11 +7,10 @@ import { useAuth } from "@/hooks/useAuth";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
 import { useThemeStore } from "@/lib/themeStore";
 import { extractBatch } from "@/lib/utils";
-import PortalSyncModal from "@/components/PortalSyncModal";
-import StudentPortalPrompt from "@/components/StudentPortalPrompt";
 import { ShieldCheck, AlertCircle, RefreshCw } from "lucide-react";
 import dynamic from "next/dynamic";
 const AuraDashboard = dynamic(() => import("@/components/aura-theme/AuraDashboard"), { ssr: false });
+const PortalSyncModal = dynamic(() => import("@/components/PortalSyncModal"), { ssr: false });
 import LoadingSkeleton from "@/components/aura-theme/LoadingSkeleton";
 
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
@@ -188,7 +187,7 @@ export default function DashboardPage() {
   useEffect(() => {
     const timer = setInterval(() => {
       setNow(new Date());
-    }, 15000);
+    }, 60000);
     return () => clearInterval(timer);
   }, []);
 
@@ -1035,7 +1034,9 @@ export default function DashboardPage() {
         }}
       >
         {activeDashboard}
-        <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => {}} netId="" />
+        {isSyncModalOpen && (
+          <PortalSyncModal isOpen onClose={() => setIsSyncModalOpen(false)} onSuccess={() => {}} netId="" />
+        )}
         {renderStudentInfoModal()}
       </main>
     </div>

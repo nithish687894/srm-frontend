@@ -415,7 +415,7 @@ body.theme-ghost {
   --text-primary: #111111;
   --text-secondary: #444444;
   --text-muted: #aaaaaa;
-  --font-heading: var(--font-playfair);
+  --font-heading: var(--font-jakarta), system-ui, sans-serif;
   --font-main: var(--font-inter);
   --radius: 0;
   --border: #e0e0e0;
@@ -432,7 +432,7 @@ body.theme-ember {
   --accent: #FF6B00;
   --accent-secondary: #FFD700;
   --text-primary: #FFF0E0;
-  --font-heading: var(--font-bebas);
+  --font-heading: var(--font-jakarta), system-ui, sans-serif;
   --font-main: var(--font-inter);
   --radius: 0;
   --card-clip: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);
@@ -1619,16 +1619,16 @@ h4 { font-weight: 740; }
     display: none !important;
   }
 
-  /* Reduce backdrop-filter blur on cards (40px → 12px) */
+  /* Avoid full-surface backdrop passes while scrolling on small GPUs. */
   .liquid-card {
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
 
-  /* Reduce sticky header blur */
+  /* Use the existing opaque tint instead of recomputing the page behind it. */
   .sticky-header {
-    backdrop-filter: blur(16px) !important;
-    -webkit-backdrop-filter: blur(16px) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
 
   /* Disable card hover lift animation (no hover on touch) */
@@ -1652,8 +1652,8 @@ h4 { font-weight: 740; }
   }
 
   .liquid-card {
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
 }
 
@@ -1842,18 +1842,20 @@ body.nexus-panel-active .swipe-wrapper {
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    ADAPTIVE GPU PERFORMANCE GUARD OVERRIDES (.theme-perf-low)
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.theme-perf-low,
-.theme-perf-low *,
 html.theme-perf-low,
-body.theme-perf-low {
-  /* Eliminate complex, expensive GPU multi-pass filters */
+html.theme-perf-low body {
+  scroll-behavior: auto;
+}
+
+.theme-perf-low .min-card,
+.theme-perf-low .liquid-card,
+.theme-perf-low .premium-card,
+.theme-perf-low .aura-card,
+.theme-perf-low .glass-panel,
+.theme-perf-low .sticky-header,
+.theme-perf-low .settings-dropdown {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  filter: none !important;
-
-  /* Promote elements to GPU and pre-allocate compositor layer */
-  will-change: transform, opacity;
-  transform: translate3d(0, 0, 0);
 }
 
 /* Specific class fallbacks for performance mode */
@@ -2516,13 +2518,13 @@ body.theme-light, .theme-light {
     filter: blur(60px) !important;
   }
   
-  /* Simplify glassmorphism on mobile */
+  /* Prefer translucent fills over expensive live backdrop sampling. */
   .theme-aura .min-card,
   .theme-aura .liquid-card,
   .theme-lumina .min-card,
   .theme-lumina .liquid-card {
-    backdrop-filter: blur(16px) saturate(140%) !important;
-    -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
   }
   
@@ -2548,16 +2550,23 @@ body.theme-light, .theme-light {
 }
 
 /* ━━ GPU COMPOSITING HINTS & LAYOUT CONTAINMENT ━━ */
-.premium-card,
-.aura-card,
-.liquid-card {
-  will-change: transform;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-
 .dashboard-main > * {
   contain: layout style paint;
+}
+
+.dashboard-col-main > *,
+.dashboard-col-side > *,
+.timetable-main .liquid-card {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 180px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .premium-card:hover,
+  .aura-card:hover,
+  .liquid-card:hover {
+    will-change: transform;
+  }
 }
 
 /* ━━ FASTER TOUCH RESPONSE ━━ */

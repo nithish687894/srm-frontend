@@ -1,6 +1,7 @@
 "use client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
+import { scheduleIdleTask } from "@/lib/scheduleIdle";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
@@ -24,16 +25,22 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   );
 
   useEffect(() => {
-    if (typeof window !== "undefined" && "serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/sw.js").then(
-        (reg) => {
-          console.log("SRM Nexus ServiceWorker registered successfully:", reg.scope);
-        },
-        (err) => {
-          console.error("SRM Nexus ServiceWorker registration failed:", err);
-        }
-      );
-    }
+    if (!("serviceWorker" in navigator)) return;
+
+    let cancelIdle = () => {};
+    const register = () => {
+      cancelIdle = scheduleIdleTask(() => {
+        navigator.serviceWorker.register("/sw.js").catch(() => {});
+      }, 4000);
+    };
+
+    if (document.readyState === "complete") register();
+    else window.addEventListener("load", register, { once: true });
+
+    return () => {
+      window.removeEventListener("load", register);
+      cancelIdle();
+    };
   }, []);
 
   return (

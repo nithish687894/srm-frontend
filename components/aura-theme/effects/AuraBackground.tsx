@@ -17,15 +17,29 @@ interface AuraBackgroundProps {
 export default function AuraBackground({ theme, stars, children, style = {} }: AuraBackgroundProps) {
   const selectedTheme = useThemeStore((state) => state.theme);
   const [systemLight, setSystemLight] = React.useState(false);
-  const [isMobile, setIsMobile] = React.useState(false);
+  // Start conservatively so mobile hydration never mounts expensive effects for one frame.
+  const [reduceEffects, setReduceEffects] = React.useState(true);
 
   React.useEffect(() => {
-    // Detect mobile viewport to skip heavy GPU effects
-    const mql = window.matchMedia("(max-width: 768px)");
-    setIsMobile(mql.matches);
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mql.addEventListener("change", handler);
-    return () => mql.removeEventListener("change", handler);
+    const mobileQuery = window.matchMedia("(max-width: 768px)");
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => {
+      setReduceEffects(
+        mobileQuery.matches ||
+        motionQuery.matches ||
+        document.documentElement.classList.contains("theme-perf-low")
+      );
+    };
+
+    update();
+    mobileQuery.addEventListener("change", update);
+    motionQuery.addEventListener("change", update);
+    window.addEventListener("srmx-perf-mode", update);
+    return () => {
+      mobileQuery.removeEventListener("change", update);
+      motionQuery.removeEventListener("change", update);
+      window.removeEventListener("srmx-perf-mode", update);
+    };
   }, []);
 
   React.useEffect(() => {
@@ -45,8 +59,8 @@ export default function AuraBackground({ theme, stars, children, style = {} }: A
         ["--app-bg" as AnyValue]: theme.bg,
       };
 
-  // Skip heavy effects on mobile or light theme
-  const showHeavyEffects = !isLight && !isMobile;
+  // Skip turbulence, stars and blurred orbs on touch/low-power devices.
+  const showHeavyEffects = !isLight && !reduceEffects;
 
   return (
     <div 
@@ -154,8 +168,8 @@ export default function AuraBackground({ theme, stars, children, style = {} }: A
         }
       `}} />
 
-      {/* SVG Grain Noise */}
-      <GlassNoise />
+      {/* SVG turbulence is one of the most expensive continuously painted effects. */}
+      {showHeavyEffects && <GlassNoise />}
 
       {/* Twinkling Starfield — skip on mobile for GPU savings */}
       {showHeavyEffects && <StarField stars={stars} visible={theme.starrySky} />}

@@ -2,19 +2,21 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { usePathname, useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { authAPI, dataAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
-import PortalSyncModal from "@/components/PortalSyncModal";
-import FeedbackModal from "@/components/FeedbackModal";
 import Toast from "@/components/Toast";
 import {
   Home, BarChart2, CheckCircle, Clock, Calendar, Wrench, Sparkles, Shield,
   X, ChevronRight, CreditCard, FileText, Bed, Bus, Bell, Award, MonitorPlay, Printer, Briefcase, UserSquare, User, GraduationCap, BookOpen, Settings, MoreHorizontal, Share2, LogOut, LayoutTemplate, LifeBuoy, MessageSquare,
   Fingerprint, RefreshCw, Cpu, Search, Library, Play, Pause, Headphones, Sun, UserRound, IdCard
 } from "lucide-react";
-import PremiumCheckout from "@/components/PremiumCheckout";
+
+const PortalSyncModal = dynamic(() => import("@/components/PortalSyncModal"), { ssr: false });
+const FeedbackModal = dynamic(() => import("@/components/FeedbackModal"), { ssr: false });
+const PremiumCheckout = dynamic(() => import("@/components/PremiumCheckout"), { ssr: false });
 
 const NAV_MAIN = [
   { href: "/dashboard", label: "Home", icon: Home },
@@ -60,7 +62,9 @@ export default function Sidebar() {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useThemeStore();
+  const [isDesktop, setIsDesktop] = useState(false);
+  const theme = useThemeStore((state) => state.theme);
+  const setTheme = useThemeStore((state) => state.setTheme);
   const [resolvedTheme, setResolvedTheme] = useState<"lumina" | "light">("lumina");
 
   useEffect(() => {
@@ -87,29 +91,28 @@ export default function Sidebar() {
     setToast({ title, body, type });
   };
 
-  const { profile, email, academiaConnected, studentPortalConnected, studentPortalData, academicData, isPremium } = useAuthStore();
+  const profile = useAuthStore((state) => state.profile);
+  const email = useAuthStore((state) => state.email);
+  const academiaConnected = useAuthStore((state) => state.academiaConnected);
+  const studentPortalConnected = useAuthStore((state) => state.studentPortalConnected);
+  const studentPortalData = useAuthStore((state) => state.studentPortalData);
+  const academicData = useAuthStore((state) => state.academicData);
+  const isPremium = useAuthStore((state) => state.isPremium);
   const [showCheckout, setShowCheckout] = useState(false);
   const userEmail = (email || profile?.Email || "").toLowerCase();
   const isAdmin = ADMIN_EMAILS.some((e) => e.toLowerCase() === userEmail) || profile?.role === "admin" || profile?.Role === "admin";
 
   useEffect(() => {
     const id = setTimeout(() => setMounted(true), 0);
-    // Prefetch key routes to enable instant, mobile-native transitions
-    router.prefetch("/dashboard");
-    router.prefetch("/marks");
-    router.prefetch("/attendance");
-    router.prefetch("/timetable");
-    router.prefetch("/calendar");
-    router.prefetch("/exam-library");
-    router.prefetch("/exam-hub");
-    router.prefetch("/ai");
-    router.prefetch("/gpa");
-    router.prefetch("/settings/theme");
-    router.prefetch("/tools");
-    router.prefetch("/app-tools");
-    router.prefetch("/trust");
-    return () => clearTimeout(id);
-  }, [router]);
+    const media = window.matchMedia("(min-width: 1024px)");
+    const updateViewport = () => setIsDesktop(media.matches);
+    updateViewport();
+    media.addEventListener("change", updateViewport);
+    return () => {
+      clearTimeout(id);
+      media.removeEventListener("change", updateViewport);
+    };
+  }, []);
 
   const handleLogout = useCallback(async () => {
     if (isLoggingOut) return;
@@ -211,18 +214,6 @@ export default function Sidebar() {
 
   // ── Dynamic Light Response (scroll-reactive) ──
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [scrollGlow, setScrollGlow] = useState(0);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const handler = () => {
-      const pct = el.scrollTop / (el.scrollHeight - el.clientHeight || 1);
-      setScrollGlow(Math.min(pct, 1));
-    };
-    el.addEventListener('scroll', handler, { passive: true });
-    return () => el.removeEventListener('scroll', handler);
-  }, [moreOpen]);
 
   useEffect(() => {
     if (!moreOpen) return;
@@ -472,7 +463,7 @@ export default function Sidebar() {
         )}
 
       {/* DESKTOP SIDEBAR NAVIGATION */}
-      <div className="desktop-sidebar">
+      {isDesktop && <div className="desktop-sidebar">
          {/* Top Profile Area */}
          <div>
             <div className="flex items-center gap-3 pb-6 desktop-sidebar-separator-b mb-6">
@@ -541,10 +532,10 @@ export default function Sidebar() {
               <span className="text-xs font-black tracking-wide uppercase font-sans">Sign Out</span>
             </button>
          </div>
-      </div>
+      </div>}
 
       {/* BOTTOM NAV BAR (FLAT STYLE) */}
-      <nav className="srmx-mobile-nav" aria-label="Main navigation">
+      {!isDesktop && <nav className="srmx-mobile-nav" aria-label="Main navigation">
         {NAV_MAIN.map(({ href, label, icon: Icon }) => (
           <Link key={href} href={href} prefetch={true} className={`nav-item ${isActive(href, path) ? "active" : ""}`}>
             <Icon size={20} strokeWidth={isActive(href, path) ? 3 : 2} />
@@ -561,7 +552,7 @@ export default function Sidebar() {
           <Sparkles size={20} strokeWidth={isActive("/premium", path) ? 3 : 2} />
           <span>Premium</span>
         </Link>
-      </nav>
+      </nav>}
 
       {/* INLINE MORE DRAWER (CENTRAL HUB) */}
       {moreOpen && (
@@ -838,14 +829,16 @@ export default function Sidebar() {
       )}
 
       {/* Portal Sync Modal integration in Sidebar */}
-      <PortalSyncModal
-        isOpen={isSyncOpen}
-        onClose={() => setIsSyncOpen(false)}
-        onSuccess={() => {
-          handleRefreshSync();
-        }}
-        netId={loginUserId}
-      />
+      {isSyncOpen && (
+        <PortalSyncModal
+          isOpen
+          onClose={() => setIsSyncOpen(false)}
+          onSuccess={() => {
+            handleRefreshSync();
+          }}
+          netId={loginUserId}
+        />
+      )}
 
       {feedbackOpen && (
         <FeedbackModal
