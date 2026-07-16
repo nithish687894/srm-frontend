@@ -57,6 +57,7 @@ export default function Sidebar() {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useThemeStore();
@@ -111,10 +112,14 @@ export default function Sidebar() {
   }, [router]);
 
   const handleLogout = useCallback(async () => {
+    if (isLoggingOut) return;
+    setIsLoggingOut(true);
+    setMenuOpen(false);
+    setMoreOpen(false);
     try { await authAPI.logout(); } catch { /* swallow */ }
     useAuthStore.getState().logout();
-    router.push("/");
-  }, [router]);
+    router.replace("/");
+  }, [isLoggingOut, router]);
 
   // Close the drawer if the route changes
   useEffect(() => {
@@ -123,8 +128,10 @@ export default function Sidebar() {
   }, [path]);
 
   // User profile details for the More drawer
-  const userName = profile?.["Name"] || profile?.Name || "NITHISHKUMAR S";
-  const regNo = profile?.["Registration Number"] || profile?.RegNo || "RA2511030010190";
+  const profileName = profile?.["Name"] || profile?.Name;
+  const profileRegNo = profile?.["Registration Number"] || profile?.RegNo;
+  const userName = typeof profileName === "string" && profileName.trim() ? profileName.trim() : "Student";
+  const regNo = typeof profileRegNo === "string" ? profileRegNo.trim() : "";
   const loginUserId = (email || profile?.Email || profile?.email || "").split("@")[0].trim();
   const initials = userName
     .split(" ")
@@ -480,7 +487,9 @@ export default function Sidebar() {
               </div>
               <div className="min-w-0">
                 <h3 className="text-sm font-black desktop-profile-name leading-tight truncate">{userName}</h3>
-                <p className="text-[9px] font-bold uppercase tracking-widest mt-1 tabular-nums desktop-profile-reg">{regNo.substring(0, 10)}...</p>
+                <p className="text-[9px] font-bold uppercase tracking-widest mt-1 tabular-nums desktop-profile-reg">
+                  {regNo ? `${regNo.substring(0, 10)}...` : "Profile loading"}
+                </p>
               </div>
             </div>
 
@@ -864,5 +873,16 @@ export default function Sidebar() {
   );
 
   if (!mounted) return null;
+  if (isLoggingOut) {
+    return createPortal(
+      <div className="logout-transition" role="status" aria-live="polite" aria-label="Signing out">
+        <div className="logout-transition-mark">
+          <LogOut size={20} strokeWidth={2.2} />
+        </div>
+        <span>Signing out</span>
+      </div>,
+      document.body
+    );
+  }
   return createPortal(navContent, document.body);
 }

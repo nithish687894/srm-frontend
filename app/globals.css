@@ -1340,6 +1340,44 @@ h4 { font-weight: 740; }
   -webkit-backdrop-filter: blur(8px);
 }
 
+.logout-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(191, 90, 242, 0.12), transparent 28%),
+    #05030a;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  animation: logout-fade-in 120ms ease-out both;
+}
+
+.logout-transition-mark {
+  width: 46px;
+  height: 46px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff5b6b;
+  border: 1px solid rgba(255, 91, 107, 0.18);
+  background: rgba(255, 45, 85, 0.08);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+@keyframes logout-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 .settings-dropdown {
   left: 8px !important;
   right: 8px !important;
