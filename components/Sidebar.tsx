@@ -560,16 +560,14 @@ export default function Sidebar() {
           {/* Backdrop to close settings dropdown on tap outside */}
           <div 
             onClick={() => setMoreOpen(false)} 
-            className="fixed inset-0 bg-black/68 backdrop-blur-lg z-[99998] transition-opacity duration-200"
+            className="profile-menu-backdrop fixed inset-0 z-[99998] transition-opacity duration-200"
           />
 
           {/* Floating Settings Dropdown */}
           <div 
-            className="settings-dropdown popover-enter fixed left-4 right-4 rounded-[28px] flex flex-col p-3.5 border backdrop-blur-2xl overflow-hidden"
+            className="settings-dropdown fixed flex flex-col border backdrop-blur-2xl overflow-hidden"
             style={{ 
-              top: "6.15rem",
               zIndex: 100005,
-              maxHeight: "calc(100dvh - 11.5rem - env(safe-area-inset-bottom))",
               background: resolvedTheme === "light" 
                 ? "linear-gradient(135deg, rgba(246, 241, 255, 0.92) 0%, rgba(232, 239, 255, 0.90) 100%)" 
                 : "linear-gradient(135deg, rgba(16, 12, 28, 0.96) 0%, rgba(10, 7, 18, 0.98) 100%)",
@@ -581,7 +579,7 @@ export default function Sidebar() {
           >
             {/* Popover Arrow */}
             <div 
-              className="absolute right-8 -top-2 w-3 h-3 rotate-45 border-t border-l backdrop-blur-2xl"
+              className="settings-dropdown-arrow absolute right-5 -top-2 w-3 h-3 rotate-45 border-t border-l backdrop-blur-2xl"
               style={{
                 background: resolvedTheme === "light" ? "rgba(246, 241, 255, 0.92)" : "rgba(16, 12, 28, 0.96)",
                 borderColor: resolvedTheme === "light" ? "rgba(96, 68, 145, 0.14)" : "rgba(255, 255, 255, 0.08)",
@@ -648,7 +646,7 @@ export default function Sidebar() {
                 return (
                   <>
                     {/* Compact Profile Header */}
-                    <div className={`min-h-[76px] flex items-center gap-4 px-4 py-4 rounded-[24px] shrink-0 ${resolvedTheme === "light" ? "bg-white/50" : "bg-black/20"}`}>
+                    <div className={`profile-menu-header min-h-[76px] flex items-center gap-3 px-3.5 py-3.5 rounded-[22px] shrink-0 ${resolvedTheme === "light" ? "bg-white/50" : "bg-black/20"}`}>
                       <div 
                         className="w-14 h-14 rounded-[18px] flex items-center justify-center relative overflow-hidden z-10 shrink-0"
                         style={{ 
@@ -673,6 +671,14 @@ export default function Sidebar() {
                           </span>
                         </div>
                       </div>
+                      <button
+                        type="button"
+                        onClick={() => setMoreOpen(false)}
+                        aria-label="Close profile menu"
+                        className={`profile-menu-close w-9 h-9 rounded-full flex items-center justify-center shrink-0 border transition-colors ${resolvedTheme === "light" ? "border-purple-900/10 bg-white/60 text-purple-950/55 hover:text-purple-950" : "border-white/10 bg-white/[0.04] text-white/45 hover:text-white"}`}
+                      >
+                        <X size={16} strokeWidth={2.4} />
+                      </button>
                     </div>
 
                     {/* Scrollable List Items */}
