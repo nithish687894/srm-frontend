@@ -295,6 +295,36 @@ export default function AuraAttendance({
         body.theme-light .attendance-page button {
           color: inherit;
         }
+        .attendance-stats-grid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 12px;
+          padding: 0 24px;
+          width: 100%;
+        }
+        .attendance-stats-grid > * {
+          min-width: 0 !important;
+        }
+        .attendance-filter-row {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          padding: 0 24px;
+          margin-bottom: 24px;
+        }
+        @media (max-width: 430px) {
+          .attendance-stats-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            padding: 0 18px;
+          }
+          .attendance-stats-grid > :last-child {
+            grid-column: 1 / -1;
+          }
+          .attendance-filter-row {
+            padding: 0 18px;
+          }
+        }
       `}} />
 
       {/* Sticky Scroll Header */}
@@ -319,7 +349,7 @@ export default function AuraAttendance({
           </h1>
 
           {/* Summary Strip - High Contrast Glowing Cards restored */}
-          <div className="hide-scrollbar" style={{ display: 'flex', gap: '12px', overflowX: 'auto', padding: '0 24px', scrollSnapType: 'x mandatory' }}>
+          <div className="attendance-stats-grid">
              <div className="aura-card" style={{ flex: '0 0 auto', borderRadius: '24px', padding: '20px', minWidth: '150px', textAlign: 'left', scrollSnapAlign: 'start', position: 'relative', overflow: 'hidden' }}>
                 <Activity size={24} color={AURA_COLORS.cyan} style={{ marginBottom: '16px' }} />
                 <div style={{ fontSize: '10px', fontWeight: 800, color: AURA_COLORS.sub, textTransform: 'uppercase', marginBottom: '8px' }}>Total Subjects</div>
@@ -339,7 +369,7 @@ export default function AuraAttendance({
         </div>
 
         {/* Sort and Filter Bar */}
-        <div className="hide-scrollbar" style={{ display: 'flex', gap: '8px', overflowX: 'auto', padding: '0 24px', marginBottom: '24px' }}>
+        <div className="attendance-filter-row">
           {["All", "At Risk", "Highest", "Lowest"].map(f => (
             <button 
               key={f} onClick={() => setFilter(f)}

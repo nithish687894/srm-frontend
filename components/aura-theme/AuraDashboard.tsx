@@ -105,6 +105,8 @@ export default function AuraDashboard({
           max-width: 1280px;
           margin: 0 auto;
           width: 100%;
+          min-width: 0;
+          overflow-x: clip;
         }
 
         .dashboard-top-banners {
@@ -119,6 +121,7 @@ export default function AuraDashboard({
           flex-direction: column;
           gap: 24px;
           width: 100%;
+          min-width: 0;
         }
 
         .dashboard-col-main, .dashboard-col-side {
@@ -126,6 +129,15 @@ export default function AuraDashboard({
           flex-direction: column;
           gap: 24px;
           width: 100%;
+          min-width: 0;
+        }
+
+        .dashboard-main > *,
+        .dashboard-top-banners > *,
+        .dashboard-grid-layout > *,
+        .dashboard-col-main > *,
+        .dashboard-col-side > * {
+          min-width: 0;
         }
 
         .dashboard-analytics-grid {
@@ -134,10 +146,10 @@ export default function AuraDashboard({
           gap: 16px;
         }
 
-        @media (min-width: 1024px) {
+        @media (min-width: 1180px) {
           .dashboard-grid-layout {
             display: grid;
-            grid-template-columns: 1fr 380px;
+            grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
             align-items: start;
             gap: 32px;
           }
@@ -148,7 +160,27 @@ export default function AuraDashboard({
 
         @media (min-width: 1280px) {
           .dashboard-grid-layout {
-            grid-template-columns: 1.3fr 1fr;
+            grid-template-columns: minmax(0, 1.3fr) minmax(320px, 1fr);
+          }
+        }
+
+        .notification-prompt,
+        .notification-copy {
+          min-width: 0;
+        }
+
+        .notification-copy {
+          overflow-wrap: anywhere;
+        }
+
+        @media (min-width: 1180px) {
+          .notification-prompt {
+            flex-direction: row !important;
+            align-items: center;
+            justify-content: space-between;
+          }
+          .notification-actions {
+            flex-shrink: 0;
           }
         }
 
@@ -297,7 +329,7 @@ export default function AuraDashboard({
         {/* Enable Notification Alerts Card - Only show when data exists, user has not enabled, and has not dismissed prompt */}
         {!academicAlertsPrompted && !academicAlertsEnabled && data && (
           <div 
-            className="premium-card" 
+            className="premium-card notification-prompt"
             style={{
               background: 'linear-gradient(135deg, rgba(143, 146, 255, 0.08) 0%, rgba(191, 90, 242, 0.04) 100%)',
               border: '1px solid var(--accent-secondary)',
@@ -326,7 +358,7 @@ export default function AuraDashboard({
               }}>
                 <Bell size={18} />
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div className="notification-copy" style={{ display: 'flex', flexDirection: 'column' }}>
                 <span style={{ fontSize: '12.5px', fontWeight: 900, color: 'var(--text-primary)', letterSpacing: '0.03em' }}>
                   Want Nexus to alert you when attendance or marks update?
                 </span>
@@ -335,7 +367,7 @@ export default function AuraDashboard({
                 </span>
               </div>
             </div>
-            <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+            <div className="notification-actions" style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
               <button
                 onClick={() => {
                   setAcademicAlertsPrompted(true);

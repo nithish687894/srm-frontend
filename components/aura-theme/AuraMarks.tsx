@@ -217,19 +217,16 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
           color: rgba(31,24,48,0.58) !important;
         }
         .marks-stats-strip {
-          display: flex;
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
           gap: 12px;
-          overflow-x: auto;
           padding: 0 24px 4px;
-          scroll-snap-type: x mandatory;
-          scroll-padding: 24px;
-          -webkit-overflow-scrolling: touch;
+          width: 100%;
         }
         .marks-stat-card {
-          flex: 0 0 auto;
+          min-width: 0;
           border-radius: 24px;
           padding: 20px;
-          min-width: 150px;
           text-align: left;
           scroll-snap-align: start;
           position: relative;
@@ -265,12 +262,14 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
         }
         @media (max-width: 430px) {
           .marks-stats-strip {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 10px;
             padding: 0 18px 6px;
-            scroll-padding: 18px;
+          }
+          .marks-stats-strip > :last-child {
+            grid-column: 1 / -1;
           }
           .marks-stat-card {
-            min-width: 136px;
             padding: 16px;
             border-radius: 22px;
           }
@@ -292,6 +291,18 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
             margin: 4px 0 0;
             font-size: 11px;
             line-height: 1.1;
+          }
+        }
+        .marks-filter-row {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          padding: 0 24px;
+          margin-bottom: 24px;
+        }
+        @media (max-width: 430px) {
+          .marks-filter-row {
+            padding: 0 18px;
           }
         }
       `}} />
@@ -337,7 +348,7 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
           </div>
         </div>
 
-        <div className="hide-scrollbar" style={{ display: 'flex', gap: '8px', overflowX: 'auto', padding: '0 24px', marginBottom: '24px' }}>
+        <div className="marks-filter-row">
           {["All", "At Risk", "Lowest Score", "Highest Score", "Alphabetical"].map(f => (
             <button 
               key={f} onClick={() => setFilter(f)}

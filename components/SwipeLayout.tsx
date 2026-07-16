@@ -250,6 +250,8 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
     transition: isGestureActive ? "none" : "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
     opacity: 1 - Math.min(Math.abs(offset) / winWidth, 0.4),
     width: "100%",
+    maxWidth: "100%",
+    minWidth: 0,
     willChange: isGestureActive ? "transform, opacity" : "auto",
     overflowX: "hidden" as const
   };
@@ -257,13 +259,14 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
   const hideSidebar = ["/", "/setup", "/terms", "/privacy", "/trust"].includes(pathname);
 
   return (
-    <div
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEndHandler}
-      className={`swipe-wrapper ${!hideSidebar ? 'layout-with-sidebar' : ''}`}
-      style={{ overflowX: "hidden", position: "relative", minHeight: "100dvh" }}
-    >
+    <>
+      <div
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEndHandler}
+        className={`swipe-wrapper ${!hideSidebar ? 'layout-with-sidebar' : ''}`}
+        style={{ overflowX: "clip", position: "relative", minHeight: "100dvh", width: "100%", maxWidth: "100%", minWidth: 0 }}
+      >
       {/* Pull to Refresh Indicator */}
       {pullDist > 10 && (
         <div style={{
@@ -326,8 +329,11 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
         {children}
       </div>
 
+      </div>
+
+      {/* Fixed navigation must live outside the clipped gesture viewport. */}
       {!hideSidebar && <Sidebar />}
-    </div>
+    </>
   );
 }
 
