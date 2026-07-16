@@ -1020,7 +1020,19 @@ export default function DashboardPage() {
 
   return (
     <div style={{ height: "100vh", width: "100%", background: "#000", display: "flex", flexDirection: "column", overflow: "hidden" }}>
-      <main style={{ flex: 1, overflowY: "auto", WebkitOverflowScrolling: "touch" }}>
+      <main
+        className="dashboard-scroll-region"
+        style={{
+          flex: 1,
+          width: "100%",
+          minWidth: 0,
+          maxWidth: "100%",
+          overflowX: "hidden",
+          overflowY: "auto",
+          overscrollBehaviorX: "none",
+          WebkitOverflowScrolling: "touch"
+        }}
+      >
         {activeDashboard}
         <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => {}} netId="" />
         {renderStudentInfoModal()}

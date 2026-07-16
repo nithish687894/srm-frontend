@@ -1172,6 +1172,40 @@ h4 { font-weight: 740; }
   overflow-y: auto;
   display: none !important;
 }
+
+/* Keep every desktop action visible when browser zoom reduces the CSS height. */
+@media (min-width: 768px) and (max-height: 900px) {
+  .desktop-sidebar {
+    padding: 14px 22px;
+    scrollbar-width: none;
+  }
+  .desktop-sidebar::-webkit-scrollbar {
+    display: none;
+  }
+  .desktop-sidebar > div:first-child > div:first-child {
+    padding-bottom: 12px !important;
+    margin-bottom: 12px !important;
+  }
+  .desktop-sidebar > div:first-child > .flex.flex-col {
+    gap: 4px !important;
+  }
+  .desktop-sidebar .desktop-sidebar-section-title {
+    margin-bottom: 2px !important;
+  }
+  .desktop-sidebar .desktop-sidebar-section-title.mt-4 {
+    margin-top: 6px !important;
+  }
+  .desktop-sidebar .desktop-nav-link {
+    gap: 12px;
+    padding: 8px 14px;
+    border-radius: 14px;
+    min-height: 36px;
+  }
+  .desktop-sidebar > div:last-child {
+    padding-top: 10px !important;
+    gap: 4px !important;
+  }
+}
 .theme-light .desktop-sidebar {
   background: rgba(245, 240, 255, 0.75);
   border-right: 1px solid rgba(96, 68, 145, 0.12);
@@ -1403,7 +1437,7 @@ h4 { font-weight: 740; }
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  overflow-x: clip;
+  overflow-x: hidden;
   contain: layout style;
   transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), filter 0.6s cubic-bezier(0.22, 1, 0.36, 1), border-radius 0.6s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1) !important;
   transform-origin: center top;
