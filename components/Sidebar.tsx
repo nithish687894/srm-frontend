@@ -601,10 +601,10 @@ export default function Sidebar() {
 
                 const RowItem = ({ href, label, subtitle, icon: Icon, color, onClick, rightElement }: AnyValue) => {
                   const content = (
-                    <div className="profile-menu-surface profile-menu-option flex items-center justify-between w-full min-h-[68px] py-3 px-3.5 group text-left">
-                      <div className="flex items-center gap-4 min-w-0 flex-1">
+                    <div className="profile-menu-surface profile-menu-option profile-menu-option-row flex items-center justify-between w-full group text-left">
+                      <div className="profile-menu-option-copy flex items-center min-w-0 flex-1">
                         <div 
-                          className="w-11 h-11 rounded-[16px] flex items-center justify-center shrink-0" 
+                          className="profile-menu-icon-tile flex items-center justify-center shrink-0"
                           style={{ 
                             background: `${color}15`, 
                             color: color, 
@@ -623,7 +623,7 @@ export default function Sidebar() {
                           {rightElement}
                         </div>
                       ) : (
-                        <ChevronRight size={16} className={`ml-3 group-hover:translate-x-0.5 transition-all duration-300 shrink-0 ${resolvedTheme === "light" ? "text-black/40 group-hover:text-black/70" : "text-white/30 group-hover:text-white/60"}`} />
+                        <ChevronRight size={15} className={`profile-menu-chevron group-hover:translate-x-0.5 transition-all duration-300 shrink-0 ${resolvedTheme === "light" ? "text-black/40 group-hover:text-black/70" : "text-white/30 group-hover:text-white/60"}`} />
                       )}
                     </div>
                   );
@@ -646,9 +646,9 @@ export default function Sidebar() {
                 return (
                   <>
                     {/* Compact Profile Header */}
-                    <div className="profile-menu-surface profile-menu-header min-h-[76px] flex items-center gap-3 px-3.5 py-3.5 shrink-0">
+                    <div className="profile-menu-surface profile-menu-header flex items-center shrink-0">
                       <div 
-                        className="w-14 h-14 rounded-[18px] flex items-center justify-center relative overflow-hidden z-10 shrink-0"
+                        className="profile-menu-avatar flex items-center justify-center relative overflow-hidden z-10 shrink-0"
                         style={{ 
                           background: "linear-gradient(135deg, rgba(191,90,242,0.5) 0%, rgba(143,146,255,0.3) 100%)", 
                           boxShadow: `0 8px 24px rgba(191,90,242,0.25)` 
@@ -660,7 +660,7 @@ export default function Sidebar() {
                             background: "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.25), transparent 48%)" 
                           }}
                         />
-                        <IdCard size={24} strokeWidth={2} className="relative z-10 text-white" />
+                        <IdCard size={21} strokeWidth={2.1} className="relative z-10 text-white" />
                       </div>
                       <div className="min-w-0 flex-1 flex flex-col justify-center">
                         <h2 className={`text-[15px] font-black leading-tight truncate tracking-wide uppercase ${resolvedTheme === "light" ? "text-black" : "text-white"}`}>{userName}</h2>
@@ -692,10 +692,10 @@ export default function Sidebar() {
                     >
                       {/* Group 1: Preferences */}
                       <GroupContainer title="Preferences">
-                        <div className="profile-menu-surface profile-menu-option flex flex-col w-full px-3.5 py-3.5 text-left">
-                          <div className="flex items-center gap-4 min-w-0">
+                        <div className="profile-menu-surface profile-menu-option profile-menu-appearance flex flex-col w-full text-left">
+                          <div className="profile-menu-option-copy flex items-center min-w-0">
                             <div 
-                              className="w-11 h-11 rounded-[16px] flex items-center justify-center shrink-0" 
+                              className="profile-menu-icon-tile flex items-center justify-center shrink-0"
                               style={{ 
                                 background: "#A78BFA15", 
                                 color: "#A78BFA", 
@@ -709,7 +709,7 @@ export default function Sidebar() {
                             </div>
                           </div>
                           
-                          <div className={`mt-4 grid grid-cols-2 gap-2 p-1.5 rounded-[18px] transition-all duration-300 ${resolvedTheme === "light" ? "bg-black/[0.03]" : "bg-black/40"}`}>
+                          <div className={`profile-theme-toggle grid grid-cols-2 gap-2 p-1.5 rounded-[16px] transition-all duration-300 ${resolvedTheme === "light" ? "bg-black/[0.03]" : "bg-black/40"}`}>
                               <button 
                                 onClick={(e) => { e.stopPropagation(); setTheme("lumina"); }}
                                 className={`h-10 flex items-center justify-center gap-2 px-3.5 rounded-[14px] text-[11px] font-black uppercase tracking-wider transition-all duration-300 ${
@@ -764,9 +764,9 @@ export default function Sidebar() {
                       <div className="profile-menu-logout-wrap">
                         <button 
                           onClick={() => { setMoreOpen(false); handleLogout(); }}
-                          className="profile-menu-surface profile-menu-option profile-menu-logout w-full min-h-[68px] px-3.5 py-3 flex items-center gap-4 text-left active:scale-[0.98]"
+                          className="profile-menu-surface profile-menu-option profile-menu-option-row profile-menu-logout w-full flex items-center text-left active:scale-[0.98]"
                         >
-                          <div className={`w-11 h-11 rounded-[16px] flex items-center justify-center shrink-0 ${resolvedTheme === "light" ? "bg-red-500/10 text-red-600" : "bg-red-500/10 text-red-400"}`}>
+                          <div className={`profile-menu-icon-tile flex items-center justify-center shrink-0 ${resolvedTheme === "light" ? "bg-red-500/10 text-red-600" : "bg-red-500/10 text-red-400"}`}>
                             <LogOut size={18} />
                           </div>
                           <div className="min-w-0">
