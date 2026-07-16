@@ -261,7 +261,7 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEndHandler}
-      className="swipe-wrapper"
+      className={`swipe-wrapper ${!hideSidebar ? 'layout-with-sidebar' : ''}`}
       style={{ overflowX: "hidden", position: "relative", minHeight: "100dvh" }}
     >
       {/* Pull to Refresh Indicator */}

@@ -10,7 +10,8 @@ import { extractBatch } from "@/lib/utils";
 import PortalSyncModal from "@/components/PortalSyncModal";
 import StudentPortalPrompt from "@/components/StudentPortalPrompt";
 import { ShieldCheck, AlertCircle, RefreshCw } from "lucide-react";
-import AuraDashboard from "@/components/aura-theme/AuraDashboard";
+import dynamic from "next/dynamic";
+const AuraDashboard = dynamic(() => import("@/components/aura-theme/AuraDashboard"), { ssr: false });
 import LoadingSkeleton from "@/components/aura-theme/LoadingSkeleton";
 
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
@@ -215,6 +216,9 @@ export default function DashboardPage() {
       return "Recently";
     }
   }, [currentTime]);
+
+  const att = data?.attendance?.length ? data.attendance : (data?.studentPortal?.attendance || studentPortalData?.attendance || []);
+  const marks = data?.marks?.length ? data.marks : (data?.studentPortal?.marks || studentPortalData?.marks || []);
 
   const renderAcademicIntegrityHub = useCallback((mode: "default" | "matrix" | "aura" = "default") => {
     const isMatrix = mode === "matrix";
@@ -502,9 +506,6 @@ export default function DashboardPage() {
     dataAPI.getMyTimetable().then(d => { setMyTTData(d); setMyTimetable(d); }).catch(() => { });
     dataAPI.getBroadcast().then(d => setBroadcast(d)).catch(() => { });
   }, [ready, batch]);
-
-  const att = data?.attendance?.length ? data.attendance : (data?.studentPortal?.attendance || studentPortalData?.attendance || []);
-  const marks = data?.marks?.length ? data.marks : (data?.studentPortal?.marks || studentPortalData?.marks || []);
 
   // Calculate top stats
   const totalCourses = att.length;

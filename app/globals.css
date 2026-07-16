@@ -1127,7 +1127,7 @@ h4 { font-weight: 740; }
 }
 
 @media (min-width: 768px) {
-  main:not(.dashboard-main), .page-main, .swipe-wrapper > div:last-child {
+  .layout-with-sidebar {
     padding-left: 270px !important;
     padding-right: 32px !important;
   }
@@ -1144,7 +1144,7 @@ h4 { font-weight: 740; }
 }
 
 @media (min-width: 1180px) {
-  main:not(.dashboard-main), .page-main, .swipe-wrapper > div:last-child {
+  .layout-with-sidebar {
     padding-left: 270px !important;
     padding-right: 48px !important;
   }

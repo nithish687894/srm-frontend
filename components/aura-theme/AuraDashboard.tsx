@@ -102,6 +102,9 @@ export default function AuraDashboard({
           display: flex;
           flex-direction: column;
           gap: 24px;
+          max-width: 1400px;
+          margin: 0 auto;
+          width: 100%;
         }
 
         .today-stats-grid {
