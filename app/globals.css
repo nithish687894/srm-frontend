@@ -1132,7 +1132,10 @@ h4 { font-weight: 740; }
     max-width: 100% !important;
     min-width: 0;
     padding-left: 270px !important;
-    padding-right: 32px !important;
+    /* The shell must cover the complete viewport. Page components own their
+       horizontal gutters; padding this wrapper inset the page scrollbar and
+       exposed the body background as a black strip on the right. */
+    padding-right: 0 !important;
   }
   .page-content {
     margin-left: 0 !important;
@@ -1149,7 +1152,7 @@ h4 { font-weight: 740; }
 @media (min-width: 1180px) {
   .layout-with-sidebar {
     padding-left: 270px !important;
-    padding-right: 48px !important;
+    padding-right: 0 !important;
   }
   .fixed.top-12 {
     left: 270px !important;
