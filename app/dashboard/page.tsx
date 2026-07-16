@@ -1010,16 +1010,16 @@ export default function DashboardPage() {
 
   if (!mounted) {
     return (
-      <div className="page-root" style={{ background: "#050508", height: "100vh", width: "100vw", overflow: 'hidden' }} />
+      <div className="page-root" style={{ background: "#050508", height: "100vh", width: "100%", overflow: 'hidden' }} />
     );
   }
 
   if (loading && !data) {
-return <LoadingSkeleton />;
+    return <LoadingSkeleton />;
   }
 
   return (
-    <div style={{ height: "100vh", width: "100vw", background: "#000", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+    <div style={{ height: "100vh", width: "100%", background: "#000", display: "flex", flexDirection: "column", overflow: "hidden" }}>
       <main style={{ flex: 1, overflowY: "auto", WebkitOverflowScrolling: "touch" }}>
         {activeDashboard}
         <PortalSyncModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} onSuccess={() => {}} netId="" />
