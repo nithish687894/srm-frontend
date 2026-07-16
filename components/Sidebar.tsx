@@ -569,8 +569,8 @@ export default function Sidebar() {
             style={{ 
               zIndex: 100005,
               background: resolvedTheme === "light" 
-                ? "linear-gradient(135deg, rgba(246, 241, 255, 0.92) 0%, rgba(232, 239, 255, 0.90) 100%)" 
-                : "linear-gradient(135deg, rgba(16, 12, 28, 0.96) 0%, rgba(10, 7, 18, 0.98) 100%)",
+                ? "linear-gradient(145deg, rgba(246, 241, 255, 0.88) 0%, rgba(232, 239, 255, 0.86) 100%)"
+                : "linear-gradient(145deg, rgba(16, 12, 28, 0.92) 0%, rgba(10, 7, 18, 0.96) 100%)",
               borderColor: resolvedTheme === "light" ? "rgba(96, 68, 145, 0.14)" : "rgba(255, 255, 255, 0.08)",
               boxShadow: resolvedTheme === "light"
                 ? `0 26px 60px rgba(46, 32, 74, 0.18), 0 0 36px rgba(191, 90, 242, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.72)`
@@ -589,11 +589,11 @@ export default function Sidebar() {
               {/* RowItem helper component inside Sidebar */}
               {(() => {
                 const GroupContainer = ({ title, children }: AnyValue) => (
-                  <div className="flex flex-col mt-5 first:mt-2">
-                    <div className="flex items-center pl-4 mb-2">
+                  <div className="profile-menu-group flex flex-col">
+                    <div className="profile-menu-group-label flex items-center">
                       <p className={`text-[11px] font-bold uppercase tracking-[0.18em] ${resolvedTheme === "light" ? "text-purple-900/60" : "text-white/40"}`}>{title}</p>
                     </div>
-                    <div className={`flex flex-col rounded-[24px] overflow-hidden ${resolvedTheme === "light" ? "bg-white/50 divide-y divide-purple-900/5" : "bg-black/20 divide-y divide-white/5"}`}>
+                    <div className="flex flex-col gap-2">
                       {children}
                     </div>
                   </div>
@@ -601,7 +601,7 @@ export default function Sidebar() {
 
                 const RowItem = ({ href, label, subtitle, icon: Icon, color, onClick, rightElement }: AnyValue) => {
                   const content = (
-                    <div className={`flex items-center justify-between w-full min-h-[68px] py-3 px-4 transition-colors group text-left ${resolvedTheme === "light" ? "hover:bg-purple-500/[0.04] active:bg-purple-500/[0.08]" : "hover:bg-white/[0.03] active:bg-white/[0.06]"}`}>
+                    <div className="profile-menu-surface profile-menu-option flex items-center justify-between w-full min-h-[68px] py-3 px-3.5 group text-left">
                       <div className="flex items-center gap-4 min-w-0 flex-1">
                         <div 
                           className="w-11 h-11 rounded-[16px] flex items-center justify-center shrink-0" 
@@ -646,7 +646,7 @@ export default function Sidebar() {
                 return (
                   <>
                     {/* Compact Profile Header */}
-                    <div className={`profile-menu-header min-h-[76px] flex items-center gap-3 px-3.5 py-3.5 rounded-[22px] shrink-0 ${resolvedTheme === "light" ? "bg-white/50" : "bg-black/20"}`}>
+                    <div className="profile-menu-surface profile-menu-header min-h-[76px] flex items-center gap-3 px-3.5 py-3.5 shrink-0">
                       <div 
                         className="w-14 h-14 rounded-[18px] flex items-center justify-center relative overflow-hidden z-10 shrink-0"
                         style={{ 
@@ -692,7 +692,7 @@ export default function Sidebar() {
                     >
                       {/* Group 1: Preferences */}
                       <GroupContainer title="Preferences">
-                        <div className={`flex flex-col w-full px-4 py-4 transition-colors text-left ${resolvedTheme === "light" ? "hover:bg-purple-500/[0.04]" : "hover:bg-white/[0.03]"}`}>
+                        <div className="profile-menu-surface profile-menu-option flex flex-col w-full px-3.5 py-3.5 text-left">
                           <div className="flex items-center gap-4 min-w-0">
                             <div 
                               className="w-11 h-11 rounded-[16px] flex items-center justify-center shrink-0" 
@@ -755,16 +755,16 @@ export default function Sidebar() {
                         <RowItem 
                           href="/support" 
                           label="Help & Support" 
-                          subtitle="Assistance & details feedback" 
+                          subtitle="Assistance & detailed feedback"
                           icon={LifeBuoy} 
                           color="#00aaff" 
                         />
                       </GroupContainer>
 
-                      <div className="mt-5">
+                      <div className="profile-menu-logout-wrap">
                         <button 
                           onClick={() => { setMoreOpen(false); handleLogout(); }}
-                          className={`w-full min-h-[68px] px-4 py-3 rounded-[24px] flex items-center gap-4 text-left active:scale-[0.98] transition-all ${resolvedTheme === "light" ? "bg-red-500/[0.08] hover:bg-red-500/[0.12]" : "bg-red-500/[0.08] hover:bg-red-500/[0.12]"}`}
+                          className="profile-menu-surface profile-menu-option profile-menu-logout w-full min-h-[68px] px-3.5 py-3 flex items-center gap-4 text-left active:scale-[0.98]"
                         >
                           <div className={`w-11 h-11 rounded-[16px] flex items-center justify-center shrink-0 ${resolvedTheme === "light" ? "bg-red-500/10 text-red-600" : "bg-red-500/10 text-red-400"}`}>
                             <LogOut size={18} />
