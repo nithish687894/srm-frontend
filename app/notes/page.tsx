@@ -182,12 +182,62 @@ export default function NotesPage() {
   }, [ready]);
 
   // ─── Auto Save Handler ──────────────────────────────────────────────────────
+  const saveNewNote = useCallback(async () => {
+    if (!editorTitle.trim() && !editorContent.trim()) return;
+
+    setSaveStatus("saving");
+    try {
+      const res = await notesAPI.create({
+        title: editorTitle.trim() || "Untitled Note",
+        content: editorContent,
+        label: editorLabel,
+        subject: editorSubject,
+        linkedPage: editorLinkedPage,
+        checkItems: editorCheckItems,
+      });
+      if (res.success && res.note) {
+        addNote(res.note);
+        setEditingNote(res.note);
+        setSaveStatus("saved");
+        setTimeout(() => setSaveStatus("idle"), 2000);
+      }
+    } catch {
+      const tempNote: Note = {
+        _id: `local_${Date.now()}`,
+        title: editorTitle.trim() || "Untitled Note",
+        content: editorContent,
+        label: editorLabel,
+        subject: editorSubject,
+        tags: [],
+        isPinned: false,
+        isFavorite: false,
+        linkedPage: editorLinkedPage as Note["linkedPage"],
+        color: LABEL_CONFIG[editorLabel].color,
+        checkItems: editorCheckItems,
+        archivedAt: null,
+        deletedAt: null,
+        version: 1,
+        reminderAt: null,
+        syncedAt: null,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      addNote(tempNote);
+      setEditingNote(tempNote);
+      setSyncStatus("offline");
+      setSaveStatus("saved");
+    }
+  }, [editorTitle, editorContent, editorLabel, editorSubject, editorLinkedPage, editorCheckItems, addNote, setSyncStatus]);
+
   const autoSave = useCallback(() => {
-    if (!editingNote) return;
+    if (!editingNote) {
+      if (editorTitle.trim() || editorContent.trim()) saveNewNote();
+      return;
+    }
     setSaveStatus("saving");
 
     const payload = {
-      title: editorTitle.trim() || "Untitled",
+      title: editorTitle.trim() || "Untitled Note",
       content: editorContent,
       label: editorLabel,
       subject: editorSubject,
@@ -208,7 +258,7 @@ export default function NotesPage() {
         setSaveStatus("saved");
         setTimeout(() => setSaveStatus("idle"), 2000);
       });
-  }, [editingNote, editorTitle, editorContent, editorLabel, editorSubject, editorLinkedPage, editorCheckItems, updateNote]);
+  }, [editingNote, editorTitle, editorContent, editorLabel, editorSubject, editorLinkedPage, editorCheckItems, updateNote, saveNewNote]);
 
   const triggerAutoSave = useCallback(() => {
     setSaveStatus("typing");
@@ -254,58 +304,25 @@ export default function NotesPage() {
   };
 
   const closeEditor = () => {
-    if (autoSaveTimerRef.current) {
-      clearTimeout(autoSaveTimerRef.current);
-      if (editingNote && saveStatus === "typing") autoSave();
+    if (autoSaveTimerRef.current) clearTimeout(autoSaveTimerRef.current);
+    if (editorTitle.trim() || editorContent.trim()) {
+      autoSave();
     }
     setEditorOpen(false);
     setEditingNote(null);
   };
 
-  const saveNewNote = async () => {
-    if (!editorTitle.trim() && !editorContent.trim()) return;
-
-    setSaveStatus("saving");
-    try {
-      const res = await notesAPI.create({
-        title: editorTitle.trim() || "Untitled",
-        content: editorContent,
-        label: editorLabel,
-        subject: editorSubject,
-        linkedPage: editorLinkedPage,
-        checkItems: editorCheckItems,
-      });
-      if (res.success && res.note) {
-        addNote(res.note);
-        setEditingNote(res.note);
-        setSaveStatus("saved");
-        setTimeout(() => setSaveStatus("idle"), 2000);
+  const handleDelete = async (note: Note) => {
+    if (note.deletedAt) {
+      await notesAPI.delete(note._id).catch(() => {});
+      removeNote(note._id);
+    } else {
+      try {
+        await notesAPI.delete(note._id);
+        updateNote(note._id, { deletedAt: new Date().toISOString() });
+      } catch {
+        updateNote(note._id, { deletedAt: new Date().toISOString() });
       }
-    } catch {
-      const tempNote: Note = {
-        _id: `local_${Date.now()}`,
-        title: editorTitle.trim() || "Untitled",
-        content: editorContent,
-        label: editorLabel,
-        subject: editorSubject,
-        tags: [],
-        isPinned: false,
-        isFavorite: false,
-        linkedPage: editorLinkedPage as Note["linkedPage"],
-        color: LABEL_CONFIG[editorLabel].color,
-        checkItems: editorCheckItems,
-        archivedAt: null,
-        deletedAt: null,
-        version: 1,
-        reminderAt: null,
-        syncedAt: null,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
-      addNote(tempNote);
-      setEditingNote(tempNote);
-      setSyncStatus("offline");
-      setSaveStatus("saved");
     }
   };
 
@@ -610,7 +627,7 @@ export default function NotesPage() {
           </div>
         </div>
 
-        {/* ── Taller Note Cards with Dynamic Subject Metadata ───────────────────── */}
+        {/* ── Taller Note Cards with Metadata & Quick Actions ───────────────────── */}
         {isInitialLoad ? (
           <div className="flex flex-col items-center justify-center py-20 text-white/40 gap-3">
             <Loader2 className="animate-spin text-[#3b82f6]" size={36} />
@@ -653,10 +670,29 @@ export default function NotesPage() {
                   <div>
                     {/* Header: Title + Pin/Star Icons */}
                     <div className="flex items-start justify-between gap-3 mb-2.5">
-                      <h3 className="text-base font-bold text-white leading-snug line-clamp-1">{note.title}</h3>
+                      <h3 className="text-base font-bold text-white leading-snug line-clamp-1 flex-1">{note.title}</h3>
                       <div className="flex items-center gap-1.5 shrink-0">
-                        {note.isPinned && <span title="Pinned"><Pin size={16} className="text-[#3b82f6]" /></span>}
-                        {note.isFavorite && <span title="Favorite"><Star size={16} className="text-[#f59e0b] fill-[#f59e0b]" /></span>}
+                        <button
+                          onClick={(e) => { e.stopPropagation(); togglePin(note._id); }}
+                          className={`p-1 rounded-lg hover:bg-white/10 transition-colors ${note.isPinned ? "text-[#3b82f6]" : "text-white/30 hover:text-white"}`}
+                          title={note.isPinned ? "Unpin note" : "Pin note"}
+                        >
+                          <Pin size={16} />
+                        </button>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); toggleFavorite(note._id); }}
+                          className={`p-1 rounded-lg hover:bg-white/10 transition-colors ${note.isFavorite ? "text-[#f59e0b] fill-[#f59e0b]" : "text-white/30 hover:text-white"}`}
+                          title={note.isFavorite ? "Unfavorite" : "Favorite"}
+                        >
+                          <Star size={16} />
+                        </button>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); handleDelete(note); }}
+                          className="p-1 rounded-lg text-white/20 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+                          title="Delete note"
+                        >
+                          <Trash2 size={15} />
+                        </button>
                       </div>
                     </div>
 
@@ -703,6 +739,65 @@ export default function NotesPage() {
         )}
 
         {/* ════════════════════════════════════════════════════════════════ */}
+        {/* STATISTICS MODAL                                                 */}
+        {/* ════════════════════════════════════════════════════════════════ */}
+        {showStatsModal && mounted && createPortal(
+          <div className="fixed inset-0 z-[99999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+            <div className="w-full max-w-md bg-[#0e0f15] border border-white/10 rounded-3xl p-6 shadow-2xl space-y-5">
+              <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-2xl bg-[#3b82f6]/15 text-[#3b82f6] flex items-center justify-center">
+                    <BarChart3 size={20} />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-white">Notes Insights</h3>
+                    <p className="text-xs text-white/50">Usage and study activity breakdown</p>
+                  </div>
+                </div>
+                <button onClick={() => setShowStatsModal(false)} className="text-white/40 hover:text-white p-1">
+                  <X size={20} />
+                </button>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 text-center">
+                  <span className="text-2xl font-black text-white block">{notes.filter(n => !n.archivedAt && !n.deletedAt).length}</span>
+                  <span className="text-xs text-white/50 font-medium">Active Notes</span>
+                </div>
+                <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 text-center">
+                  <span className="text-2xl font-black text-[#3b82f6] block">{notes.filter(n => n.isPinned).length}</span>
+                  <span className="text-xs text-white/50 font-medium">Pinned Notes</span>
+                </div>
+              </div>
+
+              <div className="space-y-2 pt-2 border-t border-white/5">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-white/60">Category Breakdown</h4>
+                {Object.entries(LABEL_CONFIG).map(([key, cfg]) => {
+                  const count = notes.filter(n => n.label === key && !n.archivedAt && !n.deletedAt).length;
+                  return (
+                    <div key={key} className="flex items-center justify-between py-1.5 px-3 rounded-xl bg-white/[0.02]">
+                      <span className="text-xs text-white/80 flex items-center gap-2">
+                        <span>{cfg.emoji}</span>
+                        <span>{cfg.label}</span>
+                      </span>
+                      <span className="text-xs font-bold text-white">{count}</span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <button
+                onClick={() => setShowStatsModal(false)}
+                className="w-full py-3 rounded-2xl bg-[#3b82f6] text-white text-xs font-bold hover:bg-[#2563eb] transition-all"
+              >
+                Close Insights
+              </button>
+            </div>
+          </div>,
+          document.body
+        )}
+
+        {/* ════════════════════════════════════════════════════════════════ */}
         {/* EDITOR MODAL WITH ACADEMIA SUBJECT SELECTOR                      */}
         {/* ════════════════════════════════════════════════════════════════ */}
         {editorOpen && mounted && createPortal(
@@ -722,7 +817,7 @@ export default function NotesPage() {
 
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => saveNewNote()}
+                    onClick={() => { saveNewNote(); closeEditor(); }}
                     className="px-4 py-2 rounded-xl bg-[#3b82f6] text-white text-xs font-bold hover:bg-[#2563eb] transition-all"
                   >
                     Done
