@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { createPortal } from "react-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { useAuthStore } from "@/lib/store";
 import { notesAPI } from "@/lib/api";
 import { useNotesStore, type Note, type SortMode, type ViewFilter } from "@/lib/notesStore";
 import {
@@ -11,7 +12,7 @@ import {
   X, ChevronDown, ArrowLeft, Loader2, FileText, CheckSquare,
   Bold, Italic, List, ListOrdered, Code, Quote, Hash, Eye, Edit3,
   Download, Upload, BarChart3, Clock, BookOpen, Sparkles, Check,
-  MoreVertical, Settings, Folder
+  MoreVertical, Settings, Folder, BookMarked
 } from "lucide-react";
 
 // ─── Constants & Configurations ──────────────────────────────────────────────
@@ -22,20 +23,35 @@ const LABEL_CONFIG = {
   todo:       { emoji: "🟣", label: "To-Do",      color: "#a855f7", bg: "rgba(168,85,247,0.15)" },
 } as const;
 
-const SUBJECT_CONFIG: Record<string, { emoji: string; color: string }> = {
-  "Maths":            { emoji: "📘", color: "#3b82f6" },
-  "Programming":      { emoji: "💻", color: "#a855f7" },
-  "CN":               { emoji: "🌐", color: "#10b981" },
-  "Cyber Security":   { emoji: "🛡️", color: "#ef4444" },
-  "DBMS":             { emoji: "📊", color: "#f59e0b" },
-  "OS":               { emoji: "⚙️", color: "#f97316" },
-  "DSA":              { emoji: "🧮", color: "#06b6d4" },
-  "Software Engg":    { emoji: "🏗️", color: "#8b5cf6" },
-  "AI/ML":            { emoji: "🤖", color: "#ec4899" },
-  "Physics":          { emoji: "⚛️", color: "#14b8a6" },
-  "Chemistry":        { emoji: "🧪", color: "#84cc16" },
-  "English":          { emoji: "📖", color: "#6366f1" },
-};
+const EMOJI_PALETTE = ["📘", "💻", "🌐", "🛡️", "📊", "⚙️", "🧮", "🏗️", "🤖", "⚛️", "🧪", "📖", "🔬", "🎯"];
+const COLOR_PALETTE = ["#3b82f6", "#a855f7", "#10b981", "#ef4444", "#f59e0b", "#f97316", "#06b6d4", "#8b5cf6", "#ec4899", "#14b8a6", "#84cc16", "#6366f1"];
+
+/** Dynamic subject metadata resolution */
+export function getSubjectMeta(subjectName: string): { emoji: string; color: string } {
+  if (!subjectName) return { emoji: "📚", color: "#94a3b8" };
+  
+  const lower = subjectName.toLowerCase();
+  if (lower.includes("math") || lower.includes("calculus") || lower.includes("algebra")) return { emoji: "📐", color: "#3b82f6" };
+  if (lower.includes("program") || lower.includes("code") || lower.includes("python") || lower.includes("java") || lower.includes("c++")) return { emoji: "💻", color: "#a855f7" };
+  if (lower.includes("network") || lower.includes("cn") || lower.includes("cloud")) return { emoji: "🌐", color: "#10b981" };
+  if (lower.includes("cyber") || lower.includes("security") || lower.includes("crypto")) return { emoji: "🛡️", color: "#ef4444" };
+  if (lower.includes("dbms") || lower.includes("data") || lower.includes("sql")) return { emoji: "📊", color: "#f59e0b" };
+  if (lower.includes("os") || lower.includes("operating")) return { emoji: "⚙️", color: "#f97316" };
+  if (lower.includes("dsa") || lower.includes("algorithm") || lower.includes("structure")) return { emoji: "🧮", color: "#06b6d4" };
+  if (lower.includes("software") || lower.includes("engineering")) return { emoji: "🏗️", color: "#8b5cf6" };
+  if (lower.includes("ai") || lower.includes("machine") || lower.includes("ml")) return { emoji: "🤖", color: "#ec4899" };
+  if (lower.includes("physic")) return { emoji: "⚛️", color: "#14b8a6" };
+  if (lower.includes("chem")) return { emoji: "🧪", color: "#84cc16" };
+  if (lower.includes("english") || lower.includes("comm")) return { emoji: "📖", color: "#6366f1" };
+
+  let hash = 0;
+  for (let i = 0; i < subjectName.length; i++) hash = subjectName.charCodeAt(i) + ((hash << 5) - hash);
+  const index = Math.abs(hash);
+  return {
+    emoji: EMOJI_PALETTE[index % EMOJI_PALETTE.length],
+    color: COLOR_PALETTE[index % COLOR_PALETTE.length],
+  };
+}
 
 const SMART_TEMPLATES = [
   { name: "Lecture Notes", emoji: "📘", label: "subject" as const, content: "# Lecture Notes\n\n## Topic\n\n\n## Key Points\n\n- \n- \n\n## Summary\n\n\n## Questions\n\n- " },
@@ -52,11 +68,6 @@ const SORT_OPTIONS: { value: SortMode; label: string }[] = [
   { value: "az", label: "🔤 A → Z" },
   { value: "edited", label: "✏️ Recently Edited" },
 ];
-
-// ─── Utility Helpers ──────────────────────────────────────────────────────────
-function wordCount(text: string): number {
-  return text.split(/\s+/).filter(Boolean).length;
-}
 
 function timeAgo(date: string): string {
   const diff = Date.now() - new Date(date).getTime();
@@ -80,12 +91,66 @@ export default function NotesPage() {
     setMounted(true);
   }, []);
 
+  const { academicData, myTimetable, timetable } = useAuthStore();
+
   const {
     notes, stats, searchQuery, sortMode, viewFilter, activeLabel, activeSubject, syncStatus,
     setNotes, setSearchQuery, setSortMode, setViewFilter, setActiveLabel, setActiveSubject,
     addNote, updateNote, removeNote, togglePin, toggleFavorite, archiveNote, restoreNote,
     syncFromServer, syncStatsFromServer, getFilteredNotes, getSubjects, setSyncStatus,
   } = useNotesStore();
+
+  // ─── Dynamically extract enrolled subjects from Academia Timetable & Attendance ───
+  const academiaSubjects = useMemo(() => {
+    const set = new Set<string>();
+
+    // 1. From Academia MyTimetable courses
+    const courses = myTimetable?.data?.courses || myTimetable?.data || [];
+    if (Array.isArray(courses)) {
+      courses.forEach((c: AnyValue) => {
+        const name = c.courseTitle || c.courseName || c.title || c.subject;
+        if (name && typeof name === "string") set.add(name.trim());
+      });
+    }
+
+    // 2. From Academia Timetable raw rows
+    const ttRows = timetable?.data?.rows || [];
+    if (Array.isArray(ttRows)) {
+      ttRows.forEach((row: AnyValue) => {
+        if (Array.isArray(row)) {
+          row.forEach((cell: AnyValue) => {
+            if (typeof cell === "string" && cell.includes("-") && cell.length > 5) {
+              const parts = cell.split("-");
+              const possibleName = parts[parts.length - 1]?.trim();
+              if (possibleName && possibleName.length > 2) set.add(possibleName);
+            }
+          });
+        }
+      });
+    }
+
+    // 3. From Academia Attendance
+    const att = academicData?.attendance;
+    if (Array.isArray(att)) {
+      att.forEach((a: AnyValue) => {
+        const name = a.courseTitle || a.courseName || a.subject;
+        if (name && typeof name === "string") set.add(name.trim());
+      });
+    }
+
+    // 4. From existing saved notes
+    const existingNotesSubjects = getSubjects();
+    existingNotesSubjects.forEach((s) => {
+      if (s && typeof s === "string") set.add(s.trim());
+    });
+
+    // 5. Default fallback subjects if user hasn't logged into Academia yet
+    if (set.size === 0) {
+      ["Maths", "Programming", "CN", "Cyber Security", "DBMS", "OS", "DSA"].forEach(s => set.add(s));
+    }
+
+    return Array.from(set);
+  }, [myTimetable, timetable, academicData, getSubjects]);
 
   // ─── Local State ────────────────────────────────────────────────────────────
   const [editorOpen, setEditorOpen] = useState(false);
@@ -96,10 +161,9 @@ export default function NotesPage() {
   const [editorSubject, setEditorSubject] = useState("");
   const [editorLinkedPage, setEditorLinkedPage] = useState<string | null>(null);
   const [editorCheckItems, setEditorCheckItems] = useState<{ text: string; checked: boolean }[]>([]);
-  const [editorMode, setEditorMode] = useState<"edit" | "preview">("edit");
   const [saveStatus, setSaveStatus] = useState<"idle" | "typing" | "saving" | "saved">("idle");
   
-  // UI Dropdowns & Modals
+  // UI Dropdowns
   const [showMoreMenu, setShowMoreMenu] = useState(false);
   const [showTemplates, setShowTemplates] = useState(false);
   const [showSortMenu, setShowSortMenu] = useState(false);
@@ -159,7 +223,7 @@ export default function NotesPage() {
       setEditorTitle(note.title);
       setEditorContent(note.content);
       setEditorLabel(note.label);
-      setEditorSubject(note.subject);
+      setEditorSubject(note.subject || (academiaSubjects[0] || ""));
       setEditorLinkedPage(note.linkedPage);
       setEditorCheckItems(note.checkItems?.map(c => ({ text: c.text, checked: c.checked })) || []);
     } else {
@@ -167,11 +231,10 @@ export default function NotesPage() {
       setEditorTitle("");
       setEditorContent("");
       setEditorLabel("subject");
-      setEditorSubject("");
+      setEditorSubject(academiaSubjects[0] || "");
       setEditorLinkedPage(null);
       setEditorCheckItems([]);
     }
-    setEditorMode("edit");
     setSaveStatus("idle");
     setEditorOpen(true);
   };
@@ -181,10 +244,9 @@ export default function NotesPage() {
     setEditorTitle(template.name);
     setEditorContent(template.content);
     setEditorLabel(template.label);
-    setEditorSubject("");
+    setEditorSubject(academiaSubjects[0] || "");
     setEditorLinkedPage(null);
     setEditorCheckItems([]);
-    setEditorMode("edit");
     setSaveStatus("idle");
     setShowTemplates(false);
     setShowMoreMenu(false);
@@ -247,20 +309,6 @@ export default function NotesPage() {
     }
   };
 
-  const handleDelete = async (note: Note) => {
-    if (note.deletedAt) {
-      await notesAPI.delete(note._id).catch(() => {});
-      removeNote(note._id);
-    } else {
-      try {
-        await notesAPI.delete(note._id);
-        updateNote(note._id, { deletedAt: new Date().toISOString() });
-      } catch {
-        updateNote(note._id, { deletedAt: new Date().toISOString() });
-      }
-    }
-  };
-
   const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -270,7 +318,7 @@ export default function NotesPage() {
       const titleMatch = text.match(/^#\s+(.+)$/m);
       const title = titleMatch ? titleMatch[1] : file.name.replace(/\.(md|txt)$/, "");
       try {
-        const res = await notesAPI.create({ title, content: text, label: "subject" });
+        const res = await notesAPI.create({ title, content: text, label: "subject", subject: academiaSubjects[0] || "" });
         if (res.success && res.note) {
           addNote(res.note);
         }
@@ -280,7 +328,7 @@ export default function NotesPage() {
           title,
           content: text,
           label: "subject",
-          subject: "",
+          subject: academiaSubjects[0] || "",
           tags: [],
           isPinned: false,
           isFavorite: false,
@@ -304,7 +352,6 @@ export default function NotesPage() {
 
   // ─── Filtered Notes ─────────────────────────────────────────────────────────
   const filteredNotes = getFilteredNotes();
-  const subjects = getSubjects();
 
   const viewLabels: Record<ViewFilter, string> = {
     all: "📁 All Notes",
@@ -372,7 +419,6 @@ export default function NotesPage() {
                 <MoreVertical size={20} />
               </button>
 
-              {/* More Options Sheet / Menu */}
               {showMoreMenu && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setShowMoreMenu(false)} />
@@ -540,12 +586,12 @@ export default function NotesPage() {
               </button>
             ))}
 
-            {/* Subject Chips */}
-            {subjects.length > 0 && (
+            {/* Dynamic Academia Timetable Subjects Chips */}
+            {academiaSubjects.length > 0 && (
               <>
                 <div className="w-px h-6 bg-white/10 mx-1 shrink-0" />
-                {subjects.map((subj) => {
-                  const sc = SUBJECT_CONFIG[subj] || { emoji: "📚", color: "#94a3b8" };
+                {academiaSubjects.map((subj) => {
+                  const sc = getSubjectMeta(subj);
                   const isSel = activeSubject === subj;
                   return (
                     <button
@@ -564,14 +610,14 @@ export default function NotesPage() {
           </div>
         </div>
 
-        {/* ── 5, 6, 7, 11, 15. Taller Note Cards with Metadata ───────────────────── */}
+        {/* ── Taller Note Cards with Dynamic Subject Metadata ───────────────────── */}
         {isInitialLoad ? (
           <div className="flex flex-col items-center justify-center py-20 text-white/40 gap-3">
             <Loader2 className="animate-spin text-[#3b82f6]" size={36} />
             <span className="text-xs font-bold uppercase tracking-widest text-white/60">Loading notes...</span>
           </div>
         ) : filteredNotes.length === 0 ? (
-          /* ── 10. Empty State Layout ───────────────────────────────────────── */
+          /* ── Empty State Layout ───────────────────────────────────────── */
           <div className="py-12 px-6 rounded-3xl bg-white/[0.01] text-center max-w-lg mx-auto border border-dashed border-white/10">
             <div className="w-16 h-16 rounded-2xl bg-[#3b82f6]/10 flex items-center justify-center text-[#3b82f6] mx-auto mb-4">
               <Folder size={32} />
@@ -594,7 +640,7 @@ export default function NotesPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredNotes.map((note) => {
               const labelCfg = LABEL_CONFIG[note.label] || LABEL_CONFIG.subject;
-              const subjCfg = SUBJECT_CONFIG[note.subject] || null;
+              const subjMeta = note.subject ? getSubjectMeta(note.subject) : null;
               const preview = note.content.replace(/[#*`>\-\[\]]/g, "").trim().slice(0, 100);
 
               return (
@@ -629,13 +675,13 @@ export default function NotesPage() {
                         <span>{labelCfg.emoji}</span>
                         <span>{labelCfg.label}</span>
                       </span>
-                      {subjCfg && (
-                        <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-white/5 text-white/70 truncate">
-                          {subjCfg.emoji} {note.subject}
+                      {note.subject && subjMeta && (
+                        <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-white/5 text-white/70 truncate flex items-center gap-1">
+                          <span>{subjMeta.emoji}</span>
+                          <span>{note.subject}</span>
                         </span>
                       )}
                     </div>
-                    {/* 7. Clear Timestamp Visibility */}
                     <span className="text-xs font-medium text-white/60 shrink-0">{timeAgo(note.updatedAt)}</span>
                   </div>
                 </div>
@@ -644,7 +690,7 @@ export default function NotesPage() {
           </div>
         )}
 
-        {/* ── 8. Floating Action Button (+) Raised 24px Above Bottom Nav ──────── */}
+        {/* ── Floating Action Button (+) Raised 24px Above Bottom Nav ──────── */}
         {mounted && createPortal(
           <button
             onClick={() => openEditor()}
@@ -657,7 +703,7 @@ export default function NotesPage() {
         )}
 
         {/* ════════════════════════════════════════════════════════════════ */}
-        {/* EDITOR MODAL                                                     */}
+        {/* EDITOR MODAL WITH ACADEMIA SUBJECT SELECTOR                      */}
         {/* ════════════════════════════════════════════════════════════════ */}
         {editorOpen && mounted && createPortal(
           <div className="fixed inset-0 z-[99999] bg-black/85 backdrop-blur-2xl flex flex-col p-3 sm:p-6 overflow-hidden">
@@ -694,12 +740,48 @@ export default function NotesPage() {
                   className="w-full text-xl sm:text-2xl font-bold bg-transparent text-white placeholder-white/30 focus:outline-none"
                 />
 
+                {/* Academia Subject & Category Picker */}
+                <div className="flex flex-wrap items-center gap-2.5 pb-2 border-b border-white/5">
+                  {/* Category Label Selector */}
+                  <div className="flex items-center gap-1 bg-white/[0.03] p-1 rounded-2xl border border-white/5">
+                    {Object.entries(LABEL_CONFIG).map(([key, cfg]) => (
+                      <button
+                        key={key}
+                        type="button"
+                        onClick={() => { setEditorLabel(key as keyof typeof LABEL_CONFIG); triggerAutoSave(); }}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-1 ${editorLabel === key ? "bg-[#3b82f6] text-white font-bold shadow-md" : "text-white/60 hover:text-white"}`}
+                      >
+                        <span>{cfg.emoji}</span>
+                        <span>{cfg.label}</span>
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Academia Subject Dropdown Selector */}
+                  <div className="relative flex items-center gap-1.5 bg-white/[0.03] px-3 py-1.5 rounded-2xl border border-white/5">
+                    <BookMarked size={14} className="text-[#3b82f6]" />
+                    <span className="text-xs text-white/50 font-medium">Subject:</span>
+                    <select
+                      value={editorSubject}
+                      onChange={(e) => { setEditorSubject(e.target.value); triggerAutoSave(); }}
+                      className="bg-transparent text-xs font-bold text-white focus:outline-none cursor-pointer pr-2"
+                    >
+                      <option value="" className="bg-[#0e0f15] text-white">None</option>
+                      {academiaSubjects.map((s) => (
+                        <option key={s} value={s} className="bg-[#0e0f15] text-white">
+                          {getSubjectMeta(s).emoji} {s}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
                 <textarea
                   ref={editorTextareaRef}
                   value={editorContent}
                   onChange={(e) => { setEditorContent(e.target.value); triggerAutoSave(); }}
                   placeholder="Start typing your note here..."
-                  className="w-full h-80 bg-transparent text-sm sm:text-base text-white/90 placeholder-white/30 focus:outline-none resize-none leading-relaxed"
+                  className="w-full h-72 bg-transparent text-sm sm:text-base text-white/90 placeholder-white/30 focus:outline-none resize-none leading-relaxed"
                 />
               </div>
             </div>
