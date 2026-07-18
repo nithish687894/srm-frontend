@@ -655,8 +655,8 @@ export default function NotesPage() {
                     <div className="flex items-start justify-between gap-3 mb-2.5">
                       <h3 className="text-base font-bold text-white leading-snug line-clamp-1">{note.title}</h3>
                       <div className="flex items-center gap-1.5 shrink-0">
-                        {note.isPinned && <Pin size={16} className="text-[#3b82f6]" title="Pinned" />}
-                        {note.isFavorite && <Star size={16} className="text-[#f59e0b] fill-[#f59e0b]" title="Favorite" />}
+                        {note.isPinned && <span title="Pinned"><Pin size={16} className="text-[#3b82f6]" /></span>}
+                        {note.isFavorite && <span title="Favorite"><Star size={16} className="text-[#f59e0b] fill-[#f59e0b]" /></span>}
                       </div>
                     </div>
 
