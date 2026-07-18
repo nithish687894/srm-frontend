@@ -9,6 +9,7 @@ import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import { dataAPI } from "@/lib/api";
 import AuraMarks from "@/components/aura-theme/AuraMarks";
+import ContextNotesBanner from "@/components/ContextNotesBanner";
 
 const THEME = {
   bg: "#050505",
@@ -74,7 +75,6 @@ export default function MarksPage() {
   };
 
   const { marks, totalScored, totalMax, avgPct } = useMemo(() => {
-    // Logic inside here is safe because it's always called
     const rawMarks = Array.isArray(academicData?.marks) ? academicData.marks : [];
     const attendance = Array.isArray(academicData?.attendance) ? academicData.attendance : [];
 
@@ -117,7 +117,8 @@ export default function MarksPage() {
         .animate-spin { animation: spin 2s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
       `}} />
-      <main style={{ flex: 1, paddingBottom: "140px" }}>
+      <main style={{ flex: 1, paddingBottom: "140px", paddingTop: "80px" }} className="max-w-4xl mx-auto px-4 w-full">
+        <ContextNotesBanner page="marks" />
         <AuraMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />
       </main>
     </div>

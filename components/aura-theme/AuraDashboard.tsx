@@ -9,6 +9,7 @@ import { useAuraTheme } from "./system/useAuraTheme";
 import AuraBackground from "./effects/AuraBackground";
 import { AURA_COLORS } from "./system/theme-tokens";
 import { useAuthStore } from "@/lib/store";
+import QuickNotesWidget from "@/components/QuickNotesWidget";
 import Toast from "@/components/Toast";
 import { enableAcademicAlerts } from "@/lib/notificationHelper";
 
@@ -784,6 +785,10 @@ export default function AuraDashboard({
              </div>
           </div>
         </button>
+        {/* Quick Notes Widget */}
+        <section style={{ marginTop: '16px' }}>
+          <QuickNotesWidget />
+        </section>
 
         {/* Upcoming Timeline */}
         <section style={{ marginTop: '16px' }}>

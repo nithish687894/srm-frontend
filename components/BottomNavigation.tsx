@@ -309,7 +309,8 @@ export default function BottomNavigation() {
   // More navigation items (in bottom sheet)
   const NAV_MORE = [
     { href: "/timetable", label: "Timetable", icon: Clock },
-    { href: "/chat", label: "Chat", icon: MessageSquare },
+    { href: "/notes", label: "Notes", icon: StickyNote },
+    { href: "/premium", label: "Premium", icon: Sparkles },
     { href: "/exam-library", label: "Exam", icon: BookOpen },
     { href: "/exam-hub", label: "Exam Hub", icon: BookOpen },
     { href: "/calendar", label: "Calendar", icon: Calendar },

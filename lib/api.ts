@@ -145,11 +145,39 @@ export const studentPortalAPI = {
   refreshPage: (key: string) => API.post(`/api/student-portal/refresh/${encodeURIComponent(key)}`).then((r) => r.data),
 };
 
-export const chatAPI = {
-  getHistory: (room: string, before?: string) =>
-    API.get(`/api/v1/chat/history?room=${room}${before ? `&before=${before}` : ""}`).then((r) => r.data),
-  getCohorts: () =>
-    API.get("/api/v1/chat/cohorts").then((r) => r.data),
+export const notesAPI = {
+  getAll: (params?: { label?: string; subject?: string; sort?: string }) =>
+    API.get("/api/v1/notes", { params }).then((r) => r.data),
+  getOne: (id: string) =>
+    API.get(`/api/v1/notes/${id}`).then((r) => r.data),
+  search: (q: string) =>
+    API.get(`/api/v1/notes/search?q=${encodeURIComponent(q)}`).then((r) => r.data),
+  recent: (limit?: number) =>
+    API.get(`/api/v1/notes/recent${limit ? `?limit=${limit}` : ""}`).then((r) => r.data),
+  linked: (page: string) =>
+    API.get(`/api/v1/notes/linked/${page}`).then((r) => r.data),
+  archived: () =>
+    API.get("/api/v1/notes/archived").then((r) => r.data),
+  trash: () =>
+    API.get("/api/v1/notes/trash").then((r) => r.data),
+  stats: () =>
+    API.get("/api/v1/notes/stats").then((r) => r.data),
+  create: (note: AnyValue) =>
+    API.post("/api/v1/notes", note).then((r) => r.data),
+  update: (id: string, note: AnyValue) =>
+    API.put(`/api/v1/notes/${id}`, note).then((r) => r.data),
+  delete: (id: string) =>
+    API.delete(`/api/v1/notes/${id}`).then((r) => r.data),
+  togglePin: (id: string) =>
+    API.patch(`/api/v1/notes/${id}/pin`).then((r) => r.data),
+  toggleFavorite: (id: string) =>
+    API.patch(`/api/v1/notes/${id}/favorite`).then((r) => r.data),
+  archive: (id: string) =>
+    API.patch(`/api/v1/notes/${id}/archive`).then((r) => r.data),
+  restore: (id: string) =>
+    API.patch(`/api/v1/notes/${id}/restore`).then((r) => r.data),
+  restoreRevision: (id: string, revisionIndex: number) =>
+    API.post(`/api/v1/notes/${id}/revision/restore`, { revisionIndex }).then((r) => r.data),
 };
 
 export const examHubAPI = {

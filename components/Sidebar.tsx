@@ -10,7 +10,7 @@ import { useThemeStore } from "@/lib/themeStore";
 import Toast from "@/components/Toast";
 import {
   Home, BarChart2, CheckCircle, Clock, Calendar, Wrench, Sparkles, Shield,
-  X, ChevronRight, CreditCard, FileText, Bed, Bus, Bell, Award, MonitorPlay, Printer, Briefcase, UserSquare, User, GraduationCap, BookOpen, Settings, MoreHorizontal, Share2, LogOut, LayoutTemplate, LifeBuoy, MessageSquare,
+  X, ChevronRight, CreditCard, FileText, Bed, Bus, Bell, Award, MonitorPlay, Printer, Briefcase, UserSquare, User, GraduationCap, BookOpen, Settings, MoreHorizontal, Share2, LogOut, LayoutTemplate, LifeBuoy, StickyNote,
   Fingerprint, RefreshCw, Cpu, Search, Library, Play, Pause, Headphones, Sun, UserRound, IdCard
 } from "lucide-react";
 
@@ -22,7 +22,7 @@ const NAV_MAIN = [
   { href: "/dashboard", label: "Home", icon: Home },
   { href: "/marks", label: "Marks", icon: Award },
   { href: "/attendance", label: "Attendance", icon: Library },
-  { href: "/timetable", label: "Timetable", icon: Clock },
+  { href: "/notes", label: "Notes", icon: StickyNote },
 ] as const;
 
 const NAV_MORE_ITEMS = [
@@ -264,7 +264,7 @@ export default function Sidebar() {
     { href: "/exam-library", label: "Exam", icon: BookOpen, color: "#30D158" },
     { href: "/exam-hub", label: "Exam Hub", icon: BookOpen, color: "#BF5AF2" },
     { href: "/tools", label: "Academic Tools", icon: Wrench, color: "#00ff88" },
-    { href: "/chat", label: "Doubt Forums", icon: MessageSquare, color: "#5AC8FA" },
+    { href: "/premium", label: "Nexus Premium", icon: Sparkles, color: "#FFD700" },
     { href: "/ai", label: "AI Tutor", icon: Sparkles, color: "#BF5AF2" },
     { href: "/gpa", label: "GPA / CGPA Planner", icon: GraduationCap, color: "#FF2D55" },
     ...(isAdmin ? [{ href: "/admin", label: "Admin Control", icon: Shield, color: "#FF9500" }] : []),
@@ -346,7 +346,7 @@ export default function Sidebar() {
       `}</style>
 
       {/* TOP STATUS BAR */}
-      {!(path === "/chat" || path.startsWith("/chat/")) && (
+      {!(path === "/notes" || path.startsWith("/notes/")) && (
         <div className="srmx-top-status-bar fixed top-8 sm:top-12 left-4 right-4 sm:left-6 sm:right-6 z-[99999] flex items-center justify-end pointer-events-none">
           <div className="flex gap-2.5 pointer-events-auto">
             {path === "/dashboard" && (

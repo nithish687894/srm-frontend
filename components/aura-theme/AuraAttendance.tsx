@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import confetti from "canvas-confetti";
 import { useAuraTheme } from "./system/useAuraTheme";
 import AuraBackground from "./effects/AuraBackground";
+import ContextNotesBanner from "@/components/ContextNotesBanner";
 import { AURA_COLORS as SHARED_AURA } from "./system/theme-tokens";
 
 const AURA_COLORS = SHARED_AURA;
@@ -347,6 +348,10 @@ export default function AuraAttendance({
           <h1 style={{ fontSize: "42px", fontWeight: 900, margin: '0 0 24px', letterSpacing: '-2px', lineHeight: 1 }}>
             Lumina <span style={{ color: AURA_COLORS.primary }}>Sync</span>
           </h1>
+
+          <div style={{ maxWidth: "600px", margin: "0 auto 24px" }} className="px-4">
+            <ContextNotesBanner page="attendance" />
+          </div>
 
           {/* Summary Strip - High Contrast Glowing Cards restored */}
           <div className="attendance-stats-grid">
