@@ -257,18 +257,18 @@ function MobileNav({
         );
       })}
 
-      {/* Premium Tab (Spotify Style) */}
+      {/* Premium Tab */}
       <button
         onClick={onPremiumOpen}
         className="nav-item"
         style={{ background: "none", border: "none", outline: "none", fontFamily: "inherit" }}
       >
         {isPremium ? (
-          <Shield size={20} color="#FF75C3" style={{ filter: "drop-shadow(0 0 4px rgba(255,117,195,0.4))" }} />
+          <Shield size={20} color="#f59e0b" style={{ filter: "drop-shadow(0 0 6px rgba(245,158,11,0.5))" }} />
         ) : (
-          <Sparkles size={20} color="#BF5AF2" style={{ filter: "drop-shadow(0 0 4px rgba(191,90,242,0.4))" }} />
+          <Star size={20} color="#f59e0b" fill="#f59e0b" style={{ filter: "drop-shadow(0 0 6px rgba(245,158,11,0.5))" }} />
         )}
-        <span style={{ color: isPremium ? "#FF75C3" : "#BF5AF2", fontWeight: 700 }}>Premium</span>
+        <span style={{ color: "#f59e0b", fontWeight: 700 }}>Premium</span>
       </button>
 
       <button
@@ -443,9 +443,9 @@ export default function BottomNavigation() {
           align-items: center;
           justify-content: center;
           gap: 6px;
-          color: #b3b3b3;
+          color: #d1d5db;
           font-family: 'Plus Jakarta Sans', sans-serif;
-          font-weight: 500;
+          font-weight: 600;
           font-size: 11px;
           letter-spacing: -0.012em;
           position: relative;
