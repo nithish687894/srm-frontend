@@ -9,6 +9,7 @@ const TAB_ORDER = [
   "/dashboard",
   "/marks",
   "/attendance",
+  "/timetable",
   "/premium"
 ];
 

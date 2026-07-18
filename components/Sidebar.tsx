@@ -22,7 +22,7 @@ const NAV_MAIN = [
   { href: "/dashboard", label: "Home", icon: Home },
   { href: "/marks", label: "Marks", icon: Award },
   { href: "/attendance", label: "Attendance", icon: Library },
-  { href: "/notes", label: "Notes", icon: StickyNote },
+  { href: "/timetable", label: "Timetable", icon: Clock },
 ] as const;
 
 const NAV_MORE_ITEMS = [
@@ -259,7 +259,7 @@ export default function Sidebar() {
   const hubCardBorder = "rgba(255,255,255,0.06)";
 
   const moreItems = [
-    { href: "/timetable", label: "Class Timetable", icon: Clock, color: "#FFCC00" },
+    { href: "/notes", label: "Notes", icon: StickyNote, color: "#FF9500" },
     { href: "/calendar", label: "University Calendar", icon: Calendar, color: "#00E5FF" },
     { href: "/exam-library", label: "Exam", icon: BookOpen, color: "#30D158" },
     { href: "/exam-hub", label: "Exam Hub", icon: BookOpen, color: "#BF5AF2" },
