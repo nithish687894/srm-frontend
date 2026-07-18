@@ -10,7 +10,7 @@ import { useThemeStore } from "@/lib/themeStore";
 import Toast from "@/components/Toast";
 import {
   Home, BarChart2, CheckCircle, Clock, Calendar, Wrench, Sparkles, Shield,
-  X, ChevronRight, CreditCard, FileText, Bed, Bus, Bell, Award, MonitorPlay, Printer, Briefcase, UserSquare, User, GraduationCap, BookOpen, Settings, MoreHorizontal, Share2, LogOut, LayoutTemplate, LifeBuoy, StickyNote,
+  X, ChevronRight, CreditCard, FileText, Bed, Bus, Bell, Award, MonitorPlay, Printer, Briefcase, UserSquare, User, GraduationCap, BookOpen, Settings, MoreHorizontal, Share2, LogOut, LayoutTemplate, LifeBuoy, StickyNote, MessageSquare,
   Fingerprint, RefreshCw, Cpu, Search, Library, Play, Pause, Headphones, Sun, UserRound, IdCard
 } from "lucide-react";
 

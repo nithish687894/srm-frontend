@@ -22,7 +22,7 @@ export interface Note {
   tags: string[];
   isPinned: boolean;
   isFavorite: boolean;
-  linkedPage: "attendance" | "marks" | "timetable" | "dashboard" | null;
+  linkedPage: string | null;
   color: string;
   checkItems: CheckItem[];
   archivedAt: string | null;

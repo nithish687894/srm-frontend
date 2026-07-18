@@ -6,7 +6,7 @@ import Link from "next/link";
 import { authAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
-import { Home, BarChart2, CheckCircle, Clock, Calendar, Wrench, Sparkles, Shield, MoreHorizontal, Settings, LogOut, Wifi, WifiOff, MessageSquare, Search, Library, BookOpen } from "lucide-react";
+import { Home, BarChart2, CheckCircle, Clock, Calendar, Wrench, Sparkles, Shield, MoreHorizontal, Settings, LogOut, Wifi, WifiOff, StickyNote, Search, Library, BookOpen } from "lucide-react";
 import PremiumCheckout from "@/components/PremiumCheckout";
 import Toast from "@/components/Toast";
 
