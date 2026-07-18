@@ -102,19 +102,19 @@ export default function ContextNotesBanner({ page }: ContextNotesBannerProps) {
           ))}
 
           {/* Quick Add Input */}
-          <div className="flex items-center gap-2 pt-1">
+          <div className="flex items-center gap-2 pt-1 w-full min-w-0">
             <input
               type="text"
               value={quickNote}
               onChange={(e) => setQuickNote(e.target.value)}
               onKeyDown={(e) => { if (e.key === "Enter") handleQuickSave(); }}
               placeholder={`Add a note for ${page}...`}
-              className="flex-1 px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-xs text-white placeholder-white/30 focus:outline-none focus:border-[#FFCC00]/50 transition-all"
+              className="flex-1 min-w-0 w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-xs text-white placeholder-white/30 focus:outline-none focus:border-[#FFCC00]/50 transition-all"
             />
             <button
               onClick={handleQuickSave}
               disabled={saving || !quickNote.trim()}
-              className="px-3.5 py-2 rounded-xl bg-[#FFCC00]/15 border border-[#FFCC00]/30 text-[#FFCC00] text-[10px] font-black uppercase tracking-wider hover:bg-[#FFCC00]/25 transition-all disabled:opacity-30 active:scale-95"
+              className="px-3.5 py-2 rounded-xl bg-[#FFCC00]/15 border border-[#FFCC00]/30 text-[#FFCC00] text-[10px] font-black uppercase tracking-wider hover:bg-[#FFCC00]/25 transition-all disabled:opacity-30 active:scale-95 shrink-0 whitespace-nowrap"
             >
               {saving ? "..." : "Save"}
             </button>
