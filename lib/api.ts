@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useAuthStore } from "./store";
 
-
 // In development, Next.js rewrites proxy /api/* to the backend.
 // In production on Vercel, NEXT_PUBLIC_API_URL should point to your hosted backend.
 const API = axios.create({
@@ -73,9 +72,13 @@ API.interceptors.response.use(
 
         if (newToken) originalRequest.headers["x-session-token"] = newToken;
         return API(originalRequest);
-      } catch (refreshErr) {
-        useAuthStore.getState().logout();
-        window.location.href = "/";
+      } catch (refreshErr: AnyValue) {
+        // Only force logout if server explicitly responded with 401 Unauthorized for the refresh token.
+        // Transient network drops, server 5xx errors, or timeouts MUST NOT wipe stored credentials.
+        if (refreshErr?.response?.status === 401) {
+          useAuthStore.getState().logout();
+          window.location.href = "/";
+        }
         return Promise.reject(refreshErr);
       }
     }
@@ -203,6 +206,14 @@ export const paymentAPI = {
     razorpay_signature: string;
   }) =>
     API.post("/api/payment/verify", payload).then((r) => r.data),
+};
+
+export const opsAPI = {
+  getOverview: () => API.get("/api/v1/ops/overview").then((r) => r.data),
+  getHealth: () => API.get("/api/v1/ops/health").then((r) => r.data),
+  getSystem: () => API.get("/api/v1/ops/system").then((r) => r.data),
+  getLogs: (params?: { level?: string; q?: string; limit?: number }) =>
+    API.get("/api/v1/ops/logs", { params }).then((r) => r.data),
 };
 
 export { API };
