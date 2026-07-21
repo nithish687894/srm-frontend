@@ -185,7 +185,8 @@ export default function OperationsPage() {
     : 0;
 
   return (
-    <div className="min-h-screen bg-[#06080F] text-white p-4 sm:p-8 font-sans relative overflow-x-hidden selection:bg-[#00FF88]/30 selection:text-[#00FF88]">
+  return (
+    <div className="min-h-screen bg-[#06080F] text-white pt-20 sm:pt-8 pb-12 px-3.5 sm:px-8 font-sans relative overflow-x-hidden selection:bg-[#00FF88]/30 selection:text-[#00FF88]">
       {/* Dynamic Background Glow Effect */}
       <div className="fixed -top-40 -left-40 w-96 h-96 bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="fixed top-1/2 -right-40 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none" />
@@ -198,21 +199,21 @@ export default function OperationsPage() {
           
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6">
             <div>
-              <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-1.5 sm:mb-2">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
                 <div className="relative flex items-center justify-center">
                   <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#00FF88] animate-ping absolute" />
                   <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#00FF88] relative" />
                 </div>
-                <h1 className="text-lg sm:text-2xl font-black tracking-tight font-mono text-white flex items-center gap-2">
+                <h1 className="text-base sm:text-2xl font-black tracking-tight font-mono text-white flex items-center gap-2">
                   SRM NEXUS TELEMETRY
                 </h1>
                 <span className="px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-mono font-extrabold bg-[#00FF88]/15 text-[#00FF88] border border-[#00FF88]/30 shadow-sm">
                   /ns v3.0
                 </span>
               </div>
-              <p className="text-[11px] sm:text-xs text-gray-400 font-mono flex flex-wrap items-center gap-x-2.5 gap-y-1">
-                <span>Request ID: <code className="text-emerald-400 break-all">{telemetry?.requestId || "OK"}</code></span>
-                <span className="hidden sm:inline">•</span>
+              <p className="text-[11px] sm:text-xs text-gray-400 font-mono flex flex-wrap items-center gap-x-2 gap-y-1">
+                <span className="truncate max-w-[220px] sm:max-w-none">Req: <code className="text-emerald-400">{telemetry?.requestId ? `${telemetry.requestId.slice(0, 8)}...` : "OK"}</code></span>
+                <span>•</span>
                 <span>Node: <code className="text-cyan-400">{system?.nodeVersion || "v20"}</code></span>
                 <span>•</span>
                 <span className="capitalize text-gray-300">Env: <span className="text-[#00FF88] font-bold">{system?.environment || "production"}</span></span>
@@ -220,7 +221,7 @@ export default function OperationsPage() {
             </div>
 
             {/* Controls */}
-            <div className="flex items-center gap-2 sm:gap-3 w-full md:w-auto">
+            <div className="flex items-center gap-2 sm:gap-3 w-full md:w-auto pt-1 sm:pt-0">
               {/* Auto Refresh Toggle */}
               <button
                 onClick={() => setAutoRefresh(!autoRefresh)}
@@ -297,14 +298,14 @@ export default function OperationsPage() {
                 <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all" />
                 <div className="flex items-center justify-between mb-3 sm:mb-4">
                   <span className="text-xs font-mono text-gray-400 flex items-center gap-2 font-bold">
-                    <Database className="w-4 h-4 text-emerald-400" /> MongoDB Atlas
+                    <Database className="w-4 h-4 text-emerald-400 shrink-0" /> MongoDB Atlas
                   </span>
                   {mongo?.status === "healthy" ? (
-                    <span className="flex items-center gap-1 text-[11px] font-mono text-[#00FF88] bg-[#00FF88]/10 px-2 py-0.5 rounded-full border border-[#00FF88]/20">
+                    <span className="flex items-center gap-1 text-[11px] font-mono text-[#00FF88] bg-[#00FF88]/10 px-2 py-0.5 rounded-full border border-[#00FF88]/20 shrink-0">
                       <CheckCircle2 className="w-3 h-3" /> Healthy
                     </span>
                   ) : (
-                    <span className="flex items-center gap-1 text-[11px] font-mono text-red-400 bg-red-500/10 px-2 py-0.5 rounded-full border border-red-500/20">
+                    <span className="flex items-center gap-1 text-[11px] font-mono text-red-400 bg-red-500/10 px-2 py-0.5 rounded-full border border-red-500/20 shrink-0">
                       <XCircle className="w-3 h-3" /> Error
                     </span>
                   )}
@@ -312,9 +313,9 @@ export default function OperationsPage() {
                 <div className="text-xl sm:text-2xl font-black font-mono capitalize tracking-tight text-white mb-1">
                   {mongo?.status || "Unknown"}
                 </div>
-                <div className="flex items-center justify-between text-xs text-gray-400 font-mono mt-3 pt-3 border-t border-white/5">
+                <div className="flex items-center justify-between text-xs text-gray-400 font-mono mt-3 pt-3 border-t border-white/5 px-0.5">
                   <span>Ping Latency</span>
-                  <span className="text-emerald-400 font-bold">{mongo?.latencyMs >= 0 ? `${mongo.latencyMs} ms` : "N/A"}</span>
+                  <span className="text-emerald-400 font-bold shrink-0">{mongo?.latencyMs >= 0 ? `${mongo.latencyMs} ms` : "N/A"}</span>
                 </div>
               </div>
 
@@ -323,14 +324,14 @@ export default function OperationsPage() {
                 <div className="absolute top-0 right-0 w-24 h-24 bg-cyan-500/10 rounded-full blur-2xl group-hover:bg-cyan-500/20 transition-all" />
                 <div className="flex items-center justify-between mb-3 sm:mb-4">
                   <span className="text-xs font-mono text-gray-400 flex items-center gap-2 font-bold">
-                    <Server className="w-4 h-4 text-cyan-400" /> Upstash Redis
+                    <Server className="w-4 h-4 text-cyan-400 shrink-0" /> Upstash Redis
                   </span>
                   {redis?.status === "healthy" ? (
-                    <span className="flex items-center gap-1 text-[11px] font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded-full border border-cyan-500/20">
+                    <span className="flex items-center gap-1 text-[11px] font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded-full border border-cyan-500/20 shrink-0">
                       <CheckCircle2 className="w-3 h-3" /> Active
                     </span>
                   ) : (
-                    <span className="flex items-center gap-1 text-[11px] font-mono text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
+                    <span className="flex items-center gap-1 text-[11px] font-mono text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20 shrink-0">
                       <AlertTriangle className="w-3 h-3" /> Standby
                     </span>
                   )}
@@ -338,9 +339,9 @@ export default function OperationsPage() {
                 <div className="text-xl sm:text-2xl font-black font-mono capitalize tracking-tight text-white mb-1">
                   {redis?.status || "Disabled"}
                 </div>
-                <div className="flex items-center justify-between text-xs text-gray-400 font-mono mt-3 pt-3 border-t border-white/5">
+                <div className="flex items-center justify-between text-xs text-gray-400 font-mono mt-3 pt-3 border-t border-white/5 px-0.5">
                   <span>Response Time</span>
-                  <span className="text-cyan-400 font-bold">{redis?.latencyMs >= 0 ? `${redis.latencyMs} ms` : "0 ms"}</span>
+                  <span className="text-cyan-400 font-bold shrink-0">{redis?.latencyMs >= 0 ? `${redis.latencyMs} ms` : "0 ms"}</span>
                 </div>
               </div>
 
@@ -349,16 +350,16 @@ export default function OperationsPage() {
                 <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/20 transition-all" />
                 <div className="flex items-center justify-between mb-3 sm:mb-4">
                   <span className="text-xs font-mono text-gray-400 flex items-center gap-2 font-bold">
-                    <Users className="w-4 h-4 text-purple-400" /> User Sessions
+                    <Users className="w-4 h-4 text-purple-400 shrink-0" /> User Sessions
                   </span>
-                  <ShieldCheck className="w-4 h-4 text-purple-400" />
+                  <ShieldCheck className="w-4 h-4 text-purple-400 shrink-0" />
                 </div>
                 <div className="text-xl sm:text-2xl font-black font-mono tracking-tight text-white mb-1">
                   {metrics?.activeSessions ?? 0}
                 </div>
-                <div className="flex items-center justify-between text-xs text-gray-400 font-mono mt-3 pt-3 border-t border-white/5">
+                <div className="flex items-center justify-between text-xs text-gray-400 font-mono mt-3 pt-3 border-t border-white/5 px-0.5">
                   <span>Total Registered</span>
-                  <span className="text-purple-400 font-bold">{metrics?.totalRegisteredUsers ?? 0}</span>
+                  <span className="text-purple-400 font-bold shrink-0">{metrics?.totalRegisteredUsers ?? 0}</span>
                 </div>
               </div>
 
@@ -367,9 +368,9 @@ export default function OperationsPage() {
                 <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/20 transition-all" />
                 <div className="flex items-center justify-between mb-3 sm:mb-4">
                   <span className="text-xs font-mono text-gray-400 flex items-center gap-2 font-bold">
-                    <Cpu className="w-4 h-4 text-amber-400" /> Node RAM Heap
+                    <Cpu className="w-4 h-4 text-amber-400 shrink-0" /> Node RAM Heap
                   </span>
-                  <span className="text-[11px] font-mono text-amber-400 font-bold">
+                  <span className="text-[11px] font-mono text-amber-400 font-bold shrink-0">
                     {heapPercentage}% Used
                   </span>
                 </div>
