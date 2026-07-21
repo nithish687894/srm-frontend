@@ -1287,10 +1287,10 @@ export default function LoginPage() {
                       </div>
 
                       <input
-                        type="text" placeholder="NETID / EMAIL"
+                        type="text" placeholder="NETID"
                         className="login-input"
                         value={email} onChange={e => setEmail(e.target.value)}
-                        disabled={loading} maxLength={100}
+                        disabled={loading} maxLength={6}
                         data-testid="netid-input"
                       />
 
