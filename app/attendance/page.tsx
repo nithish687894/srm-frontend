@@ -10,6 +10,7 @@ import { useThemeStore } from "@/lib/themeStore";
 import AuraAttendance from "@/components/aura-theme/AuraAttendance";
 import LoadingSkeleton from "@/components/aura-theme/LoadingSkeleton";
 import { RefreshCcw } from "lucide-react";
+import { extractBatch } from "@/lib/utils";
 
 function buildSlotToCourseMap(myTT: AnyValue[]) {
   const map: Record<string, AnyValue> = {};
@@ -104,7 +105,7 @@ export default function AttendancePage() {
     
     // Dynamically get the batch from profile
     const rawBatch = academicData?.profile?.["Combo / Batch"] || "";
-    const batchNum = parseInt(rawBatch.match(/\d+/)?.[0] || "1");
+    const batchNum = extractBatch(rawBatch);
 
     Promise.all([dataAPI.getTimetable(batchNum), dataAPI.getMyTimetable()]).then(([tt, myTT]) => {
       setTimetable(tt);
@@ -113,12 +114,6 @@ export default function AttendancePage() {
       setTTData({ rows: tt?.data?.rows || [], myTT: courses });
     }).catch(() => {});
   }, [ready, academicData?.profile, setCalendar, setTimetable, setMyTimetable]);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const params = new URLSearchParams(window.location.search);
-    setShowRiskOnly(params.get("risk") === "1");
-  }, []);
 
   const calIndex = useMemo(() => {
     if (!calData) return null;

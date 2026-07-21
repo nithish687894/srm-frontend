@@ -362,17 +362,22 @@ export default function TimetablePage() {
 
   const autoSelected = useRef(false);
   useEffect(() => {
-    if (calQ.data && !autoSelected.current) {
+    if (!autoSelected.current) {
       const today = new Date();
       const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
-      const { byDate } = buildCalendarIndex(calQ.data);
-      const info = byDate.get(todayIso);
-      if (info?.dayOrder) {
-        const d = info.dayOrder;
-        if (d >= 1 && d <= 10) {
-          setDayOverride(d);
-          autoSelected.current = true;
-        }
+      let d: number | null = null;
+      if (calQ.data) {
+        const { byDate } = buildCalendarIndex(calQ.data);
+        const info = byDate.get(todayIso);
+        if (info?.dayOrder) d = info.dayOrder;
+      }
+      if (!d) {
+        const dayOfWeek = today.getDay();
+        if (dayOfWeek >= 1 && dayOfWeek <= 5) d = dayOfWeek;
+      }
+      if (d && d >= 1 && d <= 10) {
+        setDayOverride(d);
+        autoSelected.current = true;
       }
     }
   }, [calQ.data]);
@@ -383,10 +388,24 @@ export default function TimetablePage() {
   }, [calQ.data]);
 
   const todayInfo = useMemo(() => {
-    if (!calendarIndex) return null;
     const today = new Date();
     const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
-    return calendarIndex.byDate.get(todayIso) || null;
+    if (calendarIndex) {
+      const info = calendarIndex.byDate.get(todayIso);
+      if (info) return info;
+    }
+    const dayOfWeek = today.getDay();
+    const isWeekend = [0, 6].includes(dayOfWeek);
+    return {
+      isoDate: todayIso,
+      semester: "ODD" as const,
+      monthLabel: "",
+      dateNum: today.getDate(),
+      weekdayLabel: today.toLocaleDateString("en-US", { weekday: "short" }),
+      dayOrder: !isWeekend && dayOfWeek >= 1 && dayOfWeek <= 5 ? dayOfWeek : null,
+      event: isWeekend ? "Weekend" : "",
+      isHoliday: isWeekend,
+    };
   }, [calendarIndex]);
 
   const getNextOccurrence = useMemo(() => {

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/store";
 import { dataAPI } from "@/lib/api";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
+import { extractBatch } from "@/lib/utils";
 import { 
   Calculator, TrendingUp, AlertCircle, ArrowRight, Clock, 
   Calendar, Award, Sparkles, CheckCircle2, Target, Flame, 
@@ -89,7 +90,7 @@ export function WhatIfCalculator({ marks: initialMarks }: AnyValue) {
     
     const syncId = setTimeout(() => setIsCalSyncing(true), 0);
     const rawBatch = academicData?.profile?.["Combo / Batch"] || "";
-    const batchNum = parseInt(rawBatch.match(/\d+/)?.[0] || "1");
+    const batchNum = extractBatch(rawBatch);
 
     Promise.all([
       dataAPI.getCalendar(),

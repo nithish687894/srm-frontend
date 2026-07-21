@@ -615,9 +615,11 @@ export default function DashboardPage() {
   }, []);
 
   const tomorrowCalInfo = byDate.get(tomorrowDate);
-  const tomorrowIsWeekend = [0, 6].includes(new Date(tomorrowDate).getDay());
-  const tomorrowIsHoliday = !!tomorrowCalInfo?.isHoliday || tomorrowIsWeekend;
-  const tomorrowDayOrder = tomorrowCalInfo?.dayOrder || null;
+  const tomorrowDateObj = new Date(tomorrowDate + "T00:00:00");
+  const tomorrowDayOfWeek = tomorrowDateObj.getDay();
+  const tomorrowIsWeekend = [0, 6].includes(tomorrowDayOfWeek);
+  const tomorrowIsHoliday = tomorrowCalInfo ? !!tomorrowCalInfo.isHoliday : tomorrowIsWeekend;
+  const tomorrowDayOrder = tomorrowCalInfo?.dayOrder || (!tomorrowIsHoliday && tomorrowDayOfWeek >= 1 && tomorrowDayOfWeek <= 5 ? tomorrowDayOfWeek : null);
 
   const tomorrowClasses = useMemo(() => {
     if (!ttData?.data?.rows || !myTTData?.data || tomorrowIsHoliday || !tomorrowDayOrder) return [];
@@ -810,9 +812,11 @@ export default function DashboardPage() {
   }, [dayOffset]);
 
   const targetCalInfo = byDate.get(targetDate);
-  const isWeekend = [0, 6].includes(new Date(targetDate).getDay());
-  const isHoliday = !!targetCalInfo?.isHoliday || isWeekend;
-  const dayOrder = targetCalInfo?.dayOrder || null;
+  const targetDateObj = new Date(targetDate + "T00:00:00");
+  const targetDayOfWeek = targetDateObj.getDay();
+  const isWeekend = [0, 6].includes(targetDayOfWeek);
+  const isHoliday = targetCalInfo ? !!targetCalInfo.isHoliday : isWeekend;
+  const dayOrder = targetCalInfo?.dayOrder || (!isHoliday && targetDayOfWeek >= 1 && targetDayOfWeek <= 5 ? targetDayOfWeek : null);
 
   const targetClasses = useMemo(() => {
     if (!ttData?.data?.rows || !myTTData?.data || isHoliday || !dayOrder) return [];
