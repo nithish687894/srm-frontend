@@ -27,9 +27,417 @@ import {
   Zap,
   Radio,
   Sparkles,
-  ArrowUpRight
+  ArrowUpRight,
+  Bell,
+  User,
+  ShieldAlert
 } from "lucide-react";
 
+// ==========================================
+// SUB-COMPONENTS ARCHITECTURE
+// ==========================================
+
+// 1. HEADER COMPONENT
+function TelemetryHeader({ telemetry, system, onOpenProfile }: AnyValue) {
+  const router = useRouter();
+
+  return (
+    <header className="w-full min-w-0 bg-white/[0.02] border border-white/10 backdrop-blur-2xl rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-72 h-full bg-gradient-to-l from-[#00FF88]/5 to-transparent pointer-events-none" />
+
+      {/* DESKTOP HEADER LAYOUT (Single Row) */}
+      <div className="hidden md:flex items-center justify-between gap-4 w-full min-w-0 font-mono">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="relative flex items-center justify-center shrink-0">
+            <div className="w-3 h-3 rounded-full bg-[#00FF88] animate-ping absolute" />
+            <div className="w-3 h-3 rounded-full bg-[#00FF88] relative" />
+          </div>
+          <h1 className="text-xl font-black tracking-tight text-white truncate">
+            SRM NEXUS TELEMETRY
+          </h1>
+          <span className="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-[#00FF88]/15 text-[#00FF88] border border-[#00FF88]/30 shrink-0">
+            /ns v3.0
+          </span>
+        </div>
+
+        <div className="flex items-center gap-4 text-xs text-gray-400 shrink-0">
+          <span>Req: <code className="text-emerald-400 font-bold">{telemetry?.requestId ? `${telemetry.requestId.slice(0, 10)}...` : "OK"}</code></span>
+          <span>•</span>
+          <span>Node: <code className="text-cyan-400 font-bold">{system?.nodeVersion || "v24.14.1"}</code></span>
+          <span>•</span>
+          <span>Env: <span className="text-[#00FF88] font-bold capitalize">{system?.environment || "Production"}</span></span>
+        </div>
+
+        <div className="flex items-center gap-2 shrink-0">
+          <button
+            onClick={() => router.push("/notifications")}
+            className="p-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-gray-300 transition-all"
+            title="Notifications"
+          >
+            <Bell className="w-4 h-4" />
+          </button>
+          <button
+            onClick={onOpenProfile}
+            className="p-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-gray-300 transition-all"
+            title="Profile Options"
+          >
+            <User className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+
+      {/* MOBILE HEADER LAYOUT (3 Structured Rows) */}
+      <div className="flex flex-col gap-3 md:hidden w-full min-w-0 font-mono">
+        {/* Row 1: Logo & Version */}
+        <div className="flex items-center justify-between gap-2 w-full min-w-0">
+          <div className="flex items-center gap-2 truncate">
+            <div className="relative flex items-center justify-center shrink-0">
+              <div className="w-2.5 h-2.5 rounded-full bg-[#00FF88] animate-ping absolute" />
+              <div className="w-2.5 h-2.5 rounded-full bg-[#00FF88] relative" />
+            </div>
+            <h1 className="text-base font-black tracking-tight text-white truncate">
+              SRM NEXUS TELEMETRY
+            </h1>
+          </div>
+          <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-[#00FF88]/15 text-[#00FF88] border border-[#00FF88]/30 shrink-0">
+            /ns v3.0
+          </span>
+        </div>
+
+        {/* Row 2: Environment & Metadata */}
+        <div className="flex items-center justify-between text-[11px] text-gray-400 border-t border-b border-white/5 py-1.5 w-full min-w-0">
+          <span>Env: <span className="text-[#00FF88] font-bold uppercase">{system?.environment || "Production"}</span></span>
+          <span>Node: <code className="text-cyan-400 font-bold">{system?.nodeVersion || "v24.14.1"}</code></span>
+          <span className="truncate max-w-[110px]">Req: <code className="text-emerald-400">{telemetry?.requestId ? `${telemetry.requestId.slice(0, 6)}...` : "OK"}</code></span>
+        </div>
+
+        {/* Row 3: Action Icons Bar */}
+        <div className="flex items-center justify-between w-full min-w-0 pt-0.5">
+          <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">OPERATOR BAR</span>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => router.push("/notifications")}
+              className="p-2 rounded-lg bg-white/5 border border-white/10 text-gray-300"
+            >
+              <Bell className="w-3.5 h-3.5" />
+            </button>
+            <button
+              onClick={onOpenProfile}
+              className="p-2 rounded-lg bg-white/5 border border-white/10 text-gray-300"
+            >
+              <User className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+// 2. STATUS BAR COMPONENT
+function TelemetryStatusBar({ autoRefresh, setAutoRefresh, refreshing, onRefresh }: AnyValue) {
+  return (
+    <div className="w-full min-w-0">
+      {/* Desktop Layout */}
+      <div className="hidden sm:flex items-center justify-between gap-4 w-full font-mono text-xs">
+        <button
+          onClick={() => setAutoRefresh(!autoRefresh)}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all ${
+            autoRefresh
+              ? "bg-[#00FF88]/15 text-[#00FF88] border-[#00FF88]/40 shadow-lg shadow-[#00FF88]/10 font-bold"
+              : "bg-white/5 text-gray-400 border-white/10 hover:text-white"
+          }`}
+        >
+          <Radio className={`w-3.5 h-3.5 ${autoRefresh ? "animate-pulse" : ""}`} />
+          <span>Live Feed {autoRefresh ? "ON" : "OFF"}</span>
+        </button>
+
+        <button
+          onClick={onRefresh}
+          disabled={refreshing}
+          className="flex items-center gap-2 px-4.5 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-white transition-all disabled:opacity-50 font-bold"
+        >
+          <RefreshCw className={`w-3.5 h-3.5 text-[#00FF88] ${refreshing ? "animate-spin" : ""}`} />
+          <span>Sync Now</span>
+        </button>
+      </div>
+
+      {/* Mobile Layout (Full Width Stack) */}
+      <div className="flex flex-col gap-2 sm:hidden w-full font-mono text-xs">
+        <button
+          onClick={() => setAutoRefresh(!autoRefresh)}
+          className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl border transition-all ${
+            autoRefresh
+              ? "bg-[#00FF88]/15 text-[#00FF88] border-[#00FF88]/40 shadow-lg shadow-[#00FF88]/10 font-bold"
+              : "bg-white/5 text-gray-400 border-white/10"
+          }`}
+        >
+          <Radio className={`w-4 h-4 ${autoRefresh ? "animate-pulse" : ""}`} />
+          <span>Live Feed {autoRefresh ? "ON" : "OFF"}</span>
+        </button>
+
+        <button
+          onClick={onRefresh}
+          disabled={refreshing}
+          className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-white/5 border border-white/10 text-white font-bold transition-all disabled:opacity-50"
+        >
+          <RefreshCw className={`w-4 h-4 text-[#00FF88] ${refreshing ? "animate-spin" : ""}`} />
+          <span>Sync Now</span>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// 3. NAVIGATION TABS COMPONENT
+function TelemetryNavigation({ activeTab, setActiveTab, logCount }: AnyValue) {
+  return (
+    <nav className="w-full min-w-0 border-b border-white/10 pb-3 flex items-center justify-between font-mono">
+      <div className="flex items-center gap-2 w-full sm:w-auto min-w-0">
+        <button
+          onClick={() => setActiveTab("overview")}
+          className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl sm:rounded-2xl text-xs font-bold transition-all ${
+            activeTab === "overview"
+              ? "bg-gradient-to-r from-[#00FF88]/20 to-teal-500/20 text-[#00FF88] border border-[#00FF88]/40 shadow-lg shadow-[#00FF88]/10"
+              : "text-gray-400 hover:text-white hover:bg-white/5 border border-transparent"
+          }`}
+        >
+          <Activity className="w-4 h-4 shrink-0" />
+          <span>System Overview</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab("logs")}
+          className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl sm:rounded-2xl text-xs font-bold transition-all ${
+            activeTab === "logs"
+              ? "bg-gradient-to-r from-[#00FF88]/20 to-teal-500/20 text-[#00FF88] border border-[#00FF88]/40 shadow-lg shadow-[#00FF88]/10"
+              : "text-gray-400 hover:text-white hover:bg-white/5 border border-transparent"
+          }`}
+        >
+          <Terminal className="w-4 h-4 shrink-0" />
+          <span>Real-time Logs</span>
+          {logCount > 0 && (
+            <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-[#00FF88]/20 text-[#00FF88] font-mono">
+              {logCount}
+            </span>
+          )}
+        </button>
+      </div>
+
+      <div className="hidden lg:flex items-center gap-2 text-[11px] text-gray-500 shrink-0">
+        <Sparkles className="w-3.5 h-3.5 text-[#00FF88]" />
+        <span>Ring Buffer Engine</span>
+      </div>
+    </nav>
+  );
+}
+
+// 4. METRIC CARDS GRID COMPONENT
+function TelemetryMetricsGrid({ mongo, redis, metrics, system, heapPercentage }: AnyValue) {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-5 w-full min-w-0">
+      
+      {/* MongoDB Atlas Card */}
+      <div className="w-full min-w-0 p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl hover:border-emerald-500/30 transition-all relative overflow-hidden flex flex-col justify-between group shadow-xl">
+        <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all pointer-events-none" />
+        <div className="flex items-center justify-between mb-3 w-full min-w-0">
+          <span className="text-xs font-mono text-gray-400 flex items-center gap-2 font-bold truncate">
+            <Database className="w-4 h-4 text-emerald-400 shrink-0" /> MongoDB Atlas
+          </span>
+          {mongo?.status === "healthy" ? (
+            <span className="flex items-center gap-1 text-[11px] font-mono text-[#00FF88] bg-[#00FF88]/10 px-2.5 py-0.5 rounded-full border border-[#00FF88]/20 shrink-0 font-bold">
+              <CheckCircle2 className="w-3 h-3" /> Healthy
+            </span>
+          ) : (
+            <span className="flex items-center gap-1 text-[11px] font-mono text-red-400 bg-red-500/10 px-2.5 py-0.5 rounded-full border border-red-500/20 shrink-0 font-bold">
+              <XCircle className="w-3 h-3" /> Error
+            </span>
+          )}
+        </div>
+        <div className="text-xl sm:text-2xl lg:text-3xl font-black font-mono capitalize tracking-tight text-white mb-2 truncate">
+          {mongo?.status || "Unknown"}
+        </div>
+        <div className="w-full min-w-0 flex items-center justify-between text-xs text-gray-400 font-mono mt-2 pt-3 border-t border-white/5">
+          <span className="truncate">Ping Latency</span>
+          <span className="text-[#00FF88] font-bold bg-[#00FF88]/10 px-2.5 py-0.5 rounded-md border border-[#00FF88]/20 shrink-0 whitespace-nowrap">
+            {mongo?.latencyMs >= 0 ? `${mongo.latencyMs} ms` : "N/A"}
+          </span>
+        </div>
+      </div>
+
+      {/* Upstash Redis Card */}
+      <div className="w-full min-w-0 p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl hover:border-cyan-500/30 transition-all relative overflow-hidden flex flex-col justify-between group shadow-xl">
+        <div className="absolute top-0 right-0 w-24 h-24 bg-cyan-500/10 rounded-full blur-2xl group-hover:bg-cyan-500/20 transition-all pointer-events-none" />
+        <div className="flex items-center justify-between mb-3 w-full min-w-0">
+          <span className="text-xs font-mono text-gray-400 flex items-center gap-2 font-bold truncate">
+            <Server className="w-4 h-4 text-cyan-400 shrink-0" /> Upstash Redis
+          </span>
+          {redis?.status === "healthy" ? (
+            <span className="flex items-center gap-1 text-[11px] font-mono text-cyan-400 bg-cyan-500/10 px-2.5 py-0.5 rounded-full border border-cyan-500/20 shrink-0 font-bold">
+              <CheckCircle2 className="w-3 h-3" /> Active
+            </span>
+          ) : (
+            <span className="flex items-center gap-1 text-[11px] font-mono text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/20 shrink-0 font-bold">
+              <AlertTriangle className="w-3 h-3" /> Standby
+            </span>
+          )}
+        </div>
+        <div className="text-xl sm:text-2xl lg:text-3xl font-black font-mono capitalize tracking-tight text-white mb-2 truncate">
+          {redis?.status || "Disabled"}
+        </div>
+        <div className="w-full min-w-0 flex items-center justify-between text-xs text-gray-400 font-mono mt-2 pt-3 border-t border-white/5">
+          <span className="truncate">Response Time</span>
+          <span className="text-cyan-400 font-bold bg-cyan-500/10 px-2.5 py-0.5 rounded-md border border-cyan-500/20 shrink-0 whitespace-nowrap">
+            {redis?.latencyMs >= 0 ? `${redis.latencyMs} ms` : "0 ms"}
+          </span>
+        </div>
+      </div>
+
+      {/* Active User Sessions Card */}
+      <div className="w-full min-w-0 p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl hover:border-purple-500/30 transition-all relative overflow-hidden flex flex-col justify-between group shadow-xl">
+        <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/20 transition-all pointer-events-none" />
+        <div className="flex items-center justify-between mb-3 w-full min-w-0">
+          <span className="text-xs font-mono text-gray-400 flex items-center gap-2 font-bold truncate">
+            <Users className="w-4 h-4 text-purple-400 shrink-0" /> User Sessions
+          </span>
+          <ShieldCheck className="w-4 h-4 text-purple-400 shrink-0" />
+        </div>
+        <div className="text-xl sm:text-2xl lg:text-3xl font-black font-mono tracking-tight text-white mb-2 truncate">
+          {metrics?.activeSessions ?? 0}
+        </div>
+        <div className="w-full min-w-0 flex items-center justify-between text-xs text-gray-400 font-mono mt-2 pt-3 border-t border-white/5">
+          <span className="truncate">Total Registered</span>
+          <span className="text-purple-400 font-bold bg-purple-500/10 px-2.5 py-0.5 rounded-md border border-purple-500/20 shrink-0 whitespace-nowrap">
+            {metrics?.totalRegisteredUsers ?? 0}
+          </span>
+        </div>
+      </div>
+
+      {/* Memory Heap Card */}
+      <div className="w-full min-w-0 p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl hover:border-amber-500/30 transition-all relative overflow-hidden flex flex-col justify-between group shadow-xl">
+        <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/20 transition-all pointer-events-none" />
+        <div className="flex items-center justify-between mb-3 w-full min-w-0">
+          <span className="text-xs font-mono text-gray-400 flex items-center gap-2 font-bold truncate">
+            <Cpu className="w-4 h-4 text-amber-400 shrink-0" /> RAM Heap
+          </span>
+          <span className="text-[11px] font-mono text-amber-400 font-bold shrink-0">
+            {heapPercentage}% Used
+          </span>
+        </div>
+        <div className="text-xl sm:text-2xl lg:text-3xl font-black font-mono tracking-tight text-white mb-1 truncate">
+          {system?.memory?.heapUsedMB ?? 0} <span className="text-xs font-normal text-gray-400">MB</span>
+        </div>
+        
+        {/* Heap Usage Progress Bar */}
+        <div className="w-full bg-white/10 h-1.5 sm:h-2 rounded-full overflow-hidden mt-3 mb-1">
+          <div 
+            className="bg-gradient-to-r from-amber-500 via-emerald-400 to-[#00FF88] h-full rounded-full transition-all duration-500"
+            style={{ width: `${heapPercentage}%` }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 5. RUNTIME METADATA CARD COMPONENT
+function TelemetryRuntimeCard({ system, build }: AnyValue) {
+  return (
+    <div className="w-full min-w-0 p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl space-y-3 sm:space-y-4 shadow-xl">
+      <div className="flex items-center justify-between border-b border-white/5 pb-3 w-full min-w-0">
+        <h3 className="text-xs font-bold font-mono text-gray-300 uppercase tracking-wider flex items-center gap-2 truncate">
+          <Clock className="w-4 h-4 text-[#00FF88] shrink-0" /> Runtime Metadata
+        </h3>
+        <span className="text-[10px] font-mono text-[#00FF88] bg-[#00FF88]/10 px-2 py-0.5 rounded-full border border-[#00FF88]/20 shrink-0 font-bold">
+          Live Status
+        </span>
+      </div>
+
+      <div className="space-y-2.5 text-xs font-mono w-full min-w-0">
+        <div className="flex items-center justify-between py-2 border-b border-white/5 gap-2 w-full min-w-0">
+          <span className="text-gray-400 truncate">Server Uptime</span>
+          <span className="text-white font-bold shrink-0 whitespace-nowrap">
+            {system?.uptimeSeconds
+              ? `${Math.floor(system.uptimeSeconds / 3600)}h ${Math.floor(
+                  (system.uptimeSeconds % 3600) / 60
+                )}m ${system.uptimeSeconds % 60}s`
+              : "N/A"}
+          </span>
+        </div>
+        <div className="flex items-center justify-between py-2 border-b border-white/5 gap-2 w-full min-w-0">
+          <span className="text-gray-400 truncate">Node Engine</span>
+          <span className="text-cyan-400 font-bold shrink-0 whitespace-nowrap">{system?.nodeVersion || "v24.14.1"}</span>
+        </div>
+        <div className="flex items-center justify-between py-2 border-b border-white/5 gap-2 w-full min-w-0">
+          <span className="text-gray-400 truncate">Process PID</span>
+          <span className="text-purple-400 font-bold shrink-0 whitespace-nowrap">{system?.processId || "N/A"}</span>
+        </div>
+        <div className="flex items-center justify-between py-2 border-b border-white/5 gap-2 w-full min-w-0">
+          <span className="text-gray-400 truncate">RSS Memory</span>
+          <span className="text-amber-400 font-bold shrink-0 whitespace-nowrap">{system?.memory?.rssMB || 0} MB</span>
+        </div>
+        <div className="flex items-center justify-between py-2 gap-2 w-full min-w-0">
+          <span className="text-gray-400 truncate">App Version</span>
+          <span className="text-[#00FF88] font-black shrink-0 whitespace-nowrap">{build?.version || "3.0.0"}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 6. SECURITY CARD COMPONENT (Row-by-Row Structured Layout)
+function TelemetrySecurityCard() {
+  return (
+    <div className="w-full min-w-0 p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl space-y-4 flex flex-col justify-between shadow-xl">
+      <div className="w-full min-w-0 space-y-3">
+        <div className="flex items-center justify-between border-b border-white/5 pb-3 w-full min-w-0">
+          <h3 className="text-xs font-bold font-mono text-gray-300 uppercase tracking-wider flex items-center gap-2 truncate">
+            <ShieldCheck className="w-4 h-4 text-cyan-400 shrink-0" /> Security Verification
+          </h3>
+          <span className="text-[10px] font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded-full border border-cyan-500/20 shrink-0 font-bold">
+            Enforced
+          </span>
+        </div>
+
+        {/* Structured Itemized Rows */}
+        <div className="space-y-2.5 text-xs font-mono w-full min-w-0">
+          <div className="flex items-center justify-between py-2 border-b border-white/5 gap-2 w-full min-w-0">
+            <span className="text-gray-400 truncate">Telemetry Policy</span>
+            <span className="text-[#00FF88] font-bold bg-[#00FF88]/10 px-2.5 py-0.5 rounded-md border border-[#00FF88]/20 shrink-0 whitespace-nowrap flex items-center gap-1">
+              <Check className="w-3 h-3" /> Active
+            </span>
+          </div>
+
+          <div className="flex items-center justify-between py-2 border-b border-white/5 gap-2 w-full min-w-0">
+            <span className="text-gray-400 truncate">Route Scope</span>
+            <code className="text-white font-bold bg-black/40 px-2 py-0.5 rounded border border-white/10 shrink-0 whitespace-nowrap">
+              /api/v1/ops/*
+            </code>
+          </div>
+
+          <div className="flex items-center justify-between py-2 border-b border-white/5 gap-2 w-full min-w-0">
+            <span className="text-gray-400 truncate">Primary Owner Handle</span>
+            <span className="text-cyan-400 font-bold shrink-0 whitespace-nowrap">
+              ns4770@srmist.edu.in
+            </span>
+          </div>
+
+          <div className="flex items-center justify-between py-2 gap-2 w-full min-w-0">
+            <span className="text-gray-400 truncate">Security Audit Status</span>
+            <span className="text-[#00FF88] font-bold shrink-0 whitespace-nowrap flex items-center gap-1">
+              0 Vulnerabilities <ArrowUpRight className="w-3.5 h-3.5" />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+// ==========================================
+// MAIN OPERATIONS PAGE CONTAINER
+// ==========================================
 export default function OperationsPage() {
   const { ready } = useAuth();
   const router = useRouter();
@@ -183,302 +591,57 @@ export default function OperationsPage() {
     : 0;
 
   return (
-    <div className="w-full max-w-full overflow-x-hidden min-h-screen bg-[#06080F] text-white pt-24 sm:pt-10 pb-16 px-3 sm:px-4 lg:px-6 font-sans relative selection:bg-[#00FF88]/30 selection:text-[#00FF88]">
+    <div className="w-full max-w-full overflow-x-hidden min-h-screen bg-[#06080F] text-white pt-24 sm:pt-8 pb-16 px-3 sm:px-4 lg:px-6 font-sans relative selection:bg-[#00FF88]/30 selection:text-[#00FF88]">
       {/* Background Ambient Glow */}
       <div className="fixed -top-40 -left-40 w-80 sm:w-96 h-80 sm:h-96 bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="fixed top-1/2 -right-40 w-80 sm:w-96 h-80 sm:h-96 bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="w-full max-w-6xl mx-auto space-y-4 sm:space-y-6 relative z-10 min-w-0">
         
-        {/* Header Bar */}
-        <div className="w-full min-w-0 p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-80 h-full bg-gradient-to-l from-[#00FF88]/5 to-transparent pointer-events-none" />
-          
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6 w-full min-w-0">
-            {/* Title & Metadata Rows */}
-            <div className="w-full min-w-0 space-y-2">
-              {/* Row 1: Logo & Version */}
-              <div className="flex flex-wrap items-center justify-between sm:justify-start gap-2 w-full min-w-0">
-                <div className="flex items-center gap-2.5 min-w-0 truncate">
-                  <div className="relative flex items-center justify-center shrink-0">
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#00FF88] animate-ping absolute" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#00FF88] relative" />
-                  </div>
-                  <h1 className="text-base sm:text-xl lg:text-2xl font-black tracking-tight font-mono text-white truncate">
-                    SRM NEXUS TELEMETRY
-                  </h1>
-                </div>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-mono font-extrabold bg-[#00FF88]/15 text-[#00FF88] border border-[#00FF88]/30 shadow-sm shrink-0">
-                  /ns v3.0
-                </span>
-              </div>
+        {/* 1. STICKY HEADER */}
+        <TelemetryHeader 
+          telemetry={telemetry} 
+          system={system} 
+          onOpenProfile={() => router.push("/settings")} 
+        />
 
-              {/* Row 2: Environment & Request ID */}
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-400 font-mono w-full min-w-0">
-                <span className="truncate max-w-[200px] sm:max-w-none">
-                  Req: <code className="text-emerald-400 font-bold">{telemetry?.requestId ? `${telemetry.requestId.slice(0, 10)}...` : "OK"}</code>
-                </span>
-                <span className="text-gray-600">•</span>
-                <span>Node: <code className="text-cyan-400 font-bold">{system?.nodeVersion || "v20"}</code></span>
-                <span className="text-gray-600">•</span>
-                <span>Env: <span className="text-[#00FF88] font-bold capitalize">{system?.environment || "production"}</span></span>
-              </div>
-            </div>
+        {/* 2. STATUS BAR */}
+        <TelemetryStatusBar 
+          autoRefresh={autoRefresh} 
+          setAutoRefresh={setAutoRefresh} 
+          refreshing={refreshing} 
+          onRefresh={() => {
+            fetchOpsData();
+            if (activeTab === "logs") fetchLogs();
+          }} 
+        />
 
-            {/* Row 3 / Desktop Controls: Live Feed & Sync */}
-            <div className="flex items-center gap-2 sm:gap-3 w-full lg:w-auto pt-2 lg:pt-0 border-t border-white/5 lg:border-t-0 shrink-0">
-              <button
-                onClick={() => setAutoRefresh(!autoRefresh)}
-                className={`flex-1 lg:flex-initial flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-mono border transition-all ${
-                  autoRefresh
-                    ? "bg-[#00FF88]/15 text-[#00FF88] border-[#00FF88]/40 shadow-lg shadow-[#00FF88]/10 font-bold"
-                    : "bg-white/5 text-gray-400 border-white/10 hover:text-white"
-                }`}
-              >
-                <Radio className={`w-3.5 h-3.5 ${autoRefresh ? "animate-pulse" : ""}`} />
-                <span className="whitespace-nowrap">Live Feed {autoRefresh ? "ON" : "OFF"}</span>
-              </button>
+        {/* 3. NAVIGATION TABS */}
+        <TelemetryNavigation 
+          activeTab={activeTab} 
+          setActiveTab={setActiveTab} 
+          logCount={logs.length} 
+        />
 
-              <button
-                onClick={() => {
-                  fetchOpsData();
-                  if (activeTab === "logs") fetchLogs();
-                }}
-                disabled={refreshing}
-                className="flex-1 lg:flex-initial flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-xs font-mono text-white transition-all disabled:opacity-50 font-bold"
-              >
-                <RefreshCw className={`w-3.5 h-3.5 text-[#00FF88] ${refreshing ? "animate-spin" : ""}`} />
-                <span className="whitespace-nowrap">Sync Now</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Tab Navigation */}
-        <div className="w-full min-w-0 flex items-center justify-between border-b border-white/10 pb-2 font-mono">
-          <div className="flex items-center gap-2 w-full sm:w-auto min-w-0">
-            <button
-              onClick={() => setActiveTab("overview")}
-              className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl sm:rounded-2xl text-xs font-bold transition-all ${
-                activeTab === "overview"
-                  ? "bg-gradient-to-r from-[#00FF88]/20 to-teal-500/20 text-[#00FF88] border border-[#00FF88]/40 shadow-lg shadow-[#00FF88]/10"
-                  : "text-gray-400 hover:text-white hover:bg-white/5 border border-transparent"
-              }`}
-            >
-              <Activity className="w-4 h-4 shrink-0" />
-              <span>System Overview</span>
-            </button>
-            <button
-              onClick={() => setActiveTab("logs")}
-              className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl sm:rounded-2xl text-xs font-bold transition-all ${
-                activeTab === "logs"
-                  ? "bg-gradient-to-r from-[#00FF88]/20 to-teal-500/20 text-[#00FF88] border border-[#00FF88]/40 shadow-lg shadow-[#00FF88]/10"
-                  : "text-gray-400 hover:text-white hover:bg-white/5 border border-transparent"
-              }`}
-            >
-              <Terminal className="w-4 h-4 shrink-0" />
-              <span>Real-time Logs</span>
-              {logs.length > 0 && (
-                <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-[#00FF88]/20 text-[#00FF88] font-mono">
-                  {logs.length}
-                </span>
-              )}
-            </button>
-          </div>
-
-          <div className="hidden lg:flex items-center gap-2 text-[11px] text-gray-500 shrink-0">
-            <Sparkles className="w-3.5 h-3.5 text-[#00FF88]" />
-            <span>High-frequency Ring Buffer</span>
-          </div>
-        </div>
-
-        {/* TAB 1: OVERVIEW */}
+        {/* 4. METRICS GRID & DIAGNOSTICS */}
         {activeTab === "overview" && (
           <div className="w-full min-w-0 space-y-4 sm:space-y-6">
-            
-            {/* Health Metric Cards Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-5 w-full min-w-0">
-              
-              {/* MongoDB Atlas Card */}
-              <div className="w-full min-w-0 p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl hover:border-emerald-500/30 transition-all relative overflow-hidden flex flex-col justify-between group">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all pointer-events-none" />
-                <div className="flex items-center justify-between mb-3 w-full min-w-0">
-                  <span className="text-xs font-mono text-gray-400 flex items-center gap-2 font-bold truncate">
-                    <Database className="w-4 h-4 text-emerald-400 shrink-0" /> MongoDB Atlas
-                  </span>
-                  {mongo?.status === "healthy" ? (
-                    <span className="flex items-center gap-1 text-[11px] font-mono text-[#00FF88] bg-[#00FF88]/10 px-2.5 py-0.5 rounded-full border border-[#00FF88]/20 shrink-0 font-bold">
-                      <CheckCircle2 className="w-3 h-3" /> Healthy
-                    </span>
-                  ) : (
-                    <span className="flex items-center gap-1 text-[11px] font-mono text-red-400 bg-red-500/10 px-2.5 py-0.5 rounded-full border border-red-500/20 shrink-0 font-bold">
-                      <XCircle className="w-3 h-3" /> Error
-                    </span>
-                  )}
-                </div>
-                <div className="text-xl sm:text-2xl font-black font-mono capitalize tracking-tight text-white mb-2 truncate">
-                  {mongo?.status || "Unknown"}
-                </div>
-                <div className="w-full min-w-0 flex items-center justify-between text-xs text-gray-400 font-mono mt-2 pt-3 border-t border-white/5">
-                  <span className="truncate">Ping Latency</span>
-                  <span className="text-[#00FF88] font-bold bg-[#00FF88]/10 px-2 py-0.5 rounded-md border border-[#00FF88]/20 shrink-0 whitespace-nowrap">
-                    {mongo?.latencyMs >= 0 ? `${mongo.latencyMs} ms` : "N/A"}
-                  </span>
-                </div>
-              </div>
+            <TelemetryMetricsGrid 
+              mongo={mongo} 
+              redis={redis} 
+              metrics={metrics} 
+              system={system} 
+              heapPercentage={heapPercentage} 
+            />
 
-              {/* Upstash Redis Card */}
-              <div className="w-full min-w-0 p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl hover:border-cyan-500/30 transition-all relative overflow-hidden flex flex-col justify-between group">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-cyan-500/10 rounded-full blur-2xl group-hover:bg-cyan-500/20 transition-all pointer-events-none" />
-                <div className="flex items-center justify-between mb-3 w-full min-w-0">
-                  <span className="text-xs font-mono text-gray-400 flex items-center gap-2 font-bold truncate">
-                    <Server className="w-4 h-4 text-cyan-400 shrink-0" /> Upstash Redis
-                  </span>
-                  {redis?.status === "healthy" ? (
-                    <span className="flex items-center gap-1 text-[11px] font-mono text-cyan-400 bg-cyan-500/10 px-2.5 py-0.5 rounded-full border border-cyan-500/20 shrink-0 font-bold">
-                      <CheckCircle2 className="w-3 h-3" /> Active
-                    </span>
-                  ) : (
-                    <span className="flex items-center gap-1 text-[11px] font-mono text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/20 shrink-0 font-bold">
-                      <AlertTriangle className="w-3 h-3" /> Standby
-                    </span>
-                  )}
-                </div>
-                <div className="text-xl sm:text-2xl font-black font-mono capitalize tracking-tight text-white mb-2 truncate">
-                  {redis?.status || "Disabled"}
-                </div>
-                <div className="w-full min-w-0 flex items-center justify-between text-xs text-gray-400 font-mono mt-2 pt-3 border-t border-white/5">
-                  <span className="truncate">Response Time</span>
-                  <span className="text-cyan-400 font-bold bg-cyan-500/10 px-2 py-0.5 rounded-md border border-cyan-500/20 shrink-0 whitespace-nowrap">
-                    {redis?.latencyMs >= 0 ? `${redis.latencyMs} ms` : "0 ms"}
-                  </span>
-                </div>
-              </div>
-
-              {/* Active User Sessions Card */}
-              <div className="w-full min-w-0 p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl hover:border-purple-500/30 transition-all relative overflow-hidden flex flex-col justify-between group">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/20 transition-all pointer-events-none" />
-                <div className="flex items-center justify-between mb-3 w-full min-w-0">
-                  <span className="text-xs font-mono text-gray-400 flex items-center gap-2 font-bold truncate">
-                    <Users className="w-4 h-4 text-purple-400 shrink-0" /> User Sessions
-                  </span>
-                  <ShieldCheck className="w-4 h-4 text-purple-400 shrink-0" />
-                </div>
-                <div className="text-xl sm:text-2xl font-black font-mono tracking-tight text-white mb-2 truncate">
-                  {metrics?.activeSessions ?? 0}
-                </div>
-                <div className="w-full min-w-0 flex items-center justify-between text-xs text-gray-400 font-mono mt-2 pt-3 border-t border-white/5">
-                  <span className="truncate">Total Registered</span>
-                  <span className="text-purple-400 font-bold bg-purple-500/10 px-2 py-0.5 rounded-md border border-purple-500/20 shrink-0 whitespace-nowrap">
-                    {metrics?.totalRegisteredUsers ?? 0}
-                  </span>
-                </div>
-              </div>
-
-              {/* Memory Heap Card */}
-              <div className="w-full min-w-0 p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl hover:border-amber-500/30 transition-all relative overflow-hidden flex flex-col justify-between group">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/20 transition-all pointer-events-none" />
-                <div className="flex items-center justify-between mb-3 w-full min-w-0">
-                  <span className="text-xs font-mono text-gray-400 flex items-center gap-2 font-bold truncate">
-                    <Cpu className="w-4 h-4 text-amber-400 shrink-0" /> RAM Heap
-                  </span>
-                  <span className="text-[11px] font-mono text-amber-400 font-bold shrink-0">
-                    {heapPercentage}% Used
-                  </span>
-                </div>
-                <div className="text-xl sm:text-2xl font-black font-mono tracking-tight text-white mb-1 truncate">
-                  {system?.memory?.heapUsedMB ?? 0} <span className="text-xs font-normal text-gray-400">MB</span>
-                </div>
-                
-                {/* Heap usage bar */}
-                <div className="w-full bg-white/10 h-1.5 sm:h-2 rounded-full overflow-hidden mt-3 mb-1">
-                  <div 
-                    className="bg-gradient-to-r from-amber-500 via-emerald-400 to-[#00FF88] h-full rounded-full transition-all duration-500"
-                    style={{ width: `${heapPercentage}%` }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Diagnostics Cards Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 w-full min-w-0">
-              
-              {/* Process Runtime Metadata */}
-              <div className="w-full min-w-0 p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl space-y-3 sm:space-y-4">
-                <div className="flex items-center justify-between border-b border-white/5 pb-3 w-full min-w-0">
-                  <h3 className="text-xs font-bold font-mono text-gray-300 uppercase tracking-wider flex items-center gap-2 truncate">
-                    <Clock className="w-4 h-4 text-[#00FF88] shrink-0" /> Runtime Metadata
-                  </h3>
-                  <span className="text-[10px] font-mono text-[#00FF88] bg-[#00FF88]/10 px-2 py-0.5 rounded-full border border-[#00FF88]/20 shrink-0 font-bold">
-                    Live Status
-                  </span>
-                </div>
-
-                <div className="space-y-2.5 text-xs font-mono w-full min-w-0">
-                  <div className="flex items-center justify-between py-2 border-b border-white/5 gap-2 w-full min-w-0">
-                    <span className="text-gray-400 truncate">Server Uptime</span>
-                    <span className="text-white font-bold shrink-0 whitespace-nowrap">
-                      {system?.uptimeSeconds
-                        ? `${Math.floor(system.uptimeSeconds / 3600)}h ${Math.floor(
-                            (system.uptimeSeconds % 3600) / 60
-                          )}m ${system.uptimeSeconds % 60}s`
-                        : "N/A"}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between py-2 border-b border-white/5 gap-2 w-full min-w-0">
-                    <span className="text-gray-400 truncate">Node Engine</span>
-                    <span className="text-cyan-400 font-bold shrink-0 whitespace-nowrap">{system?.nodeVersion || "N/A"}</span>
-                  </div>
-                  <div className="flex items-center justify-between py-2 border-b border-white/5 gap-2 w-full min-w-0">
-                    <span className="text-gray-400 truncate">Process PID</span>
-                    <span className="text-purple-400 font-bold shrink-0 whitespace-nowrap">{system?.processId || "N/A"}</span>
-                  </div>
-                  <div className="flex items-center justify-between py-2 border-b border-white/5 gap-2 w-full min-w-0">
-                    <span className="text-gray-400 truncate">RSS Memory</span>
-                    <span className="text-amber-400 font-bold shrink-0 whitespace-nowrap">{system?.memory?.rssMB || 0} MB</span>
-                  </div>
-                  <div className="flex items-center justify-between py-2 gap-2 w-full min-w-0">
-                    <span className="text-gray-400 truncate">App Version</span>
-                    <span className="text-[#00FF88] font-black shrink-0 whitespace-nowrap">{build?.version || "3.0.0"}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Owner Access Controls & Security */}
-              <div className="w-full min-w-0 p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl space-y-4 flex flex-col justify-between">
-                <div className="w-full min-w-0">
-                  <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-3 w-full min-w-0">
-                    <h3 className="text-xs font-bold font-mono text-gray-300 uppercase tracking-wider flex items-center gap-2 truncate">
-                      <ShieldCheck className="w-4 h-4 text-cyan-400 shrink-0" /> Security Verification
-                    </h3>
-                    <span className="text-[10px] font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded-full border border-cyan-500/20 shrink-0 font-bold">
-                      Enforced
-                    </span>
-                  </div>
-
-                  <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-cyan-500/5 border border-cyan-500/20 text-xs font-mono space-y-2 w-full min-w-0">
-                    <div className="flex items-center gap-2 text-cyan-300 font-extrabold text-xs">
-                      <Zap className="w-4 h-4 shrink-0" /> Telemetry Access Policy Active
-                    </div>
-                    <p className="text-gray-400 leading-relaxed text-[11px] break-words">
-                      All operations metrics and ring buffer routes under <code className="text-white bg-black/40 px-1.5 py-0.5 rounded border border-white/10">/api/v1/ops/*</code> enforce mandatory owner token checks for primary handle <code className="text-[#00FF88]">ns4770@srmist.edu.in</code>.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="p-3.5 rounded-xl sm:rounded-2xl bg-white/5 border border-white/5 flex items-center justify-between font-mono text-xs mt-3 w-full min-w-0">
-                  <span className="text-gray-400 truncate">Security Audit</span>
-                  <span className="text-[#00FF88] font-bold flex items-center gap-1 shrink-0 whitespace-nowrap">
-                    0 Vulnerabilities <ArrowUpRight className="w-3.5 h-3.5" />
-                  </span>
-                </div>
-              </div>
-
+              <TelemetryRuntimeCard system={system} build={build} />
+              <TelemetrySecurityCard />
             </div>
           </div>
         )}
 
-        {/* TAB 2: LOGS EXPLORER */}
+        {/* 5. LOGS EXPLORER */}
         {activeTab === "logs" && (
           <div className="w-full min-w-0 space-y-4">
             
