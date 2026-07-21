@@ -9,7 +9,7 @@ import { useThemeStore } from "@/lib/themeStore";
 import { extractBatch } from "@/lib/utils";
 import { ShieldCheck, AlertCircle, RefreshCw } from "lucide-react";
 import dynamic from "next/dynamic";
-const AuraDashboard = dynamic(() => import("@/components/aura-theme/AuraDashboard"), { ssr: false });
+import AuraDashboard from "@/components/aura-theme/AuraDashboard";
 const PortalSyncModal = dynamic(() => import("@/components/PortalSyncModal"), { ssr: false });
 import LoadingSkeleton from "@/components/aura-theme/LoadingSkeleton";
 
