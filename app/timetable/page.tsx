@@ -1586,7 +1586,10 @@ function AuraTimetable({
                     if (item.isBreak) return null;
                     return (
                        <div key={i} style={{ display: "flex", gap: "16px", alignItems: "center" }}>
-                          <div style={{ width: "80px", fontSize: "10px", fontWeight: 800, color: "rgba(255,255,255,0.6)", textAlign: "right" }}>{fmt12(item.startTime)}</div>
+                          <div style={{ width: "100px", fontSize: "10px", fontWeight: 800, color: "rgba(255,255,255,0.7)", textAlign: "right", lineHeight: 1.3 }}>
+                             <div>{fmt12(item.startTime)}</div>
+                             <div style={{ fontSize: "9px", color: "rgba(255,255,255,0.45)", fontWeight: 600 }}>to {fmt12(item.endTime)}</div>
+                          </div>
                           <div style={{ flex: 1, background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", borderRadius: "12px", padding: "12px 16px" }}>
                              <div style={{ fontSize: "14px", fontWeight: 900, color: "#fff", marginBottom: "4px", textTransform: "capitalize" }}>{item.courseTitle.toLowerCase()}</div>
                              <div style={{ fontSize: "10px", color: AURA.secondary, fontWeight: 700 }}>{item.roomNo || "TBA"} • {item.courseCode}</div>
@@ -1623,8 +1626,8 @@ function AuraTimetable({
                           {(schedule[d - 1]?.classes || []).map((cls: AnyValue, i: number) => (
                              <div key={i} style={{ background: "rgba(255,255,255,0.03)", padding: "10px 12px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.05)" }}>
                                 <div style={{ fontSize: "11px", fontWeight: 900, color: "#fff", marginBottom: "4px", textTransform: "capitalize" }}>{cls.courseTitle.toLowerCase()}</div>
-                                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "9px", color: "rgba(255,255,255,0.5)", fontWeight: 700 }}>
-                                  <span>{fmt12(cls.startTime)}</span>
+                                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "9px", color: "rgba(255,255,255,0.6)", fontWeight: 700, gap: "6px" }}>
+                                  <span>{fmt12(cls.startTime)} – {fmt12(cls.endTime)}</span>
                                   <span>{cls.roomNo || "TBA"}</span>
                                 </div>
                              </div>
