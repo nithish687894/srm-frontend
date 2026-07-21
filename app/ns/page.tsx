@@ -185,7 +185,6 @@ export default function OperationsPage() {
     : 0;
 
   return (
-  return (
     <div className="min-h-screen bg-[#06080F] text-white pt-20 sm:pt-8 pb-12 px-3.5 sm:px-8 font-sans relative overflow-x-hidden selection:bg-[#00FF88]/30 selection:text-[#00FF88]">
       {/* Dynamic Background Glow Effect */}
       <div className="fixed -top-40 -left-40 w-96 h-96 bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none" />
@@ -315,7 +314,7 @@ export default function OperationsPage() {
                 </div>
                 <div className="flex items-center justify-between text-xs text-gray-400 font-mono mt-3 pt-3 border-t border-white/5 px-0.5">
                   <span>Ping Latency</span>
-                  <span className="text-emerald-400 font-bold shrink-0">{mongo?.latencyMs >= 0 ? `${mongo.latencyMs} ms` : "N/A"}</span>
+                  <span className="text-[#00FF88] font-bold bg-[#00FF88]/10 px-2 py-0.5 rounded-md border border-[#00FF88]/20 shrink-0">{mongo?.latencyMs >= 0 ? `${mongo.latencyMs} ms` : "N/A"}</span>
                 </div>
               </div>
 
@@ -341,7 +340,7 @@ export default function OperationsPage() {
                 </div>
                 <div className="flex items-center justify-between text-xs text-gray-400 font-mono mt-3 pt-3 border-t border-white/5 px-0.5">
                   <span>Response Time</span>
-                  <span className="text-cyan-400 font-bold shrink-0">{redis?.latencyMs >= 0 ? `${redis.latencyMs} ms` : "0 ms"}</span>
+                  <span className="text-cyan-400 font-bold bg-cyan-500/10 px-2 py-0.5 rounded-md border border-cyan-500/20 shrink-0">{redis?.latencyMs >= 0 ? `${redis.latencyMs} ms` : "0 ms"}</span>
                 </div>
               </div>
 
@@ -359,7 +358,7 @@ export default function OperationsPage() {
                 </div>
                 <div className="flex items-center justify-between text-xs text-gray-400 font-mono mt-3 pt-3 border-t border-white/5 px-0.5">
                   <span>Total Registered</span>
-                  <span className="text-purple-400 font-bold shrink-0">{metrics?.totalRegisteredUsers ?? 0}</span>
+                  <span className="text-purple-400 font-bold bg-purple-500/10 px-2 py-0.5 rounded-md border border-purple-500/20 shrink-0">{metrics?.totalRegisteredUsers ?? 0}</span>
                 </div>
               </div>
 
