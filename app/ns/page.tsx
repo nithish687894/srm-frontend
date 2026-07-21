@@ -190,29 +190,29 @@ export default function OperationsPage() {
       <div className="fixed -top-40 -left-40 w-96 h-96 bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="fixed top-1/2 -right-40 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="max-w-6xl mx-auto space-y-6 relative z-10">
+      <div className="max-w-6xl mx-auto space-y-4 sm:space-y-6 relative z-10">
         
         {/* Header Bar */}
-        <div className="p-6 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
+        <div className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-80 h-full bg-gradient-to-l from-[#00FF88]/5 to-transparent pointer-events-none" />
           
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6">
             <div>
-              <div className="flex items-center gap-3 mb-2">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-1.5 sm:mb-2">
                 <div className="relative flex items-center justify-center">
-                  <div className="w-3 h-3 rounded-full bg-[#00FF88] animate-ping absolute" />
-                  <div className="w-3 h-3 rounded-full bg-[#00FF88] relative" />
+                  <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#00FF88] animate-ping absolute" />
+                  <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#00FF88] relative" />
                 </div>
-                <h1 className="text-xl sm:text-2xl font-black tracking-tight font-mono text-white flex items-center gap-2">
+                <h1 className="text-lg sm:text-2xl font-black tracking-tight font-mono text-white flex items-center gap-2">
                   SRM NEXUS TELEMETRY
                 </h1>
-                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-extrabold bg-[#00FF88]/15 text-[#00FF88] border border-[#00FF88]/30 shadow-sm">
+                <span className="px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-mono font-extrabold bg-[#00FF88]/15 text-[#00FF88] border border-[#00FF88]/30 shadow-sm">
                   /ns v3.0
                 </span>
               </div>
-              <p className="text-xs text-gray-400 font-mono flex items-center gap-3">
-                <span>Request ID: <code className="text-emerald-400">{telemetry?.requestId || "OK"}</code></span>
-                <span>•</span>
+              <p className="text-[11px] sm:text-xs text-gray-400 font-mono flex flex-wrap items-center gap-x-2.5 gap-y-1">
+                <span>Request ID: <code className="text-emerald-400 break-all">{telemetry?.requestId || "OK"}</code></span>
+                <span className="hidden sm:inline">•</span>
                 <span>Node: <code className="text-cyan-400">{system?.nodeVersion || "v20"}</code></span>
                 <span>•</span>
                 <span className="capitalize text-gray-300">Env: <span className="text-[#00FF88] font-bold">{system?.environment || "production"}</span></span>
@@ -220,11 +220,11 @@ export default function OperationsPage() {
             </div>
 
             {/* Controls */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3 w-full md:w-auto">
               {/* Auto Refresh Toggle */}
               <button
                 onClick={() => setAutoRefresh(!autoRefresh)}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-mono border transition-all ${
+                className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-mono border transition-all ${
                   autoRefresh
                     ? "bg-[#00FF88]/15 text-[#00FF88] border-[#00FF88]/40 shadow-lg shadow-[#00FF88]/10"
                     : "bg-white/5 text-gray-400 border-white/10 hover:text-white"
@@ -241,7 +241,7 @@ export default function OperationsPage() {
                   if (activeTab === "logs") fetchLogs();
                 }}
                 disabled={refreshing}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-xs font-mono text-white transition-all disabled:opacity-50"
+                className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-xs font-mono text-white transition-all disabled:opacity-50"
               >
                 <RefreshCw className={`w-3.5 h-3.5 text-[#00FF88] ${refreshing ? "animate-spin" : ""}`} />
                 <span>Sync Now</span>
@@ -251,11 +251,11 @@ export default function OperationsPage() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex items-center justify-between border-b border-white/10 pb-2 font-mono">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between border-b border-white/10 pb-2 font-mono overflow-x-auto no-scrollbar">
+          <div className="flex items-center gap-2 min-w-max">
             <button
               onClick={() => setActiveTab("overview")}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl text-xs font-bold transition-all ${
+              className={`flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl text-xs font-bold transition-all whitespace-nowrap ${
                 activeTab === "overview"
                   ? "bg-gradient-to-r from-[#00FF88]/20 to-teal-500/20 text-[#00FF88] border border-[#00FF88]/40 shadow-lg shadow-[#00FF88]/10"
                   : "text-gray-400 hover:text-white hover:bg-white/5 border border-transparent"
@@ -265,22 +265,22 @@ export default function OperationsPage() {
             </button>
             <button
               onClick={() => setActiveTab("logs")}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl text-xs font-bold transition-all ${
+              className={`flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl text-xs font-bold transition-all whitespace-nowrap ${
                 activeTab === "logs"
                   ? "bg-gradient-to-r from-[#00FF88]/20 to-teal-500/20 text-[#00FF88] border border-[#00FF88]/40 shadow-lg shadow-[#00FF88]/10"
                   : "text-gray-400 hover:text-white hover:bg-white/5 border border-transparent"
               }`}
             >
-              <Terminal className="w-4 h-4" /> Real-time Logs Explorer
+              <Terminal className="w-4 h-4" /> Real-time Logs
               {logs.length > 0 && (
-                <span className="px-2 py-0.5 rounded-full text-[10px] bg-[#00FF88]/20 text-[#00FF88] font-mono">
+                <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-[#00FF88]/20 text-[#00FF88] font-mono">
                   {logs.length}
                 </span>
               )}
             </button>
           </div>
 
-          <div className="hidden sm:flex items-center gap-2 text-[11px] text-gray-500">
+          <div className="hidden lg:flex items-center gap-2 text-[11px] text-gray-500">
             <Sparkles className="w-3.5 h-3.5 text-[#00FF88]" />
             <span>High-frequency Ring Buffer</span>
           </div>
@@ -288,14 +288,14 @@ export default function OperationsPage() {
 
         {/* TAB 1: OVERVIEW */}
         {activeTab === "overview" && (
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {/* Health Metric Cards Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
               
               {/* MongoDB Atlas */}
-              <div className="p-5 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl hover:border-emerald-500/30 transition-all relative overflow-hidden group">
+              <div className="p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl hover:border-emerald-500/30 transition-all relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all" />
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
                   <span className="text-xs font-mono text-gray-400 flex items-center gap-2 font-bold">
                     <Database className="w-4 h-4 text-emerald-400" /> MongoDB Atlas
                   </span>
@@ -309,7 +309,7 @@ export default function OperationsPage() {
                     </span>
                   )}
                 </div>
-                <div className="text-2xl font-black font-mono capitalize tracking-tight text-white mb-1">
+                <div className="text-xl sm:text-2xl font-black font-mono capitalize tracking-tight text-white mb-1">
                   {mongo?.status || "Unknown"}
                 </div>
                 <div className="flex items-center justify-between text-xs text-gray-400 font-mono mt-3 pt-3 border-t border-white/5">
@@ -319,9 +319,9 @@ export default function OperationsPage() {
               </div>
 
               {/* Upstash Redis */}
-              <div className="p-5 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl hover:border-cyan-500/30 transition-all relative overflow-hidden group">
+              <div className="p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl hover:border-cyan-500/30 transition-all relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-cyan-500/10 rounded-full blur-2xl group-hover:bg-cyan-500/20 transition-all" />
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
                   <span className="text-xs font-mono text-gray-400 flex items-center gap-2 font-bold">
                     <Server className="w-4 h-4 text-cyan-400" /> Upstash Redis
                   </span>
@@ -335,7 +335,7 @@ export default function OperationsPage() {
                     </span>
                   )}
                 </div>
-                <div className="text-2xl font-black font-mono capitalize tracking-tight text-white mb-1">
+                <div className="text-xl sm:text-2xl font-black font-mono capitalize tracking-tight text-white mb-1">
                   {redis?.status || "Disabled"}
                 </div>
                 <div className="flex items-center justify-between text-xs text-gray-400 font-mono mt-3 pt-3 border-t border-white/5">
@@ -345,15 +345,15 @@ export default function OperationsPage() {
               </div>
 
               {/* Active Sessions */}
-              <div className="p-5 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl hover:border-purple-500/30 transition-all relative overflow-hidden group">
+              <div className="p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl hover:border-purple-500/30 transition-all relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/20 transition-all" />
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
                   <span className="text-xs font-mono text-gray-400 flex items-center gap-2 font-bold">
                     <Users className="w-4 h-4 text-purple-400" /> User Sessions
                   </span>
                   <ShieldCheck className="w-4 h-4 text-purple-400" />
                 </div>
-                <div className="text-2xl font-black font-mono tracking-tight text-white mb-1">
+                <div className="text-xl sm:text-2xl font-black font-mono tracking-tight text-white mb-1">
                   {metrics?.activeSessions ?? 0}
                 </div>
                 <div className="flex items-center justify-between text-xs text-gray-400 font-mono mt-3 pt-3 border-t border-white/5">
@@ -363,9 +363,9 @@ export default function OperationsPage() {
               </div>
 
               {/* Memory Heap */}
-              <div className="p-5 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl hover:border-amber-500/30 transition-all relative overflow-hidden group">
+              <div className="p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl hover:border-amber-500/30 transition-all relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/20 transition-all" />
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
                   <span className="text-xs font-mono text-gray-400 flex items-center gap-2 font-bold">
                     <Cpu className="w-4 h-4 text-amber-400" /> Node RAM Heap
                   </span>
@@ -373,8 +373,8 @@ export default function OperationsPage() {
                     {heapPercentage}% Used
                   </span>
                 </div>
-                <div className="text-2xl font-black font-mono tracking-tight text-white mb-1">
-                  {system?.memory?.heapUsedMB ?? 0} <span className="text-sm font-normal text-gray-400">MB</span>
+                <div className="text-xl sm:text-2xl font-black font-mono tracking-tight text-white mb-1">
+                  {system?.memory?.heapUsedMB ?? 0} <span className="text-xs font-normal text-gray-400">MB</span>
                 </div>
                 
                 {/* Heap usage bar */}
@@ -388,21 +388,21 @@ export default function OperationsPage() {
             </div>
 
             {/* Diagnostics Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               
               {/* Process Runtime Metadata */}
-              <div className="p-6 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl space-y-4">
+              <div className="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl space-y-3 sm:space-y-4">
                 <div className="flex items-center justify-between border-b border-white/5 pb-3">
                   <h3 className="text-xs font-bold font-mono text-gray-300 uppercase tracking-wider flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-[#00FF88]" /> Process Runtime Metadata
+                    <Clock className="w-4 h-4 text-[#00FF88]" /> Runtime Metadata
                   </h3>
                   <span className="text-[10px] font-mono text-[#00FF88] bg-[#00FF88]/10 px-2 py-0.5 rounded-full border border-[#00FF88]/20">
                     Live Status
                   </span>
                 </div>
 
-                <div className="space-y-3 text-xs font-mono">
-                  <div className="flex justify-between py-2 border-b border-white/5">
+                <div className="space-y-2.5 text-xs font-mono">
+                  <div className="flex justify-between py-1.5 border-b border-white/5">
                     <span className="text-gray-400">Server Uptime</span>
                     <span className="text-white font-bold">
                       {system?.uptimeSeconds
@@ -412,49 +412,49 @@ export default function OperationsPage() {
                         : "N/A"}
                     </span>
                   </div>
-                  <div className="flex justify-between py-2 border-b border-white/5">
+                  <div className="flex justify-between py-1.5 border-b border-white/5">
                     <span className="text-gray-400">Node Engine</span>
                     <span className="text-cyan-400 font-bold">{system?.nodeVersion || "N/A"}</span>
                   </div>
-                  <div className="flex justify-between py-2 border-b border-white/5">
+                  <div className="flex justify-between py-1.5 border-b border-white/5">
                     <span className="text-gray-400">Process PID</span>
                     <span className="text-purple-400 font-bold">{system?.processId || "N/A"}</span>
                   </div>
-                  <div className="flex justify-between py-2 border-b border-white/5">
+                  <div className="flex justify-between py-1.5 border-b border-white/5">
                     <span className="text-gray-400">RSS Memory</span>
                     <span className="text-amber-400 font-bold">{system?.memory?.rssMB || 0} MB</span>
                   </div>
-                  <div className="flex justify-between py-2">
-                    <span className="text-gray-400">Application Version</span>
+                  <div className="flex justify-between py-1.5">
+                    <span className="text-gray-400">App Version</span>
                     <span className="text-[#00FF88] font-black">{build?.version || "3.0.0"}</span>
                   </div>
                 </div>
               </div>
 
               {/* Owner Access Controls & Security */}
-              <div className="p-6 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl space-y-4 flex flex-col justify-between">
+              <div className="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl space-y-4 flex flex-col justify-between">
                 <div>
-                  <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
+                  <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-3">
                     <h3 className="text-xs font-bold font-mono text-gray-300 uppercase tracking-wider flex items-center gap-2">
-                      <ShieldCheck className="w-4 h-4 text-cyan-400" /> Security & Access Verification
+                      <ShieldCheck className="w-4 h-4 text-cyan-400" /> Security Verification
                     </h3>
                     <span className="text-[10px] font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded-full border border-cyan-500/20">
                       Enforced
                     </span>
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-cyan-500/5 border border-cyan-500/20 text-xs font-mono space-y-2">
+                  <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-cyan-500/5 border border-cyan-500/20 text-xs font-mono space-y-2">
                     <div className="flex items-center gap-2 text-cyan-300 font-extrabold text-xs">
                       <Zap className="w-4 h-4" /> Telemetry Access Policy Active
                     </div>
                     <p className="text-gray-400 leading-relaxed text-[11px]">
-                      All operations metrics and ring buffer routes under <code className="text-white bg-black/40 px-1.5 py-0.5 rounded border border-white/10">/api/v1/ops/*</code> enforce mandatory owner token checks for primary handle <code className="text-[#00FF88]">ns4770@srmist.edu.in</code>.
+                      All operations metrics and ring buffer routes under <code className="text-white bg-black/40 px-1 py-0.5 rounded border border-white/10 break-all">/api/v1/ops/*</code> enforce mandatory owner token checks for primary handle <code className="text-[#00FF88]">ns4770@srmist.edu.in</code>.
                     </p>
                   </div>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-between font-mono text-xs mt-4">
-                  <span className="text-gray-400">Security Audit Log</span>
+                <div className="p-3.5 rounded-xl sm:rounded-2xl bg-white/5 border border-white/5 flex items-center justify-between font-mono text-xs mt-3">
+                  <span className="text-gray-400">Security Audit</span>
                   <span className="text-[#00FF88] font-bold flex items-center gap-1">
                     0 Vulnerabilities <ArrowUpRight className="w-3.5 h-3.5" />
                   </span>
@@ -470,37 +470,37 @@ export default function OperationsPage() {
           <div className="space-y-4">
             
             {/* Search & Level Controls */}
-            <div className="p-4 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl flex flex-col md:flex-row items-center gap-4">
+            <div className="p-4 rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl flex flex-col md:flex-row items-center gap-3 sm:gap-4">
               
               {/* Input Search */}
               <div className="relative flex-1 w-full">
                 <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
-                  placeholder="Filter logs by keyword, user, endpoint, or error code..."
+                  placeholder="Filter logs by keyword, user, endpoint, or error..."
                   value={logSearchQuery}
                   onChange={(e) => setLogSearchQuery(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && fetchLogs()}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-white/5 border border-white/10 text-xs font-mono text-white placeholder-gray-500 focus:outline-none focus:border-[#00FF88]/50 focus:bg-black/40 transition-all"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 text-xs font-mono text-white placeholder-gray-500 focus:outline-none focus:border-[#00FF88]/50 focus:bg-black/40 transition-all"
                 />
               </div>
 
               {/* Level Filter Badges */}
-              <div className="flex items-center gap-1.5 bg-black/40 p-1.5 rounded-2xl border border-white/10 font-mono text-xs w-full md:w-auto justify-center">
+              <div className="grid grid-cols-4 sm:flex items-center gap-1.5 bg-black/40 p-1.5 rounded-xl sm:rounded-2xl border border-white/10 font-mono text-xs w-full md:w-auto text-center">
                 {(["ALL", "INFO", "WARN", "ERROR"] as const).map((lvl) => {
                   const count = logCounts[lvl];
                   return (
                     <button
                       key={lvl}
                       onClick={() => setLogLevelFilter(lvl)}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+                      className={`px-2 sm:px-3 py-2 sm:py-1.5 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 ${
                         logLevelFilter === lvl
                           ? "bg-gradient-to-r from-[#00FF88]/20 to-teal-500/20 text-[#00FF88] border border-[#00FF88]/40 shadow-sm"
                           : "text-gray-400 hover:text-white"
                       }`}
                     >
                       <span>{lvl}</span>
-                      <span className="text-[10px] opacity-70 bg-white/10 px-1.5 py-0.2 rounded-full">
+                      <span className="text-[9px] sm:text-[10px] opacity-70 bg-white/10 px-1 rounded-full">
                         {count}
                       </span>
                     </button>
@@ -511,14 +511,14 @@ export default function OperationsPage() {
               {/* Search Execute Button */}
               <button
                 onClick={fetchLogs}
-                className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-[#00FF88] to-teal-400 hover:from-[#00FF88]/90 hover:to-teal-300 text-black font-extrabold text-xs font-mono transition-all w-full md:w-auto shadow-lg shadow-[#00FF88]/20"
+                className="px-5 py-2.5 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#00FF88] to-teal-400 hover:from-[#00FF88]/90 hover:to-teal-300 text-black font-extrabold text-xs font-mono transition-all w-full md:w-auto shadow-lg shadow-[#00FF88]/20"
               >
                 Execute Query
               </button>
             </div>
 
             {/* Log Ring Buffer Container */}
-            <div className="p-4 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl font-mono text-xs space-y-2.5 max-h-[680px] overflow-y-auto custom-scrollbar">
+            <div className="p-3 sm:p-4 rounded-2xl sm:rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-2xl font-mono text-xs space-y-2 max-h-[600px] sm:max-h-[680px] overflow-y-auto custom-scrollbar">
               {logsLoading ? (
                 <div className="py-16 text-center text-gray-400 flex flex-col items-center justify-center gap-3 font-mono">
                   <RefreshCw className="w-6 h-6 animate-spin text-[#00FF88]" />
@@ -538,7 +538,7 @@ export default function OperationsPage() {
                   return (
                     <div
                       key={idx}
-                      className={`p-3.5 rounded-2xl border transition-all ${
+                      className={`p-3 rounded-xl sm:rounded-2xl border transition-all ${
                         isError
                           ? "bg-red-500/5 border-red-500/25 hover:border-red-500/40"
                           : isWarn
@@ -548,21 +548,21 @@ export default function OperationsPage() {
                     >
                       <div
                         onClick={() => toggleExpandLog(idx)}
-                        className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 cursor-pointer select-none"
+                        className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 cursor-pointer select-none"
                       >
-                        <div className="flex items-center gap-3 overflow-hidden">
+                        <div className="flex items-center gap-2.5 overflow-hidden">
                           {logItem.data ? (
                             isExpanded ? (
-                              <ChevronDown className="w-4 h-4 text-[#00FF88] shrink-0" />
+                              <ChevronDown className="w-3.5 h-3.5 text-[#00FF88] shrink-0" />
                             ) : (
-                              <ChevronRight className="w-4 h-4 text-gray-400 shrink-0" />
+                              <ChevronRight className="w-3.5 h-3.5 text-gray-400 shrink-0" />
                             )
                           ) : (
-                            <div className="w-4 shrink-0" />
+                            <div className="w-3.5 shrink-0" />
                           )}
 
                           <span
-                            className={`px-2.5 py-0.5 rounded-md text-[10px] font-extrabold tracking-wider shrink-0 ${
+                            className={`px-2 py-0.5 rounded-md text-[9px] sm:text-[10px] font-extrabold tracking-wider shrink-0 ${
                               isError
                                 ? "bg-red-500/20 text-red-400 border border-red-500/30 shadow-sm"
                                 : isWarn
@@ -573,12 +573,12 @@ export default function OperationsPage() {
                             {logItem.level}
                           </span>
 
-                          <span className="text-gray-200 font-mono text-xs truncate">
+                          <span className="text-gray-200 font-mono text-[11px] sm:text-xs truncate break-all">
                             {logItem.message}
                           </span>
                         </div>
 
-                        <div className="flex items-center gap-3 shrink-0">
+                        <div className="flex items-center justify-between sm:justify-end gap-2.5 shrink-0 mt-1 sm:mt-0 pt-1 sm:pt-0 border-t border-white/5 sm:border-t-0">
                           <span className="text-[10px] text-gray-500 font-mono">
                             {new Date(logItem.timestamp).toLocaleTimeString()}
                           </span>
@@ -589,13 +589,13 @@ export default function OperationsPage() {
                                 e.stopPropagation();
                                 handleCopyLog(JSON.stringify(logItem.data, null, 2), idx);
                               }}
-                              className="p-1 rounded bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-all"
+                              className="p-1 rounded bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-all flex items-center gap-1 text-[10px]"
                               title="Copy structured payload"
                             >
                               {copiedIndex === idx ? (
-                                <Check className="w-3.5 h-3.5 text-[#00FF88]" />
+                                <Check className="w-3 h-3 text-[#00FF88]" />
                               ) : (
-                                <Copy className="w-3.5 h-3.5" />
+                                <Copy className="w-3 h-3" />
                               )}
                             </button>
                           )}
@@ -604,12 +604,12 @@ export default function OperationsPage() {
 
                       {/* Expandable Data Payload */}
                       {isExpanded && logItem.data && (
-                        <div className="mt-3 pt-3 border-t border-white/5 pl-7 overflow-x-auto">
+                        <div className="mt-2.5 pt-2.5 border-t border-white/5 pl-2 sm:pl-6 overflow-x-auto">
                           <div className="flex items-center justify-between mb-1 text-[10px] text-gray-400">
                             <span className="font-bold text-[#00FF88]">STRUCTURED PAYLOAD:</span>
                             <span>JSON</span>
                           </div>
-                          <pre className="text-[11px] text-emerald-300 bg-black/60 p-3.5 rounded-xl border border-white/10 font-mono leading-relaxed overflow-x-auto">
+                          <pre className="text-[10px] sm:text-[11px] text-emerald-300 bg-black/60 p-2.5 sm:p-3.5 rounded-xl border border-white/10 font-mono leading-relaxed overflow-x-auto">
                             {JSON.stringify(logItem.data, null, 2)}
                           </pre>
                         </div>
