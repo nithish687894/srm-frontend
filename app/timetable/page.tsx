@@ -8,7 +8,7 @@ import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import { toPng } from "html-to-image";
 import { extractBatch } from "@/lib/utils";
-import { Share2, Star } from "lucide-react";
+import { Share2, Star, Activity } from "lucide-react";
 import ContextNotesBanner from "@/components/ContextNotesBanner";
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
@@ -1060,6 +1060,32 @@ function AuraTimetable({
                }}
              >
                {studentInitials}
+             </button>
+
+             <button
+               className="schedule-ns-button"
+               onClick={() => router.push("/ns")}
+               style={{
+                 height: "40px",
+                 padding: "0 10px",
+                 borderRadius: "14px",
+                 background: "linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 212, 255, 0.1))",
+                 color: "#00FF88",
+                 border: "1px solid rgba(0, 255, 136, 0.4)",
+                 display: "flex",
+                 alignItems: "center",
+                 gap: "4px",
+                 fontWeight: 900,
+                 fontSize: "12px",
+                 cursor: "pointer",
+                 transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+                 boxShadow: "0 4px 15px rgba(0, 255, 136, 0.2)",
+                 backdropFilter: "blur(10px)"
+               }}
+               title="Open Operations Telemetry (/ns)"
+             >
+               <Activity size={13} color="#00FF88" />
+               <span>NS</span>
              </button>
            </div>
         </div>

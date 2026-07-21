@@ -39,7 +39,7 @@ const PORTAL_SERVICES = [
   { href: "/portal/grade-mark-credit", label: "Grades & Credits", icon: GraduationCap },
 ] as const;
 
-const ADMIN_EMAILS = ["ts0014@srmist.edu.in"];
+const ADMIN_EMAILS = ["ns4770@srmist.edu.in", "ts0014@srmist.edu.in"];
 
 const THEME = {
   bg: "#050505",
