@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import { APP_VERSION } from "@/lib/version";
 
 export default function AppLaunchSplash({ children }: { children: React.ReactNode }) {
@@ -310,7 +311,7 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
           {!needsUpdate ? (
             <div className="nexus-loader-card">
               <div className="nexus-logo-shell">
-                <img src="/nexus-logo.png" alt="SRM Nexus" />
+                <Image src="/nexus-logo.png" alt="SRM Nexus" width={64} height={64} priority />
               </div>
               <div className="nexus-title">SRM Nexus</div>
               <div className="nexus-subtitle">Academic Intelligence</div>

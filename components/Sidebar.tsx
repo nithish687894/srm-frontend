@@ -153,8 +153,9 @@ export default function Sidebar() {
     profile?.["Photo URL"];
 
   // Dynamic calculated stats for AURA Active Hero Section
-  const att = academicData?.attendance || [];
-  const avgAtt = (() => {
+  const att = useMemo(() => academicData?.attendance || [], [academicData?.attendance]);
+
+  const avgAtt = useMemo(() => {
     if (!att.length) return "89.3";
     const totalH = att.reduce((s: number, c: AnyValue) => s + (parseInt(c["Hours Conducted"] || c.conducted) || 0), 0);
     if (totalH > 0) {
@@ -170,15 +171,17 @@ export default function Sidebar() {
       return (sumPct / validPctCourses.length).toFixed(1);
     }
     return "89.3";
-  })();
-  const riskCount = att.length
-    ? att.filter((c: AnyValue) => {
-        const pStr = c["Attn %"] || c.pct;
-        if (pStr === undefined || pStr === null || pStr === "null") return false;
-        const pct = parseFloat(pStr) || 0;
-        return pct < 75;
-      }).length
-    : 0;
+  }, [att]);
+
+  const riskCount = useMemo(() => {
+    if (!att.length) return 0;
+    return att.filter((c: AnyValue) => {
+      const pStr = c["Attn %"] || c.pct;
+      if (pStr === undefined || pStr === null || pStr === "null") return false;
+      const pct = parseFloat(pStr) || 0;
+      return pct < 75;
+    }).length;
+  }, [att]);
 
   // ── Contextual Intelligence Engine ──
   // Generates real interpretive insights from academic data — not fake AI,

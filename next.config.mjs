@@ -15,7 +15,7 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
   },
   experimental: {
-    optimizePackageImports: ['lucide-react'],
+    optimizePackageImports: ['lucide-react', '@tanstack/react-query', 'clsx', 'tailwind-merge', 'zod', 'zustand'],
   },
   async rewrites() {
     return [

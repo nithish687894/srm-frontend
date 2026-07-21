@@ -1,7 +1,24 @@
 "use client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { scheduleIdleTask } from "@/lib/scheduleIdle";
+
+const BroadcastBanner = dynamic(() => import("@/components/BroadcastBanner"), { ssr: false });
+const InstallPWA = dynamic(() => import("@/components/InstallPWA"), { ssr: false });
+const AttendanceBadge = dynamic(() => import("@/components/AttendanceBadge"), { ssr: false });
+const CacheUpgrade = dynamic(() => import("@/components/CacheUpgrade"), { ssr: false });
+
+export function ClientOverlays() {
+  return (
+    <>
+      <CacheUpgrade />
+      <BroadcastBanner />
+      <InstallPWA />
+      <AttendanceBadge />
+    </>
+  );
+}
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
@@ -45,6 +62,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <ClientOverlays />
       {children}
     </QueryClientProvider>
   );

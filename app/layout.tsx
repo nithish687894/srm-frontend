@@ -5,11 +5,7 @@ import Providers from "./providers";
 import SwipeLayout from "@/components/SwipeLayout";
 import ThemeWrapper from "@/components/ThemeWrapper";
 import AppLaunchSplash from "@/components/AppLaunchSplash";
-import BroadcastBanner from "@/components/BroadcastBanner";
 import JsonLd from "@/components/seo/JsonLd";
-import InstallPWA from "@/components/InstallPWA";
-import AttendanceBadge from "@/components/AttendanceBadge";
-import CacheUpgrade from "@/components/CacheUpgrade";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -91,11 +87,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <JsonLd />
         <Providers>
           <ThemeWrapper>
-            <CacheUpgrade />
             <AppLaunchSplash>
-              <BroadcastBanner />
-              <InstallPWA />
-              <AttendanceBadge />
               <SwipeLayout>{children}</SwipeLayout>
             </AppLaunchSplash>
           </ThemeWrapper>

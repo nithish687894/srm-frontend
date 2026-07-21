@@ -16,7 +16,7 @@ const TAB_ORDER = [
 const SWIPE_THRESHOLD = 100;
 const PULL_REFRESH_THRESHOLD = 130;
 const GESTURE_LOCK_THRESHOLD = 12;
-const NAV_COOLDOWN = 800;
+const NAV_COOLDOWN = 250;
 
 export default function SwipeLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -101,8 +101,8 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
           }
           return prev + (90 - prev) * 0.15;
         });
-      }, 150);
-    }, 300);
+      }, 100);
+    }, 50);
   };
 
   const stopProgress = () => {
