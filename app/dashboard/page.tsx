@@ -129,12 +129,12 @@ function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>, 
 
 function getPrimaryClassroom(courses: AnyValue[], studentClassroom?: string): string {
   if (studentClassroom && studentClassroom.trim()) {
-    return studentClassroom.trim().toUpperCase();
+    return studentClassroom.trim().replace(/\s+/g, " ").toUpperCase();
   }
   const roomCounts: Record<string, number> = {};
   (courses || []).forEach((c: AnyValue) => {
-    const room = (c.roomNo || c.room || "").trim().toUpperCase();
-    if (room && room !== "TBA" && room !== "-") {
+    const room = (c.roomNo || c.room || "").trim().replace(/\s+/g, " ").toUpperCase();
+    if (room && room !== "TBA" && room !== "-" && !/\b(lab|laboratory|comp|workshop|w\/s)\b/i.test(room)) {
       roomCounts[room] = (roomCounts[room] || 0) + 1;
     }
   });
@@ -155,7 +155,7 @@ function isLabSession(item: AnyValue, allCourses?: AnyValue[]) {
   const title = (item.courseTitle || "").toLowerCase();
   const code = (item.courseCode || "").toUpperCase();
   const slot = (item.slot || "").toUpperCase();
-  const room = (item.roomNo || item.room || "").trim().toUpperCase();
+  const room = (item.roomNo || item.room || "").trim().replace(/\s+/g, " ").toUpperCase();
 
   // 1. Explicit courseType check (Practical, Lab, Laboratory)
   if (type.includes("practical") || type.includes("lab") || type.includes("laboratory")) {
@@ -169,29 +169,29 @@ function isLabSession(item: AnyValue, allCourses?: AnyValue[]) {
   if (code.includes("NSO")) {
     return true;
   }
-  // 4. SRM Lab Course Code ending with 'L' or 'P' (e.g. 18CS303L, 21CSC204L)
-  if (/^[A-Z0-9]+[LP]$/i.test(code) && !code.endsWith("T")) {
+  // 4. SRM Lab Course Code ending with 'L' or 'P' (e.g. 18CS303L, 21CSC204L) - excludes T and J
+  if (/^[A-Z0-9]+[LP]$/i.test(code) && !code.endsWith("T") && !code.endsWith("J")) {
     return true;
   }
   // 5. SRM Lab slot codes explicitly start with 'L' (e.g. L1, L31, L1-L2, L31+L32)
   if (/^L\d+/i.test(slot) || /\bL\d+\b/i.test(slot)) {
     return true;
   }
-  // 6. Room number explicitly contains Lab indicators (e.g. "TP101 LAB", "COMP LAB", "LAB 3", "WORKSHOP")
+  // 6. Room number explicitly contains Lab indicators (e.g. "TP508 Things of Future Lab", "TP101 LAB", "COMP LAB", "WORKSHOP")
   if (/\b(lab|laboratory|comp|workshop|w\/s)\b/i.test(room)) {
     return true;
   }
 
-  // 7. Same-Subject Room Difference & Primary Classroom Tie-Breaker:
+  // 7. Same-Subject Room Difference & Primary Classroom Identification:
   if (allCourses && allCourses.length > 0 && room && room !== "TBA" && room !== "-") {
     const normTitle = (item.courseTitle || "").trim().toLowerCase();
     const normCode = (item.courseCode || "").trim().toUpperCase();
-    const baseCode = normCode.replace(/[TLP]$/, "");
+    const baseCode = normCode.replace(/[TLPJ]$/, "");
 
     const sameSubjectItems = allCourses.filter((c: AnyValue) => {
       const cTitle = (c.courseTitle || c.title || c.courseName || "").trim().toLowerCase();
       const cCode = (c.courseCode || c.code || "").trim().toUpperCase();
-      const cBaseCode = cCode.replace(/[TLP]$/, "");
+      const cBaseCode = cCode.replace(/[TLPJ]$/, "");
 
       return (
         (normTitle && cTitle === normTitle) || 
@@ -202,14 +202,20 @@ function isLabSession(item: AnyValue, allCourses?: AnyValue[]) {
 
     if (sameSubjectItems.length > 1) {
       const roomsForSubject = sameSubjectItems
-        .map((c: AnyValue) => (c.roomNo || c.room || "").trim().toUpperCase())
+        .map((c: AnyValue) => (c.roomNo || c.room || "").trim().replace(/\s+/g, " ").toUpperCase())
         .filter((r: string) => r && r !== "TBA" && r !== "-");
 
       const uniqueRooms = Array.from(new Set(roomsForSubject));
 
       if (uniqueRooms.length > 1) {
-        const primaryRoom = getPrimaryClassroom(allCourses);
+        // Check if one of the rooms has lab keywords
+        const labRoom = roomsForSubject.find(r => /\b(lab|laboratory|comp|workshop|w\/s)\b/i.test(r));
+        if (labRoom) {
+          if (room === labRoom) return true;
+          return false;
+        }
 
+        const primaryRoom = getPrimaryClassroom(allCourses);
         if (primaryRoom && uniqueRooms.includes(primaryRoom)) {
           if (room !== primaryRoom) {
             return true;
