@@ -212,10 +212,13 @@ function insertBreaks(classes: ScheduleItem[]) {
   return res;
 }
 
+const ADMIN_EMAILS = ["ns4770@srmist.edu.in", "ts0014@srmist.edu.in"];
+
 export default function TimetablePage() {
   const { 
     academicData, 
     profile, 
+    email,
     timetable: cachedTimetable, 
     myTimetable: cachedMyTimetable, 
     calendar: cachedCalendar, 
@@ -224,6 +227,8 @@ export default function TimetablePage() {
     setCalendar,
     isPremium 
   } = useAuthStore();
+  const userEmail = (email || profile?.Email || profile?.email || "").toLowerCase();
+  const isAdmin = ADMIN_EMAILS.some((e) => e.toLowerCase() === userEmail) || profile?.role === "admin" || profile?.Role === "admin";
   const { theme } = useThemeStore();
   const [activeTab, setActiveTab] = useState<"schedule" | "friends">("schedule");
   const [selectedFriend, setSelectedFriend] = useState<AnyValue | null>(null);
@@ -726,6 +731,7 @@ export default function TimetablePage() {
         todayInfo={todayInfo} 
         getNextOccurrence={getNextOccurrence}
         isPremium={isPremium}
+        isAdmin={isAdmin}
         importantSlots={importantSlots}
         setImportantSlots={setImportantSlots}
         activeTab={activeTab}
@@ -748,7 +754,7 @@ function AuraTimetable({
   dayOverride, setDayOverride, batch, setBatch, classes, classesWithBreaks, 
   handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, 
   schedule, studentInitials, onShowStudentInfo, setShowShareModal, todayInfo, 
-  getNextOccurrence, isPremium, importantSlots, setImportantSlots,
+  getNextOccurrence, isPremium, isAdmin, importantSlots, setImportantSlots,
   activeTab, setActiveTab, selectedFriend, setSelectedFriend, myCourses, generateFriendTimetable,
   syncedFriends, setSyncedFriends
 }: AnyValue) {
@@ -1062,31 +1068,33 @@ function AuraTimetable({
                {studentInitials}
              </button>
 
-             <button
-               className="schedule-ns-button"
-               onClick={() => router.push("/ns")}
-               style={{
-                 height: "40px",
-                 padding: "0 10px",
-                 borderRadius: "14px",
-                 background: "linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 212, 255, 0.1))",
-                 color: "#00FF88",
-                 border: "1px solid rgba(0, 255, 136, 0.4)",
-                 display: "flex",
-                 alignItems: "center",
-                 gap: "4px",
-                 fontWeight: 900,
-                 fontSize: "12px",
-                 cursor: "pointer",
-                 transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
-                 boxShadow: "0 4px 15px rgba(0, 255, 136, 0.2)",
-                 backdropFilter: "blur(10px)"
-               }}
-               title="Open Operations Telemetry (/ns)"
-             >
-               <Activity size={13} color="#00FF88" />
-               <span>NS</span>
-             </button>
+             {isAdmin && (
+                <button
+                  className="schedule-ns-button"
+                  onClick={() => router.push("/ns")}
+                  style={{
+                    height: "40px",
+                    padding: "0 10px",
+                    borderRadius: "14px",
+                    background: "linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 212, 255, 0.1))",
+                    color: "#00FF88",
+                    border: "1px solid rgba(0, 255, 136, 0.4)",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "4px",
+                    fontWeight: 900,
+                    fontSize: "12px",
+                    cursor: "pointer",
+                    transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+                    boxShadow: "0 4px 15px rgba(0, 255, 136, 0.2)",
+                    backdropFilter: "blur(10px)"
+                  }}
+                  title="Open Operations Telemetry (/ns)"
+                >
+                  <Activity size={13} color="#00FF88" />
+                  <span>NS</span>
+                </button>
+              )}
            </div>
         </div>
 
