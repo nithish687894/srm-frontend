@@ -101,23 +101,33 @@ function isLabSession(
         .map((c: AnyValue) => (c.roomNo || c.room || "").trim().toUpperCase())
         .filter((r: string) => r && r !== "TBA" && r !== "-");
 
-      if (roomsForSubject.length > 1) {
-        const roomCounts: Record<string, number> = {};
-        roomsForSubject.forEach((r: string) => {
-          roomCounts[r] = (roomCounts[r] || 0) + 1;
-        });
+      const uniqueRooms = Array.from(new Set(roomsForSubject));
 
-        let mainSubjectRoom = "";
-        let maxCount = 0;
-        Object.entries(roomCounts).forEach(([r, count]) => {
-          if (count > maxCount) {
-            maxCount = count;
-            mainSubjectRoom = r;
+      if (uniqueRooms.length > 1) {
+        const primaryRoom = getPrimaryClassroom(allCourses);
+
+        if (primaryRoom && uniqueRooms.includes(primaryRoom)) {
+          if (room !== primaryRoom) {
+            return true;
           }
-        });
+        } else {
+          const roomCounts: Record<string, number> = {};
+          roomsForSubject.forEach((r: string) => {
+            roomCounts[r] = (roomCounts[r] || 0) + 1;
+          });
 
-        if (mainSubjectRoom && room !== mainSubjectRoom) {
-          return true;
+          let mainSubjectRoom = "";
+          let maxCount = 0;
+          Object.entries(roomCounts).forEach(([r, count]) => {
+            if (count > maxCount) {
+              maxCount = count;
+              mainSubjectRoom = r;
+            }
+          });
+
+          if (mainSubjectRoom && room !== mainSubjectRoom) {
+            return true;
+          }
         }
       }
     }

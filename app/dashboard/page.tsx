@@ -127,6 +127,28 @@ function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>, 
   });
 }
 
+function getPrimaryClassroom(courses: AnyValue[], studentClassroom?: string): string {
+  if (studentClassroom && studentClassroom.trim()) {
+    return studentClassroom.trim().toUpperCase();
+  }
+  const roomCounts: Record<string, number> = {};
+  (courses || []).forEach((c: AnyValue) => {
+    const room = (c.roomNo || c.room || "").trim().toUpperCase();
+    if (room && room !== "TBA" && room !== "-") {
+      roomCounts[room] = (roomCounts[room] || 0) + 1;
+    }
+  });
+  let maxCount = 0;
+  let primary = "";
+  Object.entries(roomCounts).forEach(([room, count]) => {
+    if (count > maxCount) {
+      maxCount = count;
+      primary = room;
+    }
+  });
+  return primary;
+}
+
 function isLabSession(item: AnyValue, allCourses?: AnyValue[]) {
   if (!item) return false;
   const type = (item.courseType || "").toLowerCase();
@@ -160,8 +182,7 @@ function isLabSession(item: AnyValue, allCourses?: AnyValue[]) {
     return true;
   }
 
-  // 7. Same-Subject Room Difference:
-  // If the exact same subject has multiple classes/slots and this slot's room is different from the main room of that subject
+  // 7. Same-Subject Room Difference & Primary Classroom Tie-Breaker:
   if (allCourses && allCourses.length > 0 && room && room !== "TBA" && room !== "-") {
     const normTitle = (item.courseTitle || "").trim().toLowerCase();
     const normCode = (item.courseCode || "").trim().toUpperCase();
@@ -184,23 +205,33 @@ function isLabSession(item: AnyValue, allCourses?: AnyValue[]) {
         .map((c: AnyValue) => (c.roomNo || c.room || "").trim().toUpperCase())
         .filter((r: string) => r && r !== "TBA" && r !== "-");
 
-      if (roomsForSubject.length > 1) {
-        const roomCounts: Record<string, number> = {};
-        roomsForSubject.forEach((r: string) => {
-          roomCounts[r] = (roomCounts[r] || 0) + 1;
-        });
+      const uniqueRooms = Array.from(new Set(roomsForSubject));
 
-        let mainSubjectRoom = "";
-        let maxCount = 0;
-        Object.entries(roomCounts).forEach(([r, count]) => {
-          if (count > maxCount) {
-            maxCount = count;
-            mainSubjectRoom = r;
+      if (uniqueRooms.length > 1) {
+        const primaryRoom = getPrimaryClassroom(allCourses);
+
+        if (primaryRoom && uniqueRooms.includes(primaryRoom)) {
+          if (room !== primaryRoom) {
+            return true;
           }
-        });
+        } else {
+          const roomCounts: Record<string, number> = {};
+          roomsForSubject.forEach((r: string) => {
+            roomCounts[r] = (roomCounts[r] || 0) + 1;
+          });
 
-        if (mainSubjectRoom && room !== mainSubjectRoom) {
-          return true;
+          let mainSubjectRoom = "";
+          let maxCount = 0;
+          Object.entries(roomCounts).forEach(([r, count]) => {
+            if (count > maxCount) {
+              maxCount = count;
+              mainSubjectRoom = r;
+            }
+          });
+
+          if (mainSubjectRoom && room !== mainSubjectRoom) {
+            return true;
+          }
         }
       }
     }
