@@ -9,7 +9,6 @@ import { useThemeStore } from "@/lib/themeStore";
 import { toPng } from "html-to-image";
 import { extractBatch } from "@/lib/utils";
 import { Share2, Star, Activity, Calendar } from "lucide-react";
-import ContextNotesBanner from "@/components/ContextNotesBanner";
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
 function parseStart(t: string) { const m = t.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
@@ -1233,8 +1232,6 @@ function AuraTimetable({
             </span>
           </button>
         </div>
-
-        <ContextNotesBanner page="timetable" />
 
         {/* Today's Context Banner */}
         {todayInfo ? (
