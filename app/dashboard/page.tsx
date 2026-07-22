@@ -127,12 +127,13 @@ function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>, 
   });
 }
 
-function isLabSession(item: AnyValue) {
+function isLabSession(item: AnyValue, primaryClassroom?: string) {
   if (!item) return false;
   const type = (item.courseType || "").toLowerCase();
   const title = (item.courseTitle || "").toLowerCase();
   const code = (item.courseCode || "").toUpperCase();
   const slot = (item.slot || "").toUpperCase();
+  const room = (item.roomNo || item.room || "").trim().toUpperCase();
 
   if (type.includes("practical") || type.includes("lab") || type.includes("laboratory")) {
     return true;
@@ -143,8 +144,20 @@ function isLabSession(item: AnyValue) {
   if (code.includes("NSO")) {
     return true;
   }
+  if (/^[A-Z0-9]+L$/i.test(code)) {
+    return true;
+  }
   if (/^L\d+/i.test(slot) || /\bL\d+\b/i.test(slot)) {
     return true;
+  }
+  if (/\b(lab|laboratory|comp|workshop|w\/s)\b/i.test(room)) {
+    return true;
+  }
+  if (primaryClassroom && room && room !== "TBA" && room !== "-") {
+    const normPrimary = primaryClassroom.trim().toUpperCase();
+    if (normPrimary && room !== normPrimary) {
+      return true;
+    }
   }
 
   return false;

@@ -19,12 +19,35 @@ function parseTimeRange(t: string): { start: string, end: string } {
   return { start: t, end: t };
 }
 
-function isLabSession(item: { courseCode?: string; courseType?: string; courseTitle?: string; slot?: string }) {
+function getPrimaryClassroom(courses: AnyValue[], studentClassroom?: string): string {
+  if (studentClassroom && studentClassroom.trim()) {
+    return studentClassroom.trim().toUpperCase();
+  }
+  const roomCounts: Record<string, number> = {};
+  (courses || []).forEach((c: AnyValue) => {
+    const room = (c.roomNo || c.room || "").trim().toUpperCase();
+    if (room && room !== "TBA" && room !== "-") {
+      roomCounts[room] = (roomCounts[room] || 0) + 1;
+    }
+  });
+  let maxCount = 0;
+  let primary = "";
+  Object.entries(roomCounts).forEach(([room, count]) => {
+    if (count > maxCount) {
+      maxCount = count;
+      primary = room;
+    }
+  });
+  return primary;
+}
+
+function isLabSession(item: { courseCode?: string; courseType?: string; courseTitle?: string; slot?: string; roomNo?: string }, primaryClassroom?: string) {
   if (!item) return false;
   const type = (item.courseType || "").toLowerCase();
   const title = (item.courseTitle || "").toLowerCase();
   const code = (item.courseCode || "").toUpperCase();
   const slot = (item.slot || "").toUpperCase();
+  const room = (item.roomNo || "").trim().toUpperCase();
 
   if (type.includes("practical") || type.includes("lab") || type.includes("laboratory")) {
     return true;
@@ -35,8 +58,20 @@ function isLabSession(item: { courseCode?: string; courseType?: string; courseTi
   if (code.includes("NSO")) {
     return true;
   }
+  if (/^[A-Z0-9]+L$/i.test(code)) {
+    return true;
+  }
   if (/^L\d+/i.test(slot) || /\bL\d+\b/i.test(slot)) {
     return true;
+  }
+  if (/\b(lab|laboratory|comp|workshop|w\/s)\b/i.test(room)) {
+    return true;
+  }
+  if (primaryClassroom && room && room !== "TBA" && room !== "-") {
+    const normPrimary = primaryClassroom.trim().toUpperCase();
+    if (normPrimary && room !== normPrimary) {
+      return true;
+    }
   }
 
   return false;
@@ -839,6 +874,10 @@ function AuraTimetable({
     border: "var(--card-border)",
   };
 
+  const primaryClassroom = useMemo(() => {
+    return getPrimaryClassroom(myCourses);
+  }, [myCourses]);
+
   const friendTimetable = useMemo(() => {
     if (!selectedFriend) return [];
     return generateFriendTimetable(selectedFriend.regNo || selectedFriend.name, myCourses);
@@ -1342,7 +1381,7 @@ function AuraTimetable({
                     );
                   }
 
-                  const isLab = isLabSession(item);
+                  const isLab = isLabSession(item, primaryClassroom);
                   const cardColor = isLab ? "#FF75C3" : AURA.secondary;
                   const isActive = (currentMin >= parseStart(item.startTime) && currentMin <= parseEnd(item.endTime));
                   const slotKey = `${dayOverride}-${item.courseCode}-${item.startTime}`;
@@ -1761,7 +1800,7 @@ function AuraTimetable({
               <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                  {classesWithBreaks.map((item: AnyValue, i: number) => {
                     if (item.isBreak) return null;
-                    const isLab = isLabSession(item);
+                    const isLab = isLabSession(item, primaryClassroom);
                     return (
                        <div key={i} style={{ display: "flex", gap: "16px", alignItems: "center" }}>
                           <div style={{ width: "100px", fontSize: "10px", fontWeight: 800, color: "rgba(255,255,255,0.7)", textAlign: "right", lineHeight: 1.3 }}>
@@ -1805,7 +1844,7 @@ function AuraTimetable({
                        <div style={{ fontSize: "14px", color: AURA.primary, fontWeight: 900, marginBottom: "20px", textTransform: "uppercase", letterSpacing: "0.1em", textAlign: "center" }}>Day Order {d}</div>
                        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                           {(schedule[d - 1]?.classes || []).map((cls: AnyValue, i: number) => {
-                             const isLab = isLabSession(cls);
+                             const isLab = isLabSession(cls, primaryClassroom);
                              return (
                                 <div key={i} style={{ background: isLab ? "rgba(255, 117, 195, 0.12)" : "rgba(255,255,255,0.03)", padding: "10px 12px", borderRadius: "12px", border: isLab ? "1px solid rgba(255, 117, 195, 0.35)" : "1px solid rgba(255,255,255,0.05)" }}>
                                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
