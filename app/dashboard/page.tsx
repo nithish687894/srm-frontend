@@ -127,22 +127,57 @@ function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>, 
   });
 }
 
+function isLabSession(item: AnyValue) {
+  if (!item) return false;
+  const code = (item.courseCode || "").toUpperCase();
+  const type = (item.courseType || "").toLowerCase();
+  const title = (item.courseTitle || "").toLowerCase();
+  const slot = (item.slot || "").toUpperCase();
+
+  return (
+    code.includes("NSO") ||
+    type.includes("practical") ||
+    type.includes("lab") ||
+    type.includes("laboratory") ||
+    title.includes("lab") ||
+    title.includes("laboratory") ||
+    title.includes("practical") ||
+    /^[L]\d+/i.test(slot) ||
+    /^[P]\d+/i.test(slot)
+  );
+}
+
 function MiniGridTile({ slot }: { slot: AnyValue }) {
   if (!slot || slot.isEmpty) return <div style={{ background: "transparent", borderRadius: "16px", height: "88px", border: "1px dashed #333333" }} />;
   const isActive = isNowIn(slot.startTime, slot.endTime);
-  const isNso = slot.courseCode.includes("NSO") || slot.courseType.toLowerCase().includes("practical");
+  const isLab = isLabSession(slot);
   return (
     <div
-      style={{ background: isNso ? "#0d1a2a" : "#1c1c1c", borderRadius: "16px", height: "88px", padding: "8px 10px", display: "flex", flexDirection: "column", justifyContent: "space-between", border: isActive ? "1.5px solid #a8c200" : "none", cursor: 'pointer', transition: "transform 0.1s" }}
+      style={{
+        background: isLab ? "linear-gradient(135deg, rgba(255, 117, 195, 0.18) 0%, #1e111d 100%)" : "#1c1c1c",
+        borderRadius: "16px",
+        height: "88px",
+        padding: "8px 10px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        border: isActive ? "1.5px solid #a8c200" : (isLab ? "1px solid rgba(255, 117, 195, 0.35)" : "none"),
+        cursor: 'pointer',
+        transition: "transform 0.1s"
+      }}
       onPointerDown={(e) => e.currentTarget.style.transform = "scale(0.96)"}
       onPointerUp={(e) => e.currentTarget.style.transform = "scale(1)"}
       onPointerLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
     >
       <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
-        <div style={{ fontSize: "8px", color: "#888888", marginBottom: "4px", fontWeight: "bold" }}>{slot.courseCode.substring(0, 5)} • {slot.roomNo?.split(",")[0]?.substring(0, 4) || "TBA"}</div>
-        <span style={{ fontSize: "11px", fontWeight: "900", color: isNso ? "#00aaff" : "#ffffff", textAlign: "center", lineHeight: 1.1, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", textTransform: "capitalize", wordBreak: "break-word" }}>{slot.courseTitle.toLowerCase()}</span>
+        <div style={{ fontSize: "8px", color: isLab ? "#FF75C3" : "#888888", marginBottom: "4px", fontWeight: "bold" }}>
+          {slot.courseCode.substring(0, 5)} • {slot.roomNo?.split(",")[0]?.substring(0, 4) || "TBA"}
+        </div>
+        <span style={{ fontSize: "11px", fontWeight: "900", color: isLab ? "#FF75C3" : "#ffffff", textAlign: "center", lineHeight: 1.1, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", textTransform: "capitalize", wordBreak: "break-word" }}>
+          {slot.courseTitle.toLowerCase()}
+        </span>
       </div>
-      <div style={{ fontSize: "9px", color: "#888888", textAlign: "center", fontWeight: "bold" }}>
+      <div style={{ fontSize: "9px", color: isLab ? "rgba(255, 117, 195, 0.85)" : "#888888", textAlign: "center", fontWeight: "bold" }}>
         {fmtTimeOnly(slot.startTime) === fmtTimeOnly(slot.endTime) ? fmtTimeOnly(slot.startTime) : `${fmtTimeOnly(slot.startTime)} - ${fmtTimeOnly(slot.endTime)}`}
       </div>
     </div>

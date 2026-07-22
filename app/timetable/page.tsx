@@ -19,6 +19,26 @@ function parseTimeRange(t: string): { start: string, end: string } {
   return { start: t, end: t };
 }
 
+function isLabSession(item: { courseCode?: string; courseType?: string; courseTitle?: string; slot?: string }) {
+  if (!item) return false;
+  const code = (item.courseCode || "").toUpperCase();
+  const type = (item.courseType || "").toLowerCase();
+  const title = (item.courseTitle || "").toLowerCase();
+  const slot = (item.slot || "").toUpperCase();
+
+  return (
+    code.includes("NSO") ||
+    type.includes("practical") ||
+    type.includes("lab") ||
+    type.includes("laboratory") ||
+    title.includes("lab") ||
+    title.includes("laboratory") ||
+    title.includes("practical") ||
+    /^[L]\d+/i.test(slot) ||
+    /^[P]\d+/i.test(slot)
+  );
+}
+
 // Stable hash function to generate consistent timetables for mock friends
 function hashCode(str: string) {
   let hash = 0;
@@ -1319,8 +1339,8 @@ function AuraTimetable({
                     );
                   }
 
-                  const isNso = item.courseCode.includes("NSO") || item.courseType.toLowerCase().includes("practical");
-                  const cardColor = isNso ? AURA.primary : AURA.secondary;
+                  const isLab = isLabSession(item);
+                  const cardColor = isLab ? "#FF75C3" : AURA.secondary;
                   const isActive = (currentMin >= parseStart(item.startTime) && currentMin <= parseEnd(item.endTime));
                   const slotKey = `${dayOverride}-${item.courseCode}-${item.startTime}`;
                   const isImportant = !!importantSlots[slotKey];
@@ -1329,8 +1349,8 @@ function AuraTimetable({
                     <div key={i} style={{ position: "relative" }}>
                       <div style={{ 
                         position: "absolute", left: "-21px", top: "24px", width: "12px", height: "12px", borderRadius: "50%", 
-                        background: isActive ? AURA.accent : (isImportant ? "#FFD700" : cardColor), border: "3px solid var(--bg-root)", zIndex: 2,
-                        boxShadow: isActive ? `0 0 15px ${AURA.accent}` : (isImportant ? "0 0 10px rgba(255, 215, 0, 0.5)" : "none")
+                        background: isActive ? AURA.accent : (isImportant ? "#FFD700" : (isLab ? "#FF75C3" : cardColor)), border: "3px solid var(--bg-root)", zIndex: 2,
+                        boxShadow: isActive ? `0 0 15px ${AURA.accent}` : (isImportant ? "0 0 10px rgba(255, 215, 0, 0.5)" : (isLab ? "0 0 12px rgba(255, 117, 195, 0.6)" : "none"))
                       }} />
                       
                       <div 
@@ -1341,10 +1361,13 @@ function AuraTimetable({
                             ? `1px solid ${AURA.accent}55` 
                             : (isImportant 
                                 ? "1px solid rgba(255, 215, 0, 0.4)" 
-                                : "1px solid rgba(255, 255, 255, 0.08)"),
+                                : (isLab ? "1px solid rgba(255, 117, 195, 0.4)" : "1px solid rgba(255, 255, 255, 0.08)")),
+                          background: isLab 
+                            ? "linear-gradient(135deg, rgba(255, 117, 195, 0.09) 0%, rgba(244, 114, 182, 0.03) 100%)" 
+                            : undefined,
                           boxShadow: isImportant 
                             ? "0 0 15px rgba(255, 215, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.02)" 
-                            : "none",
+                            : (isLab ? "0 0 20px rgba(255, 117, 195, 0.06)" : "none"),
                           transition: "all 0.3s ease"
                         }}
                       >
@@ -1406,7 +1429,21 @@ function AuraTimetable({
                               >
                                 <Star size={14} fill={isImportant ? "#FFD700" : "none"} />
                               </button>
-                              {isNso && <div style={{ fontSize: "9px", color: AURA.primary, textTransform: "uppercase", fontWeight: 800, background: `${AURA.primary}22`, padding: "4px 8px", borderRadius: "8px" }}>Practical</div>}
+                              {isLab && (
+                                <div style={{ 
+                                  fontSize: "9px", 
+                                  color: "#FF75C3", 
+                                  textTransform: "uppercase", 
+                                  fontWeight: 900, 
+                                  background: "rgba(255, 117, 195, 0.18)", 
+                                  border: "1px solid rgba(255, 117, 195, 0.35)", 
+                                  padding: "4px 8px", 
+                                  borderRadius: "8px",
+                                  letterSpacing: "0.05em"
+                                }}>
+                                  Lab Session
+                                </div>
+                              )}
                            </div>
                         </div>
 
@@ -1721,15 +1758,19 @@ function AuraTimetable({
               <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                  {classesWithBreaks.map((item: AnyValue, i: number) => {
                     if (item.isBreak) return null;
+                    const isLab = isLabSession(item);
                     return (
                        <div key={i} style={{ display: "flex", gap: "16px", alignItems: "center" }}>
                           <div style={{ width: "100px", fontSize: "10px", fontWeight: 800, color: "rgba(255,255,255,0.7)", textAlign: "right", lineHeight: 1.3 }}>
                              <div>{fmt12(item.startTime)}</div>
                              <div style={{ fontSize: "9px", color: "rgba(255,255,255,0.45)", fontWeight: 600 }}>to {fmt12(item.endTime)}</div>
                           </div>
-                          <div style={{ flex: 1, background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", borderRadius: "12px", padding: "12px 16px" }}>
-                             <div style={{ fontSize: "14px", fontWeight: 900, color: "#fff", marginBottom: "4px", textTransform: "capitalize" }}>{item.courseTitle.toLowerCase()}</div>
-                             <div style={{ fontSize: "10px", color: AURA.secondary, fontWeight: 700 }}>{item.roomNo || "TBA"} • {item.courseCode}</div>
+                          <div style={{ flex: 1, background: isLab ? "rgba(255, 117, 195, 0.12)" : "rgba(255,255,255,0.03)", border: isLab ? "1px solid rgba(255, 117, 195, 0.35)" : "1px solid rgba(255,255,255,0.05)", borderRadius: "12px", padding: "12px 16px" }}>
+                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                               <div style={{ fontSize: "14px", fontWeight: 900, color: "#fff", textTransform: "capitalize" }}>{item.courseTitle.toLowerCase()}</div>
+                               {isLab && <span style={{ fontSize: "8px", fontWeight: 900, color: "#FF75C3", background: "rgba(255, 117, 195, 0.2)", border: "1px solid rgba(255, 117, 195, 0.4)", padding: "2px 6px", borderRadius: "6px", textTransform: "uppercase" }}>Lab</span>}
+                             </div>
+                             <div style={{ fontSize: "10px", color: isLab ? "#FF75C3" : AURA.secondary, fontWeight: 700 }}>{item.roomNo || "TBA"} • {item.courseCode}</div>
                           </div>
                        </div>
                     );
@@ -1760,15 +1801,21 @@ function AuraTimetable({
                     <div key={d} style={{ background: "rgba(255,255,255,0.02)", borderRadius: "24px", padding: "20px", border: "1px solid rgba(255,255,255,0.05)" }}>
                        <div style={{ fontSize: "14px", color: AURA.primary, fontWeight: 900, marginBottom: "20px", textTransform: "uppercase", letterSpacing: "0.1em", textAlign: "center" }}>Day Order {d}</div>
                        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                          {(schedule[d - 1]?.classes || []).map((cls: AnyValue, i: number) => (
-                             <div key={i} style={{ background: "rgba(255,255,255,0.03)", padding: "10px 12px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.05)" }}>
-                                <div style={{ fontSize: "11px", fontWeight: 900, color: "#fff", marginBottom: "4px", textTransform: "capitalize" }}>{cls.courseTitle.toLowerCase()}</div>
-                                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "9px", color: "rgba(255,255,255,0.6)", fontWeight: 700, gap: "6px" }}>
-                                  <span>{fmt12(cls.startTime)} – {fmt12(cls.endTime)}</span>
-                                  <span>{cls.roomNo || "TBA"}</span>
+                          {(schedule[d - 1]?.classes || []).map((cls: AnyValue, i: number) => {
+                             const isLab = isLabSession(cls);
+                             return (
+                                <div key={i} style={{ background: isLab ? "rgba(255, 117, 195, 0.12)" : "rgba(255,255,255,0.03)", padding: "10px 12px", borderRadius: "12px", border: isLab ? "1px solid rgba(255, 117, 195, 0.35)" : "1px solid rgba(255,255,255,0.05)" }}>
+                                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                                     <div style={{ fontSize: "11px", fontWeight: 900, color: isLab ? "#FF75C3" : "#fff", textTransform: "capitalize" }}>{cls.courseTitle.toLowerCase()}</div>
+                                     {isLab && <span style={{ fontSize: "7.5px", fontWeight: 900, color: "#FF75C3", background: "rgba(255, 117, 195, 0.2)", border: "1px solid rgba(255, 117, 195, 0.3)", padding: "1px 4px", borderRadius: "4px" }}>LAB</span>}
+                                   </div>
+                                   <div style={{ display: "flex", justifyContent: "space-between", fontSize: "9px", color: "rgba(255,255,255,0.6)", fontWeight: 700, gap: "6px" }}>
+                                     <span>{fmt12(cls.startTime)} – {fmt12(cls.endTime)}</span>
+                                     <span>{cls.roomNo || "TBA"}</span>
+                                   </div>
                                 </div>
-                             </div>
-                          ))}
+                             );
+                          })}
                        </div>
                     </div>
                  ))}
