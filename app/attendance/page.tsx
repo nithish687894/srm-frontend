@@ -274,8 +274,7 @@ export default function AttendancePage() {
 
   return (
     <div style={{ minHeight: "100dvh", width: "100%", background: "var(--app-bg)", display: "flex", flexDirection: "column", position: "relative" }}>
-      <main id="attendance-parent-scroll" style={{ flex: 1, paddingBottom: "100px" }} className="max-w-4xl mx-auto px-4 w-full pt-6">
-        <ContextNotesBanner page="attendance" />
+      <main id="attendance-parent-scroll" style={{ flex: 1, paddingBottom: "100px" }}>
         <AuraAttendance attendance={att} handleSync={handleSync} isSyncing={isSyncing} {...themeProps} />
       </main>
     </div>

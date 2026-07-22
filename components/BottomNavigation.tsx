@@ -257,20 +257,6 @@ function MobileNav({
         );
       })}
 
-      {/* Premium Tab */}
-      <button
-        onClick={onPremiumOpen}
-        className="nav-item"
-        style={{ background: "none", border: "none", outline: "none", fontFamily: "inherit" }}
-      >
-        {isPremium ? (
-          <Shield size={20} color="#f59e0b" style={{ filter: "drop-shadow(0 0 6px rgba(245,158,11,0.5))" }} />
-        ) : (
-          <Star size={20} color="#f59e0b" fill="#f59e0b" style={{ filter: "drop-shadow(0 0 6px rgba(245,158,11,0.5))" }} />
-        )}
-        <span style={{ color: "#f59e0b", fontWeight: 700 }}>Premium</span>
-      </button>
-
       <button
         onClick={onMoreOpen}
         className={`nav-item ${moreOpen || isMoreActive ? "active" : ""}`}

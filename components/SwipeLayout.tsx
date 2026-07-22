@@ -9,8 +9,7 @@ const TAB_ORDER = [
   "/dashboard",
   "/marks",
   "/attendance",
-  "/timetable",
-  "/premium"
+  "/timetable"
 ];
 
 const SWIPE_THRESHOLD = 100;

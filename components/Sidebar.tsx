@@ -545,16 +545,6 @@ export default function Sidebar() {
             <span>{label}</span>
           </Link>
         ))}
-
-        {/* Premium Tab (Spotify Style) */}
-        <Link
-          href="/premium"
-          className={`nav-item ${isActive("/premium", path) ? "active" : ""}`}
-          style={{ textDecoration: "none" }}
-        >
-          <Sparkles size={20} strokeWidth={isActive("/premium", path) ? 3 : 2} />
-          <span>Premium</span>
-        </Link>
       </nav>}
 
       {/* INLINE MORE DRAWER (CENTRAL HUB) */}
