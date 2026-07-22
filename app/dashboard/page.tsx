@@ -129,22 +129,25 @@ function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>, 
 
 function isLabSession(item: AnyValue) {
   if (!item) return false;
-  const code = (item.courseCode || "").toUpperCase();
   const type = (item.courseType || "").toLowerCase();
   const title = (item.courseTitle || "").toLowerCase();
+  const code = (item.courseCode || "").toUpperCase();
   const slot = (item.slot || "").toUpperCase();
 
-  return (
-    code.includes("NSO") ||
-    type.includes("practical") ||
-    type.includes("lab") ||
-    type.includes("laboratory") ||
-    title.includes("lab") ||
-    title.includes("laboratory") ||
-    title.includes("practical") ||
-    /^[L]\d+/i.test(slot) ||
-    /^[P]\d+/i.test(slot)
-  );
+  if (type.includes("practical") || type.includes("lab") || type.includes("laboratory")) {
+    return true;
+  }
+  if (/\b(lab|laboratory|practical)\b/i.test(title)) {
+    return true;
+  }
+  if (code.includes("NSO")) {
+    return true;
+  }
+  if (/^L\d+/i.test(slot) || /\bL\d+\b/i.test(slot)) {
+    return true;
+  }
+
+  return false;
 }
 
 function MiniGridTile({ slot }: { slot: AnyValue }) {
