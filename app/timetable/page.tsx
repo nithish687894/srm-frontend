@@ -41,7 +41,10 @@ function getPrimaryClassroom(courses: AnyValue[], studentClassroom?: string): st
   return primary;
 }
 
-function isLabSession(item: { courseCode?: string; courseType?: string; courseTitle?: string; slot?: string; roomNo?: string }) {
+function isLabSession(
+  item: { courseCode?: string; courseType?: string; courseTitle?: string; slot?: string; roomNo?: string },
+  allCourses?: AnyValue[]
+) {
   if (!item) return false;
   const type = (item.courseType || "").toLowerCase();
   const title = (item.courseTitle || "").toLowerCase();
@@ -72,6 +75,45 @@ function isLabSession(item: { courseCode?: string; courseType?: string; courseTi
   // 6. Room number explicitly contains Lab indicators (e.g. "TP101 LAB", "COMP LAB", "LAB 3", "WORKSHOP")
   if (/\b(lab|laboratory|comp|workshop|w\/s)\b/i.test(room)) {
     return true;
+  }
+
+  // 7. Same-Subject Room Difference:
+  // If the exact same subject has multiple classes/slots and this slot's room is different from the main room of that subject
+  if (allCourses && allCourses.length > 0 && room && room !== "TBA" && room !== "-") {
+    const normTitle = (item.courseTitle || "").trim().toLowerCase();
+    const normCode = (item.courseCode || "").trim().toUpperCase();
+
+    const sameSubjectItems = allCourses.filter((c: AnyValue) => {
+      const cTitle = (c.courseTitle || c.title || c.courseName || "").trim().toLowerCase();
+      const cCode = (c.courseCode || c.code || "").trim().toUpperCase();
+      return (normTitle && cTitle === normTitle) || (normCode && cCode === normCode);
+    });
+
+    if (sameSubjectItems.length > 1) {
+      const roomsForSubject = sameSubjectItems
+        .map((c: AnyValue) => (c.roomNo || c.room || "").trim().toUpperCase())
+        .filter((r: string) => r && r !== "TBA" && r !== "-");
+
+      if (roomsForSubject.length > 1) {
+        const roomCounts: Record<string, number> = {};
+        roomsForSubject.forEach((r: string) => {
+          roomCounts[r] = (roomCounts[r] || 0) + 1;
+        });
+
+        let mainSubjectRoom = "";
+        let maxCount = 0;
+        Object.entries(roomCounts).forEach(([r, count]) => {
+          if (count > maxCount) {
+            maxCount = count;
+            mainSubjectRoom = r;
+          }
+        });
+
+        if (mainSubjectRoom && room !== mainSubjectRoom) {
+          return true;
+        }
+      }
+    }
   }
 
   return false;
@@ -1381,7 +1423,7 @@ function AuraTimetable({
                     );
                   }
 
-                  const isLab = isLabSession(item);
+                  const isLab = isLabSession(item, myCourses);
                   const cardColor = isLab ? "#FF75C3" : AURA.secondary;
                   const isActive = (currentMin >= parseStart(item.startTime) && currentMin <= parseEnd(item.endTime));
                   const slotKey = `${dayOverride}-${item.courseCode}-${item.startTime}`;
@@ -1800,7 +1842,7 @@ function AuraTimetable({
               <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                  {classesWithBreaks.map((item: AnyValue, i: number) => {
                     if (item.isBreak) return null;
-                    const isLab = isLabSession(item);
+                    const isLab = isLabSession(item, myCourses);
                     return (
                        <div key={i} style={{ display: "flex", gap: "16px", alignItems: "center" }}>
                           <div style={{ width: "100px", fontSize: "10px", fontWeight: 800, color: "rgba(255,255,255,0.7)", textAlign: "right", lineHeight: 1.3 }}>
@@ -1844,7 +1886,7 @@ function AuraTimetable({
                        <div style={{ fontSize: "14px", color: AURA.primary, fontWeight: 900, marginBottom: "20px", textTransform: "uppercase", letterSpacing: "0.1em", textAlign: "center" }}>Day Order {d}</div>
                        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                           {(schedule[d - 1]?.classes || []).map((cls: AnyValue, i: number) => {
-                             const isLab = isLabSession(cls);
+                             const isLab = isLabSession(cls, myCourses);
                              return (
                                 <div key={i} style={{ background: isLab ? "rgba(255, 117, 195, 0.12)" : "rgba(255,255,255,0.03)", padding: "10px 12px", borderRadius: "12px", border: isLab ? "1px solid rgba(255, 117, 195, 0.35)" : "1px solid rgba(255,255,255,0.05)" }}>
                                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>

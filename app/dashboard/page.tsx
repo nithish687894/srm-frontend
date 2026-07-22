@@ -127,7 +127,7 @@ function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>, 
   });
 }
 
-function isLabSession(item: AnyValue) {
+function isLabSession(item: AnyValue, allCourses?: AnyValue[]) {
   if (!item) return false;
   const type = (item.courseType || "").toLowerCase();
   const title = (item.courseTitle || "").toLowerCase();
@@ -160,13 +160,52 @@ function isLabSession(item: AnyValue) {
     return true;
   }
 
+  // 7. Same-Subject Room Difference:
+  // If the exact same subject has multiple classes/slots and this slot's room is different from the main room of that subject
+  if (allCourses && allCourses.length > 0 && room && room !== "TBA" && room !== "-") {
+    const normTitle = (item.courseTitle || "").trim().toLowerCase();
+    const normCode = (item.courseCode || "").trim().toUpperCase();
+
+    const sameSubjectItems = allCourses.filter((c: AnyValue) => {
+      const cTitle = (c.courseTitle || c.title || c.courseName || "").trim().toLowerCase();
+      const cCode = (c.courseCode || c.code || "").trim().toUpperCase();
+      return (normTitle && cTitle === normTitle) || (normCode && cCode === normCode);
+    });
+
+    if (sameSubjectItems.length > 1) {
+      const roomsForSubject = sameSubjectItems
+        .map((c: AnyValue) => (c.roomNo || c.room || "").trim().toUpperCase())
+        .filter((r: string) => r && r !== "TBA" && r !== "-");
+
+      if (roomsForSubject.length > 1) {
+        const roomCounts: Record<string, number> = {};
+        roomsForSubject.forEach((r: string) => {
+          roomCounts[r] = (roomCounts[r] || 0) + 1;
+        });
+
+        let mainSubjectRoom = "";
+        let maxCount = 0;
+        Object.entries(roomCounts).forEach(([r, count]) => {
+          if (count > maxCount) {
+            maxCount = count;
+            mainSubjectRoom = r;
+          }
+        });
+
+        if (mainSubjectRoom && room !== mainSubjectRoom) {
+          return true;
+        }
+      }
+    }
+  }
+
   return false;
 }
 
-function MiniGridTile({ slot }: { slot: AnyValue }) {
+function MiniGridTile({ slot, allCourses }: { slot: AnyValue, allCourses?: AnyValue[] }) {
   if (!slot || slot.isEmpty) return <div style={{ background: "transparent", borderRadius: "16px", height: "88px", border: "1px dashed #333333" }} />;
   const isActive = isNowIn(slot.startTime, slot.endTime);
-  const isLab = isLabSession(slot);
+  const isLab = isLabSession(slot, allCourses);
   return (
     <div
       style={{
