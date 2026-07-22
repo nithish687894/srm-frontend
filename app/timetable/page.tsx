@@ -535,34 +535,86 @@ export default function TimetablePage() {
   }, [calendarIndex]);
 
   const getNextOccurrence = useMemo(() => {
-    return (dayOrderNum: number) => {
-      if (!calendarIndex) return null;
+    return (targetDayOrder: number) => {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-      
-      const occurrences: AnyValue[] = [];
-      calendarIndex.byDate.forEach((info) => {
-        if (info.dayOrder === dayOrderNum) {
-          const parts = info.isoDate.split("-");
-          const infoDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-          infoDate.setHours(0, 0, 0, 0);
-          if (infoDate >= today) {
-            occurrences.push(info);
+      const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+      const currentDayOrder = todayInfo?.dayOrder || null;
+
+      if (calendarIndex) {
+        if (currentDayOrder) {
+          if (targetDayOrder === currentDayOrder) {
+            return calendarIndex.byDate.get(todayIso) || null;
+          } else if (targetDayOrder < currentDayOrder) {
+            // Find most recent occurrence on or before today
+            let best: AnyValue = null;
+            let bestTime = -Infinity;
+            calendarIndex.byDate.forEach((info) => {
+              if (info.dayOrder === targetDayOrder) {
+                const parts = info.isoDate.split("-");
+                const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+                d.setHours(0, 0, 0, 0);
+                const time = d.getTime();
+                if (time <= today.getTime() && time > bestTime) {
+                  bestTime = time;
+                  best = info;
+                }
+              }
+            });
+            if (best) return best;
+          } else {
+            // Find upcoming occurrence on or after today
+            let best: AnyValue = null;
+            let bestTime = Infinity;
+            calendarIndex.byDate.forEach((info) => {
+              if (info.dayOrder === targetDayOrder) {
+                const parts = info.isoDate.split("-");
+                const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+                d.setHours(0, 0, 0, 0);
+                const time = d.getTime();
+                if (time >= today.getTime() && time < bestTime) {
+                  bestTime = time;
+                  best = info;
+                }
+              }
+            });
+            if (best) return best;
           }
+        } else {
+          // Weekend/Holiday: find nearest upcoming occurrence
+          let best: AnyValue = null;
+          let bestTime = Infinity;
+          calendarIndex.byDate.forEach((info) => {
+            if (info.dayOrder === targetDayOrder) {
+              const parts = info.isoDate.split("-");
+              const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+              d.setHours(0, 0, 0, 0);
+              const time = d.getTime();
+              if (time >= today.getTime() && time < bestTime) {
+                bestTime = time;
+                best = info;
+              }
+            }
+          });
+          if (best) return best;
         }
-      });
-      
-      occurrences.sort((a, b) => {
-        const aParts = a.isoDate.split("-");
-        const bParts = b.isoDate.split("-");
-        const aTime = new Date(parseInt(aParts[0]), parseInt(aParts[1]) - 1, parseInt(aParts[2])).getTime();
-        const bTime = new Date(parseInt(bParts[0]), parseInt(bParts[1]) - 1, parseInt(bParts[2])).getTime();
-        return aTime - bTime;
-      });
-      
-      return occurrences[0] || null;
+      }
+
+      // Fallback relative date calculation
+      const dayOfWeek = today.getDay();
+      const refDayOrder = currentDayOrder || (dayOfWeek >= 1 && dayOfWeek <= 5 ? dayOfWeek : 1);
+      const diffDays = targetDayOrder - refDayOrder;
+      const targetDate = new Date(today);
+      targetDate.setDate(today.getDate() + diffDays);
+      const tIso = `${targetDate.getFullYear()}-${String(targetDate.getMonth() + 1).padStart(2, "0")}-${String(targetDate.getDate()).padStart(2, "0")}`;
+
+      return {
+        isoDate: tIso,
+        dayOrder: targetDayOrder,
+        isHoliday: false,
+      };
     };
-  }, [calendarIndex]);
+  }, [calendarIndex, todayInfo]);
 
 
   const schedule = useMemo(() => {
