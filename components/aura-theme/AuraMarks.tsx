@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useMemo, useEffect } from "react";
-import { Award, Sparkles, AlertTriangle, TrendingUp, Activity, Flame, LockKeyhole } from "lucide-react";
+import { Award, Sparkles, AlertTriangle, TrendingUp, Activity, Flame } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/store";
 import { useAuraTheme } from "./system/useAuraTheme";
@@ -114,7 +114,6 @@ const CrystalOrb = ({ test, score, tests }: AnyValue) => {
 export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
   const router = useRouter();
   const isPremium = useAuthStore((state) => state.isPremium);
-  const [targetGrades, setTargetGrades] = useState<Record<number, string>>({});
   const [filter, setFilter] = useState("All");
   const [isScrolled, setIsScrolled] = useState(false);
   const { activeTheme, stars } = useAuraTheme();
@@ -395,74 +394,6 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
                   );
                }
 
-               // Grade Target Forecaster calculations
-               const selectedGrade = targetGrades[i] || 'A+';
-               const thresholds: Record<string, number> = { 'O': 91, 'A+': 81, 'A': 71, 'B+': 61 };
-               const targetTotal = thresholds[selectedGrade];
-               
-               const isPureInternal = 
-                 m.maxPossible > 60 || 
-                 m.title?.toLowerCase().includes("lab") || 
-                 m.title?.toLowerCase().includes("practical") || 
-                 m.title?.toLowerCase().includes("project") || 
-                 m.title?.toLowerCase().includes("workshop") || 
-                 m.title?.toLowerCase().includes("seminar");
-
-               const maxInternals = isPureInternal ? 100 : (m.maxPossible <= 50 ? 50 : 60);
-               const currentInternal = m.maxPossible > 0 ? (m.totalScored / m.maxPossible) * maxInternals : 0;
-               const externalWeight = 100 - maxInternals;
-               
-               const neededFromExternal = targetTotal - currentInternal;
-               const requiredExternalPercentage = externalWeight > 0 ? (neededFromExternal / externalWeight) * 100 : 0;
-               const rawCalculatedOutOf75 = externalWeight > 0 ? (requiredExternalPercentage / 100) * 75 : 0;
-               const requiredRawOutOf75 = Math.max(0, rawCalculatedOutOf75);
-               
-               const isAlreadySafe = currentInternal >= targetTotal;
-               const isImpossible = isPureInternal
-                 ? (targetTotal - m.totalScored > 100 - m.maxPossible)
-                 : (neededFromExternal > externalWeight || rawCalculatedOutOf75 > 75);
-               
-               let diffLabel = "";
-               let diffColor = "";
-               if (isImpossible) {
-                 diffLabel = "Impossible";
-                 diffColor = AURA_COLORS.red;
-               } else if (isAlreadySafe) {
-                 diffLabel = "Secured";
-                 diffColor = "#34C759";
-               } else if (isPureInternal) {
-                 const remainingMax = 100 - m.maxPossible;
-                 const neededRemaining = targetTotal - m.totalScored;
-                 const pct = remainingMax > 0 ? (neededRemaining / remainingMax) * 100 : 0;
-                 if (pct <= 40) {
-                   diffLabel = "Easy";
-                   diffColor = "#34C759";
-                 } else if (pct <= 70) {
-                   diffLabel = "Manageable";
-                   diffColor = AURA_COLORS.cyan;
-                 } else if (pct <= 90) {
-                   diffLabel = "Hard";
-                   diffColor = AURA_COLORS.amber;
-                 } else {
-                   diffLabel = "Very Hard";
-                   diffColor = "#FF2D55";
-                 }
-               } else {
-                 if (requiredRawOutOf75 <= 35) {
-                   diffLabel = "Easy";
-                   diffColor = "#34C759";
-                 } else if (requiredRawOutOf75 <= 50) {
-                   diffLabel = "Manageable";
-                   diffColor = AURA_COLORS.cyan;
-                 } else if (requiredRawOutOf75 <= 60) {
-                   diffLabel = "Hard";
-                   diffColor = AURA_COLORS.amber;
-                 } else {
-                   diffLabel = "Very Hard";
-                   diffColor = "#FF2D55";
-                 }
-               }
-
                return (
                 <div 
                   key={i} 
@@ -536,152 +467,6 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
                         {m.tests?.map((t: AnyValue, j: number) => (
                            <CrystalOrb key={j} test={t.test} score={t.score} tests={m.tests} />
                         ))}
-                     </div>
-
-                     {/* Premium Target Grade Forecaster Panel */}
-                     <div style={{
-                       background: 'rgba(255, 255, 255, 0.02)',
-                       border: '1px solid rgba(255, 255, 255, 0.05)',
-                       borderRadius: '20px',
-                       padding: '16px',
-                       marginBottom: '20px',
-                       position: 'relative',
-                       overflow: 'hidden',
-                       boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.02), 0 4px 12px rgba(0, 0, 0, 0.2)'
-                     }}>
-                       {!isPremium ? (
-                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '12px 6px' }}>
-                           <div style={{ 
-                             width: '36px', 
-                             height: '36px', 
-                             borderRadius: '12px', 
-                             background: 'rgba(192, 132, 252, 0.1)', 
-                             display: 'flex', 
-                             alignItems: 'center', 
-                             justifyContent: 'center',
-                             color: AURA_COLORS.purple,
-                             marginBottom: '10px',
-                             border: '1px solid rgba(192, 132, 252, 0.2)'
-                           }}>
-                             <LockKeyhole size={16} />
-                           </div>
-                           <h4 style={{ margin: '0 0 4px', fontSize: '13px', fontWeight: 900, color: '#fff' }}>
-                             Grade Forecaster locked
-                           </h4>
-                           <p style={{ margin: '0 0 12px', fontSize: '11px', color: AURA_COLORS.subBright, fontWeight: 700, lineHeight: 1.4, maxWidth: '280px' }}>
-                             Know exactly how much you need in the final exam to get O, A+, A or B+.
-                           </p>
-                           <button
-                             onClick={() => router.push('/premium')}
-                             style={{
-                               background: `linear-gradient(135deg, ${AURA_COLORS.purple}, #FF5E7E)`,
-                               color: '#fff',
-                               border: 'none',
-                               padding: '8px 18px',
-                               borderRadius: '10px',
-                               fontSize: '10px',
-                               fontWeight: 900,
-                               textTransform: 'uppercase',
-                               letterSpacing: '0.05em',
-                               cursor: 'pointer',
-                               boxShadow: '0 4px 12px rgba(192, 132, 252, 0.2)'
-                             }}
-                           >
-                             Upgrade to Premium
-                           </button>
-                         </div>
-                       ) : (
-                         <div>
-                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap', gap: '8px' }}>
-                             <span style={{ fontSize: '10px', fontWeight: 900, color: AURA_COLORS.subBright, letterSpacing: '0.05em' }}>GRADE FORECASTER</span>
-                             <div style={{ display: 'flex', gap: '6px' }}>
-                               {['O', 'A+', 'A', 'B+'].map((grade) => (
-                                 <button
-                                   key={grade}
-                                   onClick={() => setTargetGrades(prev => ({ ...prev, [i]: grade }))}
-                                   style={{
-                                     background: selectedGrade === grade ? 'linear-gradient(135deg, rgba(192, 132, 252, 0.3) 0%, rgba(255, 94, 126, 0.15) 100%)' : 'rgba(255, 255, 255, 0.03)',
-                                     border: selectedGrade === grade ? '1px solid rgba(192, 132, 252, 0.6)' : '1px solid rgba(255, 255, 255, 0.06)',
-                                     color: selectedGrade === grade ? '#fff' : AURA_COLORS.subBright,
-                                     padding: '4px 10px',
-                                     borderRadius: '8px',
-                                     fontSize: '10px',
-                                     fontWeight: 900,
-                                     cursor: 'pointer',
-                                     transition: 'all 0.2s',
-                                     outline: 'none'
-                                   }}
-                                 >
-                                   {grade}
-                                 </button>
-                               ))}
-                             </div>
-                           </div>
-
-                           {isAlreadySafe ? (
-                             <div style={{ background: 'rgba(52, 199, 89, 0.06)', border: '1px solid rgba(52, 199, 89, 0.15)', borderRadius: '12px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                               <span style={{ fontSize: '11px', fontWeight: 900, color: '#34C759' }}>Target {selectedGrade} (Estimated target requirement)</span>
-                               <p style={{ margin: 0, fontSize: '10px', color: AURA_COLORS.subBright, fontWeight: 700, lineHeight: 1.4 }}>
-                                 Already secured based on current internal score. Just appear for final exam and maintain pass requirements.
-                               </p>
-                             </div>
-                           ) : isImpossible ? (
-                             <div style={{ background: 'rgba(255, 59, 59, 0.06)', border: '1px solid rgba(255, 59, 59, 0.15)', borderRadius: '12px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                               <span style={{ fontSize: '11px', fontWeight: 900, color: AURA_COLORS.red }}>Target {selectedGrade} (Estimated target requirement)</span>
-                               <p style={{ margin: 0, fontSize: '10px', color: AURA_COLORS.subBright, fontWeight: 700, lineHeight: 1.4 }}>
-                                 {isPureInternal 
-                                   ? "Not possible to reach this grade with remaining internal assessments."
-                                   : "Not possible even with 75/75 in final. Try next lower grade."
-                                 }
-                               </p>
-                             </div>
-                           ) : (
-                             <div style={{ background: 'rgba(255, 255, 255, 0.01)', border: '1px solid rgba(255, 255, 255, 0.04)', borderRadius: '12px', padding: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                               {isPureInternal ? (
-                                 <div>
-                                   <span style={{ fontSize: '9px', fontWeight: 900, color: AURA_COLORS.sub, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Estimated remaining internals needed</span>
-                                   <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginTop: '2px' }}>
-                                     <span style={{ fontSize: '20px', fontWeight: 950, color: '#fff' }} className="tabular-nums">
-                                       {(targetTotal - m.totalScored).toFixed(1)}
-                                     </span>
-                                     <span style={{ fontSize: '11px', color: AURA_COLORS.sub, fontWeight: 800 }}>/{ (100 - m.maxPossible).toFixed(0) }</span>
-                                     <span style={{ fontSize: '10px', color: AURA_COLORS.subBright, fontWeight: 700, marginLeft: '6px' }} className="tabular-nums">
-                                       ({(((targetTotal - m.totalScored) / (100 - m.maxPossible)) * 100).toFixed(0)}%)
-                                     </span>
-                                   </div>
-                                 </div>
-                               ) : (
-                                 <div>
-                                   <span style={{ fontSize: '9px', fontWeight: 900, color: AURA_COLORS.sub, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Estimated score needed in final exam</span>
-                                   <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginTop: '2px' }}>
-                                     <span style={{ fontSize: '20px', fontWeight: 950, color: '#fff' }} className="tabular-nums">
-                                       {requiredRawOutOf75.toFixed(1)}
-                                     </span>
-                                     <span style={{ fontSize: '11px', color: AURA_COLORS.sub, fontWeight: 800 }}>/75</span>
-                                     <span style={{ fontSize: '10px', color: AURA_COLORS.subBright, fontWeight: 700, marginLeft: '6px' }} className="tabular-nums">
-                                       ({requiredExternalPercentage.toFixed(0)}%)
-                                     </span>
-                                   </div>
-                                 </div>
-                               )}
-                               
-                               <div style={{ 
-                                 background: `${diffColor}12`, 
-                                 border: `1px solid ${diffColor}22`, 
-                                 color: diffColor, 
-                                 padding: '4px 10px', 
-                                 borderRadius: '100px', 
-                                 fontSize: '9px', 
-                                 fontWeight: 900,
-                                 textTransform: 'uppercase',
-                                 letterSpacing: '0.05em'
-                               }}>
-                                 {diffLabel}
-                               </div>
-                             </div>
-                           )}
-                         </div>
-                       )}
                      </div>
 
                      {/* Footer */}

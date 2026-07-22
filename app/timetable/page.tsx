@@ -8,7 +8,7 @@ import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import { toPng } from "html-to-image";
 import { extractBatch } from "@/lib/utils";
-import { Share2, Star, Activity } from "lucide-react";
+import { Share2, Star, Activity, Calendar } from "lucide-react";
 import ContextNotesBanner from "@/components/ContextNotesBanner";
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
@@ -1015,79 +1015,69 @@ function AuraTimetable({
 
       <main className="timetable-main" style={{ flex: 1, position: "relative", zIndex: 1, padding: "110px 20px 200px", color: "var(--text-main)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         
-        {/* Header with Batch Selector */}
-        <div className="schedule-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px", marginTop: "28px", background: "rgba(255,255,255,0.03)", padding: "16px 20px", borderRadius: "24px", border: "1px solid rgba(255,255,255,0.05)", backdropFilter: "blur(20px)" }}>
-           <div className="schedule-header-copy">
-              <div style={{ fontSize: "10px", color: AURA.primary, textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 800 }}>SEMESTER SCHEDULE</div>
-              <div style={{ fontSize: "16px", fontWeight: 800, color: "var(--text-main)", marginTop: "2px" }}>Day {dayOverride} — Batch {batch}</div>
-           </div>
-           <div className="schedule-header-actions" style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-             <button 
-               className="schedule-export-button"
-               onClick={() => setShowShareModal(true)} 
-               style={{ 
-                 background: AURA.secondary, 
-                 border: "none", 
-                 color: "#fff", 
-                 padding: "8px 14px", 
-                 borderRadius: "12px", 
-                 fontSize: "11px", 
-                 fontWeight: 800, 
-                 cursor: "pointer", 
-                 transition: "all 0.3s", 
-                 boxShadow: `0 4px 15px ${AURA.secondary}44`,
-                 display: "flex",
-                 alignItems: "center",
-                 gap: "6px"
-               }}
-             >
-               <Share2 size={12} color="#fff" />
-               Export
-             </button>
-             <div style={{ display: "flex", background: "rgba(0,0,0,0.4)", borderRadius: "14px", padding: "4px", border: "1px solid rgba(255,255,255,0.1)" }}>
-               {[1, 2].map(b => (
-                 <button className="schedule-batch-button" key={b} onClick={() => setBatch(b)}
-                   style={{
-                     padding: "8px 14px", borderRadius: "10px", border: "none", fontSize: "12px", fontWeight: 800,
-                     background: batch === b ? AURA.accent : "transparent",
-                     color: batch === b ? "#000" : "var(--text-muted)",
-                     transition: "all 0.3s", cursor: "pointer",
-                     boxShadow: batch === b ? `0 4px 15px ${AURA.accent}44` : "none"
-                   }}>B{b}</button>
-               ))}
-             </div>
-              <button
-                className="schedule-profile-button"
-               onClick={onShowStudentInfo}
-               style={{
-                 width: "40px", height: "40px", borderRadius: "14px", background: "rgba(255,255,255,0.05)", color: "var(--text-main)",
-                 border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center",
-                 fontWeight: 900, fontSize: "13px", cursor: "pointer", transition: "all 0.3s"
-               }}
-             >
-               {studentInitials}
-             </button>
+        {/* Header with Batch & Export Controls */}
+        <div 
+          className="schedule-header" 
+          style={{ 
+            display: "flex", 
+            flexDirection: "column",
+            gap: "16px",
+            marginBottom: "24px", 
+            marginTop: "24px", 
+            background: "linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(192, 132, 252, 0.04) 50%, rgba(0, 212, 255, 0.02) 100%)", 
+            padding: "20px 22px", 
+            borderRadius: "28px", 
+            border: "1px solid rgba(255, 255, 255, 0.08)", 
+            backdropFilter: "blur(24px)",
+            boxShadow: "0 20px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)"
+          }}
+        >
+          {/* Top Row: Title & User Profile / Admin Actions */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", gap: "12px", flexWrap: "wrap" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <div style={{
+                width: "40px",
+                height: "40px",
+                borderRadius: "14px",
+                background: "linear-gradient(135deg, rgba(192, 132, 252, 0.2), rgba(0, 212, 255, 0.15))",
+                border: "1px solid rgba(192, 132, 252, 0.3)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#C084FC",
+                boxShadow: "0 0 15px rgba(192, 132, 252, 0.2)"
+              }}>
+                <Calendar size={18} />
+              </div>
+              <div>
+                <div style={{ fontSize: "10px", color: AURA.primary, textTransform: "uppercase", letterSpacing: "0.18em", fontWeight: 900 }}>
+                  SEMESTER SCHEDULE
+                </div>
+                <div style={{ fontSize: "17px", fontWeight: 900, color: "#fff", marginTop: "2px", letterSpacing: "-0.01em" }}>
+                  Day {dayOverride} <span style={{ opacity: 0.4, fontWeight: 400 }}>·</span> Batch {batch}
+                </div>
+              </div>
+            </div>
 
-             {isAdmin && (
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              {isAdmin && (
                 <button
                   className="schedule-ns-button"
                   onClick={() => router.push("/ns")}
                   style={{
-                    height: "40px",
-                    padding: "0 10px",
-                    borderRadius: "14px",
-                    background: "linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 212, 255, 0.1))",
+                    height: "38px",
+                    padding: "0 12px",
+                    borderRadius: "12px",
+                    background: "linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 212, 255, 0.08))",
                     color: "#00FF88",
-                    border: "1px solid rgba(0, 255, 136, 0.4)",
+                    border: "1px solid rgba(0, 255, 136, 0.35)",
                     display: "flex",
                     alignItems: "center",
-                    gap: "4px",
+                    gap: "6px",
                     fontWeight: 900,
-                    fontSize: "12px",
+                    fontSize: "11px",
                     cursor: "pointer",
-                    transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
-                    boxShadow: "0 4px 15px rgba(0, 255, 136, 0.2)",
-                    backdropFilter: "blur(10px)"
+                    transition: "all 0.2s"
                   }}
                   title="Open Operations Telemetry (/ns)"
                 >
@@ -1095,19 +1085,113 @@ function AuraTimetable({
                   <span>NS</span>
                 </button>
               )}
-           </div>
+
+              <button
+                className="schedule-profile-button"
+                onClick={onShowStudentInfo}
+                style={{
+                  height: "38px",
+                  padding: "0 14px",
+                  borderRadius: "12px",
+                  background: "rgba(255, 255, 255, 0.05)",
+                  color: "#fff",
+                  border: "1px solid rgba(255, 255, 255, 0.12)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: 900,
+                  fontSize: "12px",
+                  cursor: "pointer",
+                  transition: "all 0.2s"
+                }}
+              >
+                {studentInitials}
+              </button>
+            </div>
+          </div>
+
+          {/* Bottom Row: Batch Switcher & Export Button */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", paddingTop: "12px", borderTop: "1px solid rgba(255, 255, 255, 0.05)", flexWrap: "wrap", gap: "10px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <span style={{ fontSize: "10px", fontWeight: 800, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: "0.05em" }}>Batch:</span>
+              <div style={{ display: "flex", background: "rgba(0,0,0,0.5)", borderRadius: "12px", padding: "3px", border: "1px solid rgba(255,255,255,0.1)" }}>
+                {[1, 2].map(b => (
+                  <button 
+                    key={b} 
+                    onClick={() => setBatch(b)}
+                    style={{
+                      padding: "6px 14px", 
+                      borderRadius: "9px", 
+                      border: "none", 
+                      fontSize: "11px", 
+                      fontWeight: 900,
+                      background: batch === b ? "linear-gradient(135deg, #C084FC 0%, #00D4FF 100%)" : "transparent",
+                      color: batch === b ? "#000" : "rgba(255,255,255,0.5)",
+                      transition: "all 0.2s", 
+                      cursor: "pointer",
+                      boxShadow: batch === b ? "0 2px 10px rgba(192, 132, 252, 0.3)" : "none"
+                    }}
+                  >
+                    Batch {b}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <button 
+              className="schedule-export-button"
+              onClick={() => setShowShareModal(true)} 
+              style={{ 
+                background: "linear-gradient(135deg, rgba(192, 132, 252, 0.2) 0%, rgba(255, 94, 126, 0.15) 100%)", 
+                border: "1px solid rgba(192, 132, 252, 0.4)", 
+                color: "#fff", 
+                padding: "8px 16px", 
+                borderRadius: "12px", 
+                fontSize: "11px", 
+                fontWeight: 900, 
+                cursor: "pointer", 
+                transition: "all 0.2s", 
+                boxShadow: "0 4px 15px rgba(192, 132, 252, 0.15)",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px"
+              }}
+            >
+              <Share2 size={13} color="#C084FC" />
+              <span>Export Schedule</span>
+            </button>
+          </div>
         </div>
 
         {/* View Switcher Toggle */}
-        <div className="schedule-view-switcher" style={{ display: "flex", background: "rgba(0,0,0,0.4)", borderRadius: "16px", padding: "4px", border: "1px solid rgba(255,255,255,0.08)", marginBottom: "32px", maxWidth: "340px" }}>
+        <div 
+          className="schedule-view-switcher" 
+          style={{ 
+            display: "flex", 
+            background: "rgba(0,0,0,0.5)", 
+            borderRadius: "18px", 
+            padding: "4px", 
+            border: "1px solid rgba(255,255,255,0.08)", 
+            marginBottom: "24px", 
+            width: "100%",
+            boxShadow: "inset 0 1px 2px rgba(0,0,0,0.4)"
+          }}
+        >
           <button 
             className="schedule-view-button"
             onClick={() => setActiveTab("schedule")}
             style={{
-              flex: 1, padding: "10px 16px", borderRadius: "12px", border: "none", fontSize: "12px", fontWeight: 800,
-              background: activeTab === "schedule" ? "linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-purple) 100%)" : "transparent",
-              color: activeTab === "schedule" ? "#fff" : "var(--text-muted)",
-              transition: "all 0.3s ease", cursor: "pointer"
+              flex: 1, 
+              padding: "10px 16px", 
+              borderRadius: "14px", 
+              border: "none", 
+              fontSize: "12px", 
+              fontWeight: 900,
+              background: activeTab === "schedule" ? "linear-gradient(135deg, #C084FC 0%, #FF5E7E 100%)" : "transparent",
+              color: activeTab === "schedule" ? "#fff" : "rgba(255,255,255,0.5)",
+              transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)", 
+              cursor: "pointer",
+              boxShadow: activeTab === "schedule" ? "0 4px 15px rgba(192, 132, 252, 0.3)" : "none"
             }}
           >
             My Schedule
@@ -1116,15 +1200,37 @@ function AuraTimetable({
             className="schedule-view-button"
             onClick={() => setActiveTab("friends")}
             style={{
-              flex: 1, padding: "10px 16px", borderRadius: "12px", border: "none", fontSize: "12px", fontWeight: 800,
-              background: activeTab === "friends" ? "linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-purple) 100%)" : "transparent",
-              color: activeTab === "friends" ? "#fff" : "var(--text-muted)",
-              transition: "all 0.3s ease", cursor: "pointer",
-              display: "flex", alignItems: "center", justifyContent: "center", gap: "6px"
+              flex: 1, 
+              padding: "10px 16px", 
+              borderRadius: "14px", 
+              border: "none", 
+              fontSize: "12px", 
+              fontWeight: 900,
+              background: activeTab === "friends" ? "linear-gradient(135deg, #C084FC 0%, #FF5E7E 100%)" : "transparent",
+              color: activeTab === "friends" ? "#fff" : "rgba(255,255,255,0.5)",
+              transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)", 
+              cursor: "pointer",
+              display: "flex", 
+              alignItems: "center", 
+              justifyContent: "center", 
+              gap: "6px",
+              boxShadow: activeTab === "friends" ? "0 4px 15px rgba(192, 132, 252, 0.3)" : "none"
             }}
           >
-            Friends Sync
-            <span className="schedule-premium-badge" style={{ fontSize: "8px", fontWeight: 900, background: "rgba(255,255,255,0.15)", color: "#fff", padding: "2px 6px", borderRadius: "6px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Premium</span>
+            <span>Friends Sync</span>
+            <span style={{ 
+              fontSize: "8.5px", 
+              fontWeight: 950, 
+              background: "linear-gradient(135deg, #FFCC00 0%, #FF9500 100%)", 
+              color: "#000", 
+              padding: "2px 7px", 
+              borderRadius: "6px", 
+              textTransform: "uppercase", 
+              letterSpacing: "0.05em",
+              boxShadow: "0 2px 6px rgba(255, 204, 0, 0.3)"
+            }}>
+              PREMIUM
+            </span>
           </button>
         </div>
 

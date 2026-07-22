@@ -70,7 +70,7 @@ export default function MarksPage() {
     } catch (e) {
       console.error("Marks sync failed", e);
     } finally {
-      setTimeout(() => setIsSyncing(false), 800);
+      setIsSyncing(false);
     }
   };
 

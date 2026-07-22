@@ -66,7 +66,7 @@ export default function StudentDashboardPage() {
         setStudentPortalData(d.studentPortal);
         setAcademicData({ ...d.academia, studentPortal: d.studentPortal });
       }
-    } catch (e) { console.error(e); } finally { setTimeout(() => setIsSyncing(false), 800); }
+    } catch (e) { console.error(e); } finally { setIsSyncing(false); }
   };
 
   if (!mounted) return <LoadingSkeleton />;
