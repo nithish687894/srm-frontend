@@ -82,11 +82,18 @@ function isLabSession(
   if (allCourses && allCourses.length > 0 && room && room !== "TBA" && room !== "-") {
     const normTitle = (item.courseTitle || "").trim().toLowerCase();
     const normCode = (item.courseCode || "").trim().toUpperCase();
+    const baseCode = normCode.replace(/[TLP]$/, "");
 
     const sameSubjectItems = allCourses.filter((c: AnyValue) => {
       const cTitle = (c.courseTitle || c.title || c.courseName || "").trim().toLowerCase();
       const cCode = (c.courseCode || c.code || "").trim().toUpperCase();
-      return (normTitle && cTitle === normTitle) || (normCode && cCode === normCode);
+      const cBaseCode = cCode.replace(/[TLP]$/, "");
+
+      return (
+        (normTitle && cTitle === normTitle) || 
+        (normCode && cCode === normCode) ||
+        (baseCode && cBaseCode && baseCode === cBaseCode)
+      );
     });
 
     if (sameSubjectItems.length > 1) {
