@@ -49,93 +49,46 @@ function isLabSession(
   const type = (item.courseType || "").toLowerCase();
   const title = (item.courseTitle || "").toLowerCase();
   const code = (item.courseCode || "").toUpperCase();
-  const slot = (item.slot || "").toUpperCase();
   const room = (item.roomNo || "").trim().replace(/\s+/g, " ").toUpperCase();
 
-  // 1. Explicit courseType check (Practical, Lab, Laboratory)
-  if (type.includes("practical") || type.includes("lab") || type.includes("laboratory")) {
-    return true;
-  }
-  // 2. Course title containing "lab", "laboratory", or "practical"
-  if (/\b(lab|laboratory|practical)\b/i.test(title)) {
-    return true;
-  }
-  // 3. NSO course code check
-  if (code.includes("NSO")) {
-    return true;
-  }
-  // 4. SRM Lab Course Code ending with 'L' or 'P' (e.g. 18CS303L, 21CSC204L) - excludes T and J
-  if (/^[A-Z0-9]+[LP]$/i.test(code) && !code.endsWith("T") && !code.endsWith("J")) {
-    return true;
-  }
-  // 5. SRM Lab slot codes explicitly start with 'L' (e.g. L1, L31, L1-L2, L31+L32)
-  if (/^L\d+/i.test(slot) || /\bL\d+\b/i.test(slot)) {
-    return true;
-  }
-  // 6. Room number explicitly contains Lab indicators (e.g. "TP508 Things of Future Lab", "TP101 LAB", "COMP LAB", "WORKSHOP")
+  // 1. Room explicitly contains Lab keywords -> ALWAYS Lab Session
   if (/\b(lab|laboratory|comp|workshop|w\/s)\b/i.test(room)) {
     return true;
   }
 
-  // 7. Same-Subject Room Difference & Primary Classroom Identification:
-  if (allCourses && allCourses.length > 0 && room && room !== "TBA" && room !== "-") {
-    const normTitle = (item.courseTitle || "").trim().toLowerCase();
-    const normCode = (item.courseCode || "").trim().toUpperCase();
-    const baseCode = normCode.replace(/[TLPJ]$/, "");
+  // 2. Primary Theory Classroom check:
+  // If the class is conducted in the student's main theory classroom (e.g. TP 1406),
+  // it is ALWAYS a Theory Class! (Returns false -> never highlighted as Lab).
+  const primaryRoom = getPrimaryClassroom(allCourses || []);
+  if (primaryRoom && room && room === primaryRoom) {
+    return false;
+  }
 
-    const sameSubjectItems = allCourses.filter((c: AnyValue) => {
-      const cTitle = (c.courseTitle || c.title || c.courseName || "").trim().toLowerCase();
-      const cCode = (c.courseCode || c.code || "").trim().toUpperCase();
-      const cBaseCode = cCode.replace(/[TLPJ]$/, "");
+  // 3. Different Room check:
+  // If the class is conducted in a DIFFERENT room from the main classroom,
+  // AND has lab indications or is a different room for the subject, it is a Lab Session!
+  if (primaryRoom && room && room !== "TBA" && room !== "-" && room !== primaryRoom) {
+    return true;
+  }
 
-      return (
-        (normTitle && cTitle === normTitle) || 
-        (normCode && cCode === normCode) ||
-        (baseCode && cBaseCode && baseCode === cBaseCode)
-      );
-    });
+  // 4. Explicit courseType check (Practical, Lab, Laboratory)
+  if (type.includes("practical") || type.includes("lab") || type.includes("laboratory")) {
+    return true;
+  }
 
-    if (sameSubjectItems.length > 1) {
-      const roomsForSubject = sameSubjectItems
-        .map((c: AnyValue) => (c.roomNo || c.room || "").trim().replace(/\s+/g, " ").toUpperCase())
-        .filter((r: string) => r && r !== "TBA" && r !== "-");
+  // 5. Course title containing standalone "lab", "laboratory", or "practical"
+  if (/\b(lab|laboratory|practical)\b/i.test(title)) {
+    return true;
+  }
 
-      const uniqueRooms = Array.from(new Set(roomsForSubject));
+  // 6. NSO course code check
+  if (code.includes("NSO")) {
+    return true;
+  }
 
-      if (uniqueRooms.length > 1) {
-        // Check if one of the rooms has lab keywords
-        const labRoom = roomsForSubject.find(r => /\b(lab|laboratory|comp|workshop|w\/s)\b/i.test(r));
-        if (labRoom) {
-          if (room === labRoom) return true;
-          return false;
-        }
-
-        const primaryRoom = getPrimaryClassroom(allCourses);
-        if (primaryRoom && uniqueRooms.includes(primaryRoom)) {
-          if (room !== primaryRoom) {
-            return true;
-          }
-        } else {
-          const roomCounts: Record<string, number> = {};
-          roomsForSubject.forEach((r: string) => {
-            roomCounts[r] = (roomCounts[r] || 0) + 1;
-          });
-
-          let mainSubjectRoom = "";
-          let maxCount = 0;
-          Object.entries(roomCounts).forEach(([r, count]) => {
-            if (count > maxCount) {
-              maxCount = count;
-              mainSubjectRoom = r;
-            }
-          });
-
-          if (mainSubjectRoom && room !== mainSubjectRoom) {
-            return true;
-          }
-        }
-      }
-    }
+  // 7. SRM Lab Course Code ending with 'L' or 'P' (excludes T and J)
+  if (/^[A-Z0-9]+[LP]$/i.test(code) && !code.endsWith("T") && !code.endsWith("J")) {
+    return true;
   }
 
   return false;
