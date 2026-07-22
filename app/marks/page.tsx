@@ -9,7 +9,6 @@ import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import { dataAPI } from "@/lib/api";
 import AuraMarks from "@/components/aura-theme/AuraMarks";
-import ContextNotesBanner from "@/components/ContextNotesBanner";
 
 const THEME = {
   bg: "#050505",
@@ -118,7 +117,6 @@ export default function MarksPage() {
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
       `}} />
       <main style={{ flex: 1, paddingBottom: "140px", paddingTop: "80px" }} className="max-w-4xl mx-auto px-4 w-full">
-        <ContextNotesBanner page="marks" />
         <AuraMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />
       </main>
     </div>
