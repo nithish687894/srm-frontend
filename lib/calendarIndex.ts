@@ -134,10 +134,12 @@ export function buildCalendarIndex(raw: AnyValue): {
           ? entry.isHoliday
           : isHolidayLike(dayOrder, day);
 
-      if (event === "-") event = "";
+      const matchDO = dayOrder.match(/\b([1-9]|10)\b/) || dayOrder.match(/([1-9]|10)/);
+      const parsedDO = matchDO ? parseInt(matchDO[0], 10) : null;
+      const dayOrderNum = !holiday && parsedDO && parsedDO >= 1 && parsedDO <= 10 ? parsedDO : null;
 
       // If event is empty, check if dayOrder contains the holiday name (common in some exports)
-      if (!event && dayOrder && !/^[1-5]$/.test(dayOrder) && !/^(h|hd|gh|fh|sh|nh|oh|holiday)/i.test(dayOrder)) {
+      if (!event && dayOrder && !parsedDO && !/^(h|hd|gh|fh|sh|nh|oh|holiday)/i.test(dayOrder)) {
         event = dayOrder;
       }
 
@@ -149,20 +151,15 @@ export function buildCalendarIndex(raw: AnyValue): {
         }
       }
 
-      // Use the month label the backend already sends with each entry
       const parsed = parseMonthLabel(monthLabel);
       if (!parsed) return;
 
       const { month, year } = parsed;
 
-      // Validate day is within this month
       const maxDay = new Date(year, month + 1, 0).getDate();
       if (dateNum > maxDay) return;
 
       const isoDate = `${year}-${pad2(month + 1)}-${pad2(dateNum)}`;
-
-      const dayOrderNum =
-        !holiday && /^[1-5]$/.test(dayOrder) ? parseInt(dayOrder, 10) : null;
 
       const info: CalendarDayInfo = {
         isoDate,
