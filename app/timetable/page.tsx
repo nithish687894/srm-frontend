@@ -488,22 +488,25 @@ export default function TimetablePage() {
 
   const autoSelected = useRef(false);
   useEffect(() => {
+    const today = new Date();
+    const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+    
+    if (calQ.data) {
+      const { byDate } = buildCalendarIndex(calQ.data);
+      const info = byDate.get(todayIso);
+      if (info?.dayOrder && info.dayOrder >= 1 && info.dayOrder <= 10) {
+        setDayOverride(info.dayOrder);
+        autoSelected.current = true;
+        return;
+      }
+    }
+
     if (!autoSelected.current) {
-      const today = new Date();
-      const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+      const dayOfWeek = today.getDay();
       let d: number | null = null;
-      if (calQ.data) {
-        const { byDate } = buildCalendarIndex(calQ.data);
-        const info = byDate.get(todayIso);
-        if (info?.dayOrder) d = info.dayOrder;
-      }
-      if (!d) {
-        const dayOfWeek = today.getDay();
-        if (dayOfWeek >= 1 && dayOfWeek <= 5) d = dayOfWeek;
-      }
+      if (dayOfWeek >= 1 && dayOfWeek <= 5) d = dayOfWeek;
       if (d && d >= 1 && d <= 10) {
         setDayOverride(d);
-        autoSelected.current = true;
       }
     }
   }, [calQ.data]);
