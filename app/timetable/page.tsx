@@ -41,7 +41,7 @@ function getPrimaryClassroom(courses: AnyValue[], studentClassroom?: string): st
   return primary;
 }
 
-function isLabSession(item: { courseCode?: string; courseType?: string; courseTitle?: string; slot?: string; roomNo?: string }, primaryClassroom?: string) {
+function isLabSession(item: { courseCode?: string; courseType?: string; courseTitle?: string; slot?: string; roomNo?: string }) {
   if (!item) return false;
   const type = (item.courseType || "").toLowerCase();
   const title = (item.courseTitle || "").toLowerCase();
@@ -49,29 +49,29 @@ function isLabSession(item: { courseCode?: string; courseType?: string; courseTi
   const slot = (item.slot || "").toUpperCase();
   const room = (item.roomNo || "").trim().toUpperCase();
 
+  // 1. Explicit courseType check (Practical, Lab, Laboratory)
   if (type.includes("practical") || type.includes("lab") || type.includes("laboratory")) {
     return true;
   }
+  // 2. Course title containing "lab", "laboratory", or "practical"
   if (/\b(lab|laboratory|practical)\b/i.test(title)) {
     return true;
   }
+  // 3. NSO course code check
   if (code.includes("NSO")) {
     return true;
   }
-  if (/^[A-Z0-9]+L$/i.test(code)) {
+  // 4. SRM Lab Course Code ending with 'L' or 'P' (e.g. 18CS303L, 21CSC204L)
+  if (/^[A-Z0-9]+[LP]$/i.test(code) && !code.endsWith("T")) {
     return true;
   }
+  // 5. SRM Lab slot codes explicitly start with 'L' (e.g. L1, L31, L1-L2, L31+L32)
   if (/^L\d+/i.test(slot) || /\bL\d+\b/i.test(slot)) {
     return true;
   }
+  // 6. Room number explicitly contains Lab indicators (e.g. "TP101 LAB", "COMP LAB", "LAB 3", "WORKSHOP")
   if (/\b(lab|laboratory|comp|workshop|w\/s)\b/i.test(room)) {
     return true;
-  }
-  if (primaryClassroom && room && room !== "TBA" && room !== "-") {
-    const normPrimary = primaryClassroom.trim().toUpperCase();
-    if (normPrimary && room !== normPrimary) {
-      return true;
-    }
   }
 
   return false;
@@ -1381,7 +1381,7 @@ function AuraTimetable({
                     );
                   }
 
-                  const isLab = isLabSession(item, primaryClassroom);
+                  const isLab = isLabSession(item);
                   const cardColor = isLab ? "#FF75C3" : AURA.secondary;
                   const isActive = (currentMin >= parseStart(item.startTime) && currentMin <= parseEnd(item.endTime));
                   const slotKey = `${dayOverride}-${item.courseCode}-${item.startTime}`;
@@ -1800,7 +1800,7 @@ function AuraTimetable({
               <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                  {classesWithBreaks.map((item: AnyValue, i: number) => {
                     if (item.isBreak) return null;
-                    const isLab = isLabSession(item, primaryClassroom);
+                    const isLab = isLabSession(item);
                     return (
                        <div key={i} style={{ display: "flex", gap: "16px", alignItems: "center" }}>
                           <div style={{ width: "100px", fontSize: "10px", fontWeight: 800, color: "rgba(255,255,255,0.7)", textAlign: "right", lineHeight: 1.3 }}>
@@ -1844,7 +1844,7 @@ function AuraTimetable({
                        <div style={{ fontSize: "14px", color: AURA.primary, fontWeight: 900, marginBottom: "20px", textTransform: "uppercase", letterSpacing: "0.1em", textAlign: "center" }}>Day Order {d}</div>
                        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                           {(schedule[d - 1]?.classes || []).map((cls: AnyValue, i: number) => {
-                             const isLab = isLabSession(cls, primaryClassroom);
+                             const isLab = isLabSession(cls);
                              return (
                                 <div key={i} style={{ background: isLab ? "rgba(255, 117, 195, 0.12)" : "rgba(255,255,255,0.03)", padding: "10px 12px", borderRadius: "12px", border: isLab ? "1px solid rgba(255, 117, 195, 0.35)" : "1px solid rgba(255,255,255,0.05)" }}>
                                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>

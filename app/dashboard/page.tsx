@@ -127,7 +127,7 @@ function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>, 
   });
 }
 
-function isLabSession(item: AnyValue, primaryClassroom?: string) {
+function isLabSession(item: AnyValue) {
   if (!item) return false;
   const type = (item.courseType || "").toLowerCase();
   const title = (item.courseTitle || "").toLowerCase();
@@ -135,29 +135,29 @@ function isLabSession(item: AnyValue, primaryClassroom?: string) {
   const slot = (item.slot || "").toUpperCase();
   const room = (item.roomNo || item.room || "").trim().toUpperCase();
 
+  // 1. Explicit courseType check (Practical, Lab, Laboratory)
   if (type.includes("practical") || type.includes("lab") || type.includes("laboratory")) {
     return true;
   }
+  // 2. Course title containing "lab", "laboratory", or "practical"
   if (/\b(lab|laboratory|practical)\b/i.test(title)) {
     return true;
   }
+  // 3. NSO course code check
   if (code.includes("NSO")) {
     return true;
   }
-  if (/^[A-Z0-9]+L$/i.test(code)) {
+  // 4. SRM Lab Course Code ending with 'L' or 'P' (e.g. 18CS303L, 21CSC204L)
+  if (/^[A-Z0-9]+[LP]$/i.test(code) && !code.endsWith("T")) {
     return true;
   }
+  // 5. SRM Lab slot codes explicitly start with 'L' (e.g. L1, L31, L1-L2, L31+L32)
   if (/^L\d+/i.test(slot) || /\bL\d+\b/i.test(slot)) {
     return true;
   }
+  // 6. Room number explicitly contains Lab indicators (e.g. "TP101 LAB", "COMP LAB", "LAB 3", "WORKSHOP")
   if (/\b(lab|laboratory|comp|workshop|w\/s)\b/i.test(room)) {
     return true;
-  }
-  if (primaryClassroom && room && room !== "TBA" && room !== "-") {
-    const normPrimary = primaryClassroom.trim().toUpperCase();
-    if (normPrimary && room !== normPrimary) {
-      return true;
-    }
   }
 
   return false;
