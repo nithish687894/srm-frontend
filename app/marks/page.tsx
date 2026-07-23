@@ -116,7 +116,7 @@ export default function MarksPage() {
         .animate-spin { animation: spin 2s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
       `}} />
-      <main style={{ flex: 1, paddingBottom: "140px", paddingTop: "100px" }} className="max-w-4xl mx-auto px-4 w-full">
+      <main style={{ flex: 1, paddingBottom: "140px", paddingTop: "calc(env(safe-area-inset-top, 0px) + 120px)" }} className="max-w-4xl mx-auto px-4 w-full">
         <AuraMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />
       </main>
     </div>

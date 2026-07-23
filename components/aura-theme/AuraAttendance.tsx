@@ -187,7 +187,7 @@ export default function AuraAttendance({
         .tabular-nums { font-variant-numeric: tabular-nums; }
         
         .sticky-header {
-          position: fixed; top: 72px; left: 16px; right: 16px; border-radius: 24px;
+          position: fixed; top: calc(env(safe-area-inset-top, 0px) + 80px); left: 16px; right: 16px; border-radius: 24px;
           background: rgba(10, 8, 16, 0.85); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
           padding: 16px 20px; border: 1px solid rgba(255, 255, 255, 0.06);
           display: flex; align-items: center; justify-content: space-between;
@@ -300,7 +300,7 @@ export default function AuraAttendance({
         </div>
       </div>
 
-      <div className="attendance-page" style={{ flex: 1, padding: "100px 0 140px 0", position: 'relative', zIndex: 1 }}>
+      <div className="attendance-page" style={{ flex: 1, padding: "calc(env(safe-area-inset-top, 0px) + 120px) 0 140px 0", position: 'relative', zIndex: 1 }}>
         
         {/* Header Section */}
         <div style={{ textAlign: 'center', marginBottom: '24px' }}>

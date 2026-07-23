@@ -8,7 +8,7 @@ export default function LoadingSkeleton() {
     <main
       className="w-full min-h-screen relative overflow-hidden bg-[#f7f5ff] dark:bg-[#050505] text-gray-900 dark:text-white flex flex-col justify-start"
       style={{
-        padding: "100px 24px 140px",
+        padding: "calc(env(safe-area-inset-top, 0px) + 120px) 24px 140px",
         fontFamily: "'Plus Jakarta Sans', sans-serif",
       }}
     >

@@ -1146,7 +1146,7 @@ function AuraTimetable({
       <div className="aura-blob" style={{ background: AURA.secondary, top: '-200px', right: '-100px' }} />
       <div className="aura-blob" style={{ background: AURA.accent, bottom: '-200px', left: '-100px', animationDelay: '-10s' }} />
 
-      <main className="timetable-main" style={{ flex: 1, position: "relative", zIndex: 1, padding: "100px 24px 140px", color: "var(--text-main)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <main className="timetable-main" style={{ flex: 1, position: "relative", zIndex: 1, padding: "calc(env(safe-area-inset-top, 0px) + 120px) 24px 220px", color: "var(--text-main)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         
         {/* Header with Batch & Export Controls */}
         <div 
@@ -1564,7 +1564,7 @@ function AuraTimetable({
                           {item.courseTitle.toLowerCase()}
                         </div>
                         
-                        <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", marginTop: "16px" }}>
+                        <div style={{ display: "grid", gridTemplateColumns: "auto auto 1fr", gap: "16px", marginTop: "16px", alignItems: "flex-start" }}>
                           <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
                             <span style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>Course Code</span>
                             <span style={{ fontSize: "12px", color: cardColor, fontWeight: 700 }}>{item.courseCode}</span>
@@ -1573,9 +1573,9 @@ function AuraTimetable({
                             <span style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>Room</span>
                             <span style={{ fontSize: "12px", color: "var(--text-main)", fontWeight: 700 }}>{item.roomNo || "TBA"}</span>
                           </div>
-                          <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                          <div style={{ display: "flex", flexDirection: "column", gap: "4px", minWidth: 0 }}>
                             <span style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>Faculty</span>
-                            <span style={{ fontSize: "12px", color: "var(--text-main)", fontWeight: 700 }}>{(item.facultyName || "TBA").replace(/\s*\(\d+\)/, "")}</span>
+                            <span style={{ fontSize: "12px", color: "var(--text-main)", fontWeight: 700, wordBreak: "break-word" }}>{(item.facultyName || "TBA").replace(/\s*\(\d+\)/, "")}</span>
                           </div>
                         </div>
                       </div>
@@ -1938,7 +1938,7 @@ function AuraTimetable({
       </main>
 
       {/* Day Switcher Bottom Overlay */}
-      <div style={{ position: "fixed", bottom: "110px", left: "20px", right: "20px", display: "flex", justifyContent: "center", zIndex: 100 }}>
+      <div style={{ position: "fixed", bottom: "calc(env(safe-area-inset-bottom, 0px) + 96px)", left: "20px", right: "20px", display: "flex", justifyContent: "center", zIndex: 100 }}>
          <div style={{ background: "rgba(10,10,15,0.8)", backdropFilter: "blur(20px)", borderRadius: "24px", padding: "8px", display: "flex", gap: "8px", border: "1px solid rgba(255,255,255,0.1)", boxShadow: "0 20px 40px rgba(0,0,0,0.5)" }}>
             {[1, 2, 3, 4, 5].map(d => {
               const occ = getNextOccurrence(d);
