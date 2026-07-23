@@ -307,6 +307,16 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
       offsetRef.current = 0;
     }
 
+    if (gestureRef.current !== "horizontal" && gestureRef.current !== "pull") {
+      offsetRef.current = 0;
+      pullDistRef.current = 0;
+      if (wrapperRef.current) {
+        wrapperRef.current.style.transform = "none";
+        wrapperRef.current.style.transition = "none";
+        wrapperRef.current.style.opacity = "1";
+      }
+    }
+
     touchRef.current = null;
     gestureRef.current = "none";
     setGestureTransition(false);
