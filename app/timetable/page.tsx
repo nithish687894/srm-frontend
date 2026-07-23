@@ -1564,16 +1564,16 @@ function AuraTimetable({
                           {item.courseTitle.toLowerCase()}
                         </div>
                         
-                        <div style={{ display: "grid", gridTemplateColumns: "auto auto 1fr", gap: "16px", marginTop: "16px", alignItems: "flex-start" }}>
-                          <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                        <div style={{ display: "flex", flexWrap: "wrap", gap: "12px 20px", marginTop: "16px", alignItems: "flex-start" }}>
+                          <div style={{ display: "flex", flexDirection: "column", gap: "4px", minWidth: "90px" }}>
                             <span style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>Course Code</span>
                             <span style={{ fontSize: "12px", color: cardColor, fontWeight: 700 }}>{item.courseCode}</span>
                           </div>
-                          <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                          <div style={{ display: "flex", flexDirection: "column", gap: "4px", minWidth: "120px", flex: "1 1 auto" }}>
                             <span style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>Room</span>
-                            <span style={{ fontSize: "12px", color: "var(--text-main)", fontWeight: 700 }}>{item.roomNo || "TBA"}</span>
+                            <span style={{ fontSize: "12px", color: "var(--text-main)", fontWeight: 700, wordBreak: "break-word" }}>{item.roomNo || "TBA"}</span>
                           </div>
-                          <div style={{ display: "flex", flexDirection: "column", gap: "4px", minWidth: 0 }}>
+                          <div style={{ display: "flex", flexDirection: "column", gap: "4px", minWidth: "140px", flex: "1 1 100%" }}>
                             <span style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>Faculty</span>
                             <span style={{ fontSize: "12px", color: "var(--text-main)", fontWeight: 700, wordBreak: "break-word" }}>{(item.facultyName || "TBA").replace(/\s*\(\d+\)/, "")}</span>
                           </div>
