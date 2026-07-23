@@ -45,18 +45,20 @@ export default function AdminPage() {
     setRefreshing(true);
     try {
       const [logsRes, bcRes, usersRes, fbRes] = await Promise.all([
-        dataAPI.getAdminLogs(),
-        dataAPI.getBroadcast(),
-        dataAPI.getUsers(),
-        dataAPI.getAllFeedback()
+        dataAPI.getAdminLogs().catch(() => ({ success: false, logs: [] })),
+        dataAPI.getBroadcast().catch(() => ({ success: false, message: "", active: false, type: "info" })),
+        dataAPI.getUsers().catch(() => ({ success: false, users: [] })),
+        dataAPI.getAllFeedback().catch(() => ({ success: false, feedback: [] }))
       ]);
-      if (logsRes.success) setLogs(logsRes.logs || []);
-      if (usersRes.success) setUsers(usersRes.users || []);
-      if (fbRes.success) setFeedback(fbRes.feedback || []);
+      if (logsRes && logsRes.success) setLogs(logsRes.logs || []);
+      if (usersRes && usersRes.success) setUsers(usersRes.users || []);
+      if (fbRes && fbRes.success) setFeedback(fbRes.feedback || []);
       
-      setBcMsg(bcRes.message || "");
-      setBcType(bcRes.type || "info");
-      setBcActive(bcRes.active || false);
+      if (bcRes) {
+        setBcMsg(bcRes.message || "");
+        setBcType(bcRes.type || "info");
+        setBcActive(bcRes.active || false);
+      }
     } catch (e) {
       console.error("Failed to fetch admin data", e);
     } finally {
