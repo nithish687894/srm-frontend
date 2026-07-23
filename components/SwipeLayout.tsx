@@ -190,7 +190,6 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
       y: e.targetTouches[0].clientY
     };
     gestureRef.current = "none";
-    setGestureTransition(true);
   };
 
   const onTouchMove = (e: TouchEvent) => {
@@ -210,13 +209,15 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
       }
       if (absDY > absDX * 1.5) {
         // Clearly vertical — check if pull-to-refresh or normal scroll
-        if (window.scrollY <= 0 && deltaY > 0) {
+        if (window.scrollY <= 0 && deltaY > 40) {
           gestureRef.current = "pull";
+          setGestureTransition(true);
         } else {
           gestureRef.current = "vertical";
         }
-      } else if (absDX > absDY * 1.5) {
+      } else if (absDX > absDY * 1.8) {
         gestureRef.current = "horizontal";
+        setGestureTransition(true);
       } else {
         // Diagonal — treat as vertical scroll (don't hijack)
         gestureRef.current = "vertical";
