@@ -1,106 +1,104 @@
 "use client";
 
 import React from "react";
-import { Cpu, Zap } from "lucide-react";
+import { Sparkles, Activity } from "lucide-react";
 
 export default function LoadingSkeleton() {
   return (
     <main
-      className="w-full min-h-screen relative overflow-hidden bg-[#030305] text-white flex flex-col justify-start"
+      className="w-full min-h-screen relative overflow-hidden bg-[#050505] text-white flex flex-col justify-start"
       style={{
-        padding: "60px 16px 120px",
-        fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
+        padding: "90px 20px 140px",
+        fontFamily: "'Plus Jakarta Sans', sans-serif",
       }}
     >
-      {/* Background Ambient Glow */}
+      {/* Background Aura Blobs */}
       <div
-        className="fixed -top-32 -right-32 w-[350px] h-[350px] rounded-full pointer-events-none z-0"
+        className="fixed -top-32 -right-32 w-[500px] h-[500px] rounded-full pointer-events-none z-0"
         style={{
-          background: "radial-gradient(circle, rgba(255, 117, 195, 0.08) 0%, rgba(0, 0, 0, 0) 70%)",
+          background: "radial-gradient(circle, rgba(192, 132, 252, 0.15) 0%, rgba(0, 0, 0, 0) 70%)",
+          filter: "blur(60px)",
         }}
       />
       <div
-        className="fixed -bottom-32 -left-32 w-[350px] h-[350px] rounded-full pointer-events-none z-0"
+        className="fixed -bottom-32 -left-32 w-[500px] h-[500px] rounded-full pointer-events-none z-0"
         style={{
-          background: "radial-gradient(circle, rgba(168, 194, 0, 0.06) 0%, rgba(0, 0, 0, 0) 70%)",
+          background: "radial-gradient(circle, rgba(0, 212, 255, 0.12) 0%, rgba(0, 0, 0, 0) 70%)",
+          filter: "blur(60px)",
         }}
       />
 
-      <div className="max-w-2xl mx-auto w-full relative z-10 space-y-4">
+      <div className="max-w-4xl mx-auto w-full relative z-10 space-y-6">
         {/* Top Branding / Syncing Indicator Banner */}
-        <div className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-[#09090e] border border-white/10">
+        <div className="w-full flex items-center justify-between p-4 rounded-2xl bg-white/[0.02] border border-white/10 backdrop-blur-xl">
           <div className="flex items-center gap-3">
-            <div className="relative w-8 h-8 rounded-xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-pink-400">
-              <Cpu size={16} className="animate-spin" style={{ animationDuration: "2.5s" }} />
-              <div className="absolute inset-0 rounded-xl bg-pink-500/20 animate-ping opacity-25" />
+            <div className="relative w-8 h-8 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-400">
+              <Sparkles size={16} className="animate-spin" style={{ animationDuration: "3s" }} />
+              <div className="absolute inset-0 rounded-xl bg-purple-500/30 animate-ping opacity-30" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-xs font-black uppercase tracking-widest text-white">SRM NEXUS</span>
-                <span className="px-2 py-0.5 rounded-full bg-pink-500/15 text-[9px] font-black text-pink-300 border border-pink-500/30">
-                  ACADEMIC OS
+                <span className="text-xs font-black uppercase tracking-wider text-white">SRM Nexus</span>
+                <span className="px-2 py-0.5 rounded-full bg-purple-500/20 text-[9.5px] font-black text-purple-300 border border-purple-500/30">
+                  INSTANT SYNC
                 </span>
               </div>
-              <p className="text-[10px] text-white/40 font-semibold mt-0.5">Connecting academic hub...</p>
+              <p className="text-[10px] text-white/40 font-medium">Syncing academic records in real-time...</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-1.5 text-pink-400/90 text-xs font-bold px-3 py-1.5 rounded-xl bg-pink-500/10 border border-pink-500/20">
-            <Zap size={12} className="animate-pulse" />
-            <span className="text-[9.5px] uppercase font-black tracking-widest">LOADING</span>
+          <div className="flex items-center gap-2 text-purple-400/80 text-xs font-bold px-3 py-1.5 rounded-xl bg-purple-500/10 border border-purple-500/20">
+            <Activity size={13} className="animate-pulse" />
+            <span className="text-[10px] uppercase font-black tracking-wider">Fast Load</span>
           </div>
         </div>
 
-        {/* Hero Card Skeleton Block */}
-        <div className="p-5 rounded-3xl bg-[#0d0d14] border border-white/10 relative overflow-hidden space-y-4 shadow-xl">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-white/10 nexus-shimmer" />
-              <div className="space-y-2">
-                <div className="w-36 h-4 rounded-lg bg-white/15 nexus-shimmer" />
-                <div className="w-24 h-3 rounded-md bg-white/10 nexus-shimmer" />
-              </div>
-            </div>
-            <div className="w-16 h-8 rounded-xl bg-pink-500/15 border border-pink-500/25 nexus-shimmer" />
+        {/* Header Skeleton Block */}
+        <div className="p-6 rounded-3xl bg-neutral-950/80 border border-white/10 backdrop-blur-2xl relative overflow-hidden shadow-2xl">
+          <div className="space-y-3">
+            <div className="w-28 h-3.5 rounded-lg bg-white/10 lumina-shimmer" />
+            <div className="w-56 h-8 rounded-xl bg-white/15 lumina-shimmer" />
           </div>
-
-          {/* Quick Metrics Grid Skeleton */}
-          <div className="grid grid-cols-2 gap-2.5 pt-2">
-            {[1, 2].map((idx) => (
-              <div key={idx} className="p-3 rounded-2xl bg-white/[0.03] border border-white/5 space-y-2">
-                <div className="w-14 h-2.5 rounded-md bg-white/10 nexus-shimmer" />
-                <div className="w-20 h-5 rounded-lg bg-white/15 nexus-shimmer" />
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-6">
+            {[1, 2, 3].map((idx) => (
+              <div key={idx} className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/5 space-y-2">
+                <div className="w-16 h-2.5 rounded-md bg-white/10 lumina-shimmer" />
+                <div className="w-24 h-6 rounded-lg bg-white/15 lumina-shimmer" />
               </div>
             ))}
           </div>
         </div>
 
-        {/* Action Chips Grid */}
-        <div className="grid grid-cols-4 gap-2">
-          {[1, 2, 3, 4].map((chip) => (
-            <div key={chip} className="h-11 rounded-2xl bg-[#0d0d14] border border-white/5 nexus-shimmer" />
-          ))}
-        </div>
-
-        {/* Course / Attendance Item Cards Skeletons */}
-        <div className="space-y-3">
+        {/* Main Content Card Skeletons */}
+        <div className="space-y-4">
           {[1, 2, 3].map((card) => (
             <div
               key={card}
-              className="p-4.5 rounded-2xl bg-[#09090e] border border-white/10 relative overflow-hidden space-y-3 shadow-lg"
+              className="p-6 rounded-3xl bg-neutral-950/70 border border-white/10 backdrop-blur-xl relative overflow-hidden space-y-4 shadow-xl"
+              style={{ animationDelay: `${card * 100}ms` }}
             >
+              {/* Header row inside card */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-white/10 nexus-shimmer" />
+                  <div className="w-10 h-10 rounded-xl bg-white/10 lumina-shimmer" />
                   <div className="space-y-1.5">
-                    <div className="w-32 h-3.5 rounded-md bg-white/15 nexus-shimmer" />
-                    <div className="w-20 h-2.5 rounded-md bg-white/10 nexus-shimmer" />
+                    <div className="w-40 h-4 rounded-md bg-white/15 lumina-shimmer" />
+                    <div className="w-24 h-3 rounded-md bg-white/10 lumina-shimmer" />
                   </div>
                 </div>
-                <div className="w-12 h-6 rounded-full bg-white/10 nexus-shimmer" />
+                <div className="w-14 h-7 rounded-full bg-purple-500/20 border border-purple-500/30 lumina-shimmer" />
               </div>
-              <div className="w-full h-1.5 rounded-full bg-white/5 overflow-hidden">
-                <div className="w-2/3 h-full bg-gradient-to-r from-pink-500/50 to-purple-500/50 rounded-full nexus-shimmer" />
+
+              {/* Progress bar skeleton */}
+              <div className="w-full h-2 rounded-full bg-white/5 overflow-hidden">
+                <div className="w-3/4 h-full bg-gradient-to-r from-purple-500/40 to-cyan-500/40 rounded-full lumina-shimmer" />
+              </div>
+
+              {/* Badges / test chips skeleton */}
+              <div className="flex flex-wrap gap-2 pt-1">
+                {[1, 2, 3, 4].map((chip) => (
+                  <div key={chip} className="w-20 h-8 rounded-xl bg-white/[0.04] border border-white/5 lumina-shimmer" />
+                ))}
               </div>
             </div>
           ))}
@@ -108,16 +106,21 @@ export default function LoadingSkeleton() {
       </div>
 
       <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes nexusShimmer {
-          0% { background-position: -200% 0; }
-          100% { background-position: 200% 0; }
+        @keyframes luminaShimmer {
+          0% {
+            background-position: -200% 0;
+          }
+          100% {
+            background-position: 200% 0;
+          }
         }
-        .nexus-shimmer {
-          background: linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.09) 50%, rgba(255,255,255,0.02) 100%);
+        .lumina-shimmer {
+          background: linear-gradient(90deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.03) 100%);
           background-size: 200% 100%;
-          animation: nexusShimmer 1.5s infinite linear;
+          animation: luminaShimmer 1.6s infinite linear;
         }
       `}} />
     </main>
   );
 }
+
