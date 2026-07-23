@@ -7,7 +7,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:522019439737:android:b98a246f05db74533040a8",
+        "mobilesdk_app_id": "1:522019439737:android:4eb744a320ea65293040a8",
         "android_client_info": {
           "package_name": "com.srm.nexus"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC376xkKpiSyZU5MogA-C6vPlP95Up4zvU"
+          "current_key": "AIzaSyAWr8KA680Gr25tFftvPXDO2VQCR2dm23U"
         }
       ],
       "services": {
