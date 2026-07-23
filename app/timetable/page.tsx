@@ -1146,7 +1146,7 @@ function AuraTimetable({
       <div className="aura-blob" style={{ background: AURA.secondary, top: '-200px', right: '-100px' }} />
       <div className="aura-blob" style={{ background: AURA.accent, bottom: '-200px', left: '-100px', animationDelay: '-10s' }} />
 
-      <main className="timetable-main" style={{ flex: 1, position: "relative", zIndex: 1, padding: "110px 20px 200px", color: "var(--text-main)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <main className="timetable-main" style={{ flex: 1, position: "relative", zIndex: 1, padding: "100px 24px 140px", color: "var(--text-main)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         
         {/* Header with Batch & Export Controls */}
         <div 
@@ -1156,7 +1156,6 @@ function AuraTimetable({
             flexDirection: "column",
             gap: "16px",
             marginBottom: "24px", 
-            marginTop: "24px", 
             background: "linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(192, 132, 252, 0.04) 50%, rgba(0, 212, 255, 0.02) 100%)", 
             padding: "20px 22px", 
             borderRadius: "28px", 
