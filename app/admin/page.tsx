@@ -6,7 +6,13 @@ import { useAuthStore } from "@/lib/store";
 import { useAuth } from "@/hooks/useAuth";
 import { Clipboard, RefreshCw, Search, Users, Activity, CheckCircle, Megaphone, Send, ToggleLeft, ToggleRight, MessageSquare, Reply } from "lucide-react";
 
-const ADMIN_EMAILS = ["ns4770@srmist.edu.in", "ts0014@srmist.edu.in"];
+const ADMIN_EMAILS = ["ns4770@srmist.edu.in"];
+
+function isAdminUser(email?: string): boolean {
+  if (!email) return false;
+  const lower = email.toLowerCase().trim();
+  return lower.startsWith("ns4770") || lower === "ns4770@srmist.edu.in";
+}
 
 export default function AdminPage() {
   const { ready } = useAuth();
@@ -70,7 +76,7 @@ export default function AdminPage() {
   useEffect(() => {
     if (!ready) return;
     const userEmail = (storeEmail || profile?.Email || profile?.["Email"] || "").toLowerCase();
-    if (!ADMIN_EMAILS.map(e => e.toLowerCase()).includes(userEmail)) {
+    if (!isAdminUser(userEmail)) {
       router.push("/dashboard");
       return;
     }
@@ -144,7 +150,7 @@ export default function AdminPage() {
           )}
 
           {/* Header Section */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "40px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "32px" }}>
             <div>
               <div style={{ fontSize: "10px", color: "var(--accent)", letterSpacing: "0.2em", fontWeight: 800, textTransform: "uppercase", marginBottom: "8px" }}>
                 System Core • Master Access
@@ -159,6 +165,29 @@ export default function AdminPage() {
             >
               <RefreshCw size={20} className={refreshing ? "animate-spin" : ""} />
             </button>
+          </div>
+
+          {/* Quick Metrics Cards */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "16px", marginBottom: "32px" }}>
+            <div className="premium-card" style={{ padding: "20px", border: "1px solid var(--border)", borderRadius: "20px", background: "rgba(255,255,255,0.01)" }}>
+              <div style={{ fontSize: "11px", fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" }}>Total Users</div>
+              <div style={{ fontSize: "32px", fontWeight: 900, color: "var(--text-primary)" }}>{users.length}</div>
+            </div>
+            <div className="premium-card" style={{ padding: "20px", border: "1.5px solid rgba(52, 199, 89, 0.4)", background: "rgba(52, 199, 89, 0.05)", borderRadius: "20px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                <div style={{ fontSize: "11px", fontWeight: 800, color: "#34C759", textTransform: "uppercase", letterSpacing: "0.1em" }}>Active Users</div>
+                <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#34C759", boxShadow: "0 0 10px #34C759" }} />
+              </div>
+              <div style={{ fontSize: "32px", fontWeight: 900, color: "#34C759" }}>
+                {users.filter(u => u.isActiveNow).length}
+              </div>
+            </div>
+            <div className="premium-card" style={{ padding: "20px", border: "1px solid var(--border)", borderRadius: "20px", background: "rgba(255,255,255,0.01)", cursor: "pointer" }} onClick={() => setActiveTab("feedback")}>
+              <div style={{ fontSize: "11px", fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" }}>Open Tickets</div>
+              <div style={{ fontSize: "32px", fontWeight: 900, color: feedback.filter(f => f.status === "open").length > 0 ? "var(--accent)" : "var(--text-primary)" }}>
+                {feedback.filter(f => f.status === "open").length}
+              </div>
+            </div>
           </div>
 
           {/* Top Tabs */}
@@ -218,7 +247,16 @@ export default function AdminPage() {
                 {filteredUsers.map((u, i) => (
                   <div key={i} className="min-card" style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "12px" }}>
                     <div>
-                      <div style={{ fontSize: "18px", fontWeight: 900, color: "var(--text-primary)", marginBottom: "4px" }}>{u.name || "Unknown"}</div>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                        <div style={{ fontSize: "18px", fontWeight: 900, color: "var(--text-primary)" }}>{u.name || "Unknown"}</div>
+                        {u.isActiveNow ? (
+                          <span style={{ fontSize: "9px", fontWeight: 900, color: "#34C759", background: "rgba(52, 199, 89, 0.12)", border: "1px solid rgba(52, 199, 89, 0.3)", padding: "3px 8px", borderRadius: "8px", display: "flex", alignItems: "center", gap: "5px" }}>
+                            <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#34C759", boxShadow: "0 0 6px #34C759" }} /> {u.statusLabel || "ACTIVE"}
+                          </span>
+                        ) : (
+                          <span style={{ fontSize: "9px", fontWeight: 800, color: "var(--text-muted)", background: "rgba(255,255,255,0.04)", padding: "3px 8px", borderRadius: "8px" }}>OFFLINE</span>
+                        )}
+                      </div>
                       <div style={{ fontSize: "12px", color: "var(--accent)", fontWeight: 800, letterSpacing: "0.1em" }}>{u.regNumber || "NO-REG"}</div>
                     </div>
                     <div style={{ height: "1px", background: "rgba(255,255,255,0.05)" }} />
