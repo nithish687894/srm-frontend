@@ -87,15 +87,15 @@ export default function AuraBackground({ theme, stars, children, style = {} }: A
           position: fixed; width: 400px; height: 400px;
           border-radius: 50%; filter: blur(100px);
           opacity: 0.3; z-index: 0; pointer-events: none;
-          animation: orbit 24s infinite ease-in-out;
+          animation: orbit 24s infinite linear;
           transition: background 1.5s ease-in-out;
           contain: strict;
         }
         @keyframes orbit {
-          0% { transform: rotate(0deg) translate(60px) scale(1) rotate(0deg); border-radius: 50% 50% 50% 50%; }
-          33% { transform: rotate(120deg) translate(90px) scale(1.1) rotate(-120deg); border-radius: 42% 58% 48% 52%; }
-          66% { transform: rotate(240deg) translate(75px) scale(0.92) rotate(-240deg); border-radius: 58% 42% 55% 45%; }
-          100% { transform: rotate(360deg) translate(60px) scale(1) rotate(-360deg); border-radius: 50% 50% 50% 50%; }
+          0% { transform: translate(60px) scale(1) rotate(0deg); }
+          33% { transform: translate(90px) scale(1.1) rotate(120deg); }
+          66% { transform: translate(75px) scale(0.92) rotate(240deg); }
+          100% { transform: translate(60px) scale(1) rotate(360deg); }
         }
         
         .aura-card, .premium-card, .liquid-card {

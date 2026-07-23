@@ -80,11 +80,11 @@ const PulsingCore = ({ pct, attended, conducted, color }: AnyValue) => {
   return (
     <div style={{ position: 'relative', width: '80px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <div 
-        style={{ position: 'absolute', width: '100%', height: '100%', borderRadius: '50%', background: color, filter: 'blur(20px)', opacity: 0.3 }}
+        style={{ position: 'absolute', width: '100%', height: '100%', borderRadius: '50%', background: color, opacity: 0.15 }}
       />
       <svg width="80" height="80" style={{ position: 'relative', zIndex: 1, transform: 'rotate(-90deg)' }}>
         <circle cx="40" cy="40" r={radius} fill="transparent" stroke="rgba(255,255,255,0.06)" strokeWidth="6" />
-        <circle cx="40" cy="40" r={radius} fill="transparent" stroke={color} strokeWidth="6" strokeDasharray={circum} strokeDashoffset={offset} strokeLinecap="round" style={{ transition: 'stroke-dashoffset 1s cubic-bezier(0.16, 1, 0.3, 1)', filter: `drop-shadow(0 0 8px ${color}) drop-shadow(0 0 3px ${color})` }} />
+        <circle cx="40" cy="40" r={radius} fill="transparent" stroke={color} strokeWidth="6" strokeDasharray={circum} strokeDashoffset={offset} strokeLinecap="round" style={{ transition: 'stroke-dashoffset 1s cubic-bezier(0.16, 1, 0.3, 1)' }} />
       </svg>
       {/* End Dot */}
       {pct > 0 && (
