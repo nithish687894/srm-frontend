@@ -171,44 +171,7 @@ export default function AuraAttendance({
     return result;
   }, [processedAttendance, filter]);
 
-  // Celebrate perfect 100% attendance subjects with a premium double-cannon confetti blast!
-  useEffect(() => {
-    if (processedAttendance && processedAttendance.length > 0) {
-      const hasPerfectAttendance = processedAttendance.some((a: AnyValue) => a.pct >= 100);
-      if (hasPerfectAttendance) {
-        const duration = 2.5 * 1000;
-        const animationEnd = Date.now() + duration;
-        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
 
-        const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
-
-        const interval: AnyValue = setInterval(function() {
-          const timeLeft = animationEnd - Date.now();
-
-          if (timeLeft <= 0) {
-            return clearInterval(interval);
-          }
-
-          const particleCount = 50 * (timeLeft / duration);
-          
-          confetti({ 
-            ...defaults, 
-            particleCount, 
-            origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-            colors: ['#00E5FF', '#BF5AF2', '#FF2D55', '#34C759', '#FF9500']
-          });
-          confetti({ 
-            ...defaults, 
-            particleCount, 
-            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-            colors: ['#00E5FF', '#BF5AF2', '#FF2D55', '#34C759', '#FF9500']
-          });
-        }, 250);
-
-        return () => clearInterval(interval);
-      }
-    }
-  }, [processedAttendance]);
 
   return (
     <AuraBackground theme={activeTheme} stars={stars}>

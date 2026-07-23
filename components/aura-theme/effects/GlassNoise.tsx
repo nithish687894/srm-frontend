@@ -1,6 +1,17 @@
+"use client";
+
 import React from "react";
 
 export default function GlassNoise() {
+  // SVG feTurbulence causes heavy GPU rasterization lag on mobile viewports
+  const [isMobile, setIsMobile] = React.useState(true);
+
+  React.useEffect(() => {
+    setIsMobile(window.innerWidth <= 768);
+  }, []);
+
+  if (isMobile) return null;
+
   return (
     <svg 
       style={{ 
@@ -10,7 +21,7 @@ export default function GlassNoise() {
         width: '100%', 
         height: '100%', 
         zIndex: 0, 
-        opacity: 0.04, 
+        opacity: 0.03, 
         pointerEvents: 'none' 
       }}
     >
@@ -18,7 +29,7 @@ export default function GlassNoise() {
         <feTurbulence 
           type="fractalNoise" 
           baseFrequency="0.65" 
-          numOctaves="3" 
+          numOctaves="2" 
           stitchTiles="stitch"
         />
       </filter>
