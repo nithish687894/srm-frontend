@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "522019439737",
+    "project_id": "nexus-d6a2f",
+    "storage_bucket": "nexus-d6a2f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:522019439737:android:b98a246f05db74533040a8",
+        "android_client_info": {
+          "package_name": "com.srm.nexus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC376xkKpiSyZU5MogA-C6vPlP95Up4zvU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
