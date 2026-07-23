@@ -2,13 +2,34 @@ import { useAuthStore } from "@/lib/store";
 import { pushNative } from "@/lib/pushNotify";
 import { registerFCMToken } from "@/lib/fcmManager";
 
+function isNative(): boolean {
+  if (typeof window === "undefined") return false;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const cap = (window as any).Capacitor;
+  return cap?.isNativePlatform?.() ?? false;
+}
+
 export async function enableAcademicAlerts(
   showToast: (title: string, body: string, type?: "success" | "error" | "info") => void
 ) {
   const store = useAuthStore.getState();
 
   try {
-    const permission = await Notification.requestPermission();
+    let permission: "granted" | "denied" | "default" = "default";
+
+    if (isNative()) {
+      const { PushNotifications } = await import("@capacitor/push-notifications");
+      let permStatus = await PushNotifications.checkPermissions();
+      if (permStatus.receive === "prompt") {
+        permStatus = await PushNotifications.requestPermissions();
+      }
+      permission = permStatus.receive === "granted" ? "granted" : "denied";
+      if (permission === "granted") {
+        await PushNotifications.register().catch(() => {});
+      }
+    } else if (typeof window !== "undefined" && "Notification" in window) {
+      permission = (await Notification.requestPermission()) as "granted" | "denied" | "default";
+    }
 
     if (permission === "granted") {
       // 1. Success Toast
@@ -27,7 +48,6 @@ export async function enableAcademicAlerts(
       localStorage.setItem("academicAlertsPrompted", "true");
 
       // 4. Register FCM token (Firebase Cloud Messaging)
-      //    This allows push notifications even when the app is fully closed.
       registerFCMToken().then((token) => {
         if (token) {
           console.log("[Notifications] FCM token registered successfully.");
