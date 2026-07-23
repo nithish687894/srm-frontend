@@ -2610,3 +2610,10 @@ body.theme-light, .theme-light {
   }
 }
 
+/* Explicitly hide srmx-top-status-bar on telemetry and admin pages */
+body:has([data-page="ns"]) .srmx-top-status-bar,
+body:has([data-page="admin"]) .srmx-top-status-bar,
+body:has(.telemetry-root) .srmx-top-status-bar {
+  display: none !important;
+}
+

@@ -86,44 +86,44 @@ function TelemetryHeader({ telemetry, system, onOpenProfile }: AnyValue) {
         </div>
       </div>
 
-      {/* MOBILE HEADER LAYOUT (Responsive Wrapped Rows) */}
-      <div className="flex flex-col gap-2.5 md:hidden w-full min-w-0 font-mono">
+      {/* MOBILE HEADER LAYOUT (Responsive Structured Grid for 320px) */}
+      <div className="flex flex-col gap-2 md:hidden w-full min-w-0 font-mono">
         {/* Row 1: Logo & Version */}
-        <div className="flex items-center justify-between gap-2 w-full min-w-0 flex-wrap">
-          <div className="flex items-center gap-2 min-w-0">
+        <div className="flex items-center justify-between gap-1.5 w-full min-w-0">
+          <div className="flex items-center gap-1.5 min-w-0 overflow-hidden">
             <div className="relative flex items-center justify-center shrink-0">
-              <div className="w-2.5 h-2.5 rounded-full bg-[#00FF88] animate-ping absolute" />
-              <div className="w-2.5 h-2.5 rounded-full bg-[#00FF88] relative" />
+              <div className="w-2 h-2 rounded-full bg-[#00FF88] animate-ping absolute" />
+              <div className="w-2 h-2 rounded-full bg-[#00FF88] relative" />
             </div>
-            <h1 className="text-sm sm:text-base font-black tracking-tight text-white truncate">
+            <h1 className="text-xs sm:text-sm font-black tracking-tight text-white truncate">
               SRM NEXUS TELEMETRY
             </h1>
           </div>
-          <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-[#00FF88]/15 text-[#00FF88] border border-[#00FF88]/30 shrink-0">
+          <span className="px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-[#00FF88]/15 text-[#00FF88] border border-[#00FF88]/30 shrink-0 whitespace-nowrap">
             /ns v3.6
           </span>
         </div>
 
-        {/* Row 2: Environment & Metadata */}
-        <div className="flex items-center justify-between flex-wrap gap-x-3 gap-y-1.5 text-[11px] text-gray-400 border-t border-b border-white/5 py-2 w-full min-w-0">
-          <span className="shrink-0">Env: <span className="text-[#00FF88] font-bold uppercase">{system?.environment || "Production"}</span></span>
-          <span className="shrink-0">Node: <code className="text-cyan-400 font-bold">{system?.nodeVersion || "v24.14.1"}</code></span>
-          <span className="shrink-0">Req: <code className="text-emerald-400">{telemetry?.requestId ? `${telemetry.requestId.slice(0, 6)}...` : "OK"}</code></span>
+        {/* Row 2: Environment & Metadata (2-column Responsive Grid) */}
+        <div className="grid grid-cols-2 gap-y-1 gap-x-2 text-[10.5px] text-gray-400 border-t border-b border-white/5 py-1.5 w-full min-w-0">
+          <div className="truncate">Env: <span className="text-[#00FF88] font-bold uppercase">{system?.environment || "Prod"}</span></div>
+          <div className="truncate text-right">Node: <code className="text-cyan-400 font-bold">{system?.nodeVersion || "v24.14.1"}</code></div>
+          <div className="col-span-2 truncate">Req: <code className="text-emerald-400">{telemetry?.requestId ? `${telemetry.requestId.slice(0, 10)}...` : "OK"}</code></div>
         </div>
 
         {/* Row 3: Action Icons Bar */}
         <div className="flex items-center justify-between w-full min-w-0 pt-0.5">
-          <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">OPERATOR BAR</span>
-          <div className="flex items-center gap-2">
+          <span className="text-[9px] text-gray-500 uppercase tracking-widest font-bold">OPERATOR BAR</span>
+          <div className="flex items-center gap-1.5">
             <button
               onClick={() => router.push("/notifications")}
-              className="p-2 rounded-lg bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 active:scale-95 transition-all"
+              className="p-1.5 rounded-lg bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 active:scale-95 transition-all"
             >
               <Bell className="w-3.5 h-3.5" />
             </button>
             <button
               onClick={onOpenProfile}
-              className="p-2 rounded-lg bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 active:scale-95 transition-all"
+              className="p-1.5 rounded-lg bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 active:scale-95 transition-all"
             >
               <User className="w-3.5 h-3.5" />
             </button>
@@ -591,7 +591,7 @@ export default function OperationsPage() {
     : 0;
 
   return (
-    <div className="w-full max-w-full overflow-x-hidden min-h-screen bg-[#06080F] text-white pt-28 sm:pt-8 pb-36 sm:pb-16 px-3 sm:px-4 lg:px-6 font-sans relative selection:bg-[#00FF88]/30 selection:text-[#00FF88]">
+    <div data-page="ns" className="telemetry-root w-full max-w-full overflow-x-hidden min-h-screen bg-[#06080F] text-white pt-20 sm:pt-8 pb-36 sm:pb-16 px-3 sm:px-4 lg:px-6 font-sans relative selection:bg-[#00FF88]/30 selection:text-[#00FF88]">
       {/* Background Ambient Glow */}
       <div className="fixed -top-40 -left-40 w-80 sm:w-96 h-80 sm:h-96 bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="fixed top-1/2 -right-40 w-80 sm:w-96 h-80 sm:h-96 bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none" />
