@@ -8,6 +8,7 @@ const BroadcastBanner = dynamic(() => import("@/components/BroadcastBanner"), { 
 const InstallPWA = dynamic(() => import("@/components/InstallPWA"), { ssr: false });
 const AttendanceBadge = dynamic(() => import("@/components/AttendanceBadge"), { ssr: false });
 const CacheUpgrade = dynamic(() => import("@/components/CacheUpgrade"), { ssr: false });
+const PushNotificationInit = dynamic(() => import("@/components/PushNotificationInit"), { ssr: false });
 
 export function ClientOverlays() {
   return (
@@ -16,6 +17,7 @@ export function ClientOverlays() {
       <BroadcastBanner />
       <InstallPWA />
       <AttendanceBadge />
+      <PushNotificationInit />
     </>
   );
 }
