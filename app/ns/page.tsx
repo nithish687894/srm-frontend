@@ -193,31 +193,31 @@ function TelemetryStatusBar({ autoRefresh, setAutoRefresh, refreshing, onRefresh
 function TelemetryNavigation({ activeTab, setActiveTab, logCount }: AnyValue) {
   return (
     <nav className="w-full min-w-0 border-b border-white/10 pb-3 flex items-center justify-between font-mono">
-      <div className="flex items-center gap-2 w-full sm:w-auto min-w-0">
+      <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 w-full sm:w-auto min-w-0">
         <button
           onClick={() => setActiveTab("overview")}
-          className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl sm:rounded-2xl text-xs font-bold transition-all ${
+          className={`flex items-center justify-center gap-1.5 px-3 sm:px-5 py-2.5 rounded-xl sm:rounded-2xl text-xs font-bold transition-all min-w-0 ${
             activeTab === "overview"
               ? "bg-gradient-to-r from-[#00FF88]/20 to-teal-500/20 text-[#00FF88] border border-[#00FF88]/40 shadow-lg shadow-[#00FF88]/10"
               : "text-gray-400 hover:text-white hover:bg-white/5 border border-transparent"
           }`}
         >
-          <Activity className="w-4 h-4 shrink-0" />
-          <span>System Overview</span>
+          <Activity className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+          <span className="truncate">Overview</span>
         </button>
 
         <button
           onClick={() => setActiveTab("logs")}
-          className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl sm:rounded-2xl text-xs font-bold transition-all ${
+          className={`flex items-center justify-center gap-1.5 px-3 sm:px-5 py-2.5 rounded-xl sm:rounded-2xl text-xs font-bold transition-all min-w-0 ${
             activeTab === "logs"
               ? "bg-gradient-to-r from-[#00FF88]/20 to-teal-500/20 text-[#00FF88] border border-[#00FF88]/40 shadow-lg shadow-[#00FF88]/10"
               : "text-gray-400 hover:text-white hover:bg-white/5 border border-transparent"
           }`}
         >
-          <Terminal className="w-4 h-4 shrink-0" />
-          <span>Real-time Logs</span>
+          <Terminal className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+          <span className="truncate">Logs</span>
           {logCount > 0 && (
-            <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-[#00FF88]/20 text-[#00FF88] font-mono">
+            <span className="px-1.5 py-0.2 rounded-full text-[9px] sm:text-[10px] bg-[#00FF88]/20 text-[#00FF88] font-mono shrink-0">
               {logCount}
             </span>
           )}
@@ -499,6 +499,13 @@ export default function OperationsPage() {
       setLogsLoading(false);
     }
   }, [logLevelFilter, logSearchQuery]);
+
+  useEffect(() => {
+    document.body.classList.add("hide-top-status-bar");
+    return () => {
+      document.body.classList.remove("hide-top-status-bar");
+    };
+  }, []);
 
   useEffect(() => {
     if (!ready) return;
