@@ -1,31 +1,5 @@
 @import 'tailwindcss';
 
-/* ── Mobile WebView Performance & Native Scroll Optimizations ── */
-html, body {
-  touch-action: pan-x pan-y;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-overflow-scrolling: touch;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-* {
-  -webkit-font-smoothing: antialiased;
-}
-
-@media (max-width: 768px) {
-  /* Lightweight mobile GPU rendering — remove heavy backdrop blurs for 120 FPS speed */
-  .glass-panel, .glow-card, header, footer {
-    backdrop-filter: blur(8px) !important;
-    -webkit-backdrop-filter: blur(8px) !important;
-  }
-  
-  button, a {
-    touch-action: manipulation;
-  }
-}
-
 /* ═══════════════════════════════════════════════════════════════════
    SRMX Design System — Pure Black Minimal Editorial Theme
    ═══════════════════════════════════════════════════════════════════ */
