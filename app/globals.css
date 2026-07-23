@@ -1,5 +1,17 @@
 @import 'tailwindcss';
 
+/* ── Mobile WebView Performance Optimizations ── */
+html, body {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  overscroll-behavior-y: contain;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+}
+
 /* ═══════════════════════════════════════════════════════════════════
    SRMX Design System — Pure Black Minimal Editorial Theme
    ═══════════════════════════════════════════════════════════════════ */
