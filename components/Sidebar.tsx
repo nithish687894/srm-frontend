@@ -39,7 +39,7 @@ const PORTAL_SERVICES = [
   { href: "/portal/grade-mark-credit", label: "Grades & Credits", icon: GraduationCap },
 ] as const;
 
-const ADMIN_EMAILS = ["ns4770@srmist.edu.in", "ts0014@srmist.edu.in"];
+const ADMIN_EMAILS = ["ns4770@srmist.edu.in"];
 
 const THEME = {
   bg: "#050505",
@@ -349,7 +349,7 @@ export default function Sidebar() {
       `}</style>
 
       {/* TOP STATUS BAR */}
-      {!(path === "/notes" || path.startsWith("/notes/")) && (
+      {!(path === "/notes" || path.startsWith("/notes/") || path === "/ns" || path.startsWith("/ns/") || path === "/admin" || path.startsWith("/admin/")) && (
         <div className="srmx-top-status-bar fixed top-8 sm:top-12 left-4 right-4 sm:left-6 sm:right-6 z-[99999] flex items-center justify-end pointer-events-none">
           <div className="flex gap-2.5 pointer-events-auto">
             {path === "/dashboard" && (
