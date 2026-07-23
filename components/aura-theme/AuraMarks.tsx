@@ -219,8 +219,9 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
           display: grid;
           grid-template-columns: repeat(3, minmax(0, 1fr));
           gap: 12px;
-          padding: 0 24px 4px;
+          padding: 0;
           width: 100%;
+          box-sizing: border-box;
         }
         .marks-stat-card {
           min-width: 0;
@@ -263,7 +264,7 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
           .marks-stats-strip {
             grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 10px;
-            padding: 0 18px 6px;
+            padding: 0;
           }
           .marks-stats-strip > :last-child {
             grid-column: 1 / -1;
