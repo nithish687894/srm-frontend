@@ -1,15 +1,47 @@
 @import 'tailwindcss';
 
-/* ── Mobile WebView Performance Optimizations ── */
-html, body {
-  touch-action: manipulation;
+/* ── Mobile WebView Performance & Scroll Optimizations ── */
+html {
+  touch-action: pan-x pan-y pinch-zoom;
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
-  overscroll-behavior-y: contain;
+  overflow-y: auto !important;
+  height: 100%;
+}
+
+body {
+  touch-action: pan-x pan-y pinch-zoom;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  overflow-y: auto !important;
+  min-height: 100dvh;
+  -webkit-overflow-scrolling: touch;
 }
 
 * {
   -webkit-font-smoothing: antialiased;
+}
+
+/* ── Mobile Performance Overrides (removes heavy GPU blur & shadow lag on mobile) ── */
+@media (max-width: 768px) {
+  * {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  .glass-panel, .glow-card, nav, header {
+    background: rgba(12, 12, 16, 0.96) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  /* GPU accelerated smooth scrolling */
+  main, div[class*="overflow-y-auto"], section {
+    -webkit-overflow-scrolling: touch;
+    transform: translateZ(0);
+    will-change: scroll-position;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════
