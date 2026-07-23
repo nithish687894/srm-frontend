@@ -125,7 +125,7 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
     }, 0);
     touchRef.current = null;
     gestureRef.current = "none";
-    
+
     return () => clearTimeout(id);
   }, [pathname, scheduleGestureFrame, setGestureTransition]);
 
@@ -141,10 +141,10 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
 
       const href = anchor.getAttribute("href");
       const targetAttr = anchor.getAttribute("target");
-      
+
       if (
-        href && 
-        href.startsWith("/") && 
+        href &&
+        href.startsWith("/") &&
         !href.startsWith("//") &&
         targetAttr !== "_blank" &&
         !e.defaultPrevented &&
@@ -336,7 +336,7 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
         className={`swipe-wrapper ${!hideSidebar ? 'layout-with-sidebar' : ''}`}
         style={{ overflowX: "hidden", position: "relative", minHeight: "100dvh", width: "100%", maxWidth: "100%", minWidth: 0 }}
       >
-      {/* Pull to Refresh Indicator */}
+        {/* Pull to Refresh Indicator */}
         <div ref={pullIndicatorRef} aria-hidden="true" style={{
           position: 'fixed',
           top: 0,
@@ -368,31 +368,31 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
               <path d="M1 4v6h6" /><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
             </svg>
           </div>
-            <div ref={pullLabelRef} style={{ display: 'none', marginTop: '6px', fontSize: '10px', fontWeight: 800, color: '#4ade80', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-              Release
-            </div>
+          <div ref={pullLabelRef} style={{ display: 'none', marginTop: '6px', fontSize: '10px', fontWeight: 800, color: '#4ade80', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+            Release
+          </div>
         </div>
 
-      {/* Top Progress Bar */}
-      {loading && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: `${progress}%`,
-          height: '2.5px',
-          backgroundColor: 'var(--accent)',
-          boxShadow: '0 0 8px var(--accent)',
-          zIndex: 999999,
-          transition: progress === 100 ? 'width 0.2s ease-out, opacity 0.2s ease-out' : 'width 0.4s cubic-bezier(0.1, 0.8, 0.1, 1)',
-          opacity: progress === 100 ? 0 : 1,
-          willChange: 'width, opacity'
-        }} />
-      )}
+        {/* Top Progress Bar */}
+        {loading && (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: `${progress}%`,
+            height: '2.5px',
+            backgroundColor: 'var(--accent)',
+            boxShadow: '0 0 8px var(--accent)',
+            zIndex: 999999,
+            transition: progress === 100 ? 'width 0.2s ease-out, opacity 0.2s ease-out' : 'width 0.4s cubic-bezier(0.1, 0.8, 0.1, 1)',
+            opacity: progress === 100 ? 0 : 1,
+            willChange: 'width, opacity'
+          }} />
+        )}
 
-      <div ref={wrapperRef} style={style}>
-        {children}
-      </div>
+        <div ref={wrapperRef} style={style}>
+          {children}
+        </div>
 
       </div>
 
