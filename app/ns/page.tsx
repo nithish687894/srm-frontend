@@ -298,12 +298,17 @@ function TelemetryMetricsGrid({ mongo, redis, metrics, system, heapPercentage }:
         <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/20 transition-all pointer-events-none" />
         <div className="flex items-center justify-between mb-3 w-full min-w-0">
           <span className="text-xs font-mono text-gray-400 flex items-center gap-2 font-bold truncate">
-            <Users className="w-4 h-4 text-purple-400 shrink-0" /> User Sessions
+            <Users className="w-4 h-4 text-purple-400 shrink-0" /> Active Sessions
           </span>
           <ShieldCheck className="w-4 h-4 text-purple-400 shrink-0" />
         </div>
-        <div className="text-xl sm:text-2xl lg:text-3xl font-black font-mono tracking-tight text-white mb-2 truncate">
-          {metrics?.activeSessions ?? 0}
+        <div className="flex items-baseline justify-between mb-2">
+          <div className="text-xl sm:text-2xl lg:text-3xl font-black font-mono tracking-tight text-white truncate">
+            {metrics?.activeSessions ?? 0}
+          </div>
+          <span className="text-[11px] font-mono text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 shrink-0">
+            {metrics?.uniqueActiveUsers ?? metrics?.activeSessions ?? 0} Users Online
+          </span>
         </div>
         <div className="w-full min-w-0 flex items-center justify-between text-xs text-gray-400 font-mono mt-2 pt-3 border-t border-white/5">
           <span className="truncate">Total Registered</span>
