@@ -36,58 +36,43 @@ export default function PortalSyncModal({
 
   // Dynamic theme-aware premium colors configuration
   const colors = {
-    // Primary accent color (Aura: gorgeous hot pink, Matrix: retro cyberpunk green, Cosmos: cool cyan)
     accent: isAura ? "#FF75C3" : isMatrix ? "#a8c200" : "#38BDF8",
     accentRgb: isAura ? "255, 117, 195" : isMatrix ? "168, 194, 0" : "56, 189, 248",
-    
-    // Secondary accent color (Aura: lavender, Matrix: dark olive, Cosmos: sky blue)
     secondary: isAura ? "#A78BFA" : isMatrix ? "#6f8000" : "#00b3ff",
     secondaryRgb: isAura ? "167, 139, 250" : isMatrix ? "111, 128, 0" : "0, 179, 255",
-    
-    // Icon badge styles
     iconBg: isAura ? "rgba(255, 117, 195, 0.08)" : isMatrix ? "rgba(168, 194, 0, 0.08)" : "rgba(56, 189, 248, 0.08)",
     iconBorder: isAura ? "1px solid rgba(255, 117, 195, 0.2)" : isMatrix ? "1px solid rgba(168, 194, 0, 0.2)" : "1px solid rgba(56, 189, 248, 0.2)",
     iconGlow: isAura ? "0 0 15px rgba(255, 117, 195, 0.15)" : isMatrix ? "0 0 15px rgba(168, 194, 0, 0.1)" : "0 0 15px rgba(56, 189, 248, 0.15)",
-
-    // Header title text gradient
     headerGrad: isAura 
       ? "linear-gradient(90deg, #FF75C3 0%, #C084FC 100%)" 
       : isMatrix 
         ? "linear-gradient(90deg, #a8c200 0%, #839600 100%)" 
         : "linear-gradient(90deg, #38BDF8 0%, #00b3ff 100%)",
-
-    // Premium card border and ambient glow
     cardBorder: isAura 
       ? "1px solid rgba(255, 117, 195, 0.18)" 
       : isMatrix 
         ? "1px solid rgba(168, 194, 0, 0.15)" 
         : "1px solid rgba(56, 189, 248, 0.18)",
-    
     cardShadowGlow: isAura 
       ? "0 0 50px rgba(255, 117, 195, 0.08)" 
       : isMatrix 
         ? "0 0 50px rgba(168, 194, 0, 0.03)" 
         : "0 0 50px rgba(56, 189, 248, 0.08)",
-
-    // Submit button gradient presets
     btnGrad: isAura
       ? "linear-gradient(135deg, #FF75C3 0%, #A78BFA 100%)"
       : isMatrix
         ? "linear-gradient(135deg, #a8c200 0%, #6f8000 100%)"
         : "linear-gradient(135deg, #38BDF8 0%, #00b3ff 100%)",
-        
     btnHoverGrad: isAura
       ? "linear-gradient(135deg, #FF94D2 0%, #B9A2FC 100%)"
       : isMatrix
         ? "linear-gradient(135deg, #b9d500 0%, #839600 100%)"
         : "linear-gradient(135deg, #54CFFF 0%, #29C0FF 100%)",
-        
     btnShadow: isAura
       ? "0 10px 25px -5px rgba(255, 117, 195, 0.35), 0 0 20px rgba(255, 117, 195, 0.15)"
       : isMatrix
         ? "0 10px 25px -5px rgba(168, 194, 0, 0.35), 0 0 20px rgba(168, 194, 0, 0.15)"
         : "0 10px 25px -5px rgba(56, 189, 248, 0.35), 0 0 20px rgba(56, 189, 248, 0.15)",
-        
     btnNormalShadow: isAura
       ? "0 8px 20px -6px rgba(255, 117, 195, 0.2)"
       : isMatrix
@@ -95,11 +80,11 @@ export default function PortalSyncModal({
         : "0 8px 20px -6px rgba(56, 189, 248, 0.2)",
   };
 
-  // Interaction Hover/Focus States
   const [focusedInput, setFocusedInput] = useState<string | null>(null);
   const [isBtnHovered, setIsBtnHovered] = useState(false);
   const [isCloseHovered, setIsCloseHovered] = useState(false);
   const [isRefreshHovered, setIsRefreshHovered] = useState(false);
+  const [isCaptchaLoading, setIsCaptchaLoading] = useState(false);
 
   useEffect(() => {
     setLocalNetId(netId);
@@ -117,12 +102,16 @@ export default function PortalSyncModal({
   }, [isOpen]);
 
   const fetchCaptcha = useCallback(async () => {
+    setIsCaptchaLoading(true);
     setCaptchaData(null);
+    setCaptchaAnswer("");
     try {
       const data = await authAPI.initAuth("student-portal");
       setCaptchaData(data);
     } catch {
       setError("CAPTCHA UNAVAILABLE — TRY AGAIN");
+    } finally {
+      setIsCaptchaLoading(false);
     }
   }, []);
 
@@ -135,55 +124,44 @@ export default function PortalSyncModal({
     setError("");
 
     try {
-      // 1. Authenticate with Student Portal
       await authAPI.login(localNetId.trim(), password, "student-portal", {
         captcha: captchaAnswer,
         captchaToken: captchaData?.captchaToken,
       });
 
-      // 2. Mark connected in Zustand IMMEDIATELY (persists to localStorage)
       useAuthStore.getState().setStudentPortalConnected(true);
-
       setStep("syncing");
 
-      // 3. Fetch unified data to pull in Student Portal data
       try {
         const unified = await dataAPI.getUnified();
         if (unified?.success) {
-          // Merge academia data
           const mergedAcademia = {
             ...unified.academia,
             studentPortal: unified.studentPortal,
           };
           useAuthStore.getState().setAcademicData(mergedAcademia);
-
-          // Store Student Portal data separately
           if (unified.studentPortal) {
             useAuthStore.getState().setStudentPortalData(unified.studentPortal);
           }
         }
       } catch {
-        // Unified fetch failed — portal is still connected, data will load on next page visit
         console.warn("[PortalSync] Unified data fetch failed post-connect, will retry on page load");
       }
 
       setStep("success");
       setTimeout(() => {
-        onSuccess(); // This calls window.location.reload() in parent
+        onSuccess();
         onClose();
       }, 2000);
     } catch (e: AnyValue) {
       setError(e.response?.data?.error || "ACCESS DENIED");
       setCaptchaAnswer("");
       fetchCaptcha();
-      // Revert connection state on actual auth failure
       useAuthStore.getState().setStudentPortalConnected(false);
     } finally {
       setLoading(false);
     }
   };
-
-  // ── Styling Tokens & Theme System ──────────────────────────────────────────
 
   const overlayStyle: React.CSSProperties = {
     position: "fixed",
@@ -312,7 +290,6 @@ export default function PortalSyncModal({
     <>
       {isOpen && (
         <div style={overlayStyle}>
-          {/* Dynamic keyframe CSS injection */}
           <style dangerouslySetInnerHTML={{ __html: `
             @keyframes fadeIn {
               from { opacity: 0; backdrop-filter: blur(0px); }
@@ -335,7 +312,6 @@ export default function PortalSyncModal({
           >
             {step === "form" ? (
               <div style={{ padding: "26px" }}>
-                {/* Header */}
                 <div
                   style={{
                     display: "flex",
@@ -373,7 +349,7 @@ export default function PortalSyncModal({
                         WebkitBackgroundClip: "text",
                         WebkitTextFillColor: "transparent",
                       }}>
-                        Secure Link
+                        Connect Portal
                       </h3>
                       <span style={{
                         fontSize: "9px",
@@ -398,7 +374,6 @@ export default function PortalSyncModal({
                   </button>
                 </div>
 
-                {/* Error Box */}
                 {error && (
                   <div
                     style={{
@@ -432,7 +407,6 @@ export default function PortalSyncModal({
                     gap: "16px",
                   }}
                 >
-                  {/* NetID */}
                   <input
                     type="text"
                     placeholder="NetID (e.g. ns4770)"
@@ -446,11 +420,10 @@ export default function PortalSyncModal({
                     aria-label="NetID"
                   />
 
-                  {/* Password */}
                   <div style={{ position: "relative" }}>
                     <input
                       type={showPassword ? "text" : "password"}
-                      placeholder="Student Portal Password"
+                      placeholder="Password"
                       style={getInputStyle("password")}
                       value={password}
                       onFocus={() => setFocusedInput("password")}
@@ -480,10 +453,9 @@ export default function PortalSyncModal({
                     </div>
                   </div>
 
-                  {/* Captcha Image Container */}
                   <div style={{ display: "flex", gap: "10px" }}>
                     <div style={captchaContainerStyle}>
-                      {captchaData?.captcha ? (
+                      {captchaData?.captcha && !isCaptchaLoading ? (
                         <div
                           style={{
                             width: "100%",
@@ -506,14 +478,14 @@ export default function PortalSyncModal({
                       onClick={fetchCaptcha}
                       onMouseEnter={() => setIsRefreshHovered(true)}
                       onMouseLeave={() => setIsRefreshHovered(false)}
+                      disabled={isCaptchaLoading}
                       aria-label="Refresh captcha"
                       style={refreshButtonStyle}
                     >
-                      <RefreshCw size={18} />
+                      <RefreshCw size={18} style={isCaptchaLoading ? { animation: "spin-slow 1s linear infinite" } : {}} />
                     </button>
                   </div>
 
-                  {/* Captcha Input */}
                   <input
                     type="text"
                     placeholder="ENTER CODE"
@@ -538,12 +510,11 @@ export default function PortalSyncModal({
                     }}
                   />
 
-                  {/* Submit Button */}
                   <button
                     onClick={handleSync}
                     onMouseEnter={() => setIsBtnHovered(true)}
                     onMouseLeave={() => setIsBtnHovered(false)}
-                    disabled={loading}
+                    disabled={loading || isCaptchaLoading}
                     style={buttonStyle}
                   >
                     {loading ? (

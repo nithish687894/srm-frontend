@@ -3,6 +3,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Settings, User, Map, Users, Mail, Phone, Home, FileText, Droplet, Flag, Award, Layers, AlertCircle, RefreshCcw } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
+import PortalSyncModal from "@/components/PortalSyncModal";
 
 const STYLES = `
   .glass-panel { position: relative; backdrop-filter: blur(80px); background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1rem; }
@@ -60,6 +61,7 @@ export default function PersonalDetailsPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [activeNav, setActiveNav] = useState('records');
+  const [isSyncModalOpen, setIsSyncModalOpen] = useState(false);
   const { studentPortalData, studentPortalConnected } = useAuthStore();
 
   useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
@@ -98,12 +100,20 @@ export default function PersonalDetailsPage() {
             <div className="max-w-3xl mx-auto space-y-6">
               
               {!profile ? (
-                <div className="py-20 text-center">
-                  <div className="w-20 h-20 rounded-[32px] bg-red-500/5 text-red-500/30 flex items-center justify-center mb-8 border border-red-500/10 mx-auto shadow-2xl">
-                    <User size={40} />
+                <div className="py-20 text-center flex flex-col items-center">
+                  <div className="w-20 h-20 rounded-[32px] bg-purple-500/10 text-purple-400 flex items-center justify-center mb-6 border border-purple-500/20 shadow-2xl">
+                    <User size={36} />
                   </div>
                   <h2 className="text-xl font-black text-white mb-2 uppercase tracking-widest">Vault Empty</h2>
-                  <p className="text-white/20 text-[9px] font-black uppercase tracking-[0.2em]">Please connect your student portal to fetch details</p>
+                  <p className="text-white/40 text-[11px] font-bold max-w-sm mb-6">
+                    Connect your Student Portal account to sync official profile records.
+                  </p>
+                  <button
+                    onClick={() => setIsSyncModalOpen(true)}
+                    className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-400 hover:to-indigo-400 text-white font-black text-xs uppercase tracking-widest rounded-2xl active:scale-95 transition-all shadow-xl shadow-purple-500/25"
+                  >
+                    Connect Student Portal
+                  </button>
                 </div>
               ) : (
                 <div className="space-y-6">
@@ -120,7 +130,7 @@ export default function PersonalDetailsPage() {
                         </div>
                       </div>
                       <button
-                        onClick={() => router.push('/dashboard?sync=1')}
+                        onClick={() => setIsSyncModalOpen(true)}
                         className="flex items-center gap-1.5 px-4 py-2 bg-amber-500 hover:bg-amber-400 text-black font-black text-[10px] uppercase tracking-wider rounded-xl active:scale-95 transition-all shadow-lg shadow-amber-500/10"
                       >
                         <RefreshCcw size={10} className="stroke-[3]" />
@@ -192,6 +202,12 @@ export default function PersonalDetailsPage() {
 
         </div>
       </div>
+      <PortalSyncModal
+        isOpen={isSyncModalOpen}
+        onClose={() => setIsSyncModalOpen(false)}
+        onSuccess={() => router.refresh()}
+        netId=""
+      />
     </>
   );
 }

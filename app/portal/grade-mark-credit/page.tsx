@@ -8,6 +8,7 @@ import {
 import { useAuthStore } from "@/lib/store";
 import { dataAPI } from "@/lib/api";
 import LoadingSkeleton from "@/components/aura-theme/LoadingSkeleton";
+import PortalSyncModal from "@/components/PortalSyncModal";
 
 const THEME = {
   bg: "#050505",
@@ -68,6 +69,7 @@ export default function GradeMarkCreditPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<"evaluated" | "arrears">("evaluated");
+  const [isSyncModalOpen, setIsSyncModalOpen] = useState(false);
   const { studentPortalData, setStudentPortalData } = useAuthStore();
   
   useEffect(() => {
@@ -106,7 +108,7 @@ export default function GradeMarkCreditPage() {
             </div>
             <span style={{ fontSize: "11px", fontWeight: 800, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.2em", display: 'block', marginTop: '2px' }}>GRADES & RECORDS</span>
           </div>
-          <button style={{ width: "44px", height: "44px", borderRadius: "50%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.3)", display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <button onClick={() => setIsSyncModalOpen(true)} style={{ width: "44px", height: "44px", borderRadius: "50%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.6)", display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Settings size={18} />
           </button>
         </header>
@@ -147,13 +149,36 @@ export default function GradeMarkCreditPage() {
           {displayMarks.length > 0 ? (
             displayMarks.map((m: AnyValue, i: number) => <RecordCard key={i} m={m} />)
           ) : (
-            <div style={{ textAlign: 'center', padding: '60px 20px', color: 'rgba(255,255,255,0.2)' }}>
-              <Award size={48} strokeWidth={1} style={{ marginBottom: '16px' }} />
-              <p style={{ fontSize: '13px', fontWeight: 800 }}>No {activeTab} records found.</p>
+            <div style={{ textAlign: 'center', padding: '60px 20px', color: 'rgba(255,255,255,0.4)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <Award size={48} strokeWidth={1} style={{ marginBottom: '16px', color: THEME.accentPurple }} />
+              <p style={{ fontSize: '13px', fontWeight: 800, margin: '0 0 16px' }}>No {activeTab} records found.</p>
+              <button
+                onClick={() => setIsSyncModalOpen(true)}
+                style={{
+                  padding: '10px 20px',
+                  borderRadius: '12px',
+                  border: 'none',
+                  background: 'linear-gradient(135deg, #bf00ff, #00d4ff)',
+                  color: '#fff',
+                  fontSize: '11px',
+                  fontWeight: 900,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1em',
+                  cursor: 'pointer'
+                }}
+              >
+                Connect Student Portal
+              </button>
             </div>
           )}
         </div>
       </main>
+      <PortalSyncModal
+        isOpen={isSyncModalOpen}
+        onClose={() => setIsSyncModalOpen(false)}
+        onSuccess={() => router.refresh()}
+        netId=""
+      />
     </div>
   );
 }
