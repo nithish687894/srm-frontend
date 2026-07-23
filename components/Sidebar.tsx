@@ -350,7 +350,7 @@ export default function Sidebar() {
 
       {/* TOP STATUS BAR */}
       {!(path === "/notes" || path.startsWith("/notes/") || path === "/ns" || path.startsWith("/ns/") || path === "/admin" || path.startsWith("/admin/")) && (
-        <div className="srmx-top-status-bar fixed top-10 sm:top-12 right-4 sm:right-6 z-[9999] flex items-center justify-end pointer-events-none">
+        <div className="srmx-top-status-bar fixed top-14 md:top-12 right-4 md:right-6 z-[9999] flex items-center justify-end pointer-events-none">
           <div className="flex gap-2.5 pointer-events-auto">
             {path === "/dashboard" && (
               <>
@@ -376,7 +376,7 @@ export default function Sidebar() {
                   >
                     <BookOpen size={15} strokeWidth={2.5} className="shrink-0" />
                   </span>
-                  <span className="hidden sm:inline text-[10.5px] font-black uppercase tracking-[0.11em] whitespace-nowrap leading-none">Exam</span>
+                  <span className="hidden md:inline text-[10.5px] font-black uppercase tracking-[0.11em] whitespace-nowrap leading-none">Exam</span>
                 </button>
                 <button
                   onClick={() => { router.push("/student-portal"); }}
@@ -400,7 +400,7 @@ export default function Sidebar() {
                   >
                     <IdCard size={15} strokeWidth={2.5} className="shrink-0" />
                   </span>
-                  <span className="hidden sm:inline text-[10.5px] font-black uppercase tracking-[0.11em] whitespace-nowrap leading-none">Student Portal</span>
+                  <span className="hidden md:inline text-[10.5px] font-black uppercase tracking-[0.11em] whitespace-nowrap leading-none">Student Portal</span>
                 </button>
               </>
             )}

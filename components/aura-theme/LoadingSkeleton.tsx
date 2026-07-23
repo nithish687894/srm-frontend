@@ -6,7 +6,7 @@ import { Sparkles, Activity } from "lucide-react";
 export default function LoadingSkeleton() {
   return (
     <main
-      className="w-full min-h-screen relative overflow-hidden bg-[#050505] text-white flex flex-col justify-start"
+      className="w-full min-h-screen relative overflow-hidden bg-[#f7f5ff] dark:bg-[#050505] text-gray-900 dark:text-white flex flex-col justify-start"
       style={{
         padding: "90px 20px 140px",
         fontFamily: "'Plus Jakarta Sans', sans-serif",
@@ -56,14 +56,14 @@ export default function LoadingSkeleton() {
         {/* Header Skeleton Block */}
         <div className="p-6 rounded-3xl bg-neutral-950/80 border border-white/10 backdrop-blur-2xl relative overflow-hidden shadow-2xl">
           <div className="space-y-3">
-            <div className="w-28 h-3.5 rounded-lg bg-white/10 lumina-shimmer" />
-            <div className="w-56 h-8 rounded-xl bg-white/15 lumina-shimmer" />
+            <div className="w-28 h-3.5 rounded-lg bg-white/10 animate-pulse" />
+            <div className="w-56 h-8 rounded-xl bg-white/15 animate-pulse" />
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-6">
             {[1, 2, 3].map((idx) => (
               <div key={idx} className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/5 space-y-2">
-                <div className="w-16 h-2.5 rounded-md bg-white/10 lumina-shimmer" />
-                <div className="w-24 h-6 rounded-lg bg-white/15 lumina-shimmer" />
+                <div className="w-16 h-2.5 rounded-md bg-white/10 animate-pulse" />
+                <div className="w-24 h-6 rounded-lg bg-white/15 animate-pulse" />
               </div>
             ))}
           </div>
@@ -80,24 +80,24 @@ export default function LoadingSkeleton() {
               {/* Header row inside card */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-white/10 lumina-shimmer" />
+                  <div className="w-10 h-10 rounded-xl bg-white/10 animate-pulse" />
                   <div className="space-y-1.5">
-                    <div className="w-40 h-4 rounded-md bg-white/15 lumina-shimmer" />
-                    <div className="w-24 h-3 rounded-md bg-white/10 lumina-shimmer" />
+                    <div className="w-40 h-4 rounded-md bg-white/15 animate-pulse" />
+                    <div className="w-24 h-3 rounded-md bg-white/10 animate-pulse" />
                   </div>
                 </div>
-                <div className="w-14 h-7 rounded-full bg-purple-500/20 border border-purple-500/30 lumina-shimmer" />
+                <div className="w-14 h-7 rounded-full bg-purple-500/20 border border-purple-500/30 animate-pulse" />
               </div>
 
               {/* Progress bar skeleton */}
               <div className="w-full h-2 rounded-full bg-white/5 overflow-hidden">
-                <div className="w-3/4 h-full bg-gradient-to-r from-purple-500/40 to-cyan-500/40 rounded-full lumina-shimmer" />
+                <div className="w-3/4 h-full bg-gradient-to-r from-purple-500/40 to-cyan-500/40 rounded-full animate-pulse" />
               </div>
 
               {/* Badges / test chips skeleton */}
               <div className="flex flex-wrap gap-2 pt-1">
                 {[1, 2, 3, 4].map((chip) => (
-                  <div key={chip} className="w-20 h-8 rounded-xl bg-white/[0.04] border border-white/5 lumina-shimmer" />
+                  <div key={chip} className="w-20 h-8 rounded-xl bg-white/[0.04] border border-white/5 animate-pulse" />
                 ))}
               </div>
             </div>
@@ -114,7 +114,7 @@ export default function LoadingSkeleton() {
             background-position: 200% 0;
           }
         }
-        .lumina-shimmer {
+        .animate-pulse {
           background: linear-gradient(90deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.03) 100%);
           background-size: 200% 100%;
           animation: luminaShimmer 1.6s infinite linear;

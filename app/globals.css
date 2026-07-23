@@ -1048,7 +1048,7 @@ h4 { font-weight: 740; }
   gap: 0;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
   .srmx-header-pill {
     width: auto;
     padding: 7px 14px 7px 9px;
