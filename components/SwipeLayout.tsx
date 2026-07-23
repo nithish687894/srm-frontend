@@ -115,19 +115,17 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    const id = setTimeout(() => {
-      offsetRef.current = 0;
-      pullDistRef.current = 0;
-      setGestureTransition(false);
-      scheduleGestureFrame();
-      // Complete navigation progress on path change
-      stopProgress();
-    }, 0);
+    offsetRef.current = 0;
+    pullDistRef.current = 0;
+    if (wrapperRef.current) {
+      wrapperRef.current.style.transform = "none";
+      wrapperRef.current.style.transition = "none";
+      wrapperRef.current.style.opacity = "1";
+    }
+    stopProgress();
     touchRef.current = null;
     gestureRef.current = "none";
-
-    return () => clearTimeout(id);
-  }, [pathname, scheduleGestureFrame, setGestureTransition]);
+  }, [pathname]);
 
   useEffect(() => {
     const handlePopState = () => {
@@ -325,9 +323,6 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
   };
 
   const style = {
-    transform: "translate3d(0, 0, 0)",
-    transition: "transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease",
-    opacity: 1,
     width: "100%",
     maxWidth: "100%",
     minWidth: 0,
