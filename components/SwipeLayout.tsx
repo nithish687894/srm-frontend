@@ -208,22 +208,25 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
       if (absDX < GESTURE_LOCK_THRESHOLD && absDY < GESTURE_LOCK_THRESHOLD) {
         return; // Not enough movement to decide yet
       }
-      if (absDY > absDX * 1.5) {
-        // Clearly vertical — check if pull-to-refresh or normal scroll
-        if (window.scrollY <= 0 && deltaY > 0) {
+      if (absDY >= absDX) {
+        // Vertical movement — immediately release to native scrolling unless pulling down from top
+        const scrollTop = window.scrollY || document.documentElement.scrollTop || (wrapperRef.current?.scrollTop || 0);
+        if (scrollTop <= 0 && deltaY > 15) {
           gestureRef.current = "pull";
         } else {
           gestureRef.current = "vertical";
+          return;
         }
-      } else if (absDX > absDY * 1.5) {
+      } else if (absDX > absDY * 1.8) {
         gestureRef.current = "horizontal";
       } else {
-        // Diagonal — treat as vertical scroll (don't hijack)
+        // Diagonal / ambiguous — allow native vertical scrolling
         gestureRef.current = "vertical";
+        return;
       }
     }
 
-    // Once locked to vertical scroll, do nothing — let browser handle it
+    // Once locked to vertical scroll, do nothing — let browser/WebView handle scrolling natively
     if (gestureRef.current === "vertical") {
       return;
     }
