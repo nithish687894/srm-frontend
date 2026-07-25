@@ -39,12 +39,12 @@ export default function AttendancePage() {
   const handleSync = async () => {
     setIsSyncing(true);
     try {
+      await dataAPI.forceRefresh();
       const d = await dataAPI.getAttendance();
       const updated = Array.isArray(d.data) ? d.data : [];
-      if (updated.length > 0) {
-        setAtt(updated);
-        setAcademicData({ ...academicData, attendance: updated });
-      }
+      setAtt(updated);
+      const currentAcademicData = useAuthStore.getState().academicData || {};
+      setAcademicData({ ...currentAcademicData, attendance: updated });
     } catch (e) {
       console.error("Attendance sync failed", e);
     } finally {
@@ -96,7 +96,8 @@ export default function AttendancePage() {
         const updated = Array.isArray(d.data) ? d.data : [];
         if (updated.length > 0) {
           setAtt(updated);
-          setAcademicData({ ...academicData, attendance: updated });
+          const currentAcademicData = useAuthStore.getState().academicData || {};
+          setAcademicData({ ...currentAcademicData, attendance: updated });
         }
         setLoading(false);
       })

@@ -412,7 +412,10 @@ export default function TimetablePage() {
     queryKey: ["calendar"], 
     queryFn: () => dataAPI.getCalendar(), 
     staleTime: 600000,
-    initialData: cachedCalendar ? cachedCalendar : undefined
+    initialData: cachedCalendar ? cachedCalendar : undefined,
+    // Persisted Zustand data is only a fast first paint; always verify it in
+    // the background instead of treating it as newly fetched for ten minutes.
+    initialDataUpdatedAt: cachedCalendar ? 0 : undefined
   });
   const myTTQ = useQuery({ 
     queryKey: ["myTT"], 
@@ -439,56 +442,24 @@ export default function TimetablePage() {
     if (ttQ.data) setTimetable(ttQ.data);
   }, [ttQ.data, setTimetable]);
 
-  const autoSelected = useRef(false);
-  useEffect(() => {
-    const today = new Date();
-    const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
-    
-    if (calQ.data) {
-      const { byDate } = buildCalendarIndex(calQ.data);
-      const info = byDate.get(todayIso);
-      if (info?.dayOrder && info.dayOrder >= 1 && info.dayOrder <= 10) {
-        setDayOverride(info.dayOrder);
-        autoSelected.current = true;
-        return;
-      }
-    }
-
-    if (!autoSelected.current) {
-      const dayOfWeek = today.getDay();
-      let d: number | null = null;
-      if (dayOfWeek >= 1 && dayOfWeek <= 5) d = dayOfWeek;
-      if (d && d >= 1 && d <= 10) {
-        setDayOverride(d);
-      }
-    }
-  }, [calQ.data]);
-
   const calendarIndex = useMemo(() => {
     if (!calQ.data) return null;
     return buildCalendarIndex(calQ.data);
   }, [calQ.data]);
 
   const todayInfo = useMemo(() => {
+    if (!calendarIndex) return null;
     const today = new Date();
     const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
-    if (calendarIndex) {
-      const info = calendarIndex.byDate.get(todayIso);
-      if (info) return info;
-    }
-    const dayOfWeek = today.getDay();
-    const isWeekend = [0, 6].includes(dayOfWeek);
-    return {
-      isoDate: todayIso,
-      semester: "ODD" as const,
-      monthLabel: "",
-      dateNum: today.getDate(),
-      weekdayLabel: today.toLocaleDateString("en-US", { weekday: "short" }),
-      dayOrder: !isWeekend && dayOfWeek >= 1 && dayOfWeek <= 5 ? dayOfWeek : null,
-      event: isWeekend ? "Weekend" : "",
-      isHoliday: isWeekend,
-    };
+    return calendarIndex.byDate.get(todayIso) || null;
   }, [calendarIndex]);
+
+  useEffect(() => {
+    const currentDayOrder = todayInfo?.dayOrder;
+    if (currentDayOrder && currentDayOrder >= 1 && currentDayOrder <= 10) {
+      setDayOverride(currentDayOrder);
+    }
+  }, [todayInfo?.isoDate, todayInfo?.dayOrder]);
 
   const getNextOccurrence = useMemo(() => {
     return (targetDayOrder: number) => {

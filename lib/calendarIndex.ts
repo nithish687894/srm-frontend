@@ -73,6 +73,17 @@ function isHolidayLike(dayOrder: string, day: string): boolean {
   );
 }
 
+function parseDayOrder(value: string): number | null {
+  const normalized = value.trim();
+  const numeric = normalized.match(/(?:day\s*order|do)?\s*(10|[1-9])\b/i);
+  if (numeric) return parseInt(numeric[1], 10);
+  const roman: Record<string, number> = {
+    I: 1, II: 2, III: 3, IV: 4, V: 5,
+    VI: 6, VII: 7, VIII: 8, IX: 9, X: 10,
+  };
+  return roman[normalized.toUpperCase()] ?? null;
+}
+
 /**
  * Build a calendar index from the raw backend response.
  *
@@ -110,12 +121,14 @@ export function buildCalendarIndex(raw: AnyValue): {
     EVEN: new Map(),
     ODD: new Map(),
   };
+  const sourcePriorityByDate = new Map<string, number>();
 
   Object.keys(semData).forEach((key) => {
     // Map key to either EVEN or ODD semester category
     const sem: Semester = key.toUpperCase().includes("EVEN") ? "EVEN" : "ODD";
     const entries = semData[key];
     const monthGroups = monthGroupsRecord[sem];
+    const sourcePriority = /(?:^|_)(?:OLD|ARCHIVE|PREVIOUS)(?:_|$)/i.test(key) ? 0 : 1;
 
     entries.forEach((entry: AnyValue) => {
       if (!entry || typeof entry !== "object") return;
@@ -134,12 +147,10 @@ export function buildCalendarIndex(raw: AnyValue): {
           ? entry.isHoliday
           : isHolidayLike(dayOrder, day);
 
-      const matchDO = dayOrder.match(/\b([1-9]|10)\b/) || dayOrder.match(/([1-9]|10)/);
-      const parsedDO = matchDO ? parseInt(matchDO[0], 10) : null;
-      const dayOrderNum = !holiday && parsedDO && parsedDO >= 1 && parsedDO <= 10 ? parsedDO : null;
+      const dayOrderNum = !holiday ? parseDayOrder(dayOrder) : null;
 
       // If event is empty, check if dayOrder contains the holiday name (common in some exports)
-      if (!event && dayOrder && !parsedDO && !/^(h|hd|gh|fh|sh|nh|oh|holiday)/i.test(dayOrder)) {
+      if (!event && dayOrder && parseDayOrder(dayOrder) === null && !/^(h|hd|gh|fh|sh|nh|oh|holiday)/i.test(dayOrder)) {
         event = dayOrder;
       }
 
@@ -172,16 +183,20 @@ export function buildCalendarIndex(raw: AnyValue): {
         isHoliday: holiday,
       };
 
-      // Avoid duplicate entries for the exact same ISO date
+      // Planner responses can include current and archived semesters together.
+      // Never allow an archived overlap to replace the current planner's day order.
       if (byDate.has(isoDate)) {
         const existing = byDate.get(isoDate)!;
+        const existingPriority = sourcePriorityByDate.get(isoDate) ?? 0;
+        if (existingPriority > sourcePriority) return;
         // If existing has a descriptive event, keep it
-        if (existing.event && !info.event) {
+        if (existingPriority === sourcePriority && existing.event && !info.event) {
           return;
         }
       }
 
       byDate.set(isoDate, info);
+      sourcePriorityByDate.set(isoDate, sourcePriority);
 
       const monthKey = `${year}-${pad2(month + 1)}`;
       if (!monthGroups.has(monthKey)) {
