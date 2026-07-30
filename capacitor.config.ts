@@ -1,13 +1,12 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.srm.nexus',
+  appId: 'app.srmnexus.mobile',
   appName: 'SRM Nexus',
   webDir: 'public',
   server: {
     url: 'https://srmnexus.app/',
     androidScheme: 'https',
-    cleartext: true,
   },
   plugins: {
     SplashScreen: {

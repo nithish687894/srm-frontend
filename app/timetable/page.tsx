@@ -144,15 +144,15 @@ function generateFriendTimetable(nameOrReg: string, myCourses: AnyValue[]) {
 
 const PERIODS = [
   { id: 1, start: "08:00", end: "08:50" },
-  { id: 2, start: "08:50", end: "09:40" },
-  { id: 3, start: "09:45", end: "10:35" },
-  { id: 4, start: "10:40", end: "11:30" },
-  { id: 5, start: "11:35", end: "12:25" },
-  { id: 6, start: "12:30", end: "13:20" },
-  { id: 7, start: "13:25", end: "14:15" },
-  { id: 8, start: "14:20", end: "15:10" },
-  { id: 9, start: "15:10", end: "16:00" },
-  { id: 10, start: "16:00", end: "16:50" },
+  { id: 2, start: "08:55", end: "09:45" },
+  { id: 3, start: "09:50", end: "10:40" },
+  { id: 4, start: "10:45", end: "11:35" },
+  { id: 5, start: "11:40", end: "12:30" },
+  { id: 6, start: "12:35", end: "13:25" },
+  { id: 7, start: "13:30", end: "14:20" },
+  { id: 8, start: "14:25", end: "15:15" },
+  { id: 9, start: "15:20", end: "16:10" },
+  { id: 10, start: "16:15", end: "17:05" },
 ];
 
 function fmt12(t: string) { 

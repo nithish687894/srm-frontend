@@ -1,4 +1,4 @@
-package com.srm.nexus;
+package app.srmnexus.mobile;
 
 import com.getcapacitor.BridgeActivity;
 

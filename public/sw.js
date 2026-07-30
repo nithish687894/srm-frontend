@@ -1,7 +1,18 @@
-const CACHE_NAME = 'srm-nexus-v5';
+const CACHE_NAME = 'srm-nexus-v6';
 const ASSETS = [
   '/site.webmanifest?v=4',
   '/nexus-logo.png'
+];
+
+// Only these paths get cached as offline fallbacks — everything else is network-only.
+const CACHEABLE_PATHS = [
+  '/nexus-logo.png',
+  '/favicon.ico',
+  '/favicon-16x16.png',
+  '/favicon-32x32.png',
+  '/site.webmanifest',
+  '/srmx-icon-192.png',
+  '/srmx-icon-512.png',
 ];
 
 self.addEventListener('install', (event) => {
@@ -25,11 +36,13 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
+  // Never cache API calls or non-GET requests
   if (url.pathname.startsWith('/api/') || event.request.method !== 'GET') {
     event.respondWith(fetch(event.request));
     return;
   }
 
+  // Network-only for navigation, JS, and CSS — prevents stale pages on Android WebView
   if (
     event.request.mode === 'navigate' ||
     url.pathname.startsWith('/_next/') ||
@@ -40,26 +53,6 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Network-first strategy for lightweight static assets only.
-  event.respondWith(
-    fetch(event.request).then((networkResponse) => {
-      if (networkResponse && networkResponse.status === 200) {
-        const resClone = networkResponse.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, resClone);
-        });
-      }
-      return networkResponse;
-    }).catch(() => {
-      return caches.match(event.request);
-    })
-  );
-});
-
-// ── Native Phone Push Notifications Listener ──
-self.addEventListener('push', (event) => {
-  let data = { title: 'SRM Nexus', body: 'New academic update is live!' };
-  
   if (event.data) {
     try {
       data = event.data.json();

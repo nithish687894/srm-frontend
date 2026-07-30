@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:522019439737:android:416ca22a4b12196c3040a8",
+        "android_client_info": {
+          "package_name": "app.srmnexus.mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWr8KA680Gr25tFftvPXDO2VQCR2dm23U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:522019439737:android:4eb744a320ea65293040a8",
         "android_client_info": {
           "package_name": "com.srm.nexus"
