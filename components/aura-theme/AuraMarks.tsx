@@ -316,14 +316,14 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
         </div>
       </div>
 
-      <div style={{ position: 'relative', zIndex: 1, paddingTop: '16px', paddingBottom: '80px' }}>
+      <div style={{ position: 'relative', zIndex: 1, paddingTop: 'calc(env(safe-area-inset-top, 0px) + 72px)', paddingBottom: '100px' }}>
         
-        <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-          <div className="floating" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(192, 132, 252, 0.08)', padding: '5px 12px', borderRadius: '100px', border: '1px solid rgba(192, 132, 252, 0.18)', marginBottom: '10px', boxShadow: '0 0 20px rgba(192, 132, 252, 0.06)' }}>
-            <Sparkles size={13} color={AURA_COLORS.purple} />
+        <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+          <div className="floating" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(192, 132, 252, 0.08)', padding: '6px 14px', borderRadius: '100px', border: '1px solid rgba(192, 132, 252, 0.18)', marginBottom: '16px', boxShadow: '0 0 20px rgba(192, 132, 252, 0.06)' }}>
+            <Sparkles size={14} color={AURA_COLORS.purple} />
             <span style={{ fontSize: "10px", fontWeight: 800, color: AURA_COLORS.purple, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Lumina Mode Active</span>
           </div>
-          <h1 style={{ fontSize: "36px", fontWeight: 900, margin: '0 0 16px', letterSpacing: '-1.5px', lineHeight: 1 }}>
+          <h1 style={{ fontSize: "42px", fontWeight: 900, margin: '0 0 24px', letterSpacing: '-2px', lineHeight: 1 }}>
             Marks <span style={{ color: AURA_COLORS.purple }}>Registry</span>
           </h1>
 

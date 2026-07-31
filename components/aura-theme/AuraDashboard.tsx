@@ -97,7 +97,7 @@ export default function AuraDashboard({
 
         .dashboard-main {
           flex: 1;
-          padding: calc(env(safe-area-inset-top, 0px) + 16px) 24px 80px;
+          padding: calc(env(safe-area-inset-top, 0px) + 72px) 24px 80px;
           position: relative;
           z-index: 1;
           display: flex;
