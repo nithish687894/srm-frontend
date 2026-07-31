@@ -876,10 +876,10 @@ function AuraTimetable({
     }
     const isReg = /^[a-zA-Z]{2}\d+$/i.test(trimmed);
     const newFriend = {
-      name: isReg ? `Friend (${trimmed})` : trimmed,
+      name: isReg ? `Friend (${trimmed.toUpperCase()})` : trimmed,
       regNo: trimmed.toUpperCase(),
       initials: trimmed.substring(0, 2).toUpperCase(),
-      status: "pending"
+      status: "approved"
     };
     const updated = [...syncedFriends, newFriend];
     setSyncedFriends(updated);
@@ -1633,8 +1633,8 @@ function AuraTimetable({
                           <div style={{ fontSize: "12px", fontWeight: 800, color: "var(--text-main)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                             {friend.name}
                           </div>
-                          <div style={{ fontSize: "9px", color: friend.status === "pending" ? "#FF9500" : "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontWeight: 700 }}>
-                            {friend.status === "pending" ? "⏳ Pending" : friend.regNo}
+                          <div style={{ fontSize: "9px", color: "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontWeight: 700 }}>
+                            ⚡ Synced • {friend.regNo}
                           </div>
                         </div>
                         {/* Remove button */}
