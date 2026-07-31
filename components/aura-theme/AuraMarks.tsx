@@ -44,21 +44,22 @@ const CrystalOrb = ({ test, score, tests }: AnyValue) => {
   
   return (
     <div style={{ 
-      background: "linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%)", 
-      backdropFilter: 'blur(20px)',
-      border: "1px solid rgba(255, 255, 255, 0.05)",
+      background: "rgba(255, 255, 255, 0.035)", 
+      border: "1px solid rgba(255, 255, 255, 0.06)",
       borderRadius: '20px', 
       padding: '16px 12px', 
       minWidth: '95px', 
       flex: 1,
       textAlign: 'center', 
       position: 'relative',
-      boxShadow: `inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 15px ${isUploaded ? statusColor + '0a' : 'transparent'}`,
-      transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+      boxShadow: `0 4px 14px rgba(0, 0, 0, 0.35)`,
+      transition: 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      gap: '8px'
+      gap: '8px',
+      willChange: 'transform',
+      transform: 'translateZ(0)'
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
         {isUploaded && (
@@ -315,14 +316,14 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
         </div>
       </div>
 
-      <div style={{ position: 'relative', zIndex: 1, paddingTop: '100px', paddingBottom: '140px' }}>
+      <div style={{ position: 'relative', zIndex: 1, paddingTop: '16px', paddingBottom: '80px' }}>
         
-        <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-          <div className="floating" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(192, 132, 252, 0.08)', padding: '6px 14px', borderRadius: '100px', border: '1px solid rgba(192, 132, 252, 0.18)', marginBottom: '20px', boxShadow: '0 0 20px rgba(192, 132, 252, 0.06)' }}>
-            <Sparkles size={14} color={AURA_COLORS.purple} />
+        <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+          <div className="floating" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(192, 132, 252, 0.08)', padding: '5px 12px', borderRadius: '100px', border: '1px solid rgba(192, 132, 252, 0.18)', marginBottom: '10px', boxShadow: '0 0 20px rgba(192, 132, 252, 0.06)' }}>
+            <Sparkles size={13} color={AURA_COLORS.purple} />
             <span style={{ fontSize: "10px", fontWeight: 800, color: AURA_COLORS.purple, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Lumina Mode Active</span>
           </div>
-          <h1 style={{ fontSize: "42px", fontWeight: 900, margin: '0 0 24px', letterSpacing: '-2px', lineHeight: 1 }}>
+          <h1 style={{ fontSize: "36px", fontWeight: 900, margin: '0 0 16px', letterSpacing: '-1.5px', lineHeight: 1 }}>
             Marks <span style={{ color: AURA_COLORS.purple }}>Registry</span>
           </h1>
 
