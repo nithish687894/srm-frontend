@@ -300,7 +300,7 @@ export default function AuraAttendance({
         </div>
       </div>
 
-      <div className="attendance-page" style={{ flex: 1, padding: "calc(env(safe-area-inset-top, 0px) + 72px) 0 100px 0", position: 'relative', zIndex: 1 }}>
+      <div className="attendance-page" style={{ flex: 1, padding: "calc(env(safe-area-inset-top, 0px) + 72px) 0 140px 0", position: 'relative', zIndex: 1 }}>
         
         {/* Header Section */}
         <div style={{ textAlign: 'center', marginBottom: '24px' }}>
