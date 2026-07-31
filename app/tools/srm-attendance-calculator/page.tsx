@@ -15,7 +15,7 @@ export default function AttendanceCalculator() {
   const a = typeof attended === "number" ? attended : 0;
   const percentage = t > 0 ? (a / t) * 100 : 0;
   const classesNeeded = Math.ceil((0.75 * t - a) / 0.25);
-  const canSkip = Math.floor(a - 0.75 * t);
+  const canSkip = Math.floor(a / 0.75 - t);
   const status = percentage >= 75 ? "safe" : percentage >= 65 ? "borderline" : "detained";
 
   const pageText = isLight ? "#17111f" : "#ffffff";
