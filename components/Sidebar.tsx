@@ -95,8 +95,7 @@ export default function Sidebar() {
   const email = useAuthStore((state) => state.email);
   const academiaConnected = useAuthStore((state) => state.academiaConnected);
   const studentPortalConnected = useAuthStore((state) => state.studentPortalConnected);
-  const studentPortalData = useAuthStore((state) => state.studentPortalData);
-  const academicData = useAuthStore((state) => state.academicData);
+  const attendance = useAuthStore((state) => state.academicData?.attendance);
   const isPremium = useAuthStore((state) => state.isPremium);
   const [showCheckout, setShowCheckout] = useState(false);
   const userEmail = (email || profile?.Email || "").toLowerCase();
@@ -153,7 +152,7 @@ export default function Sidebar() {
     profile?.["Photo URL"];
 
   // Dynamic calculated stats for AURA Active Hero Section
-  const att = useMemo(() => academicData?.attendance || [], [academicData?.attendance]);
+  const att = useMemo(() => attendance || [], [attendance]);
 
   const avgAtt = useMemo(() => {
     if (!att.length) return "89.3";
@@ -354,8 +353,8 @@ export default function Sidebar() {
           <div className="flex gap-2.5 pointer-events-auto">
             {path === "/dashboard" && (
               <>
-                <button
-                  onClick={() => { router.push("/exam-library"); }}
+                <Link
+                  href="/exam-library"
                   className="srmx-header-pill srmx-header-pill-exam h-11 rounded-full backdrop-blur-md border flex items-center justify-center transition-all active:scale-95 shrink-0"
                   style={{
                     background: resolvedTheme === "light"
@@ -377,9 +376,9 @@ export default function Sidebar() {
                     <BookOpen size={15} strokeWidth={2.5} className="shrink-0" />
                   </span>
                   <span className="hidden md:inline text-[10.5px] font-black uppercase tracking-[0.11em] whitespace-nowrap leading-none">Exam</span>
-                </button>
-                <button
-                  onClick={() => { router.push("/student-portal"); }}
+                </Link>
+                <Link
+                  href="/student-portal"
                   className="srmx-header-pill srmx-header-pill-portal h-11 rounded-full backdrop-blur-md border flex items-center justify-center transition-all active:scale-95 shrink-0"
                   style={{
                     background: resolvedTheme === "light"
@@ -401,20 +400,21 @@ export default function Sidebar() {
                     <IdCard size={15} strokeWidth={2.5} className="shrink-0" />
                   </span>
                   <span className="hidden md:inline text-[10.5px] font-black uppercase tracking-[0.11em] whitespace-nowrap leading-none">Student Portal</span>
-                </button>
+                </Link>
               </>
             )}
-            <button 
-              onClick={() => { router.push("/notifications"); }} 
+            <Link 
+              href="/notifications" 
               className="w-11 h-11 rounded-full backdrop-blur-md border flex items-center justify-center text-white/60 transition-all active:scale-90 shrink-0"
               style={{ 
                 background: "rgba(143, 146, 255, 0.1)",
                 borderColor: "rgba(143, 146, 255, 0.2)",
                 boxShadow: "0 0 15px rgba(143, 146, 255, 0.15)"
               }}
+              aria-label="Notifications"
             >
               <Bell size={18} color="#8F92FF" />
-            </button>
+            </Link>
             <button 
               onClick={() => { setMoreOpen(!moreOpen); }} 
               className="w-11 h-11 rounded-full border flex items-center justify-center text-white transition-all active:scale-90 relative overflow-hidden shrink-0"

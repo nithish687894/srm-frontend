@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { authAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { Eye, EyeOff, MonitorPlay, Shield, Zap, Bell, TrendingUp, Lock } from "lucide-react";
@@ -1037,13 +1038,14 @@ export default function LoginPage() {
                 className="teaser-logo-container teaser-logo" 
                 onClick={handleLogoClick}
               >
-                <img 
+                <Image 
                   src="/nexus-logo.png" 
                   alt="Logo" 
+                  width={72}
+                  height={72}
+                  priority
                   draggable={false}
                   style={{ 
-                    width: "72px", 
-                    height: "72px", 
                     filter: "drop-shadow(0 0 25px rgba(255, 117, 195, 0.5))",
                     userSelect: "none",
                     WebkitUserDrag: "none"
@@ -1137,7 +1139,7 @@ export default function LoginPage() {
               {loginStep === "hero" && (
                 <div style={{ maxWidth: "680px", margin: "0 auto", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "28px", animation: "slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1)" }}>
                   <div style={{ display: "inline-block", padding: "16px", background: "rgba(139, 92, 246, 0.08)", borderRadius: "24px", border: "1px solid rgba(139, 92, 246, 0.15)", marginBottom: "4px" }}>
-                    <img src="/nexus-logo.png" alt="Logo" style={{ width: "72px", height: "72px", filter: "drop-shadow(0 0 25px rgba(255, 117, 195, 0.5))" }} />
+                    <Image src="/nexus-logo.png" alt="Logo" width={72} height={72} priority style={{ filter: "drop-shadow(0 0 25px rgba(255, 117, 195, 0.5))" }} />
                   </div>
                   <h1 style={{ fontSize: "clamp(48px, 8vw, 84px)", fontWeight: 950, letterSpacing: "-0.05em", lineHeight: 1, margin: 0 }}>
                     SRM Nexus
@@ -1234,7 +1236,7 @@ export default function LoginPage() {
                       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "14px", marginBottom: "18px" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: "12px", minWidth: 0 }}>
                           <div style={{ width: "54px", height: "54px", borderRadius: "18px", background: "linear-gradient(135deg, rgba(191,90,242,0.24), rgba(0,212,255,0.14))", border: "1px solid rgba(255,255,255,0.14)", display: "grid", placeItems: "center", flexShrink: 0 }}>
-                            <img src="/nexus-logo.png" alt="SRM Nexus" style={{ width: "38px", height: "38px", filter: "drop-shadow(0 0 20px rgba(255, 117, 195, 0.55))" }} />
+                            <Image src="/nexus-logo.png" alt="SRM Nexus" width={38} height={38} priority style={{ filter: "drop-shadow(0 0 20px rgba(255, 117, 195, 0.55))" }} />
                           </div>
                           <div style={{ minWidth: 0 }}>
                             <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.52)", fontWeight: 900, letterSpacing: "0.16em", textTransform: "uppercase" }}>SRM Nexus</div>
