@@ -23,6 +23,7 @@ const NAV_MAIN = [
   { href: "/marks", label: "Marks", icon: Award },
   { href: "/attendance", label: "Attendance", icon: Library },
   { href: "/timetable", label: "Timetable", icon: Clock },
+  { href: "/support", label: "Support", icon: LifeBuoy },
 ] as const;
 
 const NAV_MORE_ITEMS = [

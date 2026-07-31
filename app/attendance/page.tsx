@@ -9,7 +9,7 @@ import { buildCalendarIndex } from "@/lib/calendarIndex";
 import { useThemeStore } from "@/lib/themeStore";
 import AuraAttendance from "@/components/aura-theme/AuraAttendance";
 import LoadingSkeleton from "@/components/aura-theme/LoadingSkeleton";
-import ContextNotesBanner from "@/components/ContextNotesBanner";
+
 import { RefreshCcw } from "lucide-react";
 import { extractBatch } from "@/lib/utils";
 
