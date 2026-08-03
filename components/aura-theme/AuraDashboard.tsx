@@ -794,7 +794,9 @@ export default function AuraDashboard({
                   >
                     Upgrade to Premium
                   </button>
-                         <>
+                </div>
+              ) : (
+                <>
                   {tomorrowSkipStats?.isHoliday ? (
                     <div style={{ padding: '18px', background: 'rgba(255,255,255,0.02)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)', textAlign: 'center' }}>
                       <span style={{ fontSize: '13px', fontWeight: 800, color: AURA.subBright }}>🎉 Tomorrow is a holiday / weekend. No classes scheduled!</span>
@@ -822,6 +824,31 @@ export default function AuraDashboard({
                           {tomorrowSkipStats?.isWholeDaySafe ? "Can skip all" : "Partial skip only"}
                         </span>
                       </div>
+
+                      {/* Upcoming Holiday Smart Alert (e.g. Pongal / Festival break awareness) */}
+                      {tomorrowSkipStats?.upcomingHoliday && (
+                        <div style={{ 
+                          padding: '12px 14px', 
+                          borderRadius: '16px', 
+                          background: 'rgba(255, 149, 0, 0.1)', 
+                          border: '1px solid rgba(255, 149, 0, 0.25)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '10px'
+                        }}>
+                          <span style={{ fontSize: '16px', flexShrink: 0 }}>🌴</span>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                            <span style={{ fontSize: '11px', fontWeight: 900, color: '#FF9500', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                              {tomorrowSkipStats.upcomingHoliday.event} (in {tomorrowSkipStats.upcomingHoliday.daysAway} day{tomorrowSkipStats.upcomingHoliday.daysAway === 1 ? '' : 's'})
+                            </span>
+                            <span style={{ fontSize: '10px', fontWeight: 700, color: AURA.subBright }}>
+                              {tomorrowSkipStats.risky > 0 
+                                ? "Must attend tomorrow before holiday starts — no classes run during break to recover %!"
+                                : "Skipping tomorrow gives you an extended long vacation combined with the holiday!"}
+                            </span>
+                          </div>
+                        </div>
+                      )}
 
                       {/* 2-Column Summary Grid */}
                       <div className="skip-stats-grid">

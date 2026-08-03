@@ -760,9 +760,27 @@ export default function DashboardPage() {
     return targetRow?.classes || [];
   }, [ttData, myTTData, att, tomorrowDayOrder, tomorrowIsHoliday]);
 
+  const upcomingHoliday = useMemo(() => {
+    const now = new Date();
+    for (let i = 1; i <= 5; i++) {
+      const nextD = new Date(now);
+      nextD.setDate(now.getDate() + i);
+      const iso = `${nextD.getFullYear()}-${String(nextD.getMonth() + 1).padStart(2, "0")}-${String(nextD.getDate()).padStart(2, "0")}`;
+      const dayData = byDate.get(iso);
+      if (dayData && (dayData.isHoliday || (dayData.event && /pongal|diwali|festival|holiday|break/i.test(dayData.event)))) {
+        return {
+          daysAway: i,
+          event: dayData.event && dayData.event !== "-" ? dayData.event : "University Holiday",
+          isoDate: iso
+        };
+      }
+    }
+    return null;
+  }, [byDate]);
+
   const tomorrowSkipStats = useMemo(() => {
     if (tomorrowIsHoliday || !tomorrowDayOrder || tomorrowClasses.length === 0) {
-      return { isHoliday: true, dayOrder: null, safe: 0, risky: 0, classes: [] };
+      return { isHoliday: true, dayOrder: null, safe: 0, risky: 0, classes: [], upcomingHoliday };
     }
     
     let safe = 0;
@@ -815,9 +833,10 @@ export default function DashboardPage() {
       safe,
       risky,
       isWholeDaySafe: risky === 0,
-      classes: enrichedClasses
+      classes: enrichedClasses,
+      upcomingHoliday
     };
-  }, [tomorrowIsHoliday, tomorrowDayOrder, tomorrowClasses, att]);
+  }, [tomorrowIsHoliday, tomorrowDayOrder, tomorrowClasses, att, upcomingHoliday]);
 
   const nextRiskyClassText = useMemo(() => {
     const riskyCls = tomorrowClasses.find((cls) => {
