@@ -734,11 +734,11 @@ export default function AuraAttendance({
                       <DutyOrb label="PRESENT" value={a.attended} color={AURA_COLORS.green} bgTint="rgba(52,199,89,0.08)" />
                       <DutyOrb label="ABSENT" value={a.absent} color={AURA_COLORS.red} bgTint="rgba(255,45,85,0.08)" />
                       <DutyOrb 
-                        label="BUFFER" 
+                        label={a.pct >= 75 ? "SAFE TO MISS" : "MUST ATTEND"} 
                         value={a.pct >= 75 ? a.skipBuffer : a.requiredToPass} 
-                        subtext={a.pct >= 75 ? (a.skipBuffer === 1 ? `Can miss 1 more` : `Can miss ${a.skipBuffer} more`) : (a.requiredToPass === 1 ? `Attend next 1` : `Attend next ${a.requiredToPass}`)} 
-                        color={AURA_COLORS.amber} 
-                        bgTint="rgba(255,149,0,0.08)" 
+                        subtext={a.pct >= 75 ? (a.skipBuffer === 1 ? `Can skip 1 class` : `Can skip ${a.skipBuffer} classes`) : (a.requiredToPass === 1 ? `Attend next 1 class` : `Attend next ${a.requiredToPass} classes`)} 
+                        color={a.pct >= 75 ? AURA_COLORS.amber : AURA_COLORS.red} 
+                        bgTint={a.pct >= 75 ? "rgba(255,149,0,0.08)" : "rgba(255,45,85,0.08)"} 
                       />
                    </div>
                    
@@ -748,7 +748,7 @@ export default function AuraAttendance({
                    }}>
                       {a.pct >= 75 ? <ShieldCheck size={14} color={statusColor} /> : <ShieldAlert size={14} color={statusColor} />}
                       <span style={{ fontSize: '10px', fontWeight: 800, color: statusColor, textTransform: 'uppercase' }}>
-                        {a.pct >= 75 ? `SAFE · Can miss ${a.skipBuffer} more classes` : (a.pct >= 65 ? `WARNING · Attend next ${a.requiredToPass} to stay safe` : `CRITICAL · Attend next ${a.requiredToPass} to recover`)}
+                        {a.pct >= 75 ? `SAFE · You can skip ${a.skipBuffer} more class${a.skipBuffer === 1 ? '' : 'es'} & stay above 75%` : (a.pct >= 65 ? `WARNING · Attend next ${a.requiredToPass} class${a.requiredToPass === 1 ? '' : 'es'} to reach 75%` : `CRITICAL · Attend next ${a.requiredToPass} class${a.requiredToPass === 1 ? '' : 'es'} to recover`)}
                       </span>
                    </div>
                  </div>

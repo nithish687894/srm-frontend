@@ -212,10 +212,8 @@ export default function AttendancePage() {
       const alreadyRisk = currentPct < 75;
 
       if (projPct >= 75) {
-        // Can miss how many more?
-        // (pres) / (projCond + M) >= 0.75  =>  projCond + M <= pres / 0.75  =>  M <= (pres/0.75) - projCond
         const M = Math.floor((pres / 0.75) - projCond);
-        marginLabel = `Safe to skip (buffer: ${M} classes)`;
+        marginLabel = M === 1 ? `Safe to skip 1 class` : `Safe to skip ${M} classes`;
         marginSafe = true;
       } else {
         // Needs how many to recover?
