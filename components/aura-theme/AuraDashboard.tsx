@@ -467,7 +467,7 @@ export default function AuraDashboard({
                     <div style={{ fontSize: '15px', color: AURA.text, fontWeight: 800 }}>
                       No upcoming classes queued
                     </div>
-                    <div style={{ fontSize: '12px', color AURA.subBright, fontWeight: 600, marginTop: '4px' }}>
+                    <div style={{ fontSize: '12px', color: AURA.subBright, fontWeight: 600, marginTop: '4px' }}>
                       You’re all caught up for today 😌
                     </div>
                   </div>
@@ -935,7 +935,7 @@ export default function AuraDashboard({
                      ) : (
                         <div className="premium-card" style={{ padding: '28px 20px', borderRadius: '28px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
                            <div style={{ width: '42px', height: '42px', borderRadius: '50%', background: 'rgba(0, 229, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                              <div style={{ width: '10px', height: '10px', borderRadius: '50%', background AURA.cyan }} />
+                              <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: AURA.cyan }} />
                            </div>
                            <div>
                               <div style={{ fontSize: '12px', fontWeight: 900, color: AURA.text, letterSpacing: '0.12em', textTransform: 'uppercase' }}>All Systems Clear</div>
