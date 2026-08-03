@@ -774,6 +774,7 @@ export default function DashboardPage() {
       let isRisky = false;
       let currentAttendance = 100;
       let afterSkipAttendance = 100;
+      const durationHours = cls.slot ? Math.max(1, cls.slot.split('-').length) : 1;
       
       if (course) {
         let cond = parseInt(course["Hours Conducted"] || course.conducted) || 0;
@@ -788,7 +789,7 @@ export default function DashboardPage() {
             cond = 30;
             present = Math.round(cond * (pct / 100));
           }
-          afterSkipAttendance = (present / (cond + 1)) * 100;
+          afterSkipAttendance = (present / (cond + durationHours)) * 100;
           isRisky = afterSkipAttendance < 75;
         }
       }
@@ -802,6 +803,7 @@ export default function DashboardPage() {
       return { 
         ...cls, 
         isRisky,
+        durationHours,
         currentAttendance: Math.round(currentAttendance),
         afterSkipAttendance: Math.round(afterSkipAttendance)
       };
@@ -812,6 +814,7 @@ export default function DashboardPage() {
       dayOrder: tomorrowDayOrder,
       safe,
       risky,
+      isWholeDaySafe: risky === 0,
       classes: enrichedClasses
     };
   }, [tomorrowIsHoliday, tomorrowDayOrder, tomorrowClasses, att]);

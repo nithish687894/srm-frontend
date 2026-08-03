@@ -794,86 +794,108 @@ export default function AuraDashboard({
                   >
                     Upgrade to Premium
                   </button>
-                </div>
-              ) : (
-                <>
+                         <>
                   {tomorrowSkipStats?.isHoliday ? (
-                    <div style={{ padding: '16px', background: 'rgba(255,255,255,0.02)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                      <span style={{ fontSize: '13px', fontWeight: 700, color: AURA.subBright }}>Tomorrow is a holiday / weekend. No classes scheduled!</span>
+                    <div style={{ padding: '18px', background: 'rgba(255,255,255,0.02)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)', textAlign: 'center' }}>
+                      <span style={{ fontSize: '13px', fontWeight: 800, color: AURA.subBright }}>🎉 Tomorrow is a holiday / weekend. No classes scheduled!</span>
                     </div>
                   ) : (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                      {/* Overall Day Decision Banner */}
+                      <div style={{ 
+                        padding: '12px 16px', 
+                        borderRadius: '16px', 
+                        background: tomorrowSkipStats?.isWholeDaySafe ? 'rgba(52, 199, 89, 0.1)' : 'rgba(255, 45, 85, 0.1)', 
+                        border: tomorrowSkipStats?.isWholeDaySafe ? '1px solid rgba(52, 199, 89, 0.25)' : '1px solid rgba(255, 45, 85, 0.25)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: '10px'
+                      }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: tomorrowSkipStats?.isWholeDaySafe ? '#34C759' : '#FF2D55' }} />
+                          <span style={{ fontSize: '11px', fontWeight: 900, color: tomorrowSkipStats?.isWholeDaySafe ? '#34C759' : '#FF2D55', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                            {tomorrowSkipStats?.isWholeDaySafe ? `Day ${tomorrowSkipStats?.dayOrder} · Safe Whole Day` : `Day ${tomorrowSkipStats?.dayOrder} · Has Attendance Risks`}
+                          </span>
+                        </div>
+                        <span style={{ fontSize: '10px', fontWeight: 800, color: AURA.subBright }}>
+                          {tomorrowSkipStats?.isWholeDaySafe ? "Can skip all" : "Partial skip only"}
+                        </span>
+                      </div>
+
+                      {/* 2-Column Summary Grid */}
                       <div className="skip-stats-grid">
-                        <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.04)', textAlign: 'center' }}>
-                          <div style={{ fontSize: '10px', fontWeight: 700, color: '#888', textTransform: 'uppercase' }}>Tomorrow</div>
-                          <div style={{ fontSize: '16px', fontWeight: 900, color: AURA.text, marginTop: '4px' }}>Day {tomorrowSkipStats?.dayOrder || "—"}</div>
+                        <div style={{ background: 'rgba(52, 199, 89, 0.08)', padding: '14px 12px', borderRadius: '18px', border: '1px solid rgba(52, 199, 89, 0.2)', textAlign: 'center' }}>
+                          <div style={{ fontSize: '10px', fontWeight: 900, color: '#34C759', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Safe to Skip</div>
+                          <div style={{ fontSize: '20px', fontWeight: 950, color: '#34C759', marginTop: '4px' }}>{tomorrowSkipStats?.safe} <span style={{ fontSize: '11px', fontWeight: 700 }}>class{(tomorrowSkipStats?.safe || 0) === 1 ? '' : 'es'}</span></div>
                         </div>
-                        <div style={{ background: 'rgba(52, 199, 89, 0.08)', padding: '12px', borderRadius: '16px', border: '1px solid rgba(52, 199, 89, 0.2)', textAlign: 'center' }}>
-                          <div style={{ fontSize: '10px', fontWeight: 900, color: '#34C759', textTransform: 'uppercase' }}>Safe to skip</div>
-                          <div style={{ fontSize: '16px', fontWeight: 900, color: '#34C759', marginTop: '4px' }}>{tomorrowSkipStats?.safe} class{(tomorrowSkipStats?.safe || 0) === 1 ? '' : 'es'}</div>
-                        </div>
-                        <div style={{ background: 'rgba(255, 45, 85, 0.08)', padding: '12px', borderRadius: '16px', border: '1px solid rgba(255, 45, 85, 0.2)', textAlign: 'center' }}>
-                          <div style={{ fontSize: '10px', fontWeight: 900, color: '#FF2D55', textTransform: 'uppercase' }}>Must attend</div>
-                          <div style={{ fontSize: '16px', fontWeight: 900, color: '#FF2D55', marginTop: '4px' }}>{tomorrowSkipStats?.risky} class{(tomorrowSkipStats?.risky || 0) === 1 ? '' : 'es'}</div>
+                        <div style={{ background: (tomorrowSkipStats?.risky || 0) > 0 ? 'rgba(255, 45, 85, 0.08)' : 'rgba(255,255,255,0.03)', padding: '14px 12px', borderRadius: '18px', border: (tomorrowSkipStats?.risky || 0) > 0 ? '1px solid rgba(255, 45, 85, 0.2)' : '1px solid rgba(255,255,255,0.06)', textAlign: 'center' }}>
+                          <div style={{ fontSize: '10px', fontWeight: 900, color: (tomorrowSkipStats?.risky || 0) > 0 ? '#FF2D55' : AURA.sub, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Must Attend</div>
+                          <div style={{ fontSize: '20px', fontWeight: 950, color: (tomorrowSkipStats?.risky || 0) > 0 ? '#FF2D55' : AURA.subBright, marginTop: '4px' }}>{tomorrowSkipStats?.risky} <span style={{ fontSize: '11px', fontWeight: 700 }}>class{(tomorrowSkipStats?.risky || 0) === 1 ? '' : 'es'}</span></div>
                         </div>
                       </div>
 
+                      {/* Class Analysis Breakdown Toggle */}
                       {tomorrowSkipStats?.classes && tomorrowSkipStats.classes.length > 0 && (
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '4px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '2px' }}>
                           <button 
                             onClick={() => setIsAnalysisExpanded(!isAnalysisExpanded)}
                             style={{ 
-                              background: 'none', border: 'none', padding: 0, margin: 0,
+                              background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', padding: '10px 14px', borderRadius: '14px',
                               display: 'flex', justifyContent: 'space-between', alignItems: 'center', 
                               width: '100%', cursor: 'pointer', textAlign: 'left', outline: 'none'
                             }}
                           >
-                            <span style={{ fontSize: '10px', fontWeight: 900, color: '#888', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Class Analysis</span>
-                            <span style={{ fontSize: '10px', color: AURA.cyan, fontWeight: 900 }}>
-                              {isAnalysisExpanded ? "Hide breakdown ↑" : `Analyze classes (${tomorrowSkipStats.classes.length}) ↓`}
+                            <span style={{ fontSize: '11px', fontWeight: 900, color: AURA.text, letterSpacing: '0.04em', textTransform: 'uppercase' }}>Subject Breakdown</span>
+                            <span style={{ fontSize: '11px', color: AURA.cyan, fontWeight: 900 }}>
+                              {isAnalysisExpanded ? "Hide ↑" : `View classes (${tomorrowSkipStats.classes.length}) ↓`}
                             </span>
                           </button>
 
                           {isAnalysisExpanded && (
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                               {tomorrowSkipStats.classes.map((cls: AnyValue, idx: number) => {
+                                const durationLabel = cls.durationHours > 1 ? `${cls.durationHours}-Hour Session` : "1 Hour";
                                 return (
                                   <div key={idx} style={{ 
                                     display: 'flex', 
                                     flexDirection: 'column', 
-                                    gap: '6px', 
-                                    background: 'rgba(0,0,0,0.18)', 
-                                    padding: '12px 16px', 
-                                    borderRadius: '16px', 
-                                    border: '1px solid rgba(255,255,255,0.04)' 
+                                    gap: '8px', 
+                                    background: 'rgba(0,0,0,0.22)', 
+                                    padding: '14px 16px', 
+                                    borderRadius: '18px', 
+                                    border: '1px solid rgba(255,255,255,0.06)' 
                                   }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
-                                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                                        <span style={{ color: AURA.text, fontSize: '13px', fontWeight: 800, textTransform: 'capitalize' }}>
+                                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                                        <span style={{ color: AURA.text, fontSize: '14px', fontWeight: 800, textTransform: 'capitalize' }}>
                                           {getSubjectName(cls.courseCode, cls.courseTitle).toLowerCase()}
                                         </span>
-                                        <span style={{ color: AURA.sub, fontSize: '10px', fontWeight: 700 }}>
-                                          Slot {cls.slot} | Code {cls.courseCode}
+                                        <span style={{ color: AURA.subBright, fontSize: '11px', fontWeight: 700 }}>
+                                          Slot {cls.slot} • {durationLabel}
                                         </span>
                                       </div>
                                       <span style={{ 
-                                        background: cls.isRisky ? 'rgba(255, 45, 85, 0.12)' : 'rgba(52, 199, 89, 0.12)', 
+                                        background: cls.isRisky ? 'rgba(255, 45, 85, 0.15)' : 'rgba(52, 199, 89, 0.15)', 
                                         color: cls.isRisky ? '#FF2D55' : '#34C759', 
-                                        fontSize: '9px', 
+                                        border: cls.isRisky ? '1px solid rgba(255, 45, 85, 0.3)' : '1px solid rgba(52, 199, 89, 0.3)',
+                                        fontSize: '9.5px', 
                                         fontWeight: 900, 
                                         padding: '4px 10px', 
                                         borderRadius: '8px', 
-                                        letterSpacing: '0.05em', 
+                                        letterSpacing: '0.04em', 
                                         textTransform: 'uppercase',
                                         whiteSpace: 'nowrap'
                                       }}>
-                                        {cls.isRisky ? 'Must Attend' : 'Safe to skip'}
+                                        {cls.isRisky ? 'MUST ATTEND' : 'SAFE TO MISS'}
                                       </span>
                                     </div>
-                                    <div style={{ display: 'flex', gap: '12px', fontSize: '11px', color: AURA.subBright, fontWeight: 700, borderTop: '1px dashed rgba(255,255,255,0.05)', paddingTop: '6px' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '11px', color: AURA.subBright, fontWeight: 700, borderTop: '1px dashed rgba(255,255,255,0.06)', paddingTop: '8px', marginTop: '2px' }}>
                                       <div>Current: <span style={{ color: AURA.text, fontWeight: 800 }}>{cls.currentAttendance}%</span></div>
-                                      <div style={{ color: 'rgba(255,255,255,0.15)' }}>|</div>
-                                      <div>After skip: <span style={{ color: cls.isRisky ? '#FF2D55' : '#34C759', fontWeight: 800 }}>{cls.afterSkipAttendance}%</span></div>
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                        <span>After skip:</span>
+                                        <span style={{ color: cls.isRisky ? '#FF2D55' : '#34C759', fontWeight: 900 }}>{cls.afterSkipAttendance}%</span>
+                                      </div>
                                     </div>
                                   </div>
                                 );
@@ -885,8 +907,8 @@ export default function AuraDashboard({
                     </div>
                   )}
 
-                  <div style={{ fontSize: '10px', color: AURA.sub, fontWeight: 750, fontStyle: 'italic', marginTop: '4px' }}>
-                    * Skip Safety is calculated after marking tomorrow’s class as absent.
+                  <div style={{ fontSize: '10px', color: AURA.sub, fontWeight: 700, marginTop: '2px' }}>
+                    * Projections factor multi-hour lab sessions and 75% target threshold.
                   </div>
                 </>
               )}
