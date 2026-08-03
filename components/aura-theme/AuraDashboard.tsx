@@ -1,7 +1,8 @@
 "use client";
 import React, { useMemo } from "react";
 import { 
-  Sparkles, Activity, Award, Compass, User, Zap, Coffee, ChevronRight, Fingerprint, Bell, LockKeyhole
+  Sparkles, Activity, Award, Compass, User, Zap, ChevronRight, Fingerprint, Bell, LockKeyhole,
+  CheckCircle2, AlertTriangle, BarChart3, Clock, MapPin, ShieldCheck, ShieldAlert
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -31,7 +32,6 @@ export default function AuraDashboard({
   const academicAlertsPrompted = useAuthStore((state) => state.academicAlertsPrompted);
   const academicAlertsEnabled = useAuthStore((state) => state.academicAlertsEnabled);
   const setAcademicAlertsPrompted = useAuthStore((state) => state.setAcademicAlertsPrompted);
-  const setAcademicAlertsEnabled = useAuthStore((state) => state.setAcademicAlertsEnabled);
 
   const [toast, setToast] = React.useState<{ title: string; body: string; type: "success" | "error" | "info" } | null>(null);
   const [isAnalysisExpanded, setIsAnalysisExpanded] = React.useState(false);
@@ -52,40 +52,67 @@ export default function AuraDashboard({
     return fallbackTitle || courseCode;
   };
 
-  const formatCountdown = (minutes: number | null, isTomorrow = false) => {
+  // Plain-English, precise time countdowns
+  const formatCountdownText = (minutes: number | null, isTomorrow = false) => {
     if (minutes === null) return "";
-    if (minutes < 1) return "starting now";
+    if (minutes < 1) return "Starts now";
 
     const h = Math.floor(minutes / 60);
     const m = minutes % 60;
 
-    if (h <= 0) return `in ${m}m`;
+    if (h <= 0) return `Starts in ${m}m`;
+    if (m === 0) return `Starts in ${h}h`;
 
-    if (m === 0) {
-      return isTomorrow ? `tomorrow in ${h}h` : `in ${h}h`;
-    }
-
-    return isTomorrow
-      ? `tomorrow in ${h}h ${m}m`
-      : `in ${h}h ${m}m`;
+    return `Starts in ${h}h ${m}m`;
   };
 
-  const formatEndsIn = (minutes: number | null) => {
+  const formatEndsInText = (minutes: number | null) => {
     if (minutes === null) return "";
-    if (minutes < 1) return "ending now";
+    if (minutes < 1) return "Ending now";
     
     const h = Math.floor(minutes / 60);
     const m = minutes % 60;
 
-    if (h <= 0) return `ends in ${m}m`;
-    if (m === 0) return `ends in ${h}h`;
+    if (h <= 0) return `Ends in ${m}m`;
+    if (m === 0) return `Ends in ${h}h`;
 
-    return `ends in ${h}h ${m}m`;
+    return `Ends in ${h}h ${m}m`;
   };
+
+  // Main status headline logic (Apple-style calm, meaningful status)
+  const mainHeadline = useMemo(() => {
+    if (currentClass) return "Class in session";
+    if (nextClass) {
+      if (nextClassMeta?.isTomorrow) return "You're all set for tomorrow";
+      return "Next class starts soon";
+    }
+    return "No class conflicts today";
+  }, [currentClass, nextClass, nextClassMeta]);
+
+  // Numerical attendance value calculation for color thresholds
+  const numericAvgAtt = useMemo(() => {
+    if (!avgAtt || avgAtt === "—") return null;
+    const val = parseFloat(avgAtt);
+    return isNaN(val) ? null : val;
+  }, [avgAtt]);
+
+  const attStatusColor = useMemo(() => {
+    if (numericAvgAtt === null) return "#00E5FF";
+    if (numericAvgAtt >= 75) return "#34C759"; // Green (Healthy)
+    if (numericAvgAtt >= 65) return "#FF9500"; // Orange (Warning)
+    return "#FF2D55"; // Red (Critical)
+  }, [numericAvgAtt]);
+
+  // Check if valid academic marks exist
+  const hasValidAcademicMarks = useMemo(() => {
+    if (!avgMarks || avgMarks === "—" || avgMarks === "0" || avgMarks === "0.0") return false;
+    const val = parseFloat(avgMarks);
+    return !isNaN(val) && val > 0;
+  }, [avgMarks]);
 
   return (
     <AuraBackground theme={activeTheme} stars={stars}>
-      {/* Dashboard-specific responsive styles (animations inherited from AuraBackground) */}
+      {/* Dashboard-specific responsive styles */}
       <style dangerouslySetInnerHTML={{ __html: `
         .hide-scrollbar::-webkit-scrollbar {
           display: none;
@@ -97,7 +124,7 @@ export default function AuraDashboard({
 
         .dashboard-main {
           flex: 1;
-          padding: calc(env(safe-area-inset-top, 0px) + 72px) 24px 80px;
+          padding: calc(env(safe-area-inset-top, 0px) + 72px) 24px 96px;
           position: relative;
           z-index: 1;
           display: flex;
@@ -150,7 +177,7 @@ export default function AuraDashboard({
         @media (min-width: 1180px) {
           .dashboard-grid-layout {
             display: grid;
-            grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
+            grid-template-columns: minmax(0, 1.3fr) minmax(320px, 380px);
             align-items: start;
             gap: 32px;
           }
@@ -161,34 +188,14 @@ export default function AuraDashboard({
 
         @media (min-width: 1280px) {
           .dashboard-grid-layout {
-            grid-template-columns: minmax(0, 1.3fr) minmax(320px, 1fr);
-          }
-        }
-
-        .notification-prompt,
-        .notification-copy {
-          min-width: 0;
-        }
-
-        .notification-copy {
-          overflow-wrap: anywhere;
-        }
-
-        @media (min-width: 1180px) {
-          .notification-prompt {
-            flex-direction: row !important;
-            align-items: center;
-            justify-content: space-between;
-          }
-          .notification-actions {
-            flex-shrink: 0;
+            grid-template-columns: minmax(0, 1.4fr) minmax(340px, 1fr);
           }
         }
 
         .today-stats-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          gap: 10px;
+          gap: 12px;
           position: relative;
           z-index: 2;
         }
@@ -201,644 +208,744 @@ export default function AuraDashboard({
 
         @media (max-width: 480px) {
           .dashboard-main {
-            padding: 104px 16px 120px;
-            gap: 16px;
-          }
-          .premium-card {
-            padding: 18px !important;
-            border-radius: 24px !important;
-          }
-          .today-header {
-            font-size: 24px !important;
+            padding: 96px 16px 110px;
+            gap: 20px;
           }
           .today-stats-grid {
             gap: 8px !important;
           }
-          .today-stats-grid > div {
-            padding: 10px 8px !important;
-            border-radius: 14px !important;
-          }
           .skip-stats-grid {
             gap: 8px !important;
-          }
-          .skip-stats-grid > div {
-            padding: 10px 8px !important;
-            border-radius: 14px !important;
-          }
-        }
-
-        @media (max-width: 360px) {
-          .dashboard-main {
-            padding: 96px 12px 105px;
-            gap: 12px;
-          }
-          .premium-card {
-            padding: 14px !important;
-            border-radius: 20px !important;
-          }
-          .today-header {
-            font-size: 20px !important;
-          }
-          .today-stats-grid {
-            gap: 6px !important;
-          }
-          .today-stats-grid > div {
-            padding: 8px 4px !important;
-            border-radius: 12px !important;
-          }
-          .today-stats-grid div {
-            font-size: 8px !important;
-          }
-          .today-stats-grid .tabular-nums {
-            font-size: 16px !important;
-          }
-          .skip-stats-grid {
-            gap: 6px !important;
-          }
-          .skip-stats-grid > div {
-            padding: 8px 4px !important;
-            border-radius: 12px !important;
-          }
-          .skip-stats-grid div {
-            font-size: 8px !important;
-          }
-          .skip-stats-grid .tabular-nums {
-            font-size: 14px !important;
           }
         }
       `}} />
 
       <main className="dashboard-main">
         <div className="dashboard-top-banners">
-        {/* Demo Mode Warning Banner */}
-        {(() => {
-          const isDemo = data?.profile?.["Name"] === "AURA NEBULA DEMO" || 
-                         data?.profile?.["Registration Number"] === "RA2311003010999" || 
-                         (typeof window !== "undefined" && localStorage.getItem("userEmail")?.toLowerCase()?.includes("demo"));
-          if (!isDemo || studentPortalConnected) return null;
-          return (
-            <div style={{
-              background: 'linear-gradient(135deg, rgba(255, 45, 85, 0.15) 0%, rgba(191, 90, 242, 0.1) 100%)',
-              border: '1.5px solid rgba(255, 45, 85, 0.3)',
-              boxShadow: '0 8px 32px rgba(255, 45, 85, 0.15)',
-              borderRadius: '24px',
-              padding: '16px 20px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: '12px',
-              position: 'relative',
-              zIndex: 10
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Zap size={16} color="#FF2D55" style={{ flexShrink: 0 }} />
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontSize: '11px', fontWeight: 900, color: '#ff2d55', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Demo Mode Active</span>
-                  <span style={{ fontSize: '10px', color: AURA.sub, fontWeight: 600, marginTop: '2px' }}>Viewing sample dashboard. Connect your portal for real sync.</span>
-                </div>
-              </div>
-              <button
-                onClick={onConnectPortal}
-                style={{
-                  background: '#FF2D55',
-                  color: '#fff',
-                  border: 'none',
-                  padding: '6px 14px',
-                  borderRadius: '10px',
-                  fontSize: '10px',
-                  fontWeight: 900,
-                  cursor: 'pointer',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                  boxShadow: '0 4px 12px rgba(255, 45, 85, 0.3)',
-                  flexShrink: 0
-                }}
-              >
-                Connect
-              </button>
-            </div>
-          );
-        })()}
-
-        {/* Enable Notification Alerts Card - Only show when data exists, user has not enabled, and has not dismissed prompt */}
-        {!academicAlertsPrompted && !academicAlertsEnabled && data && (
-          <div 
-            className="premium-card notification-prompt"
-            style={{
-              background: 'linear-gradient(135deg, rgba(143, 146, 255, 0.08) 0%, rgba(191, 90, 242, 0.04) 100%)',
-              border: '1px solid var(--accent-secondary)',
-              borderColor: 'rgba(143, 146, 255, 0.25)',
-              boxShadow: '0 8px 32px rgba(143, 146, 255, 0.08)',
-              borderRadius: '24px',
-              padding: '20px 24px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '14px',
-              position: 'relative',
-              zIndex: 10
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          {/* Demo Mode Warning Banner */}
+          {(() => {
+            const isDemo = data?.profile?.["Name"] === "AURA NEBULA DEMO" || 
+                           data?.profile?.["Registration Number"] === "RA2311003010999" || 
+                           (typeof window !== "undefined" && localStorage.getItem("userEmail")?.toLowerCase()?.includes("demo"));
+            if (!isDemo || studentPortalConnected) return null;
+            return (
               <div style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: '10px',
-                background: 'rgba(143, 146, 255, 0.12)',
+                background: 'linear-gradient(135deg, rgba(255, 45, 85, 0.15) 0%, rgba(191, 90, 242, 0.1) 100%)',
+                border: '1.5px solid rgba(255, 45, 85, 0.3)',
+                boxShadow: '0 8px 32px rgba(255, 45, 85, 0.15)',
+                borderRadius: '24px',
+                padding: '16px 20px',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
-                color: 'var(--accent-secondary)',
-                flexShrink: 0
+                justifyContent: 'space-between',
+                gap: '12px',
+                position: 'relative',
+                zIndex: 10
               }}>
-                <Bell size={18} />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Zap size={16} color="#FF2D55" style={{ flexShrink: 0 }} />
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <span style={{ fontSize: '11px', fontWeight: 900, color: '#ff2d55', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Demo Mode Active</span>
+                    <span style={{ fontSize: '10px', color: AURA.sub, fontWeight: 600, marginTop: '2px' }}>Viewing sample dashboard. Connect your portal for real sync.</span>
+                  </div>
+                </div>
+                <button
+                  onClick={onConnectPortal}
+                  style={{
+                    background: '#FF2D55',
+                    color: '#fff',
+                    border: 'none',
+                    padding: '6px 14px',
+                    borderRadius: '10px',
+                    fontSize: '10px',
+                    fontWeight: 900,
+                    cursor: 'pointer',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                    boxShadow: '0 4px 12px rgba(255, 45, 85, 0.3)',
+                    flexShrink: 0
+                  }}
+                >
+                  Connect
+                </button>
               </div>
-              <div className="notification-copy" style={{ display: 'flex', flexDirection: 'column' }}>
-                <span style={{ fontSize: '12.5px', fontWeight: 900, color: 'var(--text-primary)', letterSpacing: '0.03em' }}>
-                  Want Nexus to alert you when attendance or marks update?
-                </span>
-                <span style={{ fontSize: '10px', color: 'var(--text-secondary)', fontWeight: 600, marginTop: '3px' }}>
-                  Get updates even when you’re not checking the app.
-                </span>
+            );
+          })()}
+
+          {/* Enable Notification Alerts Card */}
+          {!academicAlertsPrompted && !academicAlertsEnabled && data && (
+            <div 
+              className="premium-card notification-prompt"
+              style={{
+                background: 'linear-gradient(135deg, rgba(143, 146, 255, 0.08) 0%, rgba(191, 90, 242, 0.04) 100%)',
+                border: '1px solid rgba(143, 146, 255, 0.25)',
+                boxShadow: '0 8px 32px rgba(143, 146, 255, 0.08)',
+                borderRadius: '24px',
+                padding: '20px 24px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '14px',
+                position: 'relative',
+                zIndex: 10
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '10px',
+                  background: 'rgba(143, 146, 255, 0.12)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'var(--accent-secondary)',
+                  flexShrink: 0
+                }}>
+                  <Bell size={18} />
+                </div>
+                <div className="notification-copy" style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span style={{ fontSize: '13px', fontWeight: 900, color: 'var(--text-primary)', letterSpacing: '0.01em' }}>
+                    Want Nexus to alert you when attendance or marks update?
+                  </span>
+                  <span style={{ fontSize: '11px', color: 'var(--text-secondary)', fontWeight: 600, marginTop: '2px' }}>
+                    Get instant push updates even when you’re not checking the app.
+                  </span>
+                </div>
+              </div>
+              <div className="notification-actions" style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+                <button
+                  onClick={() => {
+                    setAcademicAlertsPrompted(true);
+                    localStorage.setItem("academicAlertsPrompted", "true");
+                  }}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: 'var(--text-muted)',
+                    padding: '8px 16px',
+                    borderRadius: '12px',
+                    fontSize: '11px',
+                    fontWeight: 800,
+                    cursor: 'pointer'
+                  }}
+                >
+                  Maybe later
+                </button>
+                <button
+                  onClick={() => enableAcademicAlerts(showToast)}
+                  style={{
+                    background: 'var(--accent-secondary)',
+                    color: 'var(--bg-root)',
+                    border: 'none',
+                    padding: '8px 18px',
+                    borderRadius: '12px',
+                    fontSize: '11px',
+                    fontWeight: 900,
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 12px rgba(143, 146, 255, 0.2)'
+                  }}
+                >
+                  Enable alerts
+                </button>
               </div>
             </div>
-            <div className="notification-actions" style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
-              <button
-                onClick={() => {
-                  setAcademicAlertsPrompted(true);
-                  localStorage.setItem("academicAlertsPrompted", "true");
-                }}
-                style={{
-                  background: 'transparent',
-                  border: 'none',
-                  color: 'var(--text-muted)',
-                  padding: '8px 16px',
-                  borderRadius: '12px',
-                  fontSize: '11px',
-                  fontWeight: 800,
-                  cursor: 'pointer',
-                  transition: 'all 0.2s'
-                }}
-              >
-                Maybe later
-              </button>
-              <button
-                onClick={() => {
-                  enableAcademicAlerts(showToast);
-                }}
-                style={{
-                  background: 'var(--accent-secondary)',
-                  color: 'var(--bg-root)',
-                  border: 'none',
-                  padding: '8px 18px',
-                  borderRadius: '12px',
-                  fontSize: '11px',
-                  fontWeight: 900,
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 12px rgba(143, 146, 255, 0.2)',
-                  transition: 'all 0.2s'
-                }}
-              >
-                Enable alerts
-              </button>
-            </div>
-          </div>
-        )}
+          )}
         </div>
 
         <div className="dashboard-grid-layout">
           <div className="dashboard-col-main">
 
-        {/* Today Command Center */}
-        <div className="premium-card" style={{ padding: '24px', borderRadius: '32px', position: 'relative', display: 'flex', flexDirection: 'column', gap: '18px' }}>
-          <div className="ai-border" />
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', position: 'relative', zIndex: 2 }}>
-            <div style={{ padding: '8px 16px', background: 'rgba(192, 132, 252, 0.08)', borderRadius: '100px', display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 0 12px rgba(192, 132, 252, 0.1)' }}>
-              <Sparkles size={14} color={AURA.purple} className="floating" />
-              <span style={{ fontSize: "10px", fontWeight: 900, color: AURA.purple, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Lumina Sync v2.6</span>
-            </div>
-            <div style={{ fontSize: '10px', color: AURA.sub, fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase' }}>Today</div>
-          </div>
-          
-          <div style={{ position: 'relative', zIndex: 2 }}>
-            <div style={{ fontSize: '11px', color: AURA.sub, fontWeight: 850, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '6px' }}>
-              {activeTheme.greeting}, {firstName || "Explorer"}
-            </div>
-            <h1 className="today-header" style={{ fontSize: "28px", fontWeight: 950, margin: 0, letterSpacing: '-0.04em', lineHeight: 1.08, color: AURA.text }}>
-              {currentClass 
-                ? "You have a class ongoing." 
-                : nextClass 
-                  ? nextClassMeta?.isTomorrow 
-                    ? "Class schedule is clear." 
-                    : "Your next class is ready." 
-                  : "No class queued right now."}
-            </h1>
-          </div>
+            {/* 1. TODAY COMMAND CENTER (Apple + Linear level card) */}
+            <div className="premium-card" style={{ padding: '28px', borderRadius: '32px', position: 'relative', display: 'flex', flexDirection: 'column', gap: '22px' }}>
+              <div className="ai-border" />
+              
+              {/* Header Badge Row */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', position: 'relative', zIndex: 2 }}>
+                <div style={{ padding: '6px 14px', background: 'rgba(191, 90, 242, 0.1)', border: '1px solid rgba(191, 90, 242, 0.2)', borderRadius: '100px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Sparkles size={13} color={AURA.purple} />
+                  <span style={{ fontSize: "10px", fontWeight: 900, color: AURA.purple, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Academic Command</span>
+                </div>
+                <div style={{ fontSize: '11px', color: AURA.subBright, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                  {activeTheme.greeting}, {firstName || "Student"}
+                </div>
+              </div>
+              
+              {/* Main Headline (Clear & Instant) */}
+              <div style={{ position: 'relative', zIndex: 2 }}>
+                <h1 style={{ fontSize: "30px", fontWeight: 950, margin: 0, letterSpacing: '-0.04em', lineHeight: 1.1, color: AURA.text }}>
+                  {mainHeadline}
+                </h1>
+              </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', position: 'relative', zIndex: 2 }}>
-            {/* Case 1 & Case 2: Ongoing class card */}
-            {currentClass && (
-              <div style={{ padding: '18px', background: 'rgba(255, 45, 85, 0.04)', borderRadius: '24px', border: '1px solid rgba(255, 45, 85, 0.15)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.05)' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div style={{ fontSize: '12px', color: AURA.pink, fontWeight: 950, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                      {currentClass.startTime} - {currentClass.endTime}
+              {/* 2. UPCOMING / ONGOING CLASS CARD (Redesigned with clear typography hierarchy) */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', position: 'relative', zIndex: 2 }}>
+                {/* Case 1: Ongoing Class */}
+                {currentClass ? (
+                  <div style={{ 
+                    padding: '20px', 
+                    background: 'linear-gradient(135deg, rgba(255, 45, 85, 0.08) 0%, rgba(191, 90, 242, 0.04) 100%)', 
+                    borderRadius: '24px', 
+                    border: '1px solid rgba(255, 45, 85, 0.25)',
+                    boxShadow: '0 8px 24px rgba(255, 45, 85, 0.12)' 
+                  }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ background: '#FF2D55', color: '#fff', fontSize: '10px', fontWeight: 900, padding: '4px 10px', borderRadius: '8px', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                          Live Now
+                        </span>
+                        <span style={{ fontSize: '12px', color: '#FF2D55', fontWeight: 900 }}>
+                          {formatEndsInText(currentClassMeta?.endsInMinutes)}
+                        </span>
+                      </div>
+                      <div style={{ fontSize: '20px', color: AURA.text, fontWeight: 900, lineHeight: 1.2, textTransform: 'capitalize' }}>
+                        {getSubjectName(currentClass.courseCode, currentClass.courseTitle).toLowerCase()}
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '13px', color: AURA.subBright, fontWeight: 700, flexWrap: 'wrap' }}>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <Clock size={14} color={AURA.pink} /> {currentClass.startTime} – {currentClass.endTime}
+                        </span>
+                        <span>•</span>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <MapPin size={14} color={AURA.pink} /> Room {currentClass.roomNo || "TBA"}
+                        </span>
+                        <span>•</span>
+                        <span>Slot {currentClass.slot}</span>
+                      </div>
                     </div>
-                    <span style={{ background: '#FF2D55', color: '#fff', fontSize: '9px', fontWeight: 900, padding: '3px 8px', borderRadius: '8px', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-                      Now ({formatEndsIn(currentClassMeta?.endsInMinutes)})
+                  </div>
+                ) : nextClass ? (
+                  /* Case 2: Next Class (Today or Tomorrow) */
+                  <div style={{ 
+                    padding: '20px', 
+                    background: 'rgba(255, 255, 255, 0.025)', 
+                    borderRadius: '24px', 
+                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                    boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.05)'
+                  }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ 
+                          background: nextClassMeta?.isTomorrow ? 'rgba(191, 90, 242, 0.15)' : 'rgba(0, 229, 255, 0.15)', 
+                          color: nextClassMeta?.isTomorrow ? AURA.purple : AURA.cyan, 
+                          border: nextClassMeta?.isTomorrow ? '1px solid rgba(191, 90, 242, 0.3)' : '1px solid rgba(0, 229, 255, 0.3)',
+                          fontSize: '11px', 
+                          fontWeight: 900, 
+                          padding: '4px 12px', 
+                          borderRadius: '8px', 
+                          letterSpacing: '0.04em', 
+                          textTransform: 'uppercase' 
+                        }}>
+                          {nextClassMeta?.isTomorrow ? 'Tomorrow' : 'Up Next'}
+                        </span>
+                        <span style={{ fontSize: '12px', color: nextClassMeta?.isTomorrow ? AURA.purple : AURA.cyan, fontWeight: 800 }}>
+                          {formatCountdownText(nextClassMeta?.startsInMinutes, nextClassMeta?.isTomorrow)}
+                        </span>
+                      </div>
+
+                      {/* Subject Title */}
+                      <div style={{ fontSize: '20px', color: AURA.text, fontWeight: 900, lineHeight: 1.25, textTransform: 'capitalize' }}>
+                        {getSubjectName(nextClass.courseCode, nextClass.courseTitle).toLowerCase()}
+                      </div>
+
+                      {/* Time, Room & Slot Metadata Hierarchy */}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', color: AURA.subBright, fontWeight: 700, flexWrap: 'wrap', marginTop: '2px' }}>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <Clock size={14} color={AURA.cyan} /> {nextClass.startTime} – {nextClass.endTime}
+                        </span>
+                        <span>•</span>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <MapPin size={14} color={AURA.cyan} /> Room {nextClass.roomNo || "TBA"}
+                        </span>
+                        <span>•</span>
+                        <span>Slot {nextClass.slot}</span>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  /* Case 3: No Class Queued */
+                  <div style={{ padding: '20px', background: 'rgba(255,255,255,0.02)', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.06)' }}>
+                    <div style={{ fontSize: '15px', color: AURA.text, fontWeight: 800 }}>
+                      No upcoming classes queued
+                    </div>
+                    <div style={{ fontSize: '12px', color AURA.subBright, fontWeight: 600, marginTop: '4px' }}>
+                      You’re all caught up for today 😌
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* 3. REPLACED STATISTICS GRID (Intuitive & Instant Meaning) */}
+              <div className="today-stats-grid">
+                {/* Safe Subjects Card */}
+                <div style={{ 
+                  background: 'rgba(52, 199, 89, 0.08)', 
+                  border: '1px solid rgba(52, 199, 89, 0.2)', 
+                  borderRadius: '20px', 
+                  padding: '14px 12px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '6px'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <CheckCircle2 size={13} color="#34C759" />
+                    <span style={{ fontSize: '10px', fontWeight: 900, color: '#34C759', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Safe</span>
+                  </div>
+                  <div style={{ fontSize: '22px', fontWeight: 950, color: '#ffffff', lineHeight: 1 }} className="tabular-nums">
+                    {safeSubjectsCount} <span style={{ fontSize: '11px', fontWeight: 700, color: 'rgba(255,255,255,0.6)' }}>Subjects</span>
+                  </div>
+                </div>
+
+                {/* Attendance Risk Card */}
+                <div style={{ 
+                  background: (riskySubjectsCount || 0) > 0 ? 'rgba(255, 45, 85, 0.08)' : 'rgba(52, 199, 89, 0.08)', 
+                  border: (riskySubjectsCount || 0) > 0 ? '1px solid rgba(255, 45, 85, 0.2)' : '1px solid rgba(52, 199, 89, 0.2)', 
+                  borderRadius: '20px', 
+                  padding: '14px 12px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '6px'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <AlertTriangle size={13} color={(riskySubjectsCount || 0) > 0 ? '#FF2D55' : '#34C759'} />
+                    <span style={{ fontSize: '10px', fontWeight: 900, color: (riskySubjectsCount || 0) > 0 ? '#FF2D55' : '#34C759', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                      {(riskySubjectsCount || 0) > 0 ? "Risk" : "No Risk"}
                     </span>
                   </div>
-                  <div style={{ fontSize: '18px', color: AURA.text, fontWeight: 950, lineHeight: 1.18, textTransform: 'capitalize' }}>
-                    {getSubjectName(currentClass.courseCode, currentClass.courseTitle).toLowerCase()}
-                  </div>
-                  <div style={{ fontSize: '12px', color: AURA.subBright, fontWeight: 700 }}>
-                    Room {currentClass.roomNo || "TBA"} | Slot {currentClass.slot}
+                  <div style={{ fontSize: '22px', fontWeight: 950, color: '#ffffff', lineHeight: 1 }} className="tabular-nums">
+                    {riskySubjectsCount} <span style={{ fontSize: '11px', fontWeight: 700, color: 'rgba(255,255,255,0.6)' }}>Subject{(riskySubjectsCount || 0) === 1 ? '' : 's'}</span>
                   </div>
                 </div>
-              </div>
-            )}
 
-            {/* Next class (Up Next / Tomorrow) */}
-            {nextClass ? (
-              <div style={{ 
-                padding: '18px', 
-                background: 'rgba(0,0,0,0.28)', 
-                borderRadius: '24px', 
-                border: '1px solid rgba(255,255,255,0.08)',
-                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.05)'
-              }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div style={{ fontSize: '12px', color: AURA.cyan, fontWeight: 950, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                      {nextClass.startTime} - {nextClass.endTime}
-                    </div>
-                    <span style={{ 
-                      background: nextClassMeta?.isTomorrow ? 'rgba(191, 90, 242, 0.12)' : 'rgba(0, 229, 255, 0.12)', 
-                      color: nextClassMeta?.isTomorrow ? AURA.purple : AURA.cyan, 
-                      fontSize: '9px', 
-                      fontWeight: 900, 
-                      padding: '3px 8px', 
-                      borderRadius: '8px', 
-                      letterSpacing: '0.05em', 
-                      textTransform: 'uppercase' 
-                    }}>
-                      {nextClassMeta?.isTomorrow ? 'Tomorrow' : 'Up Next'} ({formatCountdown(nextClassMeta?.startsInMinutes, nextClassMeta?.isTomorrow)})
-                    </span>
+                {/* View Details Card */}
+                <div 
+                  onClick={() => router.push('/attendance')}
+                  style={{ 
+                    background: 'rgba(191, 90, 242, 0.08)', 
+                    border: '1px solid rgba(191, 90, 242, 0.2)', 
+                    borderRadius: '20px', 
+                    padding: '14px 12px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    gap: '6px'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <BarChart3 size={13} color={AURA.purple} />
+                    <span style={{ fontSize: '10px', fontWeight: 900, color: AURA.purple, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Metrics</span>
                   </div>
-                  <div style={{ fontSize: '18px', color: AURA.text, fontWeight: 950, lineHeight: 1.18, textTransform: 'capitalize' }}>
-                    {getSubjectName(nextClass.courseCode, nextClass.courseTitle).toLowerCase()}
-                  </div>
-                  <div style={{ fontSize: '12px', color: AURA.subBright, fontWeight: 700 }}>
-                    Room {nextClass.roomNo || "TBA"} | Slot {nextClass.slot}
+                  <div style={{ fontSize: '12px', fontWeight: 900, color: '#ffffff', display: 'flex', alignItems: 'center', gap: '3px' }}>
+                    View Details <ChevronRight size={13} color={AURA.purple} />
                   </div>
                 </div>
               </div>
-            ) : !currentClass && (
-              /* Case 4: No current or next class */
-              <div style={{ padding: '18px', background: 'rgba(0,0,0,0.28)', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.08)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.05)' }}>
-                <div style={{ fontSize: '14px', color: AURA.text, fontWeight: 800 }}>
-                  No upcoming classes
-                </div>
-                <div style={{ fontSize: '12px', color: AURA.subBright, fontWeight: 600, marginTop: '4px' }}>
-                  You’re free for now 😌
-                </div>
-              </div>
-            )}
-          </div>
 
-          <div className="today-stats-grid">
-            <div style={{ background: 'rgba(0, 229, 255, 0.06)', border: '1px solid rgba(0, 229, 255, 0.14)', borderRadius: '18px', padding: '12px 10px' }}>
-              <div style={{ fontSize: '20px', fontWeight: 950, color: AURA.cyan, lineHeight: 1 }} className="tabular-nums">{safeSubjectsCount}</div>
-              <div style={{ fontSize: '9px', color: AURA.sub, fontWeight: 850, textTransform: 'uppercase', marginTop: '6px' }}>Safe subjects</div>
+              {/* Navigation Action Buttons */}
+              <div style={{ display: 'flex', gap: '12px', position: 'relative', zIndex: 2, marginTop: '2px' }}>
+                <button
+                  onClick={() => router.push('/timetable')}
+                  style={{ 
+                    flex: 1, 
+                    border: '1px solid rgba(255,255,255,0.1)', 
+                    background: 'rgba(255,255,255,0.04)', 
+                    color: AURA.text, 
+                    borderRadius: '16px', 
+                    padding: '14px 12px', 
+                    fontSize: '12px', 
+                    fontWeight: 900, 
+                    textTransform: 'uppercase', 
+                    letterSpacing: '0.06em', 
+                    cursor: 'pointer' 
+                  }}
+                >
+                  Timetable
+                </button>
+                <button
+                  onClick={() => router.push('/attendance')}
+                  style={{ 
+                    flex: 1, 
+                    border: 'none', 
+                    background: `linear-gradient(135deg, ${AURA.purple}, ${AURA.pink})`, 
+                    color: '#fff', 
+                    borderRadius: '16px', 
+                    padding: '14px 12px', 
+                    fontSize: '12px', 
+                    fontWeight: 900, 
+                    textTransform: 'uppercase', 
+                    letterSpacing: '0.06em', 
+                    cursor: 'pointer', 
+                    boxShadow: '0 10px 24px rgba(191,90,242,0.22)' 
+                  }}
+                >
+                  Attendance
+                </button>
+              </div>
             </div>
-            <div style={{ background: (riskySubjectsCount || 0) > 0 ? 'rgba(255, 45, 85, 0.07)' : 'rgba(52, 199, 89, 0.06)', border: (riskySubjectsCount || 0) > 0 ? '1px solid rgba(255, 45, 85, 0.15)' : '1px solid rgba(52, 199, 89, 0.14)', borderRadius: '18px', padding: '12px 10px' }}>
-              <div style={{ fontSize: '20px', fontWeight: 950, color: (riskySubjectsCount || 0) > 0 ? AURA.pink : '#34c759', lineHeight: 1 }} className="tabular-nums">{riskySubjectsCount}</div>
-              <div style={{ fontSize: '9px', color: AURA.sub, fontWeight: 850, textTransform: 'uppercase', marginTop: '6px' }}>Need care</div>
-            </div>
-            <div style={{ background: 'rgba(192, 132, 252, 0.07)', border: '1px solid rgba(192, 132, 252, 0.15)', borderRadius: '18px', padding: '12px 10px' }}>
-              <div style={{ fontSize: '13px', fontWeight: 950, color: (nextRiskyClassText || "").includes("None") ? AURA.cyan : AURA.pink, lineHeight: 1.1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                {(nextRiskyClassText || "").includes("None") ? "Clear" : "Check"}
-              </div>
-              <div style={{ fontSize: '9px', color: AURA.sub, fontWeight: 850, textTransform: 'uppercase', marginTop: '6px' }}>Next risk</div>
-            </div>
-          </div>
 
-          <div style={{ display: 'flex', gap: '10px', position: 'relative', zIndex: 2 }}>
-            <button
-              onClick={() => router.push('/timetable')}
-              style={{ flex: 1, border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.04)', color: AURA.text, borderRadius: '16px', padding: '12px 10px', fontSize: '11px', fontWeight: 950, textTransform: 'uppercase', letterSpacing: '0.05em', cursor: 'pointer' }}
-            >
-              Timetable
-            </button>
-            <button
-              onClick={() => router.push('/attendance')}
-              style={{ flex: 1, border: 'none', background: `linear-gradient(135deg, ${AURA.purple}, ${AURA.pink})`, color: '#fff', borderRadius: '16px', padding: '12px 10px', fontSize: '11px', fontWeight: 950, textTransform: 'uppercase', letterSpacing: '0.05em', cursor: 'pointer', boxShadow: '0 10px 24px rgba(191,90,242,0.18)' }}
-            >
-              Attendance
-            </button>
-          </div>
-          
-          {/* Daily Briefing Insight - Actionable & Direct */}
-          <div style={{ display: 'none' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '14.5px', color: AURA.text, fontWeight: 600, lineHeight: 1.5 }}>
-              <div>You’re safe in <strong style={{color: AURA.cyan, fontWeight: 900}}>{safeSubjectsCount}</strong> subjects.</div>
-              <div><strong style={{color: (riskySubjectsCount || 0) > 0 ? AURA.pink : AURA.cyan, fontWeight: 900}}>{riskySubjectsCount}</strong> subject{(riskySubjectsCount || 0) === 1 ? " needs" : "s need"} attention.</div>
-              <div>You can miss <strong style={{color: AURA.purple, fontWeight: 900}}>{totalSafeSkips}</strong> more class{(totalSafeSkips || 0) === 1 ? "y" : "es"} safely.</div>
-              <div>Next risky class: <strong style={{color: (nextRiskyClassText || "").includes("None") ? AURA.cyan : AURA.pink, fontWeight: 900}}>{nextRiskyClassText}</strong>.</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Analytics Grid */}
-        <div className="dashboard-analytics-grid">
-          <div onClick={() => router.push('/attendance')} className="premium-card" style={{ padding: '24px', borderRadius: '32px', cursor: 'pointer' }}>
-             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                <div style={{ width: '40px', height: '40px', borderRadius: '16px', background: 'rgba(0, 229, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                   <Activity size={18} color={AURA.cyan} />
-                </div>
-                <ChevronRight size={16} color={AURA.sub} />
-             </div>
-             <div style={{ fontSize: '32px', fontWeight: 900, color: AURA.text }} className="tabular-nums">{avgAtt}%</div>
-             <div style={{ fontSize: '11px', color: AURA.subBright, marginTop: '6px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Attendance</div>
-          </div>
-
-          <div onClick={() => router.push('/marks')} className="premium-card" style={{ padding: '24px', borderRadius: '32px', cursor: 'pointer' }}>
-             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                <div style={{ width: '40px', height: '40px', borderRadius: '16px', background: 'rgba(255, 45, 85, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                   <Award size={18} color={AURA.pink} />
-                </div>
-                <ChevronRight size={16} color={AURA.subBright} />
-             </div>
-             <div style={{ fontSize: '32px', fontWeight: 900, color: AURA.text }} className="tabular-nums">{avgMarks}%</div>
-             <div style={{ fontSize: '11px', color: AURA.subBright, marginTop: '6px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Academic</div>
-          </div>
-        </div>
-
-        {/* Official Hub Integration */}
-        {renderAcademicIntegrityHub && renderAcademicIntegrityHub("aura")}
-
-          </div>
-          <div className="dashboard-col-side">
-
-        {/* Can I skip tomorrow? Card */}
-        <div className="premium-card" style={{ padding: '24px', borderRadius: '32px', position: 'relative', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <div className="ai-border" />
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3 style={{ fontSize: '18px', fontWeight: 900, color: AURA.text, margin: 0 }}>Can I skip tomorrow?</h3>
-            {isPremium ? (
-              <span style={{ fontSize: '10px', fontWeight: 900, color: AURA.amber, letterSpacing: '0.05em' }}>DECISION ENGINE</span>
-            ) : (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <LockKeyhole size={12} color={AURA.amber} />
-                <span style={{ fontSize: '10px', fontWeight: 900, color: AURA.amber, letterSpacing: '0.05em' }}>PREMIUM</span>
-              </div>
-            )}
-          </div>
-
-          {!isPremium ? (
-            <div style={{ 
-              display: 'flex', 
-              flexDirection: 'column', 
-              alignItems: 'center', 
-              justifyContent: 'center', 
-              padding: '16px 8px 8px', 
-              textAlign: 'center',
-              position: 'relative',
-              overflow: 'hidden'
-            }}>
-              <div style={{ 
-                width: '46px', 
-                height: '46px', 
-                borderRadius: '15px', 
-                background: 'rgba(255, 149, 0, 0.1)', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                color: AURA.amber,
-                marginBottom: '12px',
-                border: '1px solid rgba(255, 149, 0, 0.2)',
-                boxShadow: '0 0 15px rgba(255, 149, 0, 0.12)'
-              }}>
-                <LockKeyhole size={18} />
-              </div>
-              <h4 style={{ margin: '0 0 6px', fontSize: '14px', fontWeight: 950, color: AURA.text }}>
-                Unlock Decision Engine
-              </h4>
-              <p style={{ margin: '0 0 16px', fontSize: '11px', color: AURA.subBright, fontWeight: 700, lineHeight: 1.45, maxWidth: '280px' }}>
-                Skip safety analyzes tomorrow's schedule and forecasts if you can miss classes safely without dropping below 75%.
-              </p>
-              <button
-                onClick={() => router.push('/premium')}
-                style={{
-                  background: `linear-gradient(135deg, ${AURA.purple}, ${AURA.pink})`,
-                  color: '#fff',
-                  border: 'none',
-                  padding: '10px 22px',
-                  borderRadius: '12px',
-                  fontSize: '11px',
-                  fontWeight: 950,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
+            {/* 4. ANALYTICS GRID (Primary Metric: Attendance & Academic Cards) */}
+            <div className="dashboard-analytics-grid">
+              {/* Primary Metric: Attendance Card */}
+              <div 
+                onClick={() => router.push('/attendance')} 
+                className="premium-card" 
+                style={{ 
+                  padding: '24px', 
+                  borderRadius: '32px', 
                   cursor: 'pointer',
-                  boxShadow: '0 8px 20px rgba(191,90,242,0.22)'
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  gap: '16px'
                 }}
               >
-                Upgrade to Premium
-              </button>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ 
+                    width: '42px', 
+                    height: '42px', 
+                    borderRadius: '16px', 
+                    background: `${attStatusColor}15`, 
+                    border: `1px solid ${attStatusColor}30`,
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center' 
+                  }}>
+                    <Activity size={20} color={attStatusColor} />
+                  </div>
+                  <ChevronRight size={16} color={AURA.sub} />
+                </div>
+
+                <div>
+                  <div style={{ fontSize: '38px', fontWeight: 950, color: AURA.text, lineHeight: 1 }} className="tabular-nums">
+                    {avgAtt === "—" ? "0.0%" : `${avgAtt}%`}
+                  </div>
+                  <div style={{ fontSize: '11px', color: AURA.subBright, marginTop: '8px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                    Current Attendance
+                  </div>
+                </div>
+
+                {/* Modern Progress Bar with 75% Threshold Line */}
+                <div style={{ width: '100%', position: 'relative', marginTop: '4px' }}>
+                  <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.08)', borderRadius: '100px', overflow: 'hidden' }}>
+                    <div 
+                      style={{ 
+                        width: `${Math.min(100, Math.max(0, numericAvgAtt || 0))}%`, 
+                        height: '100%', 
+                        background: attStatusColor,
+                        borderRadius: '100px',
+                        transition: 'width 0.6s ease'
+                      }} 
+                    />
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '6px', fontSize: '9px', fontWeight: 800, color: AURA.sub }}>
+                    <span style={{ color: attStatusColor }}>{numericAvgAtt !== null && numericAvgAtt >= 75 ? "Healthy" : "Risk"}</span>
+                    <span>Target: 75%</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Academic Performance Card (Never display broken values) */}
+              <div 
+                onClick={() => router.push('/marks')} 
+                className="premium-card" 
+                style={{ 
+                  padding: '24px', 
+                  borderRadius: '32px', 
+                  cursor: 'pointer',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  gap: '16px'
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ 
+                    width: '42px', 
+                    height: '42px', 
+                    borderRadius: '16px', 
+                    background: 'rgba(255, 45, 85, 0.1)', 
+                    border: '1px solid rgba(255, 45, 85, 0.2)',
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center' 
+                  }}>
+                    <Award size={20} color={AURA.pink} />
+                  </div>
+                  <ChevronRight size={16} color={AURA.subBright} />
+                </div>
+
+                <div>
+                  {hasValidAcademicMarks ? (
+                    <div style={{ fontSize: '38px', fontWeight: 950, color: AURA.text, lineHeight: 1 }} className="tabular-nums">
+                      {avgMarks}%
+                    </div>
+                  ) : (
+                    <div style={{ fontSize: '18px', fontWeight: 800, color: AURA.subBright, lineHeight: 1.2 }}>
+                      No data available
+                    </div>
+                  )}
+                  <div style={{ fontSize: '11px', color: AURA.subBright, marginTop: '8px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                    Academic Score
+                  </div>
+                </div>
+
+                <div style={{ fontSize: '10px', color: AURA.sub, fontWeight: 700 }}>
+                  {hasValidAcademicMarks ? "Internal test evaluation" : "Results pending sync"}
+                </div>
+              </div>
             </div>
-          ) : (
-            <>
-              {tomorrowSkipStats?.isHoliday ? (
-                <div style={{ padding: '16px', background: 'rgba(255,255,255,0.02)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                  <span style={{ fontSize: '13px', fontWeight: 700, color: AURA.subBright }}>Tomorrow is a holiday / weekend. No classes scheduled!</span>
+
+            {/* Official Hub Integration */}
+            {renderAcademicIntegrityHub && renderAcademicIntegrityHub("aura")}
+
+          </div>
+
+          <div className="dashboard-col-side">
+
+            {/* 5. CAN I SKIP TOMORROW? (DECISION ENGINE CARD) */}
+            <div className="premium-card" style={{ padding: '24px', borderRadius: '32px', position: 'relative', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div className="ai-border" />
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <h3 style={{ fontSize: '18px', fontWeight: 900, color: AURA.text, margin: 0 }}>Can I skip tomorrow?</h3>
+                {isPremium ? (
+                  <span style={{ fontSize: '10px', fontWeight: 900, color: AURA.amber, letterSpacing: '0.05em' }}>DECISION ENGINE</span>
+                ) : (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <LockKeyhole size={12} color={AURA.amber} />
+                    <span style={{ fontSize: '10px', fontWeight: 900, color: AURA.amber, letterSpacing: '0.05em' }}>PREMIUM</span>
+                  </div>
+                )}
+              </div>
+
+              {!isPremium ? (
+                <div style={{ 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  padding: '16px 8px 8px', 
+                  textAlign: 'center'
+                }}>
+                  <div style={{ 
+                    width: '46px', 
+                    height: '46px', 
+                    borderRadius: '15px', 
+                    background: 'rgba(255, 149, 0, 0.1)', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center',
+                    color: AURA.amber,
+                    marginBottom: '12px',
+                    border: '1px solid rgba(255, 149, 0, 0.2)'
+                  }}>
+                    <LockKeyhole size={18} />
+                  </div>
+                  <h4 style={{ margin: '0 0 6px', fontSize: '14px', fontWeight: 950, color: AURA.text }}>
+                    Unlock Decision Engine
+                  </h4>
+                  <p style={{ margin: '0 0 16px', fontSize: '11px', color: AURA.subBright, fontWeight: 700, lineHeight: 1.45, maxWidth: '280px' }}>
+                    Analyzes tomorrow's schedule and calculates if you can miss classes safely without dropping below 75%.
+                  </p>
+                  <button
+                    onClick={() => router.push('/premium')}
+                    style={{
+                      background: `linear-gradient(135deg, ${AURA.purple}, ${AURA.pink})`,
+                      color: '#fff',
+                      border: 'none',
+                      padding: '10px 22px',
+                      borderRadius: '12px',
+                      fontSize: '11px',
+                      fontWeight: 950,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
+                      cursor: 'pointer',
+                      boxShadow: '0 8px 20px rgba(191,90,242,0.22)'
+                    }}
+                  >
+                    Upgrade to Premium
+                  </button>
                 </div>
               ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <div className="skip-stats-grid">
-                    <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.02)', textAlign: 'center' }}>
-                      <div style={{ fontSize: '10px', fontWeight: 700, color: '#666', textTransform: 'uppercase' }}>Tomorrow</div>
-                      <div style={{ fontSize: '16px', fontWeight: 900, color: AURA.text, marginTop: '4px' }}>Day {tomorrowSkipStats?.dayOrder || "—"}</div>
+                <>
+                  {tomorrowSkipStats?.isHoliday ? (
+                    <div style={{ padding: '16px', background: 'rgba(255,255,255,0.02)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                      <span style={{ fontSize: '13px', fontWeight: 700, color: AURA.subBright }}>Tomorrow is a holiday / weekend. No classes scheduled!</span>
                     </div>
-                    <div style={{ background: 'rgba(52, 199, 89, 0.05)', padding: '12px', borderRadius: '16px', border: '1px solid rgba(52, 199, 89, 0.15)', textAlign: 'center' }}>
-                      <div style={{ fontSize: '10px', fontWeight: 700, color: 'rgba(52, 199, 89, 0.7)', textTransform: 'uppercase' }}>Safe to skip</div>
-                      <div style={{ fontSize: '16px', fontWeight: 900, color: '#34c759', marginTop: '4px' }}>{tomorrowSkipStats?.safe} class{(tomorrowSkipStats?.safe || 0) === 1 ? '' : 'es'}</div>
-                    </div>
-                    <div style={{ background: 'rgba(255, 45, 85, 0.05)', padding: '12px', borderRadius: '16px', border: '1px solid rgba(255, 45, 85, 0.15)', textAlign: 'center' }}>
-                      <div style={{ fontSize: '10px', fontWeight: 700, color: 'rgba(255, 45, 85, 0.7)', textTransform: 'uppercase' }}>Risky to skip</div>
-                      <div style={{ fontSize: '16px', fontWeight: 900, color: '#ff2d55', marginTop: '4px' }}>{tomorrowSkipStats?.risky} class{(tomorrowSkipStats?.risky || 0) === 1 ? '' : 'es'}</div>
-                    </div>
-                  </div>
+                  ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                      <div className="skip-stats-grid">
+                        <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.04)', textAlign: 'center' }}>
+                          <div style={{ fontSize: '10px', fontWeight: 700, color: '#888', textTransform: 'uppercase' }}>Tomorrow</div>
+                          <div style={{ fontSize: '16px', fontWeight: 900, color: AURA.text, marginTop: '4px' }}>Day {tomorrowSkipStats?.dayOrder || "—"}</div>
+                        </div>
+                        <div style={{ background: 'rgba(52, 199, 89, 0.08)', padding: '12px', borderRadius: '16px', border: '1px solid rgba(52, 199, 89, 0.2)', textAlign: 'center' }}>
+                          <div style={{ fontSize: '10px', fontWeight: 900, color: '#34C759', textTransform: 'uppercase' }}>Safe to skip</div>
+                          <div style={{ fontSize: '16px', fontWeight: 900, color: '#34C759', marginTop: '4px' }}>{tomorrowSkipStats?.safe} class{(tomorrowSkipStats?.safe || 0) === 1 ? '' : 'es'}</div>
+                        </div>
+                        <div style={{ background: 'rgba(255, 45, 85, 0.08)', padding: '12px', borderRadius: '16px', border: '1px solid rgba(255, 45, 85, 0.2)', textAlign: 'center' }}>
+                          <div style={{ fontSize: '10px', fontWeight: 900, color: '#FF2D55', textTransform: 'uppercase' }}>Must attend</div>
+                          <div style={{ fontSize: '16px', fontWeight: 900, color: '#FF2D55', marginTop: '4px' }}>{tomorrowSkipStats?.risky} class{(tomorrowSkipStats?.risky || 0) === 1 ? '' : 'es'}</div>
+                        </div>
+                      </div>
 
-                  {tomorrowSkipStats?.classes && tomorrowSkipStats.classes.length > 0 && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '4px' }}>
-                      <button 
-                        onClick={() => setIsAnalysisExpanded(!isAnalysisExpanded)}
-                        style={{ 
-                          background: 'none', border: 'none', padding: 0, margin: 0,
-                          display: 'flex', justifyContent: 'space-between', alignItems: 'center', 
-                          width: '100%', cursor: 'pointer', textAlign: 'left', outline: 'none'
-                        }}
-                      >
-                        <span style={{ fontSize: '10px', fontWeight: 900, color: '#666', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Class Analysis</span>
-                        <span style={{ fontSize: '10px', color: AURA.cyan, fontWeight: 900 }}>
-                          {isAnalysisExpanded ? "Hide breakdown ↑" : `Analyze classes (${tomorrowSkipStats.classes.length}) ↓`}
-                        </span>
-                      </button>
+                      {tomorrowSkipStats?.classes && tomorrowSkipStats.classes.length > 0 && (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '4px' }}>
+                          <button 
+                            onClick={() => setIsAnalysisExpanded(!isAnalysisExpanded)}
+                            style={{ 
+                              background: 'none', border: 'none', padding: 0, margin: 0,
+                              display: 'flex', justifyContent: 'space-between', alignItems: 'center', 
+                              width: '100%', cursor: 'pointer', textAlign: 'left', outline: 'none'
+                            }}
+                          >
+                            <span style={{ fontSize: '10px', fontWeight: 900, color: '#888', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Class Analysis</span>
+                            <span style={{ fontSize: '10px', color: AURA.cyan, fontWeight: 900 }}>
+                              {isAnalysisExpanded ? "Hide breakdown ↑" : `Analyze classes (${tomorrowSkipStats.classes.length}) ↓`}
+                            </span>
+                          </button>
 
-                      {isAnalysisExpanded && (
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                          {tomorrowSkipStats.classes.map((cls: AnyValue, idx: number) => {
-                            return (
-                              <div key={idx} style={{ 
-                                display: 'flex', 
-                                flexDirection: 'column', 
-                                gap: '6px', 
-                                background: 'rgba(0,0,0,0.18)', 
-                                padding: '12px 16px', 
-                                borderRadius: '16px', 
-                                border: '1px solid rgba(255,255,255,0.04)' 
-                              }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
-                                  <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                                    <span style={{ color: AURA.text, fontSize: '13px', fontWeight: 800, textTransform: 'capitalize' }}>
-                                      {getSubjectName(cls.courseCode, cls.courseTitle).toLowerCase()}
-                                    </span>
-                                    <span style={{ color: AURA.sub, fontSize: '10px', fontWeight: 700 }}>
-                                      Slot {cls.slot} | Code {cls.courseCode}
-                                    </span>
-                                  </div>
-                                  <span style={{ 
-                                    background: cls.isRisky ? 'rgba(255, 45, 85, 0.12)' : 'rgba(52, 199, 89, 0.12)', 
-                                    color: cls.isRisky ? '#ff2d55' : '#34c759', 
-                                    fontSize: '9px', 
-                                    fontWeight: 900, 
-                                    padding: '4px 10px', 
-                                    borderRadius: '8px', 
-                                    letterSpacing: '0.05em', 
-                                    textTransform: 'uppercase',
-                                    whiteSpace: 'nowrap'
+                          {isAnalysisExpanded && (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                              {tomorrowSkipStats.classes.map((cls: AnyValue, idx: number) => {
+                                return (
+                                  <div key={idx} style={{ 
+                                    display: 'flex', 
+                                    flexDirection: 'column', 
+                                    gap: '6px', 
+                                    background: 'rgba(0,0,0,0.18)', 
+                                    padding: '12px 16px', 
+                                    borderRadius: '16px', 
+                                    border: '1px solid rgba(255,255,255,0.04)' 
                                   }}>
-                                    {cls.isRisky ? 'Risky (Attend)' : 'Safe to skip'}
-                                  </span>
-                                </div>
-                                <div style={{ display: 'flex', gap: '12px', fontSize: '11px', color: AURA.subBright, fontWeight: 700, borderTop: '1px dashed rgba(255,255,255,0.05)', paddingTop: '6px' }}>
-                                  <div>Current: <span style={{ color: AURA.text, fontWeight: 800 }}>{cls.currentAttendance}%</span></div>
-                                  <div style={{ color: 'rgba(255,255,255,0.15)' }}>|</div>
-                                  <div>After skip: <span style={{ color: cls.isRisky ? '#ff2d55' : '#34c759', fontWeight: 800 }}>{cls.afterSkipAttendance}%</span></div>
-                                </div>
-                              </div>
-                            );
-                          })}
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
+                                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                                        <span style={{ color: AURA.text, fontSize: '13px', fontWeight: 800, textTransform: 'capitalize' }}>
+                                          {getSubjectName(cls.courseCode, cls.courseTitle).toLowerCase()}
+                                        </span>
+                                        <span style={{ color: AURA.sub, fontSize: '10px', fontWeight: 700 }}>
+                                          Slot {cls.slot} | Code {cls.courseCode}
+                                        </span>
+                                      </div>
+                                      <span style={{ 
+                                        background: cls.isRisky ? 'rgba(255, 45, 85, 0.12)' : 'rgba(52, 199, 89, 0.12)', 
+                                        color: cls.isRisky ? '#FF2D55' : '#34C759', 
+                                        fontSize: '9px', 
+                                        fontWeight: 900, 
+                                        padding: '4px 10px', 
+                                        borderRadius: '8px', 
+                                        letterSpacing: '0.05em', 
+                                        textTransform: 'uppercase',
+                                        whiteSpace: 'nowrap'
+                                      }}>
+                                        {cls.isRisky ? 'Must Attend' : 'Safe to skip'}
+                                      </span>
+                                    </div>
+                                    <div style={{ display: 'flex', gap: '12px', fontSize: '11px', color: AURA.subBright, fontWeight: 700, borderTop: '1px dashed rgba(255,255,255,0.05)', paddingTop: '6px' }}>
+                                      <div>Current: <span style={{ color: AURA.text, fontWeight: 800 }}>{cls.currentAttendance}%</span></div>
+                                      <div style={{ color: 'rgba(255,255,255,0.15)' }}>|</div>
+                                      <div>After skip: <span style={{ color: cls.isRisky ? '#FF2D55' : '#34C759', fontWeight: 800 }}>{cls.afterSkipAttendance}%</span></div>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>
                   )}
-                </div>
+
+                  <div style={{ fontSize: '10px', color: AURA.sub, fontWeight: 750, fontStyle: 'italic', marginTop: '4px' }}>
+                    * Skip Safety is calculated after marking tomorrow’s class as absent.
+                  </div>
+                </>
               )}
-
-              <div style={{ fontSize: '10px', color: AURA.sub, fontWeight: 750, fontStyle: 'italic', marginTop: '4px' }}>
-                * Skip Safety is calculated after marking tomorrow’s class as absent.
-              </div>
-            </>
-          )}
-        </div>
-
-
-        {/* Holographic Identity Passport (Student ID) */}
-        <button 
-          onClick={onShowStudentInfo} 
-          className="premium-card"
-          style={{ 
-            width: '100%', padding: '24px', borderRadius: '32px', 
-            display: 'flex', flexDirection: 'column', gap: '20px', 
-            textAlign: 'left', position: 'relative', overflow: 'hidden',
-            cursor: 'pointer', border: '1px solid rgba(255,255,255,0.08)'
-          }}
-        >
-          {/* Holographic Glare */}
-          <div 
-            style={{ 
-              position: 'absolute', top: 0, left: '-100%', width: '50%', height: '100%', 
-              background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)',
-              transform: 'skewX(-20deg)', pointerEvents: 'none',
-              animation: 'shimmer 6s infinite'
-            }}
-          />
-
-          <div style={{ display: 'flex', alignItems: 'center', zIndex: 2, justifyContent: 'space-between' }}>
-             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                <div style={{ width: '48px', height: '48px', borderRadius: '16px', background: 'linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02))', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.06)' }}>
-                   <Fingerprint size={24} color={AURA.text} />
-                </div>
-                <div>
-                   <div style={{ fontSize: '16px', fontWeight: 900, color: AURA.text }}>Student ID</div>
-                   <div style={{ fontSize: '10px', color: AURA.pink, fontWeight: 900, letterSpacing: '0.08em' }}>Identity Passport</div>
-                </div>
-             </div>
-             <Compass size={20} color={AURA.sub} />
-          </div>
-
-          <div style={{ display: 'flex', gap: '12px', zIndex: 2 }}>
-             <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px 16px', borderRadius: '16px', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.03)', flex: 1 }}>
-                <div style={{ fontSize: '9px', fontWeight: 900, color: AURA.sub, marginBottom: '4px', letterSpacing: '0.05em' }}>ID_TOKEN</div>
-                <div style={{ fontSize: '13px', fontWeight: 800, color: AURA.text }} className="tabular-nums">{data?.profile?.["Registration Number"] || "LOCKED"}</div>
-             </div>
-          </div>
-        </button>
-
-        {/* Upcoming Timeline */}
-        <section style={{ marginTop: '16px' }}>
-           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px', paddingLeft: '8px' }}>
-              <Zap size={18} color={AURA.amber} className="floating" />
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                 <h3 style={{ fontSize: '14px', fontWeight: 900, color: AURA.text, letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0 }}>Upcoming Timeline</h3>
-                 <span style={{ fontSize: '9px', color: AURA.sub, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Strategic Timeline</span>
-              </div>
-           </div>
-           
-           <div style={{ position: 'relative', paddingLeft: upcomingEvents?.length > 0 ? '32px' : '0' }}>
-              {/* Vertical Glowing Progress Line */}
-              {upcomingEvents?.length > 0 && (
-                 <div style={{ 
-                    position: 'absolute', left: '15px', top: '24px', bottom: '24px', width: '2px', 
-                    background: `linear-gradient(to bottom, ${AURA.purple}, transparent)`, 
-                    opacity: 0.5, borderRadius: '2px' 
-                 }} />
-              )}
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                 {upcomingEvents?.length > 0 ? (
-                    upcomingEvents.map((event: AnyValue, idx: number) => (
-                       <div key={idx} className="premium-card" style={{ 
-                          display: 'flex', alignItems: 'center', gap: '16px', 
-                          padding: '16px', borderRadius: '24px', position: 'relative'
-                       }}>
-                          {/* Timeline Dot */}
-                          <div style={{ position: 'absolute', left: '-21px', top: '50%', transform: 'translateY(-50%)', width: '10px', height: '10px', borderRadius: '50%', background: AURA.purple, boxShadow: `0 0 10px ${AURA.purple}` }} />
-                          
-                          <div style={{ width: '48px', height: '48px', borderRadius: '16px', background: 'rgba(255,255,255,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                             <span style={{ fontSize: '14px', fontWeight: 900, color: AURA.text }} className="tabular-nums">{event.dateNum}</span>
-                             <span style={{ fontSize: '8px', fontWeight: 900, color: AURA.sub }}>{event.monthLabel.split(' ')[0].toUpperCase()}</span>
-                          </div>
-                          <div style={{ flex: 1 }}>
-                             <div style={{ fontSize: '14px', fontWeight: 800, color: AURA.text }}>{event.event}</div>
-                             <div style={{ fontSize: '11px', fontWeight: 700, color: AURA.sub, marginTop: '2px' }}>{event.weekdayLabel}</div>
-                          </div>
-                       </div>
-                    ))
-                 ) : (
-                    <div className="premium-card" style={{ padding: '32px 24px', borderRadius: '32px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
-                       <div className="floating" style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(0, 229, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 15px rgba(0, 229, 255, 0.15)' }}>
-                          <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: AURA.cyan, boxShadow: `0 0 20px ${AURA.cyan}`, animation: 'border-breathe 2s infinite' }} />
-                       </div>
-                       <div>
-                          <div style={{ fontSize: '12px', fontWeight: 900, color: AURA.text, letterSpacing: '0.15em', textTransform: 'uppercase' }}>All Systems Clear</div>
-                          <div style={{ fontSize: '12px', fontWeight: 600, color: AURA.sub, marginTop: '4px' }}>No immediate academic threats detected.</div>
-                        </div>
-                     </div>
-                  )}
-               </div>
             </div>
-         </section>
+
+            {/* 6. HOLOGRAPHIC IDENTITY PASSPORT (Student ID Card) */}
+            <button 
+              onClick={onShowStudentInfo} 
+              className="premium-card"
+              style={{ 
+                width: '100%', padding: '24px', borderRadius: '32px', 
+                display: 'flex', flexDirection: 'column', gap: '18px', 
+                textAlign: 'left', position: 'relative', overflow: 'hidden',
+                cursor: 'pointer', border: '1px solid rgba(255,255,255,0.08)'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', zIndex: 2, justifyContent: 'space-between' }}>
+                 <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                    <div style={{ width: '44px', height: '44px', borderRadius: '16px', background: 'linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02))', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                       <Fingerprint size={22} color={AURA.text} />
+                    </div>
+                    <div>
+                       <div style={{ fontSize: '15px', fontWeight: 900, color: AURA.text }}>Student ID</div>
+                       <div style={{ fontSize: '10px', color: AURA.pink, fontWeight: 900, letterSpacing: '0.08em' }}>Identity Passport</div>
+                    </div>
+                 </div>
+                 <Compass size={18} color={AURA.sub} />
+              </div>
+
+              <div style={{ display: 'flex', gap: '12px', zIndex: 2 }}>
+                 <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px 16px', borderRadius: '16px', flex: 1 }}>
+                    <div style={{ fontSize: '9px', fontWeight: 900, color: AURA.sub, marginBottom: '4px', letterSpacing: '0.05em' }}>REGISTRATION_NUMBER</div>
+                    <div style={{ fontSize: '13px', fontWeight: 800, color: AURA.text }} className="tabular-nums">{data?.profile?.["Registration Number"] || "LOCKED"}</div>
+                 </div>
+              </div>
+            </button>
+
+            {/* 7. UPCOMING TIMELINE SECTION */}
+            <section style={{ marginTop: '8px' }}>
+               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px', paddingLeft: '4px' }}>
+                  <Zap size={16} color={AURA.amber} />
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                     <h3 style={{ fontSize: '13px', fontWeight: 900, color: AURA.text, letterSpacing: '0.08em', textTransform: 'uppercase', margin: 0 }}>Upcoming Timeline</h3>
+                     <span style={{ fontSize: '9px', color: AURA.sub, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' }}>Academic Milestones</span>
+                  </div>
+               </div>
+               
+               <div style={{ position: 'relative', paddingLeft: upcomingEvents?.length > 0 ? '28px' : '0' }}>
+                  {upcomingEvents?.length > 0 && (
+                     <div style={{ 
+                        position: 'absolute', left: '13px', top: '20px', bottom: '20px', width: '2px', 
+                        background: `linear-gradient(to bottom, ${AURA.purple}, transparent)`, 
+                        opacity: 0.5, borderRadius: '2px' 
+                     }} />
+                  )}
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                     {upcomingEvents?.length > 0 ? (
+                        upcomingEvents.map((event: AnyValue, idx: number) => (
+                           <div key={idx} className="premium-card" style={{ 
+                              display: 'flex', alignItems: 'center', gap: '14px', 
+                              padding: '16px', borderRadius: '24px', position: 'relative'
+                           }}>
+                              <div style={{ position: 'absolute', left: '-20px', top: '50%', transform: 'translateY(-50%)', width: '10px', height: '10px', borderRadius: '50%', background: AURA.purple, boxShadow: `0 0 10px ${AURA.purple}` }} />
+                              
+                              <div style={{ width: '44px', height: '44px', borderRadius: '16px', background: 'rgba(255,255,255,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                                 <span style={{ fontSize: '14px', fontWeight: 900, color: AURA.text }} className="tabular-nums">{event.dateNum}</span>
+                                 <span style={{ fontSize: '8px', fontWeight: 900, color: AURA.sub }}>{event.monthLabel.split(' ')[0].toUpperCase()}</span>
+                              </div>
+                              <div style={{ flex: 1 }}>
+                                 <div style={{ fontSize: '13px', fontWeight: 800, color: AURA.text }}>{event.event}</div>
+                                 <div style={{ fontSize: '11px', fontWeight: 700, color: AURA.sub, marginTop: '2px' }}>{event.weekdayLabel}</div>
+                              </div>
+                           </div>
+                        ))
+                     ) : (
+                        <div className="premium-card" style={{ padding: '28px 20px', borderRadius: '28px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+                           <div style={{ width: '42px', height: '42px', borderRadius: '50%', background: 'rgba(0, 229, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <div style={{ width: '10px', height: '10px', borderRadius: '50%', background AURA.cyan }} />
+                           </div>
+                           <div>
+                              <div style={{ fontSize: '12px', fontWeight: 900, color: AURA.text, letterSpacing: '0.12em', textTransform: 'uppercase' }}>All Systems Clear</div>
+                              <div style={{ fontSize: '11px', fontWeight: 600, color: AURA.sub, marginTop: '4px' }}>No immediate academic events scheduled.</div>
+                           </div>
+                        </div>
+                     )}
+                  </div>
+               </div>
+            </section>
           </div>
         </div>
       </main>
