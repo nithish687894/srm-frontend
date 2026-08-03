@@ -581,6 +581,36 @@ export default function AuraDashboard({
                   Attendance
                 </button>
               </div>
+
+              {/* Quick Academic Tools Row (Instant Discoverability) */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '6px', position: 'relative', zIndex: 2 }}>
+                <div style={{ fontSize: '10px', fontWeight: 900, color: AURA.sub, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                  Quick Utilities
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+                  <div 
+                    onClick={() => router.push('/gpa')}
+                    style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '16px', padding: '12px 8px', textAlign: 'center', cursor: 'pointer' }}
+                  >
+                    <div style={{ fontSize: '16px', marginBottom: '2px' }}>🧮</div>
+                    <div style={{ fontSize: '10px', fontWeight: 800, color: AURA.text }}>GPA Calc</div>
+                  </div>
+                  <div 
+                    onClick={() => router.push('/notes')}
+                    style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '16px', padding: '12px 8px', textAlign: 'center', cursor: 'pointer' }}
+                  >
+                    <div style={{ fontSize: '16px', marginBottom: '2px' }}>📝</div>
+                    <div style={{ fontSize: '10px', fontWeight: 800, color: AURA.text }}>Notes</div>
+                  </div>
+                  <div 
+                    onClick={() => router.push('/exam-library')}
+                    style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '16px', padding: '12px 8px', textAlign: 'center', cursor: 'pointer' }}
+                  >
+                    <div style={{ fontSize: '16px', marginBottom: '2px' }}>📚</div>
+                    <div style={{ fontSize: '10px', fontWeight: 800, color: AURA.text }}>Exam Hub</div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* 4. ANALYTICS GRID (Primary Metric: Attendance & Academic Cards) */}
