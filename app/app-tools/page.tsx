@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  IdCard, Calendar, Wrench,
+  IdCard, Calendar, LayoutGrid,
   Sparkles, Calculator, ShieldAlert, GraduationCap, 
   LayoutTemplate, LifeBuoy, ChevronRight
 } from "lucide-react";
@@ -158,7 +158,7 @@ export default function AppToolsPage() {
           <SectionHeader title="NEXUS CORE" />
           <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '20px 0' }}>
             <MenuIcon icon={Calendar} label="Calendar" color="#fff" onClick={() => router.push('/calendar')} />
-            <MenuIcon icon={Wrench} label="Tools" color={isLumina ? AURA_COLORS.accent : "#00ff88"} onClick={() => router.push('/tools')} />
+            <MenuIcon icon={LayoutGrid} label="Tools" color={isLumina ? AURA_COLORS.accent : "#00ff88"} onClick={() => router.push('/tools')} />
             <MenuIcon icon={Sparkles} label="AI Tutor" color="#fff" onClick={() => router.push('/ai')} />
             <MenuIcon icon={Calculator} label="GPA Calc" color="#fff" onClick={() => router.push('/gpa')} />
             {isAdmin && <MenuIcon icon={ShieldAlert} label="Admin" color="#fff" onClick={() => router.push('/admin')} />}

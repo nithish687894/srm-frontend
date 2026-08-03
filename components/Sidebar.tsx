@@ -9,7 +9,7 @@ import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import Toast from "@/components/Toast";
 import {
-  Home, BarChart2, CheckCircle, Clock, Calendar, Wrench, Sparkles, Shield,
+  Home, BarChart2, CheckCircle, Clock, Calendar, LayoutGrid, Sparkles, Shield,
   X, ChevronRight, CreditCard, FileText, Bed, Bus, Bell, Award, MonitorPlay, Printer, Briefcase, UserSquare, User, GraduationCap, BookOpen, Settings, MoreHorizontal, Share2, LogOut, LayoutTemplate, LifeBuoy, StickyNote, MessageSquare,
   Fingerprint, RefreshCw, Cpu, Search, Library, Play, Pause, Headphones, Sun, UserRound, IdCard
 } from "lucide-react";
@@ -23,14 +23,14 @@ const NAV_MAIN = [
   { href: "/marks", label: "Marks", icon: Award },
   { href: "/attendance", label: "Attendance", icon: Library },
   { href: "/timetable", label: "Timetable", icon: Clock },
-  { href: "/tools", label: "Tools", icon: Wrench },
+  { href: "/tools", label: "Tools", icon: LayoutGrid },
 ] as const;
 
 const NAV_MORE_ITEMS = [
   { href: "/calendar", label: "Calendar", icon: Calendar, color: "#fff" },
   { href: "/exam-library", label: "Exam", icon: BookOpen, color: "#30D158" },
   { href: "/exam-hub", label: "Exam Hub", icon: BookOpen, color: "#BF5AF2" },
-  { href: "/tools", label: "Academic Tools", icon: Wrench, color: "#00ff88" },
+  { href: "/tools", label: "Academic Tools", icon: LayoutGrid, color: "#00ff88" },
   { href: "/ai", label: "AI Tutor", icon: Sparkles, color: "#fff" },
   { href: "/gpa", label: "GPA Calc", icon: GraduationCap, color: "#fff" },
 ] as const;
@@ -266,7 +266,7 @@ export default function Sidebar() {
     { href: "/calendar", label: "University Calendar", icon: Calendar, color: "#00E5FF" },
     { href: "/exam-library", label: "Exam", icon: BookOpen, color: "#30D158" },
     { href: "/exam-hub", label: "Exam Hub", icon: BookOpen, color: "#BF5AF2" },
-    { href: "/tools", label: "Academic Tools", icon: Wrench, color: "#00ff88" },
+    { href: "/tools", label: "Academic Tools", icon: LayoutGrid, color: "#00ff88" },
     { href: "/premium", label: "Nexus Premium", icon: Sparkles, color: "#FFD700" },
     { href: "/ai", label: "AI Tutor", icon: Sparkles, color: "#BF5AF2" },
     { href: "/gpa", label: "GPA / CGPA Planner", icon: GraduationCap, color: "#FF2D55" },
@@ -739,7 +739,7 @@ export default function Sidebar() {
                           href="/tools" 
                           label="Academic Tools" 
                           subtitle="Calculators & utilities" 
-                          icon={Wrench} 
+                          icon={LayoutGrid} 
                           color="#00ff88" 
                         />
                       </GroupContainer>
