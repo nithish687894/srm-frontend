@@ -5,9 +5,25 @@ import { useAuthStore } from "./store";
 // In production on Vercel, NEXT_PUBLIC_API_URL should point to your hosted backend.
 const API = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "",
-  timeout: 30000,
+  timeout: 60000, // 60s — SRM portal is slow, shorter timeouts cause false failures
   withCredentials: true,
 });
+
+// ── Request Deduplication ────────────────────────────────────────────────────
+// Prevents multiple components from firing identical GET requests simultaneously
+const inFlightGETs = new Map<string, Promise<AnyValue>>();
+
+function deduplicatedGet(url: string) {
+  const existing = inFlightGETs.get(url);
+  if (existing) return existing;
+
+  const promise = API.get(url)
+    .then((r) => r.data)
+    .finally(() => inFlightGETs.delete(url));
+
+  inFlightGETs.set(url, promise);
+  return promise;
+}
 
 let refreshPromise: Promise<AnyValue> | null = null;
 
@@ -86,6 +102,25 @@ API.interceptors.response.use(
   }
 );
 
+// ── Retry Interceptor: retry GET requests once on 5xx or network errors ──────
+API.interceptors.response.use(
+  (res) => res,
+  async (err) => {
+    const config = err.config;
+    if (!config || config._retried || config.method !== 'get') {
+      return Promise.reject(err);
+    }
+    const status = err?.response?.status;
+    const isRetryable = !status || status >= 500; // Network error or server error
+    if (isRetryable) {
+      config._retried = true;
+      await new Promise((r) => setTimeout(r, 2000)); // 2-second backoff
+      return API(config);
+    }
+    return Promise.reject(err);
+  }
+);
+
 export const authAPI = {
   // New v1 endpoints
   initAuth: (type: string) => 
@@ -106,16 +141,17 @@ export const authAPI = {
 };
 
 export const dataAPI = {
-  getUnified: () => API.get("/api/v1/data/unified").then((r) => r.data),
-  getAll: () => API.get("/api/all").then((r) => r.data),
-  refresh: () => API.get("/api/all").then((r) => r.data),
+  // Hot endpoints use deduplication to prevent thundering herd
+  getUnified: () => deduplicatedGet("/api/v1/data/unified"),
+  getAll: () => deduplicatedGet("/api/all"),
+  refresh: () => deduplicatedGet("/api/all"),
   forceRefresh: () => API.post("/api/v1/data/refresh").then((r) => r.data),
-  getAttendance: () => API.get("/api/attendance").then((r) => r.data),
-  getMarks: () => API.get("/api/marks").then((r) => r.data),
+  getAttendance: () => deduplicatedGet("/api/attendance"),
+  getMarks: () => deduplicatedGet("/api/marks"),
   getTimetable: (batch: number = 1) =>
-    API.get(`/api/timetable?batch=${batch}`).then((r) => r.data),
-  getCalendar: () => API.get("/api/calendar").then((r) => r.data),
-  getMyTimetable: () => API.get("/api/my-timetable").then((r) => r.data),
+    deduplicatedGet(`/api/timetable?batch=${batch}`),
+  getCalendar: () => deduplicatedGet("/api/calendar"),
+  getMyTimetable: () => deduplicatedGet("/api/my-timetable"),
   
   // Student Portal Specific
   getAbsentDetails: () => API.get("/api/v1/data/student-portal/absent").then((r) => r.data),

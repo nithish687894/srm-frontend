@@ -544,46 +544,84 @@ export default function DashboardPage() {
     }
   }, [academicData, data, batch, cachedTimetable, ttData, cachedMyTimetable, myTTData, cachedCalendar, calData]);
 
-  useEffect(() => {
-    if (!ready) return;
-    dataAPI.getUnified()
-      .then(d => {
-        if (d && d.success) {
-          // Sync premium status from backend
-          if (d.isPremium !== undefined) {
-            setPremium(d.isPremium, d.premiumExpiresAt);
-          }
+  // ── Unified data fetch + auto-refresh ──────────────────────────────────────
+  const lastFetchRef = useCallback(() => {
+    // Returns a stable reference to the last fetch timestamp
+    return data?.lastFetchedAt || 0;
+  }, [data?.lastFetchedAt]);
 
-          // Phase 2: Merge the data so existing components (which expect 'academia' format) still work
-          const mergedData = {
-            ...d.academia,
-            studentPortal: d.studentPortal
-          };
-          setData(mergedData);
-          setAcademicData(mergedData);
-          
-          if (d.studentPortal) {
-            setStudentPortalData(d.studentPortal);
-            if (!d.studentPortal.profile || !d.studentPortal.marks) {
-              setSyncError("Portal session expired or data missing. Please try again.");
-            } else {
-              setSyncError(null);
-            }
-          }
-          
-          if (d.academia?.profile) {
-            setProfile(d.academia.profile);
-            const b = extractBatch(d.academia.profile["Combo / Batch"] || "");
-            setBatch(b);
+  const fetchUnifiedData = useCallback(async (silent = false) => {
+    try {
+      const d = await dataAPI.getUnified();
+      if (d && d.success) {
+        // Sync premium status from backend
+        if (d.isPremium !== undefined) {
+          setPremium(d.isPremium, d.premiumExpiresAt);
+        }
+
+        // Merge the data so existing components (which expect 'academia' format) still work
+        const mergedData = {
+          ...d.academia,
+          studentPortal: d.studentPortal,
+          lastFetchedAt: Date.now(),
+        };
+        setData(mergedData);
+        setAcademicData(mergedData);
+        
+        if (d.studentPortal) {
+          setStudentPortalData(d.studentPortal);
+          if (!d.studentPortal.profile || !d.studentPortal.marks) {
+            setSyncError("Portal session expired or data missing. Please try again.");
+          } else {
+            setSyncError(null);
           }
         }
-        setLoading(false);
-      })
-      .catch(() => {
+        
+        if (d.academia?.profile) {
+          setProfile(d.academia.profile);
+          const b = extractBatch(d.academia.profile["Combo / Batch"] || "");
+          setBatch(b);
+        }
+      }
+      if (!silent) setLoading(false);
+    } catch {
+      if (!silent) {
         if (!data) router.push("/");
         else setLoading(false);
-      });
+      }
+    }
+  }, [data, router, setPremium, setAcademicData, setStudentPortalData, setProfile]);
+
+  // Initial fetch on mount
+  useEffect(() => {
+    if (!ready) return;
+    fetchUnifiedData(false);
   }, [ready]);
+
+  // Auto-refresh: poll every 3 minutes while tab is visible
+  useEffect(() => {
+    if (!ready || loading) return;
+    const interval = setInterval(() => {
+      if (document.visibilityState === 'visible') {
+        fetchUnifiedData(true); // silent refresh, no loading spinner
+      }
+    }, 3 * 60 * 1000); // 3 minutes
+    return () => clearInterval(interval);
+  }, [ready, loading, fetchUnifiedData]);
+
+  // Visibility-based refetch: when user returns to tab, refresh if data is older than 2 minutes
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible' && ready) {
+        const age = Date.now() - (data?.lastFetchedAt || 0);
+        if (age > 2 * 60 * 1000) { // 2 minutes
+          fetchUnifiedData(true);
+        }
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, [ready, data?.lastFetchedAt, fetchUnifiedData]);
 
   useEffect(() => {
     if (!ready) return;
