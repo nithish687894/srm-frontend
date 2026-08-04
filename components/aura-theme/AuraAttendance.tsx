@@ -720,8 +720,21 @@ export default function AuraAttendance({
                  <div style={{ position: 'relative', zIndex: 1 }}>
                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
                       <div style={{ flex: 1, paddingRight: '20px' }}>
-                         <div style={{ fontSize: '9px', fontWeight: 900, color: AURA_COLORS.sub, background: 'rgba(192, 132, 252, 0.06)', border: '1px solid rgba(192, 132, 252, 0.15)', padding: '4px 12px', borderRadius: '100px', display: 'inline-block', marginBottom: '12px' }}>
-                           {a["Course Code"]}
+                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px', flexWrap: 'wrap' }}>
+                           <div style={{ fontSize: '9px', fontWeight: 900, color: AURA_COLORS.sub, background: 'rgba(192, 132, 252, 0.06)', border: '1px solid rgba(192, 132, 252, 0.15)', padding: '4px 12px', borderRadius: '100px', display: 'inline-block' }}>
+                             {a["Course Code"]}
+                           </div>
+                           {a["Category"] && (
+                             <div style={{
+                               fontSize: '9px', fontWeight: 900,
+                               color: String(a["Category"]).toLowerCase().includes('practical') || String(a["Category"]).toLowerCase().includes('lab') ? AURA_COLORS.cyan : AURA_COLORS.purple,
+                               background: String(a["Category"]).toLowerCase().includes('practical') || String(a["Category"]).toLowerCase().includes('lab') ? 'rgba(0, 229, 255, 0.08)' : 'rgba(192, 132, 252, 0.08)',
+                               border: `1px solid ${String(a["Category"]).toLowerCase().includes('practical') || String(a["Category"]).toLowerCase().includes('lab') ? 'rgba(0, 229, 255, 0.2)' : 'rgba(192, 132, 252, 0.2)'}`,
+                               padding: '4px 12px', borderRadius: '100px', display: 'inline-block', textTransform: 'uppercase'
+                             }}>
+                               {a["Category"]}
+                             </div>
+                           )}
                          </div>
                          <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', textTransform: 'capitalize', lineHeight: 1.3, margin: 0 }}>
                            {a["Course Title"]?.toLowerCase()}
