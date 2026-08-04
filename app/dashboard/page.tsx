@@ -79,17 +79,31 @@ function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>, 
     const labCells: { idx: number; slot: string; course: AnyValue }[] = [];
     cells.forEach((cell, ci) => {
       const s = cell?.trim();
-      const up = s?.toUpperCase() || "";
-      if (!s || !/^[PL]\d+$/i.test(up)) return;
-      const course = slotMap[up];
-      if (course) labCells.push({ idx: ci, slot: up, course });
+      if (!s || s === "-") return;
+      const up = s.toUpperCase();
+      const matches = up.match(/[PL]\d+/gi);
+      if (!matches) return;
+
+      for (const slotToken of matches) {
+        const slotCode = slotToken.toUpperCase();
+        const course = slotMap[slotCode];
+        if (course) {
+          labCells.push({ idx: ci, slot: slotCode, course });
+          break;
+        }
+      }
     });
 
     const labGroups: { cells: { idx: number; slot: string; course: AnyValue }[] }[] = [];
     for (let i = 0; i < labCells.length; i++) {
       const cell = labCells[i];
       const prev = i > 0 ? labCells[i - 1] : null;
-      if (prev && prev.course.courseCode === cell.course.courseCode && cell.idx === prev.idx + 1) {
+      const sameGroup = prev &&
+        prev.course.courseCode === cell.course.courseCode &&
+        (prev.course.courseType || '') === (cell.course.courseType || '') &&
+        cell.idx === prev.idx + 1;
+
+      if (sameGroup) {
         labGroups[labGroups.length - 1].cells.push(cell);
       } else {
         labGroups.push({ cells: [cell] });
@@ -100,24 +114,42 @@ function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>, 
       const course = group.cells[0].course;
       const startRange = parseTimeRange(times[group.cells[0].idx] || "");
       const endRange = parseTimeRange(times[group.cells[group.cells.length - 1].idx] || "");
-      classes.push({ slot: group.cells.map(c => c.slot).join("-"), startTime: startRange.start, endTime: endRange.end, courseTitle: resolveTitle(course.courseCode, course.courseTitle || course.courseCode), courseCode: course.courseCode, roomNo: course.roomNo, facultyName: course.facultyName, courseType: course.courseType });
+      classes.push({
+        slot: group.cells.map(c => c.slot).join("-"),
+        startTime: startRange.start,
+        endTime: endRange.end,
+        courseTitle: resolveTitle(course.courseCode, course.courseTitle || course.courseCode),
+        courseCode: course.courseCode,
+        roomNo: course.roomNo || "TBA",
+        facultyName: course.facultyName || "TBA",
+        courseType: course.courseType || "Practical"
+      });
     });
 
     cells.forEach((cell, ci) => {
       const s = cell?.trim();
       if (!s || s === "-") return;
       const up = s.toUpperCase();
-      if (/^[PL]\d+$/i.test(up)) return;
+      if (/[PL]\d+/i.test(up)) return;
       for (const part of up.split("/")) {
         const letter = part.trim().replace(/[^A-Z]/g, "");
         if (!letter || letter === "X") continue;
         const course = slotMap[letter];
         if (!course) continue;
-        const key = `${course.courseCode}-${ci}`;
+        const key = `${course.courseCode}-${course.courseType || 'theory'}-${ci}`;
         if (seenCourses.has(key)) continue;
         seenCourses.add(key);
         const { start, end } = parseTimeRange(times[ci] || "");
-        classes.push({ slot: s, startTime: start, endTime: end, courseTitle: resolveTitle(course.courseCode, course.courseTitle || course.courseCode), courseCode: course.courseCode, roomNo: course.roomNo, facultyName: course.facultyName, courseType: course.courseType });
+        classes.push({
+          slot: s,
+          startTime: start,
+          endTime: end,
+          courseTitle: resolveTitle(course.courseCode, course.courseTitle || course.courseCode),
+          courseCode: course.courseCode,
+          roomNo: course.roomNo || "TBA",
+          facultyName: course.facultyName || "TBA",
+          courseType: course.courseType || "Theory"
+        });
         break;
       }
     });

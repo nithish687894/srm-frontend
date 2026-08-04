@@ -210,51 +210,82 @@ function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>):
     const labCells: { idx: number; slot: string; course: AnyValue }[] = [];
     cells.forEach((cell, ci) => {
       const s = cell?.trim();
-      const up = s?.toUpperCase() || "";
-      if (!s || !/^[PL]\d+/i.test(up)) return;
-      const match = up.match(/^[PL]\d+/i);
-      const slotCode = match ? match[0] : up;
-      const course = slotMap[slotCode];
-      if (course) labCells.push({ idx: ci, slot: slotCode, course });
+      if (!s || s === "-") return;
+      const up = s.toUpperCase();
+      const matches = up.match(/[PL]\d+/gi);
+      if (!matches) return;
+
+      for (const slotToken of matches) {
+        const slotCode = slotToken.toUpperCase();
+        const course = slotMap[slotCode];
+        if (course) {
+          labCells.push({ idx: ci, slot: slotCode, course });
+          break;
+        }
+      }
     });
 
     const labGroups: { cells: { idx: number; slot: string; course: AnyValue }[] }[] = [];
     for (let i = 0; i < labCells.length; i++) {
       const cell = labCells[i];
       const prev = i > 0 ? labCells[i - 1] : null;
-      const sameGroup = prev && prev.course.courseCode === cell.course.courseCode && prev.course.courseType === cell.course.courseType && cell.idx === prev.idx + 1;
-      if (sameGroup) labGroups[labGroups.length - 1].cells.push(cell);
-      else labGroups.push({ cells: [cell] });
+      const sameGroup = prev &&
+        prev.course.courseCode === cell.course.courseCode &&
+        (prev.course.courseType || '') === (cell.course.courseType || '') &&
+        cell.idx === prev.idx + 1;
+
+      if (sameGroup) {
+        labGroups[labGroups.length - 1].cells.push(cell);
+      } else {
+        labGroups.push({ cells: [cell] });
+      }
     }
 
     labGroups.forEach(group => {
       const course = group.cells[0].course;
       const startRange = parseTimeRange(timeStrings[group.cells[0].idx] || "");
       const endRange = parseTimeRange(timeStrings[group.cells[group.cells.length - 1].idx] || "");
-      classes.push({ slot: group.cells.map((c: AnyValue) => c.slot).join("-"), startTime: startRange.start, endTime: endRange.end, courseTitle: course.courseTitle, courseCode: course.courseCode, courseType: course.courseType, facultyName: course.facultyName, roomNo: course.roomNo });
+      classes.push({
+        slot: group.cells.map((c: AnyValue) => c.slot).join("-"),
+        startTime: startRange.start,
+        endTime: endRange.end,
+        courseTitle: course.courseTitle || course.courseCode,
+        courseCode: course.courseCode,
+        courseType: course.courseType || "Practical",
+        facultyName: course.facultyName || "TBA",
+        roomNo: course.roomNo || "TBA"
+      });
     });
 
     cells.forEach((cell, ci) => {
       const s = cell?.trim();
       if (!s || s === "-") return;
       const up = s.toUpperCase();
-      if (/^[PL]\d+/i.test(up)) return;
+      if (/[PL]\d+/i.test(up)) return;
       const parts = up.split("/").map((p: string) => p.trim());
       for (const part of parts) {
         const letter = part.replace(/[^A-Z]/g, "");
         if (!letter || letter === "X") continue;
         const course = slotMap[letter];
         if (!course) continue;
-        const key = `${course.courseCode}-theory-${ci}`;
+        const key = `${course.courseCode}-${course.courseType || 'theory'}-${ci}`;
         if (seenCourses.has(key)) continue;
         seenCourses.add(key);
         const { start, end } = parseTimeRange(timeStrings[ci] || "");
-        classes.push({ slot: s, startTime: start, endTime: end, courseTitle: course.courseTitle, courseCode: course.courseCode, courseType: course.courseType, facultyName: course.facultyName, roomNo: course.roomNo });
+        classes.push({
+          slot: s,
+          startTime: start,
+          endTime: end,
+          courseTitle: course.courseTitle || course.courseCode,
+          courseCode: course.courseCode,
+          courseType: course.courseType || "Theory",
+          facultyName: course.facultyName || "TBA",
+          roomNo: course.roomNo || "TBA"
+        });
         break;
       }
     });
 
-    // Helper for sorting
     const parseSortTime = (t: string) => {
       const parts = t.split(':');
       if (parts.length < 2) return 0;
