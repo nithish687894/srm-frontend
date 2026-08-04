@@ -736,9 +736,16 @@ export default function AuraAttendance({
                              </div>
                            )}
                          </div>
-                         <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', textTransform: 'capitalize', lineHeight: 1.3, margin: 0 }}>
-                           {a["Course Title"]?.toLowerCase()}
-                         </h3>
+                          <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', textTransform: 'capitalize', lineHeight: 1.3, margin: 0 }}>
+                            {(() => {
+                              const rawTitle = (a["Course Title"] || "").trim();
+                              const cat = (a["Category"] || "").trim();
+                              if (cat && !/theory|practical|lab/i.test(rawTitle)) {
+                                return `${rawTitle} (${cat})`.toLowerCase();
+                              }
+                              return rawTitle.toLowerCase();
+                            })()}
+                          </h3>
                       </div>
                       <PulsingCore pct={a.pct} attended={a.attended} conducted={a.conducted} color={statusColor} />
                    </div>
