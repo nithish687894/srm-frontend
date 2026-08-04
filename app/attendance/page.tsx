@@ -97,11 +97,26 @@ export default function AttendancePage() {
         if (updated.length > 0) {
           setAtt(updated);
           const currentAcademicData = useAuthStore.getState().academicData || {};
-          setAcademicData({ ...currentAcademicData, attendance: updated });
+          setAcademicData({ ...currentAcademicData, attendance: updated, lastFetchedAt: Date.now() });
         }
         setLoading(false);
       })
       .catch(() => { if (!att.length) router.push("/"); });
+
+    // Silent background auto-refresh from Academia if data is older than 2 minutes
+    const lastFetched = academicData?.lastFetchedAt || 0;
+    if (Date.now() - lastFetched > 2 * 60 * 1000) {
+      dataAPI.forceRefresh().then(() => {
+        dataAPI.getAttendance().then(d => {
+          const updated = Array.isArray(d.data) ? d.data : [];
+          if (updated.length > 0) {
+            setAtt(updated);
+            const currentAcademicData = useAuthStore.getState().academicData || {};
+            setAcademicData({ ...currentAcademicData, attendance: updated, lastFetchedAt: Date.now() });
+          }
+        }).catch(() => {});
+      }).catch(() => {});
+    }
 
     dataAPI.getCalendar().then(d => { setCalData(d); setCalendar(d); }).catch(() => {});
     
