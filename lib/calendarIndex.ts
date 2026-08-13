@@ -67,7 +67,7 @@ function isHolidayLike(dayOrder: string, day: string): boolean {
   const o = (dayOrder || "").trim();
   const d = (day || "").toLowerCase().trim();
   return (
-    o === "" || o === "-" ||
+    o === "" || o === "-" || o === "0" ||
     /^(h|hd|gh|fh|sh|nh|oh|holiday)/i.test(o) ||
     d === "sun" || d === "sunday"
   );
@@ -105,17 +105,31 @@ export function buildCalendarIndex(raw: AnyValue): {
 
   if (!raw) return { byDate, months: monthsOut };
 
-  // Unwrap: { success, data: { EVEN, ODD } } or { EVEN, ODD } or { data: { EVEN, ODD } }
-  const maybeData = raw?.data ?? raw;
-  if (!maybeData || typeof maybeData !== "object") return { byDate, months: monthsOut };
-
-  // Dynamically extract all available arrays (EVEN, ODD, EVEN_OLD, ODD_OLD, etc.)
-  const semData: Record<string, AnyValue[]> = {};
-  Object.keys(maybeData).forEach((key) => {
-    if (Array.isArray(maybeData[key])) {
-      semData[key] = maybeData[key];
+  // Recursively unwrap nested `data` properties if present
+  let current: AnyValue = raw;
+  while (current && typeof current === "object" && "data" in current && current.data !== undefined) {
+    if (Array.isArray(current.data) || typeof current.data === "object") {
+      current = current.data;
+    } else {
+      break;
     }
-  });
+  }
+
+  if (!current || (typeof current !== "object" && !Array.isArray(current))) {
+    return { byDate, months: monthsOut };
+  }
+
+  // Dynamically extract all available arrays (EVEN, ODD, EVEN_OLD, ODD_OLD, or flat array)
+  const semData: Record<string, AnyValue[]> = {};
+  if (Array.isArray(current)) {
+    semData["ALL"] = current;
+  } else if (typeof current === "object") {
+    Object.keys(current).forEach((key) => {
+      if (Array.isArray(current[key])) {
+        semData[key] = current[key];
+      }
+    });
+  }
 
   const monthGroupsRecord: Record<Semester, Map<string, { name: string; days: CalendarDayInfo[] }>> = {
     EVEN: new Map(),

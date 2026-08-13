@@ -57,14 +57,35 @@ interface ScheduleItem { slot: string; startTime: string; endTime: string; cours
 
 function buildSlotToCourseMap(myTT: AnyValue[]) {
   const map: Record<string, AnyValue> = {};
-  myTT.forEach(c => { (c.slots || []).forEach((s: string) => { if (s) map[s.toUpperCase()] = c; }); });
+  (myTT || []).forEach(c => {
+    (c.slots || []).forEach((s: string) => {
+      if (!s) return;
+      const upper = s.toUpperCase().trim();
+      map[upper] = c;
+      const baseLetter = upper.replace(/[^A-Z]/g, "");
+      if (baseLetter && !map[baseLetter]) {
+        map[baseLetter] = c;
+      }
+    });
+    if (c.slot) {
+      const parts = String(c.slot).split(/[+,\s/-]+/).map((sp: string) => sp.trim().toUpperCase()).filter(Boolean);
+      parts.forEach((p: string) => {
+        map[p] = c;
+        const baseLetter = p.replace(/[^A-Z]/g, "");
+        if (baseLetter && !map[baseLetter]) {
+          map[baseLetter] = c;
+        }
+      });
+    }
+  });
   return map;
 }
 
 function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>, attendance: AnyValue[] = []): { day: string; classes: ScheduleItem[] }[] {
-  const timeRow = gridRows.find((r: AnyValue) => r[0] === "FROM");
-  const times: string[] = timeRow ? timeRow.slice(1).map((t: string) => t.replace(/\t/g, "").trim().replace(/\n+/g, " ")) : [];
-  const dayRows = gridRows.filter((r: AnyValue) => typeof r[0] === "string" && r[0].startsWith("Day"));
+  if (!Array.isArray(gridRows)) return [];
+  const timeRow = gridRows.find((r: AnyValue) => Array.isArray(r) && typeof r[0] === "string" && /^from$/i.test(r[0].trim()));
+  const times: string[] = timeRow ? timeRow.slice(1).map((t: string) => String(t || "").replace(/\t/g, "").trim().replace(/\n+/g, " ")) : [];
+  const dayRows = gridRows.filter((r: AnyValue) => Array.isArray(r) && typeof r[0] === "string" && /^day/i.test(r[0].trim()));
 
   const resolveTitle = (code: string, fallback: string) => {
     const found = attendance.find((c: AnyValue) => (c["Course Code"] || c.courseCode) === code);
@@ -78,7 +99,7 @@ function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>, 
 
     const labCells: { idx: number; slot: string; course: AnyValue }[] = [];
     cells.forEach((cell, ci) => {
-      const s = cell?.trim();
+      const s = String(cell || "").trim();
       if (!s || s === "-") return;
       const up = s.toUpperCase();
       const matches = up.match(/[PL]\d+/gi);
@@ -86,7 +107,7 @@ function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>, 
 
       for (const slotToken of matches) {
         const slotCode = slotToken.toUpperCase();
-        const course = slotMap[slotCode];
+        const course = slotMap[slotCode] || slotMap[slotCode.replace(/[^A-Z]/g, "")];
         if (course) {
           labCells.push({ idx: ci, slot: slotCode, course });
           break;
@@ -127,14 +148,14 @@ function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>, 
     });
 
     cells.forEach((cell, ci) => {
-      const s = cell?.trim();
+      const s = String(cell || "").trim();
       if (!s || s === "-") return;
       const up = s.toUpperCase();
       if (/[PL]\d+/i.test(up)) return;
       for (const part of up.split("/")) {
         const letter = part.trim().replace(/[^A-Z]/g, "");
         if (!letter || letter === "X") continue;
-        const course = slotMap[letter];
+        const course = slotMap[part] || slotMap[letter];
         if (!course) continue;
         const key = `${course.courseCode}-${course.courseType || 'theory'}-${ci}`;
         if (seenCourses.has(key)) continue;
@@ -779,14 +800,18 @@ export default function DashboardPage() {
   const tomorrowDayOrder = tomorrowCalInfo ? (tomorrowCalInfo.dayOrder ?? null) : (!tomorrowIsHoliday && tomorrowDayOfWeek >= 1 && tomorrowDayOfWeek <= 5 ? tomorrowDayOfWeek : null);
 
   const tomorrowClasses = useMemo(() => {
-    if (!ttData?.data?.rows || !myTTData?.data || tomorrowIsHoliday || !tomorrowDayOrder) return [];
-    const rows = ttData.data.rows;
-    const courses = myTTData.data?.courses || myTTData.data || [];
+    const rows = ttData?.data?.rows || ttData?.rows || (Array.isArray(ttData) ? ttData : []);
+    const courses = myTTData?.data?.courses || myTTData?.courses || myTTData?.data || (Array.isArray(myTTData) ? myTTData : []);
+    if (!Array.isArray(rows) || rows.length === 0 || !Array.isArray(courses) || courses.length === 0 || tomorrowIsHoliday || !tomorrowDayOrder) return [];
     const slotMap = buildSlotToCourseMap(courses);
     const schedule = buildSchedule(rows, slotMap, att);
     const targetRow = schedule.find(s => {
-      const header = String(s.day || "");
-      const dOrder = parseInt(header.match(/\d+/)?.[0] || "0");
+      const header = String(s.day || "").toUpperCase();
+      const match = header.match(/(?:DAY|ORDER|DO)?\s*(\d+|I{1,3}|IV|V)\b/i);
+      if (!match) return false;
+      const val = match[1];
+      const romanMap: Record<string, number> = { I: 1, II: 2, III: 3, IV: 4, V: 5 };
+      const dOrder = romanMap[val.toUpperCase()] || parseInt(val, 10);
       return dOrder === tomorrowDayOrder;
     });
     return targetRow?.classes || [];
@@ -998,15 +1023,18 @@ export default function DashboardPage() {
   const dayOrder = targetCalInfo ? (targetCalInfo.dayOrder ?? null) : (!isHoliday && targetDayOfWeek >= 1 && targetDayOfWeek <= 5 ? targetDayOfWeek : null);
 
   const targetClasses = useMemo(() => {
-    if (!ttData?.data?.rows || !myTTData?.data || isHoliday || !dayOrder) return [];
-    const rows = ttData.data.rows;
-    const courses = myTTData.data?.courses || myTTData.data || [];
+    const rows = ttData?.data?.rows || ttData?.rows || (Array.isArray(ttData) ? ttData : []);
+    const courses = myTTData?.data?.courses || myTTData?.courses || myTTData?.data || (Array.isArray(myTTData) ? myTTData : []);
+    if (!Array.isArray(rows) || rows.length === 0 || !Array.isArray(courses) || courses.length === 0 || isHoliday || !dayOrder) return [];
     const slotMap = buildSlotToCourseMap(courses);
     const schedule = buildSchedule(rows, slotMap, att);
-    // Find the row that matches Day Order X
     const targetRow = schedule.find(s => {
-      const header = String(s.day || "");
-      const dOrder = parseInt(header.match(/\d+/)?.[0] || "0");
+      const header = String(s.day || "").toUpperCase();
+      const match = header.match(/(?:DAY|ORDER|DO)?\s*(\d+|I{1,3}|IV|V)\b/i);
+      if (!match) return false;
+      const val = match[1];
+      const romanMap: Record<string, number> = { I: 1, II: 2, III: 3, IV: 4, V: 5 };
+      const dOrder = romanMap[val.toUpperCase()] || parseInt(val, 10);
       return dOrder === dayOrder;
     });
     return targetRow?.classes || [];
