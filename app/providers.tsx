@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { scheduleIdleTask } from "@/lib/scheduleIdle";
 
+const MaintenanceOverlay = dynamic(() => import("@/components/MaintenanceOverlay"), { ssr: false });
 const BroadcastBanner = dynamic(() => import("@/components/BroadcastBanner"), { ssr: false });
 const InstallPWA = dynamic(() => import("@/components/InstallPWA"), { ssr: false });
 const AttendanceBadge = dynamic(() => import("@/components/AttendanceBadge"), { ssr: false });
@@ -13,6 +14,7 @@ const PushNotificationInit = dynamic(() => import("@/components/PushNotification
 export function ClientOverlays() {
   return (
     <>
+      <MaintenanceOverlay />
       <CacheUpgrade />
       <BroadcastBanner />
       <InstallPWA />
