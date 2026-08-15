@@ -9,7 +9,7 @@ import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import { toPng } from "html-to-image";
 import { extractBatch } from "@/lib/utils";
-import { Share2, Star, Activity, Calendar, X } from "lucide-react";
+import { Share2, Star, Activity, Calendar, X, ChevronRight } from "lucide-react";
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
 function parseStart(t: string) { const m = t.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
@@ -1650,7 +1650,7 @@ export function AuraTimetable({
                             )}
                           </div>
                           
-                          <div style={{ display: "flex", alignItems: "center", gap: "6px", flexShrink: 0 }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: "2px", flexShrink: 0 }}>
                             <button
                               type="button"
                               onClick={(e) => {
@@ -1682,6 +1682,7 @@ export function AuraTimetable({
                             >
                               <Star size={13} fill={isImportant ? "#FFD700" : "none"} />
                             </button>
+                            <ChevronRight size={13} style={{ color: "rgba(255, 255, 255, 0.25)" }} />
                           </div>
                         </div>
 
