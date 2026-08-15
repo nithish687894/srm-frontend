@@ -1,6 +1,7 @@
 "use client";
 import { useMemo, useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { createPortal } from "react-dom";
 import { dataAPI } from "@/lib/api";
 import { buildCalendarIndex, type Semester } from "@/lib/calendarIndex";
 import { useQuery } from "@tanstack/react-query";
@@ -8,7 +9,7 @@ import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import { toPng } from "html-to-image";
 import { extractBatch } from "@/lib/utils";
-import { Share2, Star, Activity, Calendar } from "lucide-react";
+import { Share2, Star, Activity, Calendar, X } from "lucide-react";
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
 function parseStart(t: string) { const m = t.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
@@ -900,21 +901,65 @@ export default function TimetablePage() {
 
 }
 
-function AuraTimetable({ 
+export function AuraTimetable({ 
   dayOverride, setDayOverride, batch, setBatch, classes, classesWithBreaks, 
   handleShare, sharing, shareRef, fullShareRef, fullSharing, handleFullShare, 
   schedule, studentInitials, onShowStudentInfo, setShowShareModal, todayInfo, 
   getNextOccurrence, isPremium, isAdmin, importantSlots, setImportantSlots,
   activeTab, setActiveTab, selectedFriend, setSelectedFriend, myCourses, generateFriendTimetable,
   syncedFriends, setSyncedFriends
-}: AnyValue) {
+}: any) {
   const router = useRouter();
-  const currentMin = new Date().getHours() * 60 + new Date().getMinutes();
+  const [currentMin, setCurrentMin] = useState(() => new Date().getHours() * 60 + new Date().getMinutes());
+  
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentMin(new Date().getHours() * 60 + new Date().getMinutes());
+    }, 30000);
+    return () => clearInterval(timer);
+  }, []);
+
   const firstStart = classes[0] ? fmt12(classes[0].startTime) : "";
   const lastEnd = classes[classes.length - 1] ? fmt12(classes[classes.length - 1].endTime) : "";
   const totalClasses = classes.length;
 
-  const [selectedClassDetails, setSelectedClassDetails] = useState<ScheduleItem | null>(null);
+  const [selectedClassDetails, setSelectedClassDetails] = useState<any | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Lock body scroll and add class to hide bottom navigation when modal is open
+  useEffect(() => {
+    if (selectedClassDetails) {
+      document.body.classList.add("timetable-sheet-open");
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          setSelectedClassDetails(null);
+        }
+      };
+      window.addEventListener("keydown", handleKeyDown);
+
+      return () => {
+        document.body.classList.remove("timetable-sheet-open");
+        document.body.style.overflow = originalOverflow;
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    }
+  }, [selectedClassDetails]);
+
+  // Day buttons auto-scroll into view
+  const dayBtnRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  useEffect(() => {
+    const btn = dayBtnRefs.current[dayOverride - 1];
+    if (btn) {
+      btn.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    }
+  }, [dayOverride]);
 
   const handleAddFriend = (val: string) => {
     const trimmed = val.trim();
@@ -969,10 +1014,6 @@ function AuraTimetable({
     border: "var(--card-border)",
   };
 
-  const primaryClassroom = useMemo(() => {
-    return getPrimaryClassroom(myCourses);
-  }, [myCourses]);
-
   const friendTimetable = useMemo(() => {
     if (!selectedFriend) return [];
     return generateFriendTimetable(selectedFriend.regNo || selectedFriend.name, myCourses);
@@ -980,7 +1021,7 @@ function AuraTimetable({
 
   const friendClasses = useMemo(() => {
     if (!selectedFriend || !friendTimetable) return [];
-    const targetRow = friendTimetable.find((s: AnyValue) => {
+    const targetRow = friendTimetable.find((s: any) => {
       const header = String(s.day || "");
       const dOrder = parseInt(header.match(/\d+/)?.[0] || "0");
       return dOrder === dayOverride;
@@ -1020,8 +1061,8 @@ function AuraTimetable({
   }, [classes, friendClasses]);
 
   // Contextual Status Logic
-  let nowClass: ScheduleItem | null = null;
-  let nextClass: ScheduleItem | null = null;
+  let nowClass: any | null = null;
+  let nextClass: any | null = null;
   let classesFinished = false;
 
   if (todayInfo && dayOverride === todayInfo.dayOrder && !todayInfo.isHoliday) {
@@ -1048,66 +1089,45 @@ function AuraTimetable({
     }
   }
 
+  // Active occurrence info for the selected dayOverride
+  const selectedDayOcc = useMemo(() => {
+    return getNextOccurrence ? getNextOccurrence(dayOverride) : null;
+  }, [getNextOccurrence, dayOverride]);
+
+  const selectedDayDateStr = useMemo(() => {
+    if (selectedDayOcc?.isoDate) {
+      const parts = selectedDayOcc.isoDate.split("-");
+      if (parts.length === 3) {
+        const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+        return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }).toUpperCase();
+      }
+    }
+    return `DAY ORDER ${dayOverride}`;
+  }, [selectedDayOcc, dayOverride]);
+
   return (
-    <div style={{ background: "var(--app-bg)", minHeight: "100dvh", display: "flex", flexDirection: "column", color: "var(--text-main)", fontFamily: "'Plus Jakarta Sans', sans-serif", position: "relative" }}>
+    <div style={{ background: "var(--app-bg)", minHeight: "100dvh", display: "flex", flexDirection: "column", color: "var(--text-main)", fontFamily: "'Plus Jakarta Sans', sans-serif", position: "relative", width: "100%", overflowX: "hidden" }}>
       <style dangerouslySetInnerHTML={{ __html: `
-        
         .aura-blob {
-          position: fixed; width: 600px; height: 600px;
+          position: fixed; width: 500px; height: 500px;
           border-radius: 50%; filter: blur(140px);
-          opacity: 0.12; z-index: 0; pointer-events: none;
+          opacity: 0.10; z-index: 0; pointer-events: none;
           animation: orbit 20s infinite linear;
         }
         @keyframes orbit {
-          from { transform: rotate(0deg) translate(100px) rotate(0deg); }
-          to { transform: rotate(360deg) translate(100px) rotate(-360deg); }
-        }
-
-        .liquid-card {
-          background: rgba(255, 255, 255, 0.02);
-          backdrop-filter: blur(40px);
-          -webkit-backdrop-filter: blur(40px);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 32px;
-          padding: 24px;
-          position: relative;
-          overflow: hidden;
-          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          from { transform: rotate(0deg) translate(80px) rotate(0deg); }
+          to { transform: rotate(360deg) translate(80px) rotate(-360deg); }
         }
 
         .timetable-main {
           width: 100%;
           min-width: 0;
-          max-width: 100%;
-          overflow-x: clip;
+          max-width: 680px;
+          margin: 0 auto;
           box-sizing: border-box;
+          overflow-x: hidden;
         }
 
-        .schedule-header,
-        .schedule-header-copy,
-        .schedule-header-actions,
-        .schedule-view-switcher,
-        .schedule-view-button,
-        .day-overview-row,
-        .day-overview-copy,
-        .today-calendar-copy {
-          min-width: 0;
-          box-sizing: border-box;
-        }
-
-        .schedule-view-switcher {
-          width: 100%;
-        }
-
-        .schedule-view-button {
-          overflow: hidden;
-        }
-
-        .day-overview-time {
-          font-size: clamp(24px, 7.4vw, 32px);
-          white-space: nowrap;
-        }
-        
         .hide-scroll::-webkit-scrollbar {
           display: none;
         }
@@ -1116,186 +1136,132 @@ function AuraTimetable({
           scrollbar-width: none;
         }
 
-        @media (max-width: 480px) {
-          .schedule-header {
-            padding: 14px !important;
-            gap: 10px;
-          }
-
-          .schedule-header-copy {
-            flex: 1 1 auto;
-          }
-
-          .schedule-header-copy > div:last-child {
-            font-size: 14px !important;
-            white-space: nowrap;
-          }
-
-          .schedule-header-actions {
-            flex: 0 1 auto;
-            gap: 6px !important;
-          }
-
-          .schedule-export-button,
-          .schedule-batch-button {
-            padding: 8px 10px !important;
-          }
-
-          .schedule-profile-button {
-            width: 38px !important;
-            height: 38px !important;
-            border-radius: 12px !important;
-          }
-
-          .schedule-view-switcher {
-            max-width: none !important;
-          }
-
-          .schedule-view-button {
-            padding: 10px 8px !important;
-          }
-
-          .schedule-premium-badge {
-            padding-inline: 5px !important;
-            flex-shrink: 0;
-          }
-
-          .day-overview-card {
-            padding: 16px !important;
-            border-radius: 20px !important;
-          }
-
-          .day-overview-row {
-            align-items: center !important;
-            gap: 12px;
-          }
-
-          .day-overview-copy {
-            flex: 1 1 auto;
-          }
-
-          .day-overview-count {
-            width: 56px !important;
-            height: 56px !important;
-            border-radius: 18px !important;
-            flex: 0 0 56px;
-          }
-
-          .today-calendar-copy {
-            overflow-wrap: anywhere;
-          }
+        /* Class Card Touch & Feedback */
+        .timetable-class-card {
+          transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+          -webkit-tap-highlight-color: transparent;
+        }
+        .timetable-class-card:active {
+          transform: scale(0.985);
         }
 
-        @media (max-width: 370px) {
-          .schedule-header {
-            align-items: flex-start !important;
-            flex-direction: column;
-          }
+        /* Bottom Sheet Transition Styles */
+        .tt-sheet-backdrop {
+          transition: opacity 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .tt-sheet-panel {
+          transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
-          .schedule-header-actions {
-            width: 100%;
-            justify-content: space-between;
+        @media (prefers-reduced-motion: reduce) {
+          .aura-blob {
+            animation: none;
           }
-
-          .day-overview-time {
-            font-size: 22px;
+          .timetable-class-card, .tt-sheet-backdrop, .tt-sheet-panel {
+            transition: none !important;
           }
         }
       `}} />
 
-      {/* Animated Aura Blobs */}
-      <div className="aura-blob" style={{ background: AURA.secondary, top: '-200px', right: '-100px' }} />
-      <div className="aura-blob" style={{ background: AURA.accent, bottom: '-200px', left: '-100px', animationDelay: '-10s' }} />
+      {/* Background Ambience */}
+      <div className="aura-blob" style={{ background: AURA.secondary, top: '-180px', right: '-120px' }} />
+      <div className="aura-blob" style={{ background: AURA.accent, bottom: '-180px', left: '-120px', animationDelay: '-10s' }} />
 
-      <main className="timetable-main" style={{ flex: 1, position: "relative", zIndex: 1, padding: "calc(env(safe-area-inset-top, 0px) + 20px) 24px 120px", color: "var(--text-main)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <main 
+        className="timetable-main" 
+        style={{ 
+          flex: 1, 
+          position: "relative", 
+          zIndex: 1, 
+          padding: "calc(env(safe-area-inset-top, 0px) + 12px) 16px calc(96px + env(safe-area-inset-bottom, 0px))", 
+          color: "var(--text-main)", 
+          display: "flex", 
+          flexDirection: "column", 
+          gap: "10px" 
+        }}
+      >
         
-        {/* Header with Batch & Export Controls */}
+        {/* Streamlined Compact Header */}
         <div 
-          className="schedule-header" 
           style={{ 
             display: "flex", 
             flexDirection: "column",
-            gap: "12px",
-            marginBottom: "16px", 
-            background: "linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(192, 132, 252, 0.04) 50%, rgba(0, 212, 255, 0.02) 100%)", 
-            padding: "16px 20px", 
-            borderRadius: "24px", 
+            gap: "8px",
+            background: "linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(192, 132, 252, 0.04) 100%)", 
+            padding: "10px 14px", 
+            borderRadius: "20px", 
             border: "1px solid rgba(255, 255, 255, 0.08)", 
-            backdropFilter: "blur(24px)",
-            boxShadow: "0 10px 30px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)"
+            backdropFilter: "blur(20px)",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.3)"
           }}
         >
-          {/* Top Row: Title & User Profile / Admin Actions */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", gap: "12px", flexWrap: "wrap" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          {/* Top Row: Title, Day/Batch, NS & Profile */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", minWidth: 0, gap: "8px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", minWidth: 0, flex: 1 }}>
               <div style={{
-                width: "36px",
-                height: "36px",
-                borderRadius: "12px",
-                background: "linear-gradient(135deg, rgba(192, 132, 252, 0.2), rgba(0, 212, 255, 0.15))",
+                width: "32px",
+                height: "32px",
+                borderRadius: "10px",
+                background: "linear-gradient(135deg, rgba(192, 132, 252, 0.25), rgba(0, 212, 255, 0.15))",
                 border: "1px solid rgba(192, 132, 252, 0.3)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 color: "#C084FC",
-                boxShadow: "0 0 10px rgba(192, 132, 252, 0.2)"
+                flexShrink: 0
               }}>
-                <Calendar size={16} />
+                <Calendar size={15} />
               </div>
-              <div>
-                <div style={{ fontSize: "9px", color: AURA.primary, textTransform: "uppercase", letterSpacing: "0.15em", fontWeight: 900 }}>
+              <div style={{ minWidth: 0, flex: 1 }}>
+                <div style={{ fontSize: "8.5px", color: AURA.primary, textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 900, lineHeight: 1 }}>
                   SEMESTER SCHEDULE
                 </div>
-                <div style={{ fontSize: "15px", fontWeight: 900, color: "#fff", marginTop: "2px", letterSpacing: "-0.01em" }}>
-                  Day {dayOverride} <span style={{ opacity: 0.4, fontWeight: 400 }}>·</span> Batch {batch}
+                <div style={{ fontSize: "14px", fontWeight: 900, color: "#fff", marginTop: "2px", letterSpacing: "-0.01em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                  Day {dayOverride} <span style={{ opacity: 0.35, fontWeight: 400 }}>·</span> Batch {batch}
                 </div>
               </div>
             </div>
 
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "6px", flexShrink: 0 }}>
               {isAdmin && (
                 <button
-                  className="schedule-ns-button"
                   onClick={() => router.push("/ns")}
                   style={{
-                    height: "36px",
-                    padding: "0 12px",
-                    borderRadius: "12px",
-                    background: "linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 212, 255, 0.08))",
+                    height: "30px",
+                    padding: "0 9px",
+                    borderRadius: "10px",
+                    background: "rgba(0, 255, 136, 0.12)",
                     color: "#00FF88",
-                    border: "1px solid rgba(0, 255, 136, 0.35)",
+                    border: "1px solid rgba(0, 255, 136, 0.3)",
                     display: "flex",
                     alignItems: "center",
-                    gap: "6px",
+                    gap: "4px",
                     fontWeight: 900,
-                    fontSize: "11px",
-                    cursor: "pointer",
-                    transition: "all 0.2s"
+                    fontSize: "10px",
+                    cursor: "pointer"
                   }}
                   title="Open Operations Telemetry (/ns)"
                 >
-                  <Activity size={13} color="#00FF88" />
+                  <Activity size={12} color="#00FF88" />
                   <span>NS</span>
                 </button>
               )}
 
               <button
-                className="schedule-profile-button"
                 onClick={onShowStudentInfo}
                 style={{
-                  height: "36px",
-                  padding: "0 14px",
-                  borderRadius: "12px",
-                  background: "rgba(255, 255, 255, 0.05)",
+                  height: "30px",
+                  padding: "0 10px",
+                  borderRadius: "10px",
+                  background: "rgba(255, 255, 255, 0.06)",
                   color: "#fff",
                   border: "1px solid rgba(255, 255, 255, 0.12)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   fontWeight: 900,
-                  fontSize: "12px",
-                  cursor: "pointer",
-                  transition: "all 0.2s"
+                  fontSize: "11px",
+                  cursor: "pointer"
                 }}
               >
                 {studentInitials}
@@ -1303,26 +1269,24 @@ function AuraTimetable({
             </div>
           </div>
 
-          {/* Bottom Row: Batch Switcher & Export Button */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", paddingTop: "10px", borderTop: "1px solid rgba(255, 255, 255, 0.05)", flexWrap: "wrap", gap: "10px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <span style={{ fontSize: "9px", fontWeight: 800, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: "0.05em" }}>Batch:</span>
-              <div style={{ display: "flex", background: "rgba(0,0,0,0.5)", borderRadius: "10px", padding: "2px", border: "1px solid rgba(255,255,255,0.1)" }}>
+          {/* Bottom Controls: Batch Toggle & Export Button */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", paddingTop: "8px", borderTop: "1px solid rgba(255, 255, 255, 0.05)", gap: "8px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <span style={{ fontSize: "8.5px", fontWeight: 800, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: "0.05em" }}>Batch:</span>
+              <div style={{ display: "flex", background: "rgba(0,0,0,0.5)", borderRadius: "8px", padding: "2px", border: "1px solid rgba(255,255,255,0.08)" }}>
                 {[1, 2].map(b => (
                   <button 
                     key={b} 
                     onClick={() => setBatch(b)}
                     style={{
-                      padding: "4px 12px", 
-                      borderRadius: "8px", 
+                      padding: "3px 9px", 
+                      borderRadius: "6px", 
                       border: "none", 
-                      fontSize: "10px", 
+                      fontSize: "9.5px", 
                       fontWeight: 900,
                       background: batch === b ? "linear-gradient(135deg, #C084FC 0%, #00D4FF 100%)" : "transparent",
                       color: batch === b ? "#000" : "rgba(255,255,255,0.5)",
-                      transition: "all 0.2s", 
-                      cursor: "pointer",
-                      boxShadow: batch === b ? "0 2px 10px rgba(192, 132, 252, 0.3)" : "none"
+                      cursor: "pointer"
                     }}
                   >
                     B{b}
@@ -1332,167 +1296,160 @@ function AuraTimetable({
             </div>
 
             <button 
-              className="schedule-export-button"
               onClick={() => setShowShareModal(true)} 
               style={{ 
-                background: "linear-gradient(135deg, rgba(192, 132, 252, 0.2) 0%, rgba(255, 94, 126, 0.15) 100%)", 
-                border: "1px solid rgba(192, 132, 252, 0.4)", 
+                background: "linear-gradient(135deg, rgba(192, 132, 252, 0.18) 0%, rgba(255, 94, 126, 0.15) 100%)", 
+                border: "1px solid rgba(192, 132, 252, 0.35)", 
                 color: "#fff", 
-                padding: "6px 12px", 
-                borderRadius: "10px", 
+                padding: "4px 10px", 
+                borderRadius: "8px", 
                 fontSize: "10px", 
                 fontWeight: 900, 
                 cursor: "pointer", 
-                transition: "all 0.2s", 
-                boxShadow: "0 4px 15px rgba(192, 132, 252, 0.15)",
-                display: "flex",
-                alignItems: "center",
-                gap: "6px"
+                display: "flex", 
+                alignItems: "center", 
+                gap: "5px"
               }}
             >
-              <Share2 size={12} color="#C084FC" />
+              <Share2 size={11} color="#C084FC" />
               <span>Export</span>
             </button>
           </div>
         </div>
 
-        {/* View Switcher Toggle */}
+        {/* View Switcher Toggle (Compact) */}
         <div 
-          className="schedule-view-switcher" 
           style={{ 
             display: "flex", 
-            background: "rgba(0,0,0,0.5)", 
-            borderRadius: "16px", 
-            padding: "4px", 
-            border: "1px solid rgba(255,255,255,0.08)", 
-            marginBottom: "16px", 
+            background: "rgba(0,0,0,0.45)", 
+            borderRadius: "12px", 
+            padding: "3px", 
+            border: "1px solid rgba(255,255,255,0.07)", 
             width: "100%",
-            boxShadow: "inset 0 1px 2px rgba(0,0,0,0.4)"
+            boxSizing: "border-box"
           }}
         >
           <button 
-            className="schedule-view-button"
             onClick={() => setActiveTab("schedule")}
             style={{
               flex: 1, 
-              padding: "8px 16px", 
-              borderRadius: "12px", 
+              padding: "6px 12px", 
+              borderRadius: "10px", 
               border: "none", 
-              fontSize: "11px", 
+              fontSize: "10.5px", 
               fontWeight: 900,
               background: activeTab === "schedule" ? "linear-gradient(135deg, #C084FC 0%, #FF5E7E 100%)" : "transparent",
               color: activeTab === "schedule" ? "#fff" : "rgba(255,255,255,0.5)",
-              transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)", 
-              cursor: "pointer",
-              boxShadow: activeTab === "schedule" ? "0 4px 15px rgba(192, 132, 252, 0.3)" : "none"
+              cursor: "pointer"
             }}
           >
             My Schedule
           </button>
           <button 
-            className="schedule-view-button"
             onClick={() => setActiveTab("friends")}
             style={{
               flex: 1, 
-              padding: "8px 16px", 
-              borderRadius: "12px", 
+              padding: "6px 12px", 
+              borderRadius: "10px", 
               border: "none", 
-              fontSize: "11px", 
+              fontSize: "10.5px", 
               fontWeight: 900,
               background: activeTab === "friends" ? "linear-gradient(135deg, #C084FC 0%, #FF5E7E 100%)" : "transparent",
               color: activeTab === "friends" ? "#fff" : "rgba(255,255,255,0.5)",
-              transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)", 
               cursor: "pointer",
               display: "flex", 
               alignItems: "center", 
               justifyContent: "center", 
-              gap: "6px",
-              boxShadow: activeTab === "friends" ? "0 4px 15px rgba(192, 132, 252, 0.3)" : "none"
+              gap: "5px"
             }}
           >
             <span>Friends Sync</span>
             <span style={{ 
-              fontSize: "7.5px", 
+              fontSize: "7px", 
               fontWeight: 950, 
               background: "linear-gradient(135deg, #FFCC00 0%, #FF9500 100%)", 
               color: "#000", 
-              padding: "2px 5px", 
-              borderRadius: "4px", 
-              textTransform: "uppercase", 
-              letterSpacing: "0.05em",
-              boxShadow: "0 2px 6px rgba(255, 204, 0, 0.3)"
+              padding: "1px 4px", 
+              borderRadius: "3px", 
+              textTransform: "uppercase"
             }}>
-              PREMIUM
+              PRO
             </span>
           </button>
         </div>
 
         {activeTab === "schedule" ? (
           <>
-            {/* Smart Contextual Status Header */}
-            {todayInfo && (
-              <div style={{ marginBottom: "16px" }}>
+            {/* Contextual Smart Status Header (NOW / NEXT / Finished) */}
+            {todayInfo && (nowClass || nextClass || classesFinished) && (
+              <div>
                 {nowClass ? (
-                  <div style={{ display: "flex", alignItems: "center", gap: "10px", background: "rgba(148, 255, 216, 0.1)", border: `1px solid ${AURA.accent}44`, padding: "12px 16px", borderRadius: "16px" }}>
-                    <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: AURA.accent, boxShadow: `0 0 10px ${AURA.accent}` }} />
+                  <div style={{ display: "flex", alignItems: "center", gap: "9px", background: "rgba(148, 255, 216, 0.08)", border: `1px solid ${AURA.accent}40`, padding: "9px 12px", borderRadius: "14px" }}>
+                    <div style={{ width: "7px", height: "7px", borderRadius: "50%", background: AURA.accent, boxShadow: `0 0 8px ${AURA.accent}`, flexShrink: 0 }} />
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: "10px", fontWeight: 900, color: AURA.accent, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "2px" }}>● NOW</div>
-                      <div style={{ fontSize: "14px", fontWeight: 800, color: "#fff", textTransform: "capitalize", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1px" }}>
+                        <span style={{ fontSize: "9px", fontWeight: 900, color: AURA.accent, textTransform: "uppercase", letterSpacing: "0.08em" }}>NOW HAPPENING</span>
+                        <span style={{ fontSize: "9.5px", color: "rgba(255,255,255,0.65)", fontWeight: 700 }}>
+                          {Math.max(0, parseEnd(nowClass.endTime) - currentMin)}m left
+                        </span>
+                      </div>
+                      <div style={{ fontSize: "13px", fontWeight: 800, color: "#fff", textTransform: "capitalize", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                         {nowClass.courseTitle.toLowerCase()}
                       </div>
-                      <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.7)", fontWeight: 600, marginTop: "2px" }}>
-                        {nowClass.roomNo} · {parseEnd(nowClass.endTime) - currentMin} min left
+                      <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.6)", fontWeight: 600 }}>
+                        {nowClass.roomNo} · {fmt12(nowClass.startTime)} – {fmt12(nowClass.endTime)}
                       </div>
                     </div>
                   </div>
                 ) : nextClass ? (
-                  <div style={{ display: "flex", alignItems: "center", gap: "10px", background: "rgba(255, 255, 255, 0.05)", border: "1px solid rgba(255, 255, 255, 0.1)", padding: "12px 16px", borderRadius: "16px" }}>
-                    <div style={{ fontSize: "16px" }}>⏳</div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "9px", background: "rgba(255, 255, 255, 0.03)", border: "1px solid rgba(255, 255, 255, 0.08)", padding: "9px 12px", borderRadius: "14px" }}>
+                    <div style={{ fontSize: "14px", flexShrink: 0 }}>⏳</div>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: "10px", fontWeight: 900, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "2px" }}>NEXT</div>
-                      <div style={{ fontSize: "14px", fontWeight: 800, color: "#fff", textTransform: "capitalize", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                      <div style={{ fontSize: "9px", fontWeight: 900, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "1px" }}>UPCOMING NEXT</div>
+                      <div style={{ fontSize: "13px", fontWeight: 800, color: "#fff", textTransform: "capitalize", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                         {nextClass.courseTitle.toLowerCase()}
                       </div>
-                      <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.7)", fontWeight: 600, marginTop: "2px" }}>
-                        {fmt12(nextClass.startTime)} · {nextClass.roomNo}
+                      <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.6)", fontWeight: 600 }}>
+                        Starts at {fmt12(nextClass.startTime)} · {nextClass.roomNo}
                       </div>
                     </div>
                   </div>
                 ) : classesFinished ? (
-                  <div style={{ display: "flex", alignItems: "center", gap: "10px", background: "rgba(52, 199, 89, 0.1)", border: "1px solid rgba(52, 199, 89, 0.3)", padding: "12px 16px", borderRadius: "16px" }}>
-                    <div style={{ fontSize: "16px" }}>✓</div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "9px", background: "rgba(52, 199, 89, 0.08)", border: "1px solid rgba(52, 199, 89, 0.25)", padding: "9px 12px", borderRadius: "14px" }}>
+                    <div style={{ fontSize: "14px", color: "#34c759", flexShrink: 0 }}>✓</div>
                     <div>
-                      <div style={{ fontSize: "14px", fontWeight: 800, color: "#34c759", marginTop: "2px" }}>Classes finished</div>
-                      <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.7)", fontWeight: 600, marginTop: "2px" }}>You're done for today</div>
+                      <div style={{ fontSize: "12px", fontWeight: 800, color: "#34c759" }}>Classes finished for today</div>
+                      <div style={{ fontSize: "9.5px", color: "rgba(255,255,255,0.6)", fontWeight: 600 }}>All scheduled sessions completed</div>
                     </div>
                   </div>
                 ) : null}
               </div>
             )}
 
-            {/* Compact Day Summary */}
+            {/* Compact Clean Date Summary */}
             <div style={{ 
               display: "flex", 
               justifyContent: "space-between", 
               alignItems: "center", 
               background: "rgba(255, 255, 255, 0.02)", 
               border: `1px solid ${AURA.border}`, 
-              borderRadius: "16px", 
-              padding: "12px 16px",
-              marginBottom: "16px"
+              borderRadius: "14px", 
+              padding: "8px 12px",
+              gap: "8px"
             }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", minWidth: 0, flex: 1 }}>
                 <div style={{ 
                   width: "6px", height: "6px", borderRadius: "50%", 
-                  background: todayInfo?.isHoliday ? "#FF7597" : AURA.accent, 
-                  boxShadow: `0 0 8px ${todayInfo?.isHoliday ? "#FF7597" : AURA.accent}` 
+                  background: (selectedDayOcc?.isHoliday || todayInfo?.isHoliday) && dayOverride === todayInfo?.dayOrder ? "#FF7597" : AURA.accent, 
+                  boxShadow: `0 0 6px ${(selectedDayOcc?.isHoliday || todayInfo?.isHoliday) && dayOverride === todayInfo?.dayOrder ? "#FF7597" : AURA.accent}`,
+                  flexShrink: 0
                 }} />
-                <div>
-                  <div style={{ fontSize: "12px", fontWeight: 800, color: "var(--text-main)" }}>
-                    {todayInfo ? formatDateNicelyShort(todayInfo.isoDate) : new Date().toLocaleDateString("en-US", { weekday: "short", day: "numeric" })}
+                <div style={{ minWidth: 0, flex: 1 }}>
+                  <div style={{ fontSize: "11px", fontWeight: 900, color: "var(--text-main)", letterSpacing: "0.02em" }}>
+                    {selectedDayDateStr}
                   </div>
-                  <div style={{ fontSize: "10px", color: "var(--text-muted)", fontWeight: 700, marginTop: "2px" }}>
-                    {todayInfo?.isHoliday ? (todayInfo.event || "Holiday") : totalClasses > 0 ? `${totalClasses} Classes · ${firstStart} – ${lastEnd}` : "No classes today"}
+                  <div style={{ fontSize: "9.5px", color: "var(--text-muted)", fontWeight: 600, marginTop: "1px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                    {totalClasses > 0 ? `${totalClasses} classes · ${firstStart} – ${lastEnd}` : "No classes scheduled"}
                   </div>
                 </div>
               </div>
@@ -1500,171 +1457,217 @@ function AuraTimetable({
                 <button 
                   onClick={() => setDayOverride(todayInfo.dayOrder as number)}
                   style={{
-                    background: "rgba(255, 255, 255, 0.08)", border: "1px solid rgba(255,255,255,0.1)",
-                    color: AURA.accent, padding: "6px 10px", borderRadius: "10px", fontSize: "10px", fontWeight: 800,
-                    cursor: "pointer", transition: "all 0.2s"
+                    background: "rgba(255, 255, 255, 0.06)", border: "1px solid rgba(255,255,255,0.1)",
+                    color: AURA.accent, padding: "4px 8px", borderRadius: "8px", fontSize: "9.5px", fontWeight: 800,
+                    cursor: "pointer", flexShrink: 0
                   }}
                 >
-                  View Today
+                  Today
                 </button>
               )}
             </div>
 
-            {/* Compact Day Selector (Horizontal Scroll) */}
-            <div className="hide-scroll" style={{ 
-              display: "flex", 
-              gap: "8px", 
-              overflowX: "auto", 
-              marginBottom: "24px",
-              paddingBottom: "4px"
-            }}>
+            {/* Horizontal D1–D5 Day Selector */}
+            <div 
+              className="hide-scroll" 
+              style={{ 
+                display: "flex", 
+                gap: "6px", 
+                overflowX: "auto", 
+                width: "100%",
+                paddingBottom: "2px",
+                WebkitOverflowScrolling: "touch"
+              }}
+            >
               {[1, 2, 3, 4, 5].map(d => {
-                const occ = getNextOccurrence(d);
-                let label = "";
-                if (occ) {
-                  const today = new Date();
-                  const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
-                  label = occ.isoDate === todayIso ? "Today" : formatDateNicelyShort(occ.isoDate).split(',')[0];
-                } else {
-                  label = "N/A";
+                const occ = getNextOccurrence ? getNextOccurrence(d) : null;
+                let dayName = "";
+                let dateNum = "";
+                if (occ?.isoDate) {
+                  const parts = occ.isoDate.split("-");
+                  if (parts.length === 3) {
+                    const dt = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+                    dayName = dt.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase();
+                    dateNum = parts[2];
+                  }
                 }
                 const isSelected = dayOverride === d;
+                const isToday = todayInfo?.dayOrder === d;
+                
                 return (
-                  <button key={d} onClick={() => setDayOverride(d)} style={{
-                    padding: "8px 16px", minWidth: "64px", flexShrink: 0, borderRadius: "14px",
-                    background: isSelected ? `linear-gradient(135deg, ${AURA.secondary}ee, ${AURA.primary}ee)` : "rgba(255,255,255,0.03)",
-                    color: isSelected ? "#fff" : "var(--text-muted)",
-                    display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-                    cursor: "pointer", transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
-                    border: isSelected ? "1px solid transparent" : "1px solid rgba(255,255,255,0.05)",
-                    boxShadow: isSelected ? `0 4px 15px ${AURA.secondary}44` : "none",
-                  }}>
-                    <div style={{ fontSize: "13px", fontWeight: 900, lineHeight: 1.1 }}>D{d}</div>
-                    <div style={{ fontSize: "9px", fontWeight: 700, opacity: isSelected ? 0.9 : 0.6, marginTop: "2px", textTransform: "uppercase", letterSpacing: "0.02em" }}>{label}</div>
+                  <button 
+                    key={d} 
+                    ref={el => { dayBtnRefs.current[d - 1] = el; }}
+                    onClick={() => setDayOverride(d)} 
+                    style={{
+                      padding: "8px 10px", 
+                      minWidth: "56px", 
+                      flex: "1 0 auto",
+                      maxWidth: "80px",
+                      borderRadius: "12px",
+                      background: isSelected 
+                        ? `linear-gradient(135deg, ${AURA.secondary}ee, ${AURA.primary}ee)` 
+                        : "rgba(255,255,255,0.03)",
+                      color: isSelected ? "#fff" : "var(--text-muted)",
+                      display: "flex", 
+                      flexDirection: "column", 
+                      alignItems: "center", 
+                      justifyContent: "center",
+                      cursor: "pointer", 
+                      border: isSelected ? "1px solid rgba(255,255,255,0.2)" : (isToday ? "1px dashed rgba(148, 255, 216, 0.4)" : "1px solid rgba(255,255,255,0.05)"),
+                      boxShadow: isSelected ? `0 4px 14px ${AURA.secondary}40` : "none",
+                      position: "relative"
+                    }}
+                  >
+                    <div style={{ fontSize: "12px", fontWeight: 900, lineHeight: 1 }}>D{d}</div>
+                    <div style={{ fontSize: "8.5px", fontWeight: 700, opacity: isSelected ? 0.95 : 0.6, marginTop: "3px", letterSpacing: "0.02em", whiteSpace: "nowrap" }}>
+                      {dateNum ? `${dateNum} ${dayName}` : (isToday ? "TODAY" : `DAY ${d}`)}
+                    </div>
                   </button>
                 );
               })}
             </div>
 
-            {/* Timeline Classes */}
+            {/* Timeline Classes List */}
             {totalClasses === 0 ? (
-              <div style={{ textAlign: "center", color: "var(--text-muted)", marginTop: "40px", fontSize: "14px", fontWeight: 700 }}>
-                <div style={{ fontSize: "32px", marginBottom: "8px" }}>🎉</div>
-                No classes today<br/>Enjoy your day!
+              <div style={{ textAlign: "center", color: "var(--text-muted)", padding: "36px 16px", fontSize: "13px", fontWeight: 700, background: "rgba(255,255,255,0.02)", borderRadius: "18px", border: "1px dashed rgba(255,255,255,0.08)" }}>
+                <div style={{ fontSize: "28px", marginBottom: "6px" }}>🎉</div>
+                No classes scheduled for Day {dayOverride}<br/>
+                <span style={{ fontSize: "11px", opacity: 0.6, fontWeight: 500 }}>Enjoy your free time!</span>
               </div>
             ) : (
-              <div style={{ position: "relative", paddingLeft: "16px", display: "flex", flexDirection: "column", gap: "12px" }}>
-                <div style={{ position: "absolute", left: "0", top: "10px", bottom: "10px", width: "2px", background: "linear-gradient(to bottom, var(--card-border), transparent)" }} />
+              <div style={{ position: "relative", paddingLeft: "14px", display: "flex", flexDirection: "column", gap: "8px" }}>
+                {/* Vertical Timeline Guide Line */}
+                <div style={{ position: "absolute", left: "0", top: "12px", bottom: "12px", width: "2px", background: "linear-gradient(to bottom, rgba(255,255,255,0.15), rgba(255,255,255,0.02))" }} />
                 
-                {classesWithBreaks.map((item: AnyValue, i: number) => {
+                {classesWithBreaks.map((item: any, i: number) => {
                   if (item.isBreak) {
                     return (
-                      <div key={`break-${i}`} style={{ display: "flex", alignItems: "center", gap: "12px", position: "relative", opacity: 0.7, margin: "4px 0" }}>
-                        <div style={{ position: "absolute", left: "-18px", width: "6px", height: "6px", borderRadius: "50%", background: "var(--text-soft)" }} />
-                        <div style={{ display: "flex", gap: "8px", alignItems: "center", flex: 1 }}>
-                           <div style={{ fontSize: "9px", color: AURA.secondary, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase" }}>Break</div>
-                           <div style={{ height: "1px", background: "rgba(255,255,255,0.1)", flex: 1 }} />
-                           <div style={{ fontSize: "10px", color: "var(--text-muted)", fontWeight: 700 }}>{fmt12(item.startTime)} – {fmt12(item.endTime)}</div>
+                      <div key={`break-${i}`} style={{ display: "flex", alignItems: "center", gap: "8px", position: "relative", margin: "2px 0", opacity: 0.65 }}>
+                        <div style={{ position: "absolute", left: "-16px", width: "5px", height: "5px", borderRadius: "50%", background: "rgba(255,255,255,0.3)" }} />
+                        <div style={{ display: "flex", gap: "6px", alignItems: "center", flex: 1 }}>
+                          <span style={{ fontSize: "8.5px", color: AURA.secondary, fontWeight: 900, letterSpacing: "0.08em", textTransform: "uppercase" }}>Break</span>
+                          <div style={{ height: "1px", background: "rgba(255,255,255,0.08)", flex: 1 }} />
+                          <span style={{ fontSize: "9px", color: "var(--text-muted)", fontWeight: 700 }}>{fmt12(item.startTime)} – {fmt12(item.endTime)}</span>
                         </div>
                       </div>
                     );
                   }
 
                   const isLab = isLabSession(item, myCourses);
-                  const isActive = (currentMin >= parseStart(item.startTime) && currentMin <= parseEnd(item.endTime));
+                  const isActive = (todayInfo && dayOverride === todayInfo.dayOrder && currentMin >= parseStart(item.startTime) && currentMin <= parseEnd(item.endTime));
                   const slotKey = `${dayOverride}-${item.courseCode}-${item.startTime}`;
                   const isImportant = !!importantSlots[slotKey];
 
                   return (
                     <div key={i} style={{ position: "relative" }}>
+                      {/* Timeline Dot */}
                       <div style={{ 
-                        position: "absolute", left: "-19.5px", top: "20px", width: "9px", height: "9px", borderRadius: "50%", 
-                        background: isActive ? AURA.accent : (isImportant ? "#FFD700" : (isLab ? "#FF75C3" : AURA.secondary)), border: "2px solid var(--app-bg)", zIndex: 2,
-                        boxShadow: isActive ? `0 0 10px ${AURA.accent}` : "none"
+                        position: "absolute", 
+                        left: "-17px", 
+                        top: "16px", 
+                        width: "8px", 
+                        height: "8px", 
+                        borderRadius: "50%", 
+                        background: isActive ? AURA.accent : (isImportant ? "#FFD700" : (isLab ? "#FF75C3" : AURA.secondary)), 
+                        border: "2px solid var(--app-bg)", 
+                        zIndex: 2,
+                        boxShadow: isActive ? `0 0 8px ${AURA.accent}` : "none"
                       }} />
                       
+                      {/* Interactive Compact Class Card */}
                       <div 
+                        role="button"
+                        tabIndex={0}
                         onClick={() => setSelectedClassDetails(item)}
-                        className="liquid-card" 
+                        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setSelectedClassDetails(item); }}
+                        className="timetable-class-card" 
                         style={{ 
-                          padding: "16px", 
+                          padding: "12px 14px", 
+                          borderRadius: "16px",
                           border: isActive 
-                            ? `1px solid ${AURA.accent}55` 
+                            ? `1px solid ${AURA.accent}60` 
                             : (isImportant 
-                                ? "1px solid rgba(255, 215, 0, 0.4)" 
-                                : (isLab ? "1px solid rgba(255, 117, 195, 0.4)" : "1px solid rgba(255, 255, 255, 0.08)")),
+                                ? "1px solid rgba(255, 215, 0, 0.35)" 
+                                : (isLab ? "1px solid rgba(255, 117, 195, 0.3)" : "1px solid rgba(255, 255, 255, 0.07)")),
                           background: isLab 
-                            ? "linear-gradient(135deg, rgba(255, 117, 195, 0.09) 0%, rgba(244, 114, 182, 0.03) 100%)" 
-                            : "rgba(255, 255, 255, 0.02)",
-                          boxShadow: isImportant 
-                            ? "0 0 15px rgba(255, 215, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.02)" 
-                            : (isLab ? "0 0 20px rgba(255, 117, 195, 0.06)" : "none"),
-                          transition: "all 0.2s ease",
+                            ? "linear-gradient(135deg, rgba(255, 117, 195, 0.08) 0%, rgba(244, 114, 182, 0.02) 100%)" 
+                            : (isActive ? "rgba(148, 255, 216, 0.04)" : "rgba(255, 255, 255, 0.02)"),
+                          boxShadow: isActive 
+                            ? `0 0 16px ${AURA.accent}15` 
+                            : (isImportant ? "0 0 14px rgba(255, 215, 0, 0.05)" : "none"),
                           cursor: "pointer",
                           display: "flex",
                           flexDirection: "column",
-                          gap: "8px"
+                          gap: "6px",
+                          position: "relative",
+                          overflow: "hidden"
                         }}
                       >
                         {isActive && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: `linear-gradient(90deg, transparent, ${AURA.accent}, transparent)` }} />}
                         
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                           <div style={{ display: "flex", alignItems: "center", gap: "8px", color: isActive ? AURA.accent : "var(--text-muted)", fontSize: "11px", fontWeight: 800 }}>
-                             {fmt12(item.startTime)} — {fmt12(item.endTime)}
-                           </div>
-                           
-                           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                              {isImportant && (
-                                <span style={{ 
-                                  fontSize: "9px", 
-                                  color: "#FFD700", 
-                                  textTransform: "uppercase", 
-                                  fontWeight: 900, 
-                                  background: "rgba(255, 215, 0, 0.1)", 
-                                  padding: "2px 6px", 
-                                  borderRadius: "6px",
-                                  border: "1px solid rgba(255, 215, 0, 0.2)",
-                                  letterSpacing: "0.05em"
-                                }}>
-                                  ★
-                                </span>
-                              )}
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  if (!isPremium) {
-                                    alert("Premium Feature: Flag important review classes, tests, or quizzes. Upgrade to Premium to unlock this feature!");
-                                    router.push('/premium');
-                                  } else {
-                                    setImportantSlots((prev: Record<string, boolean>) => ({
-                                      ...prev,
-                                      [slotKey]: !prev[slotKey]
-                                    }));
-                                  }
-                                }}
-                                style={{
-                                  background: "none",
-                                  border: "none",
-                                  cursor: "pointer",
-                                  padding: "2px",
-                                  color: isImportant ? "#FFD700" : "rgba(255,255,255,0.15)",
-                                  display: "flex",
-                                  alignItems: "center",
-                                  outline: "none"
-                                }}
-                              >
-                                <Star size={14} fill={isImportant ? "#FFD700" : "none"} />
-                              </button>
-                           </div>
+                        {/* Card Header: Time & Badges / Star */}
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", minWidth: 0, gap: "6px" }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: "6px", color: isActive ? AURA.accent : "rgba(255,255,255,0.7)", fontSize: "10.5px", fontWeight: 800 }}>
+                            <span>{fmt12(item.startTime)} – {fmt12(item.endTime)}</span>
+                            {isActive && (
+                              <span style={{ 
+                                fontSize: "7.5px", 
+                                color: "#000", 
+                                background: AURA.accent, 
+                                fontWeight: 950, 
+                                padding: "1px 5px", 
+                                borderRadius: "4px", 
+                                textTransform: "uppercase" 
+                              }}>
+                                NOW
+                              </span>
+                            )}
+                          </div>
+                          
+                          <div style={{ display: "flex", alignItems: "center", gap: "6px", flexShrink: 0 }}>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (!isPremium) {
+                                  alert("Premium Feature: Flag important review classes, tests, or quizzes. Upgrade to Premium to unlock this feature!");
+                                  router.push('/premium');
+                                } else {
+                                  setImportantSlots((prev: Record<string, boolean>) => ({
+                                    ...prev,
+                                    [slotKey]: !prev[slotKey]
+                                  }));
+                                }
+                              }}
+                              style={{
+                                background: "none",
+                                border: "none",
+                                cursor: "pointer",
+                                padding: "2px",
+                                color: isImportant ? "#FFD700" : "rgba(255,255,255,0.2)",
+                                display: "flex",
+                                alignItems: "center",
+                                outline: "none",
+                                minWidth: "22px",
+                                minHeight: "22px",
+                                justifyContent: "center"
+                              }}
+                              aria-label="Toggle star favorite"
+                            >
+                              <Star size={13} fill={isImportant ? "#FFD700" : "none"} />
+                            </button>
+                          </div>
                         </div>
 
+                        {/* Subject Title (2 lines max with ellipsis) */}
                         <div style={{ 
-                          fontSize: "15px", 
+                          fontSize: "13.5px", 
                           fontWeight: 900, 
                           color: "var(--text-main)", 
-                          lineHeight: 1.3, 
+                          lineHeight: 1.25, 
                           textTransform: "capitalize", 
-                          letterSpacing: "-0.2px",
+                          letterSpacing: "-0.01em",
                           display: "-webkit-box",
                           WebkitLineClamp: 2,
                           WebkitBoxOrient: "vertical",
@@ -1673,17 +1676,21 @@ function AuraTimetable({
                           {item.courseTitle.toLowerCase()}
                         </div>
                         
-                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                          <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.6)", fontWeight: 700 }}>{item.roomNo || "TBA"}</span>
+                        {/* Room & Lab Tags */}
+                        <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" }}>
+                          <span style={{ fontSize: "10.5px", color: "rgba(255,255,255,0.55)", fontWeight: 700 }}>
+                            {item.roomNo || "TBA"}
+                          </span>
                           {isLab && (
                             <span style={{ 
-                              fontSize: "8px", 
+                              fontSize: "7.5px", 
                               color: "#FF75C3", 
                               textTransform: "uppercase", 
-                              fontWeight: 900, 
+                              fontWeight: 950, 
                               background: "rgba(255, 117, 195, 0.15)", 
-                              padding: "2px 6px", 
-                              borderRadius: "6px"
+                              padding: "1px 5px", 
+                              borderRadius: "4px",
+                              border: "1px solid rgba(255, 117, 195, 0.25)"
                             }}>
                               LAB
                             </span>
@@ -1697,21 +1704,21 @@ function AuraTimetable({
             )}
           </>
         ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-            {/* Friends Selector Card */}
-            <div className="liquid-card" style={{ padding: "24px", border: `1px solid ${AURA.border}` }}>
-              <h3 style={{ fontSize: "16px", fontWeight: 900, color: "var(--text-main)", marginBottom: "4px" }}>Nexus Sync Engine</h3>
-              <p style={{ fontSize: "11px", color: "var(--text-muted)", marginBottom: "16px", fontWeight: 600 }}>Compare your schedule with classmates to find perfect times to meet, study, or grab lunch.</p>
+          /* Friends Sync View */
+          <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+            <div style={{ background: "rgba(255,255,255,0.02)", padding: "16px", borderRadius: "18px", border: `1px solid ${AURA.border}` }}>
+              <h3 style={{ fontSize: "14px", fontWeight: 900, color: "var(--text-main)", marginBottom: "3px" }}>Nexus Sync Engine</h3>
+              <p style={{ fontSize: "10.5px", color: "var(--text-muted)", marginBottom: "12px", fontWeight: 600 }}>Compare schedule with classmates to find free slots together.</p>
               
-              {/* Custom Search field */}
-              <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
+              {/* Search input */}
+              <div style={{ display: "flex", gap: "8px", marginBottom: "14px" }}>
                 <input 
                   id="friend-search-input"
                   type="text" 
-                  placeholder="Enter Friend's Name or Registration No..." 
+                  placeholder="Friend Name or Reg No..." 
                   style={{
-                    flex: 1, background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.1)",
-                    borderRadius: "14px", padding: "12px 16px", fontSize: "13px", color: "#fff",
+                    flex: 1, background: "rgba(0,0,0,0.4)", border: "1px solid rgba(255,255,255,0.1)",
+                    borderRadius: "10px", padding: "8px 12px", fontSize: "12px", color: "#fff",
                     outline: "none"
                   }}
                   onKeyDown={(e) => {
@@ -1730,24 +1737,24 @@ function AuraTimetable({
                     }
                   }}
                   style={{
-                    background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)",
-                    borderRadius: "14px", padding: "0 16px", color: "#fff", fontSize: "13px",
-                    fontWeight: 800, cursor: "pointer", transition: "all 0.2s"
+                    background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)",
+                    borderRadius: "10px", padding: "0 12px", color: "#fff", fontSize: "11px",
+                    fontWeight: 800, cursor: "pointer"
                   }}
                 >
                   Add
                 </button>
               </div>
 
-              {/* Dynamic Quick Connect list */}
+              {/* Quick Connect list */}
               <div>
-                <div style={{ fontSize: "10px", color: "var(--text-soft)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "10px" }}>Synced Friends (Quick Connect)</div>
+                <div style={{ fontSize: "9px", color: "rgba(255,255,255,0.4)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "8px" }}>Synced Friends</div>
                 {syncedFriends.length === 0 ? (
-                  <div style={{ padding: "20px", textAlign: "center", color: "var(--text-muted)", fontSize: "12px", background: "rgba(255,255,255,0.01)", border: "1px dashed rgba(255,255,255,0.05)", borderRadius: "16px", fontWeight: 600 }}>
-                    No friends added yet. Enter a name or registration number above to send a sync request.
+                  <div style={{ padding: "14px", textAlign: "center", color: "var(--text-muted)", fontSize: "11px", background: "rgba(255,255,255,0.01)", border: "1px dashed rgba(255,255,255,0.05)", borderRadius: "12px", fontWeight: 600 }}>
+                    No friends added yet. Enter a registration number above to sync.
                   </div>
                 ) : (
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(145px, 1fr))", gap: "10px" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(125px, 1fr))", gap: "8px" }}>
                     {syncedFriends.map((friend: any) => (
                       <div
                         key={friend.regNo}
@@ -1755,39 +1762,37 @@ function AuraTimetable({
                         style={{
                           background: selectedFriend?.regNo === friend.regNo ? "rgba(148, 255, 216, 0.08)" : "rgba(255,255,255,0.02)",
                           border: selectedFriend?.regNo === friend.regNo ? `1.5px solid ${AURA.accent}` : "1px solid rgba(255,255,255,0.06)",
-                          borderRadius: "16px", padding: "10px 12px", display: "flex", alignItems: "center", gap: "10px",
-                          textAlign: "left", cursor: "pointer", transition: "all 0.2s",
-                          position: "relative"
+                          borderRadius: "12px", padding: "8px 10px", display: "flex", alignItems: "center", gap: "8px",
+                          textAlign: "left", cursor: "pointer", position: "relative"
                         }}
                       >
                         <div style={{
-                          width: "30px", height: "30px", borderRadius: "10px",
-                          background: selectedFriend?.regNo === friend.regNo ? AURA.accent : "rgba(255,255,255,0.05)",
+                          width: "24px", height: "24px", borderRadius: "8px",
+                          background: selectedFriend?.regNo === friend.regNo ? AURA.accent : "rgba(255,255,255,0.06)",
                           color: selectedFriend?.regNo === friend.regNo ? "#000" : "#fff",
                           display: "flex", alignItems: "center", justifyContent: "center",
-                          fontSize: "10px", fontWeight: 900
+                          fontSize: "9px", fontWeight: 900
                         }}>
                           {friend.initials}
                         </div>
-                        <div style={{ minWidth: 0, flex: 1, paddingRight: "18px" }}>
-                          <div style={{ fontSize: "12px", fontWeight: 800, color: "var(--text-main)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                        <div style={{ minWidth: 0, flex: 1, paddingRight: "14px" }}>
+                          <div style={{ fontSize: "11px", fontWeight: 800, color: "var(--text-main)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                             {friend.name}
                           </div>
-                          <div style={{ fontSize: "9px", color: "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontWeight: 700 }}>
-                            ⚡ Synced • {friend.regNo}
+                          <div style={{ fontSize: "8.5px", color: "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontWeight: 700 }}>
+                            {friend.regNo}
                           </div>
                         </div>
-                        {/* Remove button */}
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
                             handleRemoveFriend(friend.regNo);
                           }}
                           style={{
-                            position: "absolute", right: "8px", top: "50%", transform: "translateY(-50%)",
-                            background: "none", border: "none", color: "rgba(255,255,255,0.2)",
-                            fontSize: "16px", cursor: "pointer", display: "flex", alignItems: "center",
-                            justifyContent: "center", outline: "none", padding: "4px"
+                            position: "absolute", right: "6px", top: "50%", transform: "translateY(-50%)",
+                            background: "none", border: "none", color: "rgba(255,255,255,0.3)",
+                            fontSize: "14px", cursor: "pointer", display: "flex", alignItems: "center",
+                            justifyContent: "center", outline: "none", padding: "2px"
                           }}
                         >
                           ×
@@ -1799,328 +1804,309 @@ function AuraTimetable({
               </div>
             </div>
 
-            {/* Selected Friend Comparison Grid */}
-            {selectedFriend ? (
-              selectedFriend.status === "pending" ? (
-                /* Pending Approval Screen */
-                <div className="liquid-card" style={{ padding: "40px 24px", border: `1px solid ${AURA.border}`, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
-                  <div style={{
-                    width: "56px", height: "56px", borderRadius: "50%",
-                    background: "rgba(255, 149, 0, 0.1)", color: "#FF9500",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: "20px", marginBottom: "8px"
-                  }}>
-                    ⏳
-                  </div>
-                  <div>
-                    <h4 style={{ fontSize: "16px", fontWeight: 900, color: "#fff", margin: "0 0 6px" }}>Sync Request Pending</h4>
-                    <p style={{ fontSize: "11px", color: "var(--text-muted)", maxWidth: "320px", margin: "0 auto", lineHeight: 1.5, fontWeight: 600 }}>
-                      Sharing timetables requires mutual consent. We have sent a sync request to <strong>{selectedFriend.name}</strong> ({selectedFriend.regNo}).
-                    </p>
-                  </div>
-                  <div style={{ display: "flex", gap: "10px", marginTop: "12px", flexWrap: "wrap", justifyContent: "center" }}>
-                    <button
-                      onClick={() => handleApproveFriend(selectedFriend.regNo)}
-                      style={{
-                        background: "linear-gradient(135deg, #30d158 0%, #24b045 100%)",
-                        color: "#fff", border: "none", borderRadius: "12px", padding: "8px 16px",
-                        fontSize: "11px", fontWeight: 800, cursor: "pointer",
-                        boxShadow: "0 4px 12px rgba(48, 209, 88, 0.2)"
-                      }}
-                    >
-                      Approve Request (Simulate Friend)
-                    </button>
-                    <button
-                      onClick={() => handleRemoveFriend(selectedFriend.regNo)}
-                      style={{
-                        background: "rgba(255,255,255,0.05)",
-                        color: "var(--text-muted)", border: "1px solid rgba(255,255,255,0.1)",
-                        borderRadius: "12px", padding: "8px 16px",
-                        fontSize: "11px", fontWeight: 800, cursor: "pointer"
-                      }}
-                    >
-                      Cancel Request
-                    </button>
-                  </div>
+            {/* Friend comparison results */}
+            {selectedFriend && (
+              <div style={{ background: "rgba(255,255,255,0.02)", borderRadius: "18px", padding: "14px", border: `1px solid ${AURA.border}` }}>
+                <div style={{ fontSize: "12px", fontWeight: 800, color: "#fff", marginBottom: "10px" }}>
+                  Schedule Overlap · Day {dayOverride} ({selectedFriend.name})
                 </div>
-              ) : (
-                /* Selected Friend Comparison Grid */
-                <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-                  {/* Active Comparison Status Header */}
-                  <div className="liquid-card" style={{ padding: "20px 24px", border: `1px solid ${AURA.border}`, background: "rgba(255, 255, 255, 0.01)" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                  {comparisonList.map((slot: any) => (
+                    <div 
+                      key={slot.period}
+                      style={{
+                        display: "flex", justifyContent: "space-between", alignItems: "center",
+                        padding: "8px 10px", borderRadius: "10px",
+                        background: slot.bothFree ? "rgba(148, 255, 216, 0.08)" : "rgba(255,255,255,0.02)",
+                        border: slot.bothFree ? `1px solid ${AURA.accent}40` : "1px solid rgba(255,255,255,0.04)"
+                      }}
+                    >
                       <div>
-                        <span style={{ fontSize: "10px", color: AURA.accent, fontWeight: 800, letterSpacing: "0.05em" }}>SYNCED COMPARISON</span>
-                        <h4 style={{ fontSize: "18px", fontWeight: 900, color: "#fff", margin: "2px 0 0" }}>
-                          You & {selectedFriend.name}
-                        </h4>
-                        <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "4px", fontWeight: 600 }}>
-                          Found <strong style={{ color: "#34c759", fontWeight: 900 }}>{comparisonList.filter(c => c.bothFree).length}</strong> matching free slots on Day {dayOverride}.
-                        </div>
+                        <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.5)", fontWeight: 700 }}>{slot.time}</div>
+                        <div style={{ fontSize: "11px", fontWeight: 800, color: "#fff" }}>You: {slot.myStatus}</div>
                       </div>
-                      <button
-                        onClick={() => {
-                          const firstFree = comparisonList.find(c => c.bothFree);
-                          if (firstFree) {
-                            alert(`Meetup requested with ${selectedFriend.name} on Day Order ${dayOverride}, Period ${firstFree.period} (${firstFree.time})!`);
-                          } else {
-                            alert(`Meetup requested with ${selectedFriend.name} for Day Order ${dayOverride}!`);
-                          }
-                        }}
-                        style={{
-                          background: `linear-gradient(135deg, ${AURA.secondary}ee, ${AURA.primary}ee)`,
-                          color: "#fff", border: "none", borderRadius: "14px", padding: "10px 18px",
-                          fontSize: "11px", fontWeight: 900, cursor: "pointer", textTransform: "uppercase",
-                          letterSpacing: "0.05em", boxShadow: `0 4px 15px ${AURA.secondary}44`
-                        }}
-                      >
-                        Schedule Meetup
-                      </button>
+                      <div style={{ textAlign: "right" }}>
+                        {slot.bothFree ? (
+                          <span style={{ fontSize: "8.5px", fontWeight: 900, color: "#000", background: AURA.accent, padding: "2px 6px", borderRadius: "4px" }}>
+                            BOTH FREE 🎉
+                          </span>
+                        ) : (
+                          <span style={{ fontSize: "9.5px", color: "var(--text-muted)", fontWeight: 700 }}>
+                            {selectedFriend.name.split(' ')[0]}: {slot.friendStatus}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Hidden Share Containers */}
+        <div style={{ position: "absolute", left: "-9999px", top: 0 }}>
+          <div ref={shareRef} style={{ width: "420px", background: "#0c0a14", padding: "32px", position: "relative", overflow: "hidden", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
+              <div>
+                <div style={{ fontSize: "9px", color: AURA.primary, fontWeight: 900, letterSpacing: "0.2em", marginBottom: "2px" }}>SRM NEXUS</div>
+                <div style={{ fontSize: "20px", fontWeight: 900, color: "#fff" }}>Day {dayOverride} Schedule</div>
+              </div>
+              <div style={{ fontSize: "22px", fontWeight: 900, color: AURA.accent }}>DO {dayOverride}</div>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              {classesWithBreaks.map((item: any, i: number) => {
+                if (item.isBreak) return null;
+                const isLab = isLabSession(item, myCourses);
+                return (
+                  <div key={i} style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+                    <div style={{ width: "85px", fontSize: "9.5px", fontWeight: 800, color: "rgba(255,255,255,0.7)", textAlign: "right" }}>
+                      <div>{fmt12(item.startTime)}</div>
+                      <div style={{ fontSize: "8px", color: "rgba(255,255,255,0.4)" }}>to {fmt12(item.endTime)}</div>
+                    </div>
+                    <div style={{ flex: 1, background: isLab ? "rgba(255, 117, 195, 0.1)" : "rgba(255,255,255,0.03)", border: isLab ? "1px solid rgba(255, 117, 195, 0.3)" : "1px solid rgba(255,255,255,0.05)", borderRadius: "10px", padding: "10px 12px" }}>
+                      <div style={{ fontSize: "12.5px", fontWeight: 900, color: "#fff", textTransform: "capitalize" }}>{item.courseTitle.toLowerCase()}</div>
+                      <div style={{ fontSize: "9.5px", color: isLab ? "#FF75C3" : AURA.secondary, fontWeight: 700, marginTop: "2px" }}>{item.roomNo || "TBA"} • {item.courseCode}</div>
                     </div>
                   </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
 
-                  {/* The Timeline Comparison List */}
-                  <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-                    {comparisonList.map((item, idx) => {
-                      const statusColor = item.bothFree 
-                        ? "rgba(52, 199, 89, 0.08)"
-                        : (item.isMyFree || item.isFriendFree 
-                            ? "rgba(255, 255, 255, 0.01)"
-                            : "rgba(255, 45, 85, 0.03)");
-                      
-                      const borderColor = item.bothFree 
-                        ? "rgba(52, 199, 89, 0.25)"
-                        : (item.isMyFree || item.isFriendFree 
-                            ? "rgba(255, 255, 255, 0.05)"
-                            : "rgba(255, 45, 85, 0.12)");
+        {/* Hidden Full Share Card */}
+        <div style={{ position: "absolute", left: "-9999px", top: 0 }}>
+          <div ref={fullShareRef} style={{ width: "1100px", background: "#0c0a14", padding: "48px", position: "relative", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "36px" }}>
+              <div>
+                <div style={{ fontSize: "12px", color: AURA.accent, fontWeight: 900, letterSpacing: "0.2em", marginBottom: "6px" }}>SRM NEXUS PORTAL</div>
+                <div style={{ fontSize: "36px", fontWeight: 900, color: "#fff" }}>Semester Timetable</div>
+              </div>
+              <div style={{ textAlign: "right" }}>
+                <div style={{ fontSize: "20px", fontWeight: 900, color: AURA.secondary }}>BATCH {batch}</div>
+              </div>
+            </div>
 
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "12px" }}>
+              {[1, 2, 3, 4, 5].map(d => (
+                <div key={d} style={{ background: "rgba(255,255,255,0.02)", borderRadius: "18px", padding: "16px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                  <div style={{ fontSize: "12px", color: AURA.primary, fontWeight: 900, marginBottom: "14px", textTransform: "uppercase", textAlign: "center" }}>Day Order {d}</div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                    {(schedule[d - 1]?.classes || []).map((cls: any, i: number) => {
+                      const isLab = isLabSession(cls, myCourses);
                       return (
-                        <div key={idx} style={{
-                          background: statusColor,
-                          border: `1px solid ${borderColor}`,
-                          borderRadius: "20px",
-                          padding: "16px 20px",
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "10px",
-                          boxShadow: item.bothFree ? "0 0 20px rgba(52, 199, 89, 0.03)" : "none",
-                          position: "relative"
-                        }}>
-                          {item.bothFree && (
-                            <div style={{
-                              position: "absolute", left: 0, top: 0, bottom: 0, width: "3px",
-                              background: "#34c759", borderRadius: "3px 0 0 3px"
-                            }} />
-                          )}
-                          
-                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                            <div style={{ fontSize: "10px", color: "var(--text-muted)", fontWeight: 800, textTransform: "uppercase" }}>
-                              Period {item.period} ({item.time})
-                            </div>
-                            {item.bothFree ? (
-                              <span style={{
-                                background: "#34c759", color: "#000", fontSize: "9px", fontWeight: 900,
-                                padding: "3px 8px", borderRadius: "8px", textTransform: "uppercase", letterSpacing: "0.05em"
-                              }}>
-                                Match! Both Free
-                              </span>
-                            ) : (
-                              <span style={{
-                                background: "rgba(255,255,255,0.05)", color: "var(--text-muted)", fontSize: "9px", fontWeight: 850,
-                                padding: "3px 8px", borderRadius: "8px", textTransform: "uppercase"
-                              }}>
-                                {item.isMyFree ? `${selectedFriend.name} Busy` : item.isFriendFree ? "You Busy" : "Both Busy"}
-                              </span>
-                            )}
-                          </div>
-                          
-                          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", borderTop: "1px dashed rgba(255,255,255,0.05)", paddingTop: "8px" }}>
-                            <div>
-                              <div style={{ fontSize: "8px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>Your Schedule</div>
-                              <div style={{ fontSize: "12px", fontWeight: 700, color: item.isMyFree ? "#34c759" : "var(--text-main)", textTransform: "capitalize", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                                {item.myStatus.toLowerCase()}
-                              </div>
-                            </div>
-                            <div>
-                              <div style={{ fontSize: "8px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>{`${selectedFriend.name}'s Schedule`}</div>
-                              <div style={{ fontSize: "12px", fontWeight: 700, color: item.isFriendFree ? "#34c759" : "var(--text-main)", textTransform: "capitalize", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                                {item.friendStatus.toLowerCase()}
-                              </div>
-                            </div>
+                        <div key={i} style={{ background: isLab ? "rgba(255, 117, 195, 0.1)" : "rgba(255,255,255,0.03)", padding: "8px 10px", borderRadius: "10px", border: isLab ? "1px solid rgba(255, 117, 195, 0.3)" : "1px solid rgba(255,255,255,0.05)" }}>
+                          <div style={{ fontSize: "10px", fontWeight: 900, color: isLab ? "#FF75C3" : "#fff", textTransform: "capitalize" }}>{cls.courseTitle.toLowerCase()}</div>
+                          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "8.5px", color: "rgba(255,255,255,0.6)", fontWeight: 700, marginTop: "2px" }}>
+                            <span>{fmt12(cls.startTime)}</span>
+                            <span>{cls.roomNo || "TBA"}</span>
                           </div>
                         </div>
                       );
                     })}
                   </div>
                 </div>
-              )
-            ) : (
-              <div className="liquid-card" style={{ padding: "40px 24px", border: `1px solid ${AURA.border}`, textAlign: "center" }}>
-                <span style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 700 }}>
-                  Select a friend from Synced Friends or type their registration number above to begin.
-                </span>
-              </div>
-            )}
+              ))}
+            </div>
           </div>
-        )}
-
-        {/* Hidden Share Card */}
-        <div style={{ position: "absolute", left: "-9999px", top: 0 }}>
-           <div ref={shareRef} style={{ width: "450px", background: AURA.bg, padding: "40px", position: "relative", overflow: "hidden", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-              <div style={{ position: "absolute", right: "-50px", top: "-50px", width: "200px", height: "200px", background: AURA.secondary, filter: "blur(120px)", opacity: 0.2 }} />
-              
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px" }}>
-                 <div>
-                    <div style={{ fontSize: "10px", color: AURA.primary, fontWeight: 900, letterSpacing: "0.2em", marginBottom: "4px" }}>SRM NEXUS</div>
-                    <div style={{ fontSize: "24px", fontWeight: 900, color: "#fff", letterSpacing: "-0.5px" }}>Day {dayOverride} Schedule</div>
-                 </div>
-                 <div style={{ fontSize: "28px", fontWeight: 900, color: AURA.accent }}>DO {dayOverride}</div>
-              </div>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                 {classesWithBreaks.map((item: AnyValue, i: number) => {
-                    if (item.isBreak) return null;
-                    const isLab = isLabSession(item, myCourses);
-                    return (
-                       <div key={i} style={{ display: "flex", gap: "16px", alignItems: "center" }}>
-                          <div style={{ width: "100px", fontSize: "10px", fontWeight: 800, color: "rgba(255,255,255,0.7)", textAlign: "right", lineHeight: 1.3 }}>
-                             <div>{fmt12(item.startTime)}</div>
-                             <div style={{ fontSize: "9px", color: "rgba(255,255,255,0.45)", fontWeight: 600 }}>to {fmt12(item.endTime)}</div>
-                          </div>
-                          <div style={{ flex: 1, background: isLab ? "rgba(255, 117, 195, 0.12)" : "rgba(255,255,255,0.03)", border: isLab ? "1px solid rgba(255, 117, 195, 0.35)" : "1px solid rgba(255,255,255,0.05)", borderRadius: "12px", padding: "12px 16px" }}>
-                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
-                               <div style={{ fontSize: "14px", fontWeight: 900, color: "#fff", textTransform: "capitalize" }}>{item.courseTitle.toLowerCase()}</div>
-                               {isLab && <span style={{ fontSize: "8px", fontWeight: 900, color: "#FF75C3", background: "rgba(255, 117, 195, 0.2)", border: "1px solid rgba(255, 117, 195, 0.4)", padding: "2px 6px", borderRadius: "6px", textTransform: "uppercase" }}>Lab</span>}
-                             </div>
-                             <div style={{ fontSize: "10px", color: isLab ? "#FF75C3" : AURA.secondary, fontWeight: 700 }}>{item.roomNo || "TBA"} • {item.courseCode}</div>
-                          </div>
-                       </div>
-                    );
-                 })}
-              </div>
-
-              <div style={{ marginTop: "40px", borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: "20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                 <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.4)", fontWeight: 700 }}>GENERATED VIA SRMNEXUS.APP</div>
-              </div>
-           </div>
-        </div>
-
-        {/* Hidden Full Share Card */}
-        <div style={{ position: "absolute", left: "-9999px", top: 0 }}>
-           <div ref={fullShareRef} style={{ width: "1200px", background: AURA.bg, padding: "60px", position: "relative", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "48px" }}>
-                 <div>
-                    <div style={{ fontSize: "14px", color: AURA.accent, fontWeight: 900, letterSpacing: "0.2em", marginBottom: "8px" }}>SRM NEXUS PORTAL</div>
-                    <div style={{ fontSize: "42px", fontWeight: 900, color: "#fff", letterSpacing: "-1px" }}>Semester Timetable</div>
-                 </div>
-                 <div style={{ textAlign: "right" }}>
-                    <div style={{ fontSize: "24px", fontWeight: 900, color: AURA.secondary }}>BATCH {batch}</div>
-                 </div>
-              </div>
-
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "16px" }}>
-                 {[1, 2, 3, 4, 5].map(d => (
-                    <div key={d} style={{ background: "rgba(255,255,255,0.02)", borderRadius: "24px", padding: "20px", border: "1px solid rgba(255,255,255,0.05)" }}>
-                       <div style={{ fontSize: "14px", color: AURA.primary, fontWeight: 900, marginBottom: "20px", textTransform: "uppercase", letterSpacing: "0.1em", textAlign: "center" }}>Day Order {d}</div>
-                       <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                          {(schedule[d - 1]?.classes || []).map((cls: AnyValue, i: number) => {
-                             const isLab = isLabSession(cls, myCourses);
-                             return (
-                                <div key={i} style={{ background: isLab ? "rgba(255, 117, 195, 0.12)" : "rgba(255,255,255,0.03)", padding: "10px 12px", borderRadius: "12px", border: isLab ? "1px solid rgba(255, 117, 195, 0.35)" : "1px solid rgba(255,255,255,0.05)" }}>
-                                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
-                                     <div style={{ fontSize: "11px", fontWeight: 900, color: isLab ? "#FF75C3" : "#fff", textTransform: "capitalize" }}>{cls.courseTitle.toLowerCase()}</div>
-                                     {isLab && <span style={{ fontSize: "7.5px", fontWeight: 900, color: "#FF75C3", background: "rgba(255, 117, 195, 0.2)", border: "1px solid rgba(255, 117, 195, 0.3)", padding: "1px 4px", borderRadius: "4px" }}>LAB</span>}
-                                   </div>
-                                   <div style={{ display: "flex", justifyContent: "space-between", fontSize: "9px", color: "rgba(255,255,255,0.6)", fontWeight: 700, gap: "6px" }}>
-                                     <span>{fmt12(cls.startTime)} – {fmt12(cls.endTime)}</span>
-                                     <span>{cls.roomNo || "TBA"}</span>
-                                   </div>
-                                </div>
-                             );
-                          })}
-                       </div>
-                    </div>
-                 ))}
-              </div>
-           </div>
         </div>
       </main>
 
-      {/* Details Bottom Sheet Overlay */}
-      <div 
-        style={{
-          position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
-          background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)",
-          zIndex: 9999, opacity: selectedClassDetails ? 1 : 0,
-          pointerEvents: selectedClassDetails ? "auto" : "none",
-          transition: "opacity 0.3s ease"
-        }} 
-        onClick={() => setSelectedClassDetails(null)}
-      >
+      {/* Polish Class Details Bottom Sheet using React Portal */}
+      {mounted && createPortal(
         <div 
+          className="tt-sheet-backdrop"
           style={{
-            position: "absolute", bottom: 0, left: 0, right: 0,
-            background: "var(--app-bg)", borderTop: `1px solid ${AURA.border}`,
-            borderRadius: "28px 28px 0 0", padding: "20px 24px calc(env(safe-area-inset-bottom, 0px) + 24px)",
-            transform: selectedClassDetails ? "translateY(0)" : "translateY(100%)",
-            transition: "transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
-            boxShadow: "0 -10px 40px rgba(0,0,0,0.5)",
-            display: "flex", flexDirection: "column", gap: "16px"
-          }}
-          onClick={e => e.stopPropagation()}
+            position: "fixed", 
+            top: 0, 
+            left: 0, 
+            right: 0, 
+            bottom: 0,
+            background: "rgba(0, 0, 0, 0.72)", 
+            backdropFilter: "blur(5px)",
+            WebkitBackdropFilter: "blur(5px)",
+            zIndex: 100000, 
+            opacity: selectedClassDetails ? 1 : 0,
+            pointerEvents: selectedClassDetails ? "auto" : "none",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-end"
+          }} 
+          onClick={() => setSelectedClassDetails(null)}
         >
-          <div style={{ width: "40px", height: "4px", background: "rgba(255,255,255,0.2)", borderRadius: "2px", margin: "0 auto 8px" }} />
-          
-          {selectedClassDetails && (() => {
-            const isLab = isLabSession(selectedClassDetails, myCourses);
-            return (
-              <>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                  <div style={{ fontSize: "12px", color: AURA.accent, fontWeight: 800 }}>
-                    {fmt12(selectedClassDetails.startTime)} – {fmt12(selectedClassDetails.endTime)}
+          <div 
+            className="tt-sheet-panel"
+            style={{
+              width: "100%",
+              maxWidth: "520px",
+              margin: "0 auto",
+              background: "#0d0a17", 
+              borderTop: "1px solid rgba(255, 255, 255, 0.14)",
+              borderRadius: "24px 24px 0 0", 
+              maxHeight: "85vh",
+              display: "flex", 
+              flexDirection: "column",
+              boxShadow: "0 -12px 48px rgba(0,0,0,0.8)",
+              transform: selectedClassDetails ? "translateY(0)" : "translateY(100%)",
+              position: "relative",
+              overflow: "hidden"
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Drag Handle */}
+            <div style={{ width: "36px", height: "4px", background: "rgba(255,255,255,0.25)", borderRadius: "2px", margin: "10px auto 4px", flexShrink: 0 }} />
+
+            {selectedClassDetails && (() => {
+              const isLab = isLabSession(selectedClassDetails, myCourses);
+              const slotKey = `${dayOverride}-${selectedClassDetails.courseCode}-${selectedClassDetails.startTime}`;
+              const isImportant = !!importantSlots[slotKey];
+
+              return (
+                <div style={{ 
+                  display: "flex", 
+                  flexDirection: "column", 
+                  gap: "14px", 
+                  overflowY: "auto", 
+                  padding: "12px 20px calc(24px + env(safe-area-inset-bottom, 0px))" 
+                }}>
+                  {/* Top Bar: Time, Lab Badge & Close (X) */}
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                      <span style={{ fontSize: "12px", color: AURA.accent, fontWeight: 900, letterSpacing: "0.02em" }}>
+                        {fmt12(selectedClassDetails.startTime)} – {fmt12(selectedClassDetails.endTime)}
+                      </span>
+                      {isLab && (
+                        <span style={{ 
+                          fontSize: "8.5px", 
+                          color: "#FF75C3", 
+                          textTransform: "uppercase", 
+                          fontWeight: 950, 
+                          background: "rgba(255, 117, 195, 0.15)", 
+                          padding: "2px 7px", 
+                          borderRadius: "6px", 
+                          border: "1px solid rgba(255, 117, 195, 0.3)" 
+                        }}>
+                          Lab Session
+                        </span>
+                      )}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setSelectedClassDetails(null)}
+                      style={{
+                        width: "30px",
+                        height: "30px",
+                        borderRadius: "50%",
+                        background: "rgba(255, 255, 255, 0.08)",
+                        border: "1px solid rgba(255, 255, 255, 0.12)",
+                        color: "rgba(255, 255, 255, 0.7)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        cursor: "pointer"
+                      }}
+                      aria-label="Close sheet"
+                    >
+                      <X size={15} />
+                    </button>
                   </div>
-                  {isLab && <div style={{ fontSize: "9px", color: "#FF75C3", textTransform: "uppercase", fontWeight: 900, background: "rgba(255, 117, 195, 0.15)", padding: "4px 8px", borderRadius: "8px", border: "1px solid rgba(255, 117, 195, 0.3)" }}>Lab Session</div>}
+                  
+                  {/* Full Course Title */}
+                  <div style={{ fontSize: "20px", fontWeight: 900, color: "#fff", textTransform: "capitalize", lineHeight: 1.25, letterSpacing: "-0.3px" }}>
+                    {selectedClassDetails.courseTitle.toLowerCase()}
+                  </div>
+                  
+                  {/* Metadata Grid */}
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+                    <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", padding: "12px", borderRadius: "14px" }}>
+                      <div style={{ fontSize: "8.5px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800, marginBottom: "3px" }}>Course Code</div>
+                      <div style={{ fontSize: "13px", fontWeight: 900, color: AURA.secondary }}>{selectedClassDetails.courseCode}</div>
+                    </div>
+                    <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", padding: "12px", borderRadius: "14px" }}>
+                      <div style={{ fontSize: "8.5px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800, marginBottom: "3px" }}>Room</div>
+                      <div style={{ fontSize: "13px", fontWeight: 900, color: "#fff" }}>{selectedClassDetails.roomNo || "TBA"}</div>
+                    </div>
+                    
+                    <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", padding: "12px", borderRadius: "14px", gridColumn: "1 / -1" }}>
+                      <div style={{ fontSize: "8.5px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800, marginBottom: "3px" }}>Faculty</div>
+                      <div style={{ fontSize: "13px", fontWeight: 900, color: "#fff" }}>{(selectedClassDetails.facultyName || "TBA").replace(/\s*\(\d+\)/, "")}</div>
+                    </div>
+
+                    <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", padding: "12px", borderRadius: "14px" }}>
+                      <div style={{ fontSize: "8.5px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800, marginBottom: "3px" }}>Slot</div>
+                      <div style={{ fontSize: "13px", fontWeight: 900, color: "#fff" }}>{selectedClassDetails.slot || "—"}</div>
+                    </div>
+                    <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", padding: "12px", borderRadius: "14px" }}>
+                      <div style={{ fontSize: "8.5px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800, marginBottom: "3px" }}>Type</div>
+                      <div style={{ fontSize: "13px", fontWeight: 900, color: "#fff" }}>{selectedClassDetails.courseType || "Theory"}</div>
+                    </div>
+                  </div>
+
+                  {/* Star / Important Action Button */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!isPremium) {
+                        alert("Premium Feature: Flag important review classes, tests, or quizzes. Upgrade to Premium to unlock this feature!");
+                        router.push('/premium');
+                      } else {
+                        setImportantSlots((prev: Record<string, boolean>) => ({
+                          ...prev,
+                          [slotKey]: !prev[slotKey]
+                        }));
+                      }
+                    }}
+                    style={{
+                      width: "100%",
+                      padding: "12px",
+                      borderRadius: "14px",
+                      background: isImportant ? "rgba(255, 215, 0, 0.12)" : "rgba(255, 255, 255, 0.04)",
+                      border: isImportant ? "1px solid rgba(255, 215, 0, 0.35)" : "1px solid rgba(255, 255, 255, 0.08)",
+                      color: isImportant ? "#FFD700" : "rgba(255, 255, 255, 0.85)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "8px",
+                      fontSize: "12px",
+                      fontWeight: 800,
+                      cursor: "pointer"
+                    }}
+                  >
+                    <Star size={14} fill={isImportant ? "#FFD700" : "none"} />
+                    <span>{isImportant ? "Flagged as Important Class" : "Mark as Important Class"}</span>
+                  </button>
+                  
+                  {/* Close button */}
+                  <button 
+                    type="button"
+                    onClick={() => setSelectedClassDetails(null)}
+                    style={{ 
+                      width: "100%", 
+                      padding: "13px", 
+                      background: "rgba(255,255,255,0.06)", 
+                      border: "1px solid rgba(255,255,255,0.12)", 
+                      borderRadius: "14px", 
+                      color: "#fff", 
+                      fontSize: "13px", 
+                      fontWeight: 900, 
+                      cursor: "pointer" 
+                    }}
+                  >
+                    Done
+                  </button>
                 </div>
-                
-                <div style={{ fontSize: "22px", fontWeight: 900, color: "#fff", textTransform: "capitalize", lineHeight: 1.2, letterSpacing: "-0.5px" }}>
-                  {selectedClassDetails.courseTitle.toLowerCase()}
-                </div>
-                
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginTop: "8px" }}>
-                  <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "14px", borderRadius: "16px" }}>
-                    <div style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800, marginBottom: "4px" }}>Course Code</div>
-                    <div style={{ fontSize: "14px", fontWeight: 800, color: AURA.secondary }}>{selectedClassDetails.courseCode}</div>
-                  </div>
-                  <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "14px", borderRadius: "16px" }}>
-                    <div style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800, marginBottom: "4px" }}>Room</div>
-                    <div style={{ fontSize: "14px", fontWeight: 800, color: "#fff" }}>{selectedClassDetails.roomNo || "TBA"}</div>
-                  </div>
-                  <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "14px", borderRadius: "16px", gridColumn: "1 / -1" }}>
-                    <div style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800, marginBottom: "4px" }}>Faculty</div>
-                    <div style={{ fontSize: "14px", fontWeight: 800, color: "#fff" }}>{(selectedClassDetails.facultyName || "TBA").replace(/\s*\(\d+\)/, "")}</div>
-                  </div>
-                </div>
-                
-                <button 
-                  onClick={() => setSelectedClassDetails(null)}
-                  style={{ 
-                    marginTop: "8px", width: "100%", padding: "16px", 
-                    background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", 
-                    borderRadius: "16px", color: "#fff", fontSize: "14px", fontWeight: 800, 
-                    cursor: "pointer", transition: "all 0.2s" 
-                  }}
-                >
-                  Close
-                </button>
-              </>
-            );
-          })()}
-        </div>
-      </div>
+              );
+            })()}
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 }
-
 
 function fmtTimeOnly(t: string) { const m = t.match(/(\d+):(\d+)/); if (!m) return t; const h24 = to24(parseInt(m[1])); const suffix = h24 >= 12 ? "p" : "a"; const h12 = h24 > 12 ? h24 - 12 : h24 === 0 ? 12 : h24; return `${h12}:${m[2]}${suffix}`; }
 
