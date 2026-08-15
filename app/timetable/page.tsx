@@ -456,7 +456,7 @@ export default function TimetablePage() {
     queryKey: ["tt", batch],
     queryFn: () => dataAPI.getTimetable(batch),
     staleTime: 600000,
-    initialData: cachedTimetable ? cachedTimetable : (academicData?.timetableBatch && academicData?.timetableBatch === batch ? { data: { rows: academicData.timetableRows } } : undefined)
+    initialData: cachedTimetable && cachedTimetable.batch === batch ? cachedTimetable : (academicData?.timetableBatch && academicData?.timetableBatch === batch ? { data: { rows: academicData.timetableRows } } : undefined)
   });
 
   useEffect(() => {
