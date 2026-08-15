@@ -21,7 +21,8 @@ export default function AuraDashboard({
   upcomingEvents, marks,
   tomorrowSkipStats, totalSafeSkips, nextRiskyClassText,
   safeSubjectsCount, riskySubjectsCount, onConnectPortal,
-  currentClass, currentClassMeta, nextClassMeta
+  currentClass, currentClassMeta, nextClassMeta,
+  syncError
 }: AnyValue) {
   const router = useRouter();
   const { activeTheme, stars } = useAuraTheme();
@@ -271,6 +272,51 @@ export default function AuraDashboard({
               </div>
             );
           })()}
+
+          {/* Sync Error Warning Banner */}
+          {syncError && (
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(255, 45, 85, 0.15) 0%, rgba(191, 90, 242, 0.1) 100%)',
+              border: '1.5px solid rgba(255, 45, 85, 0.3)',
+              boxShadow: '0 8px 32px rgba(255, 45, 85, 0.15)',
+              borderRadius: '24px',
+              padding: '16px 20px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '12px',
+              position: 'relative',
+              zIndex: 10,
+              marginBottom: '12px'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <AlertTriangle size={16} color="#FF2D55" style={{ flexShrink: 0 }} />
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span style={{ fontSize: '11px', fontWeight: 900, color: '#ff2d55', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Sync Issue</span>
+                  <span style={{ fontSize: '10px', color: AURA.sub, fontWeight: 600, marginTop: '2px' }}>{syncError}</span>
+                </div>
+              </div>
+              <button
+                onClick={onConnectPortal}
+                style={{
+                  background: '#FF2D55',
+                  color: '#fff',
+                  border: 'none',
+                  padding: '6px 14px',
+                  borderRadius: '10px',
+                  fontSize: '10px',
+                  fontWeight: 900,
+                  cursor: 'pointer',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  boxShadow: '0 4px 12px rgba(255, 45, 85, 0.3)',
+                  flexShrink: 0
+                }}
+              >
+                Reconnect
+              </button>
+            </div>
+          )}
 
           {/* Enable Notification Alerts Card */}
           {!academicAlertsPrompted && !academicAlertsEnabled && data && (

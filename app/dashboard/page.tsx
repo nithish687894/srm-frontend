@@ -1217,6 +1217,7 @@ export default function DashboardPage() {
         safeSubjectsCount={safeSubjectsCount}
         riskySubjectsCount={riskySubjectsCount}
         onConnectPortal={() => setIsSyncModalOpen(true)}
+        syncError={syncError}
       />
     );
   })();
