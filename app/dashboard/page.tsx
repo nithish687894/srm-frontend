@@ -653,23 +653,23 @@ export default function DashboardPage() {
     fetchUnifiedData(false);
   }, [ready]);
 
-  // Auto-refresh: poll every 3 minutes while tab is visible
+  // Auto-refresh: poll every 30 minutes while tab is visible
   useEffect(() => {
     if (!ready || loading) return;
     const interval = setInterval(() => {
       if (document.visibilityState === 'visible') {
         fetchUnifiedData(true); // silent refresh, no loading spinner
       }
-    }, 3 * 60 * 1000); // 3 minutes
+    }, 30 * 60 * 1000); // 30 minutes
     return () => clearInterval(interval);
   }, [ready, loading, fetchUnifiedData]);
 
-  // Visibility-based refetch: when user returns to tab, refresh if data is older than 2 minutes
+  // Visibility-based refetch: when user returns to tab, refresh if data is older than 15 minutes
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible' && ready) {
         const age = Date.now() - (data?.lastFetchedAt || 0);
-        if (age > 2 * 60 * 1000) { // 2 minutes
+        if (age > 15 * 60 * 1000) { // 15 minutes
           fetchUnifiedData(true);
         }
       }
