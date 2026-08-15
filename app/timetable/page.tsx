@@ -103,41 +103,10 @@ function hashCode(str: string) {
   return Math.abs(hash);
 }
 
-function generateFriendTimetable(nameOrReg: string, myCourses: AnyValue[]) {
-  const hash = hashCode(nameOrReg || "Akash");
-  const days = [1, 2, 3, 4, 5].map(day => {
-    const classes: ScheduleItem[] = [];
-    const daySeed = hash + day;
-    
-    PERIODS.forEach((period, pIdx) => {
-      const isClass = ((daySeed * (pIdx + 1)) % 10) > 4;
-      if (isClass) {
-        const courseIndex = (daySeed + pIdx) % Math.max(1, myCourses.length);
-        const course = myCourses[courseIndex] || {
-          courseTitle: "Professional Elective",
-          courseCode: "18CS303T",
-          courseType: "Theory",
-          facultyName: "Dr. Rajesh Kumar",
-          roomNo: "TP402"
-        };
-        
-        classes.push({
-          slot: `P${pIdx + 1}`,
-          startTime: period.start,
-          endTime: period.end,
-          courseTitle: course.courseTitle || course.courseName || "Core Course",
-          courseCode: course.courseCode || "18CS101T",
-          courseType: course.courseType || "Theory",
-          facultyName: course.facultyName || "TBA",
-          roomNo: course.roomNo || "TBA"
-        });
-      }
-    });
-    
-    return { day: `Day ${day}`, classes };
-  });
-  
-  return days;
+function generateFriendTimetable(_nameOrReg: string, _myCourses: AnyValue[]) {
+  // Pure strict: Do not generate fake/mock courses.
+  // Unshared friend timetables return empty schedules.
+  return [1, 2, 3, 4, 5].map(day => ({ day: `Day ${day}`, classes: [] as ScheduleItem[] }));
 }
 
 
@@ -194,21 +163,28 @@ interface ScheduleItem {
 function buildSlotToCourseMap(myTT: AnyValue[]) {
   const map: Record<string, AnyValue> = {};
   (myTT || []).forEach(c => {
-    (c.slots || []).forEach((s: string) => {
-      if (!s) return;
-      const upper = s.toUpperCase().trim();
-      map[upper] = c;
-      const baseLetter = upper.replace(/[^A-Z]/g, "");
-      if (baseLetter && !map[baseLetter]) {
-        map[baseLetter] = c;
-      }
-    });
+    if (!c) return;
+
+    if (Array.isArray(c.slots)) {
+      c.slots.forEach((s: string) => {
+        if (!s) return;
+        const upper = String(s).toUpperCase().trim().replace(/-+$/, "");
+        if (upper) map[upper] = c;
+      });
+    }
+
     if (c.slot) {
-      const parts = String(c.slot).split(/[+,\s/-]+/).map((sp: string) => sp.trim().toUpperCase()).filter(Boolean);
+      const parts = String(c.slot)
+        .split(/[+,\s/-]+/)
+        .map((sp: string) => sp.trim().toUpperCase().replace(/-+$/, ""))
+        .filter(Boolean);
+
       parts.forEach((p: string) => {
+        if (!p) return;
         map[p] = c;
+
         const baseLetter = p.replace(/[^A-Z]/g, "");
-        if (baseLetter && !map[baseLetter]) {
+        if (baseLetter && baseLetter.length === 1 && !['P', 'L'].includes(baseLetter) && !map[baseLetter]) {
           map[baseLetter] = c;
         }
       });
