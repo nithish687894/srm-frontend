@@ -914,6 +914,8 @@ function AuraTimetable({
   const lastEnd = classes[classes.length - 1] ? fmt12(classes[classes.length - 1].endTime) : "";
   const totalClasses = classes.length;
 
+  const [selectedClassDetails, setSelectedClassDetails] = useState<ScheduleItem | null>(null);
+
   const handleAddFriend = (val: string) => {
     const trimmed = val.trim();
     if (!trimmed) return;
@@ -1017,6 +1019,35 @@ function AuraTimetable({
     });
   }, [classes, friendClasses]);
 
+  // Contextual Status Logic
+  let nowClass: ScheduleItem | null = null;
+  let nextClass: ScheduleItem | null = null;
+  let classesFinished = false;
+
+  if (todayInfo && dayOverride === todayInfo.dayOrder && !todayInfo.isHoliday) {
+    for (const c of classesWithBreaks) {
+      if (c.isBreak) continue;
+      const s = parseStart(c.startTime);
+      const e = parseEnd(c.endTime);
+      if (currentMin >= s && currentMin <= e) {
+        nowClass = c;
+        break;
+      }
+    }
+    if (!nowClass) {
+      for (const c of classesWithBreaks) {
+        if (c.isBreak) continue;
+        if (parseStart(c.startTime) > currentMin) {
+          nextClass = c;
+          break;
+        }
+      }
+    }
+    if (!nowClass && !nextClass && classes.length > 0 && currentMin > parseEnd(classes[classes.length - 1].endTime)) {
+      classesFinished = true;
+    }
+  }
+
   return (
     <div style={{ background: "var(--app-bg)", minHeight: "100dvh", display: "flex", flexDirection: "column", color: "var(--text-main)", fontFamily: "'Plus Jakarta Sans', sans-serif", position: "relative" }}>
       <style dangerouslySetInnerHTML={{ __html: `
@@ -1076,6 +1107,14 @@ function AuraTimetable({
           font-size: clamp(24px, 7.4vw, 32px);
           white-space: nowrap;
         }
+        
+        .hide-scroll::-webkit-scrollbar {
+          display: none;
+        }
+        .hide-scroll {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
 
         @media (max-width: 480px) {
           .schedule-header {
@@ -1122,7 +1161,8 @@ function AuraTimetable({
           }
 
           .day-overview-card {
-            padding: 20px !important;
+            padding: 16px !important;
+            border-radius: 20px !important;
           }
 
           .day-overview-row {
@@ -1167,7 +1207,7 @@ function AuraTimetable({
       <div className="aura-blob" style={{ background: AURA.secondary, top: '-200px', right: '-100px' }} />
       <div className="aura-blob" style={{ background: AURA.accent, bottom: '-200px', left: '-100px', animationDelay: '-10s' }} />
 
-      <main className="timetable-main" style={{ flex: 1, position: "relative", zIndex: 1, padding: "calc(env(safe-area-inset-top, 0px) + 72px) 24px 220px", color: "var(--text-main)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <main className="timetable-main" style={{ flex: 1, position: "relative", zIndex: 1, padding: "calc(env(safe-area-inset-top, 0px) + 20px) 24px 120px", color: "var(--text-main)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         
         {/* Header with Batch & Export Controls */}
         <div 
@@ -1175,38 +1215,38 @@ function AuraTimetable({
           style={{ 
             display: "flex", 
             flexDirection: "column",
-            gap: "16px",
-            marginBottom: "24px", 
+            gap: "12px",
+            marginBottom: "16px", 
             background: "linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(192, 132, 252, 0.04) 50%, rgba(0, 212, 255, 0.02) 100%)", 
-            padding: "20px 22px", 
-            borderRadius: "28px", 
+            padding: "16px 20px", 
+            borderRadius: "24px", 
             border: "1px solid rgba(255, 255, 255, 0.08)", 
             backdropFilter: "blur(24px)",
-            boxShadow: "0 20px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)"
+            boxShadow: "0 10px 30px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)"
           }}
         >
           {/* Top Row: Title & User Profile / Admin Actions */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", gap: "12px", flexWrap: "wrap" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <div style={{
-                width: "40px",
-                height: "40px",
-                borderRadius: "14px",
+                width: "36px",
+                height: "36px",
+                borderRadius: "12px",
                 background: "linear-gradient(135deg, rgba(192, 132, 252, 0.2), rgba(0, 212, 255, 0.15))",
                 border: "1px solid rgba(192, 132, 252, 0.3)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 color: "#C084FC",
-                boxShadow: "0 0 15px rgba(192, 132, 252, 0.2)"
+                boxShadow: "0 0 10px rgba(192, 132, 252, 0.2)"
               }}>
-                <Calendar size={18} />
+                <Calendar size={16} />
               </div>
               <div>
-                <div style={{ fontSize: "10px", color: AURA.primary, textTransform: "uppercase", letterSpacing: "0.18em", fontWeight: 900 }}>
+                <div style={{ fontSize: "9px", color: AURA.primary, textTransform: "uppercase", letterSpacing: "0.15em", fontWeight: 900 }}>
                   SEMESTER SCHEDULE
                 </div>
-                <div style={{ fontSize: "17px", fontWeight: 900, color: "#fff", marginTop: "2px", letterSpacing: "-0.01em" }}>
+                <div style={{ fontSize: "15px", fontWeight: 900, color: "#fff", marginTop: "2px", letterSpacing: "-0.01em" }}>
                   Day {dayOverride} <span style={{ opacity: 0.4, fontWeight: 400 }}>·</span> Batch {batch}
                 </div>
               </div>
@@ -1218,7 +1258,7 @@ function AuraTimetable({
                   className="schedule-ns-button"
                   onClick={() => router.push("/ns")}
                   style={{
-                    height: "38px",
+                    height: "36px",
                     padding: "0 12px",
                     borderRadius: "12px",
                     background: "linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 212, 255, 0.08))",
@@ -1243,7 +1283,7 @@ function AuraTimetable({
                 className="schedule-profile-button"
                 onClick={onShowStudentInfo}
                 style={{
-                  height: "38px",
+                  height: "36px",
                   padding: "0 14px",
                   borderRadius: "12px",
                   background: "rgba(255, 255, 255, 0.05)",
@@ -1264,19 +1304,19 @@ function AuraTimetable({
           </div>
 
           {/* Bottom Row: Batch Switcher & Export Button */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", paddingTop: "12px", borderTop: "1px solid rgba(255, 255, 255, 0.05)", flexWrap: "wrap", gap: "10px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", paddingTop: "10px", borderTop: "1px solid rgba(255, 255, 255, 0.05)", flexWrap: "wrap", gap: "10px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <span style={{ fontSize: "10px", fontWeight: 800, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: "0.05em" }}>Batch:</span>
-              <div style={{ display: "flex", background: "rgba(0,0,0,0.5)", borderRadius: "12px", padding: "3px", border: "1px solid rgba(255,255,255,0.1)" }}>
+              <span style={{ fontSize: "9px", fontWeight: 800, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: "0.05em" }}>Batch:</span>
+              <div style={{ display: "flex", background: "rgba(0,0,0,0.5)", borderRadius: "10px", padding: "2px", border: "1px solid rgba(255,255,255,0.1)" }}>
                 {[1, 2].map(b => (
                   <button 
                     key={b} 
                     onClick={() => setBatch(b)}
                     style={{
-                      padding: "6px 14px", 
-                      borderRadius: "9px", 
+                      padding: "4px 12px", 
+                      borderRadius: "8px", 
                       border: "none", 
-                      fontSize: "11px", 
+                      fontSize: "10px", 
                       fontWeight: 900,
                       background: batch === b ? "linear-gradient(135deg, #C084FC 0%, #00D4FF 100%)" : "transparent",
                       color: batch === b ? "#000" : "rgba(255,255,255,0.5)",
@@ -1285,7 +1325,7 @@ function AuraTimetable({
                       boxShadow: batch === b ? "0 2px 10px rgba(192, 132, 252, 0.3)" : "none"
                     }}
                   >
-                    Batch {b}
+                    B{b}
                   </button>
                 ))}
               </div>
@@ -1298,9 +1338,9 @@ function AuraTimetable({
                 background: "linear-gradient(135deg, rgba(192, 132, 252, 0.2) 0%, rgba(255, 94, 126, 0.15) 100%)", 
                 border: "1px solid rgba(192, 132, 252, 0.4)", 
                 color: "#fff", 
-                padding: "8px 16px", 
-                borderRadius: "12px", 
-                fontSize: "11px", 
+                padding: "6px 12px", 
+                borderRadius: "10px", 
+                fontSize: "10px", 
                 fontWeight: 900, 
                 cursor: "pointer", 
                 transition: "all 0.2s", 
@@ -1310,8 +1350,8 @@ function AuraTimetable({
                 gap: "6px"
               }}
             >
-              <Share2 size={13} color="#C084FC" />
-              <span>Export Schedule</span>
+              <Share2 size={12} color="#C084FC" />
+              <span>Export</span>
             </button>
           </div>
         </div>
@@ -1322,10 +1362,10 @@ function AuraTimetable({
           style={{ 
             display: "flex", 
             background: "rgba(0,0,0,0.5)", 
-            borderRadius: "18px", 
+            borderRadius: "16px", 
             padding: "4px", 
             border: "1px solid rgba(255,255,255,0.08)", 
-            marginBottom: "24px", 
+            marginBottom: "16px", 
             width: "100%",
             boxShadow: "inset 0 1px 2px rgba(0,0,0,0.4)"
           }}
@@ -1335,10 +1375,10 @@ function AuraTimetable({
             onClick={() => setActiveTab("schedule")}
             style={{
               flex: 1, 
-              padding: "10px 16px", 
-              borderRadius: "14px", 
+              padding: "8px 16px", 
+              borderRadius: "12px", 
               border: "none", 
-              fontSize: "12px", 
+              fontSize: "11px", 
               fontWeight: 900,
               background: activeTab === "schedule" ? "linear-gradient(135deg, #C084FC 0%, #FF5E7E 100%)" : "transparent",
               color: activeTab === "schedule" ? "#fff" : "rgba(255,255,255,0.5)",
@@ -1354,10 +1394,10 @@ function AuraTimetable({
             onClick={() => setActiveTab("friends")}
             style={{
               flex: 1, 
-              padding: "10px 16px", 
-              borderRadius: "14px", 
+              padding: "8px 16px", 
+              borderRadius: "12px", 
               border: "none", 
-              fontSize: "12px", 
+              fontSize: "11px", 
               fontWeight: 900,
               background: activeTab === "friends" ? "linear-gradient(135deg, #C084FC 0%, #FF5E7E 100%)" : "transparent",
               color: activeTab === "friends" ? "#fff" : "rgba(255,255,255,0.5)",
@@ -1372,12 +1412,12 @@ function AuraTimetable({
           >
             <span>Friends Sync</span>
             <span style={{ 
-              fontSize: "8.5px", 
+              fontSize: "7.5px", 
               fontWeight: 950, 
               background: "linear-gradient(135deg, #FFCC00 0%, #FF9500 100%)", 
               color: "#000", 
-              padding: "2px 7px", 
-              borderRadius: "6px", 
+              padding: "2px 5px", 
+              borderRadius: "4px", 
               textTransform: "uppercase", 
               letterSpacing: "0.05em",
               boxShadow: "0 2px 6px rgba(255, 204, 0, 0.3)"
@@ -1387,29 +1427,81 @@ function AuraTimetable({
           </button>
         </div>
 
-        {/* Today's Context Banner */}
-        {todayInfo ? (
-          <div className="liquid-card" style={{ marginBottom: "32px", padding: "16px 20px", border: `1px solid ${AURA.border}`, background: "rgba(255, 255, 255, 0.01)" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "12px", justifyContent: "space-between" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+        {activeTab === "schedule" ? (
+          <>
+            {/* Smart Contextual Status Header */}
+            {todayInfo && (
+              <div style={{ marginBottom: "16px" }}>
+                {nowClass ? (
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px", background: "rgba(148, 255, 216, 0.1)", border: `1px solid ${AURA.accent}44`, padding: "12px 16px", borderRadius: "16px" }}>
+                    <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: AURA.accent, boxShadow: `0 0 10px ${AURA.accent}` }} />
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: "10px", fontWeight: 900, color: AURA.accent, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "2px" }}>● NOW</div>
+                      <div style={{ fontSize: "14px", fontWeight: 800, color: "#fff", textTransform: "capitalize", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                        {nowClass.courseTitle.toLowerCase()}
+                      </div>
+                      <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.7)", fontWeight: 600, marginTop: "2px" }}>
+                        {nowClass.roomNo} · {parseEnd(nowClass.endTime) - currentMin} min left
+                      </div>
+                    </div>
+                  </div>
+                ) : nextClass ? (
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px", background: "rgba(255, 255, 255, 0.05)", border: "1px solid rgba(255, 255, 255, 0.1)", padding: "12px 16px", borderRadius: "16px" }}>
+                    <div style={{ fontSize: "16px" }}>⏳</div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: "10px", fontWeight: 900, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "2px" }}>NEXT</div>
+                      <div style={{ fontSize: "14px", fontWeight: 800, color: "#fff", textTransform: "capitalize", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                        {nextClass.courseTitle.toLowerCase()}
+                      </div>
+                      <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.7)", fontWeight: 600, marginTop: "2px" }}>
+                        {fmt12(nextClass.startTime)} · {nextClass.roomNo}
+                      </div>
+                    </div>
+                  </div>
+                ) : classesFinished ? (
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px", background: "rgba(52, 199, 89, 0.1)", border: "1px solid rgba(52, 199, 89, 0.3)", padding: "12px 16px", borderRadius: "16px" }}>
+                    <div style={{ fontSize: "16px" }}>✓</div>
+                    <div>
+                      <div style={{ fontSize: "14px", fontWeight: 800, color: "#34c759", marginTop: "2px" }}>Classes finished</div>
+                      <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.7)", fontWeight: 600, marginTop: "2px" }}>You're done for today</div>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            )}
+
+            {/* Compact Day Summary */}
+            <div style={{ 
+              display: "flex", 
+              justifyContent: "space-between", 
+              alignItems: "center", 
+              background: "rgba(255, 255, 255, 0.02)", 
+              border: `1px solid ${AURA.border}`, 
+              borderRadius: "16px", 
+              padding: "12px 16px",
+              marginBottom: "16px"
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                 <div style={{ 
-                  width: "8px", height: "8px", borderRadius: "50%", 
-                  background: todayInfo.isHoliday ? "#FF7597" : AURA.accent, 
-                  boxShadow: `0 0 10px ${todayInfo.isHoliday ? "#FF7597" : AURA.accent}` 
+                  width: "6px", height: "6px", borderRadius: "50%", 
+                  background: todayInfo?.isHoliday ? "#FF7597" : AURA.accent, 
+                  boxShadow: `0 0 8px ${todayInfo?.isHoliday ? "#FF7597" : AURA.accent}` 
                 }} />
-                 <div className="today-calendar-copy">
-                   <span style={{ fontSize: "10px", color: "var(--text-soft)", fontWeight: 800, letterSpacing: "0.05em" }}>TODAY&apos;S CALENDAR</span>
-                  <div style={{ fontSize: "13px", fontWeight: 800, color: "var(--text-main)", marginTop: "2px" }}>
-                    {formatDateNicely(todayInfo.isoDate)} — {todayInfo.isHoliday ? `Holiday (${todayInfo.event || "No classes"})` : `Day Order ${todayInfo.dayOrder}`}
+                <div>
+                  <div style={{ fontSize: "12px", fontWeight: 800, color: "var(--text-main)" }}>
+                    {todayInfo ? formatDateNicelyShort(todayInfo.isoDate) : new Date().toLocaleDateString("en-US", { weekday: "short", day: "numeric" })}
+                  </div>
+                  <div style={{ fontSize: "10px", color: "var(--text-muted)", fontWeight: 700, marginTop: "2px" }}>
+                    {todayInfo?.isHoliday ? (todayInfo.event || "Holiday") : totalClasses > 0 ? `${totalClasses} Classes · ${firstStart} – ${lastEnd}` : "No classes today"}
                   </div>
                 </div>
               </div>
-              {todayInfo.dayOrder && dayOverride !== todayInfo.dayOrder && (
+              {todayInfo?.dayOrder && dayOverride !== todayInfo.dayOrder && (
                 <button 
-                  onClick={() => setDayOverride(todayInfo.dayOrder)}
+                  onClick={() => setDayOverride(todayInfo.dayOrder as number)}
                   style={{
-                    background: "rgba(255, 255, 255, 0.05)", border: "1px solid rgba(255,255,255,0.1)",
-                    color: AURA.accent, padding: "6px 12px", borderRadius: "10px", fontSize: "11px", fontWeight: 800,
+                    background: "rgba(255, 255, 255, 0.08)", border: "1px solid rgba(255,255,255,0.1)",
+                    color: AURA.accent, padding: "6px 10px", borderRadius: "10px", fontSize: "10px", fontWeight: 800,
                     cursor: "pointer", transition: "all 0.2s"
                   }}
                 >
@@ -1417,64 +1509,68 @@ function AuraTimetable({
                 </button>
               )}
             </div>
-          </div>
-        ) : (
-          <div className="liquid-card" style={{ marginBottom: "32px", padding: "16px 20px", border: `1px solid ${AURA.border}`, background: "rgba(255, 255, 255, 0.01)" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#FF7597", boxShadow: "0 0 10px #FF7597" }} />
-              <div className="today-calendar-copy">
-                <span style={{ fontSize: "10px", color: "var(--text-soft)", fontWeight: 800, letterSpacing: "0.05em" }}>TODAY&apos;S CALENDAR</span>
-                <div style={{ fontSize: "13px", fontWeight: 800, color: "var(--text-main)", marginTop: "2px" }}>
-                  {new Date().toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" })} — Weekend / Holiday (No classes)
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
 
-        {activeTab === "schedule" ? (
-          <>
-            {/* Day Overview Card */}
-            {totalClasses > 0 && (
-              <div className="liquid-card day-overview-card" style={{ marginBottom: "40px" }}>
-                 <div style={{ position: "absolute", top: "-50px", right: "-50px", width: "150px", height: "150px", background: `radial-gradient(circle, ${AURA.accent}33 0%, transparent 70%)`, filter: "blur(40px)", zIndex: 0 }} />
-                 <div className="day-overview-row" style={{ position: "relative", zIndex: 1, display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                    <div className="day-overview-copy">
-                      <div style={{ fontSize: "11px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.15em", color: AURA.accent, marginBottom: "8px" }}>Day Overview</div>
-                      <div className="day-overview-time" style={{ fontWeight: 900, letterSpacing: "-1px" }}>
-                        {firstStart} - {lastEnd}
-                      </div>
-                    </div>
-                    <div className="day-overview-count" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.05)", width: "60px", height: "60px", borderRadius: "20px", border: "1px solid rgba(255,255,255,0.1)" }}>
-                      <div style={{ fontSize: "24px", fontWeight: 900, color: AURA.accent, lineHeight: 1 }}>{totalClasses}</div>
-                      <div style={{ fontSize: "9px", fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase" }}>Classes</div>
-                    </div>
-                 </div>
-              </div>
-            )}
+            {/* Compact Day Selector (Horizontal Scroll) */}
+            <div className="hide-scroll" style={{ 
+              display: "flex", 
+              gap: "8px", 
+              overflowX: "auto", 
+              marginBottom: "24px",
+              paddingBottom: "4px"
+            }}>
+              {[1, 2, 3, 4, 5].map(d => {
+                const occ = getNextOccurrence(d);
+                let label = "";
+                if (occ) {
+                  const today = new Date();
+                  const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+                  label = occ.isoDate === todayIso ? "Today" : formatDateNicelyShort(occ.isoDate).split(',')[0];
+                } else {
+                  label = "N/A";
+                }
+                const isSelected = dayOverride === d;
+                return (
+                  <button key={d} onClick={() => setDayOverride(d)} style={{
+                    padding: "8px 16px", minWidth: "64px", flexShrink: 0, borderRadius: "14px",
+                    background: isSelected ? `linear-gradient(135deg, ${AURA.secondary}ee, ${AURA.primary}ee)` : "rgba(255,255,255,0.03)",
+                    color: isSelected ? "#fff" : "var(--text-muted)",
+                    display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                    cursor: "pointer", transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+                    border: isSelected ? "1px solid transparent" : "1px solid rgba(255,255,255,0.05)",
+                    boxShadow: isSelected ? `0 4px 15px ${AURA.secondary}44` : "none",
+                  }}>
+                    <div style={{ fontSize: "13px", fontWeight: 900, lineHeight: 1.1 }}>D{d}</div>
+                    <div style={{ fontSize: "9px", fontWeight: 700, opacity: isSelected ? 0.9 : 0.6, marginTop: "2px", textTransform: "uppercase", letterSpacing: "0.02em" }}>{label}</div>
+                  </button>
+                );
+              })}
+            </div>
 
             {/* Timeline Classes */}
             {totalClasses === 0 ? (
-              <div style={{ textAlign: "center", color: "var(--text-muted)", marginTop: "60px", fontSize: "14px", fontWeight: 600 }}>No classes scheduled for Day {dayOverride}.</div>
+              <div style={{ textAlign: "center", color: "var(--text-muted)", marginTop: "40px", fontSize: "14px", fontWeight: 700 }}>
+                <div style={{ fontSize: "32px", marginBottom: "8px" }}>🎉</div>
+                No classes today<br/>Enjoy your day!
+              </div>
             ) : (
-              <div style={{ position: "relative", paddingLeft: "16px", display: "flex", flexDirection: "column", gap: "20px" }}>
-                <div style={{ position: "absolute", left: "0", top: "20px", bottom: "20px", width: "2px", background: "linear-gradient(to bottom, var(--card-border), transparent)" }} />
+              <div style={{ position: "relative", paddingLeft: "16px", display: "flex", flexDirection: "column", gap: "12px" }}>
+                <div style={{ position: "absolute", left: "0", top: "10px", bottom: "10px", width: "2px", background: "linear-gradient(to bottom, var(--card-border), transparent)" }} />
                 
                 {classesWithBreaks.map((item: AnyValue, i: number) => {
                   if (item.isBreak) {
                     return (
-                      <div key={`break-${i}`} style={{ display: "flex", alignItems: "center", gap: "16px", position: "relative", opacity: 0.7 }}>
-                        <div style={{ position: "absolute", left: "-19px", width: "8px", height: "8px", borderRadius: "50%", background: "var(--text-soft)", border: "2px solid var(--bg-root)" }} />
-                        <div style={{ background: "rgba(255,255,255,0.03)", padding: "8px 16px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.05)", display: "flex", gap: "12px", alignItems: "center", flex: 1 }}>
-                           <div style={{ fontSize: "10px", color: AURA.secondary, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase" }}>Break</div>
-                           <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 600 }}>{fmt12(item.startTime)} - {fmt12(item.endTime)}</div>
+                      <div key={`break-${i}`} style={{ display: "flex", alignItems: "center", gap: "12px", position: "relative", opacity: 0.7, margin: "4px 0" }}>
+                        <div style={{ position: "absolute", left: "-18px", width: "6px", height: "6px", borderRadius: "50%", background: "var(--text-soft)" }} />
+                        <div style={{ display: "flex", gap: "8px", alignItems: "center", flex: 1 }}>
+                           <div style={{ fontSize: "9px", color: AURA.secondary, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase" }}>Break</div>
+                           <div style={{ height: "1px", background: "rgba(255,255,255,0.1)", flex: 1 }} />
+                           <div style={{ fontSize: "10px", color: "var(--text-muted)", fontWeight: 700 }}>{fmt12(item.startTime)} – {fmt12(item.endTime)}</div>
                         </div>
                       </div>
                     );
                   }
 
                   const isLab = isLabSession(item, myCourses);
-                  const cardColor = isLab ? "#FF75C3" : AURA.secondary;
                   const isActive = (currentMin >= parseStart(item.startTime) && currentMin <= parseEnd(item.endTime));
                   const slotKey = `${dayOverride}-${item.courseCode}-${item.startTime}`;
                   const isImportant = !!importantSlots[slotKey];
@@ -1482,15 +1578,16 @@ function AuraTimetable({
                   return (
                     <div key={i} style={{ position: "relative" }}>
                       <div style={{ 
-                        position: "absolute", left: "-21px", top: "24px", width: "12px", height: "12px", borderRadius: "50%", 
-                        background: isActive ? AURA.accent : (isImportant ? "#FFD700" : (isLab ? "#FF75C3" : cardColor)), border: "3px solid var(--bg-root)", zIndex: 2,
-                        boxShadow: isActive ? `0 0 15px ${AURA.accent}` : (isImportant ? "0 0 10px rgba(255, 215, 0, 0.5)" : (isLab ? "0 0 12px rgba(255, 117, 195, 0.6)" : "none"))
+                        position: "absolute", left: "-19.5px", top: "20px", width: "9px", height: "9px", borderRadius: "50%", 
+                        background: isActive ? AURA.accent : (isImportant ? "#FFD700" : (isLab ? "#FF75C3" : AURA.secondary)), border: "2px solid var(--app-bg)", zIndex: 2,
+                        boxShadow: isActive ? `0 0 10px ${AURA.accent}` : "none"
                       }} />
                       
                       <div 
+                        onClick={() => setSelectedClassDetails(item)}
                         className="liquid-card" 
                         style={{ 
-                          padding: "20px", 
+                          padding: "16px", 
                           border: isActive 
                             ? `1px solid ${AURA.accent}55` 
                             : (isImportant 
@@ -1498,17 +1595,21 @@ function AuraTimetable({
                                 : (isLab ? "1px solid rgba(255, 117, 195, 0.4)" : "1px solid rgba(255, 255, 255, 0.08)")),
                           background: isLab 
                             ? "linear-gradient(135deg, rgba(255, 117, 195, 0.09) 0%, rgba(244, 114, 182, 0.03) 100%)" 
-                            : undefined,
+                            : "rgba(255, 255, 255, 0.02)",
                           boxShadow: isImportant 
                             ? "0 0 15px rgba(255, 215, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.02)" 
                             : (isLab ? "0 0 20px rgba(255, 117, 195, 0.06)" : "none"),
-                          transition: "all 0.3s ease"
+                          transition: "all 0.2s ease",
+                          cursor: "pointer",
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "8px"
                         }}
                       >
                         {isActive && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: `linear-gradient(90deg, transparent, ${AURA.accent}, transparent)` }} />}
                         
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "12px" }}>
-                           <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "var(--text-muted)", fontSize: "12px", fontWeight: 700, background: "rgba(0,0,0,0.3)", padding: "4px 10px", borderRadius: "8px" }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                           <div style={{ display: "flex", alignItems: "center", gap: "8px", color: isActive ? AURA.accent : "var(--text-muted)", fontSize: "11px", fontWeight: 800 }}>
                              {fmt12(item.startTime)} — {fmt12(item.endTime)}
                            </div>
                            
@@ -1520,12 +1621,12 @@ function AuraTimetable({
                                   textTransform: "uppercase", 
                                   fontWeight: 900, 
                                   background: "rgba(255, 215, 0, 0.1)", 
-                                  padding: "4px 8px", 
-                                  borderRadius: "8px",
+                                  padding: "2px 6px", 
+                                  borderRadius: "6px",
                                   border: "1px solid rgba(255, 215, 0, 0.2)",
                                   letterSpacing: "0.05em"
                                 }}>
-                                  Important
+                                  ★
                                 </span>
                               )}
                               <button
@@ -1545,59 +1646,48 @@ function AuraTimetable({
                                   background: "none",
                                   border: "none",
                                   cursor: "pointer",
-                                  padding: "4px",
-                                  color: isImportant ? "#FFD700" : "rgba(255,255,255,0.25)",
-                                  transition: "all 0.2s ease",
+                                  padding: "2px",
+                                  color: isImportant ? "#FFD700" : "rgba(255,255,255,0.15)",
                                   display: "flex",
                                   alignItems: "center",
                                   outline: "none"
                                 }}
-                                onMouseEnter={(e) => {
-                                  e.currentTarget.style.transform = "scale(1.2)";
-                                  e.currentTarget.style.color = isImportant ? "#FFD700" : "rgba(255,255,255,0.6)";
-                                }}
-                                onMouseLeave={(e) => {
-                                  e.currentTarget.style.transform = "scale(1)";
-                                  e.currentTarget.style.color = isImportant ? "#FFD700" : "rgba(255,255,255,0.25)";
-                                }}
                               >
                                 <Star size={14} fill={isImportant ? "#FFD700" : "none"} />
                               </button>
-                              {isLab && (
-                                <div style={{ 
-                                  fontSize: "9px", 
-                                  color: "#FF75C3", 
-                                  textTransform: "uppercase", 
-                                  fontWeight: 900, 
-                                  background: "rgba(255, 117, 195, 0.18)", 
-                                  border: "1px solid rgba(255, 117, 195, 0.35)", 
-                                  padding: "4px 8px", 
-                                  borderRadius: "8px",
-                                  letterSpacing: "0.05em"
-                                }}>
-                                  Lab Session
-                                </div>
-                              )}
                            </div>
                         </div>
 
-                        <div style={{ fontSize: "22px", fontWeight: "900", color: "var(--text-main)", lineHeight: 1.2, marginBottom: "8px", textTransform: "capitalize", letterSpacing: "-0.5px" }}>
+                        <div style={{ 
+                          fontSize: "15px", 
+                          fontWeight: 900, 
+                          color: "var(--text-main)", 
+                          lineHeight: 1.3, 
+                          textTransform: "capitalize", 
+                          letterSpacing: "-0.2px",
+                          display: "-webkit-box",
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden"
+                        }}>
                           {item.courseTitle.toLowerCase()}
                         </div>
                         
-                        <div style={{ display: "flex", flexWrap: "wrap", gap: "12px 20px", marginTop: "16px", alignItems: "flex-start" }}>
-                          <div style={{ display: "flex", flexDirection: "column", gap: "4px", minWidth: "90px" }}>
-                            <span style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>Course Code</span>
-                            <span style={{ fontSize: "12px", color: cardColor, fontWeight: 700 }}>{item.courseCode}</span>
-                          </div>
-                          <div style={{ display: "flex", flexDirection: "column", gap: "4px", minWidth: "120px", flex: "1 1 auto" }}>
-                            <span style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>Room</span>
-                            <span style={{ fontSize: "12px", color: "var(--text-main)", fontWeight: 700, wordBreak: "break-word" }}>{item.roomNo || "TBA"}</span>
-                          </div>
-                          <div style={{ display: "flex", flexDirection: "column", gap: "4px", minWidth: "140px", flex: "1 1 100%" }}>
-                            <span style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>Faculty</span>
-                            <span style={{ fontSize: "12px", color: "var(--text-main)", fontWeight: 700, wordBreak: "break-word" }}>{(item.facultyName || "TBA").replace(/\s*\(\d+\)/, "")}</span>
-                          </div>
+                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                          <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.6)", fontWeight: 700 }}>{item.roomNo || "TBA"}</span>
+                          {isLab && (
+                            <span style={{ 
+                              fontSize: "8px", 
+                              color: "#FF75C3", 
+                              textTransform: "uppercase", 
+                              fontWeight: 900, 
+                              background: "rgba(255, 117, 195, 0.15)", 
+                              padding: "2px 6px", 
+                              borderRadius: "6px"
+                            }}>
+                              LAB
+                            </span>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -1699,8 +1789,6 @@ function AuraTimetable({
                             fontSize: "16px", cursor: "pointer", display: "flex", alignItems: "center",
                             justifyContent: "center", outline: "none", padding: "4px"
                           }}
-                          onMouseEnter={(e) => { e.currentTarget.style.color = "#FF453A"; }}
-                          onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.2)"; }}
                         >
                           ×
                         </button>
@@ -1854,7 +1942,7 @@ function AuraTimetable({
                               </div>
                             </div>
                             <div>
-                              <div style={{ fontSize: "8px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>{selectedFriend.name}&apos;s Schedule</div>
+                              <div style={{ fontSize: "8px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800 }}>{`${selectedFriend.name}'s Schedule`}</div>
                               <div style={{ fontSize: "12px", fontWeight: 700, color: item.isFriendFree ? "#34c759" : "var(--text-main)", textTransform: "capitalize", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                                 {item.friendStatus.toLowerCase()}
                               </div>
@@ -1958,36 +2046,76 @@ function AuraTimetable({
         </div>
       </main>
 
-      {/* Day Switcher Bottom Overlay */}
-      <div style={{ position: "fixed", bottom: "calc(env(safe-area-inset-bottom, 0px) + 96px)", left: "20px", right: "20px", display: "flex", justifyContent: "center", zIndex: 100 }}>
-         <div style={{ background: "rgba(10,10,15,0.8)", backdropFilter: "blur(20px)", borderRadius: "24px", padding: "8px", display: "flex", gap: "8px", border: "1px solid rgba(255,255,255,0.1)", boxShadow: "0 20px 40px rgba(0,0,0,0.5)" }}>
-            {[1, 2, 3, 4, 5].map(d => {
-              const occ = getNextOccurrence(d);
-              let label = "";
-              if (occ) {
-                const today = new Date();
-                const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
-                label = occ.isoDate === todayIso ? "Today" : formatDateNicelyShort(occ.isoDate);
-              } else {
-                label = "N/A";
-              }
-              const isSelected = dayOverride === d;
-              return (
-                <button key={d} onClick={() => setDayOverride(d)} style={{
-                  padding: "6px 12px", minWidth: "64px", height: "54px", borderRadius: "16px", border: "none",
-                  background: isSelected ? `linear-gradient(135deg, ${AURA.secondary}ee, ${AURA.primary}ee)` : "transparent",
-                  color: isSelected ? "#fff" : "var(--text-muted)",
-                  display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-                  cursor: "pointer", transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
-                  boxShadow: isSelected ? `0 8px 24px ${AURA.secondary}44, inset 0 1px 1px rgba(255,255,255,0.2)` : "none",
-                  transform: isSelected ? "scale(1.05)" : "scale(1)"
-                }}>
-                  <div style={{ fontSize: "14px", fontWeight: 900, lineHeight: 1.1 }}>D{d}</div>
-                  <div style={{ fontSize: "9px", fontWeight: 700, opacity: isSelected ? 0.9 : 0.6, marginTop: "2px", letterSpacing: "0.02em" }}>{label}</div>
+      {/* Details Bottom Sheet Overlay */}
+      <div 
+        style={{
+          position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
+          background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)",
+          zIndex: 9999, opacity: selectedClassDetails ? 1 : 0,
+          pointerEvents: selectedClassDetails ? "auto" : "none",
+          transition: "opacity 0.3s ease"
+        }} 
+        onClick={() => setSelectedClassDetails(null)}
+      >
+        <div 
+          style={{
+            position: "absolute", bottom: 0, left: 0, right: 0,
+            background: "var(--app-bg)", borderTop: `1px solid ${AURA.border}`,
+            borderRadius: "28px 28px 0 0", padding: "20px 24px calc(env(safe-area-inset-bottom, 0px) + 24px)",
+            transform: selectedClassDetails ? "translateY(0)" : "translateY(100%)",
+            transition: "transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+            boxShadow: "0 -10px 40px rgba(0,0,0,0.5)",
+            display: "flex", flexDirection: "column", gap: "16px"
+          }}
+          onClick={e => e.stopPropagation()}
+        >
+          <div style={{ width: "40px", height: "4px", background: "rgba(255,255,255,0.2)", borderRadius: "2px", margin: "0 auto 8px" }} />
+          
+          {selectedClassDetails && (() => {
+            const isLab = isLabSession(selectedClassDetails, myCourses);
+            return (
+              <>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                  <div style={{ fontSize: "12px", color: AURA.accent, fontWeight: 800 }}>
+                    {fmt12(selectedClassDetails.startTime)} – {fmt12(selectedClassDetails.endTime)}
+                  </div>
+                  {isLab && <div style={{ fontSize: "9px", color: "#FF75C3", textTransform: "uppercase", fontWeight: 900, background: "rgba(255, 117, 195, 0.15)", padding: "4px 8px", borderRadius: "8px", border: "1px solid rgba(255, 117, 195, 0.3)" }}>Lab Session</div>}
+                </div>
+                
+                <div style={{ fontSize: "22px", fontWeight: 900, color: "#fff", textTransform: "capitalize", lineHeight: 1.2, letterSpacing: "-0.5px" }}>
+                  {selectedClassDetails.courseTitle.toLowerCase()}
+                </div>
+                
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginTop: "8px" }}>
+                  <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "14px", borderRadius: "16px" }}>
+                    <div style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800, marginBottom: "4px" }}>Course Code</div>
+                    <div style={{ fontSize: "14px", fontWeight: 800, color: AURA.secondary }}>{selectedClassDetails.courseCode}</div>
+                  </div>
+                  <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "14px", borderRadius: "16px" }}>
+                    <div style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800, marginBottom: "4px" }}>Room</div>
+                    <div style={{ fontSize: "14px", fontWeight: 800, color: "#fff" }}>{selectedClassDetails.roomNo || "TBA"}</div>
+                  </div>
+                  <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "14px", borderRadius: "16px", gridColumn: "1 / -1" }}>
+                    <div style={{ fontSize: "9px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800, marginBottom: "4px" }}>Faculty</div>
+                    <div style={{ fontSize: "14px", fontWeight: 800, color: "#fff" }}>{(selectedClassDetails.facultyName || "TBA").replace(/\s*\(\d+\)/, "")}</div>
+                  </div>
+                </div>
+                
+                <button 
+                  onClick={() => setSelectedClassDetails(null)}
+                  style={{ 
+                    marginTop: "8px", width: "100%", padding: "16px", 
+                    background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", 
+                    borderRadius: "16px", color: "#fff", fontSize: "14px", fontWeight: 800, 
+                    cursor: "pointer", transition: "all 0.2s" 
+                  }}
+                >
+                  Close
                 </button>
-              );
-            })}
-         </div>
+              </>
+            );
+          })()}
+        </div>
       </div>
     </div>
   );
