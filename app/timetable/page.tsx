@@ -1536,6 +1536,12 @@ export function AuraTimetable({
             </div>
 
             {/* Timeline Classes List */}
+            {totalClasses > 0 && (
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px", padding: "0 2px" }}>
+                <span style={{ fontSize: "10px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Timeline</span>
+                <span style={{ fontSize: "9.5px", color: AURA.accent, fontWeight: 800, opacity: 0.85 }}>Tap card to expand details</span>
+              </div>
+            )}
             {totalClasses === 0 ? (
               <div style={{ textAlign: "center", color: "var(--text-muted)", padding: "36px 16px", fontSize: "13px", fontWeight: 700, background: "rgba(255,255,255,0.02)", borderRadius: "18px", border: "1px dashed rgba(255,255,255,0.08)" }}>
                 <div style={{ fontSize: "28px", marginBottom: "6px" }}>🎉</div>
