@@ -91,7 +91,7 @@ API.interceptors.response.use(
       } catch (refreshErr: AnyValue) {
         // Only force logout if server explicitly responded with 401 Unauthorized for the refresh token.
         // Transient network drops, server 5xx errors, or timeouts MUST NOT wipe stored credentials.
-        if (refreshErr?.response?.status === 401) {
+        if (refreshErr?.response?.status === 401 || refreshErr?.response?.status === 400 || refreshErr?.response?.status === 403) {
           useAuthStore.getState().logout();
           window.location.href = "/";
         }
