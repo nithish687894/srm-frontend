@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useMemo, useEffect } from "react";
-import { Activity, Zap, ShieldCheck, ShieldAlert, AlertTriangle, TrendingUp, Sparkles, ChevronRight } from "lucide-react";
+import { Activity, Zap, ShieldCheck, ShieldAlert, AlertTriangle, TrendingUp, Sparkles, ChevronRight, RefreshCcw, Clock } from "lucide-react";
 import { useRouter } from "next/navigation";
 import confetti from "canvas-confetti";
 import { useAuraTheme } from "./system/useAuraTheme";
@@ -107,7 +107,7 @@ const PulsingCore = ({ pct, attended, conducted, color }: AnyValue) => {
 };
 
 export default function AuraAttendance({ 
-  attendance, handleSync, isSyncing,
+  attendance, handleSync, isSyncing, timeAgoStr,
   showPredictor, setShowPredictor, next30Days, selectedDates, toggleDate, 
   calculatePredictions, predictions, setSelectedDates, setPredictions
 }: AnyValue) {
@@ -308,9 +308,60 @@ export default function AuraAttendance({
             <Sparkles size={14} color={AURA_COLORS.purple} />
             <span style={{ fontSize: "10px", fontWeight: 800, color: AURA_COLORS.purple, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Lumina Mode Active</span>
           </div>
-          <h1 style={{ fontSize: "42px", fontWeight: 900, margin: '0 0 24px', letterSpacing: '-2px', lineHeight: 1 }}>
+          <h1 style={{ fontSize: "42px", fontWeight: 900, margin: '0 0 16px', letterSpacing: '-2px', lineHeight: 1 }}>
             Lumina <span style={{ color: AURA_COLORS.primary }}>Sync</span>
           </h1>
+
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: '10px', marginBottom: '24px' }}>
+            <button
+              onClick={handleSync}
+              disabled={isSyncing}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: 'rgba(255, 255, 255, 0.04)',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
+                padding: '8px 18px',
+                borderRadius: '100px',
+                color: '#fff',
+                fontSize: '11px',
+                fontWeight: 900,
+                cursor: isSyncing ? 'wait' : 'pointer',
+                transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.2)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em'
+              }}
+              onMouseEnter={(e) => {
+                if (!isSyncing) e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+              }}
+              onMouseLeave={(e) => {
+                if (!isSyncing) e.currentTarget.style.background = 'rgba(255, 255, 255, 0.04)';
+              }}
+            >
+              <RefreshCcw size={13} className={isSyncing ? "animate-spin" : ""} color={AURA_COLORS.primary} />
+              <span>{isSyncing ? "Syncing Attendance..." : "Sync Attendance"}</span>
+            </button>
+
+            {timeAgoStr && (
+              <div style={{ 
+                display: 'inline-flex', 
+                alignItems: 'center', 
+                gap: '6px', 
+                background: 'rgba(0, 0, 0, 0.3)', 
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                padding: '8px 14px', 
+                borderRadius: '100px',
+                fontSize: '11px', 
+                fontWeight: 800, 
+                color: AURA_COLORS.subBright
+              }}>
+                <Clock size={12} color={AURA_COLORS.primary} />
+                <span>{timeAgoStr}</span>
+              </div>
+            )}
+          </div>
 
 
 
