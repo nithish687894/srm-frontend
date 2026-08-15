@@ -602,9 +602,16 @@ export default function TimetablePage() {
       const merged: ScheduleItem[] = [];
       day.classes.forEach(cls => {
         const prev = merged[merged.length - 1];
-        if (prev && prev.courseCode === cls.courseCode && prev.courseType === cls.courseType) {
+        const isContinuous = prev && (parseStart(cls.startTime) - parseEnd(prev.endTime) <= 5);
+        const isSameCourse = prev && (prev.courseCode === cls.courseCode);
+        const isSameType = prev && ((prev.courseType || "").toLowerCase() === (cls.courseType || "").toLowerCase());
+        const isSameRoom = prev && ((prev.roomNo || "").trim().toUpperCase() === (cls.roomNo || "").trim().toUpperCase());
+
+        if (prev && isSameCourse && isSameType && isSameRoom && isContinuous) {
           prev.endTime = cls.endTime;
-          if (!prev.slot.includes(cls.slot)) prev.slot = `${prev.slot}, ${cls.slot}`;
+          if (!prev.slot.includes(cls.slot)) {
+            prev.slot = `${prev.slot}-${cls.slot}`;
+          }
         } else {
           merged.push({ ...cls });
         }
@@ -1536,7 +1543,7 @@ export function AuraTimetable({
                 <span style={{ fontSize: "11px", opacity: 0.6, fontWeight: 500 }}>Enjoy your free time!</span>
               </div>
             ) : (
-              <div style={{ position: "relative", paddingLeft: "14px", display: "flex", flexDirection: "column", gap: "8px" }}>
+              <div style={{ position: "relative", paddingLeft: "14px", display: "flex", flexDirection: "column", gap: totalClasses <= 3 ? "13px" : "8px" }}>
                 {/* Vertical Timeline Guide Line */}
                 <div style={{ position: "absolute", left: "0", top: "12px", bottom: "12px", width: "2px", background: "linear-gradient(to bottom, rgba(255,255,255,0.15), rgba(255,255,255,0.02))" }} />
                 
@@ -1558,6 +1565,11 @@ export function AuraTimetable({
                   const isActive = (todayInfo && dayOverride === todayInfo.dayOrder && currentMin >= parseStart(item.startTime) && currentMin <= parseEnd(item.endTime));
                   const slotKey = `${dayOverride}-${item.courseCode}-${item.startTime}`;
                   const isImportant = !!importantSlots[slotKey];
+                  const durMins = Math.max(0, parseEnd(item.endTime) - parseStart(item.startTime));
+                  const durText = durMins >= 60 
+                    ? `${Math.floor(durMins / 60)}h${durMins % 60 ? ` ${durMins % 60}m` : ""}` 
+                    : `${durMins}m`;
+                  const isExtendedSlot = durMins >= 85;
 
                   return (
                     <div key={i} style={{ position: "relative" }}>
@@ -1606,10 +1618,23 @@ export function AuraTimetable({
                       >
                         {isActive && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: `linear-gradient(90deg, transparent, ${AURA.accent}, transparent)` }} />}
                         
-                        {/* Card Header: Time & Badges / Star */}
+                        {/* Card Header: Time, Duration & Badges / Star */}
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", minWidth: 0, gap: "6px" }}>
                           <div style={{ display: "flex", alignItems: "center", gap: "6px", color: isActive ? AURA.accent : "rgba(255,255,255,0.7)", fontSize: "10.5px", fontWeight: 800 }}>
                             <span>{fmt12(item.startTime)} – {fmt12(item.endTime)}</span>
+                            {isExtendedSlot && (
+                              <span style={{ 
+                                fontSize: "8px", 
+                                color: isLab ? "#FF75C3" : AURA.secondary, 
+                                fontWeight: 800, 
+                                background: isLab ? "rgba(255, 117, 195, 0.12)" : "rgba(192, 132, 252, 0.12)", 
+                                border: isLab ? "1px solid rgba(255, 117, 195, 0.25)" : "1px solid rgba(192, 132, 252, 0.25)",
+                                padding: "0.5px 4px", 
+                                borderRadius: "4px" 
+                              }}>
+                                {durText}
+                              </span>
+                            )}
                             {isActive && (
                               <span style={{ 
                                 fontSize: "7.5px", 
