@@ -1,10 +1,6 @@
 "use client";
 import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import {
-  ArrowLeft, Home, Award, MoreHorizontal, Terminal, User, 
-  Cpu, RefreshCcw, Activity, Binary, BarChart3
-} from "lucide-react";
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import { dataAPI } from "@/lib/api";
@@ -20,29 +16,6 @@ const THEME = {
   accentRed: "#ff3b3b",
 };
 
-const TestBadge = ({ test, score }: AnyValue) => {
-  const parts = (test || "Test/100").split('/');
-  const label = parts[0];
-  const max = parseFloat(parts[1]) || 100;
-  const sc = score === "Abs" ? 0 : parseFloat(score) || 0;
-  const pct = (sc / max) * 100;
-  const isCritical = pct < 50;
-
-  return (
-    <div style={{ 
-      background: isCritical ? "rgba(255,59,59,0.05)" : "rgba(255,255,255,0.03)", 
-      border: `1px solid ${isCritical ? "rgba(255,59,59,0.1)" : "rgba(255,255,255,0.06)"}`,
-      borderRadius: '16px', padding: '12px', minWidth: '85px', flex: 1
-    }}>
-      <p style={{ fontSize: '9px', fontWeight: 900, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', marginBottom: '6px' }}>{label}</p>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: '2px' }}>
-        <span style={{ fontSize: '18px', fontWeight: 900, color: score === "Abs" ? THEME.accentRed : '#fff' }}>{score === "Abs" ? "ABS" : sc}</span>
-        <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.2)', fontWeight: 800 }}>/{max}</span>
-      </div>
-    </div>
-  );
-};
-
 export default function MarksPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
@@ -52,11 +25,6 @@ export default function MarksPage() {
   const setAcademicData = useAuthStore((state) => state.setAcademicData);
   const { theme } = useThemeStore();
   
-  useEffect(() => {
-    setMounted(true);
-    if (!academicData?.marks) handleSync();
-  }, []);
-
   const handleSync = async () => {
     setIsSyncing(true);
     try {
@@ -73,7 +41,12 @@ export default function MarksPage() {
     }
   };
 
-  const { marks, totalScored, totalMax, avgPct } = useMemo(() => {
+  useEffect(() => {
+    setMounted(true);
+    if (!academicData?.marks) handleSync();
+  }, []);
+
+  const { marks } = useMemo(() => {
     const rawMarks = Array.isArray(academicData?.marks) ? academicData.marks : [];
     const attendance = Array.isArray(academicData?.attendance) ? academicData.attendance : [];
 
@@ -107,6 +80,7 @@ export default function MarksPage() {
     return { marks: processedMarks, totalScored: scored, totalMax: max, avgPct: pct };
   }, [academicData]);
 
+  if (!mounted) return null;
 
   return (
     <div style={{ minHeight: "100dvh", width: "100%", background: "var(--app-bg)", color: "#fff", display: "flex", flexDirection: "column", position: "relative" }}>

@@ -51,13 +51,6 @@ export default function StudentDashboardPage() {
   
   const { studentPortalData, _hasHydrated, setStudentPortalData, setAcademicData, studentPortalConnected } = useAuthStore();
 
-  useEffect(() => {
-    setMounted(true);
-    if (_hasHydrated && !studentPortalData?.profile) {
-      handleSync();
-    }
-  }, [_hasHydrated]);
-
   const handleSync = async () => {
     setIsSyncing(true);
     try {
@@ -68,6 +61,13 @@ export default function StudentDashboardPage() {
       }
     } catch (e) { console.error(e); } finally { setIsSyncing(false); }
   };
+
+  useEffect(() => {
+    setMounted(true);
+    if (_hasHydrated && !studentPortalData?.profile) {
+      handleSync();
+    }
+  }, [_hasHydrated]);
 
   if (!mounted) return <LoadingSkeleton />;
 

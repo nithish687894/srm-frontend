@@ -1,16 +1,12 @@
 "use client";
 import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import DynamicGauge from "@/components/DynamicGauge";
 import { dataAPI } from "@/lib/api";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthStore } from "@/lib/store";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
-import { useThemeStore } from "@/lib/themeStore";
 import AuraAttendance from "@/components/aura-theme/AuraAttendance";
 import LoadingSkeleton from "@/components/aura-theme/LoadingSkeleton";
-
-import { RefreshCcw } from "lucide-react";
 import { extractBatch } from "@/lib/utils";
 
 function buildSlotToCourseMap(myTT: AnyValue[]) {
@@ -21,7 +17,6 @@ function buildSlotToCourseMap(myTT: AnyValue[]) {
 
 export default function AttendancePage() {
   const { ready } = useAuth();
-  const { theme } = useThemeStore();
   const {
     academicData,
     setAcademicData,
@@ -69,7 +64,7 @@ export default function AttendancePage() {
 
   useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
-  const [now, setNow] = useState(Date.now());
+  const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     const int = setInterval(() => setNow(Date.now()), 60000);
     return () => clearInterval(int);

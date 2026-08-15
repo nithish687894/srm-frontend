@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@capacitor/cli": "^8.4.2",
+    "@next/eslint-plugin-next": "^16.3.0",
     "@playwright/test": "^1.60.0",
     "@tailwindcss/postcss": "^4",
     "@types/canvas-confetti": "^1.9.0",
@@ -41,7 +42,10 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.11.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "typescript-eslint": "^8.67.0"
   }
 }

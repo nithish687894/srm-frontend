@@ -16,10 +16,6 @@ export default function SupportPage() {
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
 
-  useEffect(() => {
-    fetchFeedback();
-  }, []);
-
   const fetchFeedback = async () => {
     try {
       const res = await dataAPI.getFeedback();
@@ -30,6 +26,10 @@ export default function SupportPage() {
       setFetching(false);
     }
   };
+
+  useEffect(() => {
+    fetchFeedback();
+  }, []);
 
   const handleSubmit = async () => {
     if (!message.trim()) return;
