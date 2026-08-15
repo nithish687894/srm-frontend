@@ -96,7 +96,9 @@ export default function AttendancePage() {
         }
         setLoading(false);
       })
-      .catch(() => { if (!att.length) router.push("/"); });
+      .catch(() => {
+        setLoading(false);
+      });
 
     // Silent background auto-refresh from Academia if data is older than 2 minutes
     const lastFetched = academicData?.lastFetchedAt || 0;

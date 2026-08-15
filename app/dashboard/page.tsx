@@ -637,10 +637,12 @@ export default function DashboardPage() {
         }
       }
       if (!silent) setLoading(false);
-    } catch {
+    } catch (err) {
       if (!silent) {
-        if (!data) router.push("/");
-        else setLoading(false);
+        setLoading(false);
+        if (!data) {
+          setSyncError("Failed to fetch data. SRM portal might be down.");
+        }
       }
     }
   }, [data, router, setPremium, setAcademicData, setStudentPortalData, setProfile]);
@@ -1246,7 +1248,7 @@ export default function DashboardPage() {
       >
         {activeDashboard}
         {isSyncModalOpen && (
-          <PortalSyncModal isOpen onClose={() => setIsSyncModalOpen(false)} onSuccess={() => {}} netId="" />
+          <PortalSyncModal isOpen onClose={() => setIsSyncModalOpen(false)} onSuccess={() => fetchUnifiedData(false)} netId="" />
         )}
         {renderStudentInfoModal()}
       </main>
