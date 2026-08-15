@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Clock, ShieldAlert, Sparkles } from "lucide-react";
 
 export default function MaintenanceOverlay() {
-  const [enabled] = useState(true);
+  const [enabled] = useState(process.env.NEXT_PUBLIC_MAINTENANCE === "true");
 
   if (!enabled) return null;
 
