@@ -1668,6 +1668,8 @@ export function AuraTimetable({
                           lineHeight: 1.25, 
                           textTransform: "capitalize", 
                           letterSpacing: "-0.01em",
+                          wordBreak: "break-word",
+                          overflowWrap: "break-word",
                           display: "-webkit-box",
                           WebkitLineClamp: 2,
                           WebkitBoxOrient: "vertical",
@@ -2015,7 +2017,16 @@ export function AuraTimetable({
                   </div>
                   
                   {/* Full Course Title */}
-                  <div style={{ fontSize: "20px", fontWeight: 900, color: "#fff", textTransform: "capitalize", lineHeight: 1.25, letterSpacing: "-0.3px" }}>
+                  <div style={{ 
+                    fontSize: "20px", 
+                    fontWeight: 900, 
+                    color: "#fff", 
+                    textTransform: "capitalize", 
+                    lineHeight: 1.25, 
+                    letterSpacing: "-0.3px",
+                    wordBreak: "break-word",
+                    overflowWrap: "break-word"
+                  }}>
                     {selectedClassDetails.courseTitle.toLowerCase()}
                   </div>
                   
@@ -2023,16 +2034,18 @@ export function AuraTimetable({
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
                     <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", padding: "12px", borderRadius: "14px" }}>
                       <div style={{ fontSize: "8.5px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800, marginBottom: "3px" }}>Course Code</div>
-                      <div style={{ fontSize: "13px", fontWeight: 900, color: AURA.secondary }}>{selectedClassDetails.courseCode}</div>
+                      <div style={{ fontSize: "13px", fontWeight: 900, color: AURA.secondary, wordBreak: "break-word" }}>{selectedClassDetails.courseCode}</div>
                     </div>
                     <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", padding: "12px", borderRadius: "14px" }}>
                       <div style={{ fontSize: "8.5px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800, marginBottom: "3px" }}>Room</div>
-                      <div style={{ fontSize: "13px", fontWeight: 900, color: "#fff" }}>{selectedClassDetails.roomNo || "TBA"}</div>
+                      <div style={{ fontSize: "13px", fontWeight: 900, color: "#fff", wordBreak: "break-word" }}>{selectedClassDetails.roomNo || "TBA"}</div>
                     </div>
                     
                     <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", padding: "12px", borderRadius: "14px", gridColumn: "1 / -1" }}>
                       <div style={{ fontSize: "8.5px", color: "var(--text-soft)", textTransform: "uppercase", fontWeight: 800, marginBottom: "3px" }}>Faculty</div>
-                      <div style={{ fontSize: "13px", fontWeight: 900, color: "#fff" }}>{(selectedClassDetails.facultyName || "TBA").replace(/\s*\(\d+\)/, "")}</div>
+                      <div style={{ fontSize: "13px", fontWeight: 900, color: "#fff", wordBreak: "break-word", overflowWrap: "break-word", lineHeight: 1.35 }}>
+                        {(selectedClassDetails.facultyName || "TBA").replace(/\s*\(\d+\)/, "")}
+                      </div>
                     </div>
 
                     <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", padding: "12px", borderRadius: "14px" }}>
