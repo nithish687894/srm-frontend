@@ -839,6 +839,8 @@ export default function AuraAttendance({
             filteredAttendance.map((a: AnyValue, i: number) => {
               const statusColor = getStatusColor(a.pct);
               const statusLabel = getStatusLabel(a.pct);
+              const isSafe = (a.pct || 0) >= 75;
+              const pctClamped = Math.min(100, Math.max(0, a.pct || 0));
 
               return (
                 <div 
@@ -846,7 +848,7 @@ export default function AuraAttendance({
                   className="liquid-card"
                   onClick={() => handleOpenSubject(a)}
                   style={{
-                    padding: '24px 28px',
+                    padding: '28px',
                     borderRadius: '32px',
                     position: 'relative',
                     overflow: 'hidden',
@@ -873,7 +875,7 @@ export default function AuraAttendance({
 
                   <div style={{ position: 'relative', zIndex: 1 }}>
                     {/* Row 1: Code, Category, and Status Badge */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                         <div style={{ fontSize: '9px', fontWeight: 900, color: AURA_COLORS.sub, background: 'rgba(255,255,255,0.04)', padding: '4px 12px', borderRadius: '100px' }}>
                           {a.courseCode}
@@ -890,54 +892,79 @@ export default function AuraAttendance({
                     </div>
 
                     {/* Row 2: Course Name and Attendance % */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '14px', gap: '16px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px', gap: '16px' }}>
                       <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', margin: 0, textTransform: 'capitalize', lineHeight: 1.3, flex: 1 }}>
                         {String(a.courseTitle || "").toLowerCase()}
                       </h3>
-                      <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '2px' }}>
+                      <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
                         <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
                           <span style={{ fontSize: '28px', fontWeight: 950, color: statusColor, lineHeight: 1, textShadow: `0 0 15px ${statusColor}22` }} className="tabular-nums">
                             {(a.pct || 0).toFixed(1)}%
                           </span>
                         </div>
+                        <div style={{ fontSize: '10px', fontWeight: 900, color: statusColor, background: `${statusColor}12`, border: `1px solid ${statusColor}22`, padding: '4px 10px', borderRadius: '100px' }} className="tabular-nums">
+                          {a.attended}/{a.conducted}
+                        </div>
                       </div>
                     </div>
 
-                    {/* Row 3: Progress Bar */}
-                    <div style={{ height: '6px', background: 'rgba(255,255,255,0.04)', borderRadius: '6px', position: 'relative', marginBottom: '16px', overflow: 'hidden', boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.4)' }}>
+                    {/* Row 3: Progress Bar with Glowing Knob */}
+                    <div style={{ height: '6px', background: 'rgba(255,255,255,0.04)', borderRadius: '6px', position: 'relative', marginBottom: '24px', overflow: 'visible', boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.4)' }}>
                       <div style={{ 
                         position: 'absolute', 
                         left: 0, 
                         top: 0, 
                         bottom: 0, 
-                        width: `${Math.min(100, Math.max(0, a.pct || 0))}%`, 
+                        width: `${pctClamped}%`, 
                         background: getProgressBarGradient(a.pct), 
                         borderRadius: '6px', 
-                        transition: 'width 0.6s ease' 
-                      }} />
+                        transition: 'width 1.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                        boxShadow: `0 0 12px ${statusColor}40`
+                      }}>
+                        <div style={{ 
+                          position: 'absolute', right: 0, top: '50%', transform: 'translate(50%, -50%)', 
+                          width: '10px', height: '10px', borderRadius: '50%', background: '#fff', 
+                          boxShadow: `0 0 14px ${statusColor}, 0 0 4px #fff` 
+                        }} />
+                      </div>
                     </div>
 
-                    {/* Row 4: Stats breakdown (Present / Absent / Skip Margin) */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '11px', color: AURA_COLORS.subBright, fontWeight: 750 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                        <span><b style={{ color: '#fff' }}>{a.attended}</b> P</span>
-                        <span style={{ opacity: 0.35 }}>·</span>
-                        <span><b style={{ color: (a.absent || 0) > 0 ? AURA_COLORS.red : '#fff' }}>{a.absent}</b> A</span>
-                        <span style={{ opacity: 0.35 }}>·</span>
-                        <span style={{ color: AURA_COLORS.sub }}>{a.conducted} Total</span>
-                      </div>
+                    {/* Divider */}
+                    <div style={{ height: '1px', background: 'rgba(255,255,255,0.05)', margin: '0 -24px 24px' }} />
 
+                    {/* Row 4: Styled Footer — Present/Absent + Skip Margin */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255, 255, 255, 0.01)', padding: '12px 16px', borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.04)' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                          <CheckCircle2 size={12} color="#34D399" />
+                          <span style={{ fontSize: '10px', color: AURA_COLORS.sub, fontWeight: 700 }}>
+                            PRESENT: <strong style={{ color: '#fff' }}>{a.attended}</strong>
+                          </span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                          <AlertTriangle size={12} color={(a.absent || 0) > 0 ? AURA_COLORS.red : AURA_COLORS.sub} />
+                          <span style={{ fontSize: '10px', color: AURA_COLORS.sub, fontWeight: 700 }}>
+                            ABSENT: <strong style={{ color: (a.absent || 0) > 0 ? AURA_COLORS.red : '#fff' }}>{a.absent}</strong>
+                          </span>
+                        </div>
+                      </div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                        {(a.pct || 0) >= 75 ? (
-                          <span style={{ color: a.skipBuffer === 0 ? AURA_COLORS.amber : '#34D399', fontWeight: 900 }}>
-                            {a.skipBuffer === 0 ? "Skip 0 (At Limit)" : `Can skip ${a.skipBuffer}`}
-                          </span>
+                        {isSafe ? (
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <ShieldCheck size={12} color={a.skipBuffer === 0 ? AURA_COLORS.amber : '#34D399'} />
+                            <span style={{ fontSize: '10px', fontWeight: 900, color: a.skipBuffer === 0 ? AURA_COLORS.amber : '#34D399' }}>
+                              {a.skipBuffer === 0 ? "At Limit" : `Skip ${a.skipBuffer}`}
+                            </span>
+                          </div>
                         ) : (
-                          <span style={{ color: AURA_COLORS.red, fontWeight: 900 }}>
-                            Need {a.requiredToPass} more
-                          </span>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <ShieldAlert size={12} color={AURA_COLORS.red} />
+                            <span style={{ fontSize: '10px', fontWeight: 900, color: AURA_COLORS.red }}>
+                              Need +{a.requiredToPass}
+                            </span>
+                          </div>
                         )}
-                        <ChevronRight size={14} color={AURA_COLORS.sub} />
+                        <ChevronRight size={13} color={AURA_COLORS.sub} />
                       </div>
                     </div>
                   </div>
