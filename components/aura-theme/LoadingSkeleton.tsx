@@ -8,7 +8,7 @@ export default function LoadingSkeleton() {
     <main
       className="w-full min-h-screen relative overflow-hidden bg-[#f7f5ff] dark:bg-[#050505] text-gray-900 dark:text-white flex flex-col justify-start"
       style={{
-        padding: "calc(env(safe-area-inset-top, 0px) + 72px) 24px 80px",
+        padding: "calc(env(safe-area-inset-top, 0px) + 124px) 24px 80px",
         fontFamily: "'Plus Jakarta Sans', sans-serif",
       }}
     >
@@ -47,7 +47,7 @@ export default function LoadingSkeleton() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 text-purple-400/80 text-xs font-bold px-3 py-1.5 rounded-xl bg-purple-500/10 border border-purple-500/20">
+          <div className="hidden sm:flex items-center gap-2 text-purple-400/80 text-xs font-bold px-3 py-1.5 rounded-xl bg-purple-500/10 border border-purple-500/20">
             <Activity size={13} className="animate-pulse" />
             <span className="text-[10px] uppercase font-black tracking-wider">Fast Load</span>
           </div>
