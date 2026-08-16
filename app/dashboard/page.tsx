@@ -1255,7 +1255,7 @@ export default function DashboardPage() {
       >
         {activeDashboard}
         {isSyncModalOpen && (
-          <PortalSyncModal isOpen onClose={() => setIsSyncModalOpen(false)} onSuccess={() => fetchUnifiedData(false)} netId="" />
+          <PortalSyncModal isOpen onClose={() => setIsSyncModalOpen(false)} onSuccess={() => fetchUnifiedData(false)} netId="" type="academia" />
         )}
         {renderStudentInfoModal()}
       </main>

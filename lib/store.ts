@@ -48,6 +48,7 @@ export interface AuthStore {
   // Profile / Academia
   setProfile: (profile: AnyValue) => void;
   setAcademicData: (data: AnyValue) => void;
+  setAcademiaConnected: (val: boolean) => void;
 
   // Student Portal
   setStudentPortalConnected: (val: boolean) => void;
@@ -151,6 +152,9 @@ export const useAuthStore = create<AuthStore>()(
           }).catch(() => {});
         }
       },
+
+      setAcademiaConnected: (connected) =>
+        set({ academiaConnected: connected }),
 
       // ── Student Portal ────────────────────────────────────────────────────
       setStudentPortalConnected: (connected) =>

@@ -10,6 +10,7 @@ interface PortalSyncModalProps {
   onClose: () => void;
   onSuccess: () => void;
   netId: string;
+  type?: "academia" | "student-portal";
 }
 
 export default function PortalSyncModal({
@@ -17,6 +18,7 @@ export default function PortalSyncModal({
   onClose,
   onSuccess,
   netId,
+  type = "student-portal",
 }: PortalSyncModalProps) {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -106,14 +108,14 @@ export default function PortalSyncModal({
     setCaptchaData(null);
     setCaptchaAnswer("");
     try {
-      const data = await authAPI.initAuth("student-portal");
+      const data = await authAPI.initAuth(type);
       setCaptchaData(data);
     } catch {
       setError("CAPTCHA UNAVAILABLE — TRY AGAIN");
     } finally {
       setIsCaptchaLoading(false);
     }
-  }, []);
+  }, [type]);
 
   const handleSync = async () => {
     if (!localNetId.trim() || !password || !captchaAnswer) {
@@ -124,12 +126,16 @@ export default function PortalSyncModal({
     setError("");
 
     try {
-      await authAPI.login(localNetId.trim(), password, "student-portal", {
+      await authAPI.login(localNetId.trim(), password, type, {
         captcha: captchaAnswer,
         captchaToken: captchaData?.captchaToken,
       });
 
-      useAuthStore.getState().setStudentPortalConnected(true);
+      if (type === "student-portal") {
+        useAuthStore.getState().setStudentPortalConnected(true);
+      } else {
+        useAuthStore.getState().setAcademiaConnected(true);
+      }
       setStep("syncing");
 
       try {
@@ -157,7 +163,11 @@ export default function PortalSyncModal({
       setError(e.response?.data?.error || "ACCESS DENIED");
       setCaptchaAnswer("");
       fetchCaptcha();
-      useAuthStore.getState().setStudentPortalConnected(false);
+      if (type === "student-portal") {
+        useAuthStore.getState().setStudentPortalConnected(false);
+      } else {
+        useAuthStore.getState().setAcademiaConnected(false);
+      }
     } finally {
       setLoading(false);
     }
@@ -308,7 +318,7 @@ export default function PortalSyncModal({
           <div
             style={cardStyle}
             role="dialog"
-            aria-label="Connect Student Portal"
+            aria-label={type === "student-portal" ? "Connect Student Portal" : "Connect Academia Portal"}
           >
             {step === "form" ? (
               <div style={{ padding: "26px" }}>
@@ -359,7 +369,7 @@ export default function PortalSyncModal({
                         display: "block",
                         marginTop: "1px"
                       }}>
-                        Student Portal Gateway
+                        {type === "student-portal" ? "Student Portal Gateway" : "Academia Portal Gateway"}
                       </span>
                     </div>
                   </div>
@@ -605,7 +615,7 @@ export default function PortalSyncModal({
                     lineHeight: 1.6
                   }}
                 >
-                  Student Portal successfully linked with your Academic OS hub.
+                  {type === "student-portal" ? "Student Portal successfully linked with your Academic OS hub." : "Academia Portal successfully linked with your Academic OS hub."}
                 </p>
               </div>
             )}
