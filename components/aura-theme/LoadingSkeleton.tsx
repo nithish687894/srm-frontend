@@ -1,14 +1,31 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Sparkles, Activity } from "lucide-react";
 
+const PHRASES = [
+  "Decrypting academic profile...",
+  "Warming up database records...",
+  "Aligning timetable day orders...",
+  "Securing Academia connection...",
+  "Syncing grades and attendance..."
+];
+
 export default function LoadingSkeleton() {
+  const [phraseIdx, setPhraseIdx] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setPhraseIdx((prev) => (prev + 1) % PHRASES.length);
+    }, 1800);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <main
-      className="w-full min-h-screen relative overflow-hidden bg-[#f7f5ff] dark:bg-[#050505] text-gray-900 dark:text-white flex flex-col justify-start"
+      className="w-full min-h-screen relative overflow-hidden bg-[#050505] text-white flex flex-col justify-between"
       style={{
-        padding: "calc(env(safe-area-inset-top, 0px) + 124px) 24px 80px",
+        padding: "calc(env(safe-area-inset-top, 0px) + 64px) 24px calc(env(safe-area-inset-bottom, 0px) + 40px)",
         fontFamily: "'Plus Jakarta Sans', sans-serif",
       }}
     >
@@ -16,111 +33,83 @@ export default function LoadingSkeleton() {
       <div
         className="fixed -top-32 -right-32 w-[500px] h-[500px] rounded-full pointer-events-none z-0"
         style={{
-          background: "radial-gradient(circle, rgba(192, 132, 252, 0.15) 0%, rgba(0, 0, 0, 0) 70%)",
-          filter: "blur(60px)",
+          background: "radial-gradient(circle, rgba(143, 146, 255, 0.08) 0%, rgba(0, 0, 0, 0) 70%)",
+          filter: "blur(70px)",
         }}
       />
       <div
         className="fixed -bottom-32 -left-32 w-[500px] h-[500px] rounded-full pointer-events-none z-0"
         style={{
-          background: "radial-gradient(circle, rgba(0, 212, 255, 0.12) 0%, rgba(0, 0, 0, 0) 70%)",
-          filter: "blur(60px)",
+          background: "radial-gradient(circle, rgba(0, 212, 255, 0.06) 0%, rgba(0, 0, 0, 0) 70%)",
+          filter: "blur(70px)",
         }}
       />
 
-      <div className="max-w-4xl mx-auto w-full relative z-10 space-y-6">
-        {/* Top Branding / Syncing Indicator Banner */}
-        <div className="w-full flex items-center justify-between p-4 rounded-2xl bg-white/[0.02] border border-white/10 backdrop-blur-xl">
-          <div className="flex items-center gap-3">
-            <div className="relative w-8 h-8 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-400">
-              <Sparkles size={16} className="animate-spin" style={{ animationDuration: "3s" }} />
-              <div className="absolute inset-0 rounded-xl bg-purple-500/30 animate-ping opacity-30" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-black uppercase tracking-wider text-white">SRM Nexus</span>
-                <span className="px-2 py-0.5 rounded-full bg-purple-500/20 text-[9.5px] font-black text-purple-300 border border-purple-500/30">
-                  INSTANT SYNC
-                </span>
-              </div>
-              <p className="text-[10px] text-white/40 font-medium">Syncing academic records in real-time...</p>
-            </div>
-          </div>
+      <div style={{ flex: 1 }} />
 
-          <div className="hidden sm:flex items-center gap-2 text-purple-400/80 text-xs font-bold px-3 py-1.5 rounded-xl bg-purple-500/10 border border-purple-500/20">
-            <Activity size={13} className="animate-pulse" />
-            <span className="text-[10px] uppercase font-black tracking-wider">Fast Load</span>
+      {/* Centered Premium Loader */}
+      <div className="flex-grow flex flex-col items-center justify-center relative z-10 max-w-sm w-full mx-auto px-6 text-center">
+        {/* Glowing Orb Outer Wrapper */}
+        <div className="relative w-24 h-24 mb-8 flex items-center justify-center">
+          {/* Pulsing Glow Rings */}
+          <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#FF75C3] via-[#8F92FF] to-[#00d4ff] opacity-15 blur-lg animate-pulse" />
+          <div className="absolute -inset-1 rounded-full border border-white/5 animate-spin" style={{ animationDuration: "8s" }} />
+          <div className="absolute -inset-3.5 rounded-full border border-dashed border-white/5 animate-spin" style={{ animationDuration: "16s", animationDirection: "reverse" }} />
+
+          {/* Central Glass Sphere */}
+          <div className="absolute inset-2 rounded-full bg-white/[0.02] border border-white/10 backdrop-blur-2xl flex items-center justify-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]">
+            <Sparkles size={26} className="text-[#8F92FF] animate-pulse" />
           </div>
         </div>
 
-        {/* Header Skeleton Block */}
-        <div className="p-6 rounded-3xl bg-neutral-950/80 border border-white/10 backdrop-blur-2xl relative overflow-hidden shadow-2xl">
-          <div className="space-y-3">
-            <div className="w-28 h-3.5 rounded-lg bg-white/10 animate-pulse" />
-            <div className="w-56 h-8 rounded-xl bg-white/15 animate-pulse" />
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-6">
-            {[1, 2, 3].map((idx) => (
-              <div key={idx} className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/5 space-y-2">
-                <div className="w-16 h-2.5 rounded-md bg-white/10 animate-pulse" />
-                <div className="w-24 h-6 rounded-lg bg-white/15 animate-pulse" />
-              </div>
-            ))}
+        {/* Brand Header */}
+        <div className="space-y-2 mb-8">
+          <h1 className="text-sm font-black tracking-[0.45em] uppercase text-white mr-[-0.45em]">SRM NEXUS</h1>
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/[0.04] border border-white/10 text-[9px] font-black text-white/50 tracking-wider uppercase">
+            <Activity size={10} className="text-[#00d4ff] animate-pulse" /> INSTANT LOAD
           </div>
         </div>
 
-        {/* Main Content Card Skeletons */}
-        <div className="space-y-4">
-          {[1, 2, 3].map((card) => (
-            <div
-              key={card}
-              className="p-6 rounded-3xl bg-neutral-950/70 border border-white/10 backdrop-blur-xl relative overflow-hidden space-y-4 shadow-xl"
-              style={{ animationDelay: `${card * 100}ms` }}
-            >
-              {/* Header row inside card */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-white/10 animate-pulse" />
-                  <div className="space-y-1.5">
-                    <div className="w-40 h-4 rounded-md bg-white/15 animate-pulse" />
-                    <div className="w-24 h-3 rounded-md bg-white/10 animate-pulse" />
-                  </div>
-                </div>
-                <div className="w-14 h-7 rounded-full bg-purple-500/20 border border-purple-500/30 animate-pulse" />
-              </div>
-
-              {/* Progress bar skeleton */}
-              <div className="w-full h-2 rounded-full bg-white/5 overflow-hidden">
-                <div className="w-3/4 h-full bg-gradient-to-r from-purple-500/40 to-cyan-500/40 rounded-full animate-pulse" />
-              </div>
-
-              {/* Badges / test chips skeleton */}
-              <div className="flex flex-wrap gap-2 pt-1">
-                {[1, 2, 3, 4].map((chip) => (
-                  <div key={chip} className="w-20 h-8 rounded-xl bg-white/[0.04] border border-white/5 animate-pulse" />
-                ))}
-              </div>
-            </div>
-          ))}
+        {/* Dynamic Phrase Indicator */}
+        <div className="w-full h-8 flex items-center justify-center overflow-hidden mb-4">
+          <p className="text-[11px] text-[#FF75C3] font-extrabold tracking-wide animate-pulse-soft">
+            {PHRASES[phraseIdx]}
+          </p>
         </div>
+
+        {/* High-Fidelity Progress Loader */}
+        <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden relative mb-4">
+          <div 
+            className="h-full bg-gradient-to-r from-[#FF75C3] via-[#8F92FF] to-[#00d4ff] rounded-full absolute left-0 top-0"
+            style={{
+              animation: "shimmerProgress 2s infinite linear",
+            }}
+          />
+        </div>
+        
+        {/* Security / Privacy Subtext */}
+        <p className="text-[9.5px] text-white/30 font-semibold max-w-[260px] leading-relaxed">
+          Connecting directly via secure gateway. Credentials remain encrypted on your device.
+        </p>
       </div>
 
+      <div style={{ flex: 1 }} />
+
+      {/* Styled animations */}
       <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes luminaShimmer {
-          0% {
-            background-position: -200% 0;
-          }
-          100% {
-            background-position: 200% 0;
-          }
+        @keyframes shimmerProgress {
+          0% { left: -100%; width: 30%; }
+          50% { left: 35%; width: 40%; }
+          100% { left: 100%; width: 30%; }
         }
-        .animate-pulse {
-          background: linear-gradient(90deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.03) 100%);
-          background-size: 200% 100%;
-          animation: luminaShimmer 1.6s infinite linear;
+        @keyframes pulseSoft {
+          0%, 100% { opacity: 0.55; transform: scale(0.98); }
+          50% { opacity: 0.95; transform: scale(1.02); }
+        }
+        .animate-pulse-soft {
+          animation: pulseSoft 1.8s infinite ease-in-out;
         }
       `}} />
     </main>
   );
 }
-
