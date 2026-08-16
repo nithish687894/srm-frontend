@@ -1,22 +1,23 @@
 "use client";
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { 
   Activity, 
   Zap, 
   ShieldCheck, 
   ShieldAlert, 
   AlertTriangle, 
-  TrendingUp, 
   Sparkles, 
   ChevronRight, 
   RefreshCcw, 
   Clock, 
   CheckCircle2, 
   X, 
-  ArrowRight,
-  Info,
+  ArrowLeft,
   Calendar,
-  Layers
+  Layers,
+  Plus,
+  Minus,
+  HelpCircle
 } from "lucide-react";
 import { useAuraTheme } from "./system/useAuraTheme";
 import AuraBackground from "./effects/AuraBackground";
@@ -24,8 +25,10 @@ import { AURA_COLORS as SHARED_AURA } from "./system/theme-tokens";
 
 const AURA_COLORS = SHARED_AURA;
 
+// Safe status helper
 const getStatusDetails = (pct: number) => {
-  if (pct >= 75) {
+  const safePct = typeof pct === "number" && !isNaN(pct) ? pct : 0;
+  if (safePct >= 75) {
     return { 
       color: AURA_COLORS.green, 
       label: "SAFE",
@@ -33,10 +36,10 @@ const getStatusDetails = (pct: number) => {
       bgTint: "rgba(52, 211, 153, 0.10)",
       borderTint: "rgba(52, 211, 153, 0.24)",
       badgeBg: "rgba(52, 211, 153, 0.15)",
-      statusText: "On Track"
+      statusText: "Safe & On Track"
     };
   }
-  if (pct >= 65) {
+  if (safePct >= 65) {
     return { 
       color: AURA_COLORS.amber, 
       label: "WATCH",
@@ -59,15 +62,38 @@ const getStatusDetails = (pct: number) => {
 };
 
 export default function AuraAttendance({ 
-  attendance, handleSync, isSyncing, timeAgoStr,
-  showPredictor, setShowPredictor, next30Days, selectedDates, toggleDate, 
-  calculatePredictions, predictions, setSelectedDates, setPredictions
+  attendance = [], 
+  handleSync, 
+  isSyncing = false, 
+  timeAgoStr = "",
+  showPredictor: externalShowPredictor, 
+  setShowPredictor: externalSetShowPredictor, 
+  next30Days = [], 
+  selectedDates = new Set(), 
+  toggleDate, 
+  calculatePredictions, 
+  predictions, 
+  setSelectedDates, 
+  setPredictions
 }: AnyValue) {
   const [filter, setFilter] = useState<"All" | "Needs Attention" | "Safe">("All");
   const [selectedSubject, setSelectedSubject] = useState<AnyValue | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [skipStepperCount, setSkipStepperCount] = useState<number>(3);
+  const [predictorMode, setPredictorMode] = useState<"quick" | "calendar">("quick");
+  const [localShowPredictor, setLocalShowPredictor] = useState(false);
   const { activeTheme, stars } = useAuraTheme();
 
+  const isPredictorOpen = externalShowPredictor !== undefined ? externalShowPredictor : localShowPredictor;
+  const setPredictorOpen = useCallback((val: boolean) => {
+    if (externalSetShowPredictor) {
+      externalSetShowPredictor(val);
+    } else {
+      setLocalShowPredictor(val);
+    }
+  }, [externalSetShowPredictor]);
+
+  // Scroll listener for sticky header
   useEffect(() => {
     const parentMain = document.getElementById("attendance-parent-scroll") || document.querySelector('main');
     const onScroll = () => {
@@ -82,25 +108,43 @@ export default function AuraAttendance({
     };
   }, []);
 
-  // Lock body scroll when modal is active
+  // Handle browser back button when a modal is open
   useEffect(() => {
-    if (selectedSubject) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
+    const handlePopState = () => {
+      if (selectedSubject) setSelectedSubject(null);
+      if (isPredictorOpen) setPredictorOpen(false);
     };
-  }, [selectedSubject]);
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [selectedSubject, isPredictorOpen, setPredictorOpen]);
 
+  // Open modal handler with history push for browser back support
+  const handleOpenSubject = useCallback((sub: AnyValue) => {
+    if (!sub) return;
+    try {
+      window.history.pushState({ modal: "subject_detail" }, "");
+    } catch {}
+    setSelectedSubject(sub);
+  }, []);
+
+  const handleCloseSubject = useCallback(() => {
+    setSelectedSubject(null);
+    if (window.history.state?.modal === "subject_detail") {
+      try { window.history.back(); } catch {}
+    }
+  }, []);
+
+  // Process and compute all attendance stats with complete null safety
   const processedAttendance = useMemo(() => {
-    if (!attendance || !attendance.length) return [];
+    if (!Array.isArray(attendance) || attendance.length === 0) return [];
+
     return attendance.map((a: AnyValue) => {
-      const pctStr = a["Attn %"] || a.pct;
-      const parsedPct = parseFloat(pctStr) || 0;
-      let conducted = parseInt(a["Hours Conducted"] || a.conducted) || 0;
-      let absent = parseInt(a["Hours Absent"] || a.absent) || 0;
+      if (!a || typeof a !== "object") return null;
+
+      const pctStr = a["Attn %"] ?? a.pct;
+      const parsedPct = parseFloat(String(pctStr)) || 0;
+      let conducted = parseInt(String(a["Hours Conducted"] ?? a.conducted)) || 0;
+      let absent = parseInt(String(a["Hours Absent"] ?? a.absent)) || 0;
       
       if (conducted === 0 && pctStr !== undefined && pctStr !== null && pctStr !== "null") {
         conducted = 30;
@@ -108,14 +152,15 @@ export default function AuraAttendance({
         absent = conducted - presentEst;
       }
       
-      const attended = parseInt(a["Hours Attended"] || a.attended) || Math.max(0, conducted - absent);
-      const pct = pctStr !== undefined && pctStr !== null && pctStr !== "null"
+      const attended = parseInt(String(a["Hours Attended"] ?? a.attended)) || Math.max(0, conducted - absent);
+      const pct = (pctStr !== undefined && pctStr !== null && pctStr !== "null" && !isNaN(parsedPct))
         ? parsedPct
         : (conducted > 0 ? (attended / conducted) * 100 : 100);
+
       const skipBuffer = Math.max(0, Math.floor((attended - 0.75 * conducted) / 0.75));
       const requiredToPass = Math.max(0, Math.ceil(3 * conducted - 4 * attended));
       
-      // Compute What-If Simulation steps
+      // Compute What-If Simulation steps [1, 2, 3, 5]
       const simSteps = [1, 2, 3, 5];
       const skipSimulations = simSteps.map((skips) => {
         const nextConducted = conducted + skips;
@@ -130,8 +175,15 @@ export default function AuraAttendance({
         return { extra, nextPct, safe: nextPct >= 75 };
       });
 
+      // Simulation for quick stepper
+      const stepperNextConducted = conducted + skipStepperCount;
+      const stepperNextPct = stepperNextConducted > 0 ? (attended / stepperNextConducted) * 100 : 0;
+
       return { 
         ...a, 
+        courseCode: a["Course Code"] || a.courseCode || "COURSE",
+        courseTitle: a["Course Title"] || a.courseTitle || a.title || "Subject",
+        category: a["Category"] || a.category || "",
         conducted, 
         attended, 
         absent, 
@@ -139,23 +191,25 @@ export default function AuraAttendance({
         skipBuffer, 
         requiredToPass,
         skipSimulations,
-        attendSimulations
+        attendSimulations,
+        stepperNextPct,
+        stepperSafe: stepperNextPct >= 75
       };
-    });
-  }, [attendance]);
+    }).filter(Boolean);
+  }, [attendance, skipStepperCount]);
 
   const stats = useMemo(() => {
     const totalSubs = processedAttendance.length;
-    const totalAttended = processedAttendance.reduce((sum: number, a: AnyValue) => sum + a.attended, 0);
-    const totalConducted = processedAttendance.reduce((sum: number, a: AnyValue) => sum + a.conducted, 0);
-    const totalAbsent = processedAttendance.reduce((sum: number, a: AnyValue) => sum + a.absent, 0);
+    const totalAttended = processedAttendance.reduce((sum: number, a: AnyValue) => sum + (a?.attended || 0), 0);
+    const totalConducted = processedAttendance.reduce((sum: number, a: AnyValue) => sum + (a?.conducted || 0), 0);
+    const totalAbsent = processedAttendance.reduce((sum: number, a: AnyValue) => sum + (a?.absent || 0), 0);
     const overallAvg = totalConducted > 0 ? (totalAttended / totalConducted) * 100 : 0;
-    const atRiskList = processedAttendance.filter((a: AnyValue) => a.pct < 75);
-    const safeList = processedAttendance.filter((a: AnyValue) => a.pct >= 75);
-    const totalSkipsAllowed = safeList.reduce((sum: number, a: AnyValue) => sum + a.skipBuffer, 0);
+    const atRiskList = processedAttendance.filter((a: AnyValue) => (a?.pct || 0) < 75);
+    const safeList = processedAttendance.filter((a: AnyValue) => (a?.pct || 0) >= 75);
+    const totalSkipsAllowed = safeList.reduce((sum: number, a: AnyValue) => sum + (a?.skipBuffer || 0), 0);
     
-    // Find highest risk or lowest buffer subject
-    const sortedByRisk = [...processedAttendance].sort((a: AnyValue, b: AnyValue) => a.pct - b.pct);
+    // Lowest percentage / primary alert subject
+    const sortedByRisk = [...processedAttendance].sort((a: AnyValue, b: AnyValue) => (a?.pct || 0) - (b?.pct || 0));
     const primaryAlertSubject = sortedByRisk.length > 0 ? sortedByRisk[0] : null;
 
     return { 
@@ -173,10 +227,10 @@ export default function AuraAttendance({
 
   const filteredAttendance = useMemo(() => {
     if (filter === "Needs Attention") {
-      return processedAttendance.filter((a: AnyValue) => a.pct < 75);
+      return processedAttendance.filter((a: AnyValue) => (a?.pct || 0) < 75);
     }
     if (filter === "Safe") {
-      return processedAttendance.filter((a: AnyValue) => a.pct >= 75);
+      return processedAttendance.filter((a: AnyValue) => (a?.pct || 0) >= 75);
     }
     return processedAttendance;
   }, [processedAttendance, filter]);
@@ -250,7 +304,7 @@ export default function AuraAttendance({
         }
 
         .subject-row-item {
-          background: linear-gradient(145deg, rgba(20, 16, 34, 0.72) 0%, rgba(10, 8, 18, 0.85) 100%);
+          background: linear-gradient(145deg, rgba(20, 16, 34, 0.75) 0%, rgba(10, 8, 18, 0.88) 100%);
           border: 1px solid rgba(255, 255, 255, 0.07);
           border-radius: 20px;
           padding: 14px 16px;
@@ -289,14 +343,14 @@ export default function AuraAttendance({
         .modal-overlay {
           position: fixed;
           inset: 0;
-          background: rgba(4, 3, 8, 0.78);
-          backdrop-filter: blur(14px);
-          -webkit-backdrop-filter: blur(14px);
+          background: rgba(4, 3, 8, 0.82);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
           z-index: 10000;
           display: flex;
           align-items: flex-end;
           justify-content: center;
-          animation: modalFadeIn 0.25s ease-out;
+          animation: modalFadeIn 0.22s ease-out;
         }
         @media (min-width: 640px) {
           .modal-overlay {
@@ -308,21 +362,21 @@ export default function AuraAttendance({
         .modal-sheet {
           width: 100%;
           max-width: 560px;
-          max-height: 88vh;
+          max-height: 90vh;
           background: linear-gradient(155deg, rgba(22, 17, 38, 0.98) 0%, rgba(9, 7, 16, 0.99) 100%);
           border: 1px solid rgba(192, 132, 252, 0.22);
           border-radius: 32px 32px 0 0;
           padding: 20px 22px 36px;
           overflow-y: auto;
           position: relative;
-          box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-          animation: sheetSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+          animation: sheetSlideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1);
         }
         @media (min-width: 640px) {
           .modal-sheet {
             border-radius: 28px;
             padding: 24px 26px 28px;
-            animation: modalScaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: modalScaleUp 0.22s cubic-bezier(0.16, 1, 0.3, 1);
           }
         }
 
@@ -335,7 +389,7 @@ export default function AuraAttendance({
           to { transform: translateY(0); }
         }
         @keyframes modalScaleUp {
-          from { transform: scale(0.92); opacity: 0; }
+          from { transform: scale(0.94); opacity: 0; }
           to { transform: scale(1); opacity: 1; }
         }
 
@@ -457,7 +511,7 @@ export default function AuraAttendance({
 
         {/* ─── 2. COMPACT OVERALL ATTENDANCE SUMMARY HERO ─── */}
         <div className="cmd-summary-card">
-          {/* Subtle Ambient Radial Glow */}
+          {/* Ambient Glow */}
           <div style={{
             position: 'absolute',
             top: '-40px',
@@ -569,14 +623,14 @@ export default function AuraAttendance({
           const subject = stats.primaryAlertSubject;
           if (!subject) return null;
 
-          const isAtRisk = subject.pct < 75;
-          const isCloseWatch = subject.pct >= 75 && subject.pct <= 78;
+          const isAtRisk = (subject.pct || 0) < 75;
+          const isCloseWatch = (subject.pct || 0) >= 75 && (subject.pct || 0) <= 78;
 
           if (isAtRisk) {
             return (
               <div 
                 className="cmd-insight-card"
-                onClick={() => setSelectedSubject(subject)}
+                onClick={() => handleOpenSubject(subject)}
                 style={{
                   background: 'linear-gradient(135deg, rgba(255, 75, 114, 0.18) 0%, rgba(251, 191, 36, 0.08) 100%)',
                   border: '1px solid rgba(255, 75, 114, 0.32)',
@@ -603,11 +657,11 @@ export default function AuraAttendance({
                       </span>
                       <span style={{ fontSize: '9px', color: AURA_COLORS.sub }}>·</span>
                       <span style={{ fontSize: '11px', fontWeight: 900, color: '#fff' }} className="tabular-nums">
-                        {subject.pct.toFixed(1)}%
+                        {(subject.pct || 0).toFixed(1)}%
                       </span>
                     </div>
                     <p style={{ margin: '1px 0 0', fontSize: '12px', fontWeight: 800, color: '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {subject["Course Title"]}
+                      {subject.courseTitle}
                     </p>
                     <p style={{ margin: '1px 0 0', fontSize: '10.5px', fontWeight: 700, color: '#FF87A2' }}>
                       {subject.requiredToPass === 1 ? 'Attend next 1 class to cross 75%' : `Attend next ${subject.requiredToPass} classes to cross 75%`}
@@ -627,7 +681,7 @@ export default function AuraAttendance({
             return (
               <div 
                 className="cmd-insight-card"
-                onClick={() => setSelectedSubject(subject)}
+                onClick={() => handleOpenSubject(subject)}
                 style={{
                   background: 'linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(192, 132, 252, 0.06) 100%)',
                   border: '1px solid rgba(251, 191, 36, 0.3)',
@@ -654,11 +708,11 @@ export default function AuraAttendance({
                       </span>
                       <span style={{ fontSize: '9px', color: AURA_COLORS.sub }}>·</span>
                       <span style={{ fontSize: '11px', fontWeight: 900, color: '#fff' }} className="tabular-nums">
-                        {subject.pct.toFixed(1)}%
+                        {(subject.pct || 0).toFixed(1)}%
                       </span>
                     </div>
                     <p style={{ margin: '1px 0 0', fontSize: '12px', fontWeight: 800, color: '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {subject["Course Title"]}
+                      {subject.courseTitle}
                     </p>
                     <p style={{ margin: '1px 0 0', fontSize: '10.5px', fontWeight: 700, color: '#FCD34D' }}>
                       {subject.skipBuffer === 0 ? 'Zero skip buffer — cannot miss next class' : `Closest to 75% limit · Only ${subject.skipBuffer} skip left`}
@@ -711,11 +765,11 @@ export default function AuraAttendance({
           );
         })()}
 
-        {/* ─── 4. COMPACT SKIP PREDICTOR ACTION TOOL ─── */}
+        {/* ─── 4. INTERACTIVE SKIP PREDICTOR TOOL (ACCORDION & STEPPER) ─── */}
         <div style={{ marginBottom: '18px' }}>
-          {!showPredictor ? (
+          {!isPredictorOpen ? (
             <div
-              onClick={() => setShowPredictor(true)}
+              onClick={() => setPredictorOpen(true)}
               style={{
                 background: 'rgba(255, 255, 255, 0.03)',
                 border: '1px solid rgba(255, 255, 255, 0.08)',
@@ -745,7 +799,7 @@ export default function AuraAttendance({
                     ⚡ Skip Predictor
                   </div>
                   <div style={{ fontSize: '10px', color: AURA_COLORS.subBright, fontWeight: 700 }}>
-                    Forecast how planned leaves affect your attendance margins
+                    See how skipping classes affects your attendance
                   </div>
                 </div>
               </div>
@@ -753,122 +807,238 @@ export default function AuraAttendance({
             </div>
           ) : (
             <div style={{
-              background: 'linear-gradient(145deg, rgba(20, 15, 34, 0.9) 0%, rgba(9, 7, 16, 0.95) 100%)',
+              background: 'linear-gradient(145deg, rgba(20, 15, 34, 0.92) 0%, rgba(9, 7, 16, 0.96) 100%)',
               border: '1px solid rgba(192, 132, 252, 0.25)',
               borderRadius: '22px',
               padding: '16px',
               boxShadow: '0 14px 35px rgba(0,0,0,0.5)'
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+              {/* Predictor Header */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Zap size={14} color={AURA_COLORS.purple} />
-                  <span style={{ fontSize: '12px', fontWeight: 950, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                    Select Dates to Skip
+                  <Zap size={15} color={AURA_COLORS.purple} />
+                  <span style={{ fontSize: '12.5px', fontWeight: 950, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                    Skip Predictor
                   </span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  {predictions && (
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <div style={{ display: 'flex', background: 'rgba(255, 255, 255, 0.05)', borderRadius: '8px', padding: '2px' }}>
                     <button
-                      onClick={() => { setSelectedDates(new Set()); setPredictions(null); }}
-                      style={{ background: 'transparent', border: 'none', color: AURA_COLORS.primary, cursor: 'pointer', fontSize: '10px', fontWeight: 900, textTransform: 'uppercase' }}
+                      onClick={() => setPredictorMode("quick")}
+                      style={{
+                        background: predictorMode === "quick" ? 'rgba(192, 132, 252, 0.2)' : 'transparent',
+                        border: 'none',
+                        color: predictorMode === "quick" ? '#fff' : AURA_COLORS.sub,
+                        fontSize: '9.5px',
+                        fontWeight: 900,
+                        padding: '3px 8px',
+                        borderRadius: '6px',
+                        cursor: 'pointer'
+                      }}
                     >
-                      Reset
+                      Quick Stepper
                     </button>
-                  )}
+                    <button
+                      onClick={() => setPredictorMode("calendar")}
+                      style={{
+                        background: predictorMode === "calendar" ? 'rgba(192, 132, 252, 0.2)' : 'transparent',
+                        border: 'none',
+                        color: predictorMode === "calendar" ? '#fff' : AURA_COLORS.sub,
+                        fontSize: '9.5px',
+                        fontWeight: 900,
+                        padding: '3px 8px',
+                        borderRadius: '6px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Dates
+                    </button>
+                  </div>
+
                   <button
-                    onClick={() => { setShowPredictor(false); setSelectedDates(new Set()); setPredictions(null); }}
-                    style={{ background: 'rgba(255, 255, 255, 0.08)', border: 'none', borderRadius: '50%', width: '22px', height: '22px', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+                    onClick={() => setPredictorOpen(false)}
+                    style={{ background: 'rgba(255, 255, 255, 0.08)', border: 'none', borderRadius: '50%', width: '24px', height: '24px', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
                   >
-                    <X size={12} />
+                    <X size={13} />
                   </button>
                 </div>
               </div>
 
-              {/* Next 30 Days Date Strip */}
-              <div className="hide-scrollbar" style={{ display: 'flex', overflowX: 'auto', gap: '6px', paddingBottom: '10px', marginBottom: '12px' }}>
-                {next30Days?.map((d: AnyValue) => {
-                  const sel = selectedDates.has(d.iso);
-                  const isWknd = [0, 6].includes(d.date.getDay());
-                  return (
-                    <div
-                      key={d.iso}
-                      onClick={() => !isWknd && toggleDate(d.iso)}
-                      style={{
-                        flexShrink: 0,
-                        width: '42px',
-                        height: '54px',
-                        borderRadius: '12px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        background: sel ? 'linear-gradient(135deg, #FF4B72 0%, #FF2D55 100%)' : 'rgba(255, 255, 255, 0.04)',
-                        border: `1px solid ${sel ? '#FF87A2' : 'rgba(255, 255, 255, 0.08)'}`,
-                        cursor: isWknd ? 'not-allowed' : 'pointer',
-                        opacity: isWknd ? 0.25 : 1,
-                        boxShadow: sel ? '0 0 12px rgba(255, 75, 114, 0.4)' : 'none',
-                        transition: 'all 0.15s ease'
-                      }}
-                    >
-                      <span style={{ fontSize: '8px', fontWeight: 900, color: sel ? '#fff' : AURA_COLORS.subBright, textTransform: 'uppercase' }}>
-                        {d.dayStr}
-                      </span>
-                      <span style={{ fontSize: '15px', fontWeight: 950, color: '#fff', marginTop: '2px' }} className="tabular-nums">
-                        {d.dateNum}
-                      </span>
+              {/* Mode A: Quick Stepper Simulator */}
+              {predictorMode === "quick" ? (
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.06)', borderRadius: '16px', padding: '12px 14px', marginBottom: '12px' }}>
+                    <div>
+                      <div style={{ fontSize: '10px', fontWeight: 800, color: AURA_COLORS.sub, textTransform: 'uppercase' }}>
+                        How many classes to skip?
+                      </div>
+                      <div style={{ fontSize: '13px', fontWeight: 900, color: '#fff', marginTop: '2px' }}>
+                        Simulate {skipStepperCount} {skipStepperCount === 1 ? 'Class' : 'Classes'} Missed
+                      </div>
                     </div>
-                  );
-                })}
-              </div>
 
-              <button
-                onClick={calculatePredictions}
-                style={{
-                  width: '100%',
-                  padding: '10px',
-                  background: `linear-gradient(135deg, ${AURA_COLORS.purple} 0%, ${AURA_COLORS.pink} 100%)`,
-                  borderRadius: '12px',
-                  color: '#fff',
-                  fontSize: '11px',
-                  fontWeight: 950,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.06em',
-                  border: 'none',
-                  cursor: 'pointer'
-                }}
-              >
-                Forecast Impact ({selectedDates.size} days selected)
-              </button>
+                    {/* Stepper Controls */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <button
+                        onClick={() => setSkipStepperCount(Math.max(1, skipStepperCount - 1))}
+                        disabled={skipStepperCount <= 1}
+                        style={{
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '10px',
+                          background: 'rgba(255, 255, 255, 0.08)',
+                          border: '1px solid rgba(255, 255, 255, 0.12)',
+                          color: '#fff',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          cursor: skipStepperCount <= 1 ? 'not-allowed' : 'pointer',
+                          opacity: skipStepperCount <= 1 ? 0.4 : 1
+                        }}
+                      >
+                        <Minus size={14} />
+                      </button>
 
-              {/* Predictions List */}
-              {predictions && (
-                <div style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  {predictions.length === 0 ? (
-                    <div style={{ padding: '10px', textAlign: 'center', fontSize: '11px', color: AURA_COLORS.sub, fontWeight: 700 }}>
-                      No classes scheduled on selected dates.
+                      <span style={{ fontSize: '18px', fontWeight: 950, color: AURA_COLORS.primary, minWidth: '24px', textAlign: 'center' }} className="tabular-nums">
+                        {skipStepperCount}
+                      </span>
+
+                      <button
+                        onClick={() => setSkipStepperCount(Math.min(20, skipStepperCount + 1))}
+                        disabled={skipStepperCount >= 20}
+                        style={{
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '10px',
+                          background: 'rgba(255, 255, 255, 0.08)',
+                          border: '1px solid rgba(255, 255, 255, 0.12)',
+                          color: '#fff',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          cursor: skipStepperCount >= 20 ? 'not-allowed' : 'pointer'
+                        }}
+                      >
+                        <Plus size={14} />
+                      </button>
                     </div>
-                  ) : (
-                    predictions.map((p: AnyValue, idx: number) => {
-                      const details = getStatusDetails(p.projPct);
+                  </div>
+
+                  {/* Impact list per subject */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', maxHeight: '200px', overflowY: 'auto' }} className="hide-scrollbar">
+                    {processedAttendance.map((sub: AnyValue, idx: number) => {
+                      const nextPct = sub.stepperNextPct || 0;
+                      const isSafe = sub.stepperSafe;
                       return (
-                        <div key={idx} style={{ background: 'rgba(0,0,0,0.3)', borderLeft: `3px solid ${details.color}`, padding: '8px 10px', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div key={sub.courseCode || idx} style={{ background: 'rgba(0, 0, 0, 0.25)', borderLeft: `3px solid ${isSafe ? '#34D399' : '#FF4B72'}`, padding: '8px 10px', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                           <div style={{ minWidth: 0, paddingRight: '8px' }}>
-                            <div style={{ fontSize: '11.5px', fontWeight: 800, color: '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                              {p.title}
+                            <div style={{ fontSize: '11px', fontWeight: 800, color: '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                              {sub.courseTitle}
                             </div>
-                            <div style={{ fontSize: '9.5px', fontWeight: 800, color: details.color }}>
-                              {p.marginLabel}
+                            <div style={{ fontSize: '9px', fontWeight: 800, color: isSafe ? '#34D399' : '#FF4B72' }}>
+                              {isSafe ? `● Still Safe (${sub.skipBuffer >= skipStepperCount ? `+${sub.skipBuffer - skipStepperCount} left` : 'at boundary'})` : `● Falls Below 75%`}
                             </div>
                           </div>
+
                           <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                            <span style={{ fontSize: '14px', fontWeight: 950, color: details.color }} className="tabular-nums">
-                              {p.projPct.toFixed(1)}%
+                            <span style={{ fontSize: '13px', fontWeight: 950, color: isSafe ? '#fff' : '#FF4B72' }} className="tabular-nums">
+                              {sub.pct.toFixed(1)}% → {nextPct.toFixed(1)}%
                             </span>
-                            <div style={{ fontSize: '8.5px', color: AURA_COLORS.sub }}>was {p.currentPct}%</div>
                           </div>
                         </div>
                       );
-                    })
+                    })}
+                  </div>
+                </div>
+              ) : (
+                /* Mode B: Specific Dates Selector */
+                <div>
+                  <div className="hide-scrollbar" style={{ display: 'flex', overflowX: 'auto', gap: '6px', paddingBottom: '10px', marginBottom: '12px' }}>
+                    {next30Days?.map((d: AnyValue) => {
+                      const sel = selectedDates?.has?.(d.iso);
+                      const isWknd = [0, 6].includes(d.date.getDay());
+                      return (
+                        <div
+                          key={d.iso}
+                          onClick={() => !isWknd && toggleDate && toggleDate(d.iso)}
+                          style={{
+                            flexShrink: 0,
+                            width: '42px',
+                            height: '54px',
+                            borderRadius: '12px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            background: sel ? 'linear-gradient(135deg, #FF4B72 0%, #FF2D55 100%)' : 'rgba(255, 255, 255, 0.04)',
+                            border: `1px solid ${sel ? '#FF87A2' : 'rgba(255, 255, 255, 0.08)'}`,
+                            cursor: isWknd ? 'not-allowed' : 'pointer',
+                            opacity: isWknd ? 0.25 : 1,
+                            boxShadow: sel ? '0 0 12px rgba(255, 75, 114, 0.4)' : 'none',
+                            transition: 'all 0.15s ease'
+                          }}
+                        >
+                          <span style={{ fontSize: '8px', fontWeight: 900, color: sel ? '#fff' : AURA_COLORS.subBright, textTransform: 'uppercase' }}>
+                            {d.dayStr}
+                          </span>
+                          <span style={{ fontSize: '15px', fontWeight: 950, color: '#fff', marginTop: '2px' }} className="tabular-nums">
+                            {d.dateNum}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <button
+                    onClick={calculatePredictions}
+                    style={{
+                      width: '100%',
+                      padding: '10px',
+                      background: `linear-gradient(135deg, ${AURA_COLORS.purple} 0%, ${AURA_COLORS.pink} 100%)`,
+                      borderRadius: '12px',
+                      color: '#fff',
+                      fontSize: '11px',
+                      fontWeight: 950,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.06em',
+                      border: 'none',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Forecast Calendar Impact ({selectedDates?.size || 0} dates)
+                  </button>
+
+                  {predictions && (
+                    <div style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                      {predictions.length === 0 ? (
+                        <div style={{ padding: '10px', textAlign: 'center', fontSize: '11px', color: AURA_COLORS.sub, fontWeight: 700 }}>
+                          No classes scheduled on selected dates.
+                        </div>
+                      ) : (
+                        predictions.map((p: AnyValue, idx: number) => {
+                          const details = getStatusDetails(p.projPct);
+                          return (
+                            <div key={idx} style={{ background: 'rgba(0,0,0,0.3)', borderLeft: `3px solid ${details.color}`, padding: '8px 10px', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <div style={{ minWidth: 0, paddingRight: '8px' }}>
+                                <div style={{ fontSize: '11.5px', fontWeight: 800, color: '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                  {p.title}
+                                </div>
+                                <div style={{ fontSize: '9.5px', fontWeight: 800, color: details.color }}>
+                                  {p.marginLabel}
+                                </div>
+                              </div>
+                              <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                                <span style={{ fontSize: '14px', fontWeight: 950, color: details.color }} className="tabular-nums">
+                                  {(p.projPct || 0).toFixed(1)}%
+                                </span>
+                                <div style={{ fontSize: '8.5px', color: AURA_COLORS.sub }}>was {p.currentPct}%</div>
+                              </div>
+                            </div>
+                          );
+                        })
+                      )}
+                    </div>
                   )}
                 </div>
               )}
@@ -929,13 +1099,13 @@ export default function AuraAttendance({
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {filteredAttendance.map((a: AnyValue, idx: number) => {
               const status = getStatusDetails(a.pct);
-              const isTheory = !String(a["Category"]).toLowerCase().includes("practical") && !String(a["Category"]).toLowerCase().includes("lab");
+              const isTheory = !String(a.category || "").toLowerCase().includes("practical") && !String(a.category || "").toLowerCase().includes("lab");
 
               return (
                 <div
-                  key={a["Course Code"] || idx}
+                  key={a.courseCode || idx}
                   className="subject-row-item"
-                  onClick={() => setSelectedSubject(a)}
+                  onClick={() => handleOpenSubject(a)}
                   style={{
                     borderLeft: `3.5px solid ${status.dot}`
                   }}
@@ -959,9 +1129,9 @@ export default function AuraAttendance({
                           textTransform: 'uppercase',
                           letterSpacing: '0.04em'
                         }}>
-                          {a["Course Code"]}
+                          {a.courseCode}
                         </span>
-                        {a["Category"] && (
+                        {a.category && (
                           <span style={{
                             fontSize: '8.5px',
                             fontWeight: 800,
@@ -971,7 +1141,7 @@ export default function AuraAttendance({
                             padding: '1px 5px',
                             borderRadius: '4px'
                           }}>
-                            {a["Category"]}
+                            {a.category}
                           </span>
                         )}
                       </div>
@@ -987,7 +1157,7 @@ export default function AuraAttendance({
                         overflow: 'hidden',
                         textOverflow: 'ellipsis'
                       }}>
-                        {(a["Course Title"] || "").toLowerCase()}
+                        {String(a.courseTitle || "").toLowerCase()}
                       </h3>
                     </div>
 
@@ -1001,7 +1171,7 @@ export default function AuraAttendance({
                           letterSpacing: '-0.02em',
                           lineHeight: 1
                         }} className="tabular-nums">
-                          {a.pct.toFixed(1)}%
+                          {(a.pct || 0).toFixed(1)}%
                         </span>
                       </div>
                       <ChevronRight size={15} color={AURA_COLORS.subBright} style={{ opacity: 0.7 }} />
@@ -1019,7 +1189,7 @@ export default function AuraAttendance({
                     position: 'relative'
                   }}>
                     <div style={{
-                      width: `${Math.min(100, Math.max(0, a.pct))}%`,
+                      width: `${Math.min(100, Math.max(0, a.pct || 0))}%`,
                       height: '100%',
                       background: `linear-gradient(90deg, ${status.color}aa 0%, ${status.color} 100%)`,
                       borderRadius: '100px',
@@ -1032,13 +1202,13 @@ export default function AuraAttendance({
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <span><b style={{ color: '#fff' }}>{a.attended}</b> P</span>
                       <span style={{ opacity: 0.4 }}>·</span>
-                      <span><b style={{ color: a.absent > 0 ? '#FF87A2' : '#fff' }}>{a.absent}</b> A</span>
+                      <span><b style={{ color: (a.absent || 0) > 0 ? '#FF87A2' : '#fff' }}>{a.absent}</b> A</span>
                       <span style={{ opacity: 0.4 }}>·</span>
                       <span style={{ fontSize: '10.5px', color: AURA_COLORS.sub }}>{a.conducted} Total</span>
                     </div>
 
                     <div>
-                      {a.pct >= 75 ? (
+                      {(a.pct || 0) >= 75 ? (
                         <span style={{
                           color: a.skipBuffer === 0 ? '#FBBF24' : '#34D399',
                           fontWeight: 900,
@@ -1067,7 +1237,7 @@ export default function AuraAttendance({
 
       {/* ─── 7. SUBJECT DETAIL VIEW (SLIDE-UP SHEET / MODAL) ─── */}
       {selectedSubject && (
-        <div className="modal-overlay" onClick={() => setSelectedSubject(null)}>
+        <div className="modal-overlay" onClick={handleCloseSubject}>
           <div className="modal-sheet" onClick={(e) => e.stopPropagation()}>
             
             {/* Sheet Handle Bar */}
@@ -1076,23 +1246,43 @@ export default function AuraAttendance({
             {/* Header / Dismiss */}
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px', marginBottom: '16px' }}>
               <div>
+                <button
+                  onClick={handleCloseSubject}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: AURA_COLORS.purple,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    fontSize: '11px',
+                    fontWeight: 900,
+                    cursor: 'pointer',
+                    padding: 0,
+                    marginBottom: '8px'
+                  }}
+                >
+                  <ArrowLeft size={13} />
+                  <span>Back to Attendance</span>
+                </button>
+
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
                   <span style={{ fontSize: '10px', fontWeight: 900, color: AURA_COLORS.purple, textTransform: 'uppercase', background: 'rgba(192, 132, 252, 0.1)', border: '1px solid rgba(192, 132, 252, 0.2)', padding: '2px 8px', borderRadius: '6px' }}>
-                    {selectedSubject["Course Code"]}
+                    {selectedSubject.courseCode}
                   </span>
-                  {selectedSubject["Category"] && (
+                  {selectedSubject.category && (
                     <span style={{ fontSize: '10px', fontWeight: 800, color: AURA_COLORS.sub, textTransform: 'uppercase' }}>
-                      {selectedSubject["Category"]}
+                      {selectedSubject.category}
                     </span>
                   )}
                 </div>
                 <h2 style={{ fontSize: '18px', fontWeight: 900, color: '#fff', margin: 0, lineHeight: 1.25, textTransform: 'capitalize' }}>
-                  {selectedSubject["Course Title"]}
+                  {selectedSubject.courseTitle}
                 </h2>
               </div>
 
               <button
-                onClick={() => setSelectedSubject(null)}
+                onClick={handleCloseSubject}
                 aria-label="Close details"
                 style={{
                   background: 'rgba(255, 255, 255, 0.08)',
@@ -1114,7 +1304,8 @@ export default function AuraAttendance({
 
             {/* Dominant Stat Gauge Row */}
             {(() => {
-              const status = getStatusDetails(selectedSubject.pct);
+              const safePct = selectedSubject.pct || 0;
+              const status = getStatusDetails(safePct);
               return (
                 <div style={{
                   background: status.bgTint,
@@ -1131,7 +1322,7 @@ export default function AuraAttendance({
                       CURRENT ATTENDANCE
                     </div>
                     <div style={{ fontSize: '36px', fontWeight: 950, color: '#fff', marginTop: '2px', lineHeight: 1 }} className="tabular-nums">
-                      {selectedSubject.pct.toFixed(1)}%
+                      {safePct.toFixed(1)}%
                     </div>
                     <div style={{ fontSize: '11px', fontWeight: 800, color: status.color, marginTop: '4px' }}>
                       ● {status.statusText}
@@ -1159,17 +1350,17 @@ export default function AuraAttendance({
               marginBottom: '18px'
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                {selectedSubject.pct >= 75 ? (
+                {(selectedSubject.pct || 0) >= 75 ? (
                   <ShieldCheck size={16} color="#34D399" />
                 ) : (
                   <ShieldAlert size={16} color="#FF4B72" />
                 )}
-                <span style={{ fontSize: '11.5px', fontWeight: 900, color: selectedSubject.pct >= 75 ? '#34D399' : '#FF4B72', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                  {selectedSubject.pct >= 75 ? "Skip Margin Allowance" : "Attendance Recovery Plan"}
+                <span style={{ fontSize: '11.5px', fontWeight: 900, color: (selectedSubject.pct || 0) >= 75 ? '#34D399' : '#FF4B72', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                  {(selectedSubject.pct || 0) >= 75 ? "Skip Margin Allowance" : "Attendance Recovery Plan"}
                 </span>
               </div>
               <p style={{ margin: 0, fontSize: '12px', fontWeight: 750, color: '#fff', lineHeight: 1.45 }}>
-                {selectedSubject.pct >= 75 ? (
+                {(selectedSubject.pct || 0) >= 75 ? (
                   selectedSubject.skipBuffer === 0 
                     ? "You are exactly at the 75% limit. Any future absence will immediately put this course into the critical risk zone."
                     : `You can miss up to ${selectedSubject.skipBuffer} more class${selectedSubject.skipBuffer === 1 ? '' : 'es'} and remain safely at or above 75%.`
@@ -1184,13 +1375,13 @@ export default function AuraAttendance({
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '10px' }}>
                 <Activity size={13} color={AURA_COLORS.primary} />
                 <span style={{ fontSize: '11px', fontWeight: 900, color: AURA_COLORS.subBright, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                  {selectedSubject.pct >= 75 ? "What if you skip upcoming classes?" : "What if you attend upcoming classes?"}
+                  {(selectedSubject.pct || 0) >= 75 ? "What if you skip upcoming classes?" : "What if you attend upcoming classes?"}
                 </span>
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
-                {selectedSubject.pct >= 75 ? (
-                  selectedSubject.skipSimulations.map((sim: AnyValue) => (
+                {(selectedSubject.pct || 0) >= 75 ? (
+                  (selectedSubject.skipSimulations || []).map((sim: AnyValue) => (
                     <div
                       key={sim.skips}
                       style={{
@@ -1212,12 +1403,12 @@ export default function AuraAttendance({
                         </div>
                       </div>
                       <div style={{ fontSize: '14px', fontWeight: 950, color: sim.safe ? '#fff' : '#FF4B72' }} className="tabular-nums">
-                        {sim.nextPct.toFixed(1)}%
+                        {(sim.nextPct || 0).toFixed(1)}%
                       </div>
                     </div>
                   ))
                 ) : (
-                  selectedSubject.attendSimulations.map((sim: AnyValue) => (
+                  (selectedSubject.attendSimulations || []).map((sim: AnyValue) => (
                     <div
                       key={sim.extra}
                       style={{
@@ -1239,7 +1430,7 @@ export default function AuraAttendance({
                         </div>
                       </div>
                       <div style={{ fontSize: '14px', fontWeight: 950, color: sim.safe ? '#34D399' : '#fff' }} className="tabular-nums">
-                        {sim.nextPct.toFixed(1)}%
+                        {(sim.nextPct || 0).toFixed(1)}%
                       </div>
                     </div>
                   ))
@@ -1249,7 +1440,7 @@ export default function AuraAttendance({
 
             {/* Quick Dismiss Button */}
             <button
-              onClick={() => setSelectedSubject(null)}
+              onClick={handleCloseSubject}
               style={{
                 width: '100%',
                 padding: '12px',
