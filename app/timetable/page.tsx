@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { dataAPI } from "@/lib/api";
 import { buildCalendarIndex, type Semester } from "@/lib/calendarIndex";
 import { useQuery } from "@tanstack/react-query";
+import LoadingSkeleton from "@/components/aura-theme/LoadingSkeleton";
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import { toPng } from "html-to-image";
@@ -866,6 +867,11 @@ export default function TimetablePage() {
   const studentInitials = studentInfo?.Name ? studentInfo.Name.substring(0, 2).toUpperCase() : "ST";
 
   const myCourses = myTTQ.data?.data?.courses || myTTQ.data?.data || [];
+
+  const isDataLoading = (calQ.isLoading && !calQ.data) || (myTTQ.isLoading && !myTTQ.data) || (ttQ.isLoading && !ttQ.data);
+  if (isDataLoading) {
+    return <LoadingSkeleton />;
+  }
 
   return (
     <>
