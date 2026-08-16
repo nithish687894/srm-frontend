@@ -795,7 +795,10 @@ export default function DashboardPage() {
   }, []);
 
   const tomorrowCalInfo = byDate.get(tomorrowDate);
-  const tomorrowDateObj = new Date(tomorrowDate + "T00:00:00");
+  const tomorrowDateObj = (() => {
+    const parts = tomorrowDate.split("-");
+    return new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+  })();
   const tomorrowDayOfWeek = tomorrowDateObj.getDay();
   const tomorrowIsWeekend = [0, 6].includes(tomorrowDayOfWeek);
   const tomorrowIsHoliday = tomorrowCalInfo ? !!tomorrowCalInfo.isHoliday : tomorrowIsWeekend;
@@ -1018,7 +1021,10 @@ export default function DashboardPage() {
   }, [dayOffset]);
 
   const targetCalInfo = byDate.get(targetDate);
-  const targetDateObj = new Date(targetDate + "T00:00:00");
+  const targetDateObj = (() => {
+    const parts = targetDate.split("-");
+    return new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+  })();
   const targetDayOfWeek = targetDateObj.getDay();
   const isWeekend = [0, 6].includes(targetDayOfWeek);
   const isHoliday = targetCalInfo ? !!targetCalInfo.isHoliday : isWeekend;
