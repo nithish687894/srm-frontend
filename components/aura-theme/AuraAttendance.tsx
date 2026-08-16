@@ -94,6 +94,13 @@ export default function AuraAttendance({
     };
   }, []);
 
+  // Always scroll to top on mount
+  useEffect(() => {
+    try {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    } catch {}
+  }, []);
+
   // Handle browser back button when modal is open
   useEffect(() => {
     const handlePopState = () => {
@@ -334,10 +341,10 @@ export default function AuraAttendance({
         .modal-overlay {
           position: fixed;
           inset: 0;
-          background: rgba(4, 3, 8, 0.82);
+          background: rgba(4, 3, 8, 0.85);
           backdrop-filter: blur(16px);
           -webkit-backdrop-filter: blur(16px);
-          z-index: 10000;
+          z-index: 999999;
           display: flex;
           align-items: flex-end;
           justify-content: center;
@@ -353,14 +360,14 @@ export default function AuraAttendance({
         .modal-sheet {
           width: 100%;
           max-width: 580px;
-          max-height: 90vh;
-          background: linear-gradient(155deg, rgba(22, 17, 38, 0.98) 0%, rgba(9, 7, 16, 0.99) 100%);
-          border: 1px solid rgba(191, 90, 242, 0.25);
+          max-height: 88vh;
+          background: linear-gradient(155deg, rgba(22, 17, 38, 0.99) 0%, rgba(9, 7, 16, 0.99) 100%);
+          border: 1px solid rgba(191, 90, 242, 0.3);
           border-radius: 32px 32px 0 0;
-          padding: 24px 26px 36px;
+          padding: 24px 24px calc(env(safe-area-inset-bottom, 0px) + 90px);
           overflow-y: auto;
           position: relative;
-          box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+          box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
           animation: sheetSlideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1);
         }
         @media (min-width: 640px) {

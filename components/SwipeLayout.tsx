@@ -126,6 +126,9 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
     stopProgress();
     touchRef.current = null;
     gestureRef.current = "none";
+    try {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    } catch {}
   }, [pathname]);
 
   useEffect(() => {

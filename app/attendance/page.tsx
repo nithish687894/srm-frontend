@@ -62,7 +62,11 @@ export default function AttendancePage() {
   const [showRiskOnly, setShowRiskOnly] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
+  useEffect(() => { 
+    try { window.scrollTo({ top: 0, left: 0, behavior: "instant" }); } catch {}
+    const id = setTimeout(() => setMounted(true), 0); 
+    return () => clearTimeout(id); 
+  }, []);
 
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
