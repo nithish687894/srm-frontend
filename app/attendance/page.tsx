@@ -288,6 +288,10 @@ export default function AttendancePage() {
   };
 
   return (
-    <AuraAttendance attendance={att} handleSync={handleSync} isSyncing={isSyncing} {...themeProps} />
+    <div style={{ minHeight: "100dvh", width: "100%", background: "var(--app-bg)", display: "flex", flexDirection: "column", position: "relative" }}>
+      <main id="attendance-parent-scroll" style={{ flex: 1, paddingBottom: "100px" }}>
+        <AuraAttendance attendance={att} handleSync={handleSync} isSyncing={isSyncing} {...themeProps} />
+      </main>
+    </div>
   );
 }
