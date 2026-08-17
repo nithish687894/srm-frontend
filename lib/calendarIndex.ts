@@ -74,14 +74,32 @@ function isHolidayLike(dayOrder: string, day: string): boolean {
 }
 
 function parseDayOrder(value: string): number | null {
+  if (!value) return null;
   const normalized = value.trim();
-  const numeric = normalized.match(/(?:day\s*order|do)?\s*(10|[1-9])\b/i);
-  if (numeric) return parseInt(numeric[1], 10);
-  const roman: Record<string, number> = {
-    I: 1, II: 2, III: 3, IV: 4, V: 5,
-    VI: 6, VII: 7, VIII: 8, IX: 9, X: 10,
-  };
-  return roman[normalized.toUpperCase()] ?? null;
+  if (!normalized || normalized === "-" || isHolidayLike(normalized, "")) return null;
+
+  const numericMatch = normalized.match(/(?:day\s*order|do|order|day)?[\s:-]*(10|[1-9])\b/i);
+  if (numericMatch) return parseInt(numericMatch[1], 10);
+
+  const romanMatch = normalized.match(/(?:day\s*order|do|order|day)?[\s:-]*(X|IX|VIII|VII|VI|V|IV|III|II|I)\b/i);
+  if (romanMatch) {
+    const romanMap: Record<string, number> = {
+      I: 1, II: 2, III: 3, IV: 4, V: 5,
+      VI: 6, VII: 7, VIII: 8, IX: 9, X: 10,
+    };
+    return romanMap[romanMatch[1].toUpperCase()] ?? null;
+  }
+
+  const textMatch = normalized.match(/(?:day\s*order|do|order|day)?[\s:-]*(one|two|three|four|five|six|seven|eight|nine|ten)\b/i);
+  if (textMatch) {
+    const textMap: Record<string, number> = {
+      one: 1, two: 2, three: 3, four: 4, five: 5,
+      six: 6, seven: 7, eight: 8, nine: 9, ten: 10,
+    };
+    return textMap[textMatch[1].toLowerCase()] ?? null;
+  }
+
+  return null;
 }
 
 /**
