@@ -1,8 +1,12 @@
 node_modules
 .next
+.next_old*
 .env
 .env.local
 *.log
 *.png
 recovered.json
 dist/
+*.tsbuildinfo
+.idea/
+diff*.txt

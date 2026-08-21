@@ -96,15 +96,6 @@ function isLabSession(
   return false;
 }
 
-// Stable hash function to generate consistent timetables for mock friends
-function hashCode(str: string) {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  return Math.abs(hash);
-}
-
 function generateFriendTimetable(_nameOrReg: string, _myCourses: AnyValue[]) {
   // Pure strict: Do not generate fake/mock courses.
   // Unshared friend timetables return empty schedules.
