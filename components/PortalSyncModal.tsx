@@ -118,8 +118,8 @@ export default function PortalSyncModal({
   }, [type]);
 
   const handleSync = async () => {
-    if (!localNetId.trim() || !password || !captchaAnswer) {
-      setError("ALL FIELDS REQUIRED");
+    if (!localNetId.trim() || !password) {
+      setError("NETID & PASSWORD REQUIRED");
       return;
     }
     setLoading(true);
@@ -127,8 +127,8 @@ export default function PortalSyncModal({
 
     try {
       await authAPI.login(localNetId.trim(), password, type, {
-        captcha: captchaAnswer,
-        captchaToken: captchaData?.captchaToken,
+        captcha: captchaAnswer.trim() || "auto",
+        captchaToken: captchaData?.captchaToken || "auto",
       });
 
       if (type === "student-portal") {
