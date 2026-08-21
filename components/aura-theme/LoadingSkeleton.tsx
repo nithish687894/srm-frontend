@@ -25,11 +25,11 @@ export default function LoadingSkeleton() {
       <main
         className="max-w-3xl mx-auto w-full relative z-10 flex flex-col gap-5 md:gap-6"
         style={{
-          padding: "calc(env(safe-area-inset-top, 0px) + 128px) 16px 110px",
+          padding: "calc(env(safe-area-inset-top, 0px) + 128px) 16px 140px",
         }}
       >
         {/* 1. TOP BRANDING / INSTANT SYNC BANNER */}
-        <div className="w-full flex items-center justify-between p-3.5 md:p-4 rounded-2xl bg-white/[0.04] border border-white/[0.10] backdrop-blur-xl shadow-lg">
+        <div className="skeleton-card w-full flex items-center justify-between p-3.5 md:p-4 rounded-2xl bg-white/[0.038] border border-white/[0.09] backdrop-blur-xl shadow-lg relative overflow-hidden">
           <div className="flex items-center gap-3">
             <div className="relative w-8 h-8 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400">
               <Sparkles size={15} className="animate-spin" style={{ animationDuration: "4s" }} />
@@ -53,51 +53,47 @@ export default function LoadingSkeleton() {
         </div>
 
         {/* 2. HERO / TODAY COMMAND CENTER GHOST CARD */}
-        <div className="rounded-[28px] md:rounded-[32px] bg-white/[0.038] border border-white/[0.09] backdrop-blur-2xl p-5 md:p-7 shadow-2xl relative overflow-hidden flex flex-col gap-5">
+        <div className="skeleton-card rounded-[28px] md:rounded-[32px] bg-white/[0.045] border border-white/[0.10] backdrop-blur-2xl p-6 md:p-7 shadow-2xl relative overflow-hidden flex flex-col gap-5">
           {/* Ambient Top Border Accent */}
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-purple-500/50 via-cyan-500/40 to-purple-500/50 opacity-90" />
 
-          {/* Header Row: Badge Ghost & Greeting Ghost */}
+          {/* Header Row: Academic Command Badge & Greeting Ghost */}
           <div className="flex items-center justify-between gap-3">
-            <div className="shimmer-box w-32 h-6 rounded-full" />
-            <div className="shimmer-box w-24 h-4 rounded-md" />
+            <div className="ghost-pill w-32 h-6 rounded-full bg-purple-500/15 border border-purple-500/20" />
+            <div className="ghost-box w-24 h-4 rounded-md" />
           </div>
 
-          {/* Main Headline Ghost */}
+          {/* Main Headline Ghost: Class status */}
           <div className="space-y-2">
-            <div className="shimmer-box w-3/5 h-7 md:h-8 rounded-xl" />
-            <div className="shimmer-box w-2/5 h-3.5 rounded-md opacity-70" />
+            <div className="ghost-box w-52 h-7 md:h-8 rounded-xl" />
           </div>
 
-          {/* Ongoing / Next Class Ghost Box */}
-          <div className="p-4 md:p-5 rounded-2xl bg-white/[0.025] border border-white/[0.07] space-y-3.5">
+          {/* Class Silhouette Box */}
+          <div className="p-4 md:p-5 rounded-2xl bg-white/[0.03] border border-white/[0.07] space-y-3">
             <div className="flex items-center justify-between">
-              <div className="shimmer-box w-20 h-5 rounded-lg" />
-              <div className="shimmer-box w-24 h-3.5 rounded-md" />
+              <div className="ghost-pill w-20 h-5 rounded-lg bg-cyan-500/15 border border-cyan-500/25" />
+              <div className="ghost-box w-24 h-3.5 rounded-md" />
             </div>
 
             {/* Subject Title Ghost */}
-            <div className="space-y-2">
-              <div className="shimmer-box w-4/5 h-5 rounded-lg" />
-              <div className="shimmer-box w-1/2 h-3.5 rounded-md opacity-70" />
-            </div>
+            <div className="ghost-box w-3/4 h-5 rounded-lg" />
 
             {/* Meta Tags: Room & Faculty Ghost */}
-            <div className="flex items-center gap-4 pt-1">
-              <div className="shimmer-box w-20 h-3.5 rounded-md" />
-              <div className="shimmer-box w-24 h-3.5 rounded-md" />
+            <div className="flex items-center gap-4 pt-0.5">
+              <div className="ghost-box w-24 h-3.5 rounded-md opacity-80" />
+              <div className="ghost-box w-20 h-3.5 rounded-md opacity-80" />
             </div>
           </div>
 
-          {/* 3-Pill Quick Stats Row (Pure Ghost Blocks) */}
+          {/* 3-Pill Quick Stats Row */}
           <div className="grid grid-cols-3 gap-2.5 md:gap-3 pt-1">
             {[1, 2, 3].map((idx) => (
               <div
                 key={idx}
-                className="p-3 md:p-3.5 rounded-2xl bg-white/[0.025] border border-white/[0.06] flex flex-col gap-2"
+                className="p-3 md:p-3.5 rounded-2xl bg-white/[0.03] border border-white/[0.06] flex flex-col gap-2"
               >
-                <div className="shimmer-box w-12 h-2.5 rounded-sm opacity-60" />
-                <div className="shimmer-box w-14 md:w-16 h-5 md:h-6 rounded-lg" />
+                <div className="ghost-box w-12 h-2.5 rounded-sm opacity-60" />
+                <div className="ghost-box w-14 md:w-16 h-5 md:h-6 rounded-lg" />
               </div>
             ))}
           </div>
@@ -106,34 +102,34 @@ export default function LoadingSkeleton() {
         {/* 3. 2-COLUMN KEY ANALYTICS CARDS (Attendance & Marks) */}
         <div className="grid grid-cols-2 gap-3.5 md:gap-4">
           {/* Card 1: Attendance Snapshot Ghost */}
-          <div className="p-4 md:p-5 rounded-3xl bg-white/[0.038] border border-white/[0.09] backdrop-blur-xl flex flex-col justify-between gap-4">
+          <div className="skeleton-card p-5 rounded-3xl bg-white/[0.04] border border-white/[0.09] backdrop-blur-xl flex flex-col justify-between gap-4 relative overflow-hidden">
             <div className="flex items-center justify-between">
-              <div className="shimmer-box w-28 h-3 rounded-md opacity-70" />
+              <div className="ghost-box w-24 h-3 rounded-md opacity-70" />
               <div className="w-5 h-5 rounded-full border border-purple-500/30 flex items-center justify-center">
                 <div className="w-2 h-2 rounded-full bg-purple-400 animate-ping opacity-50" />
               </div>
             </div>
             <div className="space-y-1.5">
-              <div className="shimmer-box w-16 md:w-20 h-7 md:h-8 rounded-xl" />
-              <div className="shimmer-box w-24 h-3 rounded-md opacity-60" />
+              <div className="ghost-box w-16 md:w-20 h-7 md:h-8 rounded-xl" />
+              <div className="ghost-box w-20 h-3 rounded-md opacity-60" />
             </div>
-            <div className="w-full h-1.5 rounded-full bg-white/[0.05] overflow-hidden">
-              <div className="shimmer-bar w-3/4 h-full rounded-full" />
+            <div className="w-full h-1.5 rounded-full bg-white/[0.06] overflow-hidden">
+              <div className="w-3/4 h-full rounded-full bg-gradient-to-r from-purple-500/40 to-cyan-500/40" />
             </div>
           </div>
 
           {/* Card 2: Internal Marks Ghost */}
-          <div className="p-4 md:p-5 rounded-3xl bg-white/[0.038] border border-white/[0.09] backdrop-blur-xl flex flex-col justify-between gap-4">
+          <div className="skeleton-card p-5 rounded-3xl bg-white/[0.04] border border-white/[0.09] backdrop-blur-xl flex flex-col justify-between gap-4 relative overflow-hidden">
             <div className="flex items-center justify-between">
-              <div className="shimmer-box w-24 h-3 rounded-md opacity-70" />
-              <div className="shimmer-box w-4 h-4 rounded-md opacity-50" />
+              <div className="ghost-box w-20 h-3 rounded-md opacity-70" />
+              <div className="ghost-box w-4 h-4 rounded-md opacity-50" />
             </div>
             <div className="space-y-1.5">
-              <div className="shimmer-box w-14 md:w-16 h-7 md:h-8 rounded-xl" />
-              <div className="shimmer-box w-20 h-3 rounded-md opacity-60" />
+              <div className="ghost-box w-14 md:w-16 h-7 md:h-8 rounded-xl" />
+              <div className="ghost-box w-16 h-3 rounded-md opacity-60" />
             </div>
-            <div className="w-full h-1.5 rounded-full bg-white/[0.05] overflow-hidden">
-              <div className="shimmer-bar w-2/3 h-full rounded-full" />
+            <div className="w-full h-1.5 rounded-full bg-white/[0.06] overflow-hidden">
+              <div className="w-2/3 h-full rounded-full bg-gradient-to-r from-purple-500/40 to-cyan-500/40" />
             </div>
           </div>
         </div>
@@ -141,83 +137,96 @@ export default function LoadingSkeleton() {
         {/* 4. SECTION DIVIDER & HEADER GHOST */}
         <div className="flex items-center justify-between px-1 pt-1">
           <div className="flex items-center gap-2">
-            <div className="shimmer-box w-32 h-4 rounded-md" />
-            <div className="shimmer-box w-14 h-4 rounded-full opacity-60" />
+            <div className="ghost-box w-28 h-4 rounded-md" />
+            <div className="ghost-pill w-12 h-4 rounded-full opacity-60" />
           </div>
-          <div className="shimmer-box w-16 h-3 rounded-md opacity-40" />
+          <div className="ghost-box w-14 h-3 rounded-md opacity-40" />
         </div>
 
-        {/* 5. REALISTIC SCHEDULE CONTENT GHOST CARDS */}
-        <div className="flex flex-col gap-3">
-          {[1, 2].map((item) => (
-            <div
-              key={item}
-              className="p-4 md:p-4.5 rounded-2xl bg-white/[0.03] border border-white/[0.08] backdrop-blur-xl flex items-center justify-between gap-4 shadow-md"
-            >
-              {/* Left Time Badge Ghost */}
-              <div className="w-13 h-12 rounded-xl bg-white/[0.035] border border-white/[0.07] flex flex-col items-center justify-center gap-1 flex-shrink-0">
-                <div className="shimmer-box w-8 h-3 rounded-sm" />
-                <div className="shimmer-box w-6 h-2 rounded-xs opacity-50" />
-              </div>
+        {/* 5. REALISTIC SCHEDULE CONTENT GHOST CARD */}
+        <div className="skeleton-card p-4 md:p-4.5 rounded-2xl bg-white/[0.035] border border-white/[0.08] backdrop-blur-xl flex items-center justify-between gap-4 shadow-md relative overflow-hidden">
+          {/* Left Time Badge Ghost */}
+          <div className="w-13 h-12 rounded-xl bg-white/[0.04] border border-white/[0.07] flex flex-col items-center justify-center gap-1 flex-shrink-0">
+            <div className="ghost-box w-8 h-3 rounded-sm" />
+            <div className="ghost-box w-6 h-2 rounded-xs opacity-50" />
+          </div>
 
-              {/* Middle Course Details Ghost */}
-              <div className="flex-1 min-w-0 space-y-2">
-                <div className="flex items-center gap-2">
-                  <div className="shimmer-box w-16 h-3 rounded-md" />
-                  <div className="shimmer-box w-10 h-3 rounded-full opacity-60" />
-                </div>
-                <div className="shimmer-box w-4/5 h-4 rounded-lg" />
-                <div className="shimmer-box w-28 h-2.5 rounded-md opacity-50" />
-              </div>
-
-              {/* Right Attendance Status Chip Ghost */}
-              <div className="shimmer-box w-12 h-6 rounded-full flex-shrink-0" />
+          {/* Middle Course Details Ghost */}
+          <div className="flex-1 min-w-0 space-y-2">
+            <div className="flex items-center gap-2">
+              <div className="ghost-box w-14 h-3 rounded-md" />
+              <div className="ghost-pill w-8 h-3 rounded-full opacity-60" />
             </div>
-          ))}
+            <div className="ghost-box w-3/4 h-4 rounded-lg" />
+            <div className="ghost-box w-24 h-2.5 rounded-md opacity-50" />
+          </div>
+
+          {/* Right Attendance Status Chip Ghost */}
+          <div className="ghost-pill w-12 h-6 rounded-full flex-shrink-0" />
         </div>
       </main>
 
-      {/* Sleek Custom Shimmer Styling */}
+      {/* Bottom Safe Area Masking Gradient (Prevents navbar bleed) */}
+      <div
+        aria-hidden="true"
+        className="fixed bottom-0 left-0 right-0 h-28 pointer-events-none z-20"
+        style={{
+          background: "linear-gradient(to top, #050508 0%, rgba(5, 5, 8, 0.92) 55%, transparent 100%)",
+        }}
+      />
+
+      {/* Single Unified Card Shimmer & Global Scrollbar Suppression */}
       <style
         dangerouslySetInnerHTML={{
           __html: `
-        .skeleton-root {
-          scrollbar-width: none;
-          -ms-overflow-style: none;
+        html, body, .skeleton-root {
+          scrollbar-width: none !important;
+          -ms-overflow-style: none !important;
         }
-        .skeleton-root::-webkit-scrollbar {
-          display: none;
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar,
+        .skeleton-root::-webkit-scrollbar,
+        *::-webkit-scrollbar {
+          display: none !important;
+          width: 0 !important;
+          height: 0 !important;
         }
 
-        @keyframes nexusGhostSweep {
+        .ghost-box {
+          background: rgba(255, 255, 255, 0.08);
+        }
+
+        .ghost-pill {
+          background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Unified Single Diagonal Sweep Across Each Card */
+        .skeleton-card::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: -150%;
+          width: 150%;
+          height: 100%;
+          background: linear-gradient(
+            110deg,
+            transparent 25%,
+            rgba(255, 255, 255, 0.08) 45%,
+            rgba(255, 255, 255, 0.14) 50%,
+            rgba(255, 255, 255, 0.08) 55%,
+            transparent 75%
+          );
+          pointer-events: none;
+          animation: nexusCardSweep 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        @keyframes nexusCardSweep {
           0% {
-            background-position: -200% 0;
+            left: -150%;
           }
           100% {
-            background-position: 200% 0;
+            left: 150%;
           }
-        }
-
-        .shimmer-box {
-          background: linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.06) 0%,
-            rgba(255, 255, 255, 0.18) 50%,
-            rgba(255, 255, 255, 0.06) 100%
-          );
-          background-size: 200% 100%;
-          animation: nexusGhostSweep 1.8s infinite ease-in-out;
-        }
-
-        .shimmer-bar {
-          background: linear-gradient(
-            90deg,
-            rgba(168, 85, 247, 0.35) 0%,
-            rgba(56, 189, 248, 0.65) 50%,
-            rgba(168, 85, 247, 0.35) 100%
-          );
-          background-size: 200% 100%;
-          animation: nexusGhostSweep 2s infinite ease-in-out;
         }
       `,
         }}
@@ -225,5 +234,6 @@ export default function LoadingSkeleton() {
     </div>
   );
 }
+
 
 
