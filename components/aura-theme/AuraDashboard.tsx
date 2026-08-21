@@ -171,7 +171,7 @@ export default function AuraDashboard({
 
         .dashboard-analytics-grid {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
+          grid-template-columns: repeat(2, minmax(0, 1fr));
           gap: 16px;
         }
 
@@ -183,7 +183,7 @@ export default function AuraDashboard({
             gap: 32px;
           }
           .dashboard-analytics-grid {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
           }
         }
 
@@ -195,7 +195,7 @@ export default function AuraDashboard({
 
         .today-stats-grid {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
+          grid-template-columns: repeat(3, minmax(0, 1fr));
           gap: 12px;
           position: relative;
           z-index: 2;
@@ -203,7 +203,7 @@ export default function AuraDashboard({
 
         .skip-stats-grid {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
+          grid-template-columns: repeat(3, minmax(0, 1fr));
           gap: 12px;
         }
 
@@ -402,7 +402,7 @@ export default function AuraDashboard({
           <div className="dashboard-col-main">
 
             {/* 1. TODAY COMMAND CENTER (Apple + Linear level card) */}
-            <div className="premium-card" style={{ padding: '28px', borderRadius: '32px', position: 'relative', display: 'flex', flexDirection: 'column', gap: '22px' }}>
+            <div className="premium-card" style={{ padding: 'clamp(16px, 5vw, 28px)', borderRadius: '32px', position: 'relative', display: 'flex', flexDirection: 'column', gap: 'clamp(16px, 4vw, 22px)', minWidth: 0 }}>
               <div className="ai-border" />
               
               {/* Header Badge Row */}
@@ -418,7 +418,7 @@ export default function AuraDashboard({
               
               {/* Main Headline (Clear & Instant) */}
               <div style={{ position: 'relative', zIndex: 2 }}>
-                <h1 style={{ fontSize: "30px", fontWeight: 950, margin: 0, letterSpacing: '-0.04em', lineHeight: 1.1, color: AURA.text }}>
+                <h1 style={{ fontSize: 'clamp(22px, 6vw, 30px)', fontWeight: 950, margin: 0, letterSpacing: '-0.04em', lineHeight: 1.1, color: AURA.text, overflowWrap: 'anywhere', wordBreak: 'break-word' }}>
                   {mainHeadline}
                 </h1>
               </div>
@@ -443,10 +443,10 @@ export default function AuraDashboard({
                           {formatEndsInText(currentClassMeta?.endsInMinutes)}
                         </span>
                       </div>
-                      <div style={{ fontSize: '20px', color: AURA.text, fontWeight: 900, lineHeight: 1.2, textTransform: 'capitalize' }}>
+                      <div style={{ fontSize: 'clamp(16px, 4.5vw, 20px)', color: AURA.text, fontWeight: 900, lineHeight: 1.2, textTransform: 'capitalize', overflowWrap: 'anywhere', wordBreak: 'break-word', minWidth: 0 }}>
                         {getSubjectName(currentClass.courseCode, currentClass.courseTitle).toLowerCase()}
                       </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '13px', color: AURA.subBright, fontWeight: 700, flexWrap: 'wrap' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: 'clamp(11px, 3vw, 13px)', color: AURA.subBright, fontWeight: 700, flexWrap: 'wrap', minWidth: 0 }}>
                         <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                           <Clock size={14} color={AURA.pink} /> {currentClass.startTime} – {currentClass.endTime}
                         </span>
@@ -489,12 +489,12 @@ export default function AuraDashboard({
                       </div>
 
                       {/* Subject Title */}
-                      <div style={{ fontSize: '20px', color: AURA.text, fontWeight: 900, lineHeight: 1.25, textTransform: 'capitalize' }}>
+                      <div style={{ fontSize: 'clamp(16px, 4.5vw, 20px)', color: AURA.text, fontWeight: 900, lineHeight: 1.25, textTransform: 'capitalize', overflowWrap: 'anywhere', wordBreak: 'break-word', minWidth: 0 }}>
                         {getSubjectName(nextClass.courseCode, nextClass.courseTitle).toLowerCase()}
                       </div>
 
                       {/* Time, Room & Slot Metadata Hierarchy */}
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', color: AURA.subBright, fontWeight: 700, flexWrap: 'wrap', marginTop: '2px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: 'clamp(11px, 3vw, 13px)', color: AURA.subBright, fontWeight: 700, flexWrap: 'wrap', marginTop: '2px', minWidth: 0 }}>
                         <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                           <Clock size={14} color={AURA.cyan} /> {nextClass.startTime} – {nextClass.endTime}
                         </span>
@@ -633,7 +633,7 @@ export default function AuraDashboard({
                 <div style={{ fontSize: '10px', fontWeight: 900, color: AURA.sub, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                   Quick Utilities
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '10px' }}>
                   <div 
                     onClick={() => router.push('/gpa')}
                     style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '16px', padding: '12px 8px', textAlign: 'center', cursor: 'pointer' }}
@@ -666,13 +666,14 @@ export default function AuraDashboard({
                 onClick={() => router.push('/attendance')} 
                 className="premium-card" 
                 style={{ 
-                  padding: '24px', 
+                  padding: 'clamp(16px, 4vw, 24px)', 
                   borderRadius: '32px', 
                   cursor: 'pointer',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  gap: '16px'
+                  gap: '16px',
+                  minWidth: 0
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -692,7 +693,7 @@ export default function AuraDashboard({
                 </div>
 
                 <div>
-                  <div style={{ fontSize: '38px', fontWeight: 950, color: AURA.text, lineHeight: 1 }} className="tabular-nums">
+                  <div style={{ fontSize: 'clamp(28px, 8vw, 38px)', fontWeight: 950, color: AURA.text, lineHeight: 1 }} className="tabular-nums">
                     {avgAtt === "—" ? "0.0%" : `${avgAtt}%`}
                   </div>
                   <div style={{ fontSize: '11px', color: AURA.subBright, marginTop: '8px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
@@ -725,13 +726,14 @@ export default function AuraDashboard({
                 onClick={() => router.push('/marks')} 
                 className="premium-card" 
                 style={{ 
-                  padding: '24px', 
+                  padding: 'clamp(16px, 4vw, 24px)', 
                   borderRadius: '32px', 
                   cursor: 'pointer',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  gap: '16px'
+                  gap: '16px',
+                  minWidth: 0
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -752,7 +754,7 @@ export default function AuraDashboard({
 
                 <div>
                   {hasValidAcademicMarks ? (
-                    <div style={{ fontSize: '38px', fontWeight: 950, color: AURA.text, lineHeight: 1 }} className="tabular-nums">
+                    <div style={{ fontSize: 'clamp(28px, 8vw, 38px)', fontWeight: 950, color: AURA.text, lineHeight: 1 }} className="tabular-nums">
                       {avgMarks}%
                     </div>
                   ) : (

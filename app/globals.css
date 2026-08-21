@@ -1,5 +1,10 @@
 @import 'tailwindcss';
 
+/* ━━ Universal Box Model Reset ━━ */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 /* ═══════════════════════════════════════════════════════════════════
    SRMX Design System — Pure Black Minimal Editorial Theme
    ═══════════════════════════════════════════════════════════════════ */
@@ -1064,6 +1069,8 @@ h4 { font-weight: 740; }
 
 .srmx-mobile-nav {
   position: fixed; bottom: 0; left: 0; right: 0;
+  width: 100%;
+  max-width: 100%;
   height: calc(64px + env(safe-area-inset-bottom));
   padding-bottom: env(safe-area-inset-bottom);
   background: rgba(5, 3, 10, 0.96);
@@ -2592,7 +2599,7 @@ body.theme-light, .theme-light {
 /* ━━ RESPONSIVE DASHBOARD ANALYTICS GRID ━━ */
 .dashboard-analytics-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -2601,6 +2608,14 @@ body.theme-light, .theme-light {
     grid-template-columns: 1fr;
     gap: 12px;
   }
+}
+
+/* ━━ RESPONSIVE TOP TOOLBAR (4 ACTION ICONS) ━━ */
+.srmx-top-status-bar {
+  width: 100%;
+  max-width: 100%;
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
 }
 
 /* ━━ RESPONSIVE TODAY STATS — EXTRA-SMALL PHONES ━━ */
