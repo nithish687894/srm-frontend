@@ -457,9 +457,7 @@ body.theme-ember {
 }
 
 html {
-  height: 100%;
-  /* Prevent iOS bounce/overscroll on the root */
-  overscroll-behavior: none;
+  min-height: 100%;
   scrollbar-gutter: stable;
 }
 
@@ -468,7 +466,6 @@ body {
   min-height: 100dvh; /* Dynamic viewport height — correct on mobile browsers */
   width: 100%;
   overflow-x: hidden;  /* Block horizontal bleed only */
-  overflow-y: auto;    /* Allow natural vertical scrolling */
   background: var(--bg-root);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
@@ -479,8 +476,6 @@ body {
   touch-action: pan-y pinch-zoom;
   /* iOS momentum scrolling */
   -webkit-overflow-scrolling: touch;
-  /* Prevent iOS elastic overscroll on body */
-  overscroll-behavior-y: none;
 }
 
 /* Custom Sleek Scrollbar (Theme Aware) */

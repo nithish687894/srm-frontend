@@ -1239,26 +1239,12 @@ export default function DashboardPage() {
   }
 
   return (
-    <div style={{ height: "100vh", width: "100%", background: "#000", display: "flex", flexDirection: "column", overflow: "hidden" }}>
-      <main
-        className="dashboard-scroll-region"
-        style={{
-          flex: 1,
-          width: "100%",
-          minWidth: 0,
-          maxWidth: "100%",
-          overflowX: "hidden",
-          overflowY: "auto",
-          overscrollBehaviorX: "none",
-          WebkitOverflowScrolling: "touch"
-        }}
-      >
-        {activeDashboard}
-        {isSyncModalOpen && (
-          <PortalSyncModal isOpen onClose={() => setIsSyncModalOpen(false)} onSuccess={() => fetchUnifiedData(false)} netId="" type="academia" />
-        )}
-        {renderStudentInfoModal()}
-      </main>
+    <div style={{ minHeight: "100dvh", width: "100%", background: "#000", display: "flex", flexDirection: "column", position: "relative" }}>
+      {activeDashboard}
+      {isSyncModalOpen && (
+        <PortalSyncModal isOpen onClose={() => setIsSyncModalOpen(false)} onSuccess={() => fetchUnifiedData(false)} netId="" type="academia" />
+      )}
+      {renderStudentInfoModal()}
     </div>
   );
 }

@@ -209,9 +209,10 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
       if (absDX < GESTURE_LOCK_THRESHOLD && absDY < GESTURE_LOCK_THRESHOLD) {
         return; // Not enough movement to decide yet
       }
+      const currentScrollY = typeof window !== "undefined" ? (window.scrollY || document.documentElement.scrollTop || 0) : 0;
       if (absDY > absDX * 1.5) {
         // Clearly vertical — check if pull-to-refresh or normal scroll
-        if (window.scrollY <= 0 && deltaY > 40) {
+        if (currentScrollY <= 0 && deltaY > 40) {
           gestureRef.current = "pull";
           setGestureTransition(true);
         } else {
@@ -233,7 +234,8 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
 
     // Pull-to-refresh: only when at very top of page and pulling down
     if (gestureRef.current === "pull") {
-      if (window.scrollY > 0) {
+      const currentScrollY = typeof window !== "undefined" ? (window.scrollY || document.documentElement.scrollTop || 0) : 0;
+      if (currentScrollY > 0) {
         // User scrolled down mid-gesture, cancel pull
         gestureRef.current = "vertical";
         pullDistRef.current = 0;
