@@ -10,14 +10,14 @@ export default function LoadingSkeleton() {
       <div
         className="fixed -top-40 -right-32 w-[520px] h-[520px] rounded-full pointer-events-none z-0"
         style={{
-          background: "radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, rgba(0, 0, 0, 0) 70%)",
+          background: "radial-gradient(circle, rgba(168, 85, 247, 0.10) 0%, rgba(0, 0, 0, 0) 70%)",
           filter: "blur(80px)",
         }}
       />
       <div
         className="fixed -bottom-40 -left-32 w-[520px] h-[520px] rounded-full pointer-events-none z-0"
         style={{
-          background: "radial-gradient(circle, rgba(56, 189, 248, 0.09) 0%, rgba(0, 0, 0, 0) 70%)",
+          background: "radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, rgba(0, 0, 0, 0) 70%)",
           filter: "blur(80px)",
         }}
       />
@@ -25,7 +25,7 @@ export default function LoadingSkeleton() {
       <main
         className="max-w-3xl mx-auto w-full relative z-10 flex flex-col gap-4 md:gap-5"
         style={{
-          padding: "calc(env(safe-area-inset-top, 0px) + 96px) 16px 90px",
+          padding: "calc(env(safe-area-inset-top, 0px) + 120px) 16px 96px",
         }}
       >
         {/* 1. TOP BRANDING / INSTANT SYNC BANNER */}
@@ -67,7 +67,7 @@ export default function LoadingSkeleton() {
           </div>
 
           {/* Headline Placeholder */}
-          <div className="sk-bar w-56 h-7 rounded-xl" />
+          <div className="sk-bar w-52 h-7 rounded-xl" />
 
           {/* Class Card (Real Structure + Skeleton Data) */}
           <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.07] space-y-2.5">
@@ -79,7 +79,7 @@ export default function LoadingSkeleton() {
             </div>
 
             {/* Course Title Placeholder */}
-            <div className="sk-bar w-4/5 h-5 rounded-lg" />
+            <div className="sk-bar w-3/4 h-5 rounded-lg" />
 
             {/* Real Meta Icons + Skeleton Meta */}
             <div className="flex items-center gap-4 text-xs text-white/50 font-semibold pt-0.5">
@@ -191,7 +191,7 @@ export default function LoadingSkeleton() {
         </div>
       </main>
 
-      {/* Global Scrollbar Suppression & Crisp Shimmer Sweep */}
+      {/* Global Scrollbar Suppression & Low-Contrast Shimmer Sweep */}
       <style
         dangerouslySetInnerHTML={{
           __html: `
@@ -221,11 +221,11 @@ export default function LoadingSkeleton() {
           background: linear-gradient(
             90deg,
             rgba(255, 255, 255, 0.05) 0%,
-            rgba(255, 255, 255, 0.22) 50%,
+            rgba(255, 255, 255, 0.18) 50%,
             rgba(255, 255, 255, 0.05) 100%
           );
           background-size: 200% 100%;
-          animation: nexusShimmerSweep 1.8s infinite ease-in-out;
+          animation: nexusShimmerSweep 2s infinite ease-in-out;
         }
       `,
         }}
@@ -233,7 +233,3 @@ export default function LoadingSkeleton() {
     </div>
   );
 }
-
-
-
-
