@@ -177,6 +177,58 @@ export default function PortalSyncModal({
     }
   };
 
+  // Auto Terminate bypasses CAPTCHA validation and retries login directly
+  const handleAutoTerminate = async () => {
+    if (!localNetId.trim() || !password) {
+      setError("NETID & PASSWORD REQUIRED");
+      return;
+    }
+    setLoading(true);
+    setError("");
+
+    try {
+      await authAPI.login(localNetId.trim(), password, type, {
+        captcha: captchaAnswer.trim() || "auto",
+        captchaToken: captchaData?.captchaToken || "auto",
+      });
+
+      if (type === "student-portal") {
+        useAuthStore.getState().setStudentPortalConnected(true);
+      } else {
+        useAuthStore.getState().setAcademiaConnected(true);
+      }
+      setStep("syncing");
+
+      try {
+        const unified = await dataAPI.getUnified();
+        if (unified?.success) {
+          const mergedAcademia = {
+            ...unified.academia,
+            studentPortal: unified.studentPortal,
+          };
+          useAuthStore.getState().setAcademicData(mergedAcademia);
+          if (unified.studentPortal) {
+            useAuthStore.getState().setStudentPortalData(unified.studentPortal);
+          }
+        }
+      } catch {
+        console.warn("[PortalSync] Unified data fetch failed post-connect, will retry on page load");
+      }
+
+      setStep("success");
+      setTimeout(() => {
+        onSuccess();
+        onClose();
+      }, 2000);
+    } catch (e: AnyValue) {
+      setError(e.response?.data?.error || "Auto terminate failed. Please try again.");
+      setCaptchaAnswer("");
+      fetchCaptcha();
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const overlayStyle: React.CSSProperties = {
     position: "fixed",
     inset: 0,
@@ -417,7 +469,7 @@ export default function PortalSyncModal({
                     </span>
                     {(error.toLowerCase().includes("session") || error.toLowerCase().includes("limit")) && (
                       <button
-                        onClick={handleSync}
+                        onClick={handleAutoTerminate}
                         disabled={loading}
                         style={{
                           background: "#FF2D55",
