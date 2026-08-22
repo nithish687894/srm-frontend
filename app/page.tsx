@@ -15,9 +15,9 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loginStep, setLoginStep] = useState<"hero" | "academia">("hero");
   
-  const [connector] = useState<"academia" | "student-portal">("academia");
+  const [connector, setConnector] = useState<"academia" | "student-portal">("academia");
   const [captchaData, setCaptchaData] = useState<{ captcha: string; captchaToken: string } | null>(null);
-  const [captchaAnswer] = useState("");
+  const [captchaAnswer, setCaptchaAnswer] = useState("");
   const heroVideoRef = useRef<HTMLVideoElement | null>(null);
 
   const router = useRouter();
@@ -1311,8 +1311,47 @@ export default function LoginPage() {
                         </div>
                       )}
 
+                      {/* PORTAL GATEWAY SWITCHER */}
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", marginBottom: "16px" }}>
+                        <button
+                          type="button"
+                          onClick={() => setConnector("academia")}
+                          style={{
+                            padding: "10px",
+                            borderRadius: "12px",
+                            border: connector === "academia" ? "1px solid rgba(191,90,242,0.5)" : "1px solid rgba(255,255,255,0.08)",
+                            background: connector === "academia" ? "rgba(191,90,242,0.18)" : "rgba(255,255,255,0.03)",
+                            color: connector === "academia" ? "#fff" : "rgba(255,255,255,0.6)",
+                            fontSize: "12px",
+                            fontWeight: 900,
+                            cursor: "pointer"
+                          }}
+                        >
+                          Academia
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setConnector("student-portal");
+                            fetchCaptcha();
+                          }}
+                          style={{
+                            padding: "10px",
+                            borderRadius: "12px",
+                            border: connector === "student-portal" ? "1px solid rgba(255,117,195,0.5)" : "1px solid rgba(255,255,255,0.08)",
+                            background: connector === "student-portal" ? "rgba(255,117,195,0.18)" : "rgba(255,255,255,0.03)",
+                            color: connector === "student-portal" ? "#fff" : "rgba(255,255,255,0.6)",
+                            fontSize: "12px",
+                            fontWeight: 900,
+                            cursor: "pointer"
+                          }}
+                        >
+                          Student Portal
+                        </button>
+                      </div>
+
                       <div style={{ fontSize: "12.5px", color: "rgba(255,255,255,0.62)", fontWeight: 700, textAlign: "left", marginBottom: "10px", paddingLeft: "2px" }}>
-                        Use your Academia NETID. SRM Nexus opens the dashboard after sync.
+                        {connector === "student-portal" ? "Enter Student Portal NetID & Password" : "Use your Academia NETID. SRM Nexus opens the dashboard after sync."}
                       </div>
 
                       <input
@@ -1340,6 +1379,37 @@ export default function LoginPage() {
                           {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                         </button>
                       </div>
+
+                      {/* CAPTCHA FIELD FOR STUDENT PORTAL */}
+                      {connector === "student-portal" && (
+                        <div style={{ marginBottom: "12px", display: "flex", flexDirection: "column", gap: "8px" }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                            {captchaData?.captcha ? (
+                              <div style={{ background: "#fff", padding: "4px 8px", borderRadius: "10px", display: "flex", alignItems: "center" }}>
+                                <img src={captchaData.captcha} alt="CAPTCHA" style={{ height: "36px", objectFit: "contain" }} />
+                              </div>
+                            ) : (
+                              <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)", padding: "8px" }}>Loading CAPTCHA...</div>
+                            )}
+                            <button
+                              type="button"
+                              onClick={fetchCaptcha}
+                              style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", padding: "8px 12px", color: "#fff", cursor: "pointer", fontSize: "11px", fontWeight: 800 }}
+                            >
+                              Refresh
+                            </button>
+                          </div>
+                          <input
+                            type="text"
+                            placeholder="ENTER CAPTCHA CODE"
+                            className="login-input"
+                            style={{ margin: 0 }}
+                            value={captchaAnswer}
+                            onChange={(e) => setCaptchaAnswer(e.target.value)}
+                            disabled={loading}
+                          />
+                        </div>
+                      )}
 
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: "space-between", gap: '12px', marginBottom: '18px', padding: '0 2px' }}>
                         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -1372,7 +1442,7 @@ export default function LoginPage() {
                       </div>
 
                       <button type="submit" className="login-btn" disabled={loading} data-testid="submit-login-btn">
-                        {loading ? "Connecting..." : "Connect Academia"}
+                        {loading ? "Connecting..." : connector === "student-portal" ? "Connect Student Portal" : "Connect Academia"}
                       </button>
                       
                       <div style={{ display: "flex", gap: "8px", alignItems: "center", justifyContent: "center", fontSize: "11px", color: "rgba(255,255,255,0.48)", fontWeight: 700, lineHeight: 1.4, textAlign: "center", marginTop: "14px", padding: "0 8px" }}>
