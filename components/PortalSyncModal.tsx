@@ -122,6 +122,10 @@ export default function PortalSyncModal({
       setError("NETID & PASSWORD REQUIRED");
       return;
     }
+    if (!captchaAnswer.trim()) {
+      setError("ENTER THE CAPTCHA CODE SHOWN ABOVE");
+      return;
+    }
     setLoading(true);
     setError("");
 
