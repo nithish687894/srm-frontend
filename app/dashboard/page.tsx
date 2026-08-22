@@ -1213,6 +1213,7 @@ export default function DashboardPage() {
         nextClass={nextClass}
         currentClassMeta={currentClassMeta}
         nextClassMeta={nextClassMeta}
+        todaySchedule={targetClasses}
         targetClasses={targetClasses} onShowStudentInfo={() => setShowStudentInfo(true)}
         broadcast={broadcast} renderAcademicIntegrityHub={renderAcademicIntegrityHub}
         upcomingEvents={upcomingEvents}
