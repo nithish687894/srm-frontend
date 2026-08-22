@@ -397,6 +397,10 @@ export default function PortalSyncModal({
                       borderRadius: "12px",
                       marginBottom: "20px",
                       textAlign: "center",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      gap: "8px"
                     }}
                     role="alert"
                   >
@@ -411,6 +415,27 @@ export default function PortalSyncModal({
                     >
                       {error}
                     </span>
+                    {(error.toLowerCase().includes("session") || error.toLowerCase().includes("limit")) && (
+                      <button
+                        onClick={handleSync}
+                        disabled={loading}
+                        style={{
+                          background: "#FF2D55",
+                          color: "#fff",
+                          border: "none",
+                          padding: "6px 14px",
+                          borderRadius: "8px",
+                          fontSize: "10px",
+                          fontWeight: 900,
+                          cursor: loading ? "not-allowed" : "pointer",
+                          textTransform: "uppercase",
+                          letterSpacing: "0.06em",
+                          boxShadow: "0 4px 12px rgba(255, 45, 85, 0.3)"
+                        }}
+                      >
+                        ⚡ Auto Terminate & Reconnect
+                      </button>
+                    )}
                   </div>
                 )}
 
