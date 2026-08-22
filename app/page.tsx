@@ -1270,17 +1270,44 @@ export default function LoginPage() {
                             background: "rgba(255, 77, 77, 0.12)",
                             border: "1px solid rgba(255, 77, 77, 0.3)",
                             color: "#ff9999",
-                            fontSize: "13px",
+                            fontSize: "12px",
                             textAlign: "center",
                             marginBottom: "24px",
                             fontWeight: 700,
                             textTransform: "uppercase",
                             letterSpacing: "0.08em",
                             padding: "12px 16px",
-                            borderRadius: "12px"
+                            borderRadius: "14px",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            gap: "10px"
                           }}
                         >
-                          {error}
+                          <span>{error}</span>
+                          {(error.toLowerCase().includes("session") || error.toLowerCase().includes("limit")) && (
+                            <button
+                              type="button"
+                              onClick={handleLogin}
+                              disabled={loading}
+                              style={{
+                                background: "linear-gradient(135deg, #FF2D55 0%, #FF3B30 100%)",
+                                color: "#fff",
+                                border: "none",
+                                padding: "8px 16px",
+                                borderRadius: "10px",
+                                fontSize: "11px",
+                                fontWeight: 900,
+                                cursor: loading ? "not-allowed" : "pointer",
+                                textTransform: "uppercase",
+                                letterSpacing: "0.06em",
+                                boxShadow: "0 4px 16px rgba(255, 45, 85, 0.4)",
+                                width: "100%"
+                              }}
+                            >
+                              ⚡ Auto Terminate & Reconnect
+                            </button>
+                          )}
                         </div>
                       )}
 
