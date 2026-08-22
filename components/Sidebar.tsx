@@ -350,13 +350,13 @@ export default function Sidebar() {
 
       {/* TOP STATUS BAR */}
       {!(path === "/notes" || path.startsWith("/notes/") || path === "/ns" || path.startsWith("/ns/") || path === "/admin" || path.startsWith("/admin/") || path === "/timetable" || path.startsWith("/timetable/")) && (
-        <div className="srmx-top-status-bar fixed left-4 right-4 md:right-6 z-[9999] flex items-center justify-end pointer-events-none" style={{ top: "calc(env(safe-area-inset-top, 0px) + 64px)" }}>
-          <div className="flex pointer-events-auto" style={{ gap: 'clamp(6px, 2vw, 10px)' }}>
+        <div className="srmx-top-status-bar fixed left-3 right-3 md:left-4 md:right-6 z-[9999] flex items-center justify-end pointer-events-none" style={{ top: "calc(env(safe-area-inset-top, 0px) + 64px)" }}>
+          <div className="flex items-center pointer-events-auto max-w-full" style={{ gap: 'clamp(4px, 1.5vw, 10px)' }}>
             {path === "/dashboard" && (
               <>
                 <Link
                   href="/exam-library"
-                  className="srmx-header-pill srmx-header-pill-exam h-11 rounded-full backdrop-blur-md border flex items-center justify-center transition-all active:scale-95 shrink-0"
+                  className="srmx-header-pill srmx-header-pill-exam h-9 sm:h-11 rounded-full backdrop-blur-md border flex items-center justify-center transition-all active:scale-95 shrink-0"
                   style={{
                     background: resolvedTheme === "light"
                       ? "linear-gradient(135deg, rgba(255,255,255,0.90), rgba(248,238,255,0.78))"
@@ -368,19 +368,19 @@ export default function Sidebar() {
                   aria-label="Open Exam Library"
                 >
                   <span
-                    className="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
+                    className="w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center shrink-0"
                     style={{
                       background: resolvedTheme === "light" ? "rgba(191,90,242,0.10)" : "rgba(255,255,255,0.075)",
                       color: "inherit"
                     }}
                   >
-                    <BookOpen size={15} strokeWidth={2.5} className="shrink-0" />
+                    <BookOpen size={14} strokeWidth={2.5} className="shrink-0" />
                   </span>
                   <span className="hidden md:inline text-[10.5px] font-black uppercase tracking-[0.11em] whitespace-nowrap leading-none">Exam</span>
                 </Link>
                 <Link
                   href="/student-portal"
-                  className="srmx-header-pill srmx-header-pill-portal h-11 rounded-full backdrop-blur-md border flex items-center justify-center transition-all active:scale-95 shrink-0"
+                  className="srmx-header-pill srmx-header-pill-portal h-9 sm:h-11 rounded-full backdrop-blur-md border flex items-center justify-center transition-all active:scale-95 shrink-0"
                   style={{
                     background: resolvedTheme === "light"
                       ? "linear-gradient(135deg, rgba(255,255,255,0.88), rgba(232,243,255,0.74))"
@@ -392,13 +392,13 @@ export default function Sidebar() {
                   aria-label="Open Student Portal"
                 >
                   <span
-                    className="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
+                    className="w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center shrink-0"
                     style={{
                       background: resolvedTheme === "light" ? "rgba(51,127,186,0.10)" : "rgba(255,255,255,0.075)",
                       color: "inherit"
                     }}
                   >
-                    <IdCard size={15} strokeWidth={2.5} className="shrink-0" />
+                    <IdCard size={14} strokeWidth={2.5} className="shrink-0" />
                   </span>
                   <span className="hidden md:inline text-[10.5px] font-black uppercase tracking-[0.11em] whitespace-nowrap leading-none">Student Portal</span>
                 </Link>
@@ -406,7 +406,7 @@ export default function Sidebar() {
             )}
             <Link 
               href="/notifications" 
-              className="w-11 h-11 rounded-full backdrop-blur-md border flex items-center justify-center text-white/60 transition-all active:scale-90 shrink-0"
+              className="w-9 h-9 sm:w-11 sm:h-11 rounded-full backdrop-blur-md border flex items-center justify-center text-white/60 transition-all active:scale-90 shrink-0"
               style={{ 
                 background: "rgba(143, 146, 255, 0.1)",
                 borderColor: "rgba(143, 146, 255, 0.2)",
@@ -414,11 +414,11 @@ export default function Sidebar() {
               }}
               aria-label="Notifications"
             >
-              <Bell size={18} color="#8F92FF" />
+              <Bell size={16} color="#8F92FF" />
             </Link>
             <button 
               onClick={() => { setMoreOpen(!moreOpen); }} 
-              className="w-11 h-11 rounded-full border flex items-center justify-center text-white transition-all active:scale-90 relative overflow-hidden shrink-0"
+              className="w-9 h-9 sm:w-11 sm:h-11 rounded-full border flex items-center justify-center text-white transition-all active:scale-90 relative overflow-hidden shrink-0"
               style={{ 
                 background: profileImage
                   ? "rgba(255,255,255,0.06)"
@@ -435,7 +435,7 @@ export default function Sidebar() {
                   style={{ backgroundImage: `url(${String(profileImage)})` }}
                 />
               ) : (
-                <UserRound size={18} strokeWidth={2.4} className="text-purple-100" />
+                <UserRound size={16} strokeWidth={2.4} className="text-purple-100" />
               )}
             </button>
           </div>
