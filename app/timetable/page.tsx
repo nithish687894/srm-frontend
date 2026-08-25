@@ -490,6 +490,14 @@ export default function TimetablePage() {
   }, [calendarIndex]);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const qDay = params.get("day");
+      if (qDay && !isNaN(parseInt(qDay, 10))) {
+        setDayOverride(parseInt(qDay, 10));
+        return;
+      }
+    }
     const currentDayOrder = todayInfo?.dayOrder;
     if (currentDayOrder && currentDayOrder >= 1 && currentDayOrder <= 10) {
       setDayOverride(currentDayOrder);

@@ -1218,7 +1218,9 @@ export default function DashboardPage() {
         currentClassMeta={currentClassMeta}
         nextClassMeta={nextClassMeta}
         todaySchedule={targetClasses}
-        targetClasses={targetClasses} onShowStudentInfo={() => setShowStudentInfo(true)}
+        targetClasses={targetClasses} 
+        dayOrder={dayOrder}
+        onShowStudentInfo={() => setShowStudentInfo(true)}
         broadcast={broadcast} renderAcademicIntegrityHub={renderAcademicIntegrityHub}
         upcomingEvents={upcomingEvents}
         tomorrowSkipStats={tomorrowSkipStats}
