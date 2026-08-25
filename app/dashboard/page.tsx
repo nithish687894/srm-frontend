@@ -623,11 +623,15 @@ export default function DashboardPage() {
         
         if (d.studentPortal) {
           setStudentPortalData(d.studentPortal);
-          if (!d.studentPortal.profile || !d.studentPortal.marks) {
-            setSyncError("Portal session expired or data missing. Please try again.");
-          } else {
-            setSyncError(null);
-          }
+        }
+
+        const hasAcaData = Boolean(d.academia?.profile || (d.academia?.attendance && d.academia.attendance.length > 0));
+        const hasSpData = Boolean(d.studentPortal?.profile || d.studentPortal?.marks);
+
+        if (!hasAcaData && !hasSpData) {
+          setSyncError("Portal session expired or data missing. Please try again.");
+        } else {
+          setSyncError(null);
         }
         
         if (d.academia?.profile) {
