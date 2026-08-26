@@ -350,7 +350,7 @@ export default function Sidebar() {
 
       {/* TOP STATUS BAR */}
       {!(path === "/notes" || path.startsWith("/notes/") || path === "/ns" || path.startsWith("/ns/") || path === "/admin" || path.startsWith("/admin/") || path === "/timetable" || path.startsWith("/timetable/")) && (
-        <div className="srmx-top-status-bar fixed left-3 right-3 md:left-4 md:right-6 z-[9999] flex items-center justify-end pointer-events-none" style={{ top: "calc(env(safe-area-inset-top, 0px) + 64px)" }}>
+        <div className="srmx-top-status-bar fixed inset-x-0 z-[9999] flex items-center justify-end pointer-events-none px-3.5 sm:px-6" style={{ top: "calc(env(safe-area-inset-top, 0px) + 14px)", boxSizing: "border-box" }}>
           <div className="flex items-center pointer-events-auto max-w-full" style={{ gap: 'clamp(4px, 1.5vw, 10px)' }}>
             {path === "/dashboard" && (
               <>

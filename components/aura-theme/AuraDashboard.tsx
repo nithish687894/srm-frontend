@@ -209,7 +209,7 @@ export default function AuraDashboard({
 
         @media (max-width: 480px) {
           .dashboard-main {
-            padding: 96px 16px 110px;
+            padding: calc(env(safe-area-inset-top, 0px) + 72px) 16px 110px;
             gap: 20px;
           }
           .today-stats-grid {
