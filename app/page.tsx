@@ -38,7 +38,7 @@ export default function LoginPage() {
   const hasChosenTheme = useAuthStore((state) => state.hasChosenTheme);
 
   const routeAfterAuth = useCallback(() => {
-    const target = "/dashboard";
+    const target = "/timetable";
     router.replace(target);
 
     window.setTimeout(() => {
@@ -123,7 +123,7 @@ export default function LoginPage() {
   useEffect(() => {
     if (!_hasHydrated) return;
     if (authToken) {
-      router.replace("/dashboard");
+      router.replace("/timetable");
     }
   }, [_hasHydrated, authToken, router]);
 
@@ -1351,11 +1351,12 @@ export default function LoginPage() {
                       </div>
 
                       <div style={{ fontSize: "12.5px", color: "rgba(255,255,255,0.62)", fontWeight: 700, textAlign: "left", marginBottom: "10px", paddingLeft: "2px" }}>
-                        {connector === "student-portal" ? "Enter Student Portal NetID & Password" : "Use your Academia NETID. SRM Nexus opens the dashboard after sync."}
+                        {connector === "student-portal" ? "Enter Student Portal Register No. / NetID & Password" : "Use your Academia NETID. SRM Nexus opens the dashboard after sync."}
                       </div>
 
                       <input
-                        type="text" placeholder="NETID (e.g. ns4770)"
+                        type="text" 
+                        placeholder={connector === "student-portal" ? "REGISTER NO. / NETID (e.g. RA23... or ns4770)" : "NETID (e.g. ns4770)"}
                         className="login-input"
                         value={email} onChange={e => setEmail(e.target.value)}
                         disabled={loading} maxLength={100}
