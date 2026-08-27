@@ -60,7 +60,9 @@ export default function AuraAttendance({
   calculatePredictions, 
   predictions, 
   setSelectedDates, 
-  setPredictions
+  setPredictions,
+  studentPortalStatus = "disconnected",
+  lastSyncedStr = ""
 }: AnyValue) {
   const [filter, setFilter] = useState<string>("All");
   const [selectedSubject, setSelectedSubject] = useState<AnyValue | null>(null);
@@ -69,6 +71,18 @@ export default function AuraAttendance({
   const [predictorMode, setPredictorMode] = useState<"quick" | "calendar">("quick");
   const [localShowPredictor, setLocalShowPredictor] = useState(false);
   const { activeTheme, stars } = useAuraTheme();
+
+  const isSpConnected = studentPortalStatus === "connected";
+  const bannerMessage = useMemo(() => {
+    if (isSpConnected) return "";
+    if (studentPortalStatus === "password_required") {
+      return `Student Portal requires unlocking. This attendance data was last synced at ${lastSyncedStr || 'Never'}. Reconnect to fetch the latest live attendance.`;
+    }
+    if (studentPortalStatus === "session_expired") {
+      return `Student Portal session expired. This attendance data was last synced at ${lastSyncedStr || 'Never'}. Reconnect to sync fresh records.`;
+    }
+    return `Student Portal is disconnected. This attendance data was last synced at ${lastSyncedStr || 'Never'}. Reconnect to sync live attendance.`;
+  }, [studentPortalStatus, lastSyncedStr, isSpConnected]);
 
   const isPredictorOpen = externalShowPredictor !== undefined ? externalShowPredictor : localShowPredictor;
   const setPredictorOpen = useCallback((val: boolean) => {
@@ -433,21 +447,47 @@ export default function AuraAttendance({
             Attendance <span style={{ color: AURA_COLORS.purple }}>Hub</span>
           </h1>
 
+          {!isSpConnected && attendance.length > 0 && (
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'rgba(255, 149, 0, 0.05)',
+              border: '1px solid rgba(255, 149, 0, 0.2)',
+              borderRadius: '20px',
+              padding: '12px 18px',
+              maxWidth: '540px',
+              margin: '16px auto 24px',
+              textAlign: 'left',
+              gap: '12px'
+            }}>
+              <AlertTriangle size={18} color="#FF9500" style={{ flexShrink: 0 }} />
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <span style={{ fontSize: '11px', fontWeight: 950, color: '#FF9500', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  ⚠️ Viewing Offline Cache
+                </span>
+                <span style={{ fontSize: '10.5px', color: 'rgba(255, 255, 255, 0.65)', fontWeight: 650, marginTop: '3px', lineHeight: 1.45 }}>
+                  {bannerMessage}
+                </span>
+              </div>
+            </div>
+          )}
+
           {/* Sync Trigger & Time */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '24px' }}>
             <button
               onClick={handleSync}
               disabled={isSyncing}
-              aria-label="Sync attendance records"
+              aria-label={isSpConnected ? "Sync attendance records" : "Reconnect Student Portal"}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px',
-                background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
+                background: isSpConnected ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 149, 0, 0.12)',
+                border: isSpConnected ? '1px solid rgba(255, 255, 255, 0.12)' : '1px solid rgba(255, 149, 0, 0.25)',
                 padding: '6px 14px',
                 borderRadius: '100px',
-                color: '#fff',
+                color: isSpConnected ? '#fff' : '#FF9500',
                 fontSize: '10.5px',
                 fontWeight: 900,
                 cursor: isSyncing ? 'wait' : 'pointer',
@@ -456,8 +496,8 @@ export default function AuraAttendance({
                 letterSpacing: '0.04em'
               }}
             >
-              <RefreshCcw size={11} className={isSyncing ? "animate-spin" : ""} color={AURA_COLORS.primary} />
-              <span>{isSyncing ? "Syncing..." : "Sync"}</span>
+              <RefreshCcw size={11} className={isSyncing ? "animate-spin" : ""} color={isSpConnected ? AURA_COLORS.primary : "#FF9500"} />
+              <span>{isSpConnected ? (isSyncing ? "Syncing..." : "Sync") : "Reconnect Portal"}</span>
             </button>
 
             {timeAgoStr && (
@@ -829,7 +869,33 @@ export default function AuraAttendance({
 
         {/* Cards Grid (Identical to Marks Registry) */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '0 24px' }}>
-          {filteredAttendance.length === 0 ? (
+          {attendance.length === 0 && !isSpConnected ? (
+            <div className="liquid-card" style={{ padding: '40px 24px', borderRadius: '32px', border: '1px dashed rgba(255, 149, 0, 0.3)', textAlign: 'center', background: 'rgba(255, 149, 0, 0.02)' }}>
+              <AlertTriangle size={36} color="#FF9500" style={{ margin: '0 auto 16px' }} />
+              <div style={{ fontSize: '16px', fontWeight: 900, color: '#fff' }}>Student Portal Connection Required</div>
+              <div style={{ fontSize: '12px', fontWeight: 650, color: AURA_COLORS.sub, marginTop: '6px', lineHeight: 1.5, maxWidth: '340px', margin: '6px auto 16px' }}>
+                Under authoritative portal rules, live and cached attendance must originate strictly from the SRM Student Portal. Connect to retrieve your records.
+              </div>
+              <button
+                onClick={handleSync}
+                style={{
+                  background: 'linear-gradient(135deg, #FF75C3 0%, #A78BFA 100%)',
+                  color: '#000',
+                  border: 'none',
+                  padding: '10px 22px',
+                  borderRadius: '12px',
+                  fontSize: '11px',
+                  fontWeight: 900,
+                  cursor: 'pointer',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  boxShadow: '0 4px 15px rgba(255, 117, 195, 0.2)'
+                }}
+              >
+                Reconnect Student Portal
+              </button>
+            </div>
+          ) : filteredAttendance.length === 0 ? (
             <div className="liquid-card" style={{ padding: '36px', borderRadius: '32px', border: '1px dashed rgba(255, 255, 255, 0.15)', textAlign: 'center' }}>
               <CheckCircle2 size={32} color={AURA_COLORS.purple} style={{ margin: '0 auto 12px' }} />
               <div style={{ fontSize: '16px', fontWeight: 800, color: '#fff' }}>No courses in this filter</div>

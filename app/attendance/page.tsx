@@ -25,27 +25,61 @@ export default function AttendancePage() {
     calendar: cachedCalendar,
     setTimetable,
     setMyTimetable,
-    setCalendar
+    setCalendar,
+    connectorStatuses,
+    studentPortalData
   } = useAuthStore();
   const [att, setAtt] = useState<AnyValue[]>(academicData?.attendance || []);
   const [loading, setLoading] = useState(!academicData?.attendance);
   const [isSyncing, setIsSyncing] = useState(false);
 
+  const studentPortalStatus = connectorStatuses.studentPortal;
+  const isSpConnected = studentPortalStatus === "connected";
+  const router = useRouter();
+
   const handleSync = async () => {
+    if (!isSpConnected) {
+      router.push("/dashboard?sync=1");
+      return;
+    }
     setIsSyncing(true);
     try {
       await dataAPI.forceRefresh();
       const d = await dataAPI.getAttendance();
-      const updated = Array.isArray(d.data) ? d.data : [];
-      setAtt(updated);
-      const currentAcademicData = useAuthStore.getState().academicData || {};
-      setAcademicData({ ...currentAcademicData, attendance: updated });
+      if (d && d.success && Array.isArray(d.data)) {
+        setAtt(d.data);
+        const currentAcademicData = useAuthStore.getState().academicData || {};
+        setAcademicData({ ...currentAcademicData, attendance: d.data });
+      } else {
+        console.warn("Sync returned unsuccessful status or invalid data payload", d);
+      }
     } catch (e) {
       console.error("Attendance sync failed", e);
     } finally {
       setIsSyncing(false);
     }
   };
+
+  const formatLastSynced = (dateInput: AnyValue) => {
+    if (!dateInput) return "Never";
+    try {
+      const d = new Date(dateInput);
+      if (isNaN(d.getTime())) return "Recently";
+      const seconds = Math.floor((now - d.getTime()) / 1000);
+      if (seconds < 60) return "Just now";
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return `${minutes}m ago`;
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${hours}h ago`;
+      return d.toLocaleDateString();
+    } catch {
+      return "Recently";
+    }
+  };
+
+  const rawSpData = academicData?.studentPortal;
+  const spData = (rawSpData && rawSpData.attendance) ? rawSpData : studentPortalData;
+  const lastSyncedStr = formatLastSynced(spData?.lastSyncedAt);
 
   const [calData, setCalData] = useState<AnyValue>(cachedCalendar || null);
   const [ttData, setTTData] = useState<AnyValue>(() => {
@@ -85,8 +119,6 @@ export default function AttendancePage() {
     return `Updated ${hours} hr${hours > 1 ? 's' : ''} ago`;
   }, [now, lastFetchedAt]);
 
-  const router = useRouter();
-
   useEffect(() => {
     if (!ready) return;
     if (academicData?.attendance) setLoading(false);
@@ -104,19 +136,21 @@ export default function AttendancePage() {
         setLoading(false);
       });
 
-    // Silent background auto-refresh from Academia if data is older than 2 minutes
-    const lastFetched = academicData?.lastFetchedAt || 0;
-    if (Date.now() - lastFetched > 2 * 60 * 1000) {
-      dataAPI.forceRefresh().then(() => {
-        dataAPI.getAttendance().then(d => {
-          const updated = Array.isArray(d.data) ? d.data : [];
-          if (updated.length > 0) {
-            setAtt(updated);
-            const currentAcademicData = useAuthStore.getState().academicData || {};
-            setAcademicData({ ...currentAcademicData, attendance: updated, lastFetchedAt: Date.now() });
-          }
+    // Silent background auto-refresh if Student Portal is connected and data is older than 2 minutes
+    if (isSpConnected) {
+      const lastFetched = academicData?.lastFetchedAt || 0;
+      if (Date.now() - lastFetched > 2 * 60 * 1000) {
+        dataAPI.forceRefresh().then(() => {
+          dataAPI.getAttendance().then(d => {
+            const updated = Array.isArray(d.data) ? d.data : [];
+            if (updated.length > 0) {
+              setAtt(updated);
+              const currentAcademicData = useAuthStore.getState().academicData || {};
+              setAcademicData({ ...currentAcademicData, attendance: updated, lastFetchedAt: Date.now() });
+            }
+          }).catch(() => {});
         }).catch(() => {});
-      }).catch(() => {});
+      }
     }
 
     dataAPI.getCalendar().then(d => { setCalData(d); setCalendar(d); }).catch(() => {});
@@ -131,7 +165,7 @@ export default function AttendancePage() {
       const courses = myTT?.data?.courses || myTT?.data || [];
       setTTData({ rows: tt?.data?.rows || [], myTT: courses });
     }).catch(() => {});
-  }, [ready, academicData?.profile, setCalendar, setTimetable, setMyTimetable]);
+  }, [ready, academicData?.profile, setCalendar, setTimetable, setMyTimetable, isSpConnected]);
 
   const calIndex = useMemo(() => {
     if (!calData) return null;
@@ -232,8 +266,6 @@ export default function AttendancePage() {
         marginLabel = M === 1 ? `Safe to skip 1 class` : `Safe to skip ${M} classes`;
         marginSafe = true;
       } else {
-        // Needs how many to recover?
-        // (pres + N) / (projCond + N) >= 0.75 => pres + N >= 0.75 projCond + 0.75 N => 0.25 N >= 0.75 projCond - pres => N >= 3 projCond - 4 pres
         const N = Math.ceil(3 * projCond - 4 * pres);
         if (alreadyRisk) {
           marginLabel = `Already at risk — do not skip`;
@@ -252,13 +284,11 @@ export default function AttendancePage() {
         marginSafe,
         futureMissing
       };
-    }).filter(r => r.futureMissing > 0 || r.currentPct < 75); // Only show affected or at-risk subjects
+    }).filter(r => r.futureMissing > 0 || r.currentPct < 75);
 
     setPredictions(results);
   };
 
-  const riskClasses = att.filter(c => parseFloat(c["Attn %"]) < 75);
-  const displayAtt = showRiskOnly ? riskClasses : att;
   const avgAtt = att.length
     ? (att.reduce((s, c) => {
         const val = parseFloat(c["Attn %"] || "0");
@@ -284,7 +314,8 @@ export default function AttendancePage() {
   const themeProps = {
     att, avgAtt, totalAgg, presentAgg, absentAgg, 
     showPredictor, setShowPredictor, next30Days, selectedDates, toggleDate, 
-    calculatePredictions, predictions, setSelectedDates, setPredictions, showRiskOnly, timeAgoStr
+    calculatePredictions, predictions, setSelectedDates, setPredictions, showRiskOnly, timeAgoStr,
+    studentPortalStatus, lastSyncedStr
   };
 
   return (
