@@ -81,13 +81,17 @@ export default function PortalSyncModal({
   const [isBtnHovered, setIsBtnHovered] = useState(false);
   const [isCloseHovered, setIsCloseHovered] = useState(false);
 
+  const storeEmail = useAuthStore((state) => state.email);
+  const effectiveNetId = (netId || storeEmail || "").split("@")[0].replace(/[^a-zA-Z0-9]/g, "").toLowerCase().slice(0, 6);
+
   useEffect(() => {
+    const rawId = netId || storeEmail || "";
     if (type === "student-portal") {
-      setLocalNetId((netId || "").split("@")[0].replace(/[^a-zA-Z0-9]/g, "").toLowerCase().slice(0, 6));
+      setLocalNetId(rawId.split("@")[0].replace(/[^a-zA-Z0-9]/g, "").toLowerCase().slice(0, 6));
     } else {
-      setLocalNetId(netId || "");
+      setLocalNetId(rawId);
     }
-  }, [netId, type]);
+  }, [netId, storeEmail, type]);
 
   useEffect(() => {
     if (isOpen) {
@@ -99,12 +103,16 @@ export default function PortalSyncModal({
   }, [isOpen]);
 
   const handleSync = async () => {
+    if (!password) {
+      setError("PASSWORD REQUIRED");
+      return;
+    }
     const cleanId = type === "student-portal"
-      ? localNetId.trim().split("@")[0].replace(/[^a-zA-Z0-9]/g, "").toLowerCase().slice(0, 6)
+      ? (localNetId || effectiveNetId).trim()
       : localNetId.trim();
 
-    if (!cleanId || !password) {
-      setError(type === "student-portal" ? "6-CHAR NETID & PASSWORD REQUIRED" : "CREDENTIALS REQUIRED");
+    if (type !== "student-portal" && !cleanId) {
+      setError("CREDENTIALS REQUIRED");
       return;
     }
     setLoading(true);
@@ -368,7 +376,7 @@ export default function PortalSyncModal({
                         WebkitBackgroundClip: "text",
                         WebkitTextFillColor: "transparent",
                       }}>
-                        Connect Portal
+                        {type === "student-portal" ? "Connect Student Portal" : "Connect Portal"}
                       </h3>
                       <span style={{
                         fontSize: "9px",
@@ -451,34 +459,64 @@ export default function PortalSyncModal({
                     gap: "16px",
                   }}
                 >
-                  <input
-                    type="text"
-                    placeholder={type === "student-portal" ? "NetID (e.g. ns4770)" : "Username / Email"}
-                    style={getInputStyle("netId")}
-                    value={localNetId}
-                    maxLength={type === "student-portal" ? 6 : undefined}
-                    onFocus={() => setFocusedInput("netId")}
-                    onBlur={() => setFocusedInput(null)}
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      if (type === "student-portal") {
-                        setLocalNetId(val.split("@")[0].replace(/[^a-zA-Z0-9]/g, "").toLowerCase().slice(0, 6));
-                      } else {
-                        setLocalNetId(val);
-                      }
-                    }}
-                    aria-label={type === "student-portal" ? "NetID" : "Username"}
-                  />
+                  {type === "student-portal" ? (
+                    <div style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      background: "rgba(255, 255, 255, 0.03)",
+                      border: "1px solid rgba(255, 255, 255, 0.08)",
+                      borderRadius: "14px",
+                      padding: "12px 16px",
+                    }}>
+                      <div style={{ display: "flex", flexDirection: "column" }}>
+                        <span style={{ fontSize: "9px", color: "rgba(255, 255, 255, 0.4)", textTransform: "uppercase", fontWeight: 800, letterSpacing: "0.06em" }}>
+                          Target Account
+                        </span>
+                        <span style={{ fontSize: "13px", color: "#fff", fontWeight: 800, fontFamily: "monospace", marginTop: "2px" }}>
+                          {localNetId || effectiveNetId || "Active NetID"}
+                        </span>
+                      </div>
+                      <span style={{
+                        fontSize: "9.5px",
+                        background: "rgba(255, 117, 195, 0.12)",
+                        color: colors.accent,
+                        padding: "4px 10px",
+                        borderRadius: "8px",
+                        fontWeight: 900,
+                        letterSpacing: "0.05em"
+                      }}>
+                        NETID
+                      </span>
+                    </div>
+                  ) : (
+                    <input
+                      type="text"
+                      placeholder="Username / Email"
+                      style={getInputStyle("netId")}
+                      value={localNetId}
+                      onFocus={() => setFocusedInput("netId")}
+                      onBlur={() => setFocusedInput(null)}
+                      onChange={(e) => setLocalNetId(e.target.value)}
+                      aria-label="Username"
+                    />
+                  )}
 
                   <div style={{ position: "relative" }}>
                     <input
                       type={showPassword ? "text" : "password"}
-                      placeholder="Password"
+                      placeholder={type === "student-portal" ? "Student Portal Password" : "Password"}
                       style={getInputStyle("password")}
                       value={password}
+                      autoFocus
                       onFocus={() => setFocusedInput("password")}
                       onBlur={() => setFocusedInput(null)}
                       onChange={(e) => setPassword(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && password && !loading) {
+                          handleSync();
+                        }
+                      }}
                       aria-label="Password"
                     />
                     <div
@@ -507,15 +545,19 @@ export default function PortalSyncModal({
                     onClick={handleSync}
                     onMouseEnter={() => setIsBtnHovered(true)}
                     onMouseLeave={() => setIsBtnHovered(false)}
-                    disabled={loading}
-                    style={buttonStyle}
+                    disabled={loading || !password}
+                    style={{
+                      ...buttonStyle,
+                      opacity: !password && !loading ? 0.6 : 1,
+                      cursor: !password && !loading ? "not-allowed" : buttonStyle.cursor,
+                    }}
                   >
                     {loading ? (
                       <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
                         <RefreshCw size={14} style={{ animation: "spin-slow 1s linear infinite" }} />
                         Connecting Portal...
                       </span>
-                    ) : type === "student-portal" ? "⚡ Connect Student Portal" : "Establish Hub Link"}
+                    ) : type === "student-portal" ? "Connect Student Portal" : "Establish Hub Link"}
                   </button>
 
                   <div style={{ textAlign: "center", marginTop: "2px" }}>

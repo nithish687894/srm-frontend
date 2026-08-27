@@ -1249,7 +1249,13 @@ export default function DashboardPage() {
     <div style={{ minHeight: "100dvh", width: "100%", background: "#000", display: "flex", flexDirection: "column", position: "relative" }}>
       {activeDashboard}
       {isSyncModalOpen && (
-        <PortalSyncModal isOpen onClose={() => setIsSyncModalOpen(false)} onSuccess={() => fetchUnifiedData(false)} netId="" type="academia" />
+        <PortalSyncModal
+          isOpen
+          onClose={() => setIsSyncModalOpen(false)}
+          onSuccess={() => fetchUnifiedData(false)}
+          netId={email || ""}
+          type="student-portal"
+        />
       )}
       {renderStudentInfoModal()}
     </div>
