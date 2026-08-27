@@ -1319,53 +1319,13 @@ export default function LoginPage() {
                           )}
                         </div>
                       )}
-
-                      {/* PORTAL GATEWAY SWITCHER */}
-                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", marginBottom: "16px" }}>
-                        <button
-                          type="button"
-                          onClick={() => setConnector("academia")}
-                          style={{
-                            padding: "10px",
-                            borderRadius: "12px",
-                            border: connector === "academia" ? "1px solid rgba(191,90,242,0.5)" : "1px solid rgba(255,255,255,0.08)",
-                            background: connector === "academia" ? "rgba(191,90,242,0.18)" : "rgba(255,255,255,0.03)",
-                            color: connector === "academia" ? "#fff" : "rgba(255,255,255,0.6)",
-                            fontSize: "12px",
-                            fontWeight: 900,
-                            cursor: "pointer"
-                          }}
-                        >
-                          Academia
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setConnector("student-portal");
-                            fetchCaptcha();
-                          }}
-                          style={{
-                            padding: "10px",
-                            borderRadius: "12px",
-                            border: connector === "student-portal" ? "1px solid rgba(255,117,195,0.5)" : "1px solid rgba(255,255,255,0.08)",
-                            background: connector === "student-portal" ? "rgba(255,117,195,0.18)" : "rgba(255,255,255,0.03)",
-                            color: connector === "student-portal" ? "#fff" : "rgba(255,255,255,0.6)",
-                            fontSize: "12px",
-                            fontWeight: 900,
-                            cursor: "pointer"
-                          }}
-                        >
-                          Student Portal
-                        </button>
-                      </div>
-
                       <div style={{ fontSize: "12.5px", color: "rgba(255,255,255,0.62)", fontWeight: 700, textAlign: "left", marginBottom: "10px", paddingLeft: "2px" }}>
-                        {connector === "student-portal" ? "Enter Student Portal Register No. / NetID & Password" : "Use your Academia NETID. SRM Nexus opens the dashboard after sync."}
+                        Use your SRM NetID. SRM Nexus will automatically connect both Academia and Student Portal.
                       </div>
 
                       <input
                         type="text" 
-                        placeholder={connector === "student-portal" ? "REGISTER NO. / NETID (e.g. RA23... or ns4770)" : "NETID (e.g. ns4770)"}
+                        placeholder="NETID (e.g. ns4770)"
                         className="login-input"
                         value={email} onChange={e => setEmail(e.target.value)}
                         disabled={loading} maxLength={100}
@@ -1390,13 +1350,11 @@ export default function LoginPage() {
                         </button>
                       </div>
 
-                      {connector === "student-portal" && (
-                        <div style={{ marginBottom: "14px", textAlign: "center" }}>
-                          <span style={{ fontSize: "11px", color: "rgba(255, 255, 255, 0.4)", letterSpacing: "0.02em" }}>
-                            🔒 Zero-friction auto-CAPTCHA solver active
-                          </span>
-                        </div>
-                      )}
+                      <div style={{ marginBottom: "14px", textAlign: "center" }}>
+                        <span style={{ fontSize: "11px", color: "rgba(255, 255, 255, 0.4)", letterSpacing: "0.02em" }}>
+                          🔒 Zero-friction auto-CAPTCHA solver active
+                        </span>
+                      </div>
 
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: "space-between", gap: '12px', marginBottom: '18px', padding: '0 2px' }}>
                         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -1429,7 +1387,7 @@ export default function LoginPage() {
                       </div>
 
                       <button type="submit" className="login-btn" disabled={loading} data-testid="submit-login-btn">
-                        {loading ? "Connecting..." : connector === "student-portal" ? "Connect Student Portal" : "Connect Academia"}
+                        {loading ? "Connecting..." : "Connect SRM Portals"}
                       </button>
                       
                       <div style={{ display: "flex", gap: "8px", alignItems: "center", justifyContent: "center", fontSize: "11px", color: "rgba(255,255,255,0.48)", fontWeight: 700, lineHeight: 1.4, textAlign: "center", marginTop: "14px", padding: "0 8px" }}>
