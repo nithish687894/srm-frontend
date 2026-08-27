@@ -82,8 +82,12 @@ export default function PortalSyncModal({
   const [isCloseHovered, setIsCloseHovered] = useState(false);
 
   useEffect(() => {
-    setLocalNetId(netId);
-  }, [netId]);
+    if (type === "student-portal") {
+      setLocalNetId((netId || "").split("@")[0].replace(/[^a-zA-Z0-9]/g, "").toLowerCase().slice(0, 6));
+    } else {
+      setLocalNetId(netId || "");
+    }
+  }, [netId, type]);
 
   useEffect(() => {
     if (isOpen) {
@@ -95,15 +99,19 @@ export default function PortalSyncModal({
   }, [isOpen]);
 
   const handleSync = async () => {
-    if (!localNetId.trim() || !password) {
-      setError("NETID & PASSWORD REQUIRED");
+    const cleanId = type === "student-portal"
+      ? localNetId.trim().split("@")[0].replace(/[^a-zA-Z0-9]/g, "").toLowerCase().slice(0, 6)
+      : localNetId.trim();
+
+    if (!cleanId || !password) {
+      setError(type === "student-portal" ? "6-CHAR NETID & PASSWORD REQUIRED" : "CREDENTIALS REQUIRED");
       return;
     }
     setLoading(true);
     setError("");
 
     try {
-      await authAPI.login(localNetId.trim(), password, type, {
+      await authAPI.login(cleanId, password, type, {
         captcha: "auto",
         captchaToken: "auto",
       });
@@ -439,15 +447,21 @@ export default function PortalSyncModal({
                 >
                   <input
                     type="text"
-                    placeholder="NetID (e.g. ns4770)"
+                    placeholder={type === "student-portal" ? "NetID (e.g. ns4770)" : "Username / Email"}
                     style={getInputStyle("netId")}
                     value={localNetId}
+                    maxLength={type === "student-portal" ? 6 : undefined}
                     onFocus={() => setFocusedInput("netId")}
                     onBlur={() => setFocusedInput(null)}
-                    onChange={(e) =>
-                      setLocalNetId(e.target.value.split("@")[0])
-                    }
-                    aria-label="NetID"
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      if (type === "student-portal") {
+                        setLocalNetId(val.split("@")[0].replace(/[^a-zA-Z0-9]/g, "").toLowerCase().slice(0, 6));
+                      } else {
+                        setLocalNetId(val);
+                      }
+                    }}
+                    aria-label={type === "student-portal" ? "NetID" : "Username"}
                   />
 
                   <div style={{ position: "relative" }}>
