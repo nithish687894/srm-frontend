@@ -804,6 +804,14 @@ export default function Sidebar() {
                           />
                         </GroupContainer>
                       )}
+
+                      {/* Version & Build tag */}
+                      <div className={`flex items-center justify-between border-t pt-3.5 mt-2 px-1 ${resolvedTheme === "light" ? "border-black/[0.04]" : "border-white/[0.04]"}`}>
+                        <span className={`text-[9px] font-bold uppercase tracking-wider ${resolvedTheme === "light" ? "text-purple-900/40" : "text-white/30"}`}>Nexus Build</span>
+                        <span className={`text-[9px] px-2 py-0.5 rounded font-mono select-all ${resolvedTheme === "light" ? "bg-black/5 border border-black/10 text-black/50" : "bg-white/5 border border-white/10 text-white/50"}`}>
+                          v2.4.2-rev6
+                        </span>
+                      </div>
                     </div>
                   </>
                 );
