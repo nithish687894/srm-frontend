@@ -159,7 +159,12 @@ export default function PortalSyncModal({
         onClose();
       }, 2000);
     } catch (e: AnyValue) {
-      setError(e.response?.data?.error || "ACCESS DENIED");
+      const errMsg = e.response?.data?.error?.message 
+        || (typeof e.response?.data?.error === 'string' ? e.response?.data?.error : null)
+        || e.response?.data?.message 
+        || e.message 
+        || "Invalid Student Portal credentials.";
+      setError(errMsg);
       if (type === "student-portal") {
         useAuthStore.getState().setStudentPortalConnected(false);
       } else {
@@ -214,7 +219,12 @@ export default function PortalSyncModal({
         onClose();
       }, 2000);
     } catch (e: AnyValue) {
-      setError(e.response?.data?.error || "Auto terminate failed. Please try again.");
+      const errMsg = e.response?.data?.error?.message 
+        || (typeof e.response?.data?.error === 'string' ? e.response?.data?.error : null)
+        || e.response?.data?.message 
+        || e.message 
+        || "Auto terminate failed. Please try again.";
+      setError(errMsg);
     } finally {
       setLoading(false);
     }
