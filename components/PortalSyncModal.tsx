@@ -111,15 +111,21 @@ export default function PortalSyncModal({
     setError("");
 
     try {
-      await authAPI.login(cleanId, password, type, {
-        captcha: "auto",
-        captchaToken: "auto",
-      });
-
       if (type === "student-portal") {
-        useAuthStore.getState().setStudentPortalConnected(true);
+        const unlockRes = await authAPI.unlockStudentPortal(password);
+        if (unlockRes.studentPortal?.status === "connected") {
+          useAuthStore.getState().setStudentPortalConnected(true);
+          useAuthStore.getState().setConnectorStatus("studentPortal", "connected");
+        } else {
+          throw new Error(unlockRes.error?.message || "Invalid Student Portal password.");
+        }
       } else {
+        await authAPI.login(cleanId, password, type, {
+          captcha: "auto",
+          captchaToken: "auto",
+        });
         useAuthStore.getState().setAcademiaConnected(true);
+        useAuthStore.getState().setConnectorStatus("academia", "connected");
       }
       setStep("syncing");
 

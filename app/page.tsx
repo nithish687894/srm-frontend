@@ -185,26 +185,36 @@ export default function LoginPage() {
       setLoginPhase("auth");
     }, 0);
     setError("");
-    const finalEmail = email.includes("@") ? email : `${email.trim()}@srmist.edu.in`;
+    const canonicalNetId = email.split("@")[0].trim().toLowerCase();
+    const finalEmail = `${canonicalNetId}@srmist.edu.in`;
     
     try {
       const devBypassCode = typeof window !== "undefined" ? sessionStorage.getItem("developerPasscode") : null;
       const extra: any = {
-        ...(connector === "student-portal" ? {
-          captcha: "auto",
-        } : {}),
         ...(devBypassCode ? { developerPasscode: devBypassCode } : {})
       };
 
-      const res = await authAPI.login(finalEmail, password, connector, extra);
-      setAuthData(res.token, res.refreshToken, finalEmail);
-      setLoginPhase("success");
+      const res = await authAPI.unifiedLogin(canonicalNetId, password, extra);
       
-      setTimeout(routeAfterAuth, 700);
+      if (res.authenticated && res.token) {
+        setAuthData(res.token, res.refreshToken, finalEmail);
+        
+        if (res.connectors) {
+          useAuthStore.getState().setConnectorStatuses({
+            academia: res.connectors.academia?.status || "connected",
+            studentPortal: res.connectors.studentPortal?.status || "disconnected",
+          });
+        }
+        
+        setLoginPhase("success");
+        setTimeout(routeAfterAuth, 700);
+      } else {
+        throw new Error(res.error?.message || "Login failed.");
+      }
     } catch (e: any) {
       setLoading(false);
       setLoginPhase("idle");
-      let errMsg = e?.response?.data?.error || "LOGIN FAILED";
+      let errMsg = e?.response?.data?.error?.message || e?.response?.data?.error || e?.message || "LOGIN FAILED";
       if (!errMsg.toLowerCase().includes("try again")) {
         errMsg = errMsg.endsWith(".") ? `${errMsg} Please try again.` : `${errMsg}. Please try again.`;
       }

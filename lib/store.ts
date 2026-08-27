@@ -10,6 +10,22 @@ export interface StudentPortalData {
   [key: string]: AnyValue;
 }
 
+export type ConnectorStatus =
+  | "disconnected"
+  | "connecting"
+  | "connected"
+  | "password_required"
+  | "session_expired"
+  | "captcha_required"
+  | "rate_limited"
+  | "unavailable"
+  | "error";
+
+export interface ConnectorState {
+  academia: ConnectorStatus;
+  studentPortal: ConnectorStatus;
+}
+
 export interface AuthStore {
   // Auth
   authToken: string | null;
@@ -17,6 +33,9 @@ export interface AuthStore {
   email: string | null;
   hasChosenTheme: boolean;
   _hasHydrated: boolean;
+
+  // Independent Connector States
+  connectorStatuses: ConnectorState;
 
   // Academia (Zoho SSO data)
   academiaConnected: boolean;
@@ -44,6 +63,8 @@ export interface AuthStore {
   setAuthData: (authToken: string, refreshToken: string, email: string) => void;
   setAuthToken: (token: string) => void;
   setRefreshToken: (refreshToken: string) => void;
+  setConnectorStatus: (type: "academia" | "studentPortal", status: ConnectorStatus) => void;
+  setConnectorStatuses: (statuses: Partial<ConnectorState>) => void;
 
   // Profile / Academia
   setProfile: (profile: AnyValue) => void;
@@ -85,6 +106,11 @@ export const useAuthStore = create<AuthStore>()(
       hasChosenTheme: false,
       _hasHydrated: false,
 
+      connectorStatuses: {
+        academia: "disconnected",
+        studentPortal: "disconnected",
+      },
+
       academiaConnected: false,
       academicData: null,
       profile: null,
@@ -118,6 +144,10 @@ export const useAuthStore = create<AuthStore>()(
           academiaConnected: false,
           studentPortalConnected: false,
           studentPortalData: null,
+          connectorStatuses: {
+            academia: "connected",
+            studentPortal: "disconnected",
+          },
           timetable: null,
           myTimetable: null,
           calendar: null,
@@ -134,6 +164,28 @@ export const useAuthStore = create<AuthStore>()(
       setRefreshToken: (refreshToken) => {
         if (typeof window !== "undefined") localStorage.setItem("refreshToken", refreshToken);
         set({ refreshToken });
+      },
+
+      setConnectorStatus: (type, status) => {
+        set((state) => ({
+          connectorStatuses: {
+            ...state.connectorStatuses,
+            [type]: status,
+          },
+          ...(type === "academia" ? { academiaConnected: status === "connected" } : {}),
+          ...(type === "studentPortal" ? { studentPortalConnected: status === "connected" } : {}),
+        }));
+      },
+
+      setConnectorStatuses: (statuses) => {
+        set((state) => ({
+          connectorStatuses: {
+            ...state.connectorStatuses,
+            ...statuses,
+          },
+          ...(statuses.academia !== undefined ? { academiaConnected: statuses.academia === "connected" } : {}),
+          ...(statuses.studentPortal !== undefined ? { studentPortalConnected: statuses.studentPortal === "connected" } : {}),
+        }));
       },
 
       // ── Profile / Academia ────────────────────────────────────────────────

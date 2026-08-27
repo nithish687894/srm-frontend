@@ -122,7 +122,19 @@ API.interceptors.response.use(
 );
 
 export const authAPI = {
-  // New v1 endpoints
+  // Unified single-entry login
+  unifiedLogin: (netId: string, password: string, extra: AnyValue = {}) =>
+    API.post("/auth/login", { netId, password, ...extra }).then((r) => r.data),
+
+  // Independent Student Portal Unlock
+  unlockStudentPortal: (password: string) =>
+    API.post("/auth/student-portal/unlock", { password }).then((r) => r.data),
+
+  // Read independent connector statuses
+  getConnectors: () =>
+    API.get("/auth/connectors").then((r) => r.data),
+
+  // Connector endpoints
   initAuth: (type: string) => 
     API.get(`/api/v1/connectors/${type}/init`).then((r) => r.data),
   
@@ -134,7 +146,7 @@ export const authAPI = {
     API.post("/api/login", { email, password }).then((r) => r.data),
     
   logout: (type: string = "academia") => 
-    API.delete(`/api/v1/connectors/${type}/disconnect`).then((r) => r.data),
+    API.post("/auth/logout").then((r) => r.data).catch(() => API.delete(`/api/v1/connectors/${type}/disconnect`).then((r) => r.data)),
     
   refreshToken: (refreshToken: string) =>
     axios.post(`${API.defaults.baseURL}/api/v1/session/refresh-token`, { refreshToken }).then((r) => r.data),
