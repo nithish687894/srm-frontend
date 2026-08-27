@@ -127,8 +127,12 @@ export const authAPI = {
     API.post("/auth/login", { netId, password, ...extra }).then((r) => r.data),
 
   // Independent Student Portal Unlock
-  unlockStudentPortal: (password: string) =>
-    API.post("/auth/student-portal/unlock", { password }).then((r) => r.data),
+  unlockStudentPortal: (password: string, extra: AnyValue = {}) =>
+    API.post("/auth/student-portal/unlock", { password, ...extra }).then((r) => r.data),
+
+  // Fetch Student Portal CAPTCHA challenge for manual fallback
+  getStudentPortalCaptcha: () =>
+    API.get("/auth/student-portal/captcha").then((r) => r.data),
 
   // Read independent connector statuses
   getConnectors: () =>
