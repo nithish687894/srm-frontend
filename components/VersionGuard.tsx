@@ -9,7 +9,7 @@ import axios from "axios";
  * If a mismatch is detected, it forces a ONE-TIME page reload.
  * Uses sessionStorage to prevent infinite reload loops.
  */
-const CURRENT_VERSION = "2.6.0";
+const CURRENT_VERSION = "2.7.1";
 
 export default function VersionGuard() {
   useEffect(() => {
