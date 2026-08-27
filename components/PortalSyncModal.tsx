@@ -22,11 +22,6 @@ export default function PortalSyncModal({
 }: PortalSyncModalProps) {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [captchaAnswer, setCaptchaAnswer] = useState("");
-  const [captchaData, setCaptchaData] = useState<{
-    captcha: string;
-    captchaToken: string;
-  } | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [localNetId, setLocalNetId] = useState(netId);
@@ -85,8 +80,6 @@ export default function PortalSyncModal({
   const [focusedInput, setFocusedInput] = useState<string | null>(null);
   const [isBtnHovered, setIsBtnHovered] = useState(false);
   const [isCloseHovered, setIsCloseHovered] = useState(false);
-  const [isRefreshHovered, setIsRefreshHovered] = useState(false);
-  const [isCaptchaLoading, setIsCaptchaLoading] = useState(false);
 
   useEffect(() => {
     setLocalNetId(netId);
@@ -94,36 +87,16 @@ export default function PortalSyncModal({
 
   useEffect(() => {
     if (isOpen) {
-      fetchCaptcha();
       setStep("form");
       setError("");
       setPassword("");
-      setCaptchaAnswer("");
       setShowPassword(false);
     }
   }, [isOpen]);
 
-  const fetchCaptcha = useCallback(async () => {
-    setIsCaptchaLoading(true);
-    setCaptchaData(null);
-    setCaptchaAnswer("");
-    try {
-      const data = await authAPI.initAuth(type);
-      setCaptchaData(data);
-    } catch {
-      setError("CAPTCHA UNAVAILABLE — TRY AGAIN");
-    } finally {
-      setIsCaptchaLoading(false);
-    }
-  }, [type]);
-
   const handleSync = async () => {
     if (!localNetId.trim() || !password) {
       setError("NETID & PASSWORD REQUIRED");
-      return;
-    }
-    if (!captchaAnswer.trim()) {
-      setError("ENTER THE CAPTCHA CODE SHOWN ABOVE");
       return;
     }
     setLoading(true);
@@ -131,8 +104,8 @@ export default function PortalSyncModal({
 
     try {
       await authAPI.login(localNetId.trim(), password, type, {
-        captcha: captchaAnswer.trim() || "auto",
-        captchaToken: captchaData?.captchaToken || "auto",
+        captcha: "auto",
+        captchaToken: "auto",
       });
 
       if (type === "student-portal") {
@@ -165,8 +138,6 @@ export default function PortalSyncModal({
       }, 2000);
     } catch (e: AnyValue) {
       setError(e.response?.data?.error || "ACCESS DENIED");
-      setCaptchaAnswer("");
-      fetchCaptcha();
       if (type === "student-portal") {
         useAuthStore.getState().setStudentPortalConnected(false);
       } else {
@@ -188,8 +159,8 @@ export default function PortalSyncModal({
 
     try {
       await authAPI.login(localNetId.trim(), password, type, {
-        captcha: captchaAnswer.trim() || "auto",
-        captchaToken: captchaData?.captchaToken || "auto",
+        captcha: "auto",
+        captchaToken: "auto",
       });
 
       if (type === "student-portal") {
@@ -222,8 +193,6 @@ export default function PortalSyncModal({
       }, 2000);
     } catch (e: AnyValue) {
       setError(e.response?.data?.error || "Auto terminate failed. Please try again.");
-      setCaptchaAnswer("");
-      fetchCaptcha();
     } finally {
       setLoading(false);
     }
@@ -294,36 +263,6 @@ export default function PortalSyncModal({
         ? "0 0 15px rgba(" + colors.accentRgb + ", 0.15), inset 0 2px 4px rgba(0, 0, 0, 0.2)" 
         : "inset 0 2px 4px rgba(0, 0, 0, 0.1)",
     };
-  };
-
-  const captchaContainerStyle: React.CSSProperties = {
-    flex: 1,
-    height: "54px",
-    background: "rgba(255, 255, 255, 0.96)",
-    borderRadius: "14px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    overflow: "hidden",
-    boxShadow: "inset 0 2px 5px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.25)",
-    border: "1px solid rgba(255,255,255,0.15)",
-    transition: "all 0.3s ease",
-  };
-
-  const refreshButtonStyle: React.CSSProperties = {
-    width: "54px",
-    height: "54px",
-    background: isRefreshHovered ? "rgba(255, 255, 255, 0.05)" : "rgba(255, 255, 255, 0.02)",
-    border: isRefreshHovered ? "1px solid rgba(" + colors.accentRgb + ", 0.3)" : "1px solid rgba(255, 255, 255, 0.08)",
-    borderRadius: "14px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color: isRefreshHovered ? colors.accent : "#fff",
-    cursor: "pointer",
-    transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
-    transform: isRefreshHovered ? "scale(1.03)" : "none",
-    boxShadow: isRefreshHovered ? "0 0 15px rgba(" + colors.accentRgb + ", 0.1)" : "none",
   };
 
   const buttonStyle: React.CSSProperties = {
@@ -544,77 +483,26 @@ export default function PortalSyncModal({
                     </div>
                   </div>
 
-                  <div style={{ display: "flex", gap: "10px" }}>
-                    <div style={captchaContainerStyle}>
-                      {captchaData?.captcha && !isCaptchaLoading ? (
-                        <div
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            backgroundImage: `url(${captchaData.captcha})`,
-                            backgroundSize: "contain",
-                            backgroundPosition: "center",
-                            backgroundRepeat: "no-repeat",
-                          }}
-                        />
-                      ) : (
-                        <RefreshCw
-                          size={18}
-                          color="#020205"
-                          style={{ animation: "spin-slow 1s linear infinite" }}
-                        />
-                      )}
-                    </div>
-                    <button
-                      onClick={fetchCaptcha}
-                      onMouseEnter={() => setIsRefreshHovered(true)}
-                      onMouseLeave={() => setIsRefreshHovered(false)}
-                      disabled={isCaptchaLoading}
-                      aria-label="Refresh captcha"
-                      style={refreshButtonStyle}
-                    >
-                      <RefreshCw size={18} style={isCaptchaLoading ? { animation: "spin-slow 1s linear infinite" } : {}} />
-                    </button>
-                  </div>
-
-                  <input
-                    type="text"
-                    placeholder="ENTER CODE"
-                    style={{
-                      ...getInputStyle("captcha"),
-                      fontSize: "18px",
-                      fontWeight: 900,
-                      textAlign: "center",
-                      letterSpacing: "0.3em",
-                    }}
-                    value={captchaAnswer}
-                    onFocus={() => setFocusedInput("captcha")}
-                    onBlur={() => setFocusedInput(null)}
-                    autoCapitalize="none"
-                    autoCorrect="off"
-                    spellCheck="false"
-                    onChange={(e) => setCaptchaAnswer(e.target.value)}
-                    maxLength={6}
-                    aria-label="Captcha answer"
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") handleSync();
-                    }}
-                  />
-
                   <button
                     onClick={handleSync}
                     onMouseEnter={() => setIsBtnHovered(true)}
                     onMouseLeave={() => setIsBtnHovered(false)}
-                    disabled={loading || isCaptchaLoading}
+                    disabled={loading}
                     style={buttonStyle}
                   >
                     {loading ? (
                       <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
                         <RefreshCw size={14} style={{ animation: "spin-slow 1s linear infinite" }} />
-                        Linking...
+                        Connecting Portal...
                       </span>
-                    ) : "Establish Hub Link"}
+                    ) : type === "student-portal" ? "⚡ Connect Student Portal" : "Establish Hub Link"}
                   </button>
+
+                  <div style={{ textAlign: "center", marginTop: "2px" }}>
+                    <span style={{ fontSize: "10px", color: "rgba(255, 255, 255, 0.35)", letterSpacing: "0.02em" }}>
+                      🔒 Zero-friction auto-CAPTCHA solver active
+                    </span>
+                  </div>
                 </div>
               </div>
             ) : step === "syncing" ? (

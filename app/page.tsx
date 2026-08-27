@@ -191,8 +191,7 @@ export default function LoginPage() {
       const devBypassCode = typeof window !== "undefined" ? sessionStorage.getItem("developerPasscode") : null;
       const extra: any = {
         ...(connector === "student-portal" ? {
-          captcha: captchaAnswer,
-          captchaToken: captchaData?.captchaToken
+          captcha: "auto",
         } : {}),
         ...(devBypassCode ? { developerPasscode: devBypassCode } : {})
       };
@@ -1381,34 +1380,11 @@ export default function LoginPage() {
                         </button>
                       </div>
 
-                      {/* CAPTCHA FIELD FOR STUDENT PORTAL */}
                       {connector === "student-portal" && (
-                        <div style={{ marginBottom: "12px", display: "flex", flexDirection: "column", gap: "8px" }}>
-                          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                            {captchaData?.captcha ? (
-                              <div style={{ background: "#fff", padding: "4px 8px", borderRadius: "10px", display: "flex", alignItems: "center" }}>
-                                <img src={captchaData.captcha} alt="CAPTCHA" style={{ height: "36px", objectFit: "contain" }} />
-                              </div>
-                            ) : (
-                              <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)", padding: "8px" }}>Loading CAPTCHA...</div>
-                            )}
-                            <button
-                              type="button"
-                              onClick={fetchCaptcha}
-                              style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", padding: "8px 12px", color: "#fff", cursor: "pointer", fontSize: "11px", fontWeight: 800 }}
-                            >
-                              Refresh
-                            </button>
-                          </div>
-                          <input
-                            type="text"
-                            placeholder="ENTER CAPTCHA CODE"
-                            className="login-input"
-                            style={{ margin: 0 }}
-                            value={captchaAnswer}
-                            onChange={(e) => setCaptchaAnswer(e.target.value)}
-                            disabled={loading}
-                          />
+                        <div style={{ marginBottom: "14px", textAlign: "center" }}>
+                          <span style={{ fontSize: "11px", color: "rgba(255, 255, 255, 0.4)", letterSpacing: "0.02em" }}>
+                            🔒 Zero-friction auto-CAPTCHA solver active
+                          </span>
                         </div>
                       )}
 

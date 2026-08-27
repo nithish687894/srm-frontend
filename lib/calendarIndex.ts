@@ -59,7 +59,10 @@ function parseMonthLabel(label: string): { month: number; year: number } | null 
     }
   }
 
-  if (month === -1 || year === -1) return null;
+  if (month === -1) return null;
+  if (year === -1) {
+    year = new Date().getFullYear();
+  }
   return { month, year };
 }
 

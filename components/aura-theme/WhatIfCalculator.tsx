@@ -147,10 +147,10 @@ export function WhatIfCalculator({ marks: initialMarks }: AnyValue) {
   const attendanceSubjects = useMemo(() => {
     if (!attendance || !Array.isArray(attendance)) return [];
     return attendance.map((a: AnyValue) => {
-      const pctStr = a["Attn %"] || a.pct;
-      const parsedPct = parseFloat(pctStr) || 0;
-      let conducted = parseInt(a["Hours Conducted"] || a.conducted) || 0;
-      let absent = parseInt(a["Hours Absent"] || a.absent) || 0;
+      const pctStr = a["Attn %"] ?? a.pct ?? a.percentage ?? a.attendancePercentage;
+      const parsedPct = parseFloat(String(pctStr)) || 0;
+      let conducted = parseInt(String(a["Hours Conducted"] ?? a.conducted ?? a.hoursConducted)) || 0;
+      let absent = parseInt(String(a["Hours Absent"] ?? a.absent ?? a.hoursAbsent)) || 0;
 
       if (conducted === 0 && pctStr !== undefined && pctStr !== null && pctStr !== "null") {
         conducted = 30;
@@ -158,11 +158,19 @@ export function WhatIfCalculator({ marks: initialMarks }: AnyValue) {
         absent = conducted - presentEst;
       }
 
-      const attended = parseInt(a["Hours Attended"] || a.attended) || Math.max(0, conducted - absent);
-      const pct = pctStr !== undefined && pctStr !== null && pctStr !== "null"
+      const attended = parseInt(String(a["Hours Attended"] ?? a.attended ?? a.hoursPresent ?? a.present)) || Math.max(0, conducted - absent);
+      const pct = pctStr !== undefined && pctStr !== null && pctStr !== "null" && !isNaN(parsedPct)
         ? parsedPct
         : (conducted > 0 ? (attended / conducted) * 100 : 100);
-      return { ...a, conducted, attended, absent, pct };
+      return { 
+        ...a, 
+        courseCode: a["Course Code"] || a.courseCode || a.code || "COURSE",
+        courseTitle: a["Course Title"] || a.courseTitle || a.title || a.description || "Subject",
+        conducted, 
+        attended, 
+        absent, 
+        pct 
+      };
     });
   }, [attendance]);
 

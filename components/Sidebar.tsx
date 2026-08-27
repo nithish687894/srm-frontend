@@ -11,7 +11,7 @@ import Toast from "@/components/Toast";
 import {
   Home, BarChart2, CheckCircle, Clock, Calendar, LayoutGrid, Sparkles, Shield,
   X, ChevronRight, CreditCard, FileText, Bed, Bus, Bell, Award, MonitorPlay, Printer, Briefcase, UserSquare, User, GraduationCap, BookOpen, Settings, MoreHorizontal, Share2, LogOut, LayoutTemplate, LifeBuoy, StickyNote, MessageSquare,
-  Fingerprint, RefreshCw, Cpu, Search, Library, Play, Pause, Headphones, Sun, UserRound, IdCard
+  Fingerprint, RefreshCw, Cpu, Search, Library, Play, Pause, Headphones, Sun, UserRound, IdCard, Users
 } from "lucide-react";
 
 const PortalSyncModal = dynamic(() => import("@/components/PortalSyncModal"), { ssr: false });
@@ -262,6 +262,7 @@ export default function Sidebar() {
   const hubCardBorder = "rgba(255,255,255,0.06)";
 
   const moreItems = [
+    { href: "/friends", label: "Friends Sync", icon: Users, color: "#F59E0B" },
     { href: "/notes", label: "Notes", icon: StickyNote, color: "#FF9500" },
     { href: "/calendar", label: "University Calendar", icon: Calendar, color: "#00E5FF" },
     { href: "/exam-library", label: "Exam", icon: BookOpen, color: "#30D158" },
@@ -512,7 +513,12 @@ export default function Sidebar() {
                  className={`desktop-nav-link ${isActive(href, path) ? "active" : ""}`}
                >
                  <Icon size={18} color={isActive(href, path) ? hubAccent : color} />
-                 <span className="text-xs font-black tracking-wide">{label}</span>
+                 <span className="text-xs font-black tracking-wide flex-1">{label}</span>
+                 {href === "/friends" && (
+                   <span className="bg-gradient-to-r from-amber-400 to-amber-500 text-black text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-full shadow-[0_0_8px_rgba(245,158,11,0.4)] ml-auto">
+                     PRO
+                   </span>
+                 )}
                </Link>
              ))}
            </div>
@@ -733,7 +739,23 @@ export default function Sidebar() {
                         </div>
                       </GroupContainer>
 
-                       {/* Group 2: System */}
+                       {/* Group 2: Peer Network */}
+                      <GroupContainer title="Peer Network">
+                        <RowItem 
+                          href="/friends" 
+                          label="Friends Sync" 
+                          subtitle="Timetables & free time finder" 
+                          icon={Users} 
+                          color="#F59E0B"
+                          rightElement={
+                            <span className="bg-gradient-to-r from-amber-400 to-amber-500 text-black text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full shadow-[0_0_8px_rgba(245,158,11,0.4)]">
+                              PRO
+                            </span>
+                          }
+                        />
+                      </GroupContainer>
+
+                       {/* Group 3: System */}
                       <GroupContainer title="System">
                         <RowItem 
                           href="/tools" 

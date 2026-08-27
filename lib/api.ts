@@ -252,4 +252,37 @@ export const opsAPI = {
     API.get("/api/v1/ops/logs", { params }).then((r) => r.data),
 };
 
+export const friendsAPI = {
+  search: (query: string) =>
+    API.post("/api/v1/friends/search", { query }).then((r) => r.data),
+  sendRequest: (targetIdentifier: string, note?: string) =>
+    API.post("/api/v1/friends/request", { targetIdentifier, note }).then((r) => r.data),
+  getRequests: () =>
+    API.get("/api/v1/friends/requests").then((r) => r.data),
+  acceptRequest: (requestId: string) =>
+    API.post(`/api/v1/friends/requests/${requestId}/accept`).then((r) => r.data),
+  rejectRequest: (requestId: string) =>
+    API.post(`/api/v1/friends/requests/${requestId}/reject`).then((r) => r.data),
+  cancelRequest: (requestId: string) =>
+    API.delete(`/api/v1/friends/requests/${requestId}/cancel`).then((r) => r.data),
+  getFriends: () =>
+    API.get("/api/v1/friends").then((r) => r.data),
+  removeFriend: (friendId: string) =>
+    API.delete(`/api/v1/friends/${friendId}`).then((r) => r.data),
+  updatePermissions: (
+    friendId: string,
+    permissions: { timetable?: boolean; attendance?: boolean; marks?: boolean; profile?: boolean }
+  ) => API.put(`/api/v1/friends/${friendId}/permissions`, permissions).then((r) => r.data),
+  getFriendTimetable: (friendId: string, dayOrder?: number) =>
+    API.get(`/api/v1/friends/${friendId}/timetable${dayOrder ? `?dayOrder=${dayOrder}` : ""}`).then((r) => r.data),
+  getFriendAttendance: (friendId: string) =>
+    API.get(`/api/v1/friends/${friendId}/attendance`).then((r) => r.data),
+  findCommonFreeSlots: (friendIds: string[], dayOrder?: number, minDurationMinutes?: number) =>
+    API.post("/api/v1/friends/find-free-slots", { friendIds, dayOrder, minDurationMinutes }).then((r) => r.data),
+  compare: (friendId: string) =>
+    API.post("/api/v1/friends/compare", { friendId }).then((r) => r.data),
+  getDayOrder: (date?: string) =>
+    API.get(`/api/v1/friends/day-order${date ? `?date=${encodeURIComponent(date)}` : ""}`).then((r) => r.data),
+};
+
 export { API };
