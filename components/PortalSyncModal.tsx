@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { authAPI, dataAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
@@ -88,16 +88,21 @@ export default function PortalSyncModal({
   const [showManualCaptcha, setShowManualCaptcha] = useState(false);
   const [refreshingCaptcha, setRefreshingCaptcha] = useState(false);
 
+  const isFetchingCaptchaRef = useRef(false);
+  const hasFetchedForOpenRef = useRef(false);
+
   const storeEmail = useAuthStore((state) => state.email);
   const effectiveNetId = (netId || storeEmail || "").split("@")[0].replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
 
-  const fetchNewCaptcha = useCallback(async () => {
+  const fetchNewCaptcha = useCallback(async (force = false) => {
+    if (isFetchingCaptchaRef.current && !force) return;
+    isFetchingCaptchaRef.current = true;
     setRefreshingCaptcha(true);
     try {
       const res = await authAPI.getStudentPortalCaptcha();
-      if (res?.success && res.captchaImage) {
+      if (res?.success && res.captchaImage && res.captchaToken) {
         setCaptchaImage(res.captchaImage);
-        setCaptchaToken(res.captchaToken || null);
+        setCaptchaToken(res.captchaToken);
         setShowManualCaptcha(true);
         setCaptcha("");
       }
@@ -105,6 +110,7 @@ export default function PortalSyncModal({
       console.warn("[PortalSync] Failed to refresh captcha", err);
     } finally {
       setRefreshingCaptcha(false);
+      isFetchingCaptchaRef.current = false;
     }
   }, []);
 
@@ -126,12 +132,18 @@ export default function PortalSyncModal({
       setCaptcha("");
       if (type === "student-portal") {
         setShowManualCaptcha(true);
-        fetchNewCaptcha();
+        if (!hasFetchedForOpenRef.current) {
+          hasFetchedForOpenRef.current = true;
+          fetchNewCaptcha(true);
+        }
       } else {
         setShowManualCaptcha(false);
         setCaptchaImage(null);
         setCaptchaToken(null);
+        hasFetchedForOpenRef.current = false;
       }
+    } else {
+      hasFetchedForOpenRef.current = false;
     }
   }, [isOpen, type, fetchNewCaptcha]);
 
@@ -671,7 +683,7 @@ export default function PortalSyncModal({
 
                         <button
                           type="button"
-                          onClick={fetchNewCaptcha}
+                          onClick={() => fetchNewCaptcha(true)}
                           disabled={refreshingCaptcha || loading}
                           aria-label="Refresh Captcha"
                           style={{
