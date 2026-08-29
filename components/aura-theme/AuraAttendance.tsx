@@ -145,9 +145,16 @@ export default function AuraAttendance({
   const processedAttendance = useMemo(() => {
     if (!Array.isArray(attendance) || attendance.length === 0) return [];
 
-    return attendance.map((a: AnyValue) => {
-      if (!a || typeof a !== "object") return null;
+    const MONTH_REGEX = /^(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[-\s_]?\d{2,4}$/i;
 
+    return attendance.filter((a: AnyValue) => {
+      if (!a || typeof a !== "object") return false;
+      const code = String(a["Course Code"] || a.courseCode || a.code || "").trim();
+      const title = String(a["Course Title"] || a.courseTitle || a.title || "").trim();
+      if (MONTH_REGEX.test(code) || MONTH_REGEX.test(title)) return false;
+      if (code.toLowerCase().includes('total') || code.toLowerCase().includes('aggregate')) return false;
+      return true;
+    }).map((a: AnyValue) => {
       const pctStr = a["Attn %"] ?? a.pct ?? a.percentage ?? a.attendancePercentage;
       const parsedPct = parseFloat(String(pctStr)) || 0;
       let conducted = parseInt(String(a["Hours Conducted"] ?? a.conducted ?? a.hoursConducted)) || 0;
@@ -210,7 +217,8 @@ export default function AuraAttendance({
     const totalAttended = processedAttendance.reduce((sum: number, a: AnyValue) => sum + (a?.attended || 0), 0);
     const totalConducted = processedAttendance.reduce((sum: number, a: AnyValue) => sum + (a?.conducted || 0), 0);
     const totalAbsent = processedAttendance.reduce((sum: number, a: AnyValue) => sum + (a?.absent || 0), 0);
-    const overallAvg = totalConducted > 0 ? (totalAttended / totalConducted) * 100 : 0;
+    const calculatedAvg = totalConducted > 0 ? (totalAttended / totalConducted) * 100 : 0;
+    const overallAvg = Math.min(100, Math.max(0, calculatedAvg));
     const atRiskList = processedAttendance.filter((a: AnyValue) => (a?.pct || 0) < 75);
     const safeList = processedAttendance.filter((a: AnyValue) => (a?.pct || 0) >= 75);
     const totalSkipsAllowed = safeList.reduce((sum: number, a: AnyValue) => sum + (a?.skipBuffer || 0), 0);
