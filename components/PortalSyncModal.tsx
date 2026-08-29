@@ -166,7 +166,7 @@ export default function PortalSyncModal({
         if (unlockRes.studentPortal?.status === "connected") {
           useAuthStore.getState().setStudentPortalConnected(true);
           useAuthStore.getState().setConnectorStatus("studentPortal", "connected");
-        } else if (unlockRes.studentPortal?.status === "captcha_required" || unlockRes.error?.code === "CAPTCHA_REQUIRED") {
+        } else if (unlockRes.studentPortal?.status === "captcha_required" || unlockRes.error?.code === "CAPTCHA_REQUIRED" || unlockRes.error?.code === "INVALID_CAPTCHA" || unlockRes.error?.code === "AUTH_FLOW_FAILED") {
           setShowManualCaptcha(true);
           if (unlockRes.captchaImage) {
             setCaptchaImage(unlockRes.captchaImage);
@@ -174,11 +174,14 @@ export default function PortalSyncModal({
           } else {
             fetchNewCaptcha();
           }
-          setError(unlockRes.error?.message || "CAPTCHA expired/incorrect — please enter the fresh code.");
+          setError(unlockRes.error?.message || "CAPTCHA was incorrect or expired. Fresh CAPTCHA loaded above, please try again.");
           setLoading(false);
           return;
         } else {
-          throw new Error(unlockRes.error?.message || "CAPTCHA expired/incorrect or password invalid.");
+          setError(unlockRes.error?.message || "Authentication failed. Fresh CAPTCHA loaded above.");
+          fetchNewCaptcha();
+          setLoading(false);
+          return;
         }
       } else {
         await authAPI.login(cleanId, password, type, {
