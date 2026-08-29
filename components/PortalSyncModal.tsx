@@ -105,6 +105,7 @@ export default function PortalSyncModal({
         setCaptchaToken(res.captchaToken);
         setShowManualCaptcha(true);
         setCaptcha("");
+        setError("");
       }
     } catch (err: AnyValue) {
       console.warn("[PortalSync] Failed to refresh captcha", err);
