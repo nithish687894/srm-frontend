@@ -1721,11 +1721,9 @@ body.nexus-panel-active .swipe-wrapper {
 @keyframes breatheBacklight {
   0%, 100% {
     opacity: 0.85;
-    transform: scale(1);
   }
   50% {
     opacity: 1;
-    transform: scale(1.08);
   }
 }
 
@@ -1773,12 +1771,10 @@ body.nexus-panel-active .swipe-wrapper {
 @keyframes heroBreathe {
   0%, 100% {
     opacity: 0.7;
-    transform: scale(1);
     filter: brightness(1);
   }
   50% {
     opacity: 1;
-    transform: scale(1.02);
     filter: brightness(1.08);
   }
 }
