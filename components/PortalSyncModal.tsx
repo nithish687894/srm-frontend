@@ -89,7 +89,7 @@ export default function PortalSyncModal({
   const [refreshingCaptcha, setRefreshingCaptcha] = useState(false);
 
   const storeEmail = useAuthStore((state) => state.email);
-  const effectiveNetId = (netId || storeEmail || "").split("@")[0].replace(/[^a-zA-Z0-9]/g, "").toLowerCase().slice(0, 6);
+  const effectiveNetId = (netId || storeEmail || "").split("@")[0].replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
 
   const fetchNewCaptcha = useCallback(async () => {
     setRefreshingCaptcha(true);
@@ -111,7 +111,7 @@ export default function PortalSyncModal({
   useEffect(() => {
     const rawId = netId || storeEmail || "";
     if (type === "student-portal") {
-      setLocalNetId(rawId.split("@")[0].replace(/[^a-zA-Z0-9]/g, "").toLowerCase().slice(0, 6));
+      setLocalNetId(rawId.split("@")[0].replace(/[^a-zA-Z0-9]/g, "").toLowerCase());
     } else {
       setLocalNetId(rawId);
     }
@@ -175,6 +175,12 @@ export default function PortalSyncModal({
             fetchNewCaptcha();
           }
           setError(unlockRes.error?.message || "CAPTCHA was incorrect or expired. Fresh CAPTCHA loaded above, please try again.");
+          setLoading(false);
+          return;
+        } else if (unlockRes.error?.code === "INVALID_CREDENTIALS") {
+          setShowManualCaptcha(true);
+          fetchNewCaptcha();
+          setError("Student Portal password rejected. Note: Student Portal (Evarsity) may have a different password than your Academia login. Please enter your Student Portal password with the fresh CAPTCHA loaded below.");
           setLoading(false);
           return;
         } else {
