@@ -158,14 +158,22 @@ export default function PortalSyncModal({
     try {
       if (type === "student-portal") {
         const extraPayload: Record<string, AnyValue> = {};
+        if (cleanId) extraPayload.netId = cleanId;
         if (showManualCaptcha && captcha) {
-          extraPayload.captcha = captcha; // Exact raw user input, no modification
+          extraPayload.captcha = captcha.trim(); // Exact raw user input, no modification
           if (captchaToken) extraPayload.captchaToken = captchaToken;
         }
         const unlockRes = await authAPI.unlockStudentPortal(password, extraPayload);
         if (unlockRes.studentPortal?.status === "connected") {
           useAuthStore.getState().setStudentPortalConnected(true);
           useAuthStore.getState().setConnectorStatus("studentPortal", "connected");
+          if (unlockRes.attendance?.data) {
+            useAuthStore.getState().setStudentPortalData({
+              attendance: Array.isArray(unlockRes.attendance.data) ? unlockRes.attendance.data : (unlockRes.attendance.data?.attendance || []),
+              sessionStatus: "active",
+              lastSyncedAt: new Date().toISOString(),
+            });
+          }
         } else if (unlockRes.studentPortal?.status === "captcha_required" || unlockRes.error?.code === "CAPTCHA_REQUIRED" || unlockRes.error?.code === "INVALID_CAPTCHA" || unlockRes.error?.code === "AUTH_FLOW_FAILED") {
           setShowManualCaptcha(true);
           if (unlockRes.captchaImage) {
