@@ -119,6 +119,14 @@ export default function AttendancePage() {
     return `Updated ${hours} hr${hours > 1 ? 's' : ''} ago`;
   }, [now, lastFetchedAt]);
 
+  // Keep local att state synchronized when academicData.attendance updates in Zustand
+  useEffect(() => {
+    if (Array.isArray(academicData?.attendance) && academicData.attendance.length > 0) {
+      setAtt(academicData.attendance);
+      setLoading(false);
+    }
+  }, [academicData?.attendance]);
+
   useEffect(() => {
     if (!ready) return;
     if (academicData?.attendance) setLoading(false);
