@@ -128,10 +128,15 @@ export default function AuraBackground({ theme, stars, children, style = {} }: A
           50% { opacity: 1; }
         }
 
-        .floating { animation: floating 6s ease-in-out infinite; }
+        .floating { 
+          animation: floating 5s ease-in-out infinite; 
+          will-change: transform;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+        }
         @keyframes floating {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
+          0%, 100% { transform: translate3d(0, 0, 0); }
+          50% { transform: translate3d(0, -4px, 0); }
         }
 
         @keyframes shimmer {
