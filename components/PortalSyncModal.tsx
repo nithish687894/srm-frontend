@@ -124,11 +124,16 @@ export default function PortalSyncModal({
       setPassword("");
       setShowPassword(false);
       setCaptcha("");
-      setCaptchaImage(null);
-      setCaptchaToken(null);
-      setShowManualCaptcha(false);
+      if (type === "student-portal") {
+        setShowManualCaptcha(true);
+        fetchNewCaptcha();
+      } else {
+        setShowManualCaptcha(false);
+        setCaptchaImage(null);
+        setCaptchaToken(null);
+      }
     }
-  }, [isOpen]);
+  }, [isOpen, type, fetchNewCaptcha]);
 
   const handleSync = async () => {
     if (!password) {
@@ -169,11 +174,11 @@ export default function PortalSyncModal({
           } else {
             fetchNewCaptcha();
           }
-          setError(unlockRes.error?.message || "Could not auto-solve captcha. Please enter captcha manually.");
+          setError(unlockRes.error?.message || "CAPTCHA expired/incorrect — please enter the fresh code.");
           setLoading(false);
           return;
         } else {
-          throw new Error(unlockRes.error?.message || "Invalid Student Portal password.");
+          throw new Error(unlockRes.error?.message || "CAPTCHA expired/incorrect or password invalid.");
         }
       } else {
         await authAPI.login(cleanId, password, type, {
@@ -207,14 +212,24 @@ export default function PortalSyncModal({
         onClose();
       }, 2000);
     } catch (e: AnyValue) {
-      const errMsg = e.response?.data?.error?.message 
+      const rawError = e.response?.data?.error?.message 
         || (typeof e.response?.data?.error === 'string' ? e.response?.data?.error : null)
         || e.response?.data?.message 
         || e.message 
-        || "Invalid Student Portal credentials.";
-      setError(errMsg);
+        || "";
+
+      let userFriendlyMsg = rawError;
+      if (rawError.includes("Invalid credentials") || rawError.includes("INVALID_CREDENTIALS") || rawError.includes("INVALID_CAPTCHA")) {
+        userFriendlyMsg = "CAPTCHA expired/incorrect or password invalid — fresh CAPTCHA loaded below, please try again.";
+      } else if (!userFriendlyMsg) {
+        userFriendlyMsg = "Authentication failed. Fresh CAPTCHA loaded below.";
+      }
+
+      setError(userFriendlyMsg);
       if (type === "student-portal") {
         useAuthStore.getState().setStudentPortalConnected(false);
+        // Automatically fetch fresh CAPTCHA on error so student can retry immediately
+        fetchNewCaptcha();
       } else {
         useAuthStore.getState().setAcademiaConnected(false);
       }
@@ -600,38 +615,39 @@ export default function PortalSyncModal({
                   </div>
 
                   {showManualCaptcha && (
-                    <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "2px" }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginTop: "4px" }}>
                       <div style={{
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "space-between",
-                        background: "rgba(255, 255, 255, 0.04)",
-                        border: "1px solid rgba(255, 255, 255, 0.1)",
-                        borderRadius: "14px",
-                        padding: "8px 12px",
-                        gap: "12px",
+                        background: "rgba(255, 255, 255, 0.03)",
+                        border: "1px solid rgba(255, 255, 255, 0.12)",
+                        borderRadius: "16px",
+                        padding: "10px 14px",
+                        gap: "14px",
                       }}>
                         <div style={{
                           background: "#ffffff",
-                          borderRadius: "8px",
-                          padding: "4px 10px",
+                          borderRadius: "10px",
+                          padding: "6px 14px",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
-                          minHeight: "42px",
-                          minWidth: "130px",
-                          boxShadow: "inset 0 2px 4px rgba(0,0,0,0.1)"
+                          minHeight: "50px",
+                          minWidth: "160px",
+                          boxShadow: "0 2px 8px rgba(0,0,0,0.15), inset 0 1px 2px rgba(0,0,0,0.06)",
+                          border: "1px solid rgba(0,0,0,0.08)"
                         }}>
                           {captchaImage ? (
                             /* eslint-disable-next-line @next/next/no-img-element */
                             <img
                               src={captchaImage}
-                              alt="Portal Captcha"
-                              style={{ height: "36px", objectFit: "contain", borderRadius: "4px" }}
+                              alt="SRM Security Captcha"
+                              style={{ height: "42px", maxWidth: "100%", objectFit: "contain", borderRadius: "4px" }}
                             />
                           ) : (
                             <span style={{ fontSize: "11px", color: "#666", fontWeight: 700 }}>
-                              {refreshingCaptcha ? "Loading..." : "No Captcha"}
+                              {refreshingCaptcha ? "Fetching Captcha..." : "Loading Captcha..."}
                             </span>
                           )}
                         </div>
@@ -644,33 +660,40 @@ export default function PortalSyncModal({
                           style={{
                             display: "flex",
                             alignItems: "center",
-                            gap: "6px",
-                            background: "rgba(255, 255, 255, 0.08)",
+                            gap: "7px",
+                            background: "rgba(255, 255, 255, 0.06)",
                             border: "1px solid rgba(255, 255, 255, 0.15)",
                             color: "#fff",
-                            padding: "8px 14px",
-                            borderRadius: "10px",
-                            fontSize: "11px",
+                            padding: "10px 14px",
+                            borderRadius: "12px",
+                            fontSize: "11.5px",
                             fontWeight: 800,
                             cursor: refreshingCaptcha || loading ? "not-allowed" : "pointer",
                             transition: "all 0.2s",
+                            whiteSpace: "nowrap",
                           }}
                         >
-                          <RefreshCw size={13} style={{ animation: refreshingCaptcha ? "spin-slow 1s linear infinite" : "none" }} />
-                          Refresh
+                          <RefreshCw size={14} style={{ animation: refreshingCaptcha ? "spin-slow 1s linear infinite" : "none" }} />
+                          Refresh CAPTCHA
                         </button>
                       </div>
 
                       <input
                         type="text"
-                        placeholder="Enter 6-character Captcha"
-                        maxLength={6}
-                        style={getInputStyle("captcha")}
+                        placeholder="Enter 5 or 6-character Captcha"
+                        maxLength={8}
+                        style={{
+                          ...getInputStyle("captcha"),
+                          fontFamily: "monospace",
+                          letterSpacing: "0.12em",
+                          fontSize: "14px",
+                          fontWeight: 700,
+                        }}
                         value={captcha}
                         autoFocus
                         onFocus={() => setFocusedInput("captcha")}
                         onBlur={() => setFocusedInput(null)}
-                        onChange={(e) => setCaptcha(e.target.value)}
+                        onChange={(e) => setCaptcha(e.target.value.trim())}
                         onKeyDown={(e) => {
                           if (e.key === "Enter" && password && captcha && !loading) {
                             handleSync();

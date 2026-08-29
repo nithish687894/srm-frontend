@@ -1198,16 +1198,6 @@ export default function DashboardPage() {
     );
   };
 
-  const themeProps = { 
-    data, riskCount, avgAtt, avgMarks, totalCourses, 
-    targetClasses, nextClass, recentTop5, initials, 
-    firstName, dayOrder, isHoliday, dayOffset, setDayOffset,
-    onShowStudentInfo: () => setShowStudentInfo(true),
-    broadcast, setIsSyncModalOpen, renderAcademicIntegrityHub,
-    userBatch: batch, totalHours, presentHours, absentHours, nowMin,
-    fmtTimeOnly, fmt12, parseStart, parseEnd, isNowIn, BATCH_PERIODS, BroadcastBanner
-  };
-
   const activeDashboard = (() => {
     if (!mounted) return null;
     return (
@@ -1258,31 +1248,6 @@ export default function DashboardPage() {
         />
       )}
       {renderStudentInfoModal()}
-    </div>
-  );
-}
-
-function BroadcastBanner({ broadcast }: AnyValue) {
-  if (!broadcast || !broadcast.active || !broadcast.message) return null;
-  const colors: Record<string, { bg: string, text: string, border: string }> = {
-    info: { bg: "rgba(59, 130, 246, 0.1)", text: "#3b82f6", border: "rgba(59, 130, 246, 0.2)" },
-    success: { bg: "rgba(16, 185, 129, 0.1)", text: "#10b981", border: "rgba(16, 185, 129, 0.2)" },
-    warning: { bg: "rgba(239, 68, 68, 0.1)", text: "#ef4444", border: "rgba(239, 68, 68, 0.2)" }
-  };
-  const theme = colors[broadcast.type] || colors.info;
-
-  return (
-    <div style={{
-      background: theme.bg, border: `1px solid ${theme.border}`, borderRadius: "16px", padding: "16px",
-      marginBottom: "24px", display: "flex", alignItems: "center", gap: "16px", animation: "slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1)"
-    }}>
-      <div style={{ color: theme.text }}>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>
-      </div>
-      <div>
-        <div style={{ fontSize: "10px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em", color: theme.text, marginBottom: "4px" }}>System Announcement</div>
-        <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary)", lineHeight: 1.4 }}>{broadcast.message}</div>
-      </div>
     </div>
   );
 }
