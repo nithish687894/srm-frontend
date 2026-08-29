@@ -180,13 +180,15 @@ export default function LoginPage() {
 
   async function handleLogin() {
     if (!email || !password) return setError("PROVIDE CREDENTIALS");
-    setTimeout(() => {
-      setLoading(true);
-      setLoginPhase("auth");
-    }, 0);
+    const loginStartMs = Date.now();
+    setLoading(true);
+    setLoginPhase("auth");
     setError("");
     const canonicalNetId = email.split("@")[0].trim().toLowerCase();
     const finalEmail = `${canonicalNetId}@srmist.edu.in`;
+
+    const MIN_LOADING_MS = 1200;
+    const MIN_SUCCESS_MS = 1500;
     
     try {
       const devBypassCode = typeof window !== "undefined" ? sessionStorage.getItem("developerPasscode") : null;
@@ -205,13 +207,22 @@ export default function LoginPage() {
             studentPortal: res.connectors.studentPortal?.status || "disconnected",
           });
         }
-        
+
+        // Ensure the loading screen is visible for at least MIN_LOADING_MS before transitioning to success
+        const elapsed = Date.now() - loginStartMs;
+        const remainingMs = Math.max(0, MIN_LOADING_MS - elapsed);
+        await new Promise((r) => setTimeout(r, remainingMs));
+
         setLoginPhase("success");
-        setTimeout(routeAfterAuth, 700);
+        setTimeout(routeAfterAuth, MIN_SUCCESS_MS);
       } else {
         throw new Error(res.error?.message || "Login failed.");
       }
     } catch (e: any) {
+      // Ensure at least MIN_LOADING_MS visible before showing error
+      const elapsed = Date.now() - loginStartMs;
+      const remainingMs = Math.max(0, MIN_LOADING_MS - elapsed);
+      await new Promise((r) => setTimeout(r, remainingMs));
       setLoading(false);
       setLoginPhase("idle");
       let errMsg = e?.response?.data?.error?.message || e?.response?.data?.error || e?.message || "LOGIN FAILED";
