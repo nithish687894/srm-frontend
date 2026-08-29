@@ -50,31 +50,64 @@ export default function MarksPage() {
     const rawMarks = Array.isArray(academicData?.marks) ? academicData.marks : [];
     const attendance = Array.isArray(academicData?.attendance) ? academicData.attendance : [];
 
-    const processedMarks = rawMarks.map((m: AnyValue) => {
+    // Filter out monthly breakdown rows (e.g. JUL-2026) from attendance first
+    const MONTH_REGEX = /^(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[-\s_]?\d{2,4}$/i;
+    const currentAttendance = attendance.filter((a: AnyValue) => {
+      if (!a || typeof a !== "object") return false;
+      const code = String(a["Course Code"] || a.courseCode || a.code || "").trim();
+      const title = String(a["Course Title"] || a.courseTitle || a.title || "").trim();
+      return !MONTH_REGEX.test(code) && !MONTH_REGEX.test(title) && !code.toLowerCase().includes("total");
+    });
+
+    const currentCourseCodes = new Set(
+      currentAttendance
+        .map((a: AnyValue) => String(a?.courseCode || a?.['Course Code'] || a?.code || '').trim().toUpperCase())
+        .filter(Boolean)
+    );
+
+    // If current semester courses exist in attendance, strictly filter marks to only current registered courses
+    let filteredMarks = rawMarks;
+    if (currentCourseCodes.size > 0) {
+      filteredMarks = rawMarks.filter((m: AnyValue) => {
+        const code = String(m?.courseCode || m?.code || '').trim().toUpperCase();
+        return currentCourseCodes.has(code);
+      });
+    }
+
+    const processedMarks = filteredMarks.map((m: AnyValue) => {
       if (!m) return null;
-      const attnMatch = attendance.find((a: AnyValue) => a && (a['Course Code'] === m.courseCode || a['Course Code'] === m.code));
+      const code = String(m.courseCode || m.code || '').trim().toUpperCase();
+      const attnMatch = currentAttendance.find((a: AnyValue) => {
+        const aCode = String(a?.courseCode || a?.['Course Code'] || a?.code || '').trim().toUpperCase();
+        return aCode === code;
+      });
       return {
         ...m,
-        title: m.courseTitle || m.description || attnMatch?.['Course Title'] || attnMatch?.['title'] || "Unknown Module"
+        courseCode: code || m.courseCode || m.code,
+        code: code || m.code,
+        title: m.courseTitle || m.description || attnMatch?.['Course Title'] || attnMatch?.['courseTitle'] || attnMatch?.['title'] || "Subject"
       };
     }).filter(Boolean);
 
-    // Merge subjects from attendance that are missing in marks as placeholders
-    const marksCodes = new Set(processedMarks.map((m: AnyValue) => m.courseCode || m.code));
-    attendance.forEach((a: AnyValue) => {
-      if (a && a['Course Code'] && !marksCodes.has(a['Course Code'])) {
+    // Merge active subjects from attendance that have no marks entry yet as placeholders
+    const marksCodes = new Set(processedMarks.map((m: AnyValue) => String(m.courseCode || m.code).trim().toUpperCase()));
+    currentAttendance.forEach((a: AnyValue) => {
+      const aCode = String(a?.courseCode || a?.['Course Code'] || a?.code || '').trim().toUpperCase();
+      const aTitle = a?.['Course Title'] || a?.courseTitle || a?.title || 'Subject';
+      if (aCode && !marksCodes.has(aCode)) {
         processedMarks.push({
-          courseCode: a['Course Code'],
-          code: a['Course Code'],
-          courseTitle: a['Course Title'] || a['title'] || 'Unknown Module',
-          title: a['Course Title'] || a['title'] || 'Unknown Module',
+          courseCode: aCode,
+          code: aCode,
+          courseTitle: aTitle,
+          title: aTitle,
           tests: []
         });
+        marksCodes.add(aCode);
       }
     });
 
-    const scored = processedMarks.reduce((s:number, m:AnyValue) => s + (m.tests?.reduce((a:number, t:AnyValue) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
-    const max = processedMarks.reduce((s:number, m:AnyValue) => s + (m.tests?.reduce((a:number, t:AnyValue) => a + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0), 0);
+    const scored = processedMarks.reduce((s: number, m: AnyValue) => s + (m.tests?.reduce((a: number, t: AnyValue) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
+    const max = processedMarks.reduce((s: number, m: AnyValue) => s + (m.tests?.reduce((a: number, t: AnyValue) => a + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0), 0);
     const pct = max > 0 ? (scored / max) * 100 : 0;
 
     return { marks: processedMarks, totalScored: scored, totalMax: max, avgPct: pct };
