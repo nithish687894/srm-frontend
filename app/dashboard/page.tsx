@@ -1055,11 +1055,11 @@ export default function DashboardPage() {
   const nowMin = now.getHours() * 60 + now.getMinutes();
 
   const sortedTargetClasses = useMemo(() => {
-    return [...targetClasses].sort((a, b) => parseStart(a.startTime) - parseStart(b.startTime));
+    return Array.isArray(targetClasses) ? [...targetClasses].sort((a, b) => parseStart(a.startTime) - parseStart(b.startTime)) : [];
   }, [targetClasses]);
 
   const sortedTomorrowClasses = useMemo(() => {
-    return [...tomorrowClasses].sort((a, b) => parseStart(a.startTime) - parseStart(b.startTime));
+    return Array.isArray(tomorrowClasses) ? [...tomorrowClasses].sort((a, b) => parseStart(a.startTime) - parseStart(b.startTime)) : [];
   }, [tomorrowClasses]);
 
   const currentClass = dayOffset === 0

@@ -18,13 +18,11 @@ export default function Error({
     try {
       if (typeof window !== 'undefined') {
         sessionStorage.clear();
-        // Clear corrupted academic data cache while preserving auth tokens
         const auth = localStorage.getItem('auth-storage');
         localStorage.clear();
         if (auth) {
           try {
             const parsed = JSON.parse(auth);
-            // Reset corrupted academicData object
             if (parsed.state) {
               parsed.state.academicData = null;
               parsed.state.studentPortalData = null;
@@ -77,9 +75,28 @@ export default function Error({
         Session Sync Refresh Needed
       </h2>
 
-      <p style={{ color: 'rgba(255,255,255,0.6)', maxWidth: '360px', marginBottom: '28px', fontSize: '13px', lineHeight: 1.5 }}>
+      <p style={{ color: 'rgba(255,255,255,0.6)', maxWidth: '360px', marginBottom: '16px', fontSize: '13px', lineHeight: 1.5 }}>
         A portal sync update requires a quick reload. Tap Reload or Re-Sync below to refresh your dashboard.
       </p>
+
+      {error?.message && (
+        <div
+          style={{
+            maxWidth: '420px',
+            padding: '10px 14px',
+            background: 'rgba(255, 45, 85, 0.1)',
+            border: '1px solid rgba(255, 45, 85, 0.25)',
+            borderRadius: '12px',
+            color: '#FF75C3',
+            fontSize: '11px',
+            fontFamily: 'monospace',
+            marginBottom: '24px',
+            wordBreak: 'break-word',
+          }}
+        >
+          {error.message}
+        </div>
+      )}
 
       <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
         <button
