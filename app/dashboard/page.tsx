@@ -321,6 +321,13 @@ export default function DashboardPage() {
   const [dayOffset, setDayOffset] = useState(0);
   const [syncError, setSyncError] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [showStudentInfo, setShowStudentInfo] = useState(false);
+  const [isSyncModalOpen, setIsSyncModalOpen] = useState(false);
+  const [broadcast, setBroadcast] = useState<AnyValue>(null);
+  const [batch, setBatch] = useState<number>(() => {
+    const raw = academicData?.profile?.["Combo / Batch"] || "";
+    return extractBatch(raw);
+  });
   const [now, setNow] = useState(() => new Date());
   const currentTime = now.getTime();
 
@@ -554,13 +561,6 @@ export default function DashboardPage() {
       </div>
     );
   }, [data, studentPortalData, studentPortalConnected, marks, formatLastSynced]);
-  const [showStudentInfo, setShowStudentInfo] = useState(false);
-  const [isSyncModalOpen, setIsSyncModalOpen] = useState(false);
-  const [broadcast, setBroadcast] = useState<AnyValue>(null);
-  const [batch, setBatch] = useState<number>(() => {
-    const raw = academicData?.profile?.["Combo / Batch"] || "";
-    return extractBatch(raw);
-  });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
