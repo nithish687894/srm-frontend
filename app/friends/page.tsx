@@ -8,7 +8,7 @@ import Toast from "@/components/Toast";
 import {
   Users, UserPlus, Sparkles, Clock, Calendar, Check, X, Shield, Lock,
   ChevronRight, RefreshCw, Trash2, BookOpen, AlertCircle, Search, Flame, ArrowRight,
-  TrendingUp, CheckCircle2, UserCheck, Eye, EyeOff
+  TrendingUp, CheckCircle2, UserCheck, Eye, EyeOff, Share2, Copy, MapPin
 } from "lucide-react";
 
 interface Friend {
@@ -223,6 +223,64 @@ export default function FriendsSyncPage() {
     setSelectedFriendIds((prev) =>
       prev.includes(id) ? (prev.length > 1 ? prev.filter((item) => item !== id) : prev) : [...prev, id]
     );
+  };
+
+  // Sub-tab state for schedule inspector
+  const [scheduleSubTab, setScheduleSubTab] = useState<"daily" | "common">("daily");
+
+  const inspectedFriend = useMemo(() => {
+    return friends.find((f) => f.id === inspectedFriendId) || friends[0];
+  }, [friends, inspectedFriendId]);
+
+  const hasTimetablePermission = useMemo(() => {
+    if (!inspectedFriend) return false;
+    return inspectedFriend.receivedFromFriend?.timetable !== false && friendTimetableData?.success !== false;
+  }, [inspectedFriend, friendTimetableData]);
+
+  const handleShareFriendSchedule = async (friend: Friend | undefined, schedule: AnyValue) => {
+    if (!friend) return;
+    const dayText = `Day Order ${selectedDayOrder}`;
+    const periods = schedule?.periods || [];
+    const classes = periods.filter((p: AnyValue) => !p.isFree);
+    const freeCount = schedule?.totalFreePeriods ?? periods.filter((p: AnyValue) => p.isFree).length;
+    
+    let classListText = "";
+    if (classes.length > 0) {
+      classListText = classes.map((p: AnyValue) => `  • P${p.period} (${p.startTime}-${p.endTime}): ${p.course?.courseTitle || p.course?.courseCode} (Room ${p.course?.roomNo || "TBA"}, Slot ${p.course?.slot || "—"})`).join("\n");
+    } else {
+      classListText = "  • No classes scheduled (Free Day! 🎉)";
+    }
+
+    const summary = `📅 *SRM Nexus Schedule Sync*\n👤 *${friend.name}*'s Schedule for *${dayText}*\n\n${classListText}\n\n⚡ *${freeCount} Free Period(s)*\n✨ Synced via SRM Nexus`;
+
+    if (typeof navigator !== "undefined" && navigator.share) {
+      try {
+        await navigator.share({
+          title: `Schedule for ${friend.name} (${dayText})`,
+          text: summary,
+        });
+        return;
+      } catch (_) {}
+    }
+
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      await navigator.clipboard.writeText(summary);
+      showToast("Copied to Clipboard", "Friend schedule details copied! Ready to share.", "success");
+    }
+  };
+
+  const handleShareFreeSlot = async (slot: AnyValue, dayOrder: number) => {
+    const text = `⚡ *Free Time Together on SRM Nexus!*\n📆 Day Order ${dayOrder}\n⏰ *${slot.startTime} – ${slot.endTime}* (${slot.durationMinutes} mins free)\n👥 Periods P${slot.startPeriod} to P${slot.endPeriod} are open for all of us.\nLet's meet up! 🚀`;
+    if (typeof navigator !== "undefined" && navigator.share) {
+      try {
+        await navigator.share({ title: "Free Time Together", text });
+        return;
+      } catch (_) {}
+    }
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      await navigator.clipboard.writeText(text);
+      showToast("Copied to Clipboard", "Free window copied! Ready to send on WhatsApp.", "success");
+    }
   };
 
   const dayResult = freeTimeData?.days?.[0];
@@ -445,9 +503,19 @@ export default function FriendsSyncPage() {
                           <span className="bg-amber-400/20 text-amber-300 border border-amber-400/30 text-[10px] font-black uppercase px-2.5 py-1 rounded-full">
                             🔥 Everyone Free
                           </span>
-                          <span className="text-xs font-black text-white/80 tabular-nums">
-                            {slot.durationMinutes} Minutes
-                          </span>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-black text-white/80 tabular-nums">
+                              {slot.durationMinutes} Minutes
+                            </span>
+                            <button
+                              onClick={() => handleShareFreeSlot(slot, selectedDayOrder)}
+                              className="bg-amber-400 hover:bg-amber-300 text-black p-1.5 rounded-xl transition-all shadow-md flex items-center gap-1 text-[10px] font-black uppercase tracking-wider"
+                              title="Share this free window"
+                            >
+                              <Share2 size={12} />
+                              <span className="hidden sm:inline">Share</span>
+                            </button>
+                          </div>
                         </div>
 
                         <div className="text-2xl font-black tracking-tight text-white mb-1 tabular-nums">
@@ -525,14 +593,14 @@ export default function FriendsSyncPage() {
         </section>
       )}
 
-      {/* ─── TAB 2: SHARED SCHEDULE & COMMON CLASSES ──────────────────────────── */}
+      {/* ─── TAB 2: SHARED SCHEDULE & TIMETABLE COMPARISON ────────────────────── */}
       {activeTab === "schedule" && (
         <section className="space-y-6">
           {friends.length === 0 ? (
             <div className="bg-white/[0.02] border border-white/10 rounded-3xl p-8 text-center max-w-lg mx-auto">
               <BookOpen size={40} className="mx-auto text-white/30 mb-4" />
               <h3 className="text-lg font-black text-white">No Friends Connected</h3>
-              <p className="text-xs text-white/50 mt-1 mb-6">Connect with a friend to compare subjects and daily schedules.</p>
+              <p className="text-xs text-white/50 mt-1 mb-6">Connect with a friend to view their daily timetable and compare subjects.</p>
               <button
                 onClick={() => setActiveTab("friends")}
                 className="bg-purple-500 hover:bg-purple-400 text-white font-black text-xs uppercase tracking-wider px-6 py-3 rounded-2xl shadow-lg transition-all"
@@ -542,113 +610,308 @@ export default function FriendsSyncPage() {
             </div>
           ) : (
             <>
-              {/* Friend Selector */}
+              {/* Friend Selector Bar */}
               <div className="flex items-center gap-2 overflow-x-auto pb-2">
-                {friends.map((f) => (
-                  <button
-                    key={f.id}
-                    onClick={() => setInspectedFriendId(f.id)}
-                    className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl border text-xs font-bold whitespace-nowrap transition-all ${
-                      inspectedFriendId === f.id
-                        ? "bg-purple-500/20 border-purple-500/50 text-purple-200 shadow-lg"
-                        : "bg-white/[0.03] border-white/10 text-white/60 hover:bg-white/10"
-                    }`}
-                  >
-                    <span className="w-5 h-5 rounded-full bg-purple-400/30 text-purple-200 flex items-center justify-center text-[10px] font-black">
-                      {f.name.slice(0, 1)}
-                    </span>
-                    <span>{f.name}</span>
-                  </button>
-                ))}
+                {friends.map((f) => {
+                  const isSelected = inspectedFriendId === f.id;
+                  return (
+                    <button
+                      key={f.id}
+                      onClick={() => setInspectedFriendId(f.id)}
+                      className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl border text-xs font-bold whitespace-nowrap transition-all ${
+                        isSelected
+                          ? "bg-purple-500/20 border-purple-500/50 text-purple-200 shadow-lg"
+                          : "bg-white/[0.03] border-white/10 text-white/60 hover:bg-white/10"
+                      }`}
+                    >
+                      <span className="w-5 h-5 rounded-full bg-purple-400/30 text-purple-200 flex items-center justify-center text-[10px] font-black">
+                        {f.name.slice(0, 1)}
+                      </span>
+                      <span>{f.name}</span>
+                    </button>
+                  );
+                })}
               </div>
 
-              {/* Shared Subjects Comparison */}
-              {isCompareLoading ? (
-                <div className="bg-white/[0.02] border border-white/10 rounded-3xl p-12 text-center">
-                  <RefreshCw size={24} className="animate-spin text-purple-400 mx-auto mb-3" />
-                  <p className="text-xs text-white/60 font-bold uppercase tracking-wider">Comparing Course Registrations...</p>
-                </div>
-              ) : compareData?.comparison?.timetableComparison ? (
-                <div className="space-y-6">
-                  {/* Stats Cards */}
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                    <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-4 sm:p-5">
-                      <span className="text-[10px] font-black uppercase tracking-widest text-white/40 block mb-1">
-                        Common Subjects
-                      </span>
-                      <div className="text-2xl sm:text-3xl font-black text-purple-400">
-                        {compareData.comparison.timetableComparison.totalCommonCourses}
+              {/* Friend Context & Day Order Controls Header */}
+              {inspectedFriend && (
+                <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-5 sm:p-6 backdrop-blur-xl shadow-2xl">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="flex items-center gap-3.5">
+                      <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-500 to-indigo-500 text-white font-black text-base flex items-center justify-center shadow-lg">
+                        {inspectedFriend.name.slice(0, 1)}
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h3 className="text-base sm:text-lg font-black text-white">{inspectedFriend.name}</h3>
+                          <span className="text-[10px] font-mono bg-white/10 px-2 py-0.5 rounded-lg text-white/60 font-bold">
+                            {inspectedFriend.maskedRegNo}
+                          </span>
+                        </div>
+                        <p className="text-xs text-white/50">{inspectedFriend.department || "SRM Student"}</p>
                       </div>
                     </div>
 
-                    <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-4 sm:p-5">
-                      <span className="text-[10px] font-black uppercase tracking-widest text-white/40 block mb-1">
-                        Same Slot / Class
-                      </span>
-                      <div className="text-2xl sm:text-3xl font-black text-emerald-400">
-                        {compareData.comparison.timetableComparison.exactSameScheduleCount}
-                      </div>
-                    </div>
-
-                    <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-4 sm:p-5 col-span-2 sm:col-span-1">
-                      <span className="text-[10px] font-black uppercase tracking-widest text-white/40 block mb-1">
-                        Sync Status
-                      </span>
-                      <div className="text-sm font-black text-white/90 flex items-center gap-1.5 mt-1.5">
-                        <CheckCircle2 size={16} className="text-emerald-400" /> Authorized
-                      </div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <button
+                        onClick={() => handleShareFriendSchedule(inspectedFriend, friendTimetableData?.schedule)}
+                        className="bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-200 px-4 py-2.5 rounded-2xl text-xs font-black flex items-center gap-2 transition-all shadow-md"
+                        title="Share schedule comparison on WhatsApp"
+                      >
+                        <Share2 size={14} />
+                        <span>Share Schedule</span>
+                      </button>
                     </div>
                   </div>
 
-                  {/* Common Course Cards */}
-                  <div className="bg-white/[0.02] border border-white/10 rounded-3xl p-5 sm:p-6">
-                    <h3 className="text-xs font-black uppercase tracking-widest text-white/40 mb-4">
-                      Registered Common Subjects
-                    </h3>
+                  {/* Day Order Switcher & View Mode Toggle */}
+                  <div className="mt-6 pt-5 border-t border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    {/* Sub-view toggle */}
+                    <div className="flex items-center gap-1.5 bg-black/40 border border-white/10 p-1 rounded-2xl">
+                      <button
+                        onClick={() => setScheduleSubTab("daily")}
+                        className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+                          scheduleSubTab === "daily"
+                            ? "bg-purple-500 text-white shadow-md font-black"
+                            : "text-white/60 hover:text-white"
+                        }`}
+                      >
+                        <Calendar size={13} />
+                        <span>Day Order {selectedDayOrder}</span>
+                      </button>
 
-                    {compareData.comparison.timetableComparison.commonCourses.length === 0 ? (
-                      <p className="text-xs text-white/50">No overlapping courses found in your registered semester syllabus.</p>
-                    ) : (
-                      <div className="space-y-3">
-                        {compareData.comparison.timetableComparison.commonCourses.map((cc: AnyValue, idx: number) => (
-                          <div
-                            key={idx}
-                            className="bg-white/[0.03] border border-white/10 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
-                          >
-                            <div>
-                              <div className="flex items-center gap-2">
-                                <span className="text-xs font-black text-purple-300 font-mono">{cc.courseCode}</span>
-                                {cc.isSameSlot && (
-                                  <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[9px] font-black uppercase px-2 py-0.5 rounded-full">
-                                    Same Slot ({cc.mySlot})
-                                  </span>
-                                )}
-                                {cc.isSameRoom && (
-                                  <span className="bg-blue-500/20 text-blue-300 border border-blue-500/30 text-[9px] font-black uppercase px-2 py-0.5 rounded-full">
-                                    Same Room ({cc.myRoom})
-                                  </span>
-                                )}
-                              </div>
-                              <h4 className="text-sm font-bold text-white mt-1">{cc.courseTitle}</h4>
-                            </div>
+                      <button
+                        onClick={() => setScheduleSubTab("common")}
+                        className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+                          scheduleSubTab === "common"
+                            ? "bg-purple-500 text-white shadow-md font-black"
+                            : "text-white/60 hover:text-white"
+                        }`}
+                      >
+                        <BookOpen size={13} />
+                        <span>Common Subjects ({compareData?.comparison?.timetableComparison?.totalCommonCourses || 0})</span>
+                      </button>
+                    </div>
 
-                            <div className="flex items-center gap-4 text-xs shrink-0">
-                              <div className="text-right">
-                                <div className="text-[10px] text-white/40 font-bold uppercase">Your Slot</div>
-                                <div className="font-mono font-bold text-white">{cc.mySlot || "—"}</div>
-                              </div>
-                              <div className="text-right">
-                                <div className="text-[10px] text-white/40 font-bold uppercase">Friend&apos;s Slot</div>
-                                <div className="font-mono font-bold text-purple-300">{cc.friendSlot || "—"}</div>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
+                    {/* Day Order 1 - 5 Switcher */}
+                    {scheduleSubTab === "daily" && (
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] font-black uppercase tracking-wider text-white/40 mr-1 hidden sm:inline">
+                          Day Order:
+                        </span>
+                        <div className="flex items-center gap-1 bg-black/40 border border-white/10 p-1 rounded-2xl">
+                          {[1, 2, 3, 4, 5].map((d) => {
+                            const isToday = dayOrderData?.dayOrderInfo?.dayOrder === d;
+                            return (
+                              <button
+                                key={d}
+                                onClick={() => setSelectedDayOrder(d)}
+                                className={`px-2.5 py-1.5 rounded-xl text-xs font-black transition-all relative ${
+                                  selectedDayOrder === d
+                                    ? "bg-purple-500 text-white shadow-md"
+                                    : "text-white/60 hover:text-white hover:bg-white/10"
+                                }`}
+                              >
+                                D{d}
+                                {isToday && (
+                                  <span className="absolute -top-1 -right-1 w-2 h-2 bg-emerald-400 rounded-full ring-2 ring-black" />
+                                )}
+                              </button>
+                            );
+                          })}
+                        </div>
                       </div>
                     )}
                   </div>
                 </div>
-              ) : null}
+              )}
+
+              {/* VIEW 1: DAILY SCHEDULE TIMELINE */}
+              {scheduleSubTab === "daily" && (
+                <>
+                  {!hasTimetablePermission ? (
+                    <div className="bg-white/[0.02] border border-white/10 rounded-3xl p-10 text-center max-w-md mx-auto">
+                      <Lock size={36} className="mx-auto text-amber-400/70 mb-3" />
+                      <h3 className="text-base font-black text-white">Timetable is Private</h3>
+                      <p className="text-xs text-white/50 mt-1 mb-4">
+                        {inspectedFriend?.name || "This student"} has chosen not to share their timetable. They can toggle permission on at any time.
+                      </p>
+                      <div className="text-[10px] text-white/30 font-bold uppercase tracking-wider">
+                        Protected by Nexus Zero-Trust Permission Layer
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {/* Summary Metrics */}
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-4">
+                          <span className="text-[10px] font-black uppercase tracking-widest text-white/40 block mb-1">
+                            Classes on D{selectedDayOrder}
+                          </span>
+                          <div className="text-2xl font-black text-purple-300 tabular-nums">
+                            {friendTimetableData?.schedule?.totalClassPeriods ?? friendTimetableData?.schedule?.periods?.filter((p: AnyValue) => !p.isFree).length ?? 0}
+                          </div>
+                        </div>
+
+                        <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-4">
+                          <span className="text-[10px] font-black uppercase tracking-widest text-white/40 block mb-1">
+                            Free Periods
+                          </span>
+                          <div className="text-2xl font-black text-amber-300 tabular-nums">
+                            {friendTimetableData?.schedule?.totalFreePeriods ?? friendTimetableData?.schedule?.periods?.filter((p: AnyValue) => p.isFree).length ?? 0}
+                          </div>
+                        </div>
+
+                        <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-4 col-span-2 sm:col-span-1">
+                          <span className="text-[10px] font-black uppercase tracking-widest text-white/40 block mb-1">
+                            Shared In Syllabus
+                          </span>
+                          <div className="text-2xl font-black text-emerald-300 tabular-nums">
+                            {compareData?.comparison?.timetableComparison?.totalCommonCourses || 0}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Period By Period List */}
+                      <div className="space-y-2.5">
+                        {friendTimetableData?.schedule?.periods?.map((p: AnyValue) => {
+                          const isFree = p.isFree || !p.course;
+                          const course = p.course;
+                          const isLab = (course?.slot || "").toUpperCase().startsWith("P") || 
+                                        (course?.slot || "").toUpperCase().startsWith("L") || 
+                                        (course?.courseType || "").toLowerCase().includes("lab") || 
+                                        (course?.courseType || "").toLowerCase().includes("practical");
+
+                          const isCommon = compareData?.comparison?.timetableComparison?.commonCourses?.some(
+                            (c: AnyValue) => c.courseCode?.toLowerCase() === course?.courseCode?.toLowerCase()
+                          );
+
+                          return (
+                            <div
+                              key={p.period}
+                              className={`p-4 rounded-2xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                                isFree
+                                  ? "bg-white/[0.015] border-white/5 opacity-75"
+                                  : isLab
+                                  ? "bg-pink-500/[0.04] border-pink-500/20 shadow-sm"
+                                  : "bg-white/[0.03] border-white/10 shadow-sm"
+                              }`}
+                            >
+                              <div className="flex items-center gap-3">
+                                <span className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black tabular-nums shrink-0 ${
+                                  isFree ? "bg-white/5 text-white/40" : isLab ? "bg-pink-500/20 text-pink-300" : "bg-purple-500/20 text-purple-300"
+                                }`}>
+                                  P{p.period}
+                                </span>
+                                <div>
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-xs font-bold text-white/60 tabular-nums">
+                                      {p.startTime} – {p.endTime}
+                                    </span>
+                                    {isLab && (
+                                      <span className="bg-pink-500/20 text-pink-300 text-[9px] font-black uppercase px-2 py-0.5 rounded-md">
+                                        LAB
+                                      </span>
+                                    )}
+                                    {isCommon && (
+                                      <span className="bg-emerald-500/20 text-emerald-300 text-[9px] font-black uppercase px-2 py-0.5 rounded-md">
+                                        ✨ Common
+                                      </span>
+                                    )}
+                                  </div>
+                                  <h4 className="text-sm font-bold text-white mt-0.5">
+                                    {isFree ? (
+                                      <span className="text-white/40 font-medium">Free Period ☕</span>
+                                    ) : (
+                                      course?.courseTitle || course?.courseCode
+                                    )}
+                                  </h4>
+                                </div>
+                              </div>
+
+                              {!isFree && (
+                                <div className="flex items-center gap-2 flex-wrap sm:justify-end text-xs shrink-0">
+                                  <span className="bg-white/5 border border-white/10 px-2.5 py-1 rounded-xl text-white/70 font-mono text-[11px] font-bold">
+                                    {course?.courseCode}
+                                  </span>
+                                  <span className="bg-white/5 border border-white/10 px-2.5 py-1 rounded-xl text-white/70 text-[11px] font-bold flex items-center gap-1">
+                                    <MapPin size={11} className="text-purple-400" /> Room {course?.roomNo || "TBA"}
+                                  </span>
+                                  <span className="bg-purple-500/20 border border-purple-500/30 text-purple-300 px-2.5 py-1 rounded-xl text-[11px] font-black">
+                                    Slot {course?.slot || "—"}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+
+              {/* VIEW 2: REGISTERED COMMON SUBJECTS */}
+              {scheduleSubTab === "common" && (
+                <>
+                  {isCompareLoading ? (
+                    <div className="bg-white/[0.02] border border-white/10 rounded-3xl p-12 text-center">
+                      <RefreshCw size={24} className="animate-spin text-purple-400 mx-auto mb-3" />
+                      <p className="text-xs text-white/60 font-bold uppercase tracking-wider">Comparing Course Registrations...</p>
+                    </div>
+                  ) : compareData?.comparison?.timetableComparison ? (
+                    <div className="space-y-4">
+                      {/* Common Course Cards */}
+                      <div className="bg-white/[0.02] border border-white/10 rounded-3xl p-5 sm:p-6">
+                        <h3 className="text-xs font-black uppercase tracking-widest text-white/40 mb-4">
+                          Registered Common Subjects ({compareData.comparison.timetableComparison.commonCourses.length})
+                        </h3>
+
+                        {compareData.comparison.timetableComparison.commonCourses.length === 0 ? (
+                          <p className="text-xs text-white/50">No overlapping courses found in your registered semester syllabus.</p>
+                        ) : (
+                          <div className="space-y-3">
+                            {compareData.comparison.timetableComparison.commonCourses.map((cc: AnyValue, idx: number) => (
+                              <div
+                                key={idx}
+                                className="bg-white/[0.03] border border-white/10 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                              >
+                                <div>
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-xs font-black text-purple-300 font-mono">{cc.courseCode}</span>
+                                    {cc.isSameSlot && (
+                                      <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[9px] font-black uppercase px-2 py-0.5 rounded-full">
+                                        Same Slot ({cc.mySlot})
+                                      </span>
+                                    )}
+                                    {cc.isSameRoom && (
+                                      <span className="bg-blue-500/20 text-blue-300 border border-blue-500/30 text-[9px] font-black uppercase px-2 py-0.5 rounded-full">
+                                        Same Room ({cc.myRoom})
+                                      </span>
+                                    )}
+                                  </div>
+                                  <h4 className="text-sm font-bold text-white mt-1">{cc.courseTitle}</h4>
+                                </div>
+
+                                <div className="flex items-center gap-4 text-xs shrink-0">
+                                  <div className="text-right">
+                                    <div className="text-[10px] text-white/40 font-bold uppercase">Your Slot</div>
+                                    <div className="font-mono font-bold text-white">{cc.mySlot || "—"}</div>
+                                  </div>
+                                  <div className="text-right">
+                                    <div className="text-[10px] text-white/40 font-bold uppercase">Friend&apos;s Slot</div>
+                                    <div className="font-mono font-bold text-purple-300">{cc.friendSlot || "—"}</div>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ) : null}
+                </>
+              )}
             </>
           )}
         </section>

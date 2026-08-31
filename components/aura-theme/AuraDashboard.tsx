@@ -520,67 +520,6 @@ export default function AuraDashboard({
                 )}
               </div>
 
-              {/* TODAY'S TIMETABLE SCHEDULE WIDGET ON HOME SCREEN */}
-              {Array.isArray(todaySchedule) && todaySchedule.length > 0 && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', position: 'relative', zIndex: 2 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div style={{ fontSize: '11px', fontWeight: 900, color: AURA.subBright, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                      Today's Schedule <span style={{ color: AURA.purple }}>({todaySchedule.length} classes)</span>
-                    </div>
-                    <button
-                      onClick={() => router.push('/timetable' + (dayOrder ? `?day=${dayOrder}` : ''))}
-                      style={{ background: 'transparent', border: 'none', color: AURA.cyan, fontSize: '11px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '2px' }}
-                    >
-                      Full Grid <ChevronRight size={13} />
-                    </button>
-                  </div>
-
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    {todaySchedule.map((cls: AnyValue, idx: number) => {
-                      const isLab = (cls.slot || '').toUpperCase().startsWith('P') || (cls.slot || '').toUpperCase().startsWith('L') || (cls.courseType || '').toLowerCase().includes('lab') || (cls.courseType || '').toLowerCase().includes('practical');
-                      return (
-                        <div
-                          key={idx}
-                          style={{
-                            padding: '12px 14px',
-                            background: isLab ? 'rgba(255, 117, 195, 0.04)' : 'rgba(255, 255, 255, 0.025)',
-                            border: isLab ? '1px solid rgba(255, 117, 195, 0.15)' : '1px solid rgba(255, 255, 255, 0.06)',
-                            borderRadius: '16px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            gap: '12px'
-                          }}
-                        >
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', minWidth: 0, flex: 1 }}>
-                            <div style={{ fontSize: '13.5px', fontWeight: 800, color: '#FFFFFF', textTransform: 'capitalize', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', letterSpacing: '-0.01em' }}>
-                              {getSubjectName(cls.courseCode, cls.courseTitle).toLowerCase()}
-                            </div>
-                            <div style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255, 255, 255, 0.55)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                              <span><Clock size={11} style={{ display: 'inline', marginRight: '3px' }} />{cls.startTime} - {cls.endTime}</span>
-                              <span>•</span>
-                              <span>Room {cls.roomNo || 'TBA'}</span>
-                            </div>
-                          </div>
-                          <div style={{
-                            padding: '4px 10px',
-                            background: isLab ? 'rgba(255, 117, 195, 0.15)' : 'rgba(0, 229, 255, 0.12)',
-                            color: isLab ? '#FF75C3' : '#00E5FF',
-                            borderRadius: '8px',
-                            fontSize: '10px',
-                            fontWeight: 900,
-                            letterSpacing: '0.04em',
-                            flexShrink: 0
-                          }}>
-                            Slot {cls.slot}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
               {/* 3. REPLACED STATISTICS GRID (Intuitive & Instant Meaning) */}
               <div className="today-stats-grid">
                 {/* Safe Subjects Card */}
