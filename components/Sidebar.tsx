@@ -104,7 +104,7 @@ export default function Sidebar() {
 
   useEffect(() => {
     const id = setTimeout(() => setMounted(true), 0);
-    const media = window.matchMedia("(min-width: 1024px)");
+    const media = window.matchMedia("(min-width: 768px)");
     const updateViewport = () => setIsDesktop(media.matches);
     updateViewport();
     media.addEventListener("change", updateViewport);

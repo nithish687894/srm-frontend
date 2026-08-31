@@ -394,7 +394,7 @@ export default function FriendsSyncPage() {
               </p>
               <button
                 onClick={() => setActiveTab("friends")}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-black text-xs uppercase tracking-wider px-6 py-3.5 rounded-2xl shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-all active:scale-95"
+                className="w-fit mx-auto min-w-[170px] max-w-[210px] inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-black text-xs uppercase tracking-wider px-6 py-3 rounded-2xl shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-all active:scale-95"
               >
                 <UserPlus size={16} />
                 <span>Add First Friend</span>
@@ -614,7 +614,7 @@ export default function FriendsSyncPage() {
               </p>
               <button
                 onClick={() => setActiveTab("friends")}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-400 hover:to-indigo-400 text-white font-black text-xs uppercase tracking-wider px-6 py-3.5 rounded-2xl shadow-[0_0_20px_rgba(168,85,247,0.3)] transition-all active:scale-95"
+                className="w-fit mx-auto min-w-[170px] max-w-[210px] inline-flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-400 hover:to-indigo-400 text-white font-black text-xs uppercase tracking-wider px-6 py-3 rounded-2xl shadow-[0_0_20px_rgba(168,85,247,0.3)] transition-all active:scale-95"
               >
                 <UserPlus size={16} />
                 <span>Add Friend</span>
@@ -945,7 +945,7 @@ export default function FriendsSyncPage() {
               </p>
               <button
                 onClick={() => setActiveTab("friends")}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-300 hover:to-teal-300 text-black font-black text-xs uppercase tracking-wider px-6 py-3.5 rounded-2xl shadow-[0_0_20px_rgba(52,211,153,0.3)] transition-all active:scale-95"
+                className="w-fit mx-auto min-w-[170px] max-w-[210px] inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-300 hover:to-teal-300 text-black font-black text-xs uppercase tracking-wider px-6 py-3 rounded-2xl shadow-[0_0_20px_rgba(52,211,153,0.3)] transition-all active:scale-95"
               >
                 <UserPlus size={16} />
                 <span>Add Friend</span>
