@@ -292,9 +292,9 @@ export default function FriendsSyncPage() {
       {toast && <Toast title={toast.title} body={toast.body} type={toast.type} onClose={() => setToast(null)} />}
 
       {/* ─── Hero Header ──────────────────────────────────────────────────────── */}
-      <header className="px-4 sm:px-6 md:px-8 pt-20 sm:pt-6 mb-6">
+      <header className="px-4 sm:px-6 md:px-8 pt-24 sm:pt-8 mb-6">
         {/* Title row & Subtitle — right-padded on mobile so it never collides with floating status bar buttons */}
-        <div className="pr-24 sm:pr-0">
+        <div className="pr-28 sm:pr-0">
           <div className="flex items-center gap-2.5 flex-wrap">
             <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
               Friends Sync
@@ -305,10 +305,11 @@ export default function FriendsSyncPage() {
           </div>
 
           {/* Subtitle — cleanly wrapped within available width */}
-          <p className="text-xs sm:text-sm text-white/50 mt-1.5 font-medium leading-relaxed">
+          <p className="text-xs sm:text-sm text-white/50 mt-2 font-medium leading-relaxed">
             Zero-friction peer discovery, permissioned timetable sync &amp; instant common free time planner.
           </p>
         </div>
+
 
 
         {/* Status pills */}
