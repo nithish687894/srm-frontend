@@ -642,8 +642,9 @@ export default function FriendsSyncPage() {
           ) : (
             <>
               {/* Friend Selector Bar */}
-              <div className="w-full overflow-x-auto no-scrollbar scrollbar-none pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
-                <div className="flex items-center gap-2 min-w-max">
+              <div className="w-full max-w-full overflow-hidden box-border mb-1">
+                <div className="w-full overflow-x-auto no-scrollbar scrollbar-none pb-2 touch-pan-x" style={{ WebkitOverflowScrolling: "touch" }}>
+                  <div className="flex items-center gap-2 min-w-max">
                   {friends.map((f) => {
                     const isSelected = inspectedFriendId === f.id;
                     return (
@@ -665,6 +666,7 @@ export default function FriendsSyncPage() {
                   })}
                 </div>
               </div>
+            </div>
 
               {/* Friend Context & Day Order Controls Header */}
               {inspectedFriend && (
@@ -975,8 +977,9 @@ export default function FriendsSyncPage() {
           ) : (
             <>
               {/* Friend Selector */}
-              <div className="w-full overflow-x-auto no-scrollbar scrollbar-none pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
-                <div className="flex items-center gap-2 min-w-max">
+              <div className="w-full max-w-full overflow-hidden box-border mb-1">
+                <div className="w-full overflow-x-auto no-scrollbar scrollbar-none pb-2 touch-pan-x" style={{ WebkitOverflowScrolling: "touch" }}>
+                  <div className="flex items-center gap-2 min-w-max">
                   {friends.map((f) => (
                     <button
                       key={f.id}
@@ -995,6 +998,7 @@ export default function FriendsSyncPage() {
                   ))}
                 </div>
               </div>
+            </div>
 
               {/* Attendance Result / Lock Guard */}
               {compareData?.comparison?.attendanceComparison?.isLocked ? (
