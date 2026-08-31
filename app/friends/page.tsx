@@ -288,36 +288,38 @@ export default function FriendsSyncPage() {
   const periodMatrix = dayResult?.periodMatrix || [];
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white p-4 sm:p-6 md:p-8 max-w-6xl mx-auto pb-28">
+    <div className="min-h-screen bg-[#050505] text-white px-4 sm:px-6 md:px-8 pt-16 sm:pt-6 pb-36 max-w-6xl mx-auto overflow-x-hidden w-full">
       {toast && <Toast title={toast.title} body={toast.body} type={toast.type} onClose={() => setToast(null)} />}
 
       {/* ─── Hero Header ──────────────────────────────────────────────────────── */}
-      <header className="relative mb-8 pt-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <header className="relative mb-6 pt-2 pr-20 sm:pr-0">
+        <div className="flex flex-col gap-3">
           <div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2.5 flex-wrap">
               <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white flex items-center gap-2">
                 Friends Sync
               </h1>
-              <span className="bg-gradient-to-r from-amber-400 to-amber-500 text-black text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-[0_0_12px_rgba(245,158,11,0.4)]">
+              <span className="bg-gradient-to-r from-amber-400 to-amber-500 text-black text-[10.5px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-[0_0_12px_rgba(245,158,11,0.35)]">
                 PRO
               </span>
             </div>
-            <p className="text-xs sm:text-sm text-white/50 mt-1 font-medium">
+            <p className="text-xs sm:text-sm text-white/50 mt-1.5 font-medium leading-relaxed max-w-xl">
               Zero-friction peer discovery, permissioned timetable sync & instant common free time planner.
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
-            <div className="bg-white/[0.04] border border-white/10 px-3.5 py-2 rounded-2xl flex items-center gap-2 text-xs font-bold">
-              <Users size={15} className="text-purple-400" />
-              <span>{friends.length} Friends</span>
+          {/* Status pill row */}
+          <div className="flex items-center gap-2 mt-1">
+            <div className="bg-white/[0.04] border border-white/10 px-3 py-1.5 rounded-xl flex items-center gap-2 text-xs font-bold text-white/80">
+              <Users size={14} className="text-purple-400" />
+              <span>{friends.length} {friends.length === 1 ? "Friend" : "Friends"}</span>
             </div>
             {incomingRequests.length > 0 && (
               <button
                 onClick={() => setActiveTab("friends")}
-                className="bg-amber-500/20 border border-amber-500/40 text-amber-300 px-3.5 py-2 rounded-2xl flex items-center gap-2 text-xs font-black animate-pulse"
+                className="bg-amber-500/20 border border-amber-500/40 text-amber-300 px-3 py-1.5 rounded-xl flex items-center gap-1.5 text-xs font-black animate-pulse"
               >
+                <AlertCircle size={13} />
                 <span>{incomingRequests.length} Pending</span>
               </button>
             )}
@@ -325,54 +327,56 @@ export default function FriendsSyncPage() {
         </div>
 
         {/* ─── Tab Navigation Bar ──────────────────────────────────────────────── */}
-        <div className="flex items-center gap-2 mt-6 overflow-x-auto pb-2 border-b border-white/10">
-          <button
-            onClick={() => setActiveTab("freetime")}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all whitespace-nowrap ${
-              activeTab === "freetime"
-                ? "bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-300 border border-amber-500/40 shadow-lg"
-                : "text-white/60 hover:text-white hover:bg-white/5"
-            }`}
-          >
-            <Flame size={15} className={activeTab === "freetime" ? "text-amber-400" : "text-white/40"} />
-            ⚡ Free Time Together
-          </button>
+        <div className="w-full overflow-x-auto no-scrollbar scrollbar-none mt-5 pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 border-b border-white/10">
+          <div className="flex items-center gap-2 min-w-max">
+            <button
+              onClick={() => setActiveTab("freetime")}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all whitespace-nowrap shrink-0 ${
+                activeTab === "freetime"
+                  ? "bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-300 border border-amber-500/40 shadow-lg"
+                  : "text-white/60 hover:text-white hover:bg-white/5"
+              }`}
+            >
+              <Flame size={15} className={activeTab === "freetime" ? "text-amber-400" : "text-white/40"} />
+              ⚡ Free Time Together
+            </button>
 
-          <button
-            onClick={() => setActiveTab("schedule")}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all whitespace-nowrap ${
-              activeTab === "schedule"
-                ? "bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-lg"
-                : "text-white/60 hover:text-white hover:bg-white/5"
-            }`}
-          >
-            <Calendar size={15} className={activeTab === "schedule" ? "text-purple-400" : "text-white/40"} />
-            📅 Shared Schedule
-          </button>
+            <button
+              onClick={() => setActiveTab("schedule")}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all whitespace-nowrap shrink-0 ${
+                activeTab === "schedule"
+                  ? "bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-lg"
+                  : "text-white/60 hover:text-white hover:bg-white/5"
+              }`}
+            >
+              <Calendar size={15} className={activeTab === "schedule" ? "text-purple-400" : "text-white/40"} />
+              📅 Shared Schedule
+            </button>
 
-          <button
-            onClick={() => setActiveTab("attendance")}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all whitespace-nowrap ${
-              activeTab === "attendance"
-                ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-lg"
-                : "text-white/60 hover:text-white hover:bg-white/5"
-            }`}
-          >
-            <TrendingUp size={15} className={activeTab === "attendance" ? "text-emerald-400" : "text-white/40"} />
-            📊 Attendance Radar
-          </button>
+            <button
+              onClick={() => setActiveTab("attendance")}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all whitespace-nowrap shrink-0 ${
+                activeTab === "attendance"
+                  ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-lg"
+                  : "text-white/60 hover:text-white hover:bg-white/5"
+              }`}
+            >
+              <TrendingUp size={15} className={activeTab === "attendance" ? "text-emerald-400" : "text-white/40"} />
+              📊 Attendance Radar
+            </button>
 
-          <button
-            onClick={() => setActiveTab("friends")}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all whitespace-nowrap ${
-              activeTab === "friends"
-                ? "bg-blue-500/20 text-blue-300 border border-blue-500/40 shadow-lg"
-                : "text-white/60 hover:text-white hover:bg-white/5"
-            }`}
-          >
-            <Users size={15} className={activeTab === "friends" ? "text-blue-400" : "text-white/40"} />
-            👥 Friends & Requests {incomingRequests.length > 0 && `(${incomingRequests.length})`}
-          </button>
+            <button
+              onClick={() => setActiveTab("friends")}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all whitespace-nowrap shrink-0 ${
+                activeTab === "friends"
+                  ? "bg-blue-500/20 text-blue-300 border border-blue-500/40 shadow-lg"
+                  : "text-white/60 hover:text-white hover:bg-white/5"
+              }`}
+            >
+              <Users size={15} className={activeTab === "friends" ? "text-blue-400" : "text-white/40"} />
+              👥 Friends & Requests {incomingRequests.length > 0 && `(${incomingRequests.length})`}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -380,17 +384,20 @@ export default function FriendsSyncPage() {
       {activeTab === "freetime" && (
         <section className="space-y-6">
           {friends.length === 0 ? (
-            <div className="bg-white/[0.02] border border-white/10 rounded-3xl p-8 text-center max-w-lg mx-auto">
-              <Users size={40} className="mx-auto text-white/30 mb-4" />
-              <h3 className="text-lg font-black text-white">No Friends Connected Yet</h3>
-              <p className="text-xs text-white/50 mt-1 mb-6">
+            <div className="w-full max-w-md mx-auto bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/10 rounded-3xl p-6 sm:p-8 text-center backdrop-blur-xl shadow-2xl relative overflow-hidden my-4">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-purple-500/20 to-amber-500/20 border border-white/10 flex items-center justify-center mx-auto mb-4 text-purple-300 shadow-inner">
+                <Users size={32} />
+              </div>
+              <h3 className="text-lg sm:text-xl font-black text-white tracking-tight">No Friends Connected Yet</h3>
+              <p className="text-xs sm:text-sm text-white/55 mt-2 mb-6 leading-relaxed max-w-sm mx-auto">
                 Add your classmates by Registration Number or NetID to discover when you are free together!
               </p>
               <button
                 onClick={() => setActiveTab("friends")}
-                className="bg-amber-500 hover:bg-amber-400 text-black font-black text-xs uppercase tracking-wider px-6 py-3 rounded-2xl shadow-lg transition-all"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-black text-xs uppercase tracking-wider px-6 py-3.5 rounded-2xl shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-all active:scale-95"
               >
-                + Add First Friend
+                <UserPlus size={16} />
+                <span>Add First Friend</span>
               </button>
             </div>
           ) : (
@@ -597,40 +604,47 @@ export default function FriendsSyncPage() {
       {activeTab === "schedule" && (
         <section className="space-y-6">
           {friends.length === 0 ? (
-            <div className="bg-white/[0.02] border border-white/10 rounded-3xl p-8 text-center max-w-lg mx-auto">
-              <BookOpen size={40} className="mx-auto text-white/30 mb-4" />
-              <h3 className="text-lg font-black text-white">No Friends Connected</h3>
-              <p className="text-xs text-white/50 mt-1 mb-6">Connect with a friend to view their daily timetable and compare subjects.</p>
+            <div className="w-full max-w-md mx-auto bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/10 rounded-3xl p-6 sm:p-8 text-center backdrop-blur-xl shadow-2xl relative overflow-hidden my-4">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-purple-500/20 to-indigo-500/20 border border-white/10 flex items-center justify-center mx-auto mb-4 text-purple-300 shadow-inner">
+                <Calendar size={32} />
+              </div>
+              <h3 className="text-lg sm:text-xl font-black text-white tracking-tight">No Friends Connected</h3>
+              <p className="text-xs sm:text-sm text-white/55 mt-2 mb-6 leading-relaxed max-w-sm mx-auto">
+                Connect with a classmate to view their daily timetable and compare registered subjects.
+              </p>
               <button
                 onClick={() => setActiveTab("friends")}
-                className="bg-purple-500 hover:bg-purple-400 text-white font-black text-xs uppercase tracking-wider px-6 py-3 rounded-2xl shadow-lg transition-all"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-400 hover:to-indigo-400 text-white font-black text-xs uppercase tracking-wider px-6 py-3.5 rounded-2xl shadow-[0_0_20px_rgba(168,85,247,0.3)] transition-all active:scale-95"
               >
-                + Add Friend
+                <UserPlus size={16} />
+                <span>Add Friend</span>
               </button>
             </div>
           ) : (
             <>
               {/* Friend Selector Bar */}
-              <div className="flex items-center gap-2 overflow-x-auto pb-2">
-                {friends.map((f) => {
-                  const isSelected = inspectedFriendId === f.id;
-                  return (
-                    <button
-                      key={f.id}
-                      onClick={() => setInspectedFriendId(f.id)}
-                      className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl border text-xs font-bold whitespace-nowrap transition-all ${
-                        isSelected
-                          ? "bg-purple-500/20 border-purple-500/50 text-purple-200 shadow-lg"
-                          : "bg-white/[0.03] border-white/10 text-white/60 hover:bg-white/10"
-                      }`}
-                    >
-                      <span className="w-5 h-5 rounded-full bg-purple-400/30 text-purple-200 flex items-center justify-center text-[10px] font-black">
-                        {f.name.slice(0, 1)}
-                      </span>
-                      <span>{f.name}</span>
-                    </button>
-                  );
-                })}
+              <div className="w-full overflow-x-auto no-scrollbar scrollbar-none pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
+                <div className="flex items-center gap-2 min-w-max">
+                  {friends.map((f) => {
+                    const isSelected = inspectedFriendId === f.id;
+                    return (
+                      <button
+                        key={f.id}
+                        onClick={() => setInspectedFriendId(f.id)}
+                        className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl border text-xs font-bold whitespace-nowrap transition-all shrink-0 ${
+                          isSelected
+                            ? "bg-purple-500/20 border-purple-500/50 text-purple-200 shadow-lg"
+                            : "bg-white/[0.03] border-white/10 text-white/60 hover:bg-white/10"
+                        }`}
+                      >
+                        <span className="w-5 h-5 rounded-full bg-purple-400/30 text-purple-200 flex items-center justify-center text-[10px] font-black">
+                          {f.name.slice(0, 1)}
+                        </span>
+                        <span>{f.name}</span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
               {/* Friend Context & Day Order Controls Header */}
@@ -921,37 +935,44 @@ export default function FriendsSyncPage() {
       {activeTab === "attendance" && (
         <section className="space-y-6">
           {friends.length === 0 ? (
-            <div className="bg-white/[0.02] border border-white/10 rounded-3xl p-8 text-center max-w-lg mx-auto">
-              <TrendingUp size={40} className="mx-auto text-white/30 mb-4" />
-              <h3 className="text-lg font-black text-white">No Friends Connected</h3>
-              <p className="text-xs text-white/50 mt-1 mb-6">Add friends to compare course attendance margins safely.</p>
+            <div className="w-full max-w-md mx-auto bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/10 rounded-3xl p-6 sm:p-8 text-center backdrop-blur-xl shadow-2xl relative overflow-hidden my-4">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500/20 to-teal-500/20 border border-white/10 flex items-center justify-center mx-auto mb-4 text-emerald-300 shadow-inner">
+                <TrendingUp size={32} />
+              </div>
+              <h3 className="text-lg sm:text-xl font-black text-white tracking-tight">No Friends Connected</h3>
+              <p className="text-xs sm:text-sm text-white/55 mt-2 mb-6 leading-relaxed max-w-sm mx-auto">
+                Add friends to safely compare course attendance margins and safe bunk cushions.
+              </p>
               <button
                 onClick={() => setActiveTab("friends")}
-                className="bg-emerald-500 hover:bg-emerald-400 text-black font-black text-xs uppercase tracking-wider px-6 py-3 rounded-2xl shadow-lg transition-all"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-300 hover:to-teal-300 text-black font-black text-xs uppercase tracking-wider px-6 py-3.5 rounded-2xl shadow-[0_0_20px_rgba(52,211,153,0.3)] transition-all active:scale-95"
               >
-                + Add Friend
+                <UserPlus size={16} />
+                <span>Add Friend</span>
               </button>
             </div>
           ) : (
             <>
               {/* Friend Selector */}
-              <div className="flex items-center gap-2 overflow-x-auto pb-2">
-                {friends.map((f) => (
-                  <button
-                    key={f.id}
-                    onClick={() => setInspectedFriendId(f.id)}
-                    className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl border text-xs font-bold whitespace-nowrap transition-all ${
-                      inspectedFriendId === f.id
-                        ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-200 shadow-lg"
-                        : "bg-white/[0.03] border-white/10 text-white/60 hover:bg-white/10"
-                    }`}
-                  >
-                    <span className="w-5 h-5 rounded-full bg-emerald-400/30 text-emerald-200 flex items-center justify-center text-[10px] font-black">
-                      {f.name.slice(0, 1)}
-                    </span>
-                    <span>{f.name}</span>
-                  </button>
-                ))}
+              <div className="w-full overflow-x-auto no-scrollbar scrollbar-none pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
+                <div className="flex items-center gap-2 min-w-max">
+                  {friends.map((f) => (
+                    <button
+                      key={f.id}
+                      onClick={() => setInspectedFriendId(f.id)}
+                      className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl border text-xs font-bold whitespace-nowrap transition-all shrink-0 ${
+                        inspectedFriendId === f.id
+                          ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-200 shadow-lg"
+                          : "bg-white/[0.03] border-white/10 text-white/60 hover:bg-white/10"
+                      }`}
+                    >
+                      <span className="w-5 h-5 rounded-full bg-emerald-400/30 text-emerald-200 flex items-center justify-center text-[10px] font-black">
+                        {f.name.slice(0, 1)}
+                      </span>
+                      <span>{f.name}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
 
               {/* Attendance Result / Lock Guard */}
