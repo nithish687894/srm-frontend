@@ -288,46 +288,43 @@ export default function FriendsSyncPage() {
   const periodMatrix = dayResult?.periodMatrix || [];
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white pb-36 max-w-6xl mx-auto overflow-x-hidden w-full">
+    <div className="min-h-screen bg-[#050505] text-white pb-36 max-w-6xl mx-auto overflow-x-hidden w-full box-border" style={{ maxWidth: "100vw" }}>
       {toast && <Toast title={toast.title} body={toast.body} type={toast.type} onClose={() => setToast(null)} />}
 
       {/* ─── Hero Header ──────────────────────────────────────────────────────── */}
       <header 
-        className="px-4 sm:px-6 md:px-8 mb-6"
+        className="w-full max-w-full px-4 sm:px-6 md:px-8 mb-6 box-border"
         style={{
           paddingTop: "calc(env(safe-area-inset-top, 0px) + 76px)",
         }}
       >
         {/* Title row & Subtitle — explicitly right-padded so it never collides with floating status bar buttons */}
-        <div className="sm:!pr-0" style={{ paddingRight: "clamp(100px, 26vw, 136px)" }}>
-          <div className="flex items-center gap-2.5 flex-wrap">
-            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+        <div className="w-full max-w-full min-w-0 pr-24 sm:pr-0 box-border">
+          <div className="flex items-center gap-2.5 flex-wrap min-w-0">
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white break-words">
               Friends Sync
             </h1>
-            <span className="bg-gradient-to-r from-amber-400 to-amber-500 text-black text-[10.5px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-[0_0_12px_rgba(245,158,11,0.35)]">
+            <span className="bg-gradient-to-r from-amber-400 to-amber-500 text-black text-[10.5px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-[0_0_12px_rgba(245,158,11,0.35)] shrink-0">
               PRO
             </span>
           </div>
 
           {/* Subtitle — cleanly wrapped within available width */}
-          <p className="text-xs sm:text-sm text-white/50 mt-2 font-medium leading-relaxed">
+          <p className="text-xs sm:text-sm text-white/50 mt-2 font-medium leading-relaxed break-words">
             Zero-friction peer discovery, permissioned timetable sync &amp; instant common free time planner.
           </p>
         </div>
 
-
-
-
         {/* Status pills */}
-        <div className="flex items-center gap-2 mt-3">
-          <div className="bg-white/[0.04] border border-white/10 px-3 py-1.5 rounded-xl flex items-center gap-2 text-xs font-bold text-white/80">
+        <div className="flex items-center gap-2 mt-3 flex-wrap">
+          <div className="bg-white/[0.04] border border-white/10 px-3 py-1.5 rounded-xl flex items-center gap-2 text-xs font-bold text-white/80 shrink-0">
             <Users size={14} className="text-purple-400" />
             <span>{friends.length} {friends.length === 1 ? "Friend" : "Friends"}</span>
           </div>
           {incomingRequests.length > 0 && (
             <button
               onClick={() => setActiveTab("friends")}
-              className="bg-amber-500/20 border border-amber-500/40 text-amber-300 px-3 py-1.5 rounded-xl flex items-center gap-1.5 text-xs font-black animate-pulse"
+              className="bg-amber-500/20 border border-amber-500/40 text-amber-300 px-3 py-1.5 rounded-xl flex items-center gap-1.5 text-xs font-black animate-pulse shrink-0"
             >
               <AlertCircle size={13} />
               <span>{incomingRequests.length} Pending</span>
@@ -335,10 +332,17 @@ export default function FriendsSyncPage() {
           )}
         </div>
 
-        {/* ─── Tab Navigation Bar ─ full bleed scroll, outside any pr-20 scope ─── */}
-        <div className="mt-5 -mx-4 sm:mx-0">
-          <div className="overflow-x-auto no-scrollbar scrollbar-none border-b border-white/10">
-            <div className="flex items-center gap-2 min-w-max px-4 sm:px-0 pb-2">
+        {/* ─── Tab Navigation Bar ─ contained horizontal scroll ─── */}
+        <div className="mt-5 w-full max-w-full overflow-hidden box-border">
+          <div 
+            className="overflow-x-auto no-scrollbar scrollbar-none border-b border-white/10 w-full touch-pan-x"
+            style={{ 
+              WebkitOverflowScrolling: "touch",
+              scrollbarWidth: "none",
+              msOverflowStyle: "none"
+            }}
+          >
+            <div className="flex items-center gap-2 min-w-max pb-2.5 px-0.5">
               <button
                 onClick={() => setActiveTab("freetime")}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all whitespace-nowrap shrink-0 ${
@@ -393,9 +397,9 @@ export default function FriendsSyncPage() {
 
       {/* ─── TAB 1: FREE TIME TOGETHER (FLAGSHIP CONSTRAINT ENGINE) ───────────── */}
       {activeTab === "freetime" && (
-        <section className="space-y-6 px-4 sm:px-6 md:px-8">
+        <section className="w-full max-w-full space-y-6 px-4 sm:px-6 md:px-8 pt-4 box-border">
           {friends.length === 0 ? (
-            <div className="w-full max-w-sm mx-auto bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/10 rounded-3xl p-6 backdrop-blur-xl shadow-2xl my-4">
+            <div className="w-full max-w-sm mx-auto bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/10 rounded-3xl p-6 backdrop-blur-xl shadow-2xl my-4 box-border">
               <div className="flex flex-col items-center text-center">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-purple-500/20 to-amber-500/20 border border-white/10 flex items-center justify-center mb-4 text-purple-300 shadow-inner">
                   <Users size={32} />
