@@ -100,15 +100,25 @@ export default function PortalSyncModal({
     setRefreshingCaptcha(true);
     try {
       const res = await authAPI.getStudentPortalCaptcha();
-      if (res?.success && res.captchaImage && res.captchaToken) {
-        setCaptchaImage(res.captchaImage);
-        setCaptchaToken(res.captchaToken);
+      const img = res?.captchaImage || res?.captcha || res?.data?.captchaImage || res?.data?.captcha;
+      const token = res?.captchaToken || res?.token || res?.data?.captchaToken || res?.data?.token;
+      if (img && token) {
+        setCaptchaImage(img);
+        setCaptchaToken(token);
         setShowManualCaptcha(true);
         setCaptcha("");
         setError("");
+      } else {
+        setError(res?.error?.message || res?.message || "Failed to load fresh CAPTCHA. Tap 'Refresh CAPTCHA' to retry.");
       }
     } catch (err: AnyValue) {
       console.warn("[PortalSync] Failed to refresh captcha", err);
+      const errMsg = err?.response?.data?.error?.message 
+        || err?.response?.data?.message 
+        || (typeof err?.response?.data?.error === 'string' ? err.response.data.error : null)
+        || err?.message 
+        || "Failed to load CAPTCHA image. Tap 'Refresh CAPTCHA' to retry.";
+      setError(errMsg);
     } finally {
       setRefreshingCaptcha(false);
       isFetchingCaptchaRef.current = false;

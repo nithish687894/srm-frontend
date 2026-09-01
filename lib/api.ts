@@ -132,7 +132,9 @@ export const authAPI = {
 
   // Fetch Student Portal CAPTCHA challenge for manual fallback
   getStudentPortalCaptcha: () =>
-    API.get("/auth/student-portal/captcha").then((r) => r.data),
+    API.get("/auth/student-portal/captcha")
+      .then((r) => r.data)
+      .catch(() => API.get("/api/v1/auth/student-portal/captcha").then((r) => r.data)),
 
   // Read independent connector statuses
   getConnectors: () =>

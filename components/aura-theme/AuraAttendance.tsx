@@ -917,7 +917,7 @@ export default function AuraAttendance({
                         const statCol = isSafe ? "#10B981" : "#EF4444";
                         return (
                           <div 
-                            key={sub.courseCode || idx} 
+                            key={`${sub.courseCode || 'sub'}-${sub.category || ''}-${idx}`} 
                             style={{ 
                               background: 'rgba(0, 0, 0, 0.25)', 
                               borderLeft: `3px solid ${statCol}`, 
@@ -1256,7 +1256,7 @@ export default function AuraAttendance({
 
                 return (
                   <div 
-                    key={a.courseCode || i} 
+                    key={`${a.courseCode || 'course'}-${a.category || a.courseType || ''}-${i}`} 
                     className="subject-card"
                     onClick={() => handleOpenSubject(a)}
                   >
