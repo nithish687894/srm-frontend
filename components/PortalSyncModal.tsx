@@ -107,7 +107,6 @@ export default function PortalSyncModal({
         setCaptchaToken(token);
         setShowManualCaptcha(true);
         setCaptcha("");
-        setError("");
       } else {
         setError(res?.error?.message || res?.message || "Failed to load fresh CAPTCHA. Tap 'Refresh CAPTCHA' to retry.");
       }
@@ -205,17 +204,17 @@ export default function PortalSyncModal({
           } else {
             fetchNewCaptcha();
           }
-          setError(unlockRes.error?.message || "CAPTCHA was incorrect or expired. Fresh CAPTCHA loaded above, please try again.");
+          setError(`Student Portal connection failed: ${unlockRes.error?.message || "CAPTCHA was incorrect or expired. Fresh CAPTCHA loaded above, please try again."}`);
           setLoading(false);
           return;
         } else if (unlockRes.error?.code === "INVALID_CREDENTIALS") {
           setShowManualCaptcha(true);
           fetchNewCaptcha();
-          setError("Student Portal password rejected. Note: Student Portal (Evarsity) may have a different password than your Academia login. Please enter your Student Portal password with the fresh CAPTCHA loaded below.");
+          setError("Student Portal connection failed: Server rejected NetID or Password. Note: Student Portal (Evarsity) may have a different password than your Academia login.");
           setLoading(false);
           return;
         } else {
-          setError(unlockRes.error?.message || "Authentication failed. Fresh CAPTCHA loaded above.");
+          setError(`Student Portal connection failed: ${unlockRes.error?.message || "Authentication failed. Fresh CAPTCHA loaded above."}`);
           fetchNewCaptcha();
           setLoading(false);
           return;
@@ -256,16 +255,16 @@ export default function PortalSyncModal({
         || (typeof e.response?.data?.error === 'string' ? e.response?.data?.error : null)
         || e.response?.data?.message 
         || e.message 
-        || "";
+        || "Network or server connection error";
 
       let userFriendlyMsg = rawError;
-      if (rawError.includes("Invalid credentials") || rawError.includes("INVALID_CREDENTIALS") || rawError.includes("INVALID_CAPTCHA")) {
-        userFriendlyMsg = "CAPTCHA expired/incorrect or password invalid — fresh CAPTCHA loaded below, please try again.";
-      } else if (!userFriendlyMsg) {
-        userFriendlyMsg = "Authentication failed. Fresh CAPTCHA loaded below.";
+      if (rawError.includes("Invalid credentials") || rawError.includes("INVALID_CREDENTIALS")) {
+        userFriendlyMsg = "Student Portal password rejected. Please verify your Student Portal password.";
+      } else if (rawError.includes("INVALID_CAPTCHA") || rawError.includes("Captcha rejected")) {
+        userFriendlyMsg = "CAPTCHA was incorrect or expired. Fresh CAPTCHA loaded above, please try again.";
       }
 
-      setError(userFriendlyMsg);
+      setError(`Student Portal connection failed: ${userFriendlyMsg}`);
       if (type === "student-portal") {
         useAuthStore.getState().setStudentPortalConnected(false);
         // Automatically fetch fresh CAPTCHA on error so student can retry immediately
