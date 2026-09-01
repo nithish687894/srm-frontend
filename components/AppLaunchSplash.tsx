@@ -4,9 +4,9 @@ import Image from "next/image";
 import { APP_VERSION } from "@/lib/version";
 
 export default function AppLaunchSplash({ children }: { children: React.ReactNode }) {
-  const [mounted, setMounted] = useState(false);
-  const [isExiting, setIsExiting] = useState(false);
-  const [isDestroyed, setIsDestroyed] = useState(false);
+  const [isSplashed, setIsSplashed] = useState(true);
+  const [isExiting, setIsExiting] = useState(true);
+  const [isDestroyed, setIsDestroyed] = useState(true);
   const [step, setStep] = useState(0);
   const [needsUpdate, setNeedsUpdate] = useState(false);
   const [latestVersion, setLatestVersion] = useState("");
@@ -14,40 +14,18 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (sessionStorage.getItem("srmx_splashed") === "true") {
+    const hasSplashed = sessionStorage.getItem("srmx_splashed") === "true";
+    if (hasSplashed) {
       document.body.classList.remove("splash-active");
-      const skipTimer = window.setTimeout(() => {
-        setMounted(true);
-        setIsExiting(true);
-        setIsDestroyed(true);
-      }, 0);
-      return () => window.clearTimeout(skipTimer);
+      return;
     }
+    
+    // First time in this session: display the splash smoothly
+    setIsSplashed(false);
+    setIsExiting(false);
+    setIsDestroyed(false);
     document.body.classList.add("splash-active");
-    return () => {
-      document.body.classList.remove("splash-active");
-    };
-  }, []);
 
-  useEffect(() => {
-    if (isExiting && typeof window !== "undefined") {
-      document.body.classList.remove("splash-active");
-    }
-  }, [isExiting]);
-
-  const steps = useMemo(
-    () => [
-      "Opening workspace",
-      "Checking secure session",
-      "Preparing academic data",
-      "Syncing interface",
-      "Ready",
-    ],
-    []
-  );
-
-  useEffect(() => {
-    const mountedTimer = window.setTimeout(() => setMounted(true), 0);
     const recoveryTimer = window.setTimeout(() => {
       setIsExiting(true);
       window.setTimeout(() => setIsDestroyed(true), 520);
@@ -83,7 +61,10 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
       const timer = window.setTimeout(() => {
         setIsExiting(true);
         sessionStorage.setItem("srmx_splashed", "true");
-        window.setTimeout(() => setIsDestroyed(true), 520);
+        window.setTimeout(() => {
+          setIsDestroyed(true);
+          document.body.classList.remove("splash-active");
+        }, 520);
       }, duration + 160);
 
       return () => {
@@ -95,14 +76,27 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
     runSplash();
 
     return () => {
-      window.clearTimeout(mountedTimer);
       window.clearTimeout(recoveryTimer);
+      document.body.classList.remove("splash-active");
     };
-  }, [steps.length]);
+  }, []);
 
-  if (!mounted) return null;
+  const steps = useMemo(
+    () => [
+      "Opening workspace",
+      "Checking secure session",
+      "Preparing academic data",
+      "Syncing interface",
+      "Ready",
+    ],
+    []
+  );
 
   const progress = Math.round(((step + 1) / steps.length) * 100);
+
+  if (isDestroyed && isSplashed) {
+    return <>{children}</>;
+  }
 
   return (
     <>
@@ -266,20 +260,6 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
           text-transform: uppercase;
           white-space: nowrap;
         }
-        .nexus-app {
-          width: 100%;
-          min-height: 100vh;
-          transition: opacity 520ms cubic-bezier(0.16, 1, 0.3, 1), transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .nexus-app.loading {
-          opacity: 0;
-          transform: scale(0.985);
-          pointer-events: none;
-        }
-        .nexus-app.ready {
-          opacity: 1;
-          transform: scale(1);
-        }
         body:has(.nexus-splash) .srmx-top-status-bar,
         body:has(.nexus-splash) .srmx-mobile-nav,
         body:has(.nexus-splash) .desktop-sidebar {
@@ -353,7 +333,7 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
         </div>
       )}
 
-      <div className={`nexus-app ${!isExiting ? "loading" : "ready"}`}>{children}</div>
+      {children}
     </>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { dataAPI } from "@/lib/api";
+import { dataAPI, authAPI } from "@/lib/api";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthStore } from "@/lib/store";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
@@ -29,8 +29,22 @@ export default function AttendancePage() {
     connectorStatuses,
     studentPortalData
   } = useAuthStore();
-  const [att, setAtt] = useState<AnyValue[]>(academicData?.attendance || []);
-  const [loading, setLoading] = useState(!academicData?.attendance);
+
+  const storeAttendance = useMemo(() => {
+    if (Array.isArray(academicData?.attendance) && academicData.attendance.length > 0) {
+      return academicData.attendance;
+    }
+    if (Array.isArray(academicData?.studentPortal?.attendance) && academicData.studentPortal.attendance.length > 0) {
+      return academicData.studentPortal.attendance;
+    }
+    if (Array.isArray(studentPortalData?.attendance) && studentPortalData.attendance.length > 0) {
+      return studentPortalData.attendance;
+    }
+    return [];
+  }, [academicData, studentPortalData]);
+
+  const [att, setAtt] = useState<AnyValue[]>(storeAttendance);
+  const [loading, setLoading] = useState(storeAttendance.length === 0);
   const [isSyncing, setIsSyncing] = useState(false);
 
   const studentPortalStatus = connectorStatuses.studentPortal;
@@ -119,17 +133,32 @@ export default function AttendancePage() {
     return `Updated ${hours} hr${hours > 1 ? 's' : ''} ago`;
   }, [now, lastFetchedAt]);
 
-  // Keep local att state synchronized when academicData.attendance updates in Zustand
+  // Keep local att state synchronized when storeAttendance updates in Zustand
   useEffect(() => {
-    if (Array.isArray(academicData?.attendance) && academicData.attendance.length > 0) {
-      setAtt(academicData.attendance);
+    if (storeAttendance.length > 0) {
+      setAtt(storeAttendance);
       setLoading(false);
     }
-  }, [academicData?.attendance]);
+  }, [storeAttendance]);
 
   useEffect(() => {
     if (!ready) return;
     if (academicData?.attendance) setLoading(false);
+
+    // Sync live dual connector statuses
+    authAPI.getConnectors().then((res) => {
+      if (res && res.connectors) {
+        const sp = res.connectors.studentPortal || res.connectors['student-portal'];
+        const aca = res.connectors.academia;
+        if (sp) {
+          useAuthStore.getState().setConnectorStatuses({
+            studentPortal: sp.status === 'active' || sp.status === 'connected' ? 'connected' : (sp.status === 'expired' ? 'session_expired' : 'disconnected'),
+            ...(aca ? { academia: aca.status === 'active' || aca.status === 'connected' ? 'connected' : (aca.status === 'expired' ? 'session_expired' : 'disconnected') } : {})
+          });
+        }
+      }
+    }).catch(() => {});
+
     dataAPI.getAttendance()
       .then(d => {
         const updated = Array.isArray(d.data) ? d.data : [];
@@ -311,20 +340,17 @@ export default function AttendancePage() {
     return acc + (isNaN(p) ? 0 : p);
   }, 0);
 
-  if (loading && !att.length) {
-    return <LoadingSkeleton />;
-  }
-
-  if (!mounted) {
-    return <LoadingSkeleton />;
-  }
-
   const themeProps = {
     att, avgAtt, totalAgg, presentAgg, absentAgg, 
     showPredictor, setShowPredictor, next30Days, selectedDates, toggleDate, 
     calculatePredictions, predictions, setSelectedDates, setPredictions, showRiskOnly, timeAgoStr,
-    studentPortalStatus, lastSyncedStr
+    studentPortalStatus, lastSyncedStr,
+    isLoading: loading && att.length === 0
   };
+
+  if (!mounted && att.length === 0) {
+    return <LoadingSkeleton />;
+  }
 
   return (
     <div style={{ minHeight: "100dvh", width: "100%", background: "var(--app-bg)", display: "flex", flexDirection: "column", position: "relative" }}>

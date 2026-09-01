@@ -5,15 +5,7 @@ import PremiumLock from "@/components/aura-theme/PremiumLock";
 
 export default function GPALayout({ children }: { children: React.ReactNode }) {
   const isPremium = useAuthStore((state) => state.isPremium);
-  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null;
-  }
 
   if (!isPremium) {
     return (

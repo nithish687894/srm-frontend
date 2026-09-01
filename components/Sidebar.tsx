@@ -63,7 +63,6 @@ export default function Sidebar() {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
   const theme = useThemeStore((state) => state.theme);
   const setTheme = useThemeStore((state) => state.setTheme);
   const [resolvedTheme, setResolvedTheme] = useState<"lumina" | "light">("lumina");
@@ -103,15 +102,7 @@ export default function Sidebar() {
   const isAdmin = ADMIN_EMAILS.some((e) => e.toLowerCase() === userEmail) || profile?.role === "admin" || profile?.Role === "admin";
 
   useEffect(() => {
-    const id = setTimeout(() => setMounted(true), 0);
-    const media = window.matchMedia("(min-width: 768px)");
-    const updateViewport = () => setIsDesktop(media.matches);
-    updateViewport();
-    media.addEventListener("change", updateViewport);
-    return () => {
-      clearTimeout(id);
-      media.removeEventListener("change", updateViewport);
-    };
+    setMounted(true);
   }, []);
 
   const handleLogout = useCallback(async () => {
@@ -467,8 +458,8 @@ export default function Sidebar() {
           </div>
         )}
 
-      {/* DESKTOP SIDEBAR NAVIGATION */}
-      {isDesktop && <div className="desktop-sidebar">
+      {/* DESKTOP SIDEBAR NAVIGATION (CSS-driven display via .desktop-sidebar) */}
+      <div className="desktop-sidebar">
          {/* Top Profile Area */}
          <div>
             <div className="flex items-center gap-3 pb-6 desktop-sidebar-separator-b mb-6">
@@ -542,17 +533,17 @@ export default function Sidebar() {
               <span className="text-xs font-black tracking-wide uppercase font-sans">Sign Out</span>
             </button>
          </div>
-      </div>}
+      </div>
 
-      {/* BOTTOM NAV BAR (FLAT STYLE) */}
-      {!isDesktop && <nav className="srmx-mobile-nav" aria-label="Main navigation">
+      {/* BOTTOM NAV BAR (CSS-driven display via .srmx-mobile-nav) */}
+      <nav className="srmx-mobile-nav" aria-label="Main navigation">
         {NAV_MAIN.map(({ href, label, icon: Icon }) => (
           <Link key={href} href={href} prefetch={true} className={`nav-item ${isActive(href, path) ? "active" : ""}`}>
             <Icon size={20} strokeWidth={isActive(href, path) ? 3 : 2} />
             <span>{label}</span>
           </Link>
         ))}
-      </nav>}
+      </nav>
 
       {/* INLINE MORE DRAWER (CENTRAL HUB) */}
       {moreOpen && (
@@ -889,17 +880,15 @@ export default function Sidebar() {
     </>
   );
 
-  if (!mounted) return null;
   if (isLoggingOut) {
-    return createPortal(
+    return (
       <div className="logout-transition" role="status" aria-live="polite" aria-label="Signing out">
         <div className="logout-transition-mark">
           <LogOut size={20} strokeWidth={2.2} />
         </div>
         <span>Signing out</span>
-      </div>,
-      document.body
+      </div>
     );
   }
-  return createPortal(navContent, document.body);
+  return navContent;
 }

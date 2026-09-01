@@ -69,7 +69,6 @@ export default function StudentDashboardPage() {
     }
   }, [_hasHydrated]);
 
-  if (!mounted) return <LoadingSkeleton />;
 
   const profile = studentPortalData?.profile || {};
   const personal = profile.personalDetails || {};

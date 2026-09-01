@@ -623,6 +623,11 @@ export default function DashboardPage() {
         
         if (d.studentPortal) {
           setStudentPortalData(d.studentPortal);
+          const isSpActive = d.studentPortal.sessionStatus === "active" || d.studentPortal.sessionStatus === "connected";
+          setStudentPortalConnected(isSpActive);
+          useAuthStore.getState().setConnectorStatuses({
+            studentPortal: isSpActive ? "connected" : (d.studentPortal.sessionStatus === "expired" ? "session_expired" : "disconnected")
+          });
         }
 
         const hasAcaData = Boolean(d.academia?.profile || (d.academia?.attendance && d.academia.attendance.length > 0));
@@ -644,12 +649,13 @@ export default function DashboardPage() {
     } catch (err) {
       if (!silent) {
         setLoading(false);
-        if (!data) {
+        const currentData = useAuthStore.getState().academicData;
+        if (!currentData) {
           setSyncError("Failed to fetch data. SRM portal might be down.");
         }
       }
     }
-  }, [data, router, setPremium, setAcademicData, setStudentPortalData, setProfile]);
+  }, [setPremium, setAcademicData, setStudentPortalData, setProfile, setStudentPortalConnected]);
 
   // Initial fetch on mount
   useEffect(() => {
@@ -1225,13 +1231,7 @@ export default function DashboardPage() {
     );
   })();
 
-  if (!mounted) {
-    return (
-      <div className="page-root" style={{ background: "#050508", height: "100vh", width: "100%", overflow: 'hidden' }} />
-    );
-  }
-
-  if (loading && !data) {
+  if (loading && !data && !academicData) {
     return <LoadingSkeleton />;
   }
 

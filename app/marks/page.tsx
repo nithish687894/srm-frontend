@@ -113,7 +113,6 @@ export default function MarksPage() {
     return { marks: processedMarks, totalScored: scored, totalMax: max, avgPct: pct };
   }, [academicData]);
 
-  if (!mounted) return null;
 
   return (
     <div style={{ minHeight: "100dvh", width: "100%", background: "var(--app-bg)", color: "#fff", display: "flex", flexDirection: "column", position: "relative" }}>

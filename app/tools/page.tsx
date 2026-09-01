@@ -231,7 +231,6 @@ export default function ToolsHubPage() {
     });
   }, [activeCategory, searchQuery]);
 
-  if (!mounted) return <LoadingSkeleton />;
 
   return (
     <div style={{ 

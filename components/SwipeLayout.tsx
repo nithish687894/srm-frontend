@@ -3,7 +3,7 @@ import { useState, TouchEvent, ReactNode, useCallback, useEffect, useRef } from 
 import { useRouter, usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
 
-const Sidebar = dynamic(() => import("@/components/Sidebar"), { ssr: false });
+import Sidebar from "@/components/Sidebar";
 
 const TAB_ORDER = [
   "/dashboard",

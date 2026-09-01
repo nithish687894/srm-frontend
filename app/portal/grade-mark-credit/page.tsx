@@ -82,7 +82,6 @@ export default function GradeMarkCreditPage() {
     return () => clearTimeout(id);
   }, [setStudentPortalData, studentPortalData?.marks]);
 
-  if (!mounted) return <LoadingSkeleton />;
 
   const marksData = studentPortalData?.marks?.marks || [];
   const arrearsData = studentPortalData?.marks?.failed || [];

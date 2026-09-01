@@ -867,7 +867,9 @@ export default function TimetablePage() {
 
   const myCourses = myTTQ.data?.data?.courses || myTTQ.data?.data || [];
 
-  const isDataLoading = (calQ.isLoading && !calQ.data) || (myTTQ.isLoading && !myTTQ.data) || (ttQ.isLoading && !ttQ.data);
+  const isDataLoading = (!cachedCalendar && !calQ.data && calQ.isLoading) || 
+                        (!cachedMyTimetable && !academicData?.timetable && !myTTQ.data && myTTQ.isLoading) || 
+                        (!cachedTimetable && !ttQ.data && ttQ.isLoading);
   if (isDataLoading) {
     return <LoadingSkeleton />;
   }

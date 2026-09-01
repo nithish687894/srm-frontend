@@ -489,7 +489,6 @@ export default function CalendarPage() {
     return calculateAttendanceForecast(attendance, skippedDayObjects, myTT, masterTT);
   }, [academicData, skippedDayObjects, myTT, masterTT]);
 
-  if (!mounted) return null;
 
   return (
     <div style={{ 

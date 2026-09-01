@@ -132,7 +132,6 @@ export default function StudentPortalPage() {
     }).filter((group) => group.services.length > 0);
   }, [query]);
 
-  if (!mounted) return <LoadingSkeleton />;
 
   const handlePageAction = (page: StudentPortalPageConfig) => {
     const action = getStudentPortalPageAction(page, premiumStatus);

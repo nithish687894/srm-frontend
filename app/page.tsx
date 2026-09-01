@@ -258,6 +258,11 @@ export default function LoginPage() {
     }
   }
 
+  const hasPersistedAuth = typeof window !== "undefined" && (!!authToken || !!localStorage.getItem("authToken"));
+  if (hasPersistedAuth) {
+    return <div style={{ minHeight: "100dvh", width: "100%", background: "#050508" }} />;
+  }
+
   return (
     <>
       <style jsx global>{`

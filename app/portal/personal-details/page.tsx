@@ -64,8 +64,7 @@ export default function PersonalDetailsPage() {
   const [isSyncModalOpen, setIsSyncModalOpen] = useState(false);
   const { studentPortalData, studentPortalConnected } = useAuthStore();
 
-  useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
-  if (!mounted) return null;
+
 
   const profile = studentPortalData?.profile;
 
