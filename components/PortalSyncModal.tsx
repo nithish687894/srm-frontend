@@ -210,7 +210,7 @@ export default function PortalSyncModal({
         } else if (unlockRes.error?.code === "INVALID_CREDENTIALS") {
           setShowManualCaptcha(true);
           fetchNewCaptcha();
-          setError("Student Portal connection failed: Server rejected NetID or Password. Note: Student Portal (Evarsity) may have a different password than your Academia login.");
+          setError("Student Portal connection failed: The portal rejected this attempt. If your password is correct, enter the fresh CAPTCHA and try once more.");
           setLoading(false);
           return;
         } else {
@@ -259,7 +259,7 @@ export default function PortalSyncModal({
 
       let userFriendlyMsg = rawError;
       if (rawError.includes("Invalid credentials") || rawError.includes("INVALID_CREDENTIALS")) {
-        userFriendlyMsg = "Student Portal password rejected. Please verify your Student Portal password.";
+        userFriendlyMsg = "The portal rejected this attempt. If your password is correct, retry with the fresh CAPTCHA.";
       } else if (rawError.includes("INVALID_CAPTCHA") || rawError.includes("Captcha rejected")) {
         userFriendlyMsg = "CAPTCHA was incorrect or expired. Fresh CAPTCHA loaded above, please try again.";
       }
