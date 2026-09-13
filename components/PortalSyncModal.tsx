@@ -190,11 +190,27 @@ export default function PortalSyncModal({
           useAuthStore.getState().setStudentPortalConnected(true);
           useAuthStore.getState().setConnectorStatus("studentPortal", "connected");
           if (unlockRes.attendance?.data) {
-            useAuthStore.getState().setStudentPortalData({
-              attendance: Array.isArray(unlockRes.attendance.data) ? unlockRes.attendance.data : (unlockRes.attendance.data?.attendance || []),
-              sessionStatus: "active",
-              lastSyncedAt: new Date().toISOString(),
-            });
+            const freshAtt = Array.isArray(unlockRes.attendance.data)
+              ? unlockRes.attendance.data
+              : (unlockRes.attendance.data?.attendance || []);
+            if (freshAtt.length > 0) {
+              useAuthStore.getState().setStudentPortalData({
+                attendance: freshAtt,
+                sessionStatus: "active",
+                lastSyncedAt: new Date().toISOString(),
+              });
+              const curAca = useAuthStore.getState().academicData || {};
+              useAuthStore.getState().setAcademicData({
+                ...curAca,
+                attendance: freshAtt,
+                studentPortal: {
+                  ...(curAca.studentPortal || {}),
+                  attendance: freshAtt,
+                  sessionStatus: "active",
+                  lastSyncedAt: new Date().toISOString(),
+                },
+              });
+            }
           }
         } else if (unlockRes.studentPortal?.status === "captcha_required" || unlockRes.error?.code === "CAPTCHA_REQUIRED" || unlockRes.error?.code === "INVALID_CAPTCHA" || unlockRes.error?.code === "AUTH_FLOW_FAILED") {
           setShowManualCaptcha(true);
@@ -232,9 +248,14 @@ export default function PortalSyncModal({
       try {
         const unified = await dataAPI.getUnified();
         if (unified?.success) {
+          const spAtt = (Array.isArray(unified.studentPortal?.attendance) && unified.studentPortal.attendance.length > 0)
+            ? unified.studentPortal.attendance
+            : (Array.isArray(unified.academia?.attendance) ? unified.academia.attendance : []);
+
           const mergedAcademia = {
             ...unified.academia,
             studentPortal: unified.studentPortal,
+            attendance: spAtt.length > 0 ? spAtt : (unified.academia?.attendance || []),
           };
           useAuthStore.getState().setAcademicData(mergedAcademia);
           if (unified.studentPortal) {

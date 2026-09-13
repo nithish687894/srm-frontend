@@ -11,7 +11,7 @@ import Toast from "@/components/Toast";
 import {
   Home, BarChart2, CheckCircle, Clock, Calendar, LayoutGrid, Sparkles, Shield,
   X, ChevronRight, CreditCard, FileText, Bed, Bus, Bell, Award, MonitorPlay, Printer, Briefcase, UserSquare, User, GraduationCap, BookOpen, Settings, MoreHorizontal, Share2, LogOut, LayoutTemplate, LifeBuoy, StickyNote, MessageSquare,
-  Fingerprint, RefreshCw, Cpu, Search, Library, Play, Pause, Headphones, Sun, UserRound, IdCard, Users
+  Fingerprint, RefreshCw, Cpu, Search, Library, Play, Pause, Headphones, Sun, UserRound, IdCard, Users, ShieldCheck
 } from "lucide-react";
 
 const PortalSyncModal = dynamic(() => import("@/components/PortalSyncModal"), { ssr: false });
@@ -748,6 +748,18 @@ export default function Sidebar() {
 
                        {/* Group 3: System */}
                       <GroupContainer title="System">
+                        <RowItem 
+                          onClick={() => { setMoreOpen(false); setIsSyncOpen(true); }}
+                          label="Student Portal" 
+                          subtitle={studentPortalConnected ? "Active session · Tap to reconnect" : "Connect official portal"} 
+                          icon={ShieldCheck} 
+                          color={studentPortalConnected ? "#10B981" : "#F59E0B"} 
+                          rightElement={
+                            <span className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full border ${studentPortalConnected ? "bg-emerald-500/15 text-emerald-400 border-emerald-500/30" : "bg-amber-500/15 text-amber-400 border-amber-500/30"}`}>
+                              {studentPortalConnected ? "Reconnect" : "Connect"}
+                            </span>
+                          }
+                        />
                         <RowItem 
                           href="/tools" 
                           label="Academic Tools" 

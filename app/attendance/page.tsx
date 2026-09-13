@@ -59,13 +59,32 @@ export default function AttendancePage() {
       if (d && d.success && Array.isArray(d.data)) {
         setAtt(d.data);
         const currentAcademicData = useAuthStore.getState().academicData || {};
-        setAcademicData({ ...currentAcademicData, attendance: d.data });
+        const currentSpData = useAuthStore.getState().studentPortalData || {};
+        setAcademicData({
+          ...currentAcademicData,
+          attendance: d.data,
+          studentPortal: {
+            ...(currentAcademicData.studentPortal || {}),
+            attendance: d.data,
+            lastSyncedAt: new Date().toISOString(),
+          },
+        });
+        useAuthStore.getState().setStudentPortalData({
+          ...currentSpData,
+          attendance: d.data,
+          sessionStatus: "active",
+          lastSyncedAt: new Date().toISOString(),
+        });
         return d.data;
       }
     } catch (e) {
       throw e;
     }
     return [];
+  };
+
+  const handleReconnect = () => {
+    setIsSyncModalOpen(true);
   };
 
   const handleSync = async () => {
@@ -361,7 +380,13 @@ export default function AttendancePage() {
   return (
     <div style={{ minHeight: "100dvh", width: "100%", background: "var(--app-bg)", display: "flex", flexDirection: "column", position: "relative" }}>
       <main id="attendance-parent-scroll" style={{ flex: 1, paddingBottom: "100px" }}>
-        <AuraAttendance attendance={att} handleSync={handleSync} isSyncing={isSyncing} {...themeProps} />
+        <AuraAttendance
+          attendance={att}
+          handleSync={handleSync}
+          onReconnect={handleReconnect}
+          isSyncing={isSyncing}
+          {...themeProps}
+        />
       </main>
       {isSyncModalOpen && (
         <PortalSyncModal

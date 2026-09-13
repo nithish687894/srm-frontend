@@ -10,6 +10,7 @@ import {
   ChevronRight, 
   ChevronDown,
   RefreshCcw, 
+  RefreshCw, 
   Clock, 
   CheckCircle2, 
   X, 
@@ -70,6 +71,7 @@ const getProgressBarGradient = (pct: number) => {
 export default function AuraAttendance({ 
   attendance = [], 
   handleSync, 
+  onReconnect,
   isSyncing = false, 
   isLoading = false,
   timeAgoStr = "",
@@ -436,30 +438,62 @@ export default function AuraAttendance({
 
             {/* Sync Button & Timestamp */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px', paddingTop: '2px' }}>
-              <button
-                onClick={handleSync}
-                disabled={isSyncing}
-                aria-label={isSpConnected ? "Sync attendance" : "Reconnect Student Portal"}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  background: isSpConnected ? 'rgba(168, 85, 247, 0.14)' : 'rgba(245, 158, 11, 0.15)',
-                  border: isSpConnected ? '1px solid rgba(168, 85, 247, 0.3)' : '1px solid rgba(245, 158, 11, 0.35)',
-                  padding: '6px 12px',
-                  borderRadius: '100px',
-                  color: isSpConnected ? '#C084FC' : '#F59E0B',
-                  fontSize: '11px',
-                  fontWeight: 900,
-                  cursor: isSyncing ? 'wait' : 'pointer',
-                  transition: 'all 0.18s ease',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.04em'
-                }}
-              >
-                <RefreshCcw size={11} className={isSyncing ? "animate-spin" : ""} color={isSpConnected ? "#C084FC" : "#F59E0B"} />
-                <span>{isSpConnected ? (isSyncing ? "Syncing..." : "Sync") : "Reconnect"}</span>
-              </button>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <button
+                  onClick={handleSync}
+                  disabled={isSyncing}
+                  aria-label={isSpConnected ? "Sync attendance" : "Connect Student Portal"}
+                  title={isSpConnected ? "Sync live attendance" : "Connect Student Portal"}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    background: isSpConnected ? 'rgba(168, 85, 247, 0.14)' : 'rgba(245, 158, 11, 0.15)',
+                    border: isSpConnected ? '1px solid rgba(168, 85, 247, 0.3)' : '1px solid rgba(245, 158, 11, 0.35)',
+                    padding: '6px 12px',
+                    borderRadius: '100px',
+                    color: isSpConnected ? '#C084FC' : '#F59E0B',
+                    fontSize: '11px',
+                    fontWeight: 900,
+                    cursor: isSyncing ? 'wait' : 'pointer',
+                    transition: 'all 0.18s ease',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.04em'
+                  }}
+                >
+                  <RefreshCcw size={11} className={isSyncing ? "animate-spin" : ""} color={isSpConnected ? "#C084FC" : "#F59E0B"} />
+                  <span>{isSpConnected ? (isSyncing ? "Syncing..." : "Sync") : "Connect"}</span>
+                </button>
+
+                {/* Explicit Reconnect button for already-connected accounts */}
+                {isSpConnected && (
+                  <button
+                    onClick={onReconnect || handleSync}
+                    disabled={isSyncing}
+                    aria-label="Reconnect Student Portal"
+                    title="Reconnect Student Portal session & fresh CAPTCHA"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      background: 'rgba(255, 255, 255, 0.06)',
+                      border: '1px solid rgba(255, 255, 255, 0.15)',
+                      padding: '6px 11px',
+                      borderRadius: '100px',
+                      color: 'rgba(255, 255, 255, 0.82)',
+                      fontSize: '11px',
+                      fontWeight: 800,
+                      cursor: isSyncing ? 'wait' : 'pointer',
+                      transition: 'all 0.18s ease',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.04em'
+                    }}
+                  >
+                    <RefreshCw size={10} color="rgba(255, 255, 255, 0.7)" />
+                    <span>Reconnect</span>
+                  </button>
+                )}
+              </div>
 
               {timeAgoStr && (
                 <div style={{ 

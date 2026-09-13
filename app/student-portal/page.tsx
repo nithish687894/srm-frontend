@@ -26,6 +26,7 @@ import {
   MessageSquareText,
   Newspaper,
   ReceiptText,
+  RefreshCw,
   ScrollText,
   Search,
   ShieldCheck,
@@ -236,22 +237,66 @@ export default function StudentPortalPage() {
               </p>
             </div>
           </div>
-          <span
-            style={{
-              borderRadius: "999px",
-              padding: "7px 10px",
-              color: isLight ? "#6d28d9" : "#d8b4fe",
-              background: isLight ? "rgba(124,58,237,0.09)" : "rgba(191,90,242,0.12)",
-              border: isLight ? "1px solid rgba(124,58,237,0.12)" : "1px solid rgba(191,90,242,0.20)",
-              fontSize: "9px",
-              fontWeight: 950,
-              letterSpacing: "0.10em",
-              textTransform: "uppercase",
-              whiteSpace: "nowrap",
-            }}
-          >
-            Nexus UI
-          </span>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
+            <span
+              style={{
+                borderRadius: "999px",
+                padding: "6px 10px",
+                color: studentPortalConnected ? (isLight ? "#059669" : "#34D399") : (isLight ? "#D97706" : "#FBBF24"),
+                background: studentPortalConnected ? "rgba(16,185,129,0.12)" : "rgba(245,158,11,0.12)",
+                border: studentPortalConnected ? "1px solid rgba(16,185,129,0.25)" : "1px solid rgba(245,158,11,0.25)",
+                fontSize: "9.5px",
+                fontWeight: 900,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                whiteSpace: "nowrap",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "5px",
+              }}
+            >
+              <span
+                style={{
+                  width: "6px",
+                  height: "6px",
+                  borderRadius: "50%",
+                  background: studentPortalConnected ? "#10B981" : "#F59E0B",
+                  boxShadow: studentPortalConnected ? "0 0 6px #10B981" : "none",
+                }}
+              />
+              {studentPortalConnected ? "Connected" : "Disconnected"}
+            </span>
+
+            <button
+              onClick={() => setIsSyncModalOpen(true)}
+              aria-label={studentPortalConnected ? "Reconnect Student Portal" : "Connect Student Portal"}
+              title={studentPortalConnected ? "Reconnect with fresh password & CAPTCHA" : "Connect official portal"}
+              style={{
+                borderRadius: "999px",
+                padding: "6px 12px",
+                color: isLight ? "#fff" : "#fff",
+                background: studentPortalConnected 
+                  ? (isLight ? "linear-gradient(135deg, #7C3AED, #9333EA)" : "rgba(168,85,247,0.22)") 
+                  : (isLight ? "linear-gradient(135deg, #D97706, #B45309)" : "rgba(245,158,11,0.25)"),
+                border: studentPortalConnected 
+                  ? "1px solid rgba(168,85,247,0.35)" 
+                  : "1px solid rgba(245,158,11,0.4)",
+                fontSize: "10.5px",
+                fontWeight: 900,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+                cursor: "pointer",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                transition: "all 0.18s ease",
+                whiteSpace: "nowrap",
+              }}
+            >
+              <RefreshCw size={11} />
+              <span>{studentPortalConnected ? "Reconnect" : "Connect"}</span>
+            </button>
+          </div>
         </section>
 
         <label
