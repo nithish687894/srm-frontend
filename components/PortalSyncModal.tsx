@@ -126,8 +126,9 @@ export default function PortalSyncModal({
 
   useEffect(() => {
     const rawId = netId || storeEmail || "";
+    const parsed = rawId.split("@")[0].replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
     if (type === "student-portal") {
-      setLocalNetId(rawId.split("@")[0].replace(/[^a-zA-Z0-9]/g, "").toLowerCase());
+      setLocalNetId((prev) => (prev && !prev.startsWith("demo") ? prev : (parsed.startsWith("demo") ? "ns4770" : parsed)));
     } else {
       setLocalNetId(rawId);
     }
@@ -592,48 +593,34 @@ export default function PortalSyncModal({
                     gap: "16px",
                   }}
                 >
-                  {type === "student-portal" ? (
-                    <div style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      background: "rgba(255, 255, 255, 0.03)",
-                      border: "1px solid rgba(255, 255, 255, 0.08)",
-                      borderRadius: "14px",
-                      padding: "12px 16px",
-                    }}>
-                      <div style={{ display: "flex", flexDirection: "column" }}>
-                        <span style={{ fontSize: "9px", color: "rgba(255, 255, 255, 0.4)", textTransform: "uppercase", fontWeight: 800, letterSpacing: "0.06em" }}>
-                          Target Account
-                        </span>
-                        <span style={{ fontSize: "13px", color: "#fff", fontWeight: 800, fontFamily: "monospace", marginTop: "2px" }}>
-                          {localNetId || effectiveNetId || "Active NetID"}
-                        </span>
-                      </div>
-                      <span style={{
-                        fontSize: "9.5px",
-                        background: "rgba(255, 117, 195, 0.12)",
-                        color: colors.accent,
-                        padding: "4px 10px",
-                        borderRadius: "8px",
-                        fontWeight: 900,
-                        letterSpacing: "0.05em"
-                      }}>
-                        NETID
-                      </span>
-                    </div>
-                  ) : (
+                  <div style={{ position: "relative" }}>
                     <input
                       type="text"
-                      placeholder="Username / Email"
+                      placeholder="Student Portal NetID (e.g. ns4770)"
                       style={getInputStyle("netId")}
                       value={localNetId}
                       onFocus={() => setFocusedInput("netId")}
                       onBlur={() => setFocusedInput(null)}
-                      onChange={(e) => setLocalNetId(e.target.value)}
-                      aria-label="Username"
+                      onChange={(e) => setLocalNetId(e.target.value.toLowerCase().replace(/[^a-z0-9]/g, ""))}
+                      aria-label="Student Portal NetID"
                     />
-                  )}
+                    <span style={{
+                      position: "absolute",
+                      right: "14px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      fontSize: "9.5px",
+                      background: "rgba(255, 117, 195, 0.12)",
+                      color: colors.accent,
+                      padding: "3px 8px",
+                      borderRadius: "6px",
+                      fontWeight: 900,
+                      letterSpacing: "0.05em",
+                      pointerEvents: "none",
+                    }}>
+                      NETID
+                    </span>
+                  </div>
 
                   <div style={{ position: "relative" }}>
                     <input
