@@ -1,13 +1,14 @@
 "use client";
 import { useEffect, useState, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import { dataAPI, authAPI } from "@/lib/api";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthStore } from "@/lib/store";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
 import AuraAttendance from "@/components/aura-theme/AuraAttendance";
-import LoadingSkeleton from "@/components/aura-theme/LoadingSkeleton";
 import { extractBatch } from "@/lib/utils";
+
+const PortalSyncModal = dynamic(() => import("@/components/PortalSyncModal"), { ssr: false });
 
 function buildSlotToCourseMap(myTT: AnyValue[]) {
   const map: Record<string, AnyValue> = {};
@@ -27,7 +28,8 @@ export default function AttendancePage() {
     setMyTimetable,
     setCalendar,
     connectorStatuses,
-    studentPortalData
+    studentPortalData,
+    email
   } = useAuthStore();
 
   const storeAttendance = useMemo(() => {
@@ -46,29 +48,49 @@ export default function AttendancePage() {
   const [att, setAtt] = useState<AnyValue[]>(storeAttendance);
   const [loading, setLoading] = useState(storeAttendance.length === 0);
   const [isSyncing, setIsSyncing] = useState(false);
+  const [isSyncModalOpen, setIsSyncModalOpen] = useState(false);
 
   const studentPortalStatus = connectorStatuses.studentPortal;
   const isSpConnected = studentPortalStatus === "connected";
-  const router = useRouter();
 
-  const handleSync = async () => {
-    if (!isSpConnected) {
-      router.push("/dashboard?sync=1");
-      return;
-    }
-    setIsSyncing(true);
+  const refreshAttendance = async () => {
     try {
-      await dataAPI.forceRefresh();
       const d = await dataAPI.getAttendance();
       if (d && d.success && Array.isArray(d.data)) {
         setAtt(d.data);
         const currentAcademicData = useAuthStore.getState().academicData || {};
         setAcademicData({ ...currentAcademicData, attendance: d.data });
-      } else {
-        console.warn("Sync returned unsuccessful status or invalid data payload", d);
+        return d.data;
       }
     } catch (e) {
-      console.error("Attendance sync failed", e);
+      throw e;
+    }
+    return [];
+  };
+
+  const handleSync = async () => {
+    if (!isSpConnected) {
+      setIsSyncModalOpen(true);
+      return;
+    }
+    setIsSyncing(true);
+    try {
+      await dataAPI.forceRefresh();
+      await refreshAttendance();
+    } catch {
+      // Keep the existing attendance visible; AuraAttendance already shows sync state.
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
+  const handlePortalSyncSuccess = async () => {
+    setIsSyncing(true);
+    try {
+      await refreshAttendance();
+    } catch {
+      // The modal has already completed successfully; keep cached attendance visible
+      // and let the next page load retry if this follow-up fetch is transiently slow.
     } finally {
       setIsSyncing(false);
     }
@@ -108,12 +130,9 @@ export default function AttendancePage() {
   const [selectedDates, setSelectedDates] = useState<Set<string>>(new Set());
   const [predictions, setPredictions] = useState<AnyValue[] | null>(null);
   const [showRiskOnly, setShowRiskOnly] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => { 
     try { window.scrollTo({ top: 0, left: 0, behavior: "instant" }); } catch {}
-    const id = setTimeout(() => setMounted(true), 0); 
-    return () => clearTimeout(id); 
   }, []);
 
   const [now, setNow] = useState(() => Date.now());
@@ -143,7 +162,7 @@ export default function AttendancePage() {
 
   useEffect(() => {
     if (!ready) return;
-    if (academicData?.attendance) setLoading(false);
+    if (att.length > 0 || academicData?.attendance) setLoading(false);
 
     // Sync live dual connector statuses
     authAPI.getConnectors().then((res) => {
@@ -159,35 +178,26 @@ export default function AttendancePage() {
       }
     }).catch(() => {});
 
-    dataAPI.getAttendance()
-      .then(d => {
-        const updated = Array.isArray(d.data) ? d.data : [];
-        if (updated.length > 0) {
-          setAtt(updated);
-          const currentAcademicData = useAuthStore.getState().academicData || {};
-          setAcademicData({ ...currentAcademicData, attendance: updated, lastFetchedAt: Date.now() });
-        }
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
+    const lastFetched = academicData?.lastFetchedAt || 0;
+    const shouldFetchAttendance = att.length === 0 || (isSpConnected && Date.now() - lastFetched > 2 * 60 * 1000);
+    if (shouldFetchAttendance) {
+      const fetch = isSpConnected && att.length > 0
+        ? dataAPI.forceRefresh().then(() => dataAPI.getAttendance())
+        : dataAPI.getAttendance();
 
-    // Silent background auto-refresh if Student Portal is connected and data is older than 2 minutes
-    if (isSpConnected) {
-      const lastFetched = academicData?.lastFetchedAt || 0;
-      if (Date.now() - lastFetched > 2 * 60 * 1000) {
-        dataAPI.forceRefresh().then(() => {
-          dataAPI.getAttendance().then(d => {
-            const updated = Array.isArray(d.data) ? d.data : [];
-            if (updated.length > 0) {
-              setAtt(updated);
-              const currentAcademicData = useAuthStore.getState().academicData || {};
-              setAcademicData({ ...currentAcademicData, attendance: updated, lastFetchedAt: Date.now() });
-            }
-          }).catch(() => {});
-        }).catch(() => {});
-      }
+      fetch
+        .then(d => {
+          const updated = Array.isArray(d.data) ? d.data : [];
+          if (updated.length > 0) {
+            setAtt(updated);
+            const currentAcademicData = useAuthStore.getState().academicData || {};
+            setAcademicData({ ...currentAcademicData, attendance: updated, lastFetchedAt: Date.now() });
+          }
+        })
+        .finally(() => setLoading(false))
+        .catch(() => setLoading(false));
+    } else {
+      setLoading(false);
     }
 
     dataAPI.getCalendar().then(d => { setCalData(d); setCalendar(d); }).catch(() => {});
@@ -202,7 +212,7 @@ export default function AttendancePage() {
       const courses = myTT?.data?.courses || myTT?.data || [];
       setTTData({ rows: tt?.data?.rows || [], myTT: courses });
     }).catch(() => {});
-  }, [ready, academicData?.profile, setCalendar, setTimetable, setMyTimetable, isSpConnected]);
+  }, [ready, academicData?.profile, academicData?.lastFetchedAt, setCalendar, setTimetable, setMyTimetable, isSpConnected, att.length, setAcademicData]);
 
   const calIndex = useMemo(() => {
     if (!calData) return null;
@@ -348,15 +358,20 @@ export default function AttendancePage() {
     isLoading: loading && att.length === 0
   };
 
-  if (!mounted && att.length === 0) {
-    return <LoadingSkeleton />;
-  }
-
   return (
     <div style={{ minHeight: "100dvh", width: "100%", background: "var(--app-bg)", display: "flex", flexDirection: "column", position: "relative" }}>
       <main id="attendance-parent-scroll" style={{ flex: 1, paddingBottom: "100px" }}>
         <AuraAttendance attendance={att} handleSync={handleSync} isSyncing={isSyncing} {...themeProps} />
       </main>
+      {isSyncModalOpen && (
+        <PortalSyncModal
+          isOpen
+          onClose={() => setIsSyncModalOpen(false)}
+          onSuccess={handlePortalSyncSuccess}
+          netId={email || ""}
+          type="student-portal"
+        />
+      )}
     </div>
   );
 }

@@ -25,6 +25,10 @@ function deduplicatedGet(url: string) {
   return promise;
 }
 
+function clearDataGETs() {
+  inFlightGETs.clear();
+}
+
 let refreshPromise: Promise<AnyValue> | null = null;
 
 export interface NormalizedAPIError {
@@ -163,7 +167,13 @@ export const dataAPI = {
   getUnified: () => deduplicatedGet("/api/v1/data/unified"),
   getAll: () => deduplicatedGet("/api/all"),
   refresh: () => deduplicatedGet("/api/all"),
-  forceRefresh: () => API.post("/api/v1/data/refresh").then((r) => r.data),
+  forceRefresh: () => {
+    clearDataGETs();
+    return API.post("/api/v1/data/refresh").then((r) => {
+      clearDataGETs();
+      return r.data;
+    });
+  },
   getAttendance: () => deduplicatedGet("/api/attendance"),
   getMarks: () => deduplicatedGet("/api/marks"),
   getTimetable: (batch: number = 1) =>

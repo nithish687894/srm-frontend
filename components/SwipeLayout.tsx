@@ -1,9 +1,10 @@
 "use client";
 import { useState, TouchEvent, ReactNode, useCallback, useEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import dynamic from "next/dynamic";
 
 import Sidebar from "@/components/Sidebar";
+import { dataAPI } from "@/lib/api";
+import { useAuthStore } from "@/lib/store";
 
 const TAB_ORDER = [
   "/dashboard",
@@ -38,6 +39,7 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
   // Navigation Progress Bar States
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -114,6 +116,35 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
       setProgress(0);
     }, 200);
   };
+
+  const refreshVisibleData = useCallback(async () => {
+    if (isRefreshing) return;
+    setIsRefreshing(true);
+    startProgressTimer();
+    try {
+      await dataAPI.forceRefresh();
+      const unified = await dataAPI.getUnified();
+      if (unified?.success) {
+        const mergedData = {
+          ...unified.academia,
+          studentPortal: unified.studentPortal,
+          lastFetchedAt: Date.now(),
+        };
+        useAuthStore.getState().setAcademicData(mergedData);
+        if (unified.studentPortal) {
+          useAuthStore.getState().setStudentPortalData(unified.studentPortal);
+        }
+        window.dispatchEvent(new CustomEvent("srmx:data-refresh", { detail: mergedData }));
+      }
+    } catch {
+      window.dispatchEvent(new CustomEvent("srmx:data-refresh-error"));
+    } finally {
+      setIsRefreshing(false);
+      stopProgress();
+      pullDistRef.current = 0;
+      scheduleGestureFrame();
+    }
+  }, [isRefreshing, scheduleGestureFrame]);
 
   useEffect(() => {
     offsetRef.current = 0;
@@ -280,10 +311,7 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
     if (gestureRef.current === "pull" && pullDist > PULL_REFRESH_THRESHOLD) {
       pullDistRef.current = PULL_REFRESH_THRESHOLD;
       scheduleGestureFrame();
-      // Small delay so user sees the spinner
-      setTimeout(() => {
-        window.location.reload();
-      }, 300);
+      void refreshVisibleData();
     } else {
       pullDistRef.current = 0;
     }

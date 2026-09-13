@@ -320,7 +320,6 @@ export default function DashboardPage() {
   const [calData, setCalData] = useState<AnyValue>(cachedCalendar || null);
   const [dayOffset, setDayOffset] = useState(0);
   const [syncError, setSyncError] = useState<string | null>(null);
-  const [mounted, setMounted] = useState(false);
   const [showStudentInfo, setShowStudentInfo] = useState(false);
   const [isSyncModalOpen, setIsSyncModalOpen] = useState(false);
   const [broadcast, setBroadcast] = useState<AnyValue>(null);
@@ -337,10 +336,6 @@ export default function DashboardPage() {
     }, 60000);
     return () => clearInterval(timer);
   }, []);
-
-  useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
-
-
 
   const formatLastSynced = useCallback((dateInput: AnyValue) => {
     if (!dateInput) return "Never";
@@ -1205,7 +1200,6 @@ export default function DashboardPage() {
   };
 
   const activeDashboard = (() => {
-    if (!mounted) return null;
     return (
       <AuraDashboard 
         data={data} marks={data?.marks || []} avgAtt={avgAtt} avgMarks={avgMarks} firstName={firstName} 

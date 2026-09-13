@@ -5,13 +5,47 @@ import { createPortal } from "react-dom";
 import { dataAPI } from "@/lib/api";
 import { buildCalendarIndex, type Semester } from "@/lib/calendarIndex";
 import { useQuery } from "@tanstack/react-query";
-import LoadingSkeleton from "@/components/aura-theme/LoadingSkeleton";
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
 import { toPng } from "html-to-image";
 import { extractBatch } from "@/lib/utils";
 import { Share2, Star, Activity, Calendar, X, ChevronRight } from "lucide-react";
 // ── Helpers ───────────────────────────────────────────────────────────────────
+function TimetableSkeleton() {
+  return (
+    <div className="min-h-screen w-full bg-[#050508] text-white overflow-x-hidden">
+      <main className="w-full max-w-5xl mx-auto px-4 sm:px-6 pt-[calc(env(safe-area-inset-top,0px)+72px)] pb-36">
+        <header className="min-h-[112px] flex flex-col gap-4 mb-5">
+          <div className="flex items-start justify-between gap-4">
+            <div className="min-w-0">
+              <div className="h-3 w-36 rounded-full bg-white/[0.06]" />
+              <div className="h-9 w-64 max-w-[72vw] rounded-2xl bg-white/[0.07] mt-3" />
+              <div className="h-4 w-48 rounded-xl bg-white/[0.045] mt-3" />
+            </div>
+            <div className="h-10 w-24 rounded-2xl bg-white/[0.06] shrink-0" />
+          </div>
+          <div className="grid grid-cols-5 gap-2">
+            {Array.from({ length: 5 }).map((_, index) => (
+              <div key={index} className="h-14 rounded-2xl bg-white/[0.045] border border-white/[0.05]" />
+            ))}
+          </div>
+        </header>
+        <section className="space-y-3">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <div key={index} className="min-h-[96px] rounded-3xl bg-white/[0.035] border border-white/[0.06] p-4 flex items-center gap-4">
+              <div className="w-20 h-12 rounded-2xl bg-white/[0.06] shrink-0" />
+              <div className="flex-1 min-w-0">
+                <div className="h-5 w-2/3 rounded-xl bg-white/[0.06]" />
+                <div className="h-4 w-1/2 rounded-xl bg-white/[0.04] mt-3" />
+              </div>
+            </div>
+          ))}
+        </section>
+      </main>
+    </div>
+  );
+}
+
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
 function parseStart(t: string) { const m = t.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
 function parseEnd(t: string) { const parts = t.split(/\s*[-–]\s*/); const last = parts[parts.length - 1] || ""; const m = last.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
@@ -871,7 +905,7 @@ export default function TimetablePage() {
                         (!cachedMyTimetable && !academicData?.timetable && !myTTQ.data && myTTQ.isLoading) || 
                         (!cachedTimetable && !ttQ.data && ttQ.isLoading);
   if (isDataLoading) {
-    return <LoadingSkeleton />;
+    return <TimetableSkeleton />;
   }
 
   return (

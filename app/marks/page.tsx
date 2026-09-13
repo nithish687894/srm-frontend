@@ -1,8 +1,6 @@
 "use client";
 import { useEffect, useState, useMemo } from "react";
-import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/store";
-import { useThemeStore } from "@/lib/themeStore";
 import { dataAPI } from "@/lib/api";
 import AuraMarks from "@/components/aura-theme/AuraMarks";
 
@@ -17,37 +15,48 @@ const THEME = {
 };
 
 export default function MarksPage() {
-  const router = useRouter();
-  const [mounted, setMounted] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
   // Enforce granular Zustand selectors to eliminate main-thread render lags
   const academicData = useAuthStore((state) => state.academicData);
+  const studentPortalData = useAuthStore((state) => state.studentPortalData);
   const setAcademicData = useAuthStore((state) => state.setAcademicData);
-  const { theme } = useThemeStore();
   
-  const handleSync = async () => {
+  const handleSync = async (force = true) => {
     setIsSyncing(true);
     try {
+      if (force) {
+        await dataAPI.forceRefresh().catch(() => null);
+      }
       const res = await dataAPI.getMarks();
       if (Array.isArray(res?.data) && res.data.length > 0) {
-         setAcademicData({ ...(academicData || {}), marks: res.data });
+         setAcademicData({ ...(useAuthStore.getState().academicData || {}), marks: res.data });
       } else if (Array.isArray(res) && res.length > 0) {
-         setAcademicData({ ...(academicData || {}), marks: res });
+         setAcademicData({ ...(useAuthStore.getState().academicData || {}), marks: res });
       }
     } catch (e) {
-      console.error("Marks sync failed", e);
+      // Keep existing marks/empty state stable if the portal is temporarily unavailable.
     } finally {
       setIsSyncing(false);
     }
   };
 
   useEffect(() => {
-    setMounted(true);
-    if (!academicData?.marks) handleSync();
+    const hasMarks = Array.isArray(academicData?.marks) && academicData.marks.length > 0;
+    const ageMs = Date.now() - (academicData?.lastFetchedAt || 0);
+    if (!hasMarks || ageMs > 5 * 60 * 1000) {
+      void handleSync(!hasMarks);
+    }
   }, []);
 
   const { marks } = useMemo(() => {
-    const rawMarks = Array.isArray(academicData?.marks) ? academicData.marks : [];
+    const portalMarks = Array.isArray(studentPortalData?.marks?.marks)
+      ? studentPortalData.marks.marks
+      : Array.isArray(studentPortalData?.marks)
+        ? studentPortalData.marks
+        : [];
+    const rawMarks = Array.isArray(academicData?.marks) && academicData.marks.length > 0
+      ? academicData.marks
+      : portalMarks;
     const attendance = Array.isArray(academicData?.attendance) ? academicData.attendance : [];
 
     // Filter out monthly breakdown rows (e.g. JUL-2026) from attendance first
@@ -111,7 +120,7 @@ export default function MarksPage() {
     const pct = max > 0 ? (scored / max) * 100 : 0;
 
     return { marks: processedMarks, totalScored: scored, totalMax: max, avgPct: pct };
-  }, [academicData]);
+  }, [academicData, studentPortalData]);
 
 
   return (

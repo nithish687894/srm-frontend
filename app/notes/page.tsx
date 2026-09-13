@@ -380,9 +380,29 @@ export default function NotesPage() {
 
   if (!ready) {
     return (
-      <div className="min-h-screen bg-[#06070a] flex flex-col items-center justify-center text-white/50 gap-4">
-        <Loader2 className="animate-spin text-[#3b82f6]" size={40} />
-        <p className="text-xs uppercase tracking-widest font-black text-white/70">Loading Notes...</p>
+      <div className="min-h-screen bg-[#06070a] text-white selection:bg-[#3b82f6]/30">
+        <main className="max-w-6xl mx-auto px-4 sm:px-6 pt-16 sm:pt-20 pb-36 md:pl-72 lg:pl-80">
+          <header className="flex items-center justify-between gap-4 mb-6 min-h-[48px]">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-10 h-10 rounded-2xl bg-white/[0.05] shrink-0" />
+              <div className="min-w-0">
+                <div className="h-8 w-40 rounded-xl bg-white/[0.06]" />
+                <div className="h-4 w-32 rounded-lg bg-white/[0.04] mt-2" />
+              </div>
+            </div>
+            <div className="h-10 w-28 rounded-2xl bg-white/[0.06]" />
+          </header>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <div key={index} className="min-h-[170px] rounded-3xl bg-white/[0.035] border border-white/[0.06] p-5">
+                <div className="h-5 w-2/3 rounded-lg bg-white/[0.06]" />
+                <div className="h-3 w-full rounded-lg bg-white/[0.04] mt-5" />
+                <div className="h-3 w-4/5 rounded-lg bg-white/[0.04] mt-3" />
+                <div className="h-8 w-24 rounded-xl bg-white/[0.05] mt-8" />
+              </div>
+            ))}
+          </div>
+        </main>
       </div>
     );
   }
