@@ -1,7 +1,7 @@
 "use client";
 import React, { useMemo } from "react";
 import { 
-  Sparkles, Activity, Award, Compass, User, Zap, ChevronRight, Fingerprint, Bell, LockKeyhole,
+  Activity, Award, Compass, User, Zap, ChevronRight, Fingerprint, Bell, LockKeyhole,
   CheckCircle2, AlertTriangle, BarChart3, Clock, MapPin, ShieldCheck, ShieldAlert
 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -98,10 +98,10 @@ export default function AuraDashboard({
   }, [avgAtt]);
 
   const attStatusColor = useMemo(() => {
-    if (numericAvgAtt === null) return "#00E5FF";
-    if (numericAvgAtt >= 75) return "#34C759"; // Green (Healthy)
-    if (numericAvgAtt >= 65) return "#FF9500"; // Orange (Warning)
-    return "#FF2D55"; // Red (Critical)
+    if (numericAvgAtt === null) return AURA.sub;
+    if (numericAvgAtt >= 75) return AURA.green;
+    if (numericAvgAtt >= 65) return AURA.amber;
+    return AURA.red;
   }, [numericAvgAtt]);
 
   // Check if valid academic marks exist
@@ -408,8 +408,7 @@ export default function AuraDashboard({
               {/* Header Badge Row */}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', position: 'relative', zIndex: 2 }}>
                 <div style={{ padding: '6px 14px', background: 'rgba(191, 90, 242, 0.1)', border: '1px solid rgba(191, 90, 242, 0.2)', borderRadius: '100px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <Sparkles size={13} color={AURA.purple} />
-                  <span style={{ fontSize: "10px", fontWeight: 900, color: AURA.purple, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Academic Command</span>
+                  <span style={{ fontSize: "10px", fontWeight: 900, color: AURA.purple, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Today</span>
                 </div>
                 <div style={{ fontSize: '11px', color: AURA.subBright, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
                   {activeTheme.greeting}, {firstName || "Student"}
@@ -694,7 +693,7 @@ export default function AuraDashboard({
 
                 <div>
                   <div style={{ fontSize: 'clamp(28px, 8vw, 38px)', fontWeight: 950, color: AURA.text, lineHeight: 1 }} className="tabular-nums">
-                    {avgAtt === "—" ? "0.0%" : `${avgAtt}%`}
+                    {numericAvgAtt === null ? "—" : `${avgAtt}%`}
                   </div>
                   <div style={{ fontSize: '11px', color: AURA.subBright, marginTop: '8px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                     Current Attendance
@@ -715,7 +714,7 @@ export default function AuraDashboard({
                     />
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '6px', fontSize: '9px', fontWeight: 800, color: AURA.sub }}>
-                    <span style={{ color: attStatusColor }}>{numericAvgAtt !== null && numericAvgAtt >= 75 ? "Healthy" : "Risk"}</span>
+                    <span style={{ color: attStatusColor }}>{numericAvgAtt === null ? "Unavailable" : numericAvgAtt >= 75 ? "Healthy" : "Needs attention"}</span>
                     <span>Target: 75%</span>
                   </div>
                 </div>
@@ -773,9 +772,6 @@ export default function AuraDashboard({
               </div>
             </div>
 
-            {/* Official Hub Integration */}
-            {renderAcademicIntegrityHub && renderAcademicIntegrityHub("aura")}
-
           </div>
 
           <div className="dashboard-col-side">
@@ -786,7 +782,7 @@ export default function AuraDashboard({
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <h3 style={{ fontSize: '18px', fontWeight: 900, color: AURA.text, margin: 0 }}>Can I skip tomorrow?</h3>
                 {isPremium ? (
-                  <span style={{ fontSize: '10px', fontWeight: 900, color: AURA.amber, letterSpacing: '0.05em' }}>DECISION ENGINE</span>
+                  <span style={{ fontSize: '10px', fontWeight: 900, color: AURA.amber, letterSpacing: '0.05em' }}>Attendance planner</span>
                 ) : (
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <LockKeyhole size={12} color={AURA.amber} />
@@ -819,7 +815,7 @@ export default function AuraDashboard({
                     <LockKeyhole size={18} />
                   </div>
                   <h4 style={{ margin: '0 0 6px', fontSize: '14px', fontWeight: 950, color: AURA.text }}>
-                    Unlock Decision Engine
+                    Unlock attendance planner
                   </h4>
                   <p style={{ margin: '0 0 16px', fontSize: '11px', color: AURA.subBright, fontWeight: 700, lineHeight: 1.45, maxWidth: '280px' }}>
                     Analyzes tomorrow's schedule and calculates if you can miss classes safely without dropping below 75%.
@@ -1007,7 +1003,7 @@ export default function AuraDashboard({
                     </div>
                     <div>
                        <div style={{ fontSize: '15px', fontWeight: 900, color: AURA.text }}>Student ID</div>
-                       <div style={{ fontSize: '10px', color: AURA.pink, fontWeight: 900, letterSpacing: '0.08em' }}>Identity Passport</div>
+                       <div style={{ fontSize: '10px', color: AURA.pink, fontWeight: 900, letterSpacing: '0.08em' }}>Student details</div>
                     </div>
                  </div>
                  <Compass size={18} color={AURA.sub} />
@@ -1015,8 +1011,8 @@ export default function AuraDashboard({
 
               <div style={{ display: 'flex', gap: '12px', zIndex: 2 }}>
                  <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px 16px', borderRadius: '16px', flex: 1 }}>
-                    <div style={{ fontSize: '9px', fontWeight: 900, color: AURA.sub, marginBottom: '4px', letterSpacing: '0.05em' }}>REGISTRATION_NUMBER</div>
-                    <div style={{ fontSize: '13px', fontWeight: 800, color: AURA.text }} className="tabular-nums">{data?.profile?.["Registration Number"] || "LOCKED"}</div>
+                    <div style={{ fontSize: '9px', fontWeight: 900, color: AURA.sub, marginBottom: '4px', letterSpacing: '0.05em' }}>Registration number</div>
+                    <div style={{ fontSize: '13px', fontWeight: 800, color: AURA.text }} className="tabular-nums">{data?.profile?.["Registration Number"] || "••••••••"}</div>
                  </div>
               </div>
             </button>

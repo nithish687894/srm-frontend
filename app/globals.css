@@ -1076,6 +1076,26 @@ h4 { font-weight: 740; }
   z-index: 99999; box-shadow: 0 -10px 28px rgba(0, 0, 0, 0.58), inset 0 1px 0 rgba(255,255,255,0.035);
   padding: 0 8px;
 }
+
+/* Calm, readable defaults for the primary student experience. */
+.srmx-mobile-nav .nav-item span {
+  color: rgba(255,255,255,0.78);
+  font-size: 12px;
+  font-weight: 700;
+}
+.srmx-mobile-nav .nav-item.active span { color: #ffffff; }
+.theme-light .srmx-mobile-nav .nav-item span { color: rgba(255,255,255,0.86) !important; }
+.theme-aura .premium-card,
+.theme-lumina .premium-card { box-shadow: 0 8px 24px rgba(0,0,0,0.28); }
+.theme-aura .premium-card::before,
+.theme-lumina .premium-card::before { opacity: 0.7; }
+
+/* Keep the home screen focused; secondary tools remain available elsewhere. */
+.dashboard-col-side,
+.dashboard-analytics-grid > :nth-child(2) { display: none !important; }
+.skeleton-root > main > :nth-child(3),
+.skeleton-root > main > :nth-child(4),
+.skeleton-root > main > :nth-child(5) { display: none !important; }
 @media (min-width: 768px) {
   .srmx-mobile-nav {
     display: none !important;
@@ -2630,5 +2650,177 @@ body:has([data-page="ns"]) .srmx-top-status-bar,
 body:has([data-page="admin"]) .srmx-top-status-bar,
 body:has(.telemetry-root) .srmx-top-status-bar {
   display: none !important;
+}
+
+/* ━━ SRM Nexus production visual baseline ━━
+   Shared semantic values used by the primary student experience. */
+:root {
+  --bg-root: #09090F;
+  --bg-surface: #12121A;
+  --bg-elevated: #1A1724;
+  --app-bg: #09090F;
+  --card-bg: #12121A;
+  --card-elevated: #1A1724;
+  --card-border: #292532;
+  --border: #292532;
+  --text-primary: #F7F5FA;
+  --text-main: #F7F5FA;
+  --text-secondary: #B8B2C2;
+  --text-muted: #B8B2C2;
+  --text-soft: #B8B2C2;
+  --accent: #A855F7;
+  --accent-primary: #A855F7;
+  --accent-secondary: #A855F7;
+  --accent-purple: #A855F7;
+  --accent-pink: #EC4899;
+  --accent-cyan: #38BDF8;
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --shadow-card: 0 8px 20px rgba(0,0,0,0.18);
+  --shadow-elevated: 0 12px 28px rgba(0,0,0,0.24);
+}
+
+body.theme-aura,
+body.theme-lumina,
+.theme-aura,
+.theme-lumina {
+  --bg-root: #09090F;
+  --bg-surface: #12121A;
+  --bg-elevated: #1A1724;
+  --app-bg: #09090F;
+  --card-bg: #12121A;
+  --card-elevated: #1A1724;
+  --card-border: #292532;
+  --border: #292532;
+  --text-primary: #F7F5FA;
+  --text-main: #F7F5FA;
+  --text-secondary: #B8B2C2;
+  --text-muted: #B8B2C2;
+  --text-soft: #B8B2C2;
+  --accent: #A855F7;
+  --accent-primary: #A855F7;
+  --accent-secondary: #A855F7;
+  --accent-purple: #A855F7;
+  --accent-pink: #EC4899;
+  --accent-cyan: #38BDF8;
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  background: #09090F;
+}
+
+/* Calm surfaces for the dashboard and marks screens; timetable retains its own layout. */
+.dashboard-main .premium-card,
+.marks-page-content .premium-card,
+.marks-page-content .liquid-card,
+.marks-page-content .sticky-header {
+  background: #12121A !important;
+  border: 1px solid #292532 !important;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.18) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.dashboard-main .premium-card::before,
+.marks-page-content .premium-card::before,
+.marks-page-content .liquid-card::before,
+.dashboard-main .ai-border,
+.dashboard-main .aura-blob,
+.marks-page-content .aura-blob {
+  display: none !important;
+}
+
+.dashboard-main h1,
+.dashboard-main h2,
+.dashboard-main h3,
+.marks-page-content h1,
+.marks-page-content h2,
+.marks-page-content h3 {
+  color: #F7F5FA !important;
+  text-shadow: none !important;
+}
+
+.dashboard-main [style*="text-transform: uppercase"],
+.marks-page-content [style*="text-transform: uppercase"] {
+  letter-spacing: 0.04em !important;
+}
+
+.marks-filter-row button {
+  min-height: 44px;
+  font-size: 12px !important;
+  border-radius: 12px !important;
+}
+
+.srmx-mobile-nav {
+  background: #12121A !important;
+  border-top: 1px solid #292532 !important;
+  box-shadow: 0 -6px 18px rgba(0,0,0,0.24) !important;
+}
+
+.nav-item {
+  min-height: 56px;
+  color: #B8B2C2 !important;
+}
+
+.srmx-mobile-nav .nav-item span {
+  color: #B8B2C2 !important;
+  font-size: 12px !important;
+  font-weight: 750;
+}
+
+.nav-item.active,
+.nav-item.active span {
+  color: #EC4899 !important;
+  text-shadow: none !important;
+}
+
+.nav-item.active svg { filter: none !important; }
+
+/* Remove ambient, game-like decoration from production academic screens. */
+.theme-aura .aura-blob,
+.theme-lumina .aura-blob,
+.theme-aura .twinkling-star,
+.theme-lumina .twinkling-star {
+  display: none !important;
+}
+
+/* Legacy inline muted text values are raised to the accessible secondary token. */
+.theme-aura [style*="color: rgba(255,255,255,0.3)"],
+.theme-aura [style*="color: rgba(255, 255, 255, 0.3)"],
+.theme-aura [style*="color: rgba(255,255,255,0.4)"],
+.theme-aura [style*="color: rgba(255, 255, 255, 0.4)"],
+.theme-aura [style*="color: rgba(255,255,255,0.5)"],
+.theme-aura [style*="color: rgba(255, 255, 255, 0.5)"],
+.theme-lumina [style*="color: rgba(255,255,255,0.3)"],
+.theme-lumina [style*="color: rgba(255, 255, 255, 0.3)"],
+.theme-lumina [style*="color: rgba(255,255,255,0.4)"],
+.theme-lumina [style*="color: rgba(255, 255, 255, 0.4)"],
+.theme-lumina [style*="color: rgba(255,255,255,0.5)"],
+.theme-lumina [style*="color: rgba(255, 255, 255, 0.5)"] {
+  color: #B8B2C2 !important;
+}
+
+.theme-aura .text-white\/30,
+.theme-aura .text-white\/40,
+.theme-aura .text-white\/45,
+.theme-aura .text-white\/50,
+.theme-lumina .text-white\/30,
+.theme-lumina .text-white\/40,
+.theme-lumina .text-white\/45,
+.theme-lumina .text-white\/50 {
+  color: #B8B2C2 !important;
+}
+
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid #A855F7 !important;
+  outline-offset: 3px;
+}
+
+@media (max-width: 767px) {
+  .dashboard-main { gap: 16px; }
+  .dashboard-main .premium-card { border-radius: 20px !important; }
+  .marks-page-content { padding-left: 16px; padding-right: 16px; }
+  .marks-filter-row { padding-left: 16px !important; padding-right: 16px !important; }
 }
 

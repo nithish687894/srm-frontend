@@ -46,6 +46,21 @@ function TimetableSkeleton() {
   );
 }
 
+function TimetableUnavailable({ onRetry }: { onRetry: () => void }) {
+  return (
+    <div className="min-h-screen w-full bg-[#09090F] text-white overflow-x-hidden">
+      <main className="w-full max-w-xl mx-auto px-4 pt-[calc(env(safe-area-inset-top,0px)+76px)] pb-36">
+        <h1 className="text-[28px] font-black mb-5">Timetable</h1>
+        <section className="bg-[#12121A] border border-[#292532] rounded-[20px] p-6">
+          <h2 className="text-[18px] font-extrabold text-[#F7F5FA]">Timetable unavailable</h2>
+          <p className="mt-2 text-sm leading-6 text-[#B8B2C2]">We could not load your current timetable. Check your connection and try again.</p>
+          <button onClick={onRetry} className="mt-5 min-h-11 rounded-xl bg-[#EC4899] px-4 text-sm font-extrabold text-white">Retry</button>
+        </section>
+      </main>
+    </div>
+  );
+}
+
 function to24(h: number) { return h >= 1 && h <= 7 ? h + 12 : h; }
 function parseStart(t: string) { const m = t.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
 function parseEnd(t: string) { const parts = t.split(/\s*[-–]\s*/); const last = parts[parts.length - 1] || ""; const m = last.match(/(\d+):(\d+)/); return m ? to24(parseInt(m[1])) * 60 + parseInt(m[2]) : 0; }
@@ -400,6 +415,7 @@ export default function TimetablePage() {
   const [sharing, setSharing] = useState(false);
   const [fullSharing, setFullSharing] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [loadTimedOut, setLoadTimedOut] = useState(false);
 
   const handleShare = async () => {
     if (!shareRef.current) return;
@@ -631,9 +647,40 @@ export default function TimetablePage() {
 
   const schedule = useMemo(() => {
     const rawMyTT = myTTQ.data;
-    const courses = rawMyTT?.data?.courses || rawMyTT?.courses || rawMyTT?.data || (Array.isArray(rawMyTT) ? rawMyTT : []);
+    let courses: AnyValue[] = [];
+    if (Array.isArray(rawMyTT)) {
+      courses = rawMyTT;
+    } else if (Array.isArray(rawMyTT?.data?.courses)) {
+      courses = rawMyTT.data.courses;
+    } else if (Array.isArray(rawMyTT?.courses)) {
+      courses = rawMyTT.courses;
+    } else if (Array.isArray(rawMyTT?.data)) {
+      courses = rawMyTT.data;
+    } else if (Array.isArray(rawMyTT?.data?.data)) {
+      courses = rawMyTT.data.data;
+    }
+
+    if (courses.length === 0 && Array.isArray(trustedAcademicData?.timetable)) {
+      courses = trustedAcademicData.timetable;
+    }
+
     const rawTT = ttQ.data;
-    const gridRows = rawTT?.data?.rows || rawTT?.rows || (Array.isArray(rawTT) ? rawTT : []);
+    let gridRows: AnyValue[] = [];
+    if (Array.isArray(rawTT)) {
+      gridRows = rawTT;
+    } else if (Array.isArray(rawTT?.data?.rows)) {
+      gridRows = rawTT.data.rows;
+    } else if (Array.isArray(rawTT?.rows)) {
+      gridRows = rawTT.rows;
+    } else if (Array.isArray(rawTT?.data?.data?.rows)) {
+      gridRows = rawTT.data.data.rows;
+    } else if (Array.isArray(rawTT?.data)) {
+      gridRows = rawTT.data;
+    }
+
+    if (gridRows.length === 0 && Array.isArray(trustedAcademicData?.timetableRows)) {
+      gridRows = trustedAcademicData.timetableRows;
+    }
 
     if (!Array.isArray(gridRows) || gridRows.length === 0 || !Array.isArray(courses) || courses.length === 0) return [];
 
@@ -912,7 +959,22 @@ export default function TimetablePage() {
   const isDataLoading = (!trustedCalendar && !calQ.data && calQ.isLoading) || 
                         (!trustedMyTimetable && !trustedAcademicData?.timetable && !myTTQ.data && myTTQ.isLoading) || 
                         (!trustedTimetable && !ttQ.data && ttQ.isLoading);
+  useEffect(() => {
+    if (!isDataLoading) {
+      setLoadTimedOut(false);
+      return;
+    }
+    const timeout = window.setTimeout(() => setLoadTimedOut(true), 7000);
+    return () => window.clearTimeout(timeout);
+  }, [isDataLoading]);
+
   if (isDataLoading) {
+    if (loadTimedOut) {
+      return <TimetableUnavailable onRetry={() => {
+        setLoadTimedOut(false);
+        void Promise.all([calQ.refetch(), myTTQ.refetch(), ttQ.refetch()]);
+      }} />;
+    }
     return <TimetableSkeleton />;
   }
 

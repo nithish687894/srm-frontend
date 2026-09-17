@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useMemo, useEffect } from "react";
-import { Award, Sparkles, AlertTriangle, TrendingUp, Activity, Flame } from "lucide-react";
+import { Award, AlertTriangle, TrendingUp, Activity, Flame } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/store";
 import { useAuraTheme } from "./system/useAuraTheme";
@@ -171,6 +171,10 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
     return { totalSubs, overallAvg, atRisk };
   }, [processedMarks]);
 
+  const hasPublishedMarks = useMemo(() => processedMarks.some((mark: AnyValue) =>
+    mark.tests?.some((test: AnyValue) => test.score !== undefined && test.score !== null && test.score !== "")
+  ), [processedMarks]);
+
   const filteredMarks = useMemo(() => {
     let result = [...processedMarks];
     if (filter === "At Risk") {
@@ -311,23 +315,17 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
       <div className={`sticky-header ${isScrolled ? 'visible' : ''}`}>
         <span className="sticky-title" style={{ fontSize: '13px', fontWeight: 900, color: '#fff' }}>Marks Registry</span>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-          <span className="sticky-avg" style={{ fontSize: '11px', fontWeight: 800, color: AURA_COLORS.sub }}>AVG <span style={{color: AURA_COLORS.purple}}>{stats.overallAvg.toFixed(1)}%</span></span>
-          {stats.atRisk > 0 && <span style={{ fontSize: '10px', background: 'rgba(255,45,85,0.1)', border: '1px solid rgba(255,45,85,0.2)', color: AURA_COLORS.red, padding: '4px 8px', borderRadius: '100px', fontWeight: 900 }}>{stats.atRisk} AT RISK</span>}
+          <span className="sticky-avg" style={{ fontSize: '11px', fontWeight: 800, color: AURA_COLORS.sub }}>AVG <span style={{color: AURA_COLORS.purple}}>{hasPublishedMarks ? `${stats.overallAvg.toFixed(1)}%` : "—"}</span></span>
+          {hasPublishedMarks && stats.atRisk > 0 && <span style={{ fontSize: '10px', background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.28)', color: AURA_COLORS.red, padding: '4px 8px', borderRadius: '100px', fontWeight: 900 }}>{stats.atRisk} at risk</span>}
         </div>
       </div>
 
-      <div style={{ position: 'relative', zIndex: 1, paddingTop: 'calc(env(safe-area-inset-top, 0px) + 72px)', paddingBottom: '100px' }}>
+      <div className="marks-page-content" style={{ position: 'relative', zIndex: 1, paddingTop: 'calc(env(safe-area-inset-top, 0px) + 72px)', paddingBottom: '100px' }}>
         
-        <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(192, 132, 252, 0.08)', padding: '6px 14px', borderRadius: '100px', border: '1px solid rgba(192, 132, 252, 0.18)', marginBottom: '16px', boxShadow: '0 0 20px rgba(192, 132, 252, 0.06)' }}>
-            <Sparkles size={14} color={AURA_COLORS.purple} />
-            <span style={{ fontSize: "10px", fontWeight: 800, color: AURA_COLORS.purple, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Lumina Mode Active</span>
-          </div>
-          <h1 style={{ fontSize: "42px", fontWeight: 900, margin: '0 0 24px', letterSpacing: '-2px', lineHeight: 1 }}>
-            Marks <span style={{ color: AURA_COLORS.purple }}>Registry</span>
-          </h1>
+        <div style={{ textAlign: 'center', marginBottom: hasPublishedMarks ? '24px' : '16px' }}>
+          <h1 style={{ fontSize: "42px", fontWeight: 900, margin: '0 0 24px', letterSpacing: '-2px', lineHeight: 1, color: '#fff' }}>Marks</h1>
 
-          <div className="hide-scrollbar marks-stats-strip">
+          {hasPublishedMarks && <div className="hide-scrollbar marks-stats-strip">
              <div className="premium-card marks-stat-card" style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.03), 0 20px 40px rgba(0,0,0,0.5), 0 0 20px rgba(56, 189, 248, 0.05)' }}>
                 <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(56, 189, 248, 0.08)', filter: 'blur(20px)', pointerEvents: 'none' }} />
                 <Activity size={24} color={AURA_COLORS.cyan} className="marks-stat-icon" />
@@ -336,9 +334,9 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
              </div>
              <div className="premium-card marks-stat-card" style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.03), 0 20px 40px rgba(0,0,0,0.5), 0 0 20px rgba(192, 132, 252, 0.05)' }}>
                 <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(192, 132, 252, 0.08)', filter: 'blur(20px)', pointerEvents: 'none' }} />
-                <TrendingUp size={24} color={getStatusColor(stats.overallAvg)} className="marks-stat-icon" />
+                <TrendingUp size={24} color={hasPublishedMarks ? getStatusColor(stats.overallAvg) : AURA_COLORS.sub} className="marks-stat-icon" />
                 <div className="marks-stat-label">Overall Average</div>
-                <div className="marks-stat-value tabular-nums" style={{ color: getStatusColor(stats.overallAvg) }}>{stats.overallAvg.toFixed(1)}%</div>
+                <div className="marks-stat-value tabular-nums" style={{ color: hasPublishedMarks ? getStatusColor(stats.overallAvg) : AURA_COLORS.sub }}>{hasPublishedMarks ? `${stats.overallAvg.toFixed(1)}%` : "—"}</div>
              </div>
              <div className="premium-card marks-stat-card" style={{ boxShadow: `inset 0 1px 0 rgba(255,255,255,0.03), 0 20px 40px rgba(0,0,0,0.5), 0 0 20px ${stats.atRisk > 0 ? 'rgba(255, 107, 139, 0.08)' : 'rgba(192, 132, 252, 0.05)'}` }}>
                 <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '80px', height: '80px', borderRadius: '50%', background: stats.atRisk > 0 ? 'rgba(255, 107, 139, 0.08)' : 'rgba(192, 132, 252, 0.05)', filter: 'blur(20px)', pointerEvents: 'none' }} />
@@ -346,10 +344,10 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
                 <div className="marks-stat-label">At Risk</div>
                 <div className="marks-stat-value tabular-nums" style={{ color: stats.atRisk > 0 ? AURA_COLORS.red : '#fff' }}>{stats.atRisk}<span className="marks-stat-unit">Subjects</span></div>
              </div>
-          </div>
+          </div>}
         </div>
 
-        <div className="marks-filter-row">
+        {hasPublishedMarks && <div className="marks-filter-row">
           {["All", "At Risk", "Lowest Score", "Highest Score", "Alphabetical"].map(f => (
             <button 
               key={f} onClick={() => setFilter(f)}
@@ -378,23 +376,19 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
               {f}
             </button>
           ))}
-        </div>
+        </div>}
 
         {/* Cards Grid */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '0 24px' }}>
-           {filteredMarks.map((m: AnyValue, i: number) => {
+          {!hasPublishedMarks || filteredMarks.length === 0 ? (
+            <div className="liquid-card" style={{ padding: '24px', borderRadius: '20px', textAlign: 'center' }}>
+              <div style={{ fontSize: '14px', fontWeight: 700, color: '#fff' }}>Marks haven’t been published yet.</div>
+            </div>
+          ) : filteredMarks.map((m: AnyValue, i: number) => {
               const statusColor = getStatusColor(m.pct);
               const statusLabel = getStatusLabel(m.pct);
               
-               if (!m.tests || m.tests.length === 0) {
-                  return (
-                    <div key={i} className="liquid-card" style={{ padding: '28px', borderRadius: '32px', border: '1px dashed rgba(255, 255, 255, 0.15)', textAlign: 'center', opacity: 0.6 }}>
-                       <div style={{ fontSize: '9px', fontWeight: 900, color: AURA_COLORS.purple, background: 'rgba(192,132,252,0.05)', padding: '4px 12px', borderRadius: '100px', display: 'inline-block', marginBottom: '12px' }}>{m.courseCode || m.code}</div>
-                       <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', margin: '0 0 12px', textTransform: 'capitalize', lineHeight: 1.2 }}>{m.title?.toLowerCase()}</h3>
-                       <div style={{ fontSize: '12px', fontWeight: 600, color: AURA_COLORS.sub }}>Marks not uploaded yet</div>
-                    </div>
-                  );
-               }
+               if (!m.tests || m.tests.length === 0) return null;
 
                return (
                 <div 

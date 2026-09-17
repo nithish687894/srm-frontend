@@ -66,11 +66,10 @@ export default function LoadingSkeleton() {
           {/* Top Rim Accent */}
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-purple-500/50 via-cyan-500/40 to-purple-500/50 opacity-90" />
 
-          {/* Header Row: Real Academic Command Badge + Real Greeting Label */}
+          {/* Header Row: simple Today label + greeting */}
           <div className="flex items-center justify-between gap-2 min-w-0 flex-wrap">
             <div className="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 flex items-center gap-1.5 shrink-0">
-              <Sparkles size={11} className="text-purple-400" />
-              <span className="text-[9.5px] font-black text-purple-300 tracking-wider uppercase whitespace-nowrap">Academic Command</span>
+              <span className="text-[9.5px] font-black text-purple-300 tracking-wider uppercase whitespace-nowrap">Today</span>
             </div>
             <span className="text-[11px] text-white/50 font-bold uppercase tracking-wider whitespace-nowrap">Good Evening, Student</span>
           </div>

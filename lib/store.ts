@@ -358,8 +358,12 @@ export const useAuthStore = create<AuthStore>()(
             state.calendar
           );
           const cacheVersion = Number(state.studentDataCacheVersion || 0);
-          if (hasStudentCache && (cacheVersion !== STUDENT_DATA_CACHE_VERSION || !owner || (email && owner !== email))) {
-            state.clearStudentData();
+          if (hasStudentCache) {
+            if (cacheVersion !== STUDENT_DATA_CACHE_VERSION || (email && owner && email !== owner)) {
+              state.clearStudentData();
+            } else if (!owner && email) {
+              state.dataOwnerEmail = email;
+            }
           }
           state.setHasHydrated(true);
         }

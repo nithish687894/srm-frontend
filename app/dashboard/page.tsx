@@ -322,6 +322,7 @@ export default function DashboardPage() {
 
   const [data, setData] = useState<AnyValue>(trustedAcademicData || null);
   const [loading, setLoading] = useState(!trustedAcademicData);
+  const [loadingTimedOut, setLoadingTimedOut] = useState(false);
   const [ttData, setTTData] = useState<AnyValue>(trustedTimetable || null);
   const [myTTData, setMyTTData] = useState<AnyValue>(trustedMyTimetable || null);
   const [calData, setCalData] = useState<AnyValue>(trustedCalendar || null);
@@ -705,6 +706,12 @@ export default function DashboardPage() {
     if (!ready) return;
     fetchUnifiedData(false);
   }, [ready]);
+
+  useEffect(() => {
+    if (!loading || data || trustedAcademicData) return;
+    const timeout = window.setTimeout(() => setLoadingTimedOut(true), 7000);
+    return () => window.clearTimeout(timeout);
+  }, [loading, data, trustedAcademicData]);
 
   // Auto-refresh: poll every 30 minutes while tab is visible
   useEffect(() => {
@@ -1280,8 +1287,20 @@ export default function DashboardPage() {
     );
   })();
 
-  if (loading && !data && !trustedAcademicData) {
+  if (loading && !data && !trustedAcademicData && !loadingTimedOut) {
     return <LoadingSkeleton />;
+  }
+
+  if (loadingTimedOut && !data && !trustedAcademicData) {
+    return (
+      <main style={{ minHeight: "100dvh", padding: "calc(env(safe-area-inset-top, 0px) + 76px) 16px 108px", background: "#09090F" }}>
+        <section style={{ maxWidth: "540px", margin: "0 auto", padding: "24px", borderRadius: "20px", background: "#12121A", border: "1px solid #292532" }}>
+          <h1 style={{ margin: "0 0 8px", color: "#F7F5FA", fontSize: "22px" }}>Home unavailable</h1>
+          <p style={{ margin: "0 0 20px", color: "#B8B2C2", lineHeight: 1.5 }}>We could not load your academic information. Check your connection and try again.</p>
+          <button onClick={() => { setLoadingTimedOut(false); setLoading(true); void fetchUnifiedData(false); }} style={{ minHeight: "44px", padding: "0 16px", border: "none", borderRadius: "12px", background: "#EC4899", color: "#fff", fontWeight: 800, cursor: "pointer" }}>Retry</button>
+        </section>
+      </main>
+    );
   }
 
   return (

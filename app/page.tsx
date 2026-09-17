@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { authAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
-import { Eye, EyeOff, MonitorPlay, Shield, Zap, Bell, TrendingUp, Lock } from "lucide-react";
+import { Eye, EyeOff, MonitorPlay, Shield, Zap, Bell, TrendingUp } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -21,15 +21,6 @@ export default function LoginPage() {
   const heroVideoRef = useRef<HTMLVideoElement | null>(null);
 
   const router = useRouter();
-
-  // Teaser page states
-  const [showTeaser, setShowTeaser] = useState(true);
-  const logoClicksRef = useRef(0);
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-  const [emailInput, setEmailInput] = useState("");
-  const [waitlistLoading, setWaitlistLoading] = useState(false);
-  const [waitlistSuccess, setWaitlistSuccess] = useState(false);
-  const [waitlistError, setWaitlistError] = useState("");
 
   // Enforce granular Zustand selectors to eliminate unnecessary render thrashing
   const setAuthData = useAuthStore((state) => state.setAuthData);
@@ -57,69 +48,6 @@ export default function LoginPage() {
     }
   }, []);
 
-  // Admin bypass checks and Date launch checks
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const isBypassed = params.get("bypass") === "true" || sessionStorage.getItem("adminBypass") === "true";
-      const targetDate = new Date("2026-07-15T00:00:00").getTime();
-      const now = new Date().getTime();
-      if (isBypassed || now >= targetDate) {
-        setShowTeaser(false);
-      }
-    }
-  }, []);
-
-  // Keyboard shortcut bypass listener (Ctrl + Shift + A)
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "a") {
-        e.preventDefault();
-        setShowTeaser(false);
-        sessionStorage.setItem("adminBypass", "true");
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
-  // Check waitlist subscription state
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("nexusWaitlistSubscribed");
-      if (stored === "true") {
-        setWaitlistSuccess(true);
-      }
-    }
-  }, []);
-
-  // Countdown ticker to 15 July 2026
-  useEffect(() => {
-    const targetDate = new Date("2026-07-15T00:00:00").getTime();
-
-    const updateCountdown = () => {
-      const now = new Date().getTime();
-      const difference = targetDate - now;
-
-      if (difference <= 0) {
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-        setShowTeaser(false);
-        return;
-      }
-
-      const d = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const h = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-      const s = Math.floor((difference % (1000 * 60)) / 1000);
-
-      setTimeLeft({ days: d, hours: h, minutes: m, seconds: s });
-    };
-
-    updateCountdown();
-    const interval = setInterval(updateCountdown, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
   useEffect(() => {
     if (!_hasHydrated) return;
     if (authToken) {
@@ -139,44 +67,6 @@ export default function LoginPage() {
       // Muted inline autoplay can still be paused by some mobile browser policies.
     });
   }, []);
-
-  // Admin bypass logo handler (uses useRef to avoid state race conditions)
-  const handleLogoClick = () => {
-    logoClicksRef.current += 1;
-    if (logoClicksRef.current >= 5) {
-      logoClicksRef.current = 0;
-      const passcode = prompt("Enter developer passcode:");
-      if (passcode === "srmxdev2026") {
-        setShowTeaser(false);
-        sessionStorage.setItem("adminBypass", "true");
-        sessionStorage.setItem("developerPasscode", passcode);
-      } else if (passcode !== null) {
-        alert("Invalid passcode.");
-      }
-    }
-  };
-
-  // Waitlist submission handler
-  const handleWaitlistSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setWaitlistError("");
-    
-    if (!emailInput || !emailInput.includes("@")) {
-      setWaitlistError("PLEASE ENTER A VALID EMAIL ADDRESS");
-      return;
-    }
-
-    setWaitlistLoading(true);
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      localStorage.setItem("nexusWaitlistSubscribed", "true");
-      setWaitlistSuccess(true);
-    } catch {
-      setWaitlistError("FAILED TO JOIN WAITLIST. PLEASE TRY AGAIN.");
-    } finally {
-      setWaitlistLoading(false);
-    }
-  };
 
   async function handleLogin() {
     if (!email || !password) return setError("PROVIDE CREDENTIALS");
@@ -423,27 +313,27 @@ export default function LoginPage() {
           width: 100%;
           height: 52px;
           padding: 0 16px;
-          background: rgba(255, 255, 255, 0.07);
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          color: #ffffff;
+          background: #12121A;
+          border: 1px solid #292532;
+          color: #F7F5FA;
           font-size: 14px;
           font-family: inherit;
           font-weight: 750;
           outline: none;
-          transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
           border-radius: 14px;
           margin-bottom: 12px;
         }
 
         .login-input::placeholder {
-          color: rgba(255, 255, 255, 0.35);
+          color: #B8B2C2;
           font-weight: 600;
         }
 
         .login-input:focus { 
-          border-color: rgba(139, 92, 246, 0.5);
-          background: rgba(255, 255, 255, 0.08);
-          box-shadow: 0 0 40px rgba(139, 92, 246, 0.15);
+          border-color: #A855F7;
+          background: #1A1724;
+          box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.18);
         }
 
         .login-btn {
@@ -989,7 +879,7 @@ export default function LoginPage() {
         }
       `}</style>
 
-      <div className={`lp-root ${showTeaser ? "teaser-mode" : ""}`}>
+      <div className="lp-root">
         <div className="nebula-bg" />
 
         <div>
@@ -1056,111 +946,6 @@ export default function LoginPage() {
         </div>
 
         <section className="hero-section">
-          {showTeaser ? (
-            <div className="teaser-container">
-              {/* Logo / Bypass Trigger */}
-              <div 
-                className="teaser-logo-container teaser-logo" 
-                onClick={handleLogoClick}
-              >
-                <Image 
-                  src="/nexus-logo.png" 
-                  alt="Logo" 
-                  width={72}
-                  height={72}
-                  priority
-                  draggable={false}
-                  style={{ 
-                    filter: "drop-shadow(0 0 25px rgba(255, 117, 195, 0.5))",
-                    userSelect: "none",
-                    WebkitUserDrag: "none"
-                  } as any} 
-                />
-              </div>
-
-              {/* Title & Badge */}
-              <div>
-                <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "8px 16px", borderRadius: "999px", background: "rgba(139, 92, 246, 0.1)", border: "1px solid rgba(139, 92, 246, 0.2)", color: "#CD93FF", fontSize: "11px", fontWeight: 900, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "16px" }}>
-                  <Lock size={12} style={{ color: "#FF75C3" }} /> Launching July 15, 2026
-                </div>
-                <h1 className="teaser-title">
-                  SRM Nexus is <span style={{ background: "linear-gradient(135deg, #BF5AF2 0%, #FF75C3 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Coming Soon</span>
-                </h1>
-                <p className="teaser-desc">
-                  Get ready for the ultimate academic companion. Predictive class forecasting, real-time alerts, and advanced GPA estimation, built specifically for SRM students.
-                </p>
-              </div>
-
-              {/* Ticking Countdown Ticker */}
-              <div className="countdown-row">
-                {[
-                  { label: "Days", val: timeLeft.days },
-                  { label: "Hours", val: timeLeft.hours },
-                  { label: "Minutes", val: timeLeft.minutes },
-                  { label: "Seconds", val: timeLeft.seconds }
-                ].map((item, idx) => (
-                  <div key={idx} className="countdown-segment">
-                    <div className="countdown-number">{String(item.val).padStart(2, "0")}</div>
-                    <div className="countdown-label">{item.label}</div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Waitlist Sign Up Form */}
-              <div style={{ width: "100%", maxWidth: "500px" }}>
-                {waitlistSuccess ? (
-                  <div 
-                    style={{ 
-                      background: "rgba(48, 209, 88, 0.08)",
-                      border: "1px solid rgba(48, 209, 88, 0.25)",
-                      color: "#30D158",
-                      borderRadius: "20px",
-                      padding: "20px 24px",
-                      textAlign: "center"
-                    }}
-                  >
-                    <div style={{ fontWeight: 950, fontSize: "16px", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "4px" }}>
-                      You're on the list!
-                    </div>
-                    <div style={{ fontSize: "13px", color: "rgba(255, 255, 255, 0.6)", fontWeight: 600 }}>
-                      We'll notify you the moment we launch on July 15, 2026.
-                    </div>
-                  </div>
-                ) : (
-                  <form onSubmit={handleWaitlistSubmit} style={{ display: "flex", flexDirection: "column", gap: "12px", width: "100%" }}>
-                    <div style={{ display: "flex", gap: "10px", width: "100%", flexDirection: "row" }} className="waitlist-row">
-                      <input 
-                        type="email"
-                        placeholder="ENTER YOUR SRM EMAIL"
-                        className="waitlist-input"
-                        value={emailInput}
-                        onChange={e => setEmailInput(e.target.value)}
-                        disabled={waitlistLoading}
-                      />
-                      <button 
-                        type="submit" 
-                        className="waitlist-btn"
-                        disabled={waitlistLoading}
-                      >
-                        {waitlistLoading ? "Joining..." : "Get Notified"}
-                      </button>
-                    </div>
-                    {waitlistError && (
-                      <div style={{ color: "#ff7b7b", fontSize: "12px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em", textAlign: "center", marginTop: "4px" }}>
-                        {waitlistError}
-                      </div>
-                    )}
-                  </form>
-                )}
-                <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)", fontWeight: 700, letterSpacing: "0.04em", marginTop: "12px" }}>
-                  Join the exclusive waitlist today for day-one premium benefits.
-                </div>
-              </div>
-
-              {/* Features grid removed to keep screen non-scrollable */}
-            </div>
-          ) : (
-            <>
               {loginStep === "hero" && (
                 <div style={{ maxWidth: "680px", margin: "0 auto", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "28px", animation: "slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1)" }}>
                   <div style={{ display: "inline-block", padding: "16px", background: "rgba(139, 92, 246, 0.08)", borderRadius: "24px", border: "1px solid rgba(139, 92, 246, 0.15)", marginBottom: "4px" }}>
@@ -1433,8 +1218,6 @@ export default function LoginPage() {
                   </div>
                 </div>
               )}
-            </>
-          )}
         </section>
 
         <footer style={{ padding: '80px 24px 60px', textAlign: 'center', borderTop: "1px solid rgba(255,255,255,0.06)", background: "rgba(255,255,255,0.008)", position: "relative", zIndex: 1 }}>

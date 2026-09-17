@@ -74,6 +74,9 @@ export default function AuraAttendance({
   onReconnect,
   isSyncing = false, 
   isLoading = false,
+  attendanceState = "unavailable",
+  unavailableMessage = "Attendance could not be loaded. Please try again.",
+  predictorEnabled = false,
   timeAgoStr = "",
   showPredictor: externalShowPredictor, 
   setShowPredictor: externalSetShowPredictor, 
@@ -278,6 +281,33 @@ export default function AuraAttendance({
   const ringCircumference = 2 * Math.PI * ringRadius;
   const ringOffset = ringCircumference - (Math.min(100, Math.max(0, stats.overallAvg)) / 100) * ringCircumference;
   const ringColor = getStatusColor(stats.overallAvg);
+
+  const isUnavailable = attendanceState === "unavailable" || attendanceState === "loading";
+  const retryLabel = isSpConnected ? "Retry" : "Reconnect";
+
+  if (isUnavailable) {
+    return (
+      <AuraBackground theme={activeTheme} stars={stars}>
+        <main style={{ minHeight: "100dvh", padding: "calc(env(safe-area-inset-top, 0px) + 76px) 16px calc(env(safe-area-inset-bottom, 0px) + 108px)" }}>
+          <div className="attendance-container">
+            <h1 style={{ fontSize: "28px", fontWeight: 900, margin: "0 0 20px", color: "#fff" }}>Attendance</h1>
+            <section style={{ background: "#12121A", border: "1px solid #292532", borderRadius: "20px", padding: "24px", textAlign: "left" }}>
+              <AlertCircle size={22} color="#F59E0B" aria-hidden="true" />
+              <h2 style={{ fontSize: "18px", fontWeight: 850, color: "#F7F5FA", margin: "14px 0 8px" }}>Attendance unavailable</h2>
+              <p style={{ fontSize: "14px", lineHeight: 1.5, color: "#B8B2C2", margin: "0 0 20px" }}>{unavailableMessage}</p>
+              <button
+                  onClick={isSpConnected ? handleSync : (onReconnect || handleSync)}
+                disabled={isSyncing}
+                style={{ minHeight: "44px", padding: "0 16px", border: "none", borderRadius: "12px", background: "#EC4899", color: "#fff", fontSize: "14px", fontWeight: 800, cursor: isSyncing ? "wait" : "pointer" }}
+              >
+                {isSyncing ? "Trying again…" : retryLabel}
+              </button>
+            </section>
+          </div>
+        </main>
+      </AuraBackground>
+    );
+  }
 
   return (
     <AuraBackground theme={activeTheme} stars={stars}>
@@ -765,7 +795,7 @@ export default function AuraAttendance({
           {/* ══════════════════════════════════════════════════════════════════════
               SKIP PREDICTOR: Premium Student Utility Card
           ══════════════════════════════════════════════════════════════════════ */}
-          <div style={{ marginBottom: '14px' }}>
+          {predictorEnabled && <div style={{ marginBottom: '14px' }}>
             {!isPredictorOpen ? (
               <div
                 onClick={() => setPredictorOpen(true)}
@@ -1074,7 +1104,7 @@ export default function AuraAttendance({
                 )}
               </div>
             )}
-          </div>
+          </div>}
 
           {/* ══════════════════════════════════════════════════════════════════════
               FILTER & SORT BAR: One-Thumb Ergonomics

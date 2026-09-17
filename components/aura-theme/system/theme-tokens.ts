@@ -1,20 +1,20 @@
 // Aura Design System Tokens
 
 export const AURA_COLORS = {
-  bg: "var(--app-bg, #050508)",
-  cyan: "var(--accent-cyan, #38BDF8)",      // Soothing sky-blue / cyan accents
-  pink: "var(--accent, #FF75C3)",      // Highly vibrant, glowing hot pink
-  primary: "var(--accent-primary, #FFA3D3)",   // Dreamy, crystalline soft pastel pink
-  secondary: "var(--accent-secondary, #A78BFA)", // Elegant pastel lavender
-  purple: "var(--accent-purple, #C084FC)",    // Lumina brand soft amethyst purple
-  accent: "var(--accent-secondary, #A7F3D0)",    // Calming mint accent
-  amber: "#FBBF24",     // Soothing golden amber (warning status)
-  emerald: "#34D399",   // Calm pastel emerald
-  green: "#34D399",     // Safe status (soft green)
-  red: "#FF4B72",       // Rich neon ruby red (critical warning)
-  text: "var(--text-main, #ffffff)",
-  sub: "var(--text-muted, rgba(255, 255, 255, 0.52))",
-  subBright: "var(--text-muted, rgba(255, 255, 255, 0.72))",
+  bg: "var(--app-bg, #09090F)",
+  cyan: "var(--accent-cyan, #38BDF8)",
+  pink: "var(--accent-pink, #EC4899)",
+  primary: "var(--accent-primary, #A855F7)",
+  secondary: "var(--accent-secondary, #A855F7)",
+  purple: "var(--accent-purple, #A855F7)",
+  accent: "var(--accent-primary, #A855F7)",
+  amber: "#F59E0B",
+  emerald: "#22C55E",
+  green: "#22C55E",
+  red: "#EF4444",
+  text: "var(--text-main, #F7F5FA)",
+  sub: "var(--text-soft, #B8B2C2)",
+  subBright: "var(--text-muted, #B8B2C2)",
 };
 
 export const AURA_TRANSITIONS = {
@@ -24,6 +24,6 @@ export const AURA_TRANSITIONS = {
 };
 
 export const AURA_SHADOWS = {
-  card: "inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 20px 40px rgba(0,0,0,0.5)",
-  cardHover: "inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 30px 50px rgba(0,0,0,0.6)",
+  card: "0 8px 20px rgba(0,0,0,0.18)",
+  cardHover: "0 10px 24px rgba(0,0,0,0.24)",
 };

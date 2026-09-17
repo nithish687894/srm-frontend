@@ -49,6 +49,7 @@ export default function AttendancePage() {
   const [loading, setLoading] = useState(storeAttendance.length === 0);
   const [isSyncing, setIsSyncing] = useState(false);
   const [isSyncModalOpen, setIsSyncModalOpen] = useState(false);
+  const [now, setNow] = useState(() => Date.now());
 
   const studentPortalStatus = connectorStatuses.studentPortal;
   const isSpConnected = studentPortalStatus === "connected";
@@ -135,6 +136,26 @@ export default function AttendancePage() {
   const rawSpData = academicData?.studentPortal;
   const spData = (rawSpData && rawSpData.attendance) ? rawSpData : studentPortalData;
   const lastSyncedStr = formatLastSynced(spData?.lastSyncedAt);
+  const lastSyncedMs = useMemo(() => {
+    const value = spData?.lastSyncedAt || academicData?.lastFetchedAt;
+    if (!value) return null;
+    const timestamp = typeof value === "number" ? value : new Date(value).getTime();
+    return Number.isFinite(timestamp) ? timestamp : null;
+  }, [spData?.lastSyncedAt, academicData?.lastFetchedAt]);
+  const isAttendanceStale = !lastSyncedMs || now - lastSyncedMs > 15 * 60 * 1000;
+  const attendanceState = loading && att.length === 0
+    ? "loading"
+    : att.length === 0 || isAttendanceStale
+      ? "unavailable"
+      : isSpConnected
+        ? "ready"
+        : "cached";
+  const canUsePredictor = attendanceState === "ready";
+  const unavailableMessage = studentPortalStatus === "session_expired"
+    ? "Your Student Portal session expired. Reconnect to load current attendance."
+    : isSpConnected
+      ? "Attendance could not be loaded. Try syncing again."
+      : "Connect your Student Portal to load attendance.";
 
   const [calData, setCalData] = useState<AnyValue>(cachedCalendar || null);
   const [ttData, setTTData] = useState<AnyValue>(() => {
@@ -154,7 +175,6 @@ export default function AttendancePage() {
     try { window.scrollTo({ top: 0, left: 0, behavior: "instant" }); } catch {}
   }, []);
 
-  const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     const int = setInterval(() => setNow(Date.now()), 60000);
     return () => clearInterval(int);
@@ -178,6 +198,13 @@ export default function AttendancePage() {
       setLoading(false);
     }
   }, [storeAttendance]);
+
+  // A pending request must never leave the page on a permanent skeleton.
+  useEffect(() => {
+    if (!loading) return;
+    const timeout = window.setTimeout(() => setLoading(false), 7000);
+    return () => window.clearTimeout(timeout);
+  }, [loading]);
 
   useEffect(() => {
     if (!ready) return;
@@ -228,8 +255,9 @@ export default function AttendancePage() {
     Promise.all([dataAPI.getTimetable(batchNum), dataAPI.getMyTimetable()]).then(([tt, myTT]) => {
       setTimetable(tt);
       setMyTimetable(myTT);
-      const courses = myTT?.data?.courses || myTT?.data || [];
-      setTTData({ rows: tt?.data?.rows || [], myTT: courses });
+      const courses = Array.isArray(myTT) ? myTT : (Array.isArray(myTT?.data?.courses) ? myTT.data.courses : (Array.isArray(myTT?.courses) ? myTT.courses : (Array.isArray(myTT?.data) ? myTT.data : [])));
+      const gridRows = Array.isArray(tt?.data?.rows) ? tt.data.rows : (Array.isArray(tt?.rows) ? tt.rows : (Array.isArray(tt?.data?.data?.rows) ? tt.data.data.rows : (Array.isArray(tt?.data) ? tt.data : [])));
+      setTTData({ rows: gridRows, myTT: courses });
     }).catch(() => {});
   }, [ready, academicData?.profile, academicData?.lastFetchedAt, setCalendar, setTimetable, setMyTimetable, isSpConnected, att.length, setAcademicData]);
 
@@ -378,7 +406,10 @@ export default function AttendancePage() {
     showPredictor, setShowPredictor, next30Days, selectedDates, toggleDate, 
     calculatePredictions, predictions, setSelectedDates, setPredictions, showRiskOnly, timeAgoStr,
     studentPortalStatus, lastSyncedStr,
-    isLoading: loading && att.length === 0
+    isLoading: loading && att.length === 0,
+    attendanceState,
+    unavailableMessage,
+    predictorEnabled: canUsePredictor
   };
 
   return (
