@@ -146,6 +146,12 @@ export const authAPI = {
       .then((r) => r.data)
       .catch(() => API.get("/api/v1/auth/student-portal/captcha").then((r) => r.data)),
 
+  // AI-powered CAPTCHA solver
+  solveCaptcha: (captchaImage: string) =>
+    API.post("/auth/student-portal/solve-captcha", { captchaImage })
+      .then((r) => r.data)
+      .catch(() => API.post("/api/v1/auth/student-portal/solve-captcha", { captchaImage }).then((r) => r.data)),
+
   // Read independent connector statuses
   getConnectors: () =>
     API.get("/auth/connectors").then((r) => r.data),

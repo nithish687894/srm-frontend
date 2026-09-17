@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { authAPI, dataAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
-import { X, ShieldCheck, RefreshCw, Cpu, Eye, EyeOff } from "lucide-react";
+import { X, ShieldCheck, RefreshCw, Cpu, Eye, EyeOff, Sparkles, Zap } from "lucide-react";
 
 interface PortalSyncModalProps {
   isOpen: boolean;
@@ -87,12 +87,29 @@ export default function PortalSyncModal({
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [showManualCaptcha, setShowManualCaptcha] = useState(false);
   const [refreshingCaptcha, setRefreshingCaptcha] = useState(false);
+  const [isSolvingCaptcha, setIsSolvingCaptcha] = useState(false);
 
   const isFetchingCaptchaRef = useRef(false);
   const hasFetchedForOpenRef = useRef(false);
 
   const storeEmail = useAuthStore((state) => state.email);
   const effectiveNetId = (netId || storeEmail || "").split("@")[0].replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+
+  const handleAutoSolve = useCallback(async (imageToSolve?: string) => {
+    const targetImage = imageToSolve || captchaImage;
+    if (!targetImage || isSolvingCaptcha) return;
+    setIsSolvingCaptcha(true);
+    try {
+      const res = await authAPI.solveCaptcha(targetImage);
+      if (res?.success && res?.text) {
+        setCaptcha(res.text.toLowerCase());
+      }
+    } catch (err: AnyValue) {
+      console.warn("[PortalSync] Auto-solve failed, fallback to manual input", err);
+    } finally {
+      setIsSolvingCaptcha(false);
+    }
+  }, [captchaImage, isSolvingCaptcha]);
 
   const fetchNewCaptcha = useCallback(async (force = false) => {
     if (isFetchingCaptchaRef.current && !force) return;
@@ -107,6 +124,21 @@ export default function PortalSyncModal({
         setCaptchaToken(token);
         setShowManualCaptcha(true);
         setCaptcha("");
+
+        // Automatically trigger AI auto-solve
+        setIsSolvingCaptcha(true);
+        authAPI.solveCaptcha(img)
+          .then((solveRes) => {
+            if (solveRes?.success && solveRes?.text) {
+              setCaptcha(solveRes.text.toLowerCase());
+            }
+          })
+          .catch((err) => {
+            console.warn("[PortalSync] Background AI auto-solve error", err);
+          })
+          .finally(() => {
+            setIsSolvingCaptcha(false);
+          });
       } else {
         setError(res?.error?.message || res?.message || "Failed to load fresh CAPTCHA. Tap 'Refresh CAPTCHA' to retry.");
       }
@@ -721,58 +753,123 @@ export default function PortalSyncModal({
                           )}
                         </div>
 
-                        <button
-                          type="button"
-                          onClick={() => fetchNewCaptcha(true)}
-                          disabled={refreshingCaptcha || loading}
-                          aria-label="Refresh Captcha"
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "7px",
-                            background: "rgba(255, 255, 255, 0.06)",
-                            border: "1px solid rgba(255, 255, 255, 0.15)",
-                            color: "#fff",
-                            padding: "10px 14px",
-                            borderRadius: "12px",
-                            fontSize: "11.5px",
-                            fontWeight: 800,
-                            cursor: refreshingCaptcha || loading ? "not-allowed" : "pointer",
-                            transition: "all 0.2s",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          <RefreshCw size={14} style={{ animation: refreshingCaptcha ? "spin-slow 1s linear infinite" : "none" }} />
-                          Refresh CAPTCHA
-                        </button>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                          <button
+                            type="button"
+                            onClick={() => handleAutoSolve()}
+                            disabled={isSolvingCaptcha || refreshingCaptcha || loading || !captchaImage}
+                            aria-label="AI Auto-Solve"
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              gap: "6px",
+                              background: isSolvingCaptcha 
+                                ? "rgba(255, 117, 195, 0.2)" 
+                                : "linear-gradient(135deg, rgba(255, 117, 195, 0.25) 0%, rgba(167, 139, 250, 0.25) 100%)",
+                              border: "1px solid rgba(255, 117, 195, 0.4)",
+                              color: "#FF75C3",
+                              padding: "8px 12px",
+                              borderRadius: "10px",
+                              fontSize: "11px",
+                              fontWeight: 900,
+                              cursor: isSolvingCaptcha || loading ? "not-allowed" : "pointer",
+                              transition: "all 0.2s",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            <Sparkles size={13} style={{ animation: isSolvingCaptcha ? "spin-slow 1s linear infinite" : "none" }} />
+                            {isSolvingCaptcha ? "AI Solving..." : "⚡ AI Auto-Solve"}
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => fetchNewCaptcha(true)}
+                            disabled={refreshingCaptcha || loading || isSolvingCaptcha}
+                            aria-label="Refresh Captcha"
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              gap: "6px",
+                              background: "rgba(255, 255, 255, 0.05)",
+                              border: "1px solid rgba(255, 255, 255, 0.12)",
+                              color: "#bbb",
+                              padding: "6px 12px",
+                              borderRadius: "10px",
+                              fontSize: "10.5px",
+                              fontWeight: 700,
+                              cursor: refreshingCaptcha || loading ? "not-allowed" : "pointer",
+                              transition: "all 0.2s",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            <RefreshCw size={12} style={{ animation: refreshingCaptcha ? "spin-slow 1s linear infinite" : "none" }} />
+                            Refresh
+                          </button>
+                        </div>
                       </div>
 
-                      <input
-                        type="text"
-                        placeholder="Enter 5 or 6-character Captcha"
-                        maxLength={8}
-                        style={{
-                          ...getInputStyle("captcha"),
-                          fontFamily: "monospace",
-                          letterSpacing: "0.12em",
-                          fontSize: "14px",
-                          fontWeight: 700,
-                        }}
-                        value={captcha}
-                        autoFocus
-                        onFocus={() => setFocusedInput("captcha")}
-                        onBlur={() => setFocusedInput(null)}
-                        onChange={(e) => setCaptcha(e.target.value.trim())}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" && password && captcha && !loading) {
-                            handleSync();
-                          }
-                        }}
-                        aria-label="Captcha"
-                        autoComplete="off"
-                        autoCorrect="off"
-                        spellCheck={false}
-                      />
+                      <div style={{ position: "relative" }}>
+                        <input
+                          type="text"
+                          placeholder={isSolvingCaptcha ? "AI is auto-solving CAPTCHA..." : "Enter 5 or 6-character Captcha"}
+                          maxLength={8}
+                          style={{
+                            ...getInputStyle("captcha"),
+                            fontFamily: "monospace",
+                            letterSpacing: "0.12em",
+                            fontSize: "14px",
+                            fontWeight: 700,
+                          }}
+                          value={captcha}
+                          autoFocus
+                          onFocus={() => setFocusedInput("captcha")}
+                          onBlur={() => setFocusedInput(null)}
+                          onChange={(e) => setCaptcha(e.target.value.trim())}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" && password && captcha && !loading) {
+                              handleSync();
+                            }
+                          }}
+                          aria-label="Captcha"
+                          autoComplete="off"
+                          autoCorrect="off"
+                          spellCheck={false}
+                        />
+                        {isSolvingCaptcha && (
+                          <span style={{
+                            position: "absolute",
+                            right: "12px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            fontSize: "10px",
+                            color: colors.accent,
+                            fontWeight: 800,
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "4px"
+                          }}>
+                            <Sparkles size={11} style={{ animation: "spin-slow 1s linear infinite" }} /> AI Solving...
+                          </span>
+                        )}
+                        {!isSolvingCaptcha && captcha.length >= 5 && (
+                          <span style={{
+                            position: "absolute",
+                            right: "12px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            fontSize: "10px",
+                            color: "#4ade80",
+                            fontWeight: 800,
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "4px"
+                          }}>
+                            ✓ Solved
+                          </span>
+                        )}
+                      </div>
                     </div>
                   )}
 
