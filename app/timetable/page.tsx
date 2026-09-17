@@ -348,6 +348,7 @@ export default function TimetablePage() {
     academicData, 
     profile, 
     email,
+    dataOwnerEmail,
     timetable: cachedTimetable, 
     myTimetable: cachedMyTimetable, 
     calendar: cachedCalendar, 
@@ -357,6 +358,11 @@ export default function TimetablePage() {
     isPremium 
   } = useAuthStore();
   const userEmail = (email || profile?.Email || profile?.email || "").toLowerCase();
+  const cacheOwnerMatches = !dataOwnerEmail || !email || dataOwnerEmail.toLowerCase() === email.toLowerCase();
+  const trustedAcademicData = cacheOwnerMatches ? academicData : null;
+  const trustedTimetable = cacheOwnerMatches ? cachedTimetable : null;
+  const trustedMyTimetable = cacheOwnerMatches ? cachedMyTimetable : null;
+  const trustedCalendar = cacheOwnerMatches ? cachedCalendar : null;
   const isAdmin = ADMIN_EMAILS.some((e) => e.toLowerCase() === userEmail) || profile?.role === "admin" || profile?.Role === "admin";
   const { theme } = useThemeStore();
   const [activeTab, setActiveTab] = useState<"schedule" | "friends">("schedule");
@@ -385,7 +391,7 @@ export default function TimetablePage() {
   }, [importantSlots]);
   const [dayOverride, setDayOverride] = useState<number>(1);
   const [batch, setBatch] = useState<number>(() => {
-    const raw = (profile || academicData?.profile)?.["Combo / Batch"] || "";
+    const raw = (profile || trustedAcademicData?.profile)?.["Combo / Batch"] || "";
     return extractBatch(raw);
   });
   const router = useRouter();
@@ -464,25 +470,27 @@ export default function TimetablePage() {
   };
 
   const calQ = useQuery({ 
-    queryKey: ["calendar"], 
+    queryKey: ["calendar", userEmail], 
     queryFn: () => dataAPI.getCalendar(), 
     staleTime: 600000,
-    initialData: cachedCalendar ? cachedCalendar : undefined,
+    initialData: trustedCalendar ? trustedCalendar : undefined,
     // Persisted Zustand data is only a fast first paint; always verify it in
     // the background instead of treating it as newly fetched for ten minutes.
-    initialDataUpdatedAt: cachedCalendar ? 0 : undefined
+    initialDataUpdatedAt: trustedCalendar ? 0 : undefined
   });
   const myTTQ = useQuery({ 
-    queryKey: ["myTT"], 
+    queryKey: ["myTT", userEmail], 
     queryFn: () => dataAPI.getMyTimetable(), 
     staleTime: 600000, 
-    initialData: cachedMyTimetable ? cachedMyTimetable : (academicData?.timetable ? { data: academicData.timetable } : undefined) 
+    initialData: trustedMyTimetable ? trustedMyTimetable : (trustedAcademicData?.timetable ? { data: trustedAcademicData.timetable } : undefined),
+    initialDataUpdatedAt: (trustedMyTimetable || trustedAcademicData?.timetable) ? 0 : undefined
   });
   const ttQ = useQuery({
-    queryKey: ["tt", batch],
+    queryKey: ["tt", userEmail, batch],
     queryFn: () => dataAPI.getTimetable(batch),
     staleTime: 600000,
-    initialData: cachedTimetable && cachedTimetable.batch === batch ? cachedTimetable : (academicData?.timetableBatch && academicData?.timetableBatch === batch ? { data: { rows: academicData.timetableRows } } : undefined)
+    initialData: trustedTimetable && trustedTimetable.batch === batch ? trustedTimetable : (trustedAcademicData?.timetableBatch && trustedAcademicData?.timetableBatch === batch ? { data: { rows: trustedAcademicData.timetableRows } } : undefined),
+    initialDataUpdatedAt: (trustedTimetable || trustedAcademicData?.timetableRows) ? 0 : undefined
   });
 
   useEffect(() => {
@@ -672,7 +680,7 @@ export default function TimetablePage() {
   const firstStart = classes[0] ? fmt12(classes[0].startTime) : "";
   const lastEnd = classes[classes.length - 1] ? fmt12(classes[classes.length - 1].endTime) : "";
 
-  const studentInfo = profile || academicData?.profile || myTTQ.data?.data?.studentInfo || null;
+  const studentInfo = profile || trustedAcademicData?.profile || myTTQ.data?.data?.studentInfo || null;
   const [showStudentInfo, setShowStudentInfo] = useState(false);
 
   // Auto-set batch from studentInfo if available
@@ -901,9 +909,9 @@ export default function TimetablePage() {
 
   const myCourses = myTTQ.data?.data?.courses || myTTQ.data?.data || [];
 
-  const isDataLoading = (!cachedCalendar && !calQ.data && calQ.isLoading) || 
-                        (!cachedMyTimetable && !academicData?.timetable && !myTTQ.data && myTTQ.isLoading) || 
-                        (!cachedTimetable && !ttQ.data && ttQ.isLoading);
+  const isDataLoading = (!trustedCalendar && !calQ.data && calQ.isLoading) || 
+                        (!trustedMyTimetable && !trustedAcademicData?.timetable && !myTTQ.data && myTTQ.isLoading) || 
+                        (!trustedTimetable && !ttQ.data && ttQ.isLoading);
   if (isDataLoading) {
     return <TimetableSkeleton />;
   }

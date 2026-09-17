@@ -183,7 +183,7 @@ export default function PortalSyncModal({
         const extraPayload: Record<string, AnyValue> = {};
         if (cleanId) extraPayload.netId = cleanId;
         if (showManualCaptcha && captcha) {
-          extraPayload.captcha = captcha.trim(); // Exact raw user input, no modification
+          extraPayload.captcha = captcha.trim().toLowerCase();
           if (captchaToken) extraPayload.captchaToken = captchaToken;
         }
         const unlockRes = await authAPI.unlockStudentPortal(password, extraPayload);
@@ -213,6 +213,17 @@ export default function PortalSyncModal({
               });
             }
           }
+        } else if (unlockRes.error?.code === "CAPTCHA_SOLVER_UNAVAILABLE" || unlockRes.error?.message?.includes("AI CAPTCHA solver")) {
+          setShowManualCaptcha(true);
+          if (unlockRes.captchaImage) {
+            setCaptchaImage(unlockRes.captchaImage);
+            setCaptchaToken(unlockRes.captchaToken || null);
+          } else {
+            fetchNewCaptcha();
+          }
+          setError("AI CAPTCHA solver key is missing or invalid. Please enter the fresh CAPTCHA manually.");
+          setLoading(false);
+          return;
         } else if (unlockRes.studentPortal?.status === "captcha_required" || unlockRes.error?.code === "CAPTCHA_REQUIRED" || unlockRes.error?.code === "INVALID_CAPTCHA" || unlockRes.error?.code === "AUTH_FLOW_FAILED") {
           setShowManualCaptcha(true);
           if (unlockRes.captchaImage) {
@@ -279,18 +290,29 @@ export default function PortalSyncModal({
         || e.message 
         || "Network or server connection error";
 
-      let userFriendlyMsg = rawError;
-      if (rawError.includes("Invalid credentials") || rawError.includes("INVALID_CREDENTIALS")) {
-        userFriendlyMsg = "The portal rejected this attempt. If your password is correct, retry with the fresh CAPTCHA.";
-      } else if (rawError.includes("INVALID_CAPTCHA") || rawError.includes("Captcha rejected")) {
-        userFriendlyMsg = "CAPTCHA was incorrect or expired. Fresh CAPTCHA loaded above, please try again.";
+      if (rawError.includes("AI CAPTCHA solver") || e.response?.data?.error?.code === "CAPTCHA_SOLVER_UNAVAILABLE") {
+        setError("AI CAPTCHA solver key is missing or invalid. Please enter the fresh CAPTCHA manually.");
+      } else {
+        let userFriendlyMsg = rawError;
+        if (rawError.includes("Invalid credentials") || rawError.includes("INVALID_CREDENTIALS")) {
+          userFriendlyMsg = "The portal rejected this attempt. If your password is correct, retry with the fresh CAPTCHA.";
+        } else if (rawError.includes("INVALID_CAPTCHA") || rawError.includes("Captcha rejected")) {
+          userFriendlyMsg = "CAPTCHA was incorrect or expired. Fresh CAPTCHA loaded above, please try again.";
+        }
+        setError(type === "student-portal" ? `Student Portal connection failed: ${userFriendlyMsg}` : userFriendlyMsg);
       }
 
-      setError(`Student Portal connection failed: ${userFriendlyMsg}`);
       if (type === "student-portal") {
         useAuthStore.getState().setStudentPortalConnected(false);
-        // Automatically fetch fresh CAPTCHA on error so student can retry immediately
-        fetchNewCaptcha();
+        setShowManualCaptcha(true);
+        const errImg = e.response?.data?.captchaImage || e.response?.data?.captcha;
+        const errToken = e.response?.data?.captchaToken || e.response?.data?.token;
+        if (errImg && errToken) {
+          setCaptchaImage(errImg);
+          setCaptchaToken(errToken);
+        } else {
+          fetchNewCaptcha();
+        }
       } else {
         useAuthStore.getState().setAcademiaConnected(false);
       }

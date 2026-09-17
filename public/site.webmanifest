@@ -1,6 +1,12 @@
 {
-  "name": "SRM Nexus Student Portal",
-  "short_name": "SRM Nexus",
+  "name": "SRM Nexus",
+  "short_name": "Nexus",
+  "description": "SRM Nexus academic dashboard for attendance, marks, timetable, and planning.",
+  "start_url": "/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#050508",
+  "theme_color": "#050508",
   "icons": [
     {
       "src": "/nexus-logo.png",
@@ -10,32 +16,8 @@
     {
       "src": "/nexus-logo.png",
       "sizes": "512x512",
-      "type": "image/png"
-    },
-    {
-      "src": "/nexus-logo.png",
-      "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable any"
-    }
-  ],
-  "theme_color": "#050505",
-  "background_color": "#050505",
-  "display": "standalone",
-  "start_url": "/",
-  "scope": "/",
-  "shortcuts": [
-    {
-      "name": "Attendance Status",
-      "short_name": "Attendance",
-      "url": "/attendance",
-      "icons": [{ "src": "/nexus-logo.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "View Marks",
-      "short_name": "Marks",
-      "url": "/marks",
-      "icons": [{ "src": "/nexus-logo.png", "sizes": "192x192" }]
     }
   ]
 }

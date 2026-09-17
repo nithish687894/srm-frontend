@@ -13,15 +13,21 @@ const API = axios.create({
 // Prevents multiple components from firing identical GET requests simultaneously
 const inFlightGETs = new Map<string, Promise<AnyValue>>();
 
+function getRequestScope() {
+  if (typeof window === "undefined") return "server";
+  return localStorage.getItem("authToken") || "anonymous";
+}
+
 function deduplicatedGet(url: string) {
-  const existing = inFlightGETs.get(url);
+  const key = `${getRequestScope()}::${url}`;
+  const existing = inFlightGETs.get(key);
   if (existing) return existing;
 
   const promise = API.get(url)
     .then((r) => r.data)
-    .finally(() => inFlightGETs.delete(url));
+    .finally(() => inFlightGETs.delete(key));
 
-  inFlightGETs.set(url, promise);
+  inFlightGETs.set(key, promise);
   return promise;
 }
 
@@ -64,7 +70,7 @@ API.interceptors.response.use(
   async (err) => {
     const originalRequest = err.config;
     // Do not attempt to refresh or redirect if the 401 error is on a login/connect endpoint (wrong credentials)
-    const isAuthRequest = originalRequest?.url?.includes("/connect") || originalRequest?.url?.includes("/login");
+    const isAuthRequest = originalRequest?.url?.includes("/connect") || originalRequest?.url?.includes("/login") || originalRequest?.url?.includes("/unlock");
     
     if (err.response?.status === 401 && !isAuthRequest && !originalRequest._retry && typeof window !== "undefined") {
       originalRequest._retry = true;

@@ -296,6 +296,7 @@ export default function DashboardPage() {
   const theme = useThemeStore((state) => state.theme);
   
   const email = useAuthStore((state) => state.email);
+  const dataOwnerEmail = useAuthStore((state) => state.dataOwnerEmail);
   const setProfile = useAuthStore((state) => state.setProfile);
   const academicData = useAuthStore((state) => state.academicData);
   const setAcademicData = useAuthStore((state) => state.setAcademicData);
@@ -312,19 +313,25 @@ export default function DashboardPage() {
   const setMyTimetable = useAuthStore((state) => state.setMyTimetable);
   const setCalendar = useAuthStore((state) => state.setCalendar);
   const setPremium = useAuthStore((state) => state.setPremium);
+  const cacheOwnerMatches = !dataOwnerEmail || !email || dataOwnerEmail.toLowerCase() === email.toLowerCase();
+  const trustedAcademicData = cacheOwnerMatches ? academicData : null;
+  const trustedStudentPortalData = cacheOwnerMatches ? studentPortalData : null;
+  const trustedTimetable = cacheOwnerMatches ? cachedTimetable : null;
+  const trustedMyTimetable = cacheOwnerMatches ? cachedMyTimetable : null;
+  const trustedCalendar = cacheOwnerMatches ? cachedCalendar : null;
 
-  const [data, setData] = useState<AnyValue>(academicData || null);
-  const [loading, setLoading] = useState(!academicData);
-  const [ttData, setTTData] = useState<AnyValue>(cachedTimetable || null);
-  const [myTTData, setMyTTData] = useState<AnyValue>(cachedMyTimetable || null);
-  const [calData, setCalData] = useState<AnyValue>(cachedCalendar || null);
+  const [data, setData] = useState<AnyValue>(trustedAcademicData || null);
+  const [loading, setLoading] = useState(!trustedAcademicData);
+  const [ttData, setTTData] = useState<AnyValue>(trustedTimetable || null);
+  const [myTTData, setMyTTData] = useState<AnyValue>(trustedMyTimetable || null);
+  const [calData, setCalData] = useState<AnyValue>(trustedCalendar || null);
   const [dayOffset, setDayOffset] = useState(0);
   const [syncError, setSyncError] = useState<string | null>(null);
   const [showStudentInfo, setShowStudentInfo] = useState(false);
   const [isSyncModalOpen, setIsSyncModalOpen] = useState(false);
   const [broadcast, setBroadcast] = useState<AnyValue>(null);
   const [batch, setBatch] = useState<number>(() => {
-    const raw = academicData?.profile?.["Combo / Batch"] || "";
+    const raw = trustedAcademicData?.profile?.["Combo / Batch"] || "";
     return extractBatch(raw);
   });
   const [now, setNow] = useState(() => new Date());
@@ -358,15 +365,15 @@ export default function DashboardPage() {
     }
   }, [currentTime]);
 
-  const att = data?.attendance?.length ? data.attendance : (data?.studentPortal?.attendance || studentPortalData?.attendance || []);
-  const marks = data?.marks?.length ? data.marks : (data?.studentPortal?.marks || studentPortalData?.marks || []);
+  const att = data?.attendance?.length ? data.attendance : (data?.studentPortal?.attendance || trustedStudentPortalData?.attendance || []);
+  const marks = data?.marks?.length ? data.marks : (data?.studentPortal?.marks || trustedStudentPortalData?.marks || []);
 
   const renderAcademicIntegrityHub = useCallback((mode: "default" | "matrix" | "aura" = "default") => {
     const isMatrix = mode === "matrix";
     const isAura = mode === "aura";
     // Fall back to local Zustand cache if the newly fetched object is empty or expired
     const rawSpData = data?.studentPortal;
-    const fallbackSpData = studentPortalData;
+    const fallbackSpData = trustedStudentPortalData;
     const spData = (rawSpData && rawSpData.marks && rawSpData.profile) ? rawSpData : fallbackSpData;
     const hasSpData = !!spData && !!spData.marks && !!spData.profile;
     const primaryColor = isAura ? "#FF75C3" : isMatrix ? "#a8c200" : "#00ff88";
@@ -555,7 +562,7 @@ export default function DashboardPage() {
         )}
       </div>
     );
-  }, [data, studentPortalData, studentPortalConnected, marks, formatLastSynced]);
+  }, [data, trustedStudentPortalData, studentPortalConnected, marks, formatLastSynced]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -571,26 +578,26 @@ export default function DashboardPage() {
 
   // Sync local states with cached Zustand data after store hydration
   useEffect(() => {
-    if (academicData) {
-      if (academicData !== data) {
-        setData(academicData);
+    if (trustedAcademicData) {
+      if (trustedAcademicData !== data) {
+        setData(trustedAcademicData);
       }
-      const raw = academicData.profile?.["Combo / Batch"] || "";
+      const raw = trustedAcademicData.profile?.["Combo / Batch"] || "";
       const b = extractBatch(raw);
       if (b !== batch) {
         setBatch(b);
       }
     }
-    if (cachedTimetable && !ttData) {
-      setTTData(cachedTimetable);
+    if (trustedTimetable && !ttData) {
+      setTTData(trustedTimetable);
     }
-    if (cachedMyTimetable && !myTTData) {
-      setMyTTData(cachedMyTimetable);
+    if (trustedMyTimetable && !myTTData) {
+      setMyTTData(trustedMyTimetable);
     }
-    if (cachedCalendar && !calData) {
-      setCalData(cachedCalendar);
+    if (trustedCalendar && !calData) {
+      setCalData(trustedCalendar);
     }
-  }, [academicData, data, batch, cachedTimetable, ttData, cachedMyTimetable, myTTData, cachedCalendar, calData]);
+  }, [trustedAcademicData, data, batch, trustedTimetable, ttData, trustedMyTimetable, myTTData, trustedCalendar, calData]);
 
   // ── Unified data fetch + auto-refresh ──────────────────────────────────────
   const lastFetchRef = useCallback(() => {
@@ -599,60 +606,101 @@ export default function DashboardPage() {
   }, [data?.lastFetchedAt]);
 
   const fetchUnifiedData = useCallback(async (silent = false) => {
+    const requestEmail = String(useAuthStore.getState().email || "").toLowerCase();
     try {
       const d = await dataAPI.getUnified();
+      const currentEmail = String(useAuthStore.getState().email || "").toLowerCase();
+      if (requestEmail && currentEmail && requestEmail !== currentEmail) return;
       if (d && d.success) {
         // Sync premium status from backend
         if (d.isPremium !== undefined) {
           setPremium(d.isPremium, d.premiumExpiresAt);
         }
 
-        // Merge the data so existing components (which expect 'academia' format) still work
+        // Normalize profile to support both camelCase canonical and legacy uppercase keys
+        const rawProfile = d.profile || d.academia?.profile || d.studentPortal?.profile;
+        const normalizedProfile = rawProfile ? {
+          ...rawProfile,
+          "Name": rawProfile["Name"] || rawProfile.name || "",
+          "Registration Number": rawProfile["Registration Number"] || rawProfile.regNumber || "",
+          "Department": rawProfile["Department"] || rawProfile.department || "",
+          "Program": rawProfile["Program"] || rawProfile.program || "",
+          "Semester": rawProfile["Semester"] || rawProfile.semester || "",
+          "Section": rawProfile["Section"] || rawProfile.section || "",
+          "Combo / Batch": rawProfile["Combo / Batch"] || rawProfile.batch || "",
+        } : null;
+
+        // Extract canonical datasets
+        const attendanceList = Array.isArray(d.attendance) && d.attendance.length > 0
+          ? d.attendance
+          : (Array.isArray(d.studentPortal?.attendance) ? d.studentPortal.attendance : (Array.isArray(d.academia?.attendance) ? d.academia.attendance : []));
+        const marksList = Array.isArray(d.marks) && d.marks.length > 0
+          ? d.marks
+          : (Array.isArray(d.studentPortal?.marks) ? d.studentPortal.marks : (Array.isArray(d.academia?.marks) ? d.academia.marks : []));
+        const timetableData = d.timetable || d.academia?.timetable || null;
+        const calendarData = d.calendar || d.academia?.calendar || [];
+
+        const spStatus = d.connectors?.studentPortal?.status || d.studentPortal?.sessionStatus || "disconnected";
+        const isSpActive = spStatus === "connected" || spStatus === "active";
+
+        const spObject = d.studentPortal || {
+          profile: normalizedProfile,
+          attendance: attendanceList,
+          marks: marksList,
+          sessionStatus: isSpActive ? "active" : (spStatus === "session_expired" ? "expired" : "disconnected"),
+          lastSyncedAt: d.connectors?.studentPortal?.lastFetchedAt || new Date().toISOString(),
+        };
+
         const mergedData = {
-          ...d.academia,
-          studentPortal: d.studentPortal,
+          profile: normalizedProfile,
+          attendance: attendanceList,
+          marks: marksList,
+          timetable: timetableData,
+          calendar: calendarData,
+          studentPortal: spObject,
           lastFetchedAt: Date.now(),
         };
+
         setData(mergedData);
         setAcademicData(mergedData);
-        
-        if (d.studentPortal) {
-          setStudentPortalData(d.studentPortal);
-          const isSpActive = d.studentPortal.sessionStatus === "active" || d.studentPortal.sessionStatus === "connected";
-          setStudentPortalConnected(isSpActive);
-          useAuthStore.getState().setConnectorStatuses({
-            studentPortal: isSpActive ? "connected" : (d.studentPortal.sessionStatus === "expired" ? "session_expired" : "disconnected")
-          });
+        setStudentPortalData(spObject);
+        setStudentPortalConnected(isSpActive);
+
+        useAuthStore.getState().setConnectorStatuses({
+          studentPortal: isSpActive ? "connected" : (spStatus === "session_expired" ? "session_expired" : "disconnected"),
+          academia: d.connectors?.academia?.status === "connected" ? "connected" : "disconnected",
+        });
+
+        if (normalizedProfile) {
+          setProfile(normalizedProfile);
+          const b = extractBatch(normalizedProfile["Combo / Batch"] || "");
+          if (b) setBatch(b);
         }
 
-        const hasAcaData = Boolean(d.academia?.profile || (d.academia?.attendance && d.academia.attendance.length > 0));
-        const hasSpData = Boolean(d.studentPortal?.profile || d.studentPortal?.marks);
+        const hasAtt = attendanceList.length > 0;
+        const hasMarks = marksList.length > 0;
+        const hasProf = Boolean(normalizedProfile);
 
-        if (!hasAcaData && !hasSpData) {
+        if (!hasAtt && !hasMarks && !hasProf) {
           setSyncError("Portal session expired or data missing. Please try again.");
         } else {
           setSyncError(null);
-        }
-        
-        if (d.academia?.profile) {
-          setProfile(d.academia.profile);
-          const b = extractBatch(d.academia.profile["Combo / Batch"] || "");
-          setBatch(b);
         }
       }
       if (!silent) setLoading(false);
     } catch (err) {
       if (!silent) {
         setLoading(false);
-        const currentData = useAuthStore.getState().academicData;
+        const currentState = useAuthStore.getState();
+        const currentOwner = String(currentState.dataOwnerEmail || "").toLowerCase();
+        const currentEmail = String(currentState.email || "").toLowerCase();
+        const currentData = currentOwner && currentOwner === currentEmail ? currentState.academicData : null;
         if (!currentData) {
           setSyncError("Failed to fetch data. SRM portal might be down.");
         }
       }
     }
   }, [setPremium, setAcademicData, setStudentPortalData, setProfile, setStudentPortalConnected]);
-
-  // Initial fetch on mount
   useEffect(() => {
     if (!ready) return;
     fetchUnifiedData(false);
@@ -685,11 +733,18 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (!ready) return;
-    dataAPI.getTimetable(batch).then(d => { setTTData(d); setTimetable(d); }).catch(() => { });
-    dataAPI.getCalendar().then(d => { setCalData(d); setCalendar(d); }).catch(() => { });
-    dataAPI.getMyTimetable().then(d => { setMyTTData(d); setMyTimetable(d); }).catch(() => { });
+    let active = true;
+    const requestEmail = String(useAuthStore.getState().email || "").toLowerCase();
+    const stillCurrent = () => {
+      const currentEmail = String(useAuthStore.getState().email || "").toLowerCase();
+      return active && (!requestEmail || !currentEmail || requestEmail === currentEmail);
+    };
+    dataAPI.getTimetable(batch).then(d => { if (stillCurrent()) { setTTData(d); setTimetable(d); } }).catch(() => { });
+    dataAPI.getCalendar().then(d => { if (stillCurrent()) { setCalData(d); setCalendar(d); } }).catch(() => { });
+    dataAPI.getMyTimetable().then(d => { if (stillCurrent()) { setMyTTData(d); setMyTimetable(d); } }).catch(() => { });
     dataAPI.getBroadcast().then(d => setBroadcast(d)).catch(() => { });
-  }, [ready, batch]);
+    return () => { active = false; };
+  }, [ready, batch, setTimetable, setCalendar, setMyTimetable]);
 
   // Calculate top stats
   const totalCourses = att.length;
@@ -1225,7 +1280,7 @@ export default function DashboardPage() {
     );
   })();
 
-  if (loading && !data && !academicData) {
+  if (loading && !data && !trustedAcademicData) {
     return <LoadingSkeleton />;
   }
 

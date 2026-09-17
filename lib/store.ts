@@ -1,6 +1,31 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+function normalizeOwnerEmail(email?: string | null) {
+  return String(email || "").trim().toLowerCase();
+}
+
+const STUDENT_DATA_CACHE_VERSION = 3;
+
+function studentDataReset() {
+  return {
+    profile: null,
+    academicData: null,
+    academiaConnected: false,
+    studentPortalConnected: false,
+    studentPortalData: null,
+    connectorStatuses: {
+      academia: "disconnected" as ConnectorStatus,
+      studentPortal: "disconnected" as ConnectorStatus,
+    },
+    timetable: null,
+    myTimetable: null,
+    calendar: null,
+    dataOwnerEmail: null,
+    studentDataCacheVersion: STUDENT_DATA_CACHE_VERSION,
+  };
+}
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 export interface StudentPortalData {
   marks?: AnyValue;
@@ -31,6 +56,8 @@ export interface AuthStore {
   authToken: string | null;
   refreshToken: string | null;
   email: string | null;
+  dataOwnerEmail: string | null;
+  studentDataCacheVersion: number;
   hasChosenTheme: boolean;
   _hasHydrated: boolean;
 
@@ -79,6 +106,7 @@ export interface AuthStore {
   setTimetable: (data: AnyValue | null) => void;
   setMyTimetable: (data: AnyValue | null) => void;
   setCalendar: (data: AnyValue | null) => void;
+  clearStudentData: () => void;
 
   // UI
   setHasChosenTheme: (val: boolean) => void;
@@ -103,6 +131,8 @@ export const useAuthStore = create<AuthStore>()(
       authToken: null,
       refreshToken: null,
       email: null,
+      dataOwnerEmail: null,
+      studentDataCacheVersion: STUDENT_DATA_CACHE_VERSION,
       hasChosenTheme: false,
       _hasHydrated: false,
 
@@ -130,29 +160,37 @@ export const useAuthStore = create<AuthStore>()(
 
       // ── Auth Actions ──────────────────────────────────────────────────────
       setAuthData: (authToken, refreshToken, email) => {
+        const normalizedEmail = normalizeOwnerEmail(email);
         if (typeof window !== "undefined") {
           localStorage.setItem("authToken", authToken);
           localStorage.setItem("refreshToken", refreshToken);
           if (email) localStorage.setItem("userEmail", email);
         }
-        set({
-          authToken,
-          refreshToken,
-          email,
-          profile: null,
-          academicData: null,
-          academiaConnected: false,
-          studentPortalConnected: false,
-          studentPortalData: null,
-          connectorStatuses: {
-            academia: "connected",
-            studentPortal: "disconnected",
-          },
-          timetable: null,
-          myTimetable: null,
-          calendar: null,
-          isPremium: true,
-          premiumExpiresAt: null,
+        set((state) => {
+          const previousEmail = normalizeOwnerEmail(state.email);
+          const identityChanged = Boolean(previousEmail && normalizedEmail && previousEmail !== normalizedEmail);
+          return {
+            ...(identityChanged ? studentDataReset() : {}),
+            authToken,
+            refreshToken,
+            email,
+            dataOwnerEmail: normalizedEmail || null,
+            studentDataCacheVersion: STUDENT_DATA_CACHE_VERSION,
+            profile: null,
+            academicData: null,
+            academiaConnected: false,
+            studentPortalConnected: false,
+            studentPortalData: null,
+            connectorStatuses: {
+              academia: "connected",
+              studentPortal: "disconnected",
+            },
+            timetable: null,
+            myTimetable: null,
+            calendar: null,
+            isPremium: true,
+            premiumExpiresAt: null,
+          };
         });
       },
 
@@ -192,11 +230,13 @@ export const useAuthStore = create<AuthStore>()(
       setProfile: (profile) => set({ profile }),
 
       setAcademicData: (data) => {
-        set({
+        set((state) => ({
           academicData: data ? { ...data, lastFetchedAt: Date.now() } : null,
           academiaConnected: !!data,
           profile: data?.profile ?? null,
-        });
+          dataOwnerEmail: data ? normalizeOwnerEmail(state.email) || state.dataOwnerEmail : state.dataOwnerEmail,
+          studentDataCacheVersion: STUDENT_DATA_CACHE_VERSION,
+        }));
         // Fire phone push notifications if attendance < 75%
         if (data?.attendance && typeof window !== "undefined") {
           import("./academicWatcher").then(({ runAcademicWatcher }) => {
@@ -213,10 +253,12 @@ export const useAuthStore = create<AuthStore>()(
         set({ studentPortalConnected: connected }),
 
       setStudentPortalData: (data) => {
-        set({
+        set((state) => ({
           studentPortalData: data,
           studentPortalConnected: !!data && data.sessionStatus === "active",
-        });
+          dataOwnerEmail: data ? normalizeOwnerEmail(state.email) || state.dataOwnerEmail : state.dataOwnerEmail,
+          studentDataCacheVersion: STUDENT_DATA_CACHE_VERSION,
+        }));
         // Fire phone push notifications if marks updated
         if (data?.marks?.marks && typeof window !== "undefined") {
           import("./academicWatcher").then(({ runAcademicWatcher }) => {
@@ -226,9 +268,10 @@ export const useAuthStore = create<AuthStore>()(
       },
 
       // ── Cached Setters ───────────────────────────────────────────────────
-      setTimetable: (timetable) => set({ timetable }),
-      setMyTimetable: (myTimetable) => set({ myTimetable }),
-      setCalendar: (calendar) => set({ calendar }),
+      setTimetable: (timetable) => set((state) => ({ timetable, dataOwnerEmail: timetable ? normalizeOwnerEmail(state.email) || state.dataOwnerEmail : state.dataOwnerEmail, studentDataCacheVersion: STUDENT_DATA_CACHE_VERSION })),
+      setMyTimetable: (myTimetable) => set((state) => ({ myTimetable, dataOwnerEmail: myTimetable ? normalizeOwnerEmail(state.email) || state.dataOwnerEmail : state.dataOwnerEmail, studentDataCacheVersion: STUDENT_DATA_CACHE_VERSION })),
+      setCalendar: (calendar) => set((state) => ({ calendar, dataOwnerEmail: calendar ? normalizeOwnerEmail(state.email) || state.dataOwnerEmail : state.dataOwnerEmail, studentDataCacheVersion: STUDENT_DATA_CACHE_VERSION })),
+      clearStudentData: () => set(studentDataReset()),
 
       // ── Academic Alerts Setters ──────────────────────────────────────────
       setAcademicAlertsEnabled: (academicAlertsEnabled) => set({ academicAlertsEnabled }),
@@ -251,15 +294,8 @@ export const useAuthStore = create<AuthStore>()(
           authToken: null,
           refreshToken: null,
           email: null,
-          profile: null,
-          academicData: null,
-          academiaConnected: false,
-          studentPortalConnected: false,
-          studentPortalData: null,
+          ...studentDataReset(),
           hasChosenTheme: false,
-          timetable: null,
-          myTimetable: null,
-          calendar: null,
           academicAlertsEnabled: false,
           academicAlertsPrompted: false,
           isPremium: true,
@@ -275,15 +311,8 @@ export const useAuthStore = create<AuthStore>()(
         set({
           authToken: null,
           refreshToken: null,
-          profile: null,
-          academicData: null,
-          academiaConnected: false,
-          studentPortalConnected: false,
-          studentPortalData: null,
+          ...studentDataReset(),
           hasChosenTheme: false,
-          timetable: null,
-          myTimetable: null,
-          calendar: null,
           academicAlertsEnabled: false,
           academicAlertsPrompted: false,
           isPremium: true,
@@ -300,6 +329,8 @@ export const useAuthStore = create<AuthStore>()(
           authToken: state.authToken,
           refreshToken: state.refreshToken,
           email: state.email,
+          dataOwnerEmail: state.dataOwnerEmail,
+          studentDataCacheVersion: state.studentDataCacheVersion,
           profile: state.profile,
           academicData: state.academicData,
           academiaConnected: state.academiaConnected,
@@ -315,7 +346,23 @@ export const useAuthStore = create<AuthStore>()(
           premiumExpiresAt: state.premiumExpiresAt,
         }) as unknown as AuthStore,
       onRehydrateStorage: () => (state) => {
-        state?.setHasHydrated(true);
+        if (state) {
+          const owner = normalizeOwnerEmail(state.dataOwnerEmail);
+          const email = normalizeOwnerEmail(state.email);
+          const hasStudentCache = Boolean(
+            state.profile ||
+            state.academicData ||
+            state.studentPortalData ||
+            state.timetable ||
+            state.myTimetable ||
+            state.calendar
+          );
+          const cacheVersion = Number(state.studentDataCacheVersion || 0);
+          if (hasStudentCache && (cacheVersion !== STUDENT_DATA_CACHE_VERSION || !owner || (email && owner !== email))) {
+            state.clearStudentData();
+          }
+          state.setHasHydrated(true);
+        }
       },
     }
   )

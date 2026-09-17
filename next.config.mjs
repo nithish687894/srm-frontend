@@ -17,6 +17,9 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react', '@tanstack/react-query', 'clsx', 'tailwind-merge', 'zod', 'zustand'],
   },
+  turbopack: {
+    root: process.cwd(),
+  },
   async rewrites() {
     return [
       {
