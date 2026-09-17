@@ -177,22 +177,15 @@ export default function PortalSyncModal({
       setPassword("");
       setShowPassword(false);
       setCaptcha("");
-      if (type === "student-portal") {
-        setShowManualCaptcha(true);
-        if (!hasFetchedForOpenRef.current) {
-          hasFetchedForOpenRef.current = true;
-          fetchNewCaptcha(true);
-        }
-      } else {
-        setShowManualCaptcha(false);
-        setCaptchaImage(null);
-        setCaptchaToken(null);
-        hasFetchedForOpenRef.current = false;
-      }
+      setShowManualCaptcha(false);
+      setCaptchaImage(null);
+      setCaptchaToken(null);
+      hasFetchedForOpenRef.current = false;
     } else {
       hasFetchedForOpenRef.current = false;
+      setShowManualCaptcha(false);
     }
-  }, [isOpen, type, fetchNewCaptcha]);
+  }, [isOpen]);
 
   const handleSync = async () => {
     if (!password) {
@@ -272,14 +265,13 @@ export default function PortalSyncModal({
           setLoading(false);
           return;
         } else if (unlockRes.error?.code === "INVALID_CREDENTIALS") {
-          setShowManualCaptcha(true);
-          fetchNewCaptcha();
-          setError("Student Portal connection failed: The portal rejected this attempt. If your password is correct, enter the fresh CAPTCHA and try once more.");
+          setShowManualCaptcha(false);
+          setError("Student Portal password rejected. Note: Student Portal (Evarsity) may have a different password than your Academia login. Please check and retry.");
           setLoading(false);
           return;
         } else {
-          setError(`Student Portal connection failed: ${unlockRes.error?.message || "Authentication failed. Fresh CAPTCHA loaded above."}`);
-          fetchNewCaptcha();
+          setShowManualCaptcha(false);
+          setError(`Student Portal connection failed: ${unlockRes.error?.message || "Authentication failed. Please check your password and try again."}`);
           setLoading(false);
           return;
         }
@@ -891,16 +883,16 @@ export default function PortalSyncModal({
                     {loading ? (
                       <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
                         <RefreshCw size={14} style={{ animation: "spin-slow 1s linear infinite" }} />
-                        Connecting Portal...
+                        ⚡ Solving Security Check & Connecting...
                       </span>
                     ) : type === "student-portal" ? "Connect Student Portal" : "Establish Hub Link"}
                   </button>
 
-                  <div style={{ textAlign: "center", marginTop: "2px" }}>
-                    <span style={{ fontSize: "10px", color: "rgba(255, 255, 255, 0.35)", letterSpacing: "0.02em" }}>
+                  <div style={{ textAlign: "center", marginTop: "4px" }}>
+                    <span style={{ fontSize: "11px", color: "rgba(255, 255, 255, 0.45)", letterSpacing: "0.02em" }}>
                       {showManualCaptcha 
-                        ? "📝 Enter the exact characters from the image above" 
-                        : "🔒 Zero-friction auto-CAPTCHA solver active"}
+                        ? "📝 Enter the characters from the image above" 
+                        : "⚡ Auto-CAPTCHA AI will solve the security check seamlessly in background"}
                     </span>
                   </div>
                 </div>
