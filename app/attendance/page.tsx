@@ -258,6 +258,8 @@ export default function AttendancePage() {
 
   const toggleDate = (iso: string) => {
     const next = new Set(selectedDates);
+
+
     if (next.has(iso)) next.delete(iso);
     else next.add(iso);
     setSelectedDates(next);
@@ -313,11 +315,11 @@ export default function AttendancePage() {
 
     // 3. Compute for all subjects
     const results = att.map((c: AnyValue) => {
-      const code = c["Course Code"];
-      const cond = parseInt(c["Hours Conducted"]) || 0;
-      const abs = parseInt(c["Hours Absent"]) || 0;
-      const pres = cond - abs;
-      const currentPct = parseFloat(c["Attn %"]) || 0;
+      const code = c["Course Code"] || c.courseCode || c.code || "";
+      const cond = parseInt(c["Hours Conducted"] || c.conducted || c.hoursConducted) || 0;
+      const abs = parseInt(c["Hours Absent"] || c.absent || c.hoursAbsent) || 0;
+      const pres = parseInt(c["Hours Attended"] || c.attended || c.hoursPresent) || Math.max(0, cond - abs);
+      const currentPct = parseFloat(c["Attn %"] || c.pct || c.percentage) || (cond > 0 ? (pres / cond) * 100 : 0);
       
       const futureMissing = missedClasses[code] || 0;
       const projCond = cond + futureMissing;
@@ -343,7 +345,7 @@ export default function AttendancePage() {
 
       return {
         code,
-        title: c["Course Title"],
+        title: c["Course Title"] || c.courseTitle || c.title || code,
         currentPct,
         projPct,
         marginLabel,
@@ -357,15 +359,17 @@ export default function AttendancePage() {
 
   const avgAtt = att.length
     ? (att.reduce((s, c) => {
-        const val = parseFloat(c["Attn %"] || "0");
+        const val = parseFloat(c["Attn %"] || c.pct || c.percentage || "0");
         return s + (isNaN(val) ? 0 : val);
       }, 0) / att.length).toFixed(1)
     : "—";
 
-  const totalAgg = att.reduce((acc, c) => acc + (parseInt(c["Hours Conducted"]) || 0), 0);
-  const absentAgg = att.reduce((acc, c) => acc + (parseInt(c["Hours Absent"]) || 0), 0);
+  const totalAgg = att.reduce((acc, c) => acc + (parseInt(c["Hours Conducted"] || c.conducted || c.hoursConducted) || 0), 0);
+  const absentAgg = att.reduce((acc, c) => acc + (parseInt(c["Hours Absent"] || c.absent || c.hoursAbsent) || 0), 0);
   const presentAgg = att.reduce((acc, c) => {
-    const p = parseInt(c["Hours Attended"]) || (parseInt(c["Hours Conducted"]) - parseInt(c["Hours Absent"])) || 0;
+    const cond = parseInt(c["Hours Conducted"] || c.conducted || c.hoursConducted) || 0;
+    const abs = parseInt(c["Hours Absent"] || c.absent || c.hoursAbsent) || 0;
+    const p = parseInt(c["Hours Attended"] || c.attended || c.hoursPresent) || Math.max(0, cond - abs);
     return acc + (isNaN(p) ? 0 : p);
   }, 0);
 

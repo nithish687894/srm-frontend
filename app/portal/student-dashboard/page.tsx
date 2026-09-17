@@ -55,9 +55,25 @@ export default function StudentDashboardPage() {
     setIsSyncing(true);
     try {
       const d = await dataAPI.getUnified();
-      if (d?.success && d.studentPortal) {
-        setStudentPortalData(d.studentPortal);
-        setAcademicData({ ...d.academia, studentPortal: d.studentPortal });
+      if (d?.success) {
+        const rawProfile = d.profile || d.studentPortal?.profile;
+        const spObj = d.studentPortal || {
+          profile: rawProfile,
+          attendance: d.attendance || [],
+          marks: d.marks || [],
+          sessionStatus: d.connectors?.studentPortal?.status === "connected" ? "active" : "disconnected",
+          lastSyncedAt: d.connectors?.studentPortal?.lastFetchedAt || new Date().toISOString()
+        };
+        setStudentPortalData(spObj);
+        setAcademicData({
+          profile: rawProfile,
+          attendance: d.attendance || [],
+          marks: d.marks || [],
+          timetable: d.timetable,
+          calendar: d.calendar,
+          studentPortal: spObj,
+          lastFetchedAt: Date.now()
+        });
       }
     } catch (e) { console.error(e); } finally { setIsSyncing(false); }
   };

@@ -83,8 +83,12 @@ export default function GradeMarkCreditPage() {
   }, [setStudentPortalData, studentPortalData?.marks]);
 
 
-  const marksData = studentPortalData?.marks?.marks || [];
-  const arrearsData = studentPortalData?.marks?.failed || [];
+  const marksData = Array.isArray(studentPortalData?.marks?.marks)
+    ? studentPortalData.marks.marks
+    : (Array.isArray(studentPortalData?.marks) ? studentPortalData.marks : []);
+  const arrearsData = Array.isArray(studentPortalData?.marks?.failed)
+    ? studentPortalData.marks.failed
+    : (Array.isArray(studentPortalData?.marks?.arrears) ? studentPortalData.marks.arrears : []);
   
   const displayMarks = activeTab === "evaluated" ? marksData : arrearsData;
 
