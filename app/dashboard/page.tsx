@@ -1311,7 +1311,7 @@ export default function DashboardPage() {
           isOpen
           onClose={() => setIsSyncModalOpen(false)}
           onSuccess={() => fetchUnifiedData(false)}
-          netId={email || ""}
+          netId={(email || "").split("@")[0]}
           type="student-portal"
         />
       )}

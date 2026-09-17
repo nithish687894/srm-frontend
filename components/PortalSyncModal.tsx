@@ -24,7 +24,11 @@ export default function PortalSyncModal({
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [localNetId, setLocalNetId] = useState(netId);
+  const sanitizeNetId = (id?: string) => (id || "").split("@")[0].replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+
+  const [localNetId, setLocalNetId] = useState<string>(() => 
+    type === "student-portal" ? sanitizeNetId(netId) : (netId || "")
+  );
   const [step, setStep] = useState<"form" | "syncing" | "success">("form");
 
   const theme = useThemeStore((state) => state.theme) || "aura";
@@ -158,9 +162,9 @@ export default function PortalSyncModal({
 
   useEffect(() => {
     const rawId = netId || storeEmail || "";
-    const parsed = rawId.split("@")[0].replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+    const parsed = sanitizeNetId(rawId);
     if (type === "student-portal") {
-      setLocalNetId((prev) => (prev && !prev.startsWith("demo") ? prev : (parsed.startsWith("demo") ? "ns4770" : parsed)));
+      setLocalNetId(parsed.startsWith("demo") ? "ns4770" : parsed);
     } else {
       setLocalNetId(rawId);
     }
@@ -652,10 +656,10 @@ export default function PortalSyncModal({
                       type="text"
                       placeholder="Student Portal NetID (e.g. ns4770)"
                       style={getInputStyle("netId")}
-                      value={localNetId}
+                      value={type === "student-portal" ? sanitizeNetId(localNetId) : localNetId}
                       onFocus={() => setFocusedInput("netId")}
                       onBlur={() => setFocusedInput(null)}
-                      onChange={(e) => setLocalNetId(e.target.value.toLowerCase().replace(/[^a-z0-9]/g, ""))}
+                      onChange={(e) => setLocalNetId(type === "student-portal" ? sanitizeNetId(e.target.value) : e.target.value)}
                       aria-label="Student Portal NetID"
                     />
                     <span style={{

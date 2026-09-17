@@ -428,7 +428,7 @@ export default function AttendancePage() {
           isOpen
           onClose={() => setIsSyncModalOpen(false)}
           onSuccess={handlePortalSyncSuccess}
-          netId={email || ""}
+          netId={(email || "").split("@")[0]}
           type="student-portal"
         />
       )}
