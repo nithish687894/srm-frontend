@@ -6,12 +6,12 @@ import { useAuthStore } from "@/lib/store";
 import { useAuth } from "@/hooks/useAuth";
 import { Clipboard, RefreshCw, Search, Users, Activity, CheckCircle, Megaphone, Send, ToggleLeft, ToggleRight, MessageSquare, Reply } from "lucide-react";
 
-const ADMIN_EMAILS = ["ns4770@srmist.edu.in"];
+const ADMIN_EMAILS = ["ns4770"];
 
 function isAdminUser(email?: string): boolean {
   if (!email) return false;
-  const lower = email.toLowerCase().trim();
-  return lower.startsWith("ns4770") || lower === "ns4770@srmist.edu.in";
+  const netId = email.toLowerCase().trim().split("@")[0];
+  return netId === "ns4770";
 }
 
 export default function AdminPage() {

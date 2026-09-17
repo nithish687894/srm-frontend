@@ -356,7 +356,7 @@ function insertBreaks(classes: ScheduleItem[]) {
   return res;
 }
 
-const ADMIN_EMAILS = ["ns4770@srmist.edu.in", "ts0014@srmist.edu.in"];
+const ADMIN_EMAILS = ["ns4770", "ts0014"];
 
 export default function TimetablePage() {
   const { 
@@ -372,7 +372,7 @@ export default function TimetablePage() {
     setCalendar,
     isPremium 
   } = useAuthStore();
-  const userEmail = (email || profile?.Email || profile?.email || "").toLowerCase();
+  const userEmail = (email || profile?.Email || profile?.email || "").toLowerCase().split("@")[0];
   const cacheOwnerMatches = !dataOwnerEmail || !email || dataOwnerEmail.toLowerCase() === email.toLowerCase();
   const trustedAcademicData = cacheOwnerMatches ? academicData : null;
   const trustedTimetable = cacheOwnerMatches ? cachedTimetable : null;

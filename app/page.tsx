@@ -75,7 +75,6 @@ export default function LoginPage() {
     setLoginPhase("auth");
     setError("");
     const canonicalNetId = email.split("@")[0].trim().toLowerCase();
-    const finalEmail = `${canonicalNetId}@srmist.edu.in`;
 
     const MIN_LOADING_MS = 1200;
     const MIN_SUCCESS_MS = 1500;
@@ -89,7 +88,7 @@ export default function LoginPage() {
       const res = await authAPI.unifiedLogin(canonicalNetId, password, extra);
       
       if (res.authenticated && res.token) {
-        setAuthData(res.token, res.refreshToken, finalEmail);
+        setAuthData(res.token, res.refreshToken, canonicalNetId);
         
         if (res.connectors) {
           useAuthStore.getState().setConnectorStatuses({
@@ -133,7 +132,7 @@ export default function LoginPage() {
     
     try {
       const res = await authAPI.login(demoEmail, "demo", "academia");
-      setAuthData(res.token, res.refreshToken, demoEmail);
+      setAuthData(res.token, res.refreshToken, "demo12");
       setLoginPhase("success");
       
       setTimeout(routeAfterAuth, 700);

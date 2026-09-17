@@ -40,7 +40,7 @@ const PORTAL_SERVICES = [
   { href: "/portal/grade-mark-credit", label: "Grades & Credits", icon: GraduationCap },
 ] as const;
 
-const ADMIN_EMAILS = ["ns4770@srmist.edu.in"];
+const ADMIN_EMAILS = ["ns4770"];
 
 const THEME = {
   bg: "#050505",
@@ -98,7 +98,7 @@ export default function Sidebar() {
   const attendance = useAuthStore((state) => state.academicData?.attendance);
   const isPremium = useAuthStore((state) => state.isPremium);
   const [showCheckout, setShowCheckout] = useState(false);
-  const userEmail = (email || profile?.Email || "").toLowerCase();
+  const userEmail = (email || profile?.Email || "").toLowerCase().split("@")[0];
   const isAdmin = ADMIN_EMAILS.some((e) => e.toLowerCase() === userEmail) || profile?.role === "admin" || profile?.Role === "admin";
 
   useEffect(() => {

@@ -90,8 +90,8 @@ export default function AppToolsPage() {
 
   if (!mounted) return <LoadingSkeleton />;
 
-  const ADMIN_EMAILS = ["ns4770@srmist.edu.in", "ts0014@srmist.edu.in"];
-  const isAdmin = email && ADMIN_EMAILS.some((e) => e.toLowerCase() === email.toLowerCase());
+  const ADMIN_EMAILS = ["ns4770", "ts0014"];
+  const isAdmin = email && ADMIN_EMAILS.some((e) => e.toLowerCase() === email.toLowerCase().split("@")[0]);
 
   const profile = studentPortalData?.profile || {};
   const initials = profile.name ? profile.name.split(' ').filter(Boolean).map((n:AnyValue)=>n[0]).join('').slice(0,2).toUpperCase() : "NK";
