@@ -5,7 +5,7 @@ import { useAuthStore } from "./store";
 // In production on Vercel, NEXT_PUBLIC_API_URL should point to your hosted backend.
 const API = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "",
-  timeout: 60000, // 60s — SRM portal is slow, shorter timeouts cause false failures
+  timeout: 90000, // 90s — accommodates Render cold start and slow SRM upstream portals
   withCredentials: true,
 });
 

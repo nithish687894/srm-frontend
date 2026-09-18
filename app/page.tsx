@@ -115,7 +115,9 @@ export default function LoginPage() {
       setLoading(false);
       setLoginPhase("idle");
       let errMsg = e?.response?.data?.error?.message || e?.response?.data?.error || e?.message || "LOGIN FAILED";
-      if (!errMsg.toLowerCase().includes("try again")) {
+      if (errMsg.toLowerCase().includes("timeout")) {
+        errMsg = "Server was waking up from sleep. Please tap Sign In again now!";
+      } else if (!errMsg.toLowerCase().includes("try again")) {
         errMsg = errMsg.endsWith(".") ? `${errMsg} Please try again.` : `${errMsg}. Please try again.`;
       }
       setError(errMsg);
