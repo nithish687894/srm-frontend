@@ -949,16 +949,16 @@ export default function LoginPage() {
         <section className="hero-section">
               {loginStep === "hero" && (
                 <div style={{ maxWidth: "680px", margin: "0 auto", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "28px", animation: "slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1)" }}>
-                  <div style={{ display: "inline-block", padding: "16px", background: "rgba(139, 92, 246, 0.08)", borderRadius: "24px", border: "1px solid rgba(139, 92, 246, 0.15)", marginBottom: "4px" }}>
-                    <Image src="/nexus-logo.png" alt="Logo" width={72} height={72} priority style={{ filter: "drop-shadow(0 0 25px rgba(255, 117, 195, 0.5))" }} />
+                  <div style={{ display: "inline-flex", padding: "12px", background: "#12121A", borderRadius: "20px", border: "1px solid #292532", marginBottom: "4px" }}>
+                    <Image src="/nexus-logo.png" alt="Logo" width={64} height={64} priority />
                   </div>
-                  <h1 style={{ fontSize: "clamp(48px, 8vw, 84px)", fontWeight: 950, letterSpacing: "-0.05em", lineHeight: 1, margin: 0 }}>
+                  <h1 style={{ fontSize: "clamp(44px, 7vw, 72px)", fontWeight: 850, letterSpacing: "-0.055em", lineHeight: 1, margin: 0, color: "#F7F5FA" }}>
                     SRM Nexus
                   </h1>
-                  <h2 style={{ fontSize: "clamp(20px, 3.5vw, 26px)", fontWeight: 800, color: "#FF75C3", letterSpacing: "-0.03em", margin: 0, lineHeight: 1.2 }}>
-                    Your SRM life, decoded.
+                  <h2 style={{ fontSize: "clamp(18px, 3vw, 23px)", fontWeight: 700, color: "#B8B2C2", letterSpacing: "-0.02em", margin: 0, lineHeight: 1.25 }}>
+                    Your academic day, in one place.
                   </h2>
-                  <p style={{ fontSize: "16px", color: "rgba(255,255,255,0.55)", lineHeight: 1.7, margin: "0 0 16px", fontWeight: 500, maxWidth: "580px" }}>
+                  <p style={{ fontSize: "16px", color: "#B8B2C2", lineHeight: 1.65, margin: "0 0 16px", fontWeight: 500, maxWidth: "560px" }}>
                     Connect your SRM portal to view attendance, marks, timetable, GPA, tomorrow skip risk, and marks needed for your target grade — all in one smart dashboard.
                   </p>
                   <div style={{ display: "flex", flexDirection: "column", gap: "16px", alignItems: "center", width: "100%", maxWidth: "440px" }}>
@@ -968,31 +968,31 @@ export default function LoginPage() {
                       style={{
                         width: "100%",
                         padding: "18px 28px",
-                        background: "linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%)",
-                        border: "none",
-                        color: "#000000",
-                        borderRadius: "16px",
+                        background: "#A855F7",
+                        border: "1px solid #A855F7",
+                        color: "#ffffff",
+                        borderRadius: "12px",
                         fontSize: "13px",
                         fontWeight: 900,
                         textTransform: "uppercase",
                         letterSpacing: "0.14em",
                         cursor: "pointer",
                         transition: "all 0.3s",
-                        boxShadow: "0 8px 24px rgba(255, 255, 255, 0.15)"
+                        boxShadow: "0 8px 22px rgba(168, 85, 247, 0.22)"
                       }}
                       onMouseEnter={e => {
                         e.currentTarget.style.transform = "translateY(-4px)";
-                        e.currentTarget.style.boxShadow = "0 16px 36px rgba(255, 255, 255, 0.25)";
+                        e.currentTarget.style.boxShadow = "0 12px 28px rgba(168, 85, 247, 0.32)";
                       }}
                       onMouseLeave={e => {
                         e.currentTarget.style.transform = "translateY(0)";
-                        e.currentTarget.style.boxShadow = "0 8px 24px rgba(255, 255, 255, 0.15)";
+                        e.currentTarget.style.boxShadow = "0 8px 22px rgba(168, 85, 247, 0.22)";
                       }}
                     >
                       Connect My Portal
                     </button>
                     <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.45)", fontWeight: 700, letterSpacing: "0.05em", marginTop: "4px" }}>
-                      Read-only sync • Encrypted sessions • Disconnect anytime
+                      Read-only sync · Encrypted sessions · Disconnect anytime
                     </div>
                     
                     <button
