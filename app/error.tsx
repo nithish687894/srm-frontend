@@ -12,12 +12,44 @@ export default function Error({
 }) {
   useEffect(() => {
     console.error('[Application Error Caught]:', error);
+    // Automatically reload on Next.js deployment chunk hash mismatches
+    const msg = error?.message || '';
+    if (
+      msg.includes('Failed to load chunk') ||
+      msg.includes('Loading chunk') ||
+      error?.name === 'ChunkLoadError'
+    ) {
+      if (typeof window !== 'undefined' && 'caches' in window) {
+        caches.keys().then((names) => Promise.all(names.map((n) => caches.delete(n)))).catch(() => {});
+      }
+      const lastReload = sessionStorage.getItem('last_chunk_reload');
+      const now = Date.now();
+      // Guard against infinite reload loop: reload once within 10 seconds
+      if (!lastReload || now - Number(lastReload) > 10000) {
+        sessionStorage.setItem('last_chunk_reload', String(now));
+        window.location.reload();
+      }
+    }
   }, [error]);
 
-  const handleClearCacheAndReload = () => {
+  const handleClearCacheAndReload = async () => {
     try {
       if (typeof window !== 'undefined') {
         sessionStorage.clear();
+        // Clear all Service Worker caches
+        if ('caches' in window) {
+          try {
+            const cacheNames = await caches.keys();
+            await Promise.all(cacheNames.map((name) => caches.delete(name)));
+          } catch { /* ignore */ }
+        }
+        // Unregister stale service workers
+        if ('serviceWorker' in navigator) {
+          try {
+            const regs = await navigator.serviceWorker.getRegistrations();
+            await Promise.all(regs.map((r) => r.unregister()));
+          } catch { /* ignore */ }
+        }
         const auth = localStorage.getItem('auth-storage');
         localStorage.clear();
         if (auth) {
@@ -100,7 +132,7 @@ export default function Error({
 
       <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
         <button
-          onClick={() => reset()}
+          onClick={() => { window.location.reload(); }}
           style={{
             padding: '12px 22px',
             background: 'linear-gradient(135deg, #FF75C3 0%, #A78BFA 100%)',
