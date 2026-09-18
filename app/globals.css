@@ -2142,58 +2142,53 @@ body.theme-lumina {
    THEME — LIGHT (Aesthetic Clean Light)
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 body.theme-light, .theme-light {
-  --bg-root: #f4f0ff;
-  --bg-surface: rgba(251, 248, 255, 0.78);
-  --bg-elevated: rgba(243, 237, 255, 0.82);
-  --border: rgba(74, 54, 112, 0.12);
-  --text-primary: #1b1428;
-  --text-secondary: rgba(27, 20, 40, 0.68);
-  --text-muted: rgba(27, 20, 40, 0.46);
+  --bg-root: #f7f7fa;
+  --bg-surface: #ffffff;
+  --bg-elevated: #ffffff;
+  --border: #e5e7eb;
+  --text-primary: #17151c;
+  --text-secondary: #4b4654;
+  --text-muted: #6b6575;
 
-  --accent: #BF5AF2;
-  --accent-secondary: #6366f1;
-  --accent-purple: #8b5cf6;
-  --accent-cyan: #06b6d4;
-  --accent-bg: rgba(191, 90, 242, 0.08);
+  --accent: #7c3aed;
+  --accent-secondary: #8b5cf6;
+  --accent-purple: #7c3aed;
+  --accent-cyan: #0284c7;
+  --accent-bg: #f3e8ff;
 
-  --nav-bg: rgba(28, 20, 44, 0.88);
-  --nav-blur: 28px;
+  --nav-bg: #ffffff;
+  --nav-blur: none;
 
-  --glass-bg: rgba(255, 255, 255, 0.48);
-  --glass-bg-hover: rgba(255, 255, 255, 0.64);
-  --glass-glare: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  --glass-bg: #ffffff;
+  --glass-bg-hover: #fafafa;
+  --glass-glare: none;
 
-  --shadow-card: 0 14px 38px rgba(74, 54, 112, 0.08), 0 1px 0 rgba(255, 255, 255, 0.72);
-  --shadow-panel: 0 -14px 44px rgba(40, 28, 64, 0.16);
-  --shadow-elevated: 0 18px 54px rgba(74, 54, 112, 0.12);
+  --shadow-card: 0 1px 3px rgba(17, 24, 39, 0.06), 0 8px 24px rgba(17, 24, 39, 0.04);
+  --shadow-panel: 0 -8px 24px rgba(17, 24, 39, 0.08);
+  --shadow-elevated: 0 12px 28px rgba(17, 24, 39, 0.08);
 
   /* Unified Theme Variables */
-  --app-bg: radial-gradient(circle at 20% -10%, rgba(191, 90, 242, 0.14), transparent 42%),
-    radial-gradient(circle at 96% 8%, rgba(143, 146, 255, 0.10), transparent 36%),
-    radial-gradient(circle at 80% 100%, rgba(6, 182, 212, 0.08), transparent 44%),
-    linear-gradient(180deg, #f8f4ff 0%, #eee9fb 52%, #e8f0ff 100%);
-  --card-bg: rgba(250, 247, 255, 0.68);
-  --card-elevated: rgba(255, 255, 255, 0.76);
-  --card-border: rgba(74, 54, 112, 0.12);
-  --text-main: #1b1428;
-  --text-muted: rgba(27, 20, 40, 0.64);
-  --text-soft: rgba(27, 20, 40, 0.44);
-  --accent-primary: #BF5AF2;
-  --accent-secondary: #6366f1;
-  --nav-bg: rgba(28, 20, 44, 0.88);
-  --nav-border: rgba(255, 255, 255, 0.12);
-  --success: #0f9f6e;
-  --warning: #b7791f;
-  --danger: #d92d52;
-  --glow-primary: rgba(191, 90, 242, 0.14);
+  --app-bg: #f7f7fa;
+  --card-bg: #ffffff;
+  --card-elevated: #ffffff;
+  --card-border: #e5e7eb;
+  --text-main: #17151c;
+  --text-muted: #6b6575;
+  --text-soft: #817a8d;
+  --accent-primary: #7c3aed;
+  --accent-secondary: #8b5cf6;
+  --nav-bg: #ffffff;
+  --nav-border: #e5e7eb;
+  --success: #15803d;
+  --warning: #b45309;
+  --danger: #dc2626;
+  --glow-primary: transparent;
   --skel-bg: rgba(0, 0, 0, 0.06);
   --skel-card-bg: rgba(255, 255, 255, 0.54);
   --skel-inner-bg: rgba(74, 54, 112, 0.05);
 
   background:
-    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(191, 90, 242, 0.12), transparent 50%),
-    radial-gradient(ellipse 60% 40% at 80% 90%, rgba(6, 182, 212, 0.08), transparent 50%),
-    linear-gradient(180deg, #f8f4ff 0%, #eee9fb 52%, #e8f0ff 100%);
+    #f7f7fa;
   background-attachment: fixed;
   color: #1b1428;
 }
@@ -2669,6 +2664,34 @@ body:has(.telemetry-root) .srmx-top-status-bar {
 .srmx-mobile-nav .nav-item.active span {
   color: #EC4899 !important;
   font-weight: 700 !important;
+}
+
+/* Light mode uses the same restrained product language as dark mode. */
+.theme-light .srmx-mobile-nav,
+.theme-light .srmx-nav-bar {
+  background: #ffffff !important;
+  border-top: 1px solid #e5e7eb !important;
+  box-shadow: 0 -6px 18px rgba(17, 24, 39, 0.06) !important;
+  backdrop-filter: none !important;
+}
+
+.theme-light .nav-item,
+.theme-light .nav-item span {
+  color: #6b6575 !important;
+  text-shadow: none !important;
+}
+
+.theme-light .nav-item.active,
+.theme-light .nav-item.active span {
+  color: #7c3aed !important;
+  text-shadow: none !important;
+}
+
+.theme-light .srmx-desktop-nav {
+  background: #ffffff !important;
+  border-color: #e5e7eb !important;
+  box-shadow: 0 1px 3px rgba(17, 24, 39, 0.06) !important;
+  backdrop-filter: none !important;
 }
 
 .srmx-mobile-nav .nav-item svg {
