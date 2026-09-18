@@ -2694,6 +2694,41 @@ body:has(.telemetry-root) .srmx-top-status-bar {
   backdrop-filter: none !important;
 }
 
+.theme-light .notification-prompt {
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: 0 1px 3px rgba(17, 24, 39, 0.06) !important;
+}
+
+.theme-light .notification-prompt .notification-copy span:first-child {
+  color: #17151c !important;
+}
+
+.theme-light .notification-prompt .notification-copy span:last-child {
+  color: #6b6575 !important;
+}
+
+.theme-light .notification-prompt button:first-child {
+  color: #6b6575 !important;
+}
+
+.theme-light .dashboard-main .premium-card {
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: 0 1px 3px rgba(17, 24, 39, 0.06) !important;
+  color: #17151c !important;
+}
+
+.theme-light .dashboard-main .premium-card button {
+  text-shadow: none !important;
+}
+
+.theme-light .dashboard-main .premium-card h1,
+.theme-light .dashboard-main .premium-card h2,
+.theme-light .dashboard-main .premium-card h3 {
+  color: #17151c !important;
+}
+
 .srmx-mobile-nav .nav-item svg {
   filter: none !important;
 }
