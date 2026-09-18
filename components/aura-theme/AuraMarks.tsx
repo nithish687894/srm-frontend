@@ -205,10 +205,11 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
           background: rgba(10, 8, 16, 0.85); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
           padding: 16px 20px; border: 1px solid rgba(255, 255, 255, 0.06);
           display: flex; align-items: center; justify-content: space-between;
-          z-index: 100; transform: translateY(-150%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          z-index: 100; transform: translateY(-250%); transition: transform 0.25s ease;
+          pointer-events: none;
           box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .sticky-header.visible { transform: translateY(0); }
+        .sticky-header.visible { transform: translateY(0); pointer-events: auto; }
         body.theme-light .sticky-header {
           background: linear-gradient(135deg, rgba(255,255,255,0.86), rgba(243,238,255,0.82));
           border-color: rgba(88,61,145,0.16);
@@ -323,7 +324,7 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
       <div className="marks-page-content" style={{ position: 'relative', zIndex: 1, paddingTop: 'calc(env(safe-area-inset-top, 0px) + 72px)', paddingBottom: '100px' }}>
         
         <div style={{ textAlign: 'center', marginBottom: hasPublishedMarks ? '24px' : '16px' }}>
-          <h1 style={{ fontSize: "42px", fontWeight: 900, margin: '0 0 24px', letterSpacing: '-2px', lineHeight: 1, color: '#fff' }}>Marks</h1>
+          <h1 style={{ fontSize: "clamp(30px, 8vw, 38px)", fontWeight: 850, margin: '0 0 20px', letterSpacing: '-0.04em', lineHeight: 1.05, color: '#fff' }}>Marks</h1>
 
           {hasPublishedMarks && <div className="hide-scrollbar marks-stats-strip">
              <div className="premium-card marks-stat-card" style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.03), 0 20px 40px rgba(0,0,0,0.5), 0 0 20px rgba(56, 189, 248, 0.05)' }}>

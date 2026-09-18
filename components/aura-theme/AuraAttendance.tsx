@@ -290,15 +290,15 @@ export default function AuraAttendance({
       <AuraBackground theme={activeTheme} stars={stars}>
         <main style={{ minHeight: "100dvh", padding: "calc(env(safe-area-inset-top, 0px) + 76px) 16px calc(env(safe-area-inset-bottom, 0px) + 108px)" }}>
           <div className="attendance-container">
-            <h1 style={{ fontSize: "28px", fontWeight: 900, margin: "0 0 20px", color: "#fff" }}>Attendance</h1>
-            <section style={{ background: "#12121A", border: "1px solid #292532", borderRadius: "20px", padding: "24px", textAlign: "left" }}>
+            <h1 style={{ fontSize: "clamp(28px, 7vw, 36px)", fontWeight: 850, letterSpacing: "-0.04em", margin: "0 0 20px", color: "var(--text-main, #F7F5FA)" }}>Attendance</h1>
+            <section style={{ background: "var(--card-bg, #12121A)", border: "1px solid var(--card-border, #292532)", borderRadius: "16px", padding: "24px", textAlign: "left", boxShadow: "var(--shadow-card, none)" }}>
               <AlertCircle size={22} color="#F59E0B" aria-hidden="true" />
-              <h2 style={{ fontSize: "18px", fontWeight: 850, color: "#F7F5FA", margin: "14px 0 8px" }}>Attendance unavailable</h2>
-              <p style={{ fontSize: "14px", lineHeight: 1.5, color: "#B8B2C2", margin: "0 0 20px" }}>{unavailableMessage}</p>
+              <h2 style={{ fontSize: "18px", fontWeight: 800, color: "var(--text-main, #F7F5FA)", margin: "14px 0 8px" }}>Attendance unavailable</h2>
+              <p style={{ fontSize: "14px", lineHeight: 1.5, color: "var(--text-muted, #B8B2C2)", margin: "0 0 20px" }}>{unavailableMessage}</p>
               <button
                   onClick={isSpConnected ? handleSync : (onReconnect || handleSync)}
                 disabled={isSyncing}
-                style={{ minHeight: "44px", padding: "0 16px", border: "none", borderRadius: "12px", background: "#EC4899", color: "#fff", fontSize: "14px", fontWeight: 800, cursor: isSyncing ? "wait" : "pointer" }}
+                style={{ minHeight: "44px", padding: "0 16px", border: "none", borderRadius: "10px", background: "#A855F7", color: "#fff", fontSize: "14px", fontWeight: 800, cursor: isSyncing ? "wait" : "pointer" }}
               >
                 {isSyncing ? "Trying again…" : retryLabel}
               </button>
