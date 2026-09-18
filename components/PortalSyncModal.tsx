@@ -556,15 +556,13 @@ export default function PortalSyncModal({
                         fontWeight: 900,
                         textTransform: "uppercase",
                         letterSpacing: "0.08em",
-                        background: colors.headerGrad,
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
+                        color: "#F7F5FA",
                       }}>
                         {type === "student-portal" ? "Connect Student Portal" : "Connect Portal"}
                       </h3>
                       <span style={{
                         fontSize: "9px",
-                        color: "rgba(255, 255, 255, 0.35)",
+                        color: "#B8B2C2",
                         textTransform: "uppercase",
                         letterSpacing: "0.05em",
                         display: "block",
@@ -589,8 +587,8 @@ export default function PortalSyncModal({
                   <div
                     style={{
                       padding: "11px 14px",
-                      background: "rgba(255, 68, 68, 0.08)",
-                      border: "1px solid rgba(255, 68, 68, 0.2)",
+                      background: "rgba(239, 68, 68, 0.10)",
+                      border: "1px solid rgba(239, 68, 68, 0.28)",
                       borderRadius: "12px",
                       marginBottom: "20px",
                       textAlign: "center",
@@ -603,9 +601,9 @@ export default function PortalSyncModal({
                   >
                     <span
                       style={{
-                        fontSize: "10px",
+                        fontSize: "11px",
                         fontWeight: 900,
-                        color: "#ff5555",
+                        color: "#FCA5A5",
                         letterSpacing: "0.05em",
                         textTransform: "uppercase"
                       }}
@@ -617,7 +615,7 @@ export default function PortalSyncModal({
                         onClick={handleAutoTerminate}
                         disabled={loading}
                         style={{
-                          background: "#FF2D55",
+                          background: "#EF4444",
                           color: "#fff",
                           border: "none",
                           padding: "6px 14px",
@@ -627,7 +625,7 @@ export default function PortalSyncModal({
                           cursor: loading ? "not-allowed" : "pointer",
                           textTransform: "uppercase",
                           letterSpacing: "0.06em",
-                          boxShadow: "0 4px 12px rgba(255, 45, 85, 0.3)"
+                          boxShadow: "none"
                         }}
                       >
                         ⚡ Auto Terminate & Reconnect
@@ -760,11 +758,9 @@ export default function PortalSyncModal({
                               alignItems: "center",
                               justifyContent: "center",
                               gap: "6px",
-                              background: isSolvingCaptcha 
-                                ? "rgba(255, 117, 195, 0.2)" 
-                                : "linear-gradient(135deg, rgba(255, 117, 195, 0.25) 0%, rgba(167, 139, 250, 0.25) 100%)",
-                              border: "1px solid rgba(255, 117, 195, 0.4)",
-                              color: "#FF75C3",
+                              background: isSolvingCaptcha ? "#1A1724" : "#A855F7",
+                              border: "1px solid #A855F7",
+                              color: "#FFFFFF",
                               padding: "8px 12px",
                               borderRadius: "10px",
                               fontSize: "11px",
@@ -788,9 +784,9 @@ export default function PortalSyncModal({
                               alignItems: "center",
                               justifyContent: "center",
                               gap: "6px",
-                              background: "rgba(255, 255, 255, 0.05)",
-                              border: "1px solid rgba(255, 255, 255, 0.12)",
-                              color: "#bbb",
+                              background: "#1A1724",
+                              border: "1px solid #292532",
+                              color: "#B8B2C2",
                               padding: "6px 12px",
                               borderRadius: "10px",
                               fontSize: "10.5px",

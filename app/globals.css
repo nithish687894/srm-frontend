@@ -2652,6 +2652,29 @@ body:has(.telemetry-root) .srmx-top-status-bar {
   display: none !important;
 }
 
+/* Calm mobile navigation baseline: readable labels, restrained borders, no neon treatment. */
+.srmx-mobile-nav {
+  background: #12121A !important;
+  border-top: 1px solid #292532 !important;
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.18) !important;
+}
+
+.srmx-mobile-nav .nav-item span {
+  color: #B8B2C2 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+}
+
+.srmx-mobile-nav .nav-item.active span {
+  color: #EC4899 !important;
+  font-weight: 700 !important;
+}
+
+.srmx-mobile-nav .nav-item svg {
+  filter: none !important;
+}
+
 /* ━━ SRM Nexus production visual baseline ━━
    Shared semantic values used by the primary student experience. */
 :root {
