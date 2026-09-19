@@ -115,14 +115,18 @@ export default function MarksPage() {
       }
     });
 
-    const scored = processedMarks.reduce((s: number, m: AnyValue) => s + (m.tests?.reduce((a: number, t: AnyValue) => a + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0) || 0), 0);
-    const max = processedMarks.reduce((s: number, m: AnyValue) => s + (m.tests?.reduce((a: number, t: AnyValue) => a + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0) || 0), 0);
+    const scored = processedMarks.reduce((s: number, m: AnyValue) => {
+      if (typeof m.totalInternalScore === 'number' && m.totalInternalScore > 0) return s + m.totalInternalScore;
+      return s + (m.tests?.reduce((a: number, t: AnyValue) => a + (t.score === "Abs" ? 0 : (typeof t.marksScored === 'number' ? t.marksScored : parseFloat(t.score) || 0)), 0) || 0);
+    }, 0);
+    const max = processedMarks.reduce((s: number, m: AnyValue) => {
+      if (typeof m.totalInternalMax === 'number' && m.totalInternalMax > 0) return s + m.totalInternalMax;
+      return s + (m.tests?.reduce((a: number, t: AnyValue) => a + (typeof t.maxMarks === 'number' && t.maxMarks > 0 ? t.maxMarks : (parseFloat((t.test || "").split('/')[1]) || 0)), 0) || 0);
+    }, 0);
     const pct = max > 0 ? (scored / max) * 100 : 0;
 
     return { marks: processedMarks, totalScored: scored, totalMax: max, avgPct: pct };
   }, [academicData, studentPortalData]);
-
-
   return (
     <div style={{ minHeight: "100dvh", width: "100%", background: "var(--app-bg)", color: "#fff", display: "flex", flexDirection: "column", position: "relative" }}>
       <style dangerouslySetInnerHTML={{ __html: `

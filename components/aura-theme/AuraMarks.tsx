@@ -32,8 +32,13 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
     if (!marks || !marks.length) return [];
     return marks.map((m: AnyValue) => {
       const tests = m.tests || [];
-      const totalScored = tests.reduce((s: number, t: AnyValue) => s + (t.score === "Abs" ? 0 : parseFloat(t.score) || 0), 0);
-      const maxPossible = tests.reduce((s: number, t: AnyValue) => s + (parseFloat((t.test || "T/100").split('/')[1]) || 0), 0);
+      const hasDirectTotals = typeof m.totalInternalScore === 'number' && typeof m.totalInternalMax === 'number' && m.totalInternalMax > 0;
+      const totalScored = hasDirectTotals
+        ? m.totalInternalScore
+        : tests.reduce((s: number, t: AnyValue) => s + (t.score === "Abs" ? 0 : (typeof t.marksScored === 'number' ? t.marksScored : parseFloat(t.score) || 0)), 0);
+      const maxPossible = hasDirectTotals
+        ? m.totalInternalMax
+        : tests.reduce((s: number, t: AnyValue) => s + (typeof t.maxMarks === 'number' && t.maxMarks > 0 ? t.maxMarks : (parseFloat((t.test || "").split('/')[1]) || 0)), 0);
       const pct = maxPossible > 0 ? (totalScored / maxPossible) * 100 : 0;
       return {
         ...m,
@@ -312,15 +317,18 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
 
                             {/* Test Rows */}
                             {mark.tests.map((test: AnyValue, testIndex: number) => {
-                              const max = Number((test.test || "/100").split("/")[1]) || 100;
-                              const score = test.score === "Abs" ? 0 : (test.score !== undefined && test.score !== null && test.score !== "" ? Number(test.score) : null);
+                              const max = (typeof test.maxMarks === 'number' && test.maxMarks > 0)
+                                ? test.maxMarks
+                                : (Number((test.test || "").split("/")[1]) || 100);
+                              const rawScore = test.marksScored !== undefined ? test.marksScored : test.score;
+                              const score = test.score === "Abs" ? 0 : (rawScore !== undefined && rawScore !== null && rawScore !== "" ? Number(rawScore) : null);
                               const testPct = score !== null && max > 0 ? (score / max) * 100 : null;
-                              const testName = (test.test || "Assessment").split("/")[0].trim();
+                              const testName = test.testName || test.name || (test.test ? test.test.split("/")[0].trim() : "") || "Assessment";
                               const testColor = testPct !== null ? getStatusColor(testPct) : "#8F8998";
 
                               return (
                                 <div
-                                  key={`${test.test}-${testIndex}`}
+                                  key={`${test.test || test.testName || testIndex}-${testIndex}`}
                                   style={{
                                     display: "grid",
                                     gridTemplateColumns: "1fr 90px 70px",

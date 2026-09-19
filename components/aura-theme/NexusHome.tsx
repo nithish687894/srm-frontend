@@ -2,17 +2,27 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, BookOpen, CalendarDays, Calculator, ChevronRight, Clock, FileText, Bell, IdCard, MapPin, AlertCircle, CheckCircle2, Link2, RefreshCcw } from "lucide-react";
+import {
+  BookOpen,
+  CalendarDays,
+  Calculator,
+  ChevronRight,
+  Clock,
+  FileText,
+  MapPin,
+  AlertCircle,
+  CheckCircle2,
+  TrendingUp,
+  GraduationCap,
+} from "lucide-react";
 import { useAuraTheme } from "./system/useAuraTheme";
 import { useAuthStore } from "@/lib/store";
-import Toast from "@/components/Toast";
-import { enableAcademicAlerts } from "@/lib/notificationHelper";
 import styles from "./NexusHome.module.css";
 
 const shortcuts = [
-  { href: "/gpa", label: "GPA calculator", icon: Calculator },
-  { href: "/notes", label: "My notes", icon: FileText },
-  { href: "/exam-library", label: "Exam library", icon: BookOpen },
+  { href: "/gpa", label: "GPA Calculator", icon: Calculator },
+  { href: "/notes", label: "My Notes", icon: FileText },
+  { href: "/exam-library", label: "Exam Library", icon: BookOpen },
   { href: "/calendar", label: "Calendar", icon: CalendarDays },
 ];
 
@@ -32,30 +42,35 @@ function countdown(minutes: number | null | undefined, ending = false) {
 
 export default function NexusHome(props: AnyValue) {
   const {
-    data, avgAtt, avgMarks, firstName, nextClass, currentClass,
-    currentClassMeta, nextClassMeta, onShowStudentInfo, upcomingEvents = [],
-    tomorrowSkipStats, safeSubjectsCount, riskySubjectsCount, onConnectPortal,
-    syncError, dayOrder,
+    data,
+    avgAtt,
+    avgMarks,
+    firstName,
+    nextClass,
+    currentClass,
+    currentClassMeta,
+    nextClassMeta,
+    upcomingEvents = [],
+    safeSubjectsCount,
+    riskySubjectsCount,
+    dayOrder,
   } = props;
   const { activeTheme } = useAuraTheme();
-  const isPremium = useAuthStore((state) => state.isPremium);
-  const connected = useAuthStore((state) => state.studentPortalConnected);
   const email = useAuthStore((state) => state.email);
-  const prompted = useAuthStore((state) => state.academicAlertsPrompted);
-  const alertsEnabled = useAuthStore((state) => state.academicAlertsEnabled);
-  const setPrompted = useAuthStore((state) => state.setAcademicAlertsPrompted);
-  const [toast, setToast] = useState<{ title: string; body: string; type: "success" | "error" | "info" } | null>(null);
-  const [enablingAlerts, setEnablingAlerts] = useState(false);
-  const [renderedAt] = useState(() => Date.now());
   const [today] = useState(() => new Date());
 
-  const demo = (email || "").split("@")[0].toLowerCase() === "demo12"
-    || data?.profile?.["Name"] === "AURA NEBULA DEMO"
-    || data?.profile?.["Registration Number"] === "RA2311003010999";
+  const demo =
+    (email || "").split("@")[0].toLowerCase() === "demo12" ||
+    data?.profile?.["Name"] === "AURA NEBULA DEMO" ||
+    data?.profile?.["Registration Number"] === "RA2311003010999";
   const attendance = percentage(avgAtt);
   const averageMarks = percentage(avgMarks);
   const lesson = currentClass || nextClass;
-  const lessonLabel = currentClass ? "In class now" : nextClassMeta?.isTomorrow ? "Tomorrow's first class" : "Next class";
+  const lessonLabel = currentClass
+    ? "In class now"
+    : nextClassMeta?.isTomorrow
+    ? "Tomorrow's first class"
+    : "Next class";
   const rawName = String(firstName || "Student");
   const name = rawName === rawName.toUpperCase() ? rawName.charAt(0) + rawName.slice(1).toLowerCase() : rawName;
   const records = data?.attendance || data?.studentPortal?.attendance || [];
@@ -63,78 +78,220 @@ export default function NexusHome(props: AnyValue) {
     const match = records.find((item: AnyValue) => (item["Course Code"] || item.courseCode) === course.courseCode);
     return match?.["Course Title"] || match?.courseTitle || course.courseTitle || course.courseCode || "Class";
   };
-  const fetchedAt = data?.studentPortal?.lastSyncedAt || data?.lastFetchedAt;
-  const fetchedTime = typeof fetchedAt === "number" ? fetchedAt : Date.parse(fetchedAt || "");
-  const fresh = Number.isFinite(fetchedTime) && renderedAt - fetchedTime < 15 * 60 * 1000;
-  const canPlan = connected && fresh && attendance !== null && !demo;
-  const dateLabel = new Intl.DateTimeFormat("en-IN", { weekday: "long", day: "numeric", month: "short", timeZone: "Asia/Kolkata" }).format(today);
 
-  async function enableAlerts() {
-    setEnablingAlerts(true);
-    try { await enableAcademicAlerts((title, body, type = "success") => setToast({ title, body, type })); }
-    finally { setEnablingAlerts(false); }
-  }
+  const dateLabel = new Intl.DateTimeFormat("en-IN", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    timeZone: "Asia/Kolkata",
+  }).format(today);
 
   return (
     <main className={styles.home}>
-      <div className={styles.content}>
-        <header className={styles.greeting}>
-          <div className={styles.topline}><span className={styles.eyebrow}>Nexus</span>{demo ? <span className={styles.badge}>Demo preview</span> : dayOrder ? <span className={styles.badge}>Day order {dayOrder}</span> : null}</div>
-          <h1>{activeTheme.greeting}, {name}<span>.</span></h1>
-          <div className={styles.date}><span suppressHydrationWarning>{dateLabel}</span></div>
+      <div className={styles.container}>
+        {/* HEADER */}
+        <header className={styles.header}>
+          <div className={styles.topline}>
+            <span className={styles.brand}>NEXUS</span>
+            {demo ? (
+              <span className={styles.pill}>Demo preview</span>
+            ) : dayOrder ? (
+              <span className={styles.pill}>Day order {dayOrder}</span>
+            ) : null}
+          </div>
+          <h1 className={styles.greetingTitle}>
+            {activeTheme.greeting}
+          </h1>
+          <p className={styles.dateSubtitle} suppressHydrationWarning>
+            {dateLabel}
+          </p>
         </header>
 
-        <div className={styles.layout}>
-          <div className={styles.primaryColumn}>
-            <section className={styles.schedule} aria-labelledby="home-today">
-              <div className={styles.scheduleHeading}><div><p>Today</p><h2 id="home-today">Your schedule</h2></div><Link href="/timetable">Timetable <ChevronRight size={15} /></Link></div>
-              <div className={styles.scheduleBody}>
-                <span className={styles.scheduleIcon}><Clock size={21} strokeWidth={1.8} /></span>
-                <div className={styles.lesson}>
-                  <p className={styles.caption}>{lesson ? lessonLabel : "Schedule"}</p>
-                  <h3>{lesson ? subjectName(lesson) : "No upcoming classes to show"}</h3>
-                  {lesson ? <><div className={styles.lessonMeta}><span>{lesson.startTime} – {lesson.endTime}</span><span><MapPin size={13} /> {lesson.roomNo ? `Room ${lesson.roomNo}` : "Room to be confirmed"}</span>{lesson.slot && <span>Slot {lesson.slot}</span>}</div><p className={styles.countdown}>{countdown(currentClass ? currentClassMeta?.endsInMinutes : nextClassMeta?.startsInMinutes, !!currentClass)}</p></> : <p>Open your timetable to check your day orders and schedule.</p>}
+        {/* 1. TODAY / SCHEDULE CARD */}
+        <section className={styles.card}>
+          <div className={styles.cardHeader}>
+            <div className={styles.cardTitleWrap}>
+              <span className={styles.cardEyebrow}>TODAY</span>
+              <h2 className={styles.cardHeading}>Schedule</h2>
+            </div>
+            <Link href="/timetable" className={styles.cardActionLink}>
+              Timetable <ChevronRight size={14} />
+            </Link>
+          </div>
+
+          {lesson ? (
+            <div className={styles.activeSchedule}>
+              <div className={styles.lessonTagRow}>
+                <span className={styles.liveBadge}>
+                  <span className={styles.livePulse} />
+                  {lessonLabel}
+                </span>
+                {lesson.slot && <span className={styles.slotPill}>Slot {lesson.slot}</span>}
+              </div>
+              <h3 className={styles.courseName}>{subjectName(lesson)}</h3>
+              <div className={styles.courseMeta}>
+                <span>
+                  <Clock size={13} /> {lesson.startTime} – {lesson.endTime}
+                </span>
+                <span>
+                  <MapPin size={13} /> {lesson.roomNo ? `Room ${lesson.roomNo}` : "Room to be confirmed"}
+                </span>
+              </div>
+              {countdown(
+                currentClass ? currentClassMeta?.endsInMinutes : nextClassMeta?.startsInMinutes,
+                !!currentClass
+              ) && (
+                <div className={styles.countdownRow}>
+                  {countdown(
+                    currentClass ? currentClassMeta?.endsInMinutes : nextClassMeta?.startsInMinutes,
+                    !!currentClass
+                  )}
                 </div>
-              </div>
-              <Link className={styles.primaryButton} href="/timetable">Open timetable <ArrowUpRight size={17} /></Link>
-            </section>
+              )}
+            </div>
+          ) : (
+            <div className={styles.emptySchedule}>
+              <p className={styles.emptyTitle}>No classes scheduled today.</p>
+              <p className={styles.emptySubtitle}>Your timetable is clear.</p>
+            </div>
+          )}
+        </section>
 
-            <section aria-labelledby="home-academics">
-              <div className={styles.sectionHeading}><h2 id="home-academics">This semester</h2><span>Academic overview</span></div>
-              <div className={styles.metrics}>
-                <Link href="/attendance" className={styles.metric}><div className={styles.metricLabel}>Attendance <ArrowUpRight size={16} /></div><strong>{attendance === null ? "—" : attendance.toFixed(1)}{attendance !== null && <small>%</small>}</strong><p>{attendance === null ? "Not available yet" : "Overall attendance"}</p><div className={styles.metricFoot}>{attendance === null ? "Connect your portal" : <>Target <b>75%</b></>}</div></Link>
-                <Link href="/marks" className={styles.metric}><div className={styles.metricLabel}>Marks <ArrowUpRight size={16} /></div><strong>{averageMarks === null ? "—" : averageMarks.toFixed(1)}{averageMarks !== null && <small>%</small>}</strong><p>{averageMarks === null ? "Not available yet" : "Internal assessment"}</p><div className={styles.metricFoot}>View every assessment <ChevronRight size={13} /></div></Link>
-              </div>
-              {attendance !== null && <Link className={styles.attendanceNote} href="/attendance">{riskySubjectsCount > 0 ? <AlertCircle size={16} className={styles.warning} /> : <CheckCircle2 size={16} className={styles.success} />}<span>{riskySubjectsCount > 0 ? `${riskySubjectsCount} course${riskySubjectsCount === 1 ? "" : "s"} below 75% attendance` : `${safeSubjectsCount ?? 0} courses at or above 75%`}</span><ChevronRight size={15} /></Link>}
-            </section>
-
-            <section aria-labelledby="home-tools">
-              <div className={styles.sectionHeading}><h2 id="home-tools">Quick access</h2><Link href="/tools">All tools <ChevronRight size={15} /></Link></div>
-              <div className={styles.shortcuts}>{shortcuts.map(({ href, label, icon: Icon }) => <Link href={href} key={href}><Icon size={21} strokeWidth={1.7} /><span>{label}</span></Link>)}</div>
-            </section>
+        {/* 2. ACADEMICS (ATTENDANCE & MARKS CARDS) */}
+        <section className={styles.sectionWrap}>
+          <div className={styles.sectionHeader}>
+            <h3 className={styles.sectionTitle}>Academics</h3>
+            <span className={styles.sectionMuted}>Active semester</span>
           </div>
 
-          <div className={styles.secondaryColumn}>
-            <section aria-labelledby="home-updates">
-              <div className={styles.sectionHeading}><h2 id="home-updates">Coming up</h2><Link href="/calendar">Calendar <ChevronRight size={15} /></Link></div>
-              <div className={styles.panel}>{upcomingEvents.length ? upcomingEvents.map((event: AnyValue, index: number) => <Link href="/calendar" className={styles.event} key={`${event.dateNum}-${event.event}-${index}`}><div className={styles.eventDate}><strong>{event.dateNum}</strong><span>{String(event.monthLabel || "").split(" ")[0]}</span></div><div><h3>{event.event}</h3><p>{event.weekdayLabel}</p></div><ChevronRight size={15} /></Link>) : <div className={styles.empty}><CalendarDays size={20} /><div><h3>No upcoming events listed</h3><p>Your academic calendar is one tap away.</p></div></div>}</div>
-            </section>
-
-            <section aria-labelledby="home-account">
-              <div className={styles.sectionHeading}><h2 id="home-account">Your workspace</h2></div>
-              <div className={styles.panel}>
-                <button className={styles.workspaceRow} onClick={onShowStudentInfo}><IdCard size={19} /><span><strong>Student details</strong><small>{data?.profile?.["Registration Number"] || "Profile, batch and advisors"}</small></span><ChevronRight size={16} /></button>
-                <button className={styles.workspaceRow} onClick={onConnectPortal}><Link2 size={19} /><span><strong>{demo ? "Connect your student portal" : connected ? "Student Portal connected" : "Connect Student Portal"}</strong><small>{demo ? "Previewing sample academic information" : syncError || (connected ? "Manage your connection" : "Keep attendance and marks up to date")}</small></span><ChevronRight size={16} /></button>
-                <details className={styles.planner}><summary>Attendance planner <span>{isPremium ? "Tomorrow" : "Premium"}</span></summary>{!isPremium ? <p>Explore attendance planning with <Link href="/premium">Nexus Premium</Link>.</p> : !canPlan ? <p>Connect your portal and refresh attendance to see tomorrow’s projections. <Link href="/attendance">Open attendance</Link></p> : tomorrowSkipStats?.isHoliday ? <p>No classes scheduled for tomorrow.</p> : tomorrowSkipStats?.classes?.length ? <><p>Day order {tomorrowSkipStats.dayOrder} · {tomorrowSkipStats.safe} safe to miss · {tomorrowSkipStats.risky} must attend</p>{tomorrowSkipStats.classes.map((course: AnyValue, index: number) => <div className={styles.plannerCourse} key={index}><strong>{subjectName(course)}</strong><span>Slot {course.slot} · {course.durationHours || 1} hour(s)</span><span>Current {course.currentAttendance}% → after absence {course.afterSkipAttendance}%</span><b className={course.isRisky ? styles.warning : styles.success}>{course.isRisky ? "Must attend" : "Safe to miss"}</b></div>)}<p>Projections include multi-hour labs and a 75% target.</p></> : <p>No schedule available to calculate tomorrow’s attendance.</p>}</details>
+          <div className={styles.metricsRow}>
+            {/* ATTENDANCE CARD */}
+            <Link href="/attendance" className={`${styles.card} ${styles.metricCard}`}>
+              <div className={styles.metricTop}>
+                <div className={styles.metricIconTitle}>
+                  <TrendingUp size={15} className={styles.metricIcon} />
+                  <span>Attendance</span>
+                </div>
+                <ChevronRight size={14} className={styles.chevron} />
               </div>
-            </section>
 
-            {!prompted && !alertsEnabled && data && <section className={styles.alerts} aria-label="Academic alerts"><Bell size={19} /><div><h3>Stay up to date</h3><p>Get notified when your attendance or marks change.</p><div className={styles.alertActions}><button disabled={enablingAlerts} onClick={enableAlerts}>{enablingAlerts ? "Enabling…" : "Enable alerts"}</button><button onClick={() => { setPrompted(true); localStorage.setItem("academicAlertsPrompted", "true"); }}>Later</button></div></div></section>}
-            <p className={styles.footer}>Nexus · A little less campus admin.</p>
+              <div className={styles.metricMain}>
+                <div className={styles.statValue}>
+                  {attendance === null ? "—" : attendance.toFixed(1)}
+                  {attendance !== null && <small>%</small>}
+                </div>
+                <span className={styles.targetLabel}>Target 75%</span>
+              </div>
+
+              <div className={styles.metricBottom}>
+                {attendance === null ? (
+                  <span className={styles.tagNeutral}>Connect portal</span>
+                ) : riskySubjectsCount > 0 ? (
+                  <span className={styles.tagRisk}>
+                    <AlertCircle size={12} />
+                    {riskySubjectsCount} {riskySubjectsCount === 1 ? "course" : "courses"} below 75%
+                  </span>
+                ) : (
+                  <span className={styles.tagSafe}>
+                    <CheckCircle2 size={12} />
+                    All courses safe (≥ 75%)
+                  </span>
+                )}
+              </div>
+            </Link>
+
+            {/* MARKS CARD */}
+            <Link href="/marks" className={`${styles.card} ${styles.metricCard}`}>
+              <div className={styles.metricTop}>
+                <div className={styles.metricIconTitle}>
+                  <GraduationCap size={15} className={styles.metricIcon} />
+                  <span>Internal Marks</span>
+                </div>
+                <ChevronRight size={14} className={styles.chevron} />
+              </div>
+
+              <div className={styles.metricMain}>
+                <div className={styles.statValue}>
+                  {averageMarks === null ? "—" : averageMarks.toFixed(1)}
+                  {averageMarks !== null && <small>%</small>}
+                </div>
+                <span className={styles.targetLabel}>Average</span>
+              </div>
+
+              <div className={styles.metricBottom}>
+                {averageMarks === null ? (
+                  <span className={styles.tagNeutral}>No scores yet</span>
+                ) : (
+                  <span className={styles.tagSafe}>
+                    <CheckCircle2 size={12} />
+                    Active assessments
+                  </span>
+                )}
+              </div>
+            </Link>
           </div>
-        </div>
+        </section>
+
+        {/* 3. COMING UP (TIMELINE CARD) */}
+        <section className={styles.sectionWrap}>
+          <div className={styles.sectionHeader}>
+            <h3 className={styles.sectionTitle}>Coming up</h3>
+            <Link href="/calendar" className={styles.headerAction}>
+              Calendar <ChevronRight size={14} />
+            </Link>
+          </div>
+
+          <div className={`${styles.card} ${styles.eventsCard}`}>
+            {upcomingEvents.length ? (
+              upcomingEvents.slice(0, 3).map((event: AnyValue, index: number) => (
+                <Link
+                  href="/calendar"
+                  className={styles.eventRow}
+                  key={`${event.dateNum}-${event.event}-${index}`}
+                >
+                  <div className={styles.eventBadge}>
+                    <strong>{String(event.dateNum).padStart(2, "0")}</strong>
+                    <span>{String(event.monthLabel || "").split(" ")[0].toUpperCase()}</span>
+                  </div>
+                  <div className={styles.eventDetails}>
+                    <h4>{event.event}</h4>
+                    <p>{event.weekdayLabel}</p>
+                  </div>
+                  <ChevronRight size={13} className={styles.eventChevron} />
+                </Link>
+              ))
+            ) : (
+              <div className={styles.emptyEvents}>
+                <CalendarDays size={18} />
+                <p>No upcoming events in calendar.</p>
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* 4. TOOLS (COMPACT 2x2 GRID CARDS) */}
+        <section className={styles.sectionWrap}>
+          <div className={styles.sectionHeader}>
+            <h3 className={styles.sectionTitle}>Tools</h3>
+            <Link href="/tools" className={styles.headerAction}>
+              All tools <ChevronRight size={14} />
+            </Link>
+          </div>
+
+          <div className={styles.toolsGrid}>
+            {shortcuts.map(({ href, label, icon: Icon }) => (
+              <Link href={href} key={href} className={`${styles.card} ${styles.toolButton}`}>
+                <Icon size={16} strokeWidth={1.8} className={styles.toolIcon} />
+                <span>{label}</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <footer className={styles.footer}>
+          <p>SRM Nexus · Academic Portal</p>
+        </footer>
       </div>
-      {toast && <Toast {...toast} onClose={() => setToast(null)} />}
     </main>
   );
 }
