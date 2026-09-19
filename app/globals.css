@@ -2647,6 +2647,100 @@ body:has(.telemetry-root) .srmx-top-status-bar {
   display: none !important;
 }
 
+/* The dashboard toolbar names each action so new students do not have to
+   guess what the Exam, Portal, Alerts, and Profile icons do. */
+.srmx-header-pill,
+.srmx-top-action {
+  min-width: 0;
+}
+
+.srmx-top-action {
+  background: #12121A;
+  border-color: #292532;
+}
+
+.srmx-header-icon {
+  background: transparent !important;
+}
+
+.srmx-top-action-label {
+  color: #D8D2DF;
+}
+
+@media (max-width: 767px) {
+  .srmx-top-actions {
+    gap: 0 !important;
+    padding: 3px;
+    border: 1px solid #292532;
+    border-radius: 13px;
+    background: #12121A;
+  }
+
+  .srmx-top-actions .srmx-header-pill,
+  .srmx-top-actions .srmx-top-action {
+    width: 47px;
+    height: 42px !important;
+    padding: 3px 2px !important;
+    gap: 3px !important;
+    flex-direction: column;
+    border: 0 !important;
+    border-radius: 9px !important;
+    background: transparent !important;
+    color: #D8D2DF !important;
+  }
+
+  .srmx-top-actions .srmx-header-icon {
+    width: 17px !important;
+    height: 17px !important;
+    background: transparent !important;
+  }
+
+  .srmx-top-actions .srmx-header-icon svg,
+  .srmx-top-actions .srmx-top-action > svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .srmx-top-actions .srmx-top-action-label {
+    color: #B8B2C2;
+    font-size: 8.5px !important;
+    font-weight: 650 !important;
+  }
+
+  .srmx-top-actions .srmx-top-action:active,
+  .srmx-top-actions .srmx-header-pill:active {
+    background: #1C1C27 !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .srmx-top-status-bar {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .srmx-top-status-bar > div {
+    gap: 3px !important;
+  }
+
+  .srmx-header-pill,
+  .srmx-top-action {
+    padding-left: 7px !important;
+    padding-right: 7px !important;
+  }
+
+  .srmx-top-actions .srmx-header-pill,
+  .srmx-top-actions .srmx-top-action {
+    width: 43px;
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+  }
+
+  .srmx-top-action-label {
+    font-size: 9px !important;
+  }
+}
+
 /* Calm mobile navigation baseline: readable labels, restrained borders, no neon treatment. */
 .srmx-mobile-nav {
   background: #12121A !important;
@@ -2898,10 +2992,211 @@ body.theme-lumina,
   outline-offset: 3px;
 }
 
+/* ━━ Nexus 2026 product refresh ━━
+   A calm academic interface: one brand color, neutral surfaces, purposeful
+   state colors, and predictable component geometry. */
+body.theme-lumina,
+.theme-lumina {
+  --app-bg: #09090F;
+  --card-bg: #12121A;
+  --card-elevated: #1A1724;
+  --card-border: #292532;
+  --text-main: #F7F5FA;
+  --text-muted: #B8B2C2;
+  --text-soft: #8F8998;
+  --accent: #2563EB;
+  --accent-primary: #2563EB;
+  --accent-secondary: #2563EB;
+  --accent-purple: #2563EB;
+  --accent-pink: #2563EB;
+  --accent-cyan: #2563EB;
+  --success: #16A34A;
+  --warning: #D97706;
+  --danger: #DC2626;
+  --nav-bg: #101017;
+  --font-heading: var(--font-inter), Inter, system-ui, sans-serif;
+  --font-main: var(--font-inter), Inter, system-ui, sans-serif;
+}
+
+body.theme-lumina,
+.theme-lumina {
+  font-family: var(--font-main);
+}
+
+body.theme-lumina,
+.theme-lumina,
+.aura-background-root {
+  background: #09090F !important;
+}
+
+.theme-lumina .premium-card,
+.theme-lumina .aura-card,
+.theme-lumina .liquid-card {
+  background: #12121A !important;
+  border: 1px solid #292532 !important;
+  border-radius: 20px !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.theme-lumina .premium-card:hover,
+.theme-lumina .aura-card:hover,
+.theme-lumina .liquid-card:hover {
+  background: #1A1724 !important;
+  border-color: #3B3547 !important;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2) !important;
+}
+
+.theme-lumina .ai-border,
+.theme-lumina .aura-blob,
+.theme-lumina .twinkling-star,
+.theme-lumina .floating-backlight,
+.theme-lumina .shimmer-text {
+  display: none !important;
+}
+
+.dashboard-main {
+  gap: 20px !important;
+}
+
+.dashboard-main .premium-card {
+  border-radius: 20px !important;
+}
+
+.dashboard-main button[style*="linear-gradient"] {
+  background: #2563EB !important;
+  box-shadow: none !important;
+}
+
+.dashboard-main [style*="box-shadow"] {
+  box-shadow: none !important;
+}
+
+.srmx-mobile-nav {
+  height: calc(68px + env(safe-area-inset-bottom, 0px)) !important;
+  padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+  background: #101017 !important;
+  border-top: 1px solid #292532 !important;
+  box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.18) !important;
+}
+
+.nav-item {
+  min-height: 60px !important;
+  gap: 4px !important;
+  color: #8F8998 !important;
+}
+
+.srmx-mobile-nav .nav-item span {
+  color: inherit !important;
+  font-size: 11px !important;
+  font-weight: 650 !important;
+}
+
+.theme-lumina .nav-item.active,
+.theme-lumina .nav-item.active span,
+.nav-item.active,
+.nav-item.active span {
+  color: #93C5FD !important;
+}
+
+.nav-item.active::before,
+.nav-item.active::after {
+  display: none !important;
+}
+
+@media (min-width: 768px) {
+  .desktop-sidebar {
+    background: #101017 !important;
+    border-right: 1px solid #292532 !important;
+    box-shadow: none !important;
+  }
+
+  .desktop-nav-link {
+    border-radius: 10px !important;
+    color: #B8B2C2 !important;
+  }
+
+  .desktop-nav-link.active {
+    background: rgba(37, 99, 235, 0.16) !important;
+    color: #F7F5FA !important;
+    box-shadow: none !important;
+  }
+}
+
+button,
+a,
+.min-card,
+.action-btn,
+[role="button"] {
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 120ms ease !important;
+}
+
 @media (max-width: 767px) {
   .dashboard-main { gap: 16px; }
   .dashboard-main .premium-card { border-radius: 20px !important; }
   .marks-page-content { padding-left: 16px; padding-right: 16px; }
   .marks-filter-row { padding-left: 16px !important; padding-right: 16px !important; }
+}
+
+/* Tablet widths keep the mobile navigation. A full sidebar at 768px leaves
+   too little room for academic content and makes the desktop layout collide. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .desktop-sidebar { display: none !important; }
+  .srmx-mobile-nav { display: flex !important; }
+}
+
+@media (min-width: 1024px) {
+  .desktop-sidebar { display: flex !important; }
+  .srmx-mobile-nav { display: none !important; }
+}
+
+/* Core academic pages share the same compact, information-first layout. */
+.marks-page-content {
+  max-width: 760px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.marks-page-content .marks-stat-card {
+  min-height: 136px;
+}
+
+.marks-page-content .marks-stat-card > div[style*="position: absolute"] {
+  display: none !important;
+}
+
+.marks-page-content .marks-filter-row {
+  margin-bottom: 16px !important;
+}
+
+.attendance-container .subject-card {
+  background: #12121A !important;
+  border-color: #292532 !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.attendance-container .subject-card:hover {
+  background: #1A1724 !important;
+  border-color: #3B3547 !important;
+  box-shadow: none !important;
+}
+
+.attendance-container .modal-sheet {
+  background: #12121A !important;
+  border-color: #292532 !important;
+  box-shadow: 0 -12px 28px rgba(0, 0, 0, 0.32) !important;
+}
+
+.timetable-main .aura-blob,
+.timetable-main + .aura-blob {
+  display: none !important;
+}
+
+.timetable-main .timetable-class-card {
+  box-shadow: none !important;
 }
 

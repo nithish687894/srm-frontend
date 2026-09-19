@@ -231,11 +231,11 @@ export default function AuraDashboard({
             if (!isDemo || studentPortalConnected) return null;
             return (
               <div style={{
-                background: 'linear-gradient(135deg, rgba(255, 45, 85, 0.15) 0%, rgba(191, 90, 242, 0.1) 100%)',
-                border: '1.5px solid rgba(255, 45, 85, 0.3)',
-                boxShadow: '0 8px 32px rgba(255, 45, 85, 0.15)',
-                borderRadius: '24px',
-                padding: '16px 20px',
+                background: 'rgba(124, 58, 237, 0.10)',
+                border: '1px solid rgba(124, 58, 237, 0.30)',
+                boxShadow: 'none',
+                borderRadius: '16px',
+                padding: '14px 16px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
@@ -244,26 +244,26 @@ export default function AuraDashboard({
                 zIndex: 10
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <Zap size={16} color="#FF2D55" style={{ flexShrink: 0 }} />
+                  <Zap size={16} color="#93C5FD" style={{ flexShrink: 0 }} />
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <span style={{ fontSize: '11px', fontWeight: 900, color: '#ff2d55', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Demo Mode Active</span>
+                    <span style={{ fontSize: '11px', fontWeight: 900, color: '#BFDBFE', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Demo Mode Active</span>
                     <span style={{ fontSize: '10px', color: AURA.sub, fontWeight: 600, marginTop: '2px' }}>Viewing sample dashboard. Connect your portal for real sync.</span>
                   </div>
                 </div>
                 <button
                   onClick={onConnectPortal}
                   style={{
-                    background: '#FF2D55',
+                    background: '#2563EB',
                     color: '#fff',
                     border: 'none',
                     padding: '6px 14px',
-                    borderRadius: '10px',
+                    borderRadius: '8px',
                     fontSize: '10px',
                     fontWeight: 900,
                     cursor: 'pointer',
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em',
-                    boxShadow: '0 4px 12px rgba(255, 45, 85, 0.3)',
+                    boxShadow: 'none',
                     flexShrink: 0
                   }}
                 >
@@ -276,11 +276,11 @@ export default function AuraDashboard({
           {/* Sync Error Warning Banner */}
           {syncError && (
             <div style={{
-              background: 'linear-gradient(135deg, rgba(255, 45, 85, 0.15) 0%, rgba(191, 90, 242, 0.1) 100%)',
+              background: 'rgba(220, 38, 38, 0.10)',
               border: '1.5px solid rgba(255, 45, 85, 0.3)',
-              boxShadow: '0 8px 32px rgba(255, 45, 85, 0.15)',
-              borderRadius: '24px',
-              padding: '16px 20px',
+              boxShadow: 'none',
+              borderRadius: '16px',
+              padding: '14px 16px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
@@ -309,7 +309,7 @@ export default function AuraDashboard({
                   cursor: 'pointer',
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em',
-                  boxShadow: '0 4px 12px rgba(255, 45, 85, 0.3)',
+                  boxShadow: 'none',
                   flexShrink: 0
                 }}
               >
@@ -323,11 +323,11 @@ export default function AuraDashboard({
             <div 
               className="premium-card notification-prompt"
               style={{
-                background: 'linear-gradient(135deg, rgba(143, 146, 255, 0.08) 0%, rgba(191, 90, 242, 0.04) 100%)',
-                border: '1px solid rgba(143, 146, 255, 0.25)',
-                boxShadow: '0 8px 32px rgba(143, 146, 255, 0.08)',
-                borderRadius: '24px',
-                padding: '20px 24px',
+                background: '#12121A',
+                border: '1px solid #292532',
+                boxShadow: 'none',
+                borderRadius: '16px',
+                padding: '16px',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '14px',
@@ -388,7 +388,7 @@ export default function AuraDashboard({
                     fontSize: '11px',
                     fontWeight: 900,
                     cursor: 'pointer',
-                    boxShadow: '0 4px 12px rgba(143, 146, 255, 0.2)'
+                    boxShadow: 'none'
                   }}
                 >
                   Enable alerts

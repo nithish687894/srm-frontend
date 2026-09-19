@@ -10,6 +10,17 @@ import { extractBatch } from "@/lib/utils";
 
 const PortalSyncModal = dynamic(() => import("@/components/PortalSyncModal"), { ssr: false });
 
+// Presentation-only data for the demo account. It is never written to Zustand,
+// persisted, or sent to an API — live student records keep their normal path.
+const DEMO_ATTENDANCE_PREVIEW = [
+  { courseCode: "21CS201", courseTitle: "Data Structures and Algorithms", courseType: "Practical", conducted: 40, attended: 31, absent: 9, pct: 77.5 },
+  { courseCode: "21CS202", courseTitle: "Operating Systems", courseType: "Theory", conducted: 39, attended: 35, absent: 4, pct: 89.7 },
+  { courseCode: "21CS203", courseTitle: "Database Management Systems", courseType: "Theory", conducted: 35, attended: 26, absent: 9, pct: 74.3 },
+  { courseCode: "21CS204", courseTitle: "Computer Networks", courseType: "Theory", conducted: 38, attended: 32, absent: 6, pct: 84.2 },
+  { courseCode: "21CS205", courseTitle: "Artificial Intelligence", courseType: "Theory", conducted: 41, attended: 36, absent: 5, pct: 87.8 },
+  { courseCode: "21CS206", courseTitle: "Machine Learning", courseType: "Practical", conducted: 36, attended: 28, absent: 8, pct: 77.8 },
+];
+
 function buildSlotToCourseMap(myTT: AnyValue[]) {
   const map: Record<string, AnyValue> = {};
   myTT.forEach(c => { (c.slots || []).forEach((s: string) => { if (s) map[s.toUpperCase()] = c; }); });
@@ -53,6 +64,12 @@ export default function AttendancePage() {
 
   const studentPortalStatus = connectorStatuses.studentPortal;
   const isSpConnected = studentPortalStatus === "connected";
+  const isDemoPreview = (email || "").split("@")[0]?.toLowerCase() === "demo12"
+    || academicData?.profile?.email?.toLowerCase?.().startsWith("demo12@")
+    || academicData?.profile?.["Name"] === "AURA NEBULA DEMO"
+    || academicData?.profile?.["Registration Number"] === "RA2311003010999"
+    || (typeof window !== "undefined" && localStorage.getItem("userEmail")?.toLowerCase().includes("demo"));
+  const previewAttendance = isDemoPreview && att.length === 0 ? DEMO_ATTENDANCE_PREVIEW : att;
 
   const refreshAttendance = async () => {
     try {
@@ -406,17 +423,18 @@ export default function AttendancePage() {
     showPredictor, setShowPredictor, next30Days, selectedDates, toggleDate, 
     calculatePredictions, predictions, setSelectedDates, setPredictions, showRiskOnly, timeAgoStr,
     studentPortalStatus, lastSyncedStr,
-    isLoading: loading && att.length === 0,
-    attendanceState,
+    isLoading: !isDemoPreview && loading && att.length === 0,
+    attendanceState: isDemoPreview ? "demo" : attendanceState,
     unavailableMessage,
-    predictorEnabled: canUsePredictor
+    predictorEnabled: !isDemoPreview && canUsePredictor,
+    demoPreview: isDemoPreview
   };
 
   return (
     <div style={{ minHeight: "100dvh", width: "100%", background: "var(--app-bg)", display: "flex", flexDirection: "column", position: "relative" }}>
       <main id="attendance-parent-scroll" style={{ flex: 1, paddingBottom: "100px" }}>
         <AuraAttendance
-          attendance={att}
+          attendance={previewAttendance}
           handleSync={handleSync}
           onReconnect={handleReconnect}
           isSyncing={isSyncing}

@@ -343,80 +343,77 @@ export default function Sidebar() {
       {/* TOP STATUS BAR */}
       {!(path === "/notes" || path.startsWith("/notes/") || path === "/ns" || path.startsWith("/ns/") || path === "/admin" || path.startsWith("/admin/") || path === "/timetable" || path.startsWith("/timetable/")) && (
         <div className="srmx-top-status-bar fixed inset-x-0 z-[9999] flex items-center justify-end pointer-events-none px-3.5 sm:px-6" style={{ top: "calc(env(safe-area-inset-top, 0px) + 14px)", boxSizing: "border-box" }}>
-          <div className="flex items-center pointer-events-auto max-w-full" style={{ gap: 'clamp(4px, 1.5vw, 10px)' }}>
+          <div className="srmx-top-actions flex items-center pointer-events-auto max-w-full" style={{ gap: 'clamp(4px, 1.5vw, 10px)' }}>
             {path === "/dashboard" && (
               <>
                 <Link
                   href="/exam-library"
-                  className="srmx-header-pill srmx-header-pill-exam h-9 sm:h-11 rounded-full backdrop-blur-md border flex items-center justify-center transition-all active:scale-95 shrink-0"
+                  className="srmx-header-pill srmx-header-pill-exam h-9 sm:h-11 rounded-[10px] border flex items-center justify-center transition-all active:scale-95 shrink-0 px-2 gap-1.5"
                   style={{
-                    background: resolvedTheme === "light"
-                      ? "linear-gradient(135deg, rgba(255,255,255,0.90), rgba(248,238,255,0.78))"
-                      : "linear-gradient(135deg, rgba(191,90,242,0.26), rgba(255,117,195,0.10))",
-                    borderColor: resolvedTheme === "light" ? "rgba(191,90,242,0.18)" : "rgba(255,117,195,0.20)",
-                    boxShadow: resolvedTheme === "light" ? "0 10px 24px rgba(191,90,242,0.13)" : "0 10px 26px rgba(191,90,242,0.16), inset 0 1px 0 rgba(255,255,255,0.08)",
-                    color: resolvedTheme === "light" ? "#7B2CBF" : "#FFEAF7",
+                    background: resolvedTheme === "light" ? "#ffffff" : "#12121A",
+                    borderColor: resolvedTheme === "light" ? "#e5e7eb" : "#292532",
+                    boxShadow: "none",
+                    color: resolvedTheme === "light" ? "#1D4ED8" : "#BFDBFE",
                   }}
                   aria-label="Open Exam Library"
                 >
                   <span
-                    className="w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center shrink-0"
+                    className="srmx-header-icon w-5 h-5 sm:w-6 sm:h-6 rounded-md flex items-center justify-center shrink-0"
                     style={{
-                      background: resolvedTheme === "light" ? "rgba(191,90,242,0.10)" : "rgba(255,255,255,0.075)",
+                      background: resolvedTheme === "light" ? "#F3E8FF" : "rgba(124, 58, 237, 0.14)",
                       color: "inherit"
                     }}
                   >
                     <BookOpen size={14} strokeWidth={2.5} className="shrink-0" />
                   </span>
-                  <span className="hidden md:inline text-[10.5px] font-black uppercase tracking-[0.11em] whitespace-nowrap leading-none">Exam</span>
+                  <span className="srmx-top-action-label text-[10px] sm:text-[10.5px] font-bold whitespace-nowrap leading-none">Exam</span>
                 </Link>
                 <Link
                   href="/student-portal"
-                  className="srmx-header-pill srmx-header-pill-portal h-9 sm:h-11 rounded-full backdrop-blur-md border flex items-center justify-center transition-all active:scale-95 shrink-0"
+                  className="srmx-header-pill srmx-header-pill-portal h-9 sm:h-11 rounded-[10px] border flex items-center justify-center transition-all active:scale-95 shrink-0 px-2 gap-1.5"
                   style={{
-                    background: resolvedTheme === "light"
-                      ? "linear-gradient(135deg, rgba(255,255,255,0.88), rgba(232,243,255,0.74))"
-                      : "linear-gradient(135deg, rgba(51,127,186,0.28), rgba(191,90,242,0.10))",
-                    borderColor: resolvedTheme === "light" ? "rgba(51,127,186,0.18)" : "rgba(147,197,253,0.20)",
-                    boxShadow: resolvedTheme === "light" ? "0 10px 24px rgba(51,127,186,0.14)" : "0 10px 26px rgba(51,127,186,0.16), inset 0 1px 0 rgba(255,255,255,0.08)",
-                    color: resolvedTheme === "light" ? "#1F5F99" : "#EAF4FF",
+                    background: resolvedTheme === "light" ? "#ffffff" : "#12121A",
+                    borderColor: resolvedTheme === "light" ? "#e5e7eb" : "#292532",
+                    boxShadow: "none",
+                    color: resolvedTheme === "light" ? "#1D4ED8" : "#93C5FD",
                   }}
                   aria-label="Open Student Portal"
                 >
                   <span
-                    className="w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center shrink-0"
+                    className="srmx-header-icon w-5 h-5 sm:w-6 sm:h-6 rounded-md flex items-center justify-center shrink-0"
                     style={{
-                      background: resolvedTheme === "light" ? "rgba(51,127,186,0.10)" : "rgba(255,255,255,0.075)",
+                      background: resolvedTheme === "light" ? "#DBEAFE" : "rgba(37, 99, 235, 0.14)",
                       color: "inherit"
                     }}
                   >
                     <IdCard size={14} strokeWidth={2.5} className="shrink-0" />
                   </span>
-                  <span className="hidden md:inline text-[10.5px] font-black uppercase tracking-[0.11em] whitespace-nowrap leading-none">Student Portal</span>
+                  <span className="srmx-top-action-label text-[10px] sm:text-[10.5px] font-bold whitespace-nowrap leading-none">Portal</span>
                 </Link>
               </>
             )}
             <Link 
               href="/notifications" 
-              className="w-9 h-9 sm:w-11 sm:h-11 rounded-full backdrop-blur-md border flex items-center justify-center text-white/60 transition-all active:scale-90 shrink-0"
+              className="srmx-top-action h-9 sm:h-11 rounded-[10px] border flex items-center justify-center text-white/60 transition-all active:scale-90 shrink-0 px-2 gap-1.5"
               style={{ 
-                background: "rgba(143, 146, 255, 0.1)",
-                borderColor: "rgba(143, 146, 255, 0.2)",
-                boxShadow: "0 0 15px rgba(143, 146, 255, 0.15)"
+                background: "#12121A",
+                borderColor: "#292532",
+                boxShadow: "none"
               }}
               aria-label="Notifications"
             >
-              <Bell size={16} color="#8F92FF" />
+              <Bell size={16} color="#93C5FD" />
+              <span className="srmx-top-action-label text-[10px] sm:text-[10.5px] font-bold whitespace-nowrap leading-none">Alerts</span>
             </Link>
             <button 
               onClick={() => { setMoreOpen(!moreOpen); }} 
-              className="w-9 h-9 sm:w-11 sm:h-11 rounded-full border flex items-center justify-center text-white transition-all active:scale-90 relative overflow-hidden shrink-0"
+              className="srmx-top-action h-9 sm:h-11 rounded-[10px] border flex items-center justify-center text-white transition-all active:scale-90 relative overflow-hidden shrink-0 px-2 gap-1.5"
               style={{ 
                 background: profileImage
                   ? "rgba(255,255,255,0.06)"
-                  : "linear-gradient(135deg, rgba(191,90,242,0.34) 0%, rgba(143,146,255,0.22) 100%)",
-                borderColor: "rgba(255, 255, 255, 0.14)",
-                boxShadow: `0 0 18px rgba(191,90,242,0.20), inset 0 1px 0 rgba(255,255,255,0.12)` 
+                  : "#1A1724",
+                borderColor: "#3B3547",
+                boxShadow: "none"
               }}
               aria-label="Open profile menu"
             >
@@ -429,6 +426,7 @@ export default function Sidebar() {
               ) : (
                 <UserRound size={16} strokeWidth={2.4} className="text-purple-100" />
               )}
+              <span className="srmx-top-action-label text-[10px] sm:text-[10.5px] font-bold whitespace-nowrap leading-none">Profile</span>
             </button>
           </div>
         </div>

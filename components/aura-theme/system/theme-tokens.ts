@@ -2,12 +2,12 @@
 
 export const AURA_COLORS = {
   bg: "var(--app-bg, #09090F)",
-  cyan: "var(--accent-cyan, #38BDF8)",
-  pink: "var(--accent-pink, #EC4899)",
-  primary: "var(--accent-primary, #A855F7)",
-  secondary: "var(--accent-secondary, #A855F7)",
-  purple: "var(--accent-purple, #A855F7)",
-  accent: "var(--accent-primary, #A855F7)",
+  cyan: "var(--accent-cyan, #2563EB)",
+  pink: "var(--accent-pink, #2563EB)",
+  primary: "var(--accent-primary, #2563EB)",
+  secondary: "var(--accent-secondary, #2563EB)",
+  purple: "var(--accent-purple, #2563EB)",
+  accent: "var(--accent-primary, #2563EB)",
   amber: "#F59E0B",
   emerald: "#22C55E",
   green: "#22C55E",

@@ -54,7 +54,7 @@ function TimetableUnavailable({ onRetry }: { onRetry: () => void }) {
         <section className="bg-[#12121A] border border-[#292532] rounded-[20px] p-6">
           <h2 className="text-[18px] font-extrabold text-[#F7F5FA]">Timetable unavailable</h2>
           <p className="mt-2 text-sm leading-6 text-[#B8B2C2]">We could not load your current timetable. Check your connection and try again.</p>
-          <button onClick={onRetry} className="mt-5 min-h-11 rounded-xl bg-[#EC4899] px-4 text-sm font-extrabold text-white">Retry</button>
+          <button onClick={onRetry} className="mt-5 min-h-11 rounded-xl bg-[#2563EB] px-4 text-sm font-extrabold text-white">Retry</button>
         </section>
       </main>
     </div>
@@ -811,8 +811,8 @@ export default function TimetablePage() {
       border: isMatrix ? "rgba(168,194,0,0.2)" : isAura ? "var(--card-border)" : "var(--border)",
       textPrimary: "var(--text-main)",
       textMuted: isMatrix ? "#888" : isAura ? "var(--text-muted)" : "var(--text-muted)",
-      accent: isMatrix ? "#a8c200" : isAura ? "#FF75C3" : "var(--accent)",
-      secondaryAccent: isMatrix ? "#a8c200" : isAura ? "#8F92FF" : "var(--accent-secondary)",
+      accent: isMatrix ? "#a8c200" : isAura ? "#2563EB" : "var(--accent)",
+      secondaryAccent: isMatrix ? "#a8c200" : isAura ? "#93C5FD" : "var(--accent-secondary)",
     };
 
     return (
@@ -833,18 +833,12 @@ export default function TimetablePage() {
             width: "100%", 
             maxWidth: "420px", 
             border: `1px solid ${colors.border}`,
-            boxShadow: isAura 
-              ? `0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(143, 146, 255, 0.08)`
-              : `0 20px 40px rgba(0,0,0,0.5)`, 
+            boxShadow: "0 20px 40px rgba(0,0,0,0.5)", 
             maxHeight: "90vh", 
             overflowY: "auto",
             position: "relative"
           }}
         >
-          {isAura && (
-            <div style={{ position: "absolute", right: "-50px", top: "-50px", width: "150px", height: "150px", background: `radial-gradient(circle, ${colors.secondaryAccent}22 0%, transparent 70%)`, filter: "blur(30px)", pointerEvents: "none" }} />
-          )}
-
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
             <div>
               <div style={{ fontSize: "10px", fontWeight: 900, color: colors.accent, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "4px" }}>Share Timetable</div>
@@ -1127,7 +1121,7 @@ export function AuraTimetable({
     bg: "var(--bg-root)",
     primary: "var(--accent-primary)",
     secondary: "var(--accent-secondary)",
-    accent: "#94FFD8",
+    accent: "#22C55E",
     card: "var(--card-bg)",
     border: "var(--card-border)",
   };
@@ -1223,20 +1217,30 @@ export function AuraTimetable({
     return `DAY ORDER ${dayOverride}`;
   }, [selectedDayOcc, dayOverride]);
 
+  const nextScheduledClassText = useMemo(() => {
+    for (let offset = 1; offset <= 5; offset++) {
+      const nextD = ((dayOverride - 1 + offset) % 5) + 1;
+      const daySched = schedule.find((s: AnyValue) => s.day === `Day ${nextD}`);
+      if (daySched && daySched.classes.length > 0) {
+        const firstCls = daySched.classes[0];
+        const occ = getNextOccurrence ? getNextOccurrence(nextD) : null;
+        let dayName = `Day ${nextD}`;
+        if (occ?.isoDate) {
+          const parts = occ.isoDate.split("-");
+          if (parts.length === 3) {
+            const dt = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+            dayName = dt.toLocaleDateString("en-US", { weekday: "long" });
+          }
+        }
+        return `Next class: ${dayName}, ${fmt12(firstCls.startTime)} · ${firstCls.courseTitle}`;
+      }
+    }
+    return null;
+  }, [schedule, dayOverride, getNextOccurrence]);
+
   return (
     <div style={{ background: "var(--app-bg)", minHeight: "100dvh", display: "flex", flexDirection: "column", color: "var(--text-main)", fontFamily: "'Plus Jakarta Sans', sans-serif", position: "relative", width: "100%", overflowX: "hidden" }}>
       <style dangerouslySetInnerHTML={{ __html: `
-        .aura-blob {
-          position: fixed; width: 500px; height: 500px;
-          border-radius: 50%; filter: blur(140px);
-          opacity: 0.10; z-index: 0; pointer-events: none;
-          animation: orbit 20s infinite linear;
-        }
-        @keyframes orbit {
-          from { transform: rotate(0deg) translate(80px) rotate(0deg); }
-          to { transform: rotate(360deg) translate(80px) rotate(-360deg); }
-        }
-
         .timetable-main {
           width: 100%;
           min-width: 0;
@@ -1272,18 +1276,11 @@ export function AuraTimetable({
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .aura-blob {
-            animation: none;
-          }
           .timetable-class-card, .tt-sheet-backdrop, .tt-sheet-panel {
             transition: none !important;
           }
         }
       `}} />
-
-      {/* Background Ambience */}
-      <div className="aura-blob" style={{ background: AURA.secondary, top: '-180px', right: '-120px' }} />
-      <div className="aura-blob" style={{ background: AURA.accent, bottom: '-180px', left: '-120px', animationDelay: '-10s' }} />
 
       <main 
         className="timetable-main" 
@@ -1305,12 +1302,10 @@ export function AuraTimetable({
             display: "flex", 
             flexDirection: "column",
             gap: "8px",
-            background: "linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(192, 132, 252, 0.04) 100%)", 
-            padding: "10px 14px", 
-            borderRadius: "20px", 
-            border: "1px solid rgba(255, 255, 255, 0.08)", 
-            backdropFilter: "blur(20px)",
-            boxShadow: "0 8px 24px rgba(0,0,0,0.3)"
+            background: "#12121A", 
+            padding: "14px", 
+            borderRadius: "16px", 
+            border: "1px solid #292532"
           }}
         >
           {/* Top Row: Title, Day/Batch, NS & Profile */}
@@ -1320,12 +1315,12 @@ export function AuraTimetable({
                 width: "32px",
                 height: "32px",
                 borderRadius: "10px",
-                background: "linear-gradient(135deg, rgba(192, 132, 252, 0.25), rgba(0, 212, 255, 0.15))",
-                border: "1px solid rgba(192, 132, 252, 0.3)",
+                background: "#172554",
+                border: "1px solid #1D4ED8",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                color: "#C084FC",
+                color: "#93C5FD",
                 flexShrink: 0
               }}>
                 <Calendar size={15} />
@@ -1402,8 +1397,8 @@ export function AuraTimetable({
                       border: "none", 
                       fontSize: "9.5px", 
                       fontWeight: 900,
-                      background: batch === b ? "linear-gradient(135deg, #C084FC 0%, #00D4FF 100%)" : "transparent",
-                      color: batch === b ? "#000" : "rgba(255,255,255,0.5)",
+                      background: batch === b ? "#2563EB" : "transparent",
+                      color: batch === b ? "#fff" : "#B8B2C2",
                       cursor: "pointer"
                     }}
                   >
@@ -1416,9 +1411,9 @@ export function AuraTimetable({
             <button 
               onClick={() => setShowShareModal(true)} 
               style={{ 
-                background: "linear-gradient(135deg, rgba(192, 132, 252, 0.18) 0%, rgba(255, 94, 126, 0.15) 100%)", 
-                border: "1px solid rgba(192, 132, 252, 0.35)", 
-                color: "#fff", 
+                background: "#1A1724", 
+                border: "1px solid #292532", 
+                color: "#D8D2DF", 
                 padding: "4px 10px", 
                 borderRadius: "8px", 
                 fontSize: "10px", 
@@ -1429,7 +1424,7 @@ export function AuraTimetable({
                 gap: "5px"
               }}
             >
-              <Share2 size={11} color="#C084FC" />
+              <Share2 size={11} color="#93C5FD" />
               <span>Export</span>
             </button>
           </div>
@@ -1456,7 +1451,7 @@ export function AuraTimetable({
               border: "none", 
               fontSize: "10.5px", 
               fontWeight: 900,
-              background: activeTab === "schedule" ? "linear-gradient(135deg, #C084FC 0%, #FF5E7E 100%)" : "transparent",
+              background: activeTab === "schedule" ? "#2563EB" : "transparent",
               color: activeTab === "schedule" ? "#fff" : "rgba(255,255,255,0.5)",
               cursor: "pointer"
             }}
@@ -1472,7 +1467,7 @@ export function AuraTimetable({
               border: "none", 
               fontSize: "10.5px", 
               fontWeight: 900,
-              background: activeTab === "friends" ? "linear-gradient(135deg, #C084FC 0%, #FF5E7E 100%)" : "transparent",
+              background: activeTab === "friends" ? "#2563EB" : "transparent",
               color: activeTab === "friends" ? "#fff" : "rgba(255,255,255,0.5)",
               cursor: "pointer",
               display: "flex", 
@@ -1520,11 +1515,10 @@ export function AuraTimetable({
                     </div>
                   </div>
                 ) : nextClass ? (
-                  <div style={{ display: "flex", alignItems: "center", gap: "9px", background: "rgba(255, 255, 255, 0.03)", border: "1px solid rgba(255, 255, 255, 0.08)", padding: "9px 12px", borderRadius: "14px" }}>
-                    <div style={{ fontSize: "14px", flexShrink: 0 }}>⏳</div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "9px", background: "rgba(255, 255, 255, 0.03)", border: "1px solid rgba(255, 255, 255, 0.08)", padding: "8px 12px", borderRadius: "10px" }}>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: "9px", fontWeight: 900, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "1px" }}>UPCOMING NEXT</div>
-                      <div style={{ fontSize: "13px", fontWeight: 800, color: "#fff", textTransform: "capitalize", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                      <div style={{ fontSize: "9px", fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: "1px" }}>Upcoming</div>
+                      <div style={{ fontSize: "13px", fontWeight: 750, color: "#fff", textTransform: "capitalize", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                         {nextClass.courseTitle.toLowerCase()}
                       </div>
                       <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.6)", fontWeight: 600 }}>
@@ -1533,12 +1527,8 @@ export function AuraTimetable({
                     </div>
                   </div>
                 ) : classesFinished ? (
-                  <div style={{ display: "flex", alignItems: "center", gap: "9px", background: "rgba(52, 199, 89, 0.08)", border: "1px solid rgba(52, 199, 89, 0.25)", padding: "9px 12px", borderRadius: "14px" }}>
-                    <div style={{ fontSize: "14px", color: "#34c759", flexShrink: 0 }}>✓</div>
-                    <div>
-                      <div style={{ fontSize: "12px", fontWeight: 800, color: "#34c759" }}>Classes finished for today</div>
-                      <div style={{ fontSize: "9.5px", color: "rgba(255,255,255,0.6)", fontWeight: 600 }}>All scheduled sessions completed</div>
-                    </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "9px", background: "rgba(255, 255, 255, 0.02)", border: "1px solid #292532", padding: "8px 12px", borderRadius: "10px" }}>
+                    <div style={{ fontSize: "12px", fontWeight: 650, color: "#9C96A7" }}>All scheduled classes completed for today</div>
                   </div>
                 ) : null}
               </div>
@@ -1559,7 +1549,7 @@ export function AuraTimetable({
                 <div style={{ 
                   width: "6px", height: "6px", borderRadius: "50%", 
                   background: (selectedDayOcc?.isHoliday || todayInfo?.isHoliday) && dayOverride === todayInfo?.dayOrder ? "#FF7597" : AURA.accent, 
-                  boxShadow: `0 0 6px ${(selectedDayOcc?.isHoliday || todayInfo?.isHoliday) && dayOverride === todayInfo?.dayOrder ? "#FF7597" : AURA.accent}`,
+                  boxShadow: "none",
                   flexShrink: 0
                 }} />
                 <div style={{ minWidth: 0, flex: 1 }}>
@@ -1622,9 +1612,9 @@ export function AuraTimetable({
                       minWidth: "56px", 
                       flex: "1 0 auto",
                       maxWidth: "80px",
-                      borderRadius: "12px",
+                      borderRadius: "10px",
                       background: isSelected 
-                        ? `linear-gradient(135deg, ${AURA.secondary}ee, ${AURA.primary}ee)` 
+                        ? "#2563EB" 
                         : "rgba(255,255,255,0.03)",
                       color: isSelected ? "#fff" : "var(--text-muted)",
                       display: "flex", 
@@ -1632,8 +1622,8 @@ export function AuraTimetable({
                       alignItems: "center", 
                       justifyContent: "center",
                       cursor: "pointer", 
-                      border: isSelected ? "1px solid rgba(255,255,255,0.2)" : (isToday ? "1px dashed rgba(148, 255, 216, 0.4)" : "1px solid rgba(255,255,255,0.05)"),
-                      boxShadow: isSelected ? `0 4px 14px ${AURA.secondary}40` : "none",
+                      border: isSelected ? "1px solid #2563EB" : (isToday ? "1px dashed rgba(96, 165, 250, 0.4)" : "1px solid rgba(255,255,255,0.08)"),
+                      boxShadow: "none",
                       position: "relative"
                     }}
                   >
@@ -1654,10 +1644,18 @@ export function AuraTimetable({
               </div>
             )}
             {totalClasses === 0 ? (
-              <div style={{ textAlign: "center", color: "var(--text-muted)", padding: "36px 16px", fontSize: "13px", fontWeight: 700, background: "rgba(255,255,255,0.02)", borderRadius: "18px", border: "1px dashed rgba(255,255,255,0.08)" }}>
-                <div style={{ fontSize: "28px", marginBottom: "6px" }}>🎉</div>
-                No classes scheduled for Day {dayOverride}<br/>
-                <span style={{ fontSize: "11px", opacity: 0.6, fontWeight: 500 }}>Enjoy your free time!</span>
+              <div style={{
+                textAlign: "center",
+                padding: "36px 16px",
+                background: "#12121A",
+                borderRadius: "12px",
+                border: "1px solid #292532",
+                margin: "8px 0"
+              }}>
+                <div style={{ fontSize: "15px", fontWeight: 750, color: "#F7F5FA" }}>No classes scheduled</div>
+                <div style={{ fontSize: "12px", color: "#8F8998", marginTop: "5px", fontWeight: 550 }}>
+                  {nextScheduledClassText || `No sessions registered for Day ${dayOverride}`}
+                </div>
               </div>
             ) : (
               <div style={{ position: "relative", paddingLeft: "14px", display: "flex", flexDirection: "column", gap: totalClasses <= 3 ? "13px" : "8px" }}>
@@ -1701,7 +1699,7 @@ export function AuraTimetable({
                         background: isActive ? AURA.accent : (isImportant ? "#FFD700" : (isLab ? "#FF75C3" : AURA.secondary)), 
                         border: "2px solid var(--app-bg)", 
                         zIndex: 2,
-                        boxShadow: isActive ? `0 0 8px ${AURA.accent}` : "none"
+                        boxShadow: "none"
                       }} />
                       
                       {/* Interactive Compact Class Card */}
@@ -1720,11 +1718,9 @@ export function AuraTimetable({
                                 ? "1px solid rgba(255, 215, 0, 0.35)" 
                                 : (isLab ? "1px solid rgba(255, 117, 195, 0.3)" : "1px solid rgba(255, 255, 255, 0.07)")),
                           background: isLab 
-                            ? "linear-gradient(135deg, rgba(255, 117, 195, 0.08) 0%, rgba(244, 114, 182, 0.02) 100%)" 
-                            : (isActive ? "rgba(148, 255, 216, 0.04)" : "rgba(255, 255, 255, 0.02)"),
-                          boxShadow: isActive 
-                            ? `0 0 16px ${AURA.accent}15` 
-                            : (isImportant ? "0 0 14px rgba(255, 215, 0, 0.05)" : "none"),
+                            ? "rgba(37, 99, 235, 0.08)" 
+                            : (isActive ? "rgba(34, 197, 94, 0.07)" : "#12121A"),
+                          boxShadow: "none",
                           cursor: "pointer",
                           display: "flex",
                           flexDirection: "column",

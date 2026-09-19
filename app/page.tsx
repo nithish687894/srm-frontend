@@ -29,7 +29,9 @@ export default function LoginPage() {
   const hasChosenTheme = useAuthStore((state) => state.hasChosenTheme);
 
   const routeAfterAuth = useCallback(() => {
-    const target = "/timetable";
+    // Home is the user's orientation point after sign-in. Timetable remains
+    // available from the primary navigation instead of becoming the default.
+    const target = "/dashboard";
     router.replace(target);
 
     window.setTimeout(() => {
@@ -51,7 +53,7 @@ export default function LoginPage() {
   useEffect(() => {
     if (!_hasHydrated) return;
     if (authToken) {
-      router.replace("/timetable");
+      router.replace("/dashboard");
     }
   }, [_hasHydrated, authToken, router]);
 

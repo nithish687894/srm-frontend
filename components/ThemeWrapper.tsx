@@ -42,7 +42,7 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
       });
       classesToRemove.forEach((cls) => document.body.classList.remove(cls));
       document.body.classList.add(`theme-${active}`);
-      document.body.style.background = active === "light" ? "var(--app-bg)" : "#050508";
+      document.body.style.background = active === "light" ? "var(--app-bg)" : "#09090F";
     };
 
     resolveAndApply();
@@ -63,9 +63,9 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: `
-        body { background: ${resolvedTheme === "light" ? "var(--app-bg)" : "#050508"}; margin: 0; padding: 0; }
-        .theme-lumina { --bg: #050508; --text-primary: #ffffff; --accent: #FF75C3; --accent-secondary: #8F92FF; --accent-purple: #BF5AF2; --accent-cyan: #00E5FF; }
-        .theme-light { --bg: #f4f0ff; --text-primary: #1b1428; --accent: #BF5AF2; --accent-secondary: #6366f1; --accent-purple: #8b5cf6; --accent-cyan: #06b6d4; }
+        body { background: ${resolvedTheme === "light" ? "var(--app-bg)" : "#09090F"}; margin: 0; padding: 0; }
+        .theme-lumina { --bg: #09090F; --text-primary: #F7F5FA; --accent: #2563EB; --accent-primary: #2563EB; --accent-secondary: #2563EB; --accent-purple: #2563EB; --accent-pink: #2563EB; --accent-cyan: #2563EB; }
+        .theme-light { --bg: #F8FAFC; --text-primary: #111827; --accent: #1D4ED8; --accent-primary: #1D4ED8; --accent-secondary: #1D4ED8; --accent-purple: #1D4ED8; --accent-pink: #1D4ED8; --accent-cyan: #1D4ED8; }
       `}} />
       
       <div 

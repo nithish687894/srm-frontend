@@ -9,7 +9,7 @@ import { useThemeStore } from "@/lib/themeStore";
 import { extractBatch } from "@/lib/utils";
 import { ShieldCheck, AlertCircle, RefreshCw } from "lucide-react";
 import dynamic from "next/dynamic";
-import AuraDashboard from "@/components/aura-theme/AuraDashboard";
+import NexusHome from "@/components/aura-theme/NexusHome";
 const PortalSyncModal = dynamic(() => import("@/components/PortalSyncModal"), { ssr: false });
 import LoadingSkeleton from "@/components/aura-theme/LoadingSkeleton";
 
@@ -1263,7 +1263,7 @@ export default function DashboardPage() {
 
   const activeDashboard = (() => {
     return (
-      <AuraDashboard 
+      <NexusHome
         data={data} marks={data?.marks || []} avgAtt={avgAtt} avgMarks={avgMarks} firstName={firstName} 
         currentClass={currentClass}
         nextClass={nextClass}
