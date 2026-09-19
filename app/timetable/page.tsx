@@ -489,6 +489,7 @@ export default function TimetablePage() {
     queryKey: ["calendar", userEmail], 
     queryFn: () => dataAPI.getCalendar(), 
     staleTime: 600000,
+    retry: 1,
     initialData: trustedCalendar ? trustedCalendar : undefined,
     // Persisted Zustand data is only a fast first paint; always verify it in
     // the background instead of treating it as newly fetched for ten minutes.
@@ -498,6 +499,7 @@ export default function TimetablePage() {
     queryKey: ["myTT", userEmail], 
     queryFn: () => dataAPI.getMyTimetable(), 
     staleTime: 600000, 
+    retry: 1,
     initialData: trustedMyTimetable ? trustedMyTimetable : (trustedAcademicData?.timetable ? { data: trustedAcademicData.timetable } : undefined),
     initialDataUpdatedAt: (trustedMyTimetable || trustedAcademicData?.timetable) ? 0 : undefined
   });
@@ -505,6 +507,7 @@ export default function TimetablePage() {
     queryKey: ["tt", userEmail, batch],
     queryFn: () => dataAPI.getTimetable(batch),
     staleTime: 600000,
+    retry: 1,
     initialData: trustedTimetable && trustedTimetable.batch === batch ? trustedTimetable : (trustedAcademicData?.timetableBatch && trustedAcademicData?.timetableBatch === batch ? { data: { rows: trustedAcademicData.timetableRows } } : undefined),
     initialDataUpdatedAt: (trustedTimetable || trustedAcademicData?.timetableRows) ? 0 : undefined
   });
@@ -950,8 +953,7 @@ export default function TimetablePage() {
 
   const myCourses = myTTQ.data?.data?.courses || myTTQ.data?.data || [];
 
-  const isDataLoading = (!trustedCalendar && !calQ.data && calQ.isLoading) || 
-                        (!trustedMyTimetable && !trustedAcademicData?.timetable && !myTTQ.data && myTTQ.isLoading) || 
+  const isDataLoading = (!trustedMyTimetable && !trustedAcademicData?.timetable && !myTTQ.data && myTTQ.isLoading) || 
                         (!trustedTimetable && !ttQ.data && ttQ.isLoading);
   useEffect(() => {
     if (!isDataLoading) {
