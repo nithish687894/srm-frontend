@@ -33,9 +33,15 @@ export async function GET(req: NextRequest) {
     }
 
     const data = await res.json();
+    const bookings = Array.isArray(data)
+      ? data
+      : Array.isArray(data?.content)
+      ? data.content
+      : [];
+
     return NextResponse.json({
       success: true,
-      bookings: Array.isArray(data) ? data : [],
+      bookings,
     });
   } catch (err: any) {
     return NextResponse.json(

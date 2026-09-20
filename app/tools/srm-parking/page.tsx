@@ -28,7 +28,9 @@ import {
   Building2,
   Coffee,
   Coins,
-  QrCode
+  QrCode,
+  Calendar,
+  ArrowRight
 } from "lucide-react";
 import QRCode from "qrcode";
 import { signInGrideeWithGoogle } from "@/lib/grideeFirebase";
@@ -68,9 +70,35 @@ export default function SrmParkingToolPage() {
     qrDataUrl: string;
   } | null>(null);
 
+  // Helper for 12-hour formatting
+  const formatTo12H = (time24: string) => {
+    if (!time24) return "";
+    const [hStr, mStr] = time24.split(":");
+    let h = parseInt(hStr, 10);
+    const m = mStr || "00";
+    const ampm = h >= 12 ? "PM" : "AM";
+    h = h % 12;
+    if (h === 0) h = 12;
+    return `${String(h).padStart(2, "0")}:${m} ${ampm}`;
+  };
+
+  const todayStr = useMemo(() => new Date().toISOString().split("T")[0], []);
+  const tomorrowStr = useMemo(() => {
+    const d = new Date();
+    d.setDate(d.getDate() + 1);
+    return d.toISOString().split("T")[0];
+  }, []);
+
   // Zone & Spot Selection
   const [activeZone, setActiveZone] = useState<"TP" | "JAVA">("TP");
+
+  // Schedule & Timing State
+  const [scheduleMode, setScheduleMode] = useState<"PRESET" | "CUSTOM">("PRESET");
+  const [selectedDate, setSelectedDate] = useState<string>(() => new Date().toISOString().split("T")[0]);
   const [selectedShift, setSelectedShift] = useState<string>("MORNING");
+  const [customStartTime, setCustomStartTime] = useState<string>("09:00");
+  const [customDurationHours, setCustomDurationHours] = useState<number>(2);
+  const [customEndTime, setCustomEndTime] = useState<string>("");
 
   // Real Spots & Bookings
   const [realSpots, setRealSpots] = useState<any[] | null>(null);
@@ -79,6 +107,93 @@ export default function SrmParkingToolPage() {
   const [bookingLoading, setBookingLoading] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState<string | null>(null);
   const [bookingError, setBookingError] = useState<string | null>(null);
+
+  // Comprehensive Schedule Details Calculation
+  const scheduleDetails = useMemo(() => {
+    const isToday = selectedDate === todayStr;
+    const isTomorrow = selectedDate === tomorrowStr;
+    const dateLabel = isToday
+      ? "Today"
+      : isTomorrow
+      ? "Tomorrow"
+      : new Date(selectedDate + "T00:00:00").toLocaleDateString("en-IN", { month: "short", day: "numeric" });
+
+    const formattedDate = new Date(selectedDate + "T00:00:00").toLocaleDateString("en-IN", {
+      weekday: "short",
+      day: "numeric",
+      month: "short",
+    });
+
+    if (scheduleMode === "PRESET") {
+      let startH = "08:00";
+      let endH = "12:30";
+      let durationHours = 4.5;
+      let label = "Morning Shift";
+
+      if (selectedShift === "AFTERNOON") {
+        startH = "12:30";
+        endH = "17:30";
+        durationHours = 5;
+        label = "Afternoon Shift";
+      } else if (selectedShift === "FULL_DAY") {
+        startH = "08:00";
+        endH = "17:30";
+        durationHours = 9.5;
+        label = "Full Day Shift";
+      }
+
+      const checkInTime = new Date(`${selectedDate}T${startH}:00.000+05:30`).toISOString();
+      const checkOutTime = new Date(`${selectedDate}T${endH}:00.000+05:30`).toISOString();
+      const costCoins = Math.ceil(durationHours * 5);
+
+      return {
+        mode: "PRESET",
+        date: selectedDate,
+        dateLabel,
+        formattedDate,
+        startH,
+        endH,
+        formattedStart: formatTo12H(startH),
+        formattedEnd: formatTo12H(endH),
+        durationHours,
+        durationLabel: `${durationHours} hrs`,
+        label,
+        checkInTime,
+        checkOutTime,
+        costCoins,
+      };
+    } else {
+      const [sh, sm] = (customStartTime || "09:00").split(":").map((v) => parseInt(v, 10) || 0);
+      const totalStartMins = sh * 60 + sm;
+      const totalEndMins = totalStartMins + Math.round(customDurationHours * 60);
+
+      const eh = Math.floor(totalEndMins / 60) % 24;
+      const em = totalEndMins % 60;
+      const computedEndH = `${String(eh).padStart(2, "0")}:${String(em).padStart(2, "0")}`;
+      const effectiveEndH = customEndTime || computedEndH;
+
+      const checkInTime = new Date(`${selectedDate}T${customStartTime}:00.000+05:30`).toISOString();
+      const checkOutTime = new Date(`${selectedDate}T${effectiveEndH}:00.000+05:30`).toISOString();
+      const costCoins = Math.max(5, Math.ceil(customDurationHours * 5));
+
+      return {
+        mode: "CUSTOM",
+        date: selectedDate,
+        dateLabel,
+        formattedDate,
+        startH: customStartTime,
+        endH: effectiveEndH,
+        formattedStart: formatTo12H(customStartTime),
+        formattedEnd: formatTo12H(effectiveEndH),
+        durationHours: customDurationHours,
+        durationLabel: `${customDurationHours} hr${customDurationHours > 1 ? "s" : ""}`,
+        label: `Custom: ${formatTo12H(customStartTime)} - ${formatTo12H(effectiveEndH)}`,
+        checkInTime,
+        checkOutTime,
+        costCoins,
+      };
+    }
+  }, [scheduleMode, selectedDate, selectedShift, customStartTime, customDurationHours, customEndTime, todayStr, tomorrowStr]);
 
   // Live zone breakdown
   const tpSpotData = useMemo(() => {
@@ -123,10 +238,13 @@ export default function SrmParkingToolPage() {
   }, []);
 
   // Fetch real spots when authenticated
-  const fetchRealSpots = async (token: string) => {
+  const fetchRealSpots = async (token: string, customStart?: string, customEnd?: string) => {
     try {
       setSpotsLoading(true);
-      const res = await fetch("/api/gridee/spots", {
+      const s = customStart || scheduleDetails.checkInTime;
+      const e = customEnd || scheduleDetails.checkOutTime;
+      const q = s && e ? `?startTime=${encodeURIComponent(s)}&endTime=${encodeURIComponent(e)}` : "";
+      const res = await fetch(`/api/gridee/spots${q}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
@@ -423,6 +541,8 @@ export default function SrmParkingToolPage() {
     setBookingSuccess(null);
 
     try {
+      const { checkInTime, checkOutTime, date, costCoins, label } = scheduleDetails;
+
       const res = await fetch("/api/gridee/book", {
         method: "POST",
         headers: {
@@ -432,7 +552,10 @@ export default function SrmParkingToolPage() {
         body: JSON.stringify({
           userId,
           vehicleNumber: plate,
-          slotId: selectedShift,
+          bookingDate: date,
+          checkInTime,
+          checkOutTime,
+          slotId: scheduleMode === "PRESET" ? selectedShift : "CUSTOM",
           spotId: activeZone === "TP" ? "ps5" : "ps6",
         }),
       });
@@ -440,7 +563,7 @@ export default function SrmParkingToolPage() {
       const data = await res.json();
       if (!res.ok || !data.success) {
         if (data.error?.includes("Insufficient wallet coins") || data.error?.includes("Insufficient funds")) {
-          setBookingError("Gridee requires ₹5 (5 wallet coins) to book this slot. Please top up your wallet in the Gridee app or account to finalize.");
+          setBookingError(`Gridee requires ${costCoins} coins (₹${costCoins}) to reserve this slot. Your current balance is ${walletBalance ?? 0} coins. Please top up your wallet in your Gridee account to finalize.`);
         } else {
           setBookingError(data.error || "Booking was not accepted by Gridee.");
         }
@@ -458,7 +581,7 @@ export default function SrmParkingToolPage() {
           bookingId: bId,
           vehicleNumber: plate,
           zoneName: activeZone === "TP" ? "Tech Park (TP Avenue)" : "Java Ground",
-          slotShift: selectedShift,
+          slotShift: label,
           qrDataUrl: qrUrl,
         });
       } catch (qrErr) {
@@ -981,41 +1104,314 @@ export default function SrmParkingToolPage() {
                     </strong>
                   </div>
                   <span style={{ fontSize: "11px", color: "#10B981", fontWeight: 750, background: "rgba(16, 185, 129, 0.1)", padding: "2px 6px", borderRadius: "4px" }}>
-                    Cost: 5 Coins (₹5)
+                    Cost: {scheduleDetails.costCoins} Coins (₹{scheduleDetails.costCoins})
                   </span>
                 </div>
 
-                {/* Shift Picker */}
-                <div>
-                  <label style={{ display: "block", fontSize: "11px", fontWeight: 750, color: "#8F8998", marginBottom: "6px", textTransform: "uppercase" }}>
-                    Select Parking Shift
-                  </label>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
-                    {[
-                      { id: "MORNING", label: "Morning", time: "08:00 - 12:30" },
-                      { id: "AFTERNOON", label: "Afternoon", time: "12:30 - 17:30" },
-                      { id: "FULL_DAY", label: "Full Day", time: "08:00 - 17:30" },
-                    ].map((s) => (
-                      <button
-                        key={s.id}
-                        type="button"
-                        onClick={() => setSelectedShift(s.id)}
+                {/* Schedule & Timing Selector */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                    <label style={{ display: "flex", alignItems: "center", gap: "5px", fontSize: "11px", fontWeight: 750, color: "#8F8998", textTransform: "uppercase" }}>
+                      <Clock size={13} color="#60A5FA" />
+                      <span>Select Parking Schedule</span>
+                    </label>
+                    <span style={{ fontSize: "10.5px", color: "#60A5FA", fontWeight: 700 }}>
+                      Rate: ₹5/hr
+                    </span>
+                  </div>
+
+                  {/* Date Picker Row */}
+                  <div style={{ display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap" }}>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedDate(todayStr)}
+                      style={{
+                        flex: 1,
+                        padding: "7px 10px",
+                        borderRadius: "8px",
+                        border: selectedDate === todayStr ? "1px solid #2563EB" : "1px solid #292532",
+                        background: selectedDate === todayStr ? "#2563EB" : "#0E0E15",
+                        color: selectedDate === todayStr ? "#FFF" : "#B8B2C2",
+                        fontSize: "12px",
+                        fontWeight: 750,
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "6px"
+                      }}
+                    >
+                      <Calendar size={13} />
+                      <span>Today</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setSelectedDate(tomorrowStr)}
+                      style={{
+                        flex: 1,
+                        padding: "7px 10px",
+                        borderRadius: "8px",
+                        border: selectedDate === tomorrowStr ? "1px solid #2563EB" : "1px solid #292532",
+                        background: selectedDate === tomorrowStr ? "#2563EB" : "#0E0E15",
+                        color: selectedDate === tomorrowStr ? "#FFF" : "#B8B2C2",
+                        fontSize: "12px",
+                        fontWeight: 750,
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "6px"
+                      }}
+                    >
+                      <Calendar size={13} />
+                      <span>Tomorrow</span>
+                    </button>
+
+                    <div style={{ position: "relative" }}>
+                      <input
+                        type="date"
+                        min={todayStr}
+                        value={selectedDate}
+                        onChange={(e) => e.target.value && setSelectedDate(e.target.value)}
                         style={{
-                          padding: "8px 6px",
+                          background: "#0E0E15",
+                          border: "1px solid #292532",
                           borderRadius: "8px",
-                          border: selectedShift === s.id ? "1px solid #2563EB" : "1px solid #292532",
-                          background: selectedShift === s.id ? "#2563EB" : "#0E0E15",
-                          color: selectedShift === s.id ? "#FFF" : "#B8B2C2",
+                          padding: "7px 10px",
                           fontSize: "12px",
-                          fontWeight: 750,
-                          cursor: "pointer",
-                          textAlign: "center"
+                          color: "#FFF",
+                          fontWeight: 700,
+                          outline: "none",
+                          cursor: "pointer"
                         }}
-                      >
-                        <div>{s.label}</div>
-                        <div style={{ fontSize: "9.5px", opacity: 0.8, marginTop: "2px" }}>{s.time}</div>
-                      </button>
-                    ))}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Mode Switch: Presets vs Custom */}
+                  <div style={{
+                    display: "flex",
+                    background: "#09090F",
+                    border: "1px solid #292532",
+                    borderRadius: "8px",
+                    padding: "3px"
+                  }}>
+                    <button
+                      type="button"
+                      onClick={() => setScheduleMode("PRESET")}
+                      style={{
+                        flex: 1,
+                        padding: "6px 8px",
+                        borderRadius: "6px",
+                        border: "none",
+                        background: scheduleMode === "PRESET" ? "#1E1B4B" : "transparent",
+                        color: scheduleMode === "PRESET" ? "#A5B4FC" : "#8F8998",
+                        fontSize: "11px",
+                        fontWeight: 750,
+                        cursor: "pointer",
+                        transition: "all 0.15s"
+                      }}
+                    >
+                      College Shifts
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setScheduleMode("CUSTOM")}
+                      style={{
+                        flex: 1,
+                        padding: "6px 8px",
+                        borderRadius: "6px",
+                        border: "none",
+                        background: scheduleMode === "CUSTOM" ? "#1E1B4B" : "transparent",
+                        color: scheduleMode === "CUSTOM" ? "#A5B4FC" : "#8F8998",
+                        fontSize: "11px",
+                        fontWeight: 750,
+                        cursor: "pointer",
+                        transition: "all 0.15s"
+                      }}
+                    >
+                      Custom Hours & Time
+                    </button>
+                  </div>
+
+                  {/* Sub-view: College Shift Presets */}
+                  {scheduleMode === "PRESET" ? (
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
+                      {[
+                        { id: "MORNING", label: "Morning", time: "08:00 - 12:30" },
+                        { id: "AFTERNOON", label: "Afternoon", time: "12:30 - 17:30" },
+                        { id: "FULL_DAY", label: "Full Day", time: "08:00 - 17:30" },
+                      ].map((s) => (
+                        <button
+                          key={s.id}
+                          type="button"
+                          onClick={() => setSelectedShift(s.id)}
+                          style={{
+                            padding: "9px 6px",
+                            borderRadius: "8px",
+                            border: selectedShift === s.id ? "1px solid #2563EB" : "1px solid #292532",
+                            background: selectedShift === s.id ? "#2563EB" : "#0E0E15",
+                            color: selectedShift === s.id ? "#FFF" : "#B8B2C2",
+                            fontSize: "12px",
+                            fontWeight: 750,
+                            cursor: "pointer",
+                            textAlign: "center"
+                          }}
+                        >
+                          <div>{s.label}</div>
+                          <div style={{ fontSize: "9.5px", opacity: 0.85, marginTop: "2px" }}>{s.time}</div>
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    /* Sub-view: Custom Hours & Duration */
+                    <div style={{
+                      background: "#0E0E15",
+                      border: "1px solid #292532",
+                      borderRadius: "10px",
+                      padding: "12px",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "10px"
+                    }}>
+                      {/* Check-In Start Time */}
+                      <div>
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
+                          <span style={{ fontSize: "11px", fontWeight: 700, color: "#8F8998" }}>
+                            CHECK-IN TIME
+                          </span>
+                          <span style={{ fontSize: "11px", fontWeight: 800, color: "#60A5FA" }}>
+                            {formatTo12H(customStartTime)}
+                          </span>
+                        </div>
+                        <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", alignItems: "center" }}>
+                          {[
+                            { label: "Now", time: `${String(new Date().getHours()).padStart(2, "0")}:${String(Math.floor(new Date().getMinutes() / 15) * 15).padStart(2, "0")}` },
+                            { label: "08:30 AM", time: "08:30" },
+                            { label: "09:30 AM", time: "09:30" },
+                            { label: "11:00 AM", time: "11:00" },
+                            { label: "01:30 PM", time: "13:30" },
+                          ].map((t, idx) => (
+                            <button
+                              key={idx}
+                              type="button"
+                              onClick={() => {
+                                setCustomStartTime(t.time);
+                                setCustomEndTime("");
+                              }}
+                              style={{
+                                padding: "4px 8px",
+                                borderRadius: "6px",
+                                border: customStartTime === t.time ? "1px solid #2563EB" : "1px solid #292532",
+                                background: customStartTime === t.time ? "#2563EB" : "#12121A",
+                                color: customStartTime === t.time ? "#FFF" : "#8F8998",
+                                fontSize: "11px",
+                                fontWeight: 700,
+                                cursor: "pointer"
+                              }}
+                            >
+                              {t.label}
+                            </button>
+                          ))}
+                          <input
+                            type="time"
+                            value={customStartTime}
+                            onChange={(e) => {
+                              setCustomStartTime(e.target.value);
+                              setCustomEndTime("");
+                            }}
+                            style={{
+                              background: "#12121A",
+                              border: "1px solid #292532",
+                              borderRadius: "6px",
+                              padding: "4px 8px",
+                              fontSize: "11.5px",
+                              color: "#FFF",
+                              fontWeight: 700,
+                              outline: "none"
+                            }}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Duration Chips */}
+                      <div>
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
+                          <span style={{ fontSize: "11px", fontWeight: 700, color: "#8F8998" }}>
+                            DURATION
+                          </span>
+                          <span style={{ fontSize: "11px", fontWeight: 800, color: "#10B981" }}>
+                            {customDurationHours} hr{customDurationHours > 1 ? "s" : ""} (₹{customDurationHours * 5})
+                          </span>
+                        </div>
+                        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "6px" }}>
+                          {[1, 2, 3, 4, 5].map((h) => (
+                            <button
+                              key={h}
+                              type="button"
+                              onClick={() => {
+                                setCustomDurationHours(h);
+                                setCustomEndTime("");
+                              }}
+                              style={{
+                                padding: "6px 4px",
+                                borderRadius: "6px",
+                                border: customDurationHours === h && !customEndTime ? "1px solid #10B981" : "1px solid #292532",
+                                background: customDurationHours === h && !customEndTime ? "rgba(16, 185, 129, 0.15)" : "#12121A",
+                                color: customDurationHours === h && !customEndTime ? "#10B981" : "#B8B2C2",
+                                fontSize: "11px",
+                                fontWeight: 750,
+                                cursor: "pointer",
+                                textAlign: "center"
+                              }}
+                            >
+                              <div>{h} hr</div>
+                              <div style={{ fontSize: "9px", opacity: 0.8 }}>₹{h * 5}</div>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Dynamic Reservation Summary Card */}
+                  <div style={{
+                    background: "rgba(37, 99, 235, 0.08)",
+                    border: "1px solid rgba(37, 99, 235, 0.25)",
+                    borderRadius: "10px",
+                    padding: "10px 12px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "6px"
+                  }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                        <Clock size={13} color="#60A5FA" />
+                        <span style={{ fontSize: "12px", fontWeight: 800, color: "#F7F5FA" }}>
+                          {scheduleDetails.formattedStart}
+                        </span>
+                        <ArrowRight size={12} color="#8F8998" />
+                        <span style={{ fontSize: "12px", fontWeight: 800, color: "#F7F5FA" }}>
+                          {scheduleDetails.formattedEnd}
+                        </span>
+                        <span style={{ fontSize: "11px", color: "#8F8998", fontWeight: 650 }}>
+                          ({scheduleDetails.durationLabel})
+                        </span>
+                      </div>
+                      <span style={{ fontSize: "12.5px", fontWeight: 850, color: "#FBBF24" }}>
+                        {scheduleDetails.costCoins} Coins (₹{scheduleDetails.costCoins})
+                      </span>
+                    </div>
+
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: "10.5px", color: "#8F8998" }}>
+                      <span>Date: <strong style={{ color: "#E2E8F0" }}>{scheduleDetails.formattedDate}</strong></span>
+                      {walletBalance !== null && (
+                        <span>
+                          Wallet Balance: <strong style={{ color: walletBalance >= scheduleDetails.costCoins ? "#10B981" : "#EF4444" }}>{walletBalance} Coins</strong>
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
 
