@@ -23,36 +23,12 @@ import {
   User,
   KeyRound,
   CalendarCheck,
-  X
+  X,
+  Lock,
+  Building2,
+  Coffee
 } from "lucide-react";
-
-interface ParkingSlot {
-  id: string;
-  name: string;
-  startTime: string;
-  endTime: string;
-  description: string;
-}
-
-interface ParkingLotData {
-  id: string;
-  name: string;
-  organizationName: string;
-  locationName: string;
-  address: string;
-  totalSpots: number;
-  availableSpots: number;
-  active: boolean;
-  bookingPolicy: {
-    bookingMode: string;
-    advanceBookingDays: number;
-    nextDayBookingOpenTime: string;
-    fixedSlots: ParkingSlot[];
-    noShowGraceMinutes: number;
-    lateCheckoutGracePeriodMinutes: number;
-    welcomeBonusAmount?: number;
-  };
-}
+import { signInGrideeWithGoogle } from "@/lib/grideeFirebase";
 
 interface GrideeSession {
   accessToken: string;
@@ -67,33 +43,28 @@ interface GrideeSession {
 export default function SrmParkingToolPage() {
   const router = useRouter();
 
-  const [lotData, setLotData] = useState<ParkingLotData | null>(null);
-  const [isLive, setIsLive] = useState(false);
-  const [lastUpdated, setLastUpdated] = useState<string>("");
-  const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
-
-  // Authenticated User Session
+  // Session & Authentication
   const [session, setSession] = useState<GrideeSession | null>(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [loginMode, setLoginMode] = useState<"email" | "token">("email");
+  const [loginMode, setLoginMode] = useState<"google" | "email" | "token">("google");
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [loginToken, setLoginToken] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
   const [loginError, setLoginError] = useState("");
 
-  // Authenticated real spots & bookings
+  // Zone & Spot Selection
+  const [activeZone, setActiveZone] = useState<"TP" | "JAVA">("TP");
+  const [selectedShift, setSelectedShift] = useState<string>("MORNING");
+  const [selectedSpotId, setSelectedSpotId] = useState<string>("TP-01");
+
+  // Real Spots & Bookings
   const [realSpots, setRealSpots] = useState<any[] | null>(null);
+  const [spotsLoading, setSpotsLoading] = useState(false);
   const [myBookings, setMyBookings] = useState<any[]>([]);
   const [bookingLoading, setBookingLoading] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState<string | null>(null);
   const [bookingError, setBookingError] = useState<string | null>(null);
-
-  // Booking Form State
-  const [selectedShift, setSelectedShift] = useState<string>("MORNING");
-  const [selectedVehicle, setSelectedVehicle] = useState<string>("");
-  const [selectedSpotId, setSelectedSpotId] = useState<string>("Slot 01");
 
   // Countdown to 18:30 IST (Booking open time)
   const [timeLeft, setTimeLeft] = useState<{ hours: number; minutes: number; seconds: number }>({
@@ -104,48 +75,28 @@ export default function SrmParkingToolPage() {
 
   // Local storage vehicle numbers quick vault
   const [savedVehicles, setSavedVehicles] = useState<{ id: string; label: string; plate: string }[]>([]);
+  const [selectedVehicle, setSelectedVehicle] = useState<string>("");
   const [newLabel, setNewLabel] = useState("");
   const [newPlate, setNewPlate] = useState("");
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
 
-  // Load session from localStorage
+  // Load session from localStorage on mount
   useEffect(() => {
     try {
-      const storedSession = localStorage.getItem("gridee_nexus_session");
-      if (storedSession) {
-        const parsed = JSON.parse(storedSession);
-        setSession(parsed);
+      const stored = localStorage.getItem("gridee_nexus_session");
+      if (stored) {
+        setSession(JSON.parse(stored));
       }
     } catch (e) {
-      console.error("Failed loading Gridee session", e);
+      console.error("Failed loading session", e);
     }
   }, []);
 
-  // Fetch live lot data
-  const fetchStatus = async () => {
+  // Fetch real spots when authenticated
+  const fetchRealSpots = async (token: string) => {
     try {
-      setRefreshing(true);
-      const res = await fetch("/api/gridee");
-      if (res.ok) {
-        const json = await res.json();
-        if (json.lot) {
-          setLotData(json.lot);
-          setIsLive(json.isLive ?? false);
-          setLastUpdated(json.lastUpdated ? new Date(json.lastUpdated).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "");
-        }
-      }
-    } catch (err) {
-      console.error("Failed to fetch parking status", err);
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  };
-
-  // Fetch real spots if authenticated
-  const fetchAuthenticatedSpots = async (token: string) => {
-    try {
+      setSpotsLoading(true);
       const res = await fetch("/api/gridee/spots", {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -157,10 +108,12 @@ export default function SrmParkingToolPage() {
       }
     } catch (e) {
       console.warn("Could not fetch authenticated spots", e);
+    } finally {
+      setSpotsLoading(false);
     }
   };
 
-  // Fetch user bookings if authenticated
+  // Fetch user bookings when authenticated
   const fetchUserBookings = async (token: string, userId: string) => {
     try {
       const res = await fetch(`/api/gridee/my-bookings?userId=${userId}`, {
@@ -178,14 +131,8 @@ export default function SrmParkingToolPage() {
   };
 
   useEffect(() => {
-    fetchStatus();
-    const interval = setInterval(fetchStatus, 45000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
     if (session?.accessToken) {
-      fetchAuthenticatedSpots(session.accessToken);
+      fetchRealSpots(session.accessToken);
       const uId = session.user?.id || session.user?.userId;
       if (uId) {
         fetchUserBookings(session.accessToken, uId);
@@ -287,7 +234,42 @@ export default function SrmParkingToolPage() {
     return null;
   }, []);
 
-  // Handle Login Submission
+  // Update default slot selection when zone changes
+  useEffect(() => {
+    setSelectedSpotId(`${activeZone}-01`);
+  }, [activeZone]);
+
+  // Google Sign-In Handler
+  const handleGoogleSignIn = async () => {
+    setLoginError("");
+    setLoginLoading(true);
+    try {
+      const idToken = await signInGrideeWithGoogle();
+      const res = await fetch("/api/gridee/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mode: "google", idToken }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setLoginError(data.error || "Gridee authentication failed.");
+        return;
+      }
+      const newSession: GrideeSession = {
+        accessToken: data.accessToken,
+        user: data.user,
+      };
+      setSession(newSession);
+      localStorage.setItem("gridee_nexus_session", JSON.stringify(newSession));
+      setShowLoginModal(false);
+    } catch (err: any) {
+      setLoginError(err.message || "Google Sign-In failed or popup was closed.");
+    } finally {
+      setLoginLoading(false);
+    }
+  };
+
+  // Email / Token Sign-In Handler
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError("");
@@ -373,6 +355,7 @@ export default function SrmParkingToolPage() {
           userId,
           vehicleNumber: plate,
           slotId: selectedShift,
+          parkingSpotId: selectedSpotId,
         }),
       });
 
@@ -382,8 +365,8 @@ export default function SrmParkingToolPage() {
         return;
       }
 
-      setBookingSuccess(`Slot booked successfully! Booking Reference: ${data.booking?.bookingId || data.booking?.id || "CONFIRMED"}`);
-      fetchAuthenticatedSpots(session.accessToken);
+      setBookingSuccess(`Slot booked successfully! Reference: ${data.booking?.bookingId || data.booking?.id || "CONFIRMED"}`);
+      fetchRealSpots(session.accessToken);
       fetchUserBookings(session.accessToken, userId);
     } catch (err: any) {
       setBookingError(err.message || "Failed to submit booking.");
@@ -392,10 +375,16 @@ export default function SrmParkingToolPage() {
     }
   };
 
-  const totalSpots = lotData?.totalSpots ?? 10;
-  // If authenticated spots are available, use length of available spots; otherwise use public lotData count
-  const liveSpotCount = realSpots !== null ? realSpots.length : (lotData?.availableSpots ?? 0);
-  const isFull = liveSpotCount === 0;
+  // 10 spots for TP, 10 spots for Java
+  const currentSlots = Array.from({ length: 10 }).map((_, index) => {
+    const num = index + 1;
+    const label = `${activeZone}-${num < 10 ? "0" + num : num}`;
+    return {
+      id: label,
+      number: num,
+      zone: activeZone,
+    };
+  });
 
   return (
     <div style={{
@@ -406,7 +395,7 @@ export default function SrmParkingToolPage() {
       color: "#F7F5FA",
       fontFamily: "'Plus Jakarta Sans', sans-serif"
     }}>
-      {/* Top Bar */}
+      {/* Top Header */}
       <header style={{
         padding: "calc(env(safe-area-inset-top, 0px) + 18px) 16px 14px",
         maxWidth: "760px",
@@ -492,31 +481,33 @@ export default function SrmParkingToolPage() {
               </button>
             )}
 
-            <button
-              onClick={fetchStatus}
-              disabled={refreshing}
-              style={{
-                background: "#12121A",
-                border: "1px solid #292532",
-                color: "#B8B2C2",
-                padding: "7px 12px",
-                borderRadius: "8px",
-                fontSize: "12px",
-                fontWeight: 700,
-                display: "flex",
-                alignItems: "center",
-                gap: "6px",
-                cursor: refreshing ? "default" : "pointer"
-              }}
-            >
-              <RefreshCw size={13} className={refreshing ? "animate-spin" : ""} />
-              <span>{refreshing ? "Syncing…" : "Refresh"}</span>
-            </button>
+            {session && (
+              <button
+                onClick={() => fetchRealSpots(session.accessToken)}
+                disabled={spotsLoading}
+                style={{
+                  background: "#12121A",
+                  border: "1px solid #292532",
+                  color: "#B8B2C2",
+                  padding: "7px 12px",
+                  borderRadius: "8px",
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  cursor: spotsLoading ? "default" : "pointer"
+                }}
+              >
+                <RefreshCw size={13} className={spotsLoading ? "animate-spin" : ""} />
+                <span>{spotsLoading ? "Syncing…" : "Refresh"}</span>
+              </button>
+            )}
           </div>
         </div>
       </header>
 
-      {/* Main Container */}
+      {/* Main Content */}
       <main style={{
         flex: 1,
         padding: "8px 16px 120px",
@@ -527,354 +518,363 @@ export default function SrmParkingToolPage() {
         flexDirection: "column",
         gap: "16px"
       }}>
-        {/* Account Authentication Banner if not signed in */}
-        {!session && (
-          <div style={{
-            background: "rgba(37, 99, 235, 0.08)",
-            border: "1px solid rgba(37, 99, 235, 0.25)",
-            borderRadius: "12px",
-            padding: "12px 16px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: "10px"
+        {/* UNAUTHENTICATED STATE: Clear Auth Gate Card */}
+        {!session ? (
+          <section style={{
+            background: "#12121A",
+            border: "1px solid #292532",
+            borderRadius: "16px",
+            padding: "24px 20px",
+            textAlign: "center"
           }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <Sparkles size={16} color="#60A5FA" />
-              <p style={{ margin: 0, fontSize: "12.5px", color: "#D1CBD7" }}>
-                <strong>Sign in to unlock live spot numbers</strong> and book parking directly from Nexus.
-              </p>
+            <div style={{
+              width: "48px",
+              height: "48px",
+              borderRadius: "14px",
+              background: "rgba(37, 99, 235, 0.12)",
+              border: "1px solid rgba(37, 99, 235, 0.25)",
+              color: "#60A5FA",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto 12px"
+            }}>
+              <Lock size={22} />
             </div>
+
+            <h2 style={{ fontSize: "17px", fontWeight: 800, margin: "0 0 6px", color: "#F7F5FA" }}>
+              Authentication Required for Live Slots
+            </h2>
+
+            <p style={{ fontSize: "12.5px", color: "#9C96A7", margin: "0 auto 18px", maxWidth: "420px", lineHeight: 1.5 }}>
+              SRM Kattankulathur requires an active Gridee session to unlock real-time <strong>Tech Park (TP)</strong> and <strong>Java Ground</strong> slot availability and validate bookings.
+            </p>
+
             <button
               onClick={() => setShowLoginModal(true)}
               style={{
                 background: "#2563EB",
                 color: "#FFF",
                 border: "none",
-                padding: "6px 12px",
-                borderRadius: "6px",
-                fontSize: "11.5px",
-                fontWeight: 750,
-                cursor: "pointer"
-              }}
-            >
-              Sign In Now
-            </button>
-          </div>
-        )}
-
-        {/* 1. Live Parking Status Card */}
-        <section style={{
-          background: "#12121A",
-          border: `1px solid ${isFull ? "rgba(239, 68, 68, 0.3)" : "rgba(16, 185, 129, 0.3)"}`,
-          borderRadius: "14px",
-          padding: "20px",
-          position: "relative",
-          overflow: "hidden"
-        }}>
-          {/* Header & Badges */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "14px", flexWrap: "wrap", gap: "8px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <div style={{
-                width: "8px",
-                height: "8px",
-                borderRadius: "50%",
-                background: isLive ? "#10B981" : "#F59E0B",
-                boxShadow: isLive ? "0 0 10px #10B981" : "none"
-              }} />
-              <span style={{ fontSize: "11px", fontWeight: 750, color: isLive ? "#10B981" : "#F59E0B", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-                {session ? "Authenticated Live Feed" : (isLive ? "Public Server Connected" : "Cached State")}
-              </span>
-              {lastUpdated && (
-                <span style={{ fontSize: "11px", color: "#8F8998" }}>• Updated {lastUpdated}</span>
-              )}
-            </div>
-
-            <span style={{
-              background: isFull ? "rgba(239, 68, 68, 0.15)" : "rgba(16, 185, 129, 0.15)",
-              color: isFull ? "#EF4444" : "#10B981",
-              border: `1px solid ${isFull ? "rgba(239, 68, 68, 0.3)" : "rgba(16, 185, 129, 0.3)"}`,
-              padding: "4px 10px",
-              borderRadius: "20px",
-              fontSize: "11.5px",
-              fontWeight: 800,
-              letterSpacing: "0.04em"
-            }}>
-              {session ? (isFull ? "ALL 10 SLOTS TAKEN" : `${liveSpotCount} SPOTS AVAILABLE`) : "10 SLOTS • SELECT BELOW"}
-            </span>
-          </div>
-
-          {/* Big Spot Numbers */}
-          <div style={{ display: "flex", alignItems: "baseline", gap: "10px", marginBottom: "8px" }}>
-            <span style={{ fontSize: "44px", fontWeight: 900, lineHeight: 1, letterSpacing: "-0.04em", color: session && isFull ? "#EF4444" : "#10B981" }}>
-              {session ? liveSpotCount : totalSpots}
-            </span>
-            <span style={{ fontSize: "18px", color: "#8F8998", fontWeight: 700 }}>
-              {session ? `/ ${totalSpots} spots available` : "total campus slots"}
-            </span>
-          </div>
-
-          <p style={{ margin: "0 0 16px", fontSize: "13px", color: "#B8B2C2", display: "flex", alignItems: "center", gap: "6px" }}>
-            <MapPin size={14} color="#60A5FA" />
-            <span>SRM Kattankulathur Campus • Potheri, Chennai</span>
-          </p>
-
-          {/* Quick Info bar */}
-          <div style={{
-            background: "#0E0E15",
-            borderRadius: "10px",
-            padding: "12px 14px",
-            border: "1px solid #292532",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: "10px"
-          }}>
-            <div style={{ fontSize: "12px", color: "#8F8998", display: "flex", alignItems: "center", gap: "6px" }}>
-              <Info size={14} color="#60A5FA" />
-              <span>Next Day Booking Opens Daily at <strong>18:30 IST (6:30 PM)</strong></span>
-            </div>
-            <span style={{ fontSize: "11.5px", color: "#60A5FA", fontWeight: 700 }}>
-              1 Day Advance
-            </span>
-          </div>
-        </section>
-
-        {/* 2. Interactive Visual 10-Slot Parking Bay Grid */}
-        <section style={{
-          background: "#12121A",
-          border: "1px solid #292532",
-          borderRadius: "14px",
-          padding: "18px 20px"
-        }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px", flexWrap: "wrap", gap: "8px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <Car size={16} color="#60A5FA" />
-              <h2 style={{ fontSize: "14px", fontWeight: 800, margin: 0, color: "#F7F5FA" }}>
-                Campus Parking Bays ({totalSpots} Slots)
-              </h2>
-            </div>
-            <span style={{ fontSize: "11.5px", color: "#10B981", fontWeight: 750, background: "rgba(16, 185, 129, 0.1)", border: "1px solid rgba(16, 185, 129, 0.25)", padding: "3px 8px", borderRadius: "6px" }}>
-              {selectedSpotId ? `Selected: ${selectedSpotId}` : "Tap any slot to reserve"}
-            </span>
-          </div>
-
-          <p style={{ margin: "0 0 14px", fontSize: "12px", color: "#8F8998" }}>
-            Tap any parking slot below to select it for your {selectedShift.toLowerCase()} shift reservation:
-          </p>
-
-          {/* 10-Slot Layout Grid */}
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(110px, 1fr))",
-            gap: "8px"
-          }}>
-            {Array.from({ length: totalSpots }).map((_, index) => {
-              const spotNum = index + 1;
-              const spotLabel = `Slot ${spotNum < 10 ? '0' + spotNum : spotNum}`;
-              const isSelected = selectedSpotId === spotLabel;
-              return (
-                <button
-                  key={spotLabel}
-                  type="button"
-                  onClick={() => setSelectedSpotId(spotLabel)}
-                  style={{
-                    background: isSelected ? "rgba(37, 99, 235, 0.18)" : "#0E0E15",
-                    border: `1.5px solid ${isSelected ? "#2563EB" : "#292532"}`,
-                    borderRadius: "10px",
-                    padding: "12px 8px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    gap: "6px",
-                    cursor: "pointer",
-                    transition: "all 0.15s ease",
-                    position: "relative"
-                  }}
-                >
-                  <div style={{
-                    width: "32px",
-                    height: "32px",
-                    borderRadius: "8px",
-                    background: isSelected ? "#2563EB" : "#1E1E28",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: isSelected ? "#FFF" : "#60A5FA"
-                  }}>
-                    <Car size={16} />
-                  </div>
-                  <p style={{ margin: 0, fontSize: "12.5px", fontWeight: 800, color: isSelected ? "#FFF" : "#F7F5FA" }}>
-                    {spotLabel}
-                  </p>
-                  <span style={{ fontSize: "10px", fontWeight: 700, color: isSelected ? "#60A5FA" : "#10B981" }}>
-                    {isSelected ? "Selected" : "Selectable"}
-                  </span>
-                  {isSelected && (
-                    <div style={{ position: "absolute", top: "4px", right: "6px" }}>
-                      <CheckCircle2 size={13} color="#60A5FA" />
-                    </div>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* 2. Direct In-App Booking Console */}
-        <section style={{
-          background: "#12121A",
-          border: "1px solid #292532",
-          borderRadius: "14px",
-          padding: "18px 20px"
-        }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
-            <CalendarCheck size={16} color="#60A5FA" />
-            <h2 style={{ fontSize: "14px", fontWeight: 800, margin: 0, color: "#F7F5FA" }}>
-              Book Parking Slot (Nexus In-App)
-            </h2>
-          </div>
-
-          <form onSubmit={handleBookSlot} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            {/* Shift Picker */}
-            <div>
-              <label style={{ display: "block", fontSize: "11px", fontWeight: 750, color: "#8F8998", marginBottom: "6px", textTransform: "uppercase" }}>
-                Select Parking Shift
-              </label>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
-                {[
-                  { id: "MORNING", label: "Morning", time: "08:00 - 12:30" },
-                  { id: "AFTERNOON", label: "Afternoon", time: "12:30 - 17:30" },
-                  { id: "FULL_DAY", label: "Full Day", time: "08:00 - 17:30" },
-                ].map((s) => (
-                  <button
-                    key={s.id}
-                    type="button"
-                    onClick={() => setSelectedShift(s.id)}
-                    style={{
-                      padding: "8px 6px",
-                      borderRadius: "8px",
-                      border: selectedShift === s.id ? "1px solid #2563EB" : "1px solid #292532",
-                      background: selectedShift === s.id ? "#2563EB" : "#0E0E15",
-                      color: selectedShift === s.id ? "#FFF" : "#B8B2C2",
-                      fontSize: "12px",
-                      fontWeight: 750,
-                      cursor: "pointer",
-                      textAlign: "center"
-                    }}
-                  >
-                    <div>{s.label}</div>
-                    <div style={{ fontSize: "9.5px", opacity: 0.8, marginTop: "2px" }}>{s.time}</div>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Target Bay Preview */}
-            <div style={{
-              background: "#0E0E15",
-              border: "1px solid #292532",
-              borderRadius: "8px",
-              padding: "10px 12px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between"
-            }}>
-              <span style={{ fontSize: "11.5px", color: "#8F8998", fontWeight: 700, textTransform: "uppercase" }}>
-                Target Parking Bay
-              </span>
-              <span style={{ fontSize: "13px", fontWeight: 800, color: "#10B981" }}>
-                {selectedSpotId}
-              </span>
-            </div>
-
-            {/* Vehicle Selector */}
-            <div>
-              <label style={{ display: "block", fontSize: "11px", fontWeight: 750, color: "#8F8998", marginBottom: "6px", textTransform: "uppercase" }}>
-                Vehicle Plate Number
-              </label>
-              <div style={{ display: "flex", gap: "8px" }}>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. TN 19 AX 1234"
-                  value={selectedVehicle}
-                  onChange={(e) => setSelectedVehicle(e.target.value.toUpperCase())}
-                  style={{
-                    flex: 1,
-                    background: "#0E0E15",
-                    border: "1px solid #292532",
-                    borderRadius: "8px",
-                    padding: "9px 12px",
-                    fontSize: "13px",
-                    fontWeight: 700,
-                    color: "#FFF",
-                    outline: "none"
-                  }}
-                />
-
-                {savedVehicles.length > 0 && (
-                  <select
-                    onChange={(e) => e.target.value && setSelectedVehicle(e.target.value)}
-                    style={{
-                      background: "#0E0E15",
-                      border: "1px solid #292532",
-                      borderRadius: "8px",
-                      padding: "9px 10px",
-                      fontSize: "12px",
-                      color: "#60A5FA",
-                      fontWeight: 700,
-                      outline: "none",
-                      cursor: "pointer"
-                    }}
-                  >
-                    <option value="">Quick Pick</option>
-                    {savedVehicles.map((v) => (
-                      <option key={v.id} value={v.plate}>
-                        {v.label} ({v.plate})
-                      </option>
-                    ))}
-                  </select>
-                )}
-              </div>
-            </div>
-
-            {/* Alerts */}
-            {bookingError && (
-              <div style={{ background: "rgba(239, 68, 68, 0.1)", border: "1px solid rgba(239, 68, 68, 0.3)", borderRadius: "8px", padding: "10px", fontSize: "12px", color: "#EF4444" }}>
-                {bookingError}
-              </div>
-            )}
-
-            {bookingSuccess && (
-              <div style={{ background: "rgba(16, 185, 129, 0.1)", border: "1px solid rgba(16, 185, 129, 0.3)", borderRadius: "8px", padding: "10px", fontSize: "12px", color: "#10B981" }}>
-                {bookingSuccess}
-              </div>
-            )}
-
-            <button
-              type="submit"
-              disabled={bookingLoading}
-              style={{
-                background: session ? "#2563EB" : "#1E1E28",
-                border: session ? "none" : "1px solid #292532",
-                color: "#FFF",
-                padding: "10px",
-                borderRadius: "8px",
+                padding: "10px 24px",
+                borderRadius: "10px",
                 fontSize: "13px",
                 fontWeight: 800,
-                cursor: bookingLoading ? "default" : "pointer",
-                marginTop: "4px"
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                cursor: "pointer",
+                boxShadow: "0 4px 14px rgba(37, 99, 235, 0.35)"
               }}
             >
-              {bookingLoading ? "Processing Booking…" : (session ? "Confirm & Book Slot Now" : "Sign In to Book Slot")}
+              <LogIn size={15} />
+              <span>Sign In to Unlock TP & Java Slots</span>
             </button>
-          </form>
-        </section>
 
-        {/* 3. Daily 18:30 Booking Rush Countdown */}
+            <div style={{ marginTop: "16px", display: "flex", justifyContent: "center", gap: "16px", fontSize: "11px", color: "#8F8998" }}>
+              <span>🏢 Tech Park (TP) Parking</span>
+              <span>•</span>
+              <span>☕ Java Ground Parking</span>
+            </div>
+          </section>
+        ) : (
+          /* AUTHENTICATED STATE: Full TP & Java Zones Hub */
+          <>
+            {/* Zone Selector: TP vs Java Ground */}
+            <section style={{
+              background: "#12121A",
+              border: "1px solid #292532",
+              borderRadius: "14px",
+              padding: "14px 16px"
+            }}>
+              <p style={{ margin: "0 0 10px", fontSize: "11px", fontWeight: 750, color: "#8F8998", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                Select Campus Parking Ground
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+                <button
+                  type="button"
+                  onClick={() => setActiveZone("TP")}
+                  style={{
+                    padding: "12px",
+                    borderRadius: "10px",
+                    border: activeZone === "TP" ? "1.5px solid #2563EB" : "1px solid #292532",
+                    background: activeZone === "TP" ? "rgba(37, 99, 235, 0.15)" : "#0E0E15",
+                    color: activeZone === "TP" ? "#FFF" : "#B8B2C2",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    textAlign: "left"
+                  }}
+                >
+                  <div style={{ width: "34px", height: "34px", borderRadius: "8px", background: activeZone === "TP" ? "#2563EB" : "#1E1E28", display: "flex", alignItems: "center", justifyContent: "center", color: "#FFF" }}>
+                    <Building2 size={16} />
+                  </div>
+                  <div>
+                    <p style={{ margin: 0, fontSize: "13px", fontWeight: 800, color: activeZone === "TP" ? "#FFF" : "#F7F5FA" }}>Tech Park (TP)</p>
+                    <p style={{ margin: "2px 0 0", fontSize: "10.5px", color: "#8F8998" }}>Near TP & Main Building</p>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setActiveZone("JAVA")}
+                  style={{
+                    padding: "12px",
+                    borderRadius: "10px",
+                    border: activeZone === "JAVA" ? "1.5px solid #2563EB" : "1px solid #292532",
+                    background: activeZone === "JAVA" ? "rgba(37, 99, 235, 0.15)" : "#0E0E15",
+                    color: activeZone === "JAVA" ? "#FFF" : "#B8B2C2",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    textAlign: "left"
+                  }}
+                >
+                  <div style={{ width: "34px", height: "34px", borderRadius: "8px", background: activeZone === "JAVA" ? "#2563EB" : "#1E1E28", display: "flex", alignItems: "center", justifyContent: "center", color: "#FFF" }}>
+                    <Coffee size={16} />
+                  </div>
+                  <div>
+                    <p style={{ margin: 0, fontSize: "13px", fontWeight: 800, color: activeZone === "JAVA" ? "#FFF" : "#F7F5FA" }}>Java Ground</p>
+                    <p style={{ margin: "2px 0 0", fontSize: "10.5px", color: "#8F8998" }}>Behind Java Canteen & Mech</p>
+                  </div>
+                </button>
+              </div>
+            </section>
+
+            {/* Visual Slots Grid for the Active Zone */}
+            <section style={{
+              background: "#12121A",
+              border: "1px solid #292532",
+              borderRadius: "14px",
+              padding: "18px 20px"
+            }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px", flexWrap: "wrap", gap: "8px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <Car size={16} color="#60A5FA" />
+                  <h2 style={{ fontSize: "14px", fontWeight: 800, margin: 0, color: "#F7F5FA" }}>
+                    {activeZone === "TP" ? "Tech Park (TP) Bays" : "Java Ground Bays"}
+                  </h2>
+                </div>
+                <span style={{ fontSize: "11.5px", color: "#10B981", fontWeight: 750, background: "rgba(16, 185, 129, 0.1)", border: "1px solid rgba(16, 185, 129, 0.25)", padding: "3px 8px", borderRadius: "6px" }}>
+                  Selected: {selectedSpotId}
+                </span>
+              </div>
+
+              <p style={{ margin: "0 0 14px", fontSize: "12px", color: "#8F8998" }}>
+                Select a slot bay below for your reservation:
+              </p>
+
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(110px, 1fr))",
+                gap: "8px"
+              }}>
+                {currentSlots.map((slot) => {
+                  const isSelected = selectedSpotId === slot.id;
+                  return (
+                    <button
+                      key={slot.id}
+                      type="button"
+                      onClick={() => setSelectedSpotId(slot.id)}
+                      style={{
+                        background: isSelected ? "rgba(37, 99, 235, 0.18)" : "#0E0E15",
+                        border: `1.5px solid ${isSelected ? "#2563EB" : "#292532"}`,
+                        borderRadius: "10px",
+                        padding: "12px 8px",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: "6px",
+                        cursor: "pointer",
+                        transition: "all 0.15s ease",
+                        position: "relative"
+                      }}
+                    >
+                      <div style={{
+                        width: "32px",
+                        height: "32px",
+                        borderRadius: "8px",
+                        background: isSelected ? "#2563EB" : "#1E1E28",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: isSelected ? "#FFF" : "#60A5FA"
+                      }}>
+                        <Car size={16} />
+                      </div>
+                      <p style={{ margin: 0, fontSize: "12.5px", fontWeight: 800, color: isSelected ? "#FFF" : "#F7F5FA" }}>
+                        {slot.id}
+                      </p>
+                      <span style={{ fontSize: "10px", fontWeight: 700, color: isSelected ? "#60A5FA" : "#10B981" }}>
+                        {isSelected ? "Selected" : "Available"}
+                      </span>
+                      {isSelected && (
+                        <div style={{ position: "absolute", top: "4px", right: "6px" }}>
+                          <CheckCircle2 size={13} color="#60A5FA" />
+                        </div>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+
+            {/* Direct In-App Booking Console */}
+            <section style={{
+              background: "#12121A",
+              border: "1px solid #292532",
+              borderRadius: "14px",
+              padding: "18px 20px"
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
+                <CalendarCheck size={16} color="#60A5FA" />
+                <h2 style={{ fontSize: "14px", fontWeight: 800, margin: 0, color: "#F7F5FA" }}>
+                  Book Slot (Nexus In-App)
+                </h2>
+              </div>
+
+              <form onSubmit={handleBookSlot} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                {/* Target Bay Indicator */}
+                <div style={{
+                  background: "#0E0E15",
+                  border: "1px solid #292532",
+                  borderRadius: "8px",
+                  padding: "10px 12px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between"
+                }}>
+                  <span style={{ fontSize: "11.5px", color: "#8F8998", fontWeight: 700, textTransform: "uppercase" }}>
+                    Target Bay
+                  </span>
+                  <span style={{ fontSize: "13px", fontWeight: 800, color: "#10B981" }}>
+                    {activeZone === "TP" ? "Tech Park" : "Java Ground"} • {selectedSpotId}
+                  </span>
+                </div>
+
+                {/* Shift Picker */}
+                <div>
+                  <label style={{ display: "block", fontSize: "11px", fontWeight: 750, color: "#8F8998", marginBottom: "6px", textTransform: "uppercase" }}>
+                    Select Parking Shift
+                  </label>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
+                    {[
+                      { id: "MORNING", label: "Morning", time: "08:00 - 12:30" },
+                      { id: "AFTERNOON", label: "Afternoon", time: "12:30 - 17:30" },
+                      { id: "FULL_DAY", label: "Full Day", time: "08:00 - 17:30" },
+                    ].map((s) => (
+                      <button
+                        key={s.id}
+                        type="button"
+                        onClick={() => setSelectedShift(s.id)}
+                        style={{
+                          padding: "8px 6px",
+                          borderRadius: "8px",
+                          border: selectedShift === s.id ? "1px solid #2563EB" : "1px solid #292532",
+                          background: selectedShift === s.id ? "#2563EB" : "#0E0E15",
+                          color: selectedShift === s.id ? "#FFF" : "#B8B2C2",
+                          fontSize: "12px",
+                          fontWeight: 750,
+                          cursor: "pointer",
+                          textAlign: "center"
+                        }}
+                      >
+                        <div>{s.label}</div>
+                        <div style={{ fontSize: "9.5px", opacity: 0.8, marginTop: "2px" }}>{s.time}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Vehicle Selector */}
+                <div>
+                  <label style={{ display: "block", fontSize: "11px", fontWeight: 750, color: "#8F8998", marginBottom: "6px", textTransform: "uppercase" }}>
+                    Vehicle Plate Number
+                  </label>
+                  <div style={{ display: "flex", gap: "8px" }}>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. TN 19 AX 1234"
+                      value={selectedVehicle}
+                      onChange={(e) => setSelectedVehicle(e.target.value.toUpperCase())}
+                      style={{
+                        flex: 1,
+                        background: "#0E0E15",
+                        border: "1px solid #292532",
+                        borderRadius: "8px",
+                        padding: "9px 12px",
+                        fontSize: "13px",
+                        fontWeight: 700,
+                        color: "#FFF",
+                        outline: "none"
+                      }}
+                    />
+
+                    {savedVehicles.length > 0 && (
+                      <select
+                        onChange={(e) => e.target.value && setSelectedVehicle(e.target.value)}
+                        style={{
+                          background: "#0E0E15",
+                          border: "1px solid #292532",
+                          borderRadius: "8px",
+                          padding: "9px 10px",
+                          fontSize: "12px",
+                          color: "#60A5FA",
+                          fontWeight: 700,
+                          outline: "none",
+                          cursor: "pointer"
+                        }}
+                      >
+                        <option value="">Quick Pick</option>
+                        {savedVehicles.map((v) => (
+                          <option key={v.id} value={v.plate}>
+                            {v.label} ({v.plate})
+                          </option>
+                        ))}
+                      </select>
+                    )}
+                  </div>
+                </div>
+
+                {/* Alerts */}
+                {bookingError && (
+                  <div style={{ background: "rgba(239, 68, 68, 0.1)", border: "1px solid rgba(239, 68, 68, 0.3)", borderRadius: "8px", padding: "10px", fontSize: "12px", color: "#EF4444" }}>
+                    {bookingError}
+                  </div>
+                )}
+
+                {bookingSuccess && (
+                  <div style={{ background: "rgba(16, 185, 129, 0.1)", border: "1px solid rgba(16, 185, 129, 0.3)", borderRadius: "8px", padding: "10px", fontSize: "12px", color: "#10B981" }}>
+                    {bookingSuccess}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={bookingLoading}
+                  style={{
+                    background: "#2563EB",
+                    border: "none",
+                    color: "#FFF",
+                    padding: "11px",
+                    borderRadius: "8px",
+                    fontSize: "13px",
+                    fontWeight: 800,
+                    cursor: bookingLoading ? "default" : "pointer",
+                    marginTop: "4px"
+                  }}
+                >
+                  {bookingLoading ? "Processing Booking…" : `Confirm & Book ${selectedSpotId}`}
+                </button>
+              </form>
+            </section>
+          </>
+        )}
+
+        {/* 18:30 Rush Countdown */}
         <section style={{
           background: "#12121A",
           border: "1px solid #292532",
@@ -897,7 +897,6 @@ export default function SrmParkingToolPage() {
             Advance slot reservations for tomorrow open at 6:30 PM. Slots fill up quickly, so have your vehicle plate ready.
           </p>
 
-          {/* Digital Clock Grid */}
           <div style={{
             display: "grid",
             gridTemplateColumns: "repeat(3, 1fr)",
@@ -931,7 +930,7 @@ export default function SrmParkingToolPage() {
           </div>
         </section>
 
-        {/* 4. Vehicle Plate Quick Vault */}
+        {/* Vehicle Plate Fast-Copy Vault */}
         <section style={{
           background: "#12121A",
           border: "1px solid #292532",
@@ -1065,7 +1064,7 @@ export default function SrmParkingToolPage() {
           )}
         </section>
 
-        {/* 5. Official Rules & Policies */}
+        {/* Official Rules & Policies */}
         <section style={{
           background: "#12121A",
           border: "1px solid #292532",
@@ -1145,11 +1144,48 @@ export default function SrmParkingToolPage() {
             </div>
 
             <p style={{ fontSize: "12px", color: "#8F8998", margin: "0 0 16px" }}>
-              Sign in with your Gridee credentials to unlock real-time live spots and book directly in Nexus.
+              Sign in with your Gridee credentials to unlock real-time TP & Java slots and book directly in Nexus.
             </p>
 
+            {/* Google One-Tap Action */}
+            <button
+              type="button"
+              onClick={handleGoogleSignIn}
+              disabled={loginLoading}
+              style={{
+                width: "100%",
+                background: "#FFF",
+                color: "#000",
+                border: "none",
+                borderRadius: "8px",
+                padding: "10px",
+                fontSize: "13px",
+                fontWeight: 750,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px",
+                cursor: loginLoading ? "default" : "pointer",
+                marginBottom: "14px"
+              }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+              </svg>
+              <span>Continue with Google</span>
+            </button>
+
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", margin: "14px 0" }}>
+              <div style={{ flex: 1, height: "1px", background: "#292532" }} />
+              <span style={{ fontSize: "11px", color: "#8F8998", textTransform: "uppercase" }}>or sign in with email</span>
+              <div style={{ flex: 1, height: "1px", background: "#292532" }} />
+            </div>
+
             {/* Mode Switcher */}
-            <div style={{ display: "flex", gap: "6px", marginBottom: "16px", background: "#0E0E15", padding: "4px", borderRadius: "8px", border: "1px solid #292532" }}>
+            <div style={{ display: "flex", gap: "6px", marginBottom: "14px", background: "#0E0E15", padding: "4px", borderRadius: "8px", border: "1px solid #292532" }}>
               <button
                 type="button"
                 onClick={() => setLoginMode("email")}
@@ -1250,7 +1286,7 @@ export default function SrmParkingToolPage() {
                   fontSize: "13px",
                   fontWeight: 800,
                   cursor: loginLoading ? "default" : "pointer",
-                  marginTop: "6px"
+                  marginTop: "4px"
                 }}
               >
                 {loginLoading ? "Authenticating with Gridee…" : "Sign In & Connect"}
