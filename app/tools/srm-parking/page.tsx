@@ -305,7 +305,15 @@ export default function SrmParkingToolPage() {
 
       const data = await res.json();
       if (!res.ok || !data.success) {
-        setLoginError(data.error || "Login failed. Check your credentials.");
+        let msg = data.error || "Login failed. Check your credentials.";
+        if (msg === "INVALID_LOGIN_CREDENTIALS" || msg.includes("INVALID_LOGIN_CREDENTIALS")) {
+          msg = "Incorrect email or password. Please verify your Gridee account credentials.";
+        } else if (msg.includes("TOO_MANY_ATTEMPTS")) {
+          msg = "Too many failed attempts. Please wait a moment and try again.";
+        } else if (msg.includes("INVALID_EMAIL")) {
+          msg = "Please enter a valid email address.";
+        }
+        setLoginError(msg);
         return;
       }
 
