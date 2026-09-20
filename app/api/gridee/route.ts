@@ -22,8 +22,8 @@ const FALLBACK_SRM_LOT = {
   bookingPolicy: {
     bookingMode: "DAILY",
     advanceBookingDays: 1,
-    nextDayBookingOpenTime: "18:30",
-    dailyBookingEndTime: "18:30",
+    nextDayBookingOpenTime: "05:00",
+    dailyBookingEndTime: "05:00",
     fixedTimeSlotsEnabled: true,
     allowOvernightBookings: false,
     refundPolicy: "STANDARD",

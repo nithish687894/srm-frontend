@@ -210,7 +210,7 @@ export default function SrmParkingToolPage() {
     return realSpots.find((s: any) => s.spot?.id === "ps6" || s.spot?.zoneName?.includes("Java")) || null;
   }, [realSpots]);
 
-  // Countdown to 18:30 IST (Booking open time)
+  // Countdown to 05:00 AM IST (Booking open time for SRM KTR morning classes)
   const [timeLeft, setTimeLeft] = useState<{ hours: number; minutes: number; seconds: number }>({
     hours: 0,
     minutes: 0,
@@ -393,12 +393,12 @@ export default function SrmParkingToolPage() {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  // 18:30 IST Countdown Calculation
+  // 5:00 AM IST Countdown Calculation (SRM KTR Morning Classes Booking)
   useEffect(() => {
     const updateCountdown = () => {
       const now = new Date();
       const target = new Date();
-      target.setHours(18, 30, 0, 0);
+      target.setHours(5, 0, 0, 0);
 
       if (now.getTime() > target.getTime()) {
         target.setDate(target.getDate() + 1);
@@ -1706,7 +1706,7 @@ export default function SrmParkingToolPage() {
           </>
         )}
 
-        {/* 18:30 Rush Countdown */}
+        {/* 5:00 AM Morning Rush Countdown */}
         <section style={{
           background: "#12121A",
           border: "1px solid #292532",
@@ -1717,16 +1717,16 @@ export default function SrmParkingToolPage() {
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               <Clock size={16} color="#60A5FA" />
               <h2 style={{ fontSize: "14px", fontWeight: 800, margin: 0, color: "#F7F5FA" }}>
-                18:30 Booking Window Countdown
+                5:00 AM Booking Window Countdown
               </h2>
             </div>
             <span style={{ fontSize: "11px", color: "#8F8998", fontWeight: 700 }}>
-              Daily 6:30 PM Rush
+              Daily 5:00 AM Rush
             </span>
           </div>
 
           <p style={{ margin: "0 0 14px", fontSize: "12.5px", color: "#9C96A7", lineHeight: 1.45 }}>
-            Advance slot reservations for tomorrow open at 6:30 PM. Slots fill up quickly, so have your vehicle plate ready.
+            SRM KTR campus parking slot reservations open daily at 5:00 AM for morning classes. Slots fill up quickly, so have your vehicle plate ready.
           </p>
 
           <div style={{

@@ -63,11 +63,11 @@ const SMART_TEMPLATES = [
 ];
 
 const SORT_OPTIONS: { value: SortMode; label: string }[] = [
-  { value: "pinned", label: "📌 Pinned First" },
-  { value: "newest", label: "⏱ Newest" },
-  { value: "oldest", label: "⌛ Oldest" },
-  { value: "az", label: "🔤 A → Z" },
-  { value: "edited", label: "✏️ Recently Edited" },
+  { value: "pinned", label: "Pinned first" },
+  { value: "newest", label: "Newest first" },
+  { value: "oldest", label: "Oldest first" },
+  { value: "az", label: "Title A–Z" },
+  { value: "edited", label: "Recently edited" },
 ];
 
 function timeAgo(date: string): string {
@@ -92,7 +92,7 @@ export default function NotesPage() {
     setMounted(true);
   }, []);
 
-  const { academicData, myTimetable, timetable } = useAuthStore();
+  const { academicData, myTimetable } = useAuthStore();
 
   const {
     notes, stats, searchQuery, sortMode, viewFilter, activeLabel, activeSubject, syncStatus,
@@ -114,23 +114,7 @@ export default function NotesPage() {
       });
     }
 
-    // 2. From Academia Timetable raw rows
-    const ttRows = timetable?.data?.rows || [];
-    if (Array.isArray(ttRows)) {
-      ttRows.forEach((row: AnyValue) => {
-        if (Array.isArray(row)) {
-          row.forEach((cell: AnyValue) => {
-            if (typeof cell === "string" && cell.includes("-") && cell.length > 5) {
-              const parts = cell.split("-");
-              const possibleName = parts[parts.length - 1]?.trim();
-              if (possibleName && possibleName.length > 2) set.add(possibleName);
-            }
-          });
-        }
-      });
-    }
-
-    // 3. From Academia Attendance
+    // 2. From Academia Attendance. Master-grid cells are time/slot data, not course names.
     const att = academicData?.attendance;
     if (Array.isArray(att)) {
       att.forEach((a: AnyValue) => {
@@ -139,14 +123,14 @@ export default function NotesPage() {
       });
     }
 
-    // 4. From existing saved notes
+    // 3. From existing saved notes
     const existingNotesSubjects = getSubjects();
     existingNotesSubjects.forEach((s) => {
       if (s && typeof s === "string") set.add(s.trim());
     });
 
     return Array.from(set);
-  }, [myTimetable, timetable, academicData, getSubjects]);
+  }, [myTimetable, academicData, getSubjects]);
 
   // ─── Local State ────────────────────────────────────────────────────────────
   const [editorOpen, setEditorOpen] = useState(false);
@@ -168,6 +152,8 @@ export default function NotesPage() {
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   const autoSaveTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const autoSaveRef = useRef<() => void>(() => {});
+  const creatingNoteRef = useRef(false);
   const editorTextareaRef = useRef<HTMLTextAreaElement>(null);
 
   // ─── Initial Load ───────────────────────────────────────────────────────────
@@ -179,8 +165,9 @@ export default function NotesPage() {
 
   // ─── Auto Save Handler ──────────────────────────────────────────────────────
   const saveNewNote = useCallback(async () => {
-    if (!editorTitle.trim() && !editorContent.trim()) return;
+    if ((!editorTitle.trim() && !editorContent.trim()) || creatingNoteRef.current) return;
 
+    creatingNoteRef.current = true;
     setSaveStatus("saving");
     try {
       const res = await notesAPI.create({
@@ -222,12 +209,15 @@ export default function NotesPage() {
       setEditingNote(tempNote);
       setSyncStatus("offline");
       setSaveStatus("saved");
+    } finally {
+      creatingNoteRef.current = false;
     }
   }, [editorTitle, editorContent, editorLabel, editorSubject, editorLinkedPage, editorCheckItems, addNote, setSyncStatus]);
 
   const autoSave = useCallback(() => {
     if (!editingNote) {
       if (editorTitle.trim() || editorContent.trim()) saveNewNote();
+      else setSaveStatus("idle");
       return;
     }
     setSaveStatus("saving");
@@ -256,11 +246,15 @@ export default function NotesPage() {
       });
   }, [editingNote, editorTitle, editorContent, editorLabel, editorSubject, editorLinkedPage, editorCheckItems, updateNote, saveNewNote]);
 
+  useEffect(() => {
+    autoSaveRef.current = autoSave;
+  }, [autoSave]);
+
   const triggerAutoSave = useCallback(() => {
     setSaveStatus("typing");
     if (autoSaveTimerRef.current) clearTimeout(autoSaveTimerRef.current);
-    autoSaveTimerRef.current = setTimeout(autoSave, 1000);
-  }, [autoSave]);
+    autoSaveTimerRef.current = setTimeout(() => autoSaveRef.current(), 1000);
+  }, []);
 
   // ─── Editor Actions ────────────────────────────────────────────────────────
   const openEditor = (note?: Note) => {
@@ -269,7 +263,7 @@ export default function NotesPage() {
       setEditorTitle(note.title);
       setEditorContent(note.content);
       setEditorLabel(note.label);
-      setEditorSubject(note.subject || (academiaSubjects[0] || ""));
+      setEditorSubject(note.subject || "");
       setEditorLinkedPage(note.linkedPage);
       setEditorCheckItems(note.checkItems?.map(c => ({ text: c.text, checked: c.checked })) || []);
     } else {
@@ -277,7 +271,7 @@ export default function NotesPage() {
       setEditorTitle("");
       setEditorContent("");
       setEditorLabel("subject");
-      setEditorSubject(academiaSubjects[0] || "");
+      setEditorSubject("");
       setEditorLinkedPage(null);
       setEditorCheckItems([]);
     }
@@ -290,7 +284,7 @@ export default function NotesPage() {
     setEditorTitle(template.name);
     setEditorContent(template.content);
     setEditorLabel(template.label);
-    setEditorSubject(academiaSubjects[0] || "");
+    setEditorSubject("");
     setEditorLinkedPage(null);
     setEditorCheckItems([]);
     setSaveStatus("idle");
@@ -302,7 +296,7 @@ export default function NotesPage() {
   const closeEditor = () => {
     if (autoSaveTimerRef.current) clearTimeout(autoSaveTimerRef.current);
     if (editorTitle.trim() || editorContent.trim()) {
-      autoSave();
+      autoSaveRef.current();
     }
     setEditorOpen(false);
     setEditingNote(null);
@@ -433,9 +427,9 @@ export default function NotesPage() {
             {/* New Note CTA Button */}
             {notes.length > 0 && <button
               onClick={() => openEditor()}
-              className="px-3 sm:px-4 h-9 rounded-lg bg-[#2563eb] hover:bg-[#1d4ed8] transition-colors text-white font-medium text-xs sm:text-sm flex items-center gap-1.5 shrink-0"
+              className="notes-create-button px-3 sm:px-4 h-9 rounded-lg bg-[#2563eb] hover:bg-[#1d4ed8] transition-colors text-white font-medium text-xs sm:text-sm shrink-0"
             >
-              <Plus size={18} strokeWidth={2.5} />
+              <Plus size={17} strokeWidth={2.25} aria-hidden="true" />
               <span>New note</span>
             </button>}
 
@@ -452,7 +446,7 @@ export default function NotesPage() {
               {showMoreMenu && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setShowMoreMenu(false)} />
-                  <div className="absolute right-0 top-full mt-2 w-56 bg-[#0f1117] border border-white/10 rounded-2xl shadow-2xl z-50 overflow-hidden backdrop-blur-2xl py-1.5 animate-in fade-in slide-in-from-top-2 duration-150">
+                  <div className="notes-menu absolute right-0 top-full mt-2 w-56 bg-[#0f1117] border border-white/10 rounded-2xl shadow-2xl z-50 overflow-hidden backdrop-blur-2xl py-1.5 animate-in fade-in slide-in-from-top-2 duration-150">
                     <button
                       onClick={() => { syncStatsFromServer(); setShowStatsModal(true); setShowMoreMenu(false); }}
                       className="w-full px-4 py-3 text-left hover:bg-white/5 transition-all flex items-center gap-3 text-xs font-semibold text-white/90"
@@ -480,7 +474,6 @@ export default function NotesPage() {
                             onClick={() => openFromTemplate(t)}
                             className="w-full px-8 py-2 text-left hover:bg-white/10 transition-all flex items-center gap-2.5 text-xs text-white/80"
                           >
-                            <span>{t.emoji}</span>
                             <span>{t.name}</span>
                           </button>
                         ))}
@@ -518,7 +511,7 @@ export default function NotesPage() {
         </header>
 
         {/* ── 2. Search & Filter Bar with 16px Spacing ───────────────────────────── */}
-        {(notes.length > 0 || searchQuery || viewFilter !== "all" || activeLabel || activeSubject) && <div className="space-y-4 mb-7">
+        {(notes.length > 0 || searchQuery || viewFilter !== "all" || activeLabel || activeSubject) && <div className="notes-search-filters space-y-4 mb-7">
           {/* Search Bar */}
           <div className="relative w-full">
             <Search size={18} className="absolute left-4.5 top-1/2 -translate-y-1/2 text-white/40" />
@@ -538,7 +531,8 @@ export default function NotesPage() {
           </div>
 
           {/* ── 3. Filters: Large Touch-Friendly Pills ───────────────────────────── */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none" style={{ scrollbarWidth: "none" }}>
+          <div className="notes-filter-row">
+            <div className="notes-filter-controls">
             {/* View Filter Dropdown Pill */}
             <div className="relative shrink-0">
               <button
@@ -551,7 +545,7 @@ export default function NotesPage() {
               {showFilterMenu && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setShowFilterMenu(false)} />
-                  <div className="absolute left-0 top-full mt-2 w-52 bg-[#0f1117] border border-white/10 rounded-2xl shadow-2xl z-50 overflow-hidden backdrop-blur-2xl py-1">
+                  <div className="notes-menu absolute left-0 top-full mt-2 w-52 bg-[#0f1117] border border-white/10 rounded-2xl shadow-2xl z-50 overflow-hidden backdrop-blur-2xl py-1">
                     {(Object.keys(viewLabels) as ViewFilter[]).map((f) => (
                       <button
                         key={f}
@@ -579,7 +573,7 @@ export default function NotesPage() {
               {showSortMenu && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setShowSortMenu(false)} />
-                  <div className="absolute left-0 top-full mt-2 w-48 bg-[#0f1117] border border-white/10 rounded-2xl shadow-2xl z-50 overflow-hidden backdrop-blur-2xl py-1">
+                  <div className="notes-menu absolute left-0 top-full mt-2 w-48 bg-[#0f1117] border border-white/10 rounded-2xl shadow-2xl z-50 overflow-hidden backdrop-blur-2xl py-1">
                     {SORT_OPTIONS.map((opt) => (
                       <button
                         key={opt.value}
@@ -595,6 +589,8 @@ export default function NotesPage() {
               )}
             </div>
 
+            </div>
+            <div className="notes-label-strip" style={{ scrollbarWidth: "none" }}>
             <div className="w-px h-6 bg-white/10 mx-1 shrink-0" />
 
             {/* Label Chips */}
@@ -609,7 +605,7 @@ export default function NotesPage() {
                 key={key}
                 onClick={() => setActiveLabel(activeLabel === key ? null : key)}
                 className="px-4 py-2.5 rounded-full text-xs font-semibold transition-all shrink-0 flex items-center gap-1.5"
-                style={activeLabel === key ? { backgroundColor: cfg.bg, color: cfg.color, fontWeight: 700 } : { backgroundColor: "rgba(255,255,255,0.02)", color: "rgba(255,255,255,0.6)" }}
+                style={activeLabel === key ? { backgroundColor: "rgba(37,99,235,0.18)", color: "#c7d9ff", fontWeight: 600 } : { backgroundColor: "rgba(255,255,255,0.02)", color: "rgba(255,255,255,0.6)" }}
               >
                 <span>{cfg.label}</span>
               </button>
@@ -620,14 +616,13 @@ export default function NotesPage() {
               <>
                 <div className="w-px h-6 bg-white/10 mx-1 shrink-0" />
                 {getSubjects().map((subj) => {
-                  const sc = getSubjectMeta(subj);
                   const isSel = activeSubject === subj;
                   return (
                     <button
                       key={subj}
                       onClick={() => setActiveSubject(isSel ? null : subj)}
                       className="px-4 py-2.5 rounded-full text-xs font-semibold transition-all shrink-0 flex items-center gap-1.5"
-                      style={isSel ? { backgroundColor: `${sc.color}25`, color: sc.color, fontWeight: 700 } : { backgroundColor: "rgba(255,255,255,0.02)", color: "rgba(255,255,255,0.6)" }}
+                      style={isSel ? { backgroundColor: "rgba(37,99,235,0.18)", color: "#c7d9ff", fontWeight: 600 } : { backgroundColor: "rgba(255,255,255,0.02)", color: "rgba(255,255,255,0.6)" }}
                     >
                       <span>{subj}</span>
                     </button>
@@ -635,6 +630,7 @@ export default function NotesPage() {
                 })}
               </>
             )}
+            </div>
           </div>
         </div>}
 
@@ -646,7 +642,7 @@ export default function NotesPage() {
           </div>
         ) : filteredNotes.length === 0 ? (
           /* ── Empty State Layout ───────────────────────────────────────── */
-          <div className="py-16 px-5 text-center max-w-md mx-auto">
+          <div className="notes-empty py-16 px-5 text-center max-w-md mx-auto">
             <div className="w-12 h-12 rounded-xl bg-[#12121A] border border-[#292532] flex items-center justify-center text-white/50 mx-auto mb-5">
               <FileText size={23} />
             </div>
@@ -660,7 +656,7 @@ export default function NotesPage() {
             {notes.length === 0 && <button onClick={() => openEditor()} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#2563eb] hover:bg-[#1d4ed8] text-sm font-medium text-white transition-colors"><Plus size={16} /> Create a note</button>}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="notes-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredNotes.map((note) => {
               const labelCfg = LABEL_CONFIG[note.label] || LABEL_CONFIG.subject;
               const preview = note.content.replace(/[#*`>\-\[\]]/g, "").trim().slice(0, 100);
@@ -669,7 +665,7 @@ export default function NotesPage() {
                 <div
                   key={note._id}
                   onClick={() => openEditor(note)}
-                  className="group relative p-5 rounded-xl bg-[#12121A] border border-[#292532] hover:border-white/20 transition-colors cursor-pointer flex flex-col justify-between min-h-[140px]"
+                  className="notes-card group relative p-5 rounded-xl bg-[#12121A] border border-[#292532] hover:border-white/20 transition-colors cursor-pointer flex flex-col justify-between min-h-[140px]"
                 >
                   <div>
                     {/* Header: Title + Pin/Star Icons */}
@@ -733,8 +729,8 @@ export default function NotesPage() {
         {/* STATISTICS MODAL                                                 */}
         {/* ════════════════════════════════════════════════════════════════ */}
         {showStatsModal && mounted && createPortal(
-          <div className="fixed inset-0 z-[99999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-            <div className="w-full max-w-md bg-[#0e0f15] border border-white/10 rounded-3xl p-6 shadow-2xl space-y-5">
+          <div className="notes-stats-overlay fixed inset-0 z-[99999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+            <div className="notes-stats-panel w-full max-w-md bg-[#0e0f15] border border-white/10 rounded-3xl p-6 shadow-2xl space-y-5">
               <div className="flex items-center justify-between border-b border-white/10 pb-4">
                 <div className="flex items-center gap-2.5">
                   <div className="w-9 h-9 rounded-2xl bg-[#3b82f6]/15 text-[#3b82f6] flex items-center justify-center">
@@ -761,14 +757,13 @@ export default function NotesPage() {
                 </div>
               </div>
 
-              <div className="space-y-2 pt-2 border-t border-white/5">
+              <div className="notes-stats-breakdown space-y-2 pt-2 border-t border-white/5">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-white/60">Category Breakdown</h4>
                 {Object.entries(LABEL_CONFIG).map(([key, cfg]) => {
                   const count = notes.filter(n => n.label === key && !n.archivedAt && !n.deletedAt).length;
                   return (
                     <div key={key} className="flex items-center justify-between py-1.5 px-3 rounded-xl bg-white/[0.02]">
                       <span className="text-xs text-white/80 flex items-center gap-2">
-                        <span>{cfg.emoji}</span>
                         <span>{cfg.label}</span>
                       </span>
                       <span className="text-xs font-bold text-white">{count}</span>
@@ -792,24 +787,24 @@ export default function NotesPage() {
         {/* EDITOR MODAL WITH ACADEMIA SUBJECT SELECTOR                      */}
         {/* ════════════════════════════════════════════════════════════════ */}
         {editorOpen && mounted && createPortal(
-          <div className="fixed inset-0 z-[99999] bg-black/85 backdrop-blur-2xl flex flex-col p-3 sm:p-6 overflow-hidden">
-            <div className="w-full max-w-4xl mx-auto h-full max-h-[92vh] rounded-3xl bg-[#0e0f15] border border-white/10 flex flex-col overflow-hidden shadow-2xl">
+          <div className="notes-editor-overlay fixed inset-0 z-[99999] bg-black/85 backdrop-blur-2xl flex flex-col p-3 sm:p-6 overflow-hidden">
+            <div className="notes-editor-panel w-full max-w-4xl mx-auto h-full max-h-[92vh] rounded-3xl bg-[#0e0f15] border border-white/10 flex flex-col overflow-hidden shadow-2xl" role="dialog" aria-modal="true" aria-label={editingNote ? "Edit note" : "New note"}>
               
               {/* Modal Header */}
-              <header className="shrink-0 flex items-center justify-between px-5 py-4 border-b border-white/10 bg-white/[0.02]">
+              <header className="notes-editor-header shrink-0 flex items-center justify-between px-5 py-4 border-b border-white/10 bg-white/[0.02]">
                 <div className="flex items-center gap-3">
-                  <button onClick={closeEditor} className="w-9 h-9 rounded-xl flex items-center justify-center bg-white/5 hover:bg-white/10 transition-all text-white/70 hover:text-white">
+                  <button onClick={closeEditor} aria-label="Close note editor" className="notes-editor-close w-9 h-9 rounded-xl flex items-center justify-center bg-white/5 hover:bg-white/10 transition-all text-white/70 hover:text-white">
                     <X size={18} />
                   </button>
-                  <span className="text-xs font-semibold text-white/50">
+                  <span className="notes-save-status text-xs font-semibold text-white/50" aria-live="polite">
                     {saveStatus === "typing" ? "Typing..." : saveStatus === "saving" ? "Saving..." : saveStatus === "saved" ? "✓ Saved" : ""}
                   </span>
                 </div>
 
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => { saveNewNote(); closeEditor(); }}
-                    className="px-4 py-2 rounded-xl bg-[#3b82f6] text-white text-xs font-bold hover:bg-[#2563eb] transition-all"
+                    onClick={closeEditor}
+                    className="notes-editor-done px-4 py-2 rounded-xl bg-[#3b82f6] text-white text-xs font-bold hover:bg-[#2563eb] transition-all"
                   >
                     Done
                   </button>
@@ -817,49 +812,50 @@ export default function NotesPage() {
               </header>
 
               {/* Modal Body */}
-              <div className="flex-1 p-5 sm:p-6 overflow-y-auto space-y-4">
+              <div className="notes-editor-body flex-1 p-5 sm:p-6 overflow-y-auto space-y-4">
                 <input
                   type="text"
                   value={editorTitle}
                   onChange={(e) => { setEditorTitle(e.target.value); triggerAutoSave(); }}
                   placeholder="Note Title..."
-                  className="w-full text-xl sm:text-2xl font-bold bg-transparent text-white placeholder-white/30 focus:outline-none"
+                  aria-label="Note title"
+                  className="notes-editor-title w-full text-xl sm:text-2xl font-bold bg-transparent text-white placeholder-white/30 focus:outline-none"
                 />
 
                 {/* Academia Subject & Category Picker */}
-                <div className="flex flex-wrap items-center gap-2.5 pb-2 border-b border-white/5">
+                <div className="notes-editor-meta flex flex-wrap items-center gap-2.5 pb-2 border-b border-white/5">
                   {/* Category Label Selector */}
-                  <div className="flex items-center gap-1 bg-white/[0.03] p-1 rounded-2xl border border-white/5">
+                  <div className="notes-category-picker flex items-center gap-1 bg-white/[0.03] p-1 rounded-2xl border border-white/5" role="group" aria-label="Note category">
                     {Object.entries(LABEL_CONFIG).map(([key, cfg]) => (
                       <button
                         key={key}
                         type="button"
                         onClick={() => { setEditorLabel(key as keyof typeof LABEL_CONFIG); triggerAutoSave(); }}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-1 ${editorLabel === key ? "bg-[#3b82f6] text-white font-bold shadow-md" : "text-white/60 hover:text-white"}`}
+                        className={`notes-category-option px-3 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-1 ${editorLabel === key ? "is-selected bg-[#3b82f6] text-white font-bold shadow-md" : "text-white/60 hover:text-white"}`}
+                        aria-pressed={editorLabel === key}
                       >
-                        <span>{cfg.emoji}</span>
                         <span>{cfg.label}</span>
                       </button>
                     ))}
                   </div>
 
                   {/* Academia Subject Dropdown Selector */}
-                  <div className="relative flex items-center gap-1.5 bg-white/[0.03] px-3 py-1.5 rounded-2xl border border-white/5">
-                    <BookMarked size={14} className="text-[#3b82f6]" />
-                    <span className="text-xs text-white/50 font-medium">Subject:</span>
+                  <label className="notes-subject-picker relative flex items-center gap-1.5 bg-white/[0.03] px-3 py-1.5 rounded-2xl border border-white/5">
+                    <BookMarked size={16} className="text-white/50" />
+                    <span className="text-xs text-white/50 font-medium">Course</span>
                     <select
                       value={editorSubject}
                       onChange={(e) => { setEditorSubject(e.target.value); triggerAutoSave(); }}
-                      className="bg-transparent text-xs font-bold text-white focus:outline-none cursor-pointer pr-2"
+                      className="notes-subject-select bg-transparent text-xs font-bold text-white focus:outline-none cursor-pointer pr-2"
                     >
-                      <option value="" className="bg-[#0e0f15] text-white">None</option>
+                      <option value="" className="bg-[#0e0f15] text-white">No course</option>
                       {academiaSubjects.map((s) => (
                         <option key={s} value={s} className="bg-[#0e0f15] text-white">
-                          {getSubjectMeta(s).emoji} {s}
+                          {s}
                         </option>
                       ))}
                     </select>
-                  </div>
+                  </label>
                 </div>
 
                 <textarea
@@ -867,7 +863,8 @@ export default function NotesPage() {
                   value={editorContent}
                   onChange={(e) => { setEditorContent(e.target.value); triggerAutoSave(); }}
                   placeholder="Start typing your note here..."
-                  className="w-full h-72 bg-transparent text-sm sm:text-base text-white/90 placeholder-white/30 focus:outline-none resize-none leading-relaxed"
+                  aria-label="Note content"
+                  className="notes-editor-content w-full h-72 bg-transparent text-sm sm:text-base text-white/90 placeholder-white/30 focus:outline-none resize-none leading-relaxed"
                 />
               </div>
             </div>
