@@ -21,11 +21,8 @@ export function useAuraTheme() {
   const [hour, setHour] = useState<number | null>(null);
 
   useEffect(() => {
-    const id = setTimeout(() => {
-      setMounted(true);
-      setHour(new Date().getHours());
-    }, 0);
-    return () => clearTimeout(id);
+    setMounted(true);
+    setHour(new Date().getHours());
   }, []);
 
   const activeTheme = useMemo<AuraThemeConfig>(() => {

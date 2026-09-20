@@ -49,8 +49,8 @@ function AttendanceRegister({
 
   return (
     <AuraBackground theme={activeTheme} stars={stars}>
-      <main style={{ minHeight: "100dvh", padding: "calc(env(safe-area-inset-top, 0px) + 20px) 16px calc(env(safe-area-inset-bottom, 0px) + 104px)" }}>
-        <div style={{ maxWidth: "720px", margin: "0 auto" }}>
+      <main style={{ minHeight: "100dvh", padding: "calc(env(safe-area-inset-top, 0px) + 54px) 16px calc(env(safe-area-inset-bottom, 0px) + 76px)" }}>
+        <div style={{ maxWidth: "760px", width: "100%", margin: "0 auto" }}>
           
           {/* Header */}
           <header style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "22px" }}>
@@ -434,8 +434,8 @@ export default function AuraAttendance({
   if (isUnavailable) {
     return (
       <AuraBackground theme={activeTheme} stars={stars}>
-        <main style={{ minHeight: "100dvh", padding: "calc(env(safe-area-inset-top, 0px) + 20px) 16px calc(env(safe-area-inset-bottom, 0px) + 104px)" }}>
-          <div style={{ maxWidth: "720px", margin: "0 auto" }}>
+        <main style={{ minHeight: "100dvh", padding: "calc(env(safe-area-inset-top, 0px) + 54px) 16px calc(env(safe-area-inset-bottom, 0px) + 76px)" }}>
+          <div style={{ maxWidth: "760px", width: "100%", margin: "0 auto" }}>
             <h1 style={{ fontSize: "30px", fontWeight: 850, letterSpacing: "-0.04em", margin: "0 0 20px", color: "#F7F5FA" }}>Attendance</h1>
             <section style={{ background: "#12121A", border: "1px solid #292532", borderRadius: "14px", padding: "24px", textAlign: "left" }}>
               <AlertCircle size={22} color="#F59E0B" aria-hidden="true" />

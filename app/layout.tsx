@@ -75,8 +75,8 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jakartaSans.variable} ${jetbrainsMono.variable}`}>
-      <body style={{ margin: 0, padding: 0 }}>
+    <html lang="en" suppressHydrationWarning className={`theme-lumina ${inter.variable} ${jakartaSans.variable} ${jetbrainsMono.variable}`}>
+      <body className={`theme-lumina ${inter.className}`} style={{ margin: 0, padding: 0, background: "#09090F" }}>
         <style>{`
           body:has(.nexus-splash) .srmx-top-status-bar,
           body:has(.nexus-splash) .srmx-mobile-nav,

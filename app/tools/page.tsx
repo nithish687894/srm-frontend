@@ -176,7 +176,7 @@ export default function ToolsHubPage() {
     }}>
       {/* Top Header */}
       <header style={{ 
-        padding: "calc(env(safe-area-inset-top, 0px) + 20px) 16px 14px", 
+        padding: "calc(env(safe-area-inset-top, 0px) + 54px) 16px 14px", 
         maxWidth: "760px",
         width: "100%",
         margin: "0 auto"
@@ -218,7 +218,7 @@ export default function ToolsHubPage() {
       {/* Main Container */}
       <main style={{ 
         flex: 1, 
-        padding: "8px 16px 120px", 
+        padding: "8px 16px calc(env(safe-area-inset-bottom, 0px) + 76px)", 
         maxWidth: "760px",
         width: "100%",
         margin: "0 auto"

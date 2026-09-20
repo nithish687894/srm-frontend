@@ -1,0 +1,23 @@
+.notes-page .notes-main {
+  padding: 76px 20px 120px;
+  width: 100%;
+}
+
+.notes-page .notes-main > header {
+  min-height: 42px;
+}
+
+.notes-page .notes-main h1 {
+  font-weight: 650;
+  line-height: 1.2;
+}
+
+.notes-page .notes-main h3 {
+  font-weight: 650;
+}
+
+@media (min-width: 768px) {
+  .notes-page .notes-main {
+    padding: 92px 28px 100px 298px;
+  }
+}

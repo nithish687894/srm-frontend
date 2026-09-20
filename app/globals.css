@@ -155,8 +155,8 @@ body.theme-aura {
   /* ── Structural ── */
   --radius: 24px;
   --border: rgba(255, 255, 255, 0.06);
-  --font-heading: 'Plus Jakarta Sans', var(--font-inter), system-ui, sans-serif;
-  --font-main: 'Plus Jakarta Sans', var(--font-inter), system-ui, sans-serif;
+  --font-heading: var(--font-inter), Inter, system-ui, sans-serif;
+  --font-main: var(--font-inter), Inter, system-ui, sans-serif;
 
   /* ── Navigation ── */
   --nav-bg: rgba(15, 12, 28, 0.82);
@@ -2006,8 +2006,8 @@ body.theme-lumina {
   --text-muted: rgba(255, 255, 255, 0.3);
   --radius: 24px;
   --border: rgba(255, 255, 255, 0.06);
-  --font-heading: 'Plus Jakarta Sans', var(--font-inter), system-ui, sans-serif;
-  --font-main: 'Plus Jakarta Sans', var(--font-inter), system-ui, sans-serif;
+  --font-heading: var(--font-inter), Inter, system-ui, sans-serif;
+  --font-main: var(--font-inter), Inter, system-ui, sans-serif;
   --nav-bg: rgba(15, 12, 28, 0.82);
   --nav-blur: 32px;
   --glass-bg: rgba(255, 255, 255, 0.02);
@@ -3074,23 +3074,28 @@ body.theme-lumina,
 }
 
 .srmx-mobile-nav {
-  height: calc(68px + env(safe-area-inset-bottom, 0px)) !important;
+  height: calc(62px + env(safe-area-inset-bottom, 0px)) !important;
   padding-bottom: env(safe-area-inset-bottom, 0px) !important;
-  background: #101017 !important;
+  background: #101016 !important;
   border-top: 1px solid #292532 !important;
-  box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.18) !important;
+  box-shadow: none !important;
 }
 
 .nav-item {
-  min-height: 60px !important;
-  gap: 4px !important;
+  min-height: 54px !important;
+  gap: 3px !important;
   color: #8F8998 !important;
+}
+
+.srmx-mobile-nav .nav-item svg {
+  width: 18px !important;
+  height: 18px !important;
 }
 
 .srmx-mobile-nav .nav-item span {
   color: inherit !important;
-  font-size: 11px !important;
-  font-weight: 650 !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
 }
 
 .theme-lumina .nav-item.active,
@@ -3151,27 +3156,7 @@ a,
   .srmx-mobile-nav { display: none !important; }
 }
 
-/* The home screen keeps navigation quieter than its academic data. */
-body:has([data-home-dashboard]) .srmx-mobile-nav {
-  height: calc(62px + env(safe-area-inset-bottom, 0px)) !important;
-  background: #101016 !important;
-  box-shadow: none !important;
-}
-
-body:has([data-home-dashboard]) .srmx-mobile-nav .nav-item {
-  min-height: 54px !important;
-  gap: 3px !important;
-}
-
-body:has([data-home-dashboard]) .srmx-mobile-nav .nav-item svg {
-  width: 18px;
-  height: 18px;
-}
-
-body:has([data-home-dashboard]) .srmx-mobile-nav .nav-item span {
-  font-size: 10px !important;
-  font-weight: 600 !important;
-}
+/* Core academic pages share the same compact, information-first layout. */
 
 /* Core academic pages share the same compact, information-first layout. */
 .marks-page-content {

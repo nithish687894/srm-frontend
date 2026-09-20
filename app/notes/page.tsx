@@ -7,12 +7,13 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAuthStore } from "@/lib/store";
 import { notesAPI } from "@/lib/api";
 import { useNotesStore, type Note, type SortMode, type ViewFilter } from "@/lib/notesStore";
+import "./notes.css";
 import {
   Plus, Search, StickyNote, Pin, Star, Archive, Trash2, RotateCcw,
   X, ChevronDown, ArrowLeft, Loader2, FileText, CheckSquare,
   Bold, Italic, List, ListOrdered, Code, Quote, Hash, Eye, Edit3,
   Download, Upload, BarChart3, Clock, BookOpen, Sparkles, Check,
-  MoreVertical, Settings, Folder, BookMarked
+  MoreVertical, Settings, BookMarked
 } from "lucide-react";
 
 // ─── Constants & Configurations ──────────────────────────────────────────────
@@ -143,11 +144,6 @@ export default function NotesPage() {
     existingNotesSubjects.forEach((s) => {
       if (s && typeof s === "string") set.add(s.trim());
     });
-
-    // 5. Default fallback subjects if user hasn't logged into Academia yet
-    if (set.size === 0) {
-      ["Maths", "Programming", "CN", "Cyber Security", "DBMS", "OS", "DSA"].forEach(s => set.add(s));
-    }
 
     return Array.from(set);
   }, [myTimetable, timetable, academicData, getSubjects]);
@@ -371,11 +367,11 @@ export default function NotesPage() {
   const filteredNotes = getFilteredNotes();
 
   const viewLabels: Record<ViewFilter, string> = {
-    all: "📁 All Notes",
-    favorites: "⭐ Favorites",
-    pinned: "📌 Pinned",
-    archived: "📦 Archived",
-    trash: "🗑️ Trash",
+    all: "All notes",
+    favorites: "Favorites",
+    pinned: "Pinned",
+    archived: "Archived",
+    trash: "Trash",
   };
 
   if (!ready) {
@@ -408,49 +404,46 @@ export default function NotesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#06070a] text-white selection:bg-[#3b82f6]/30">
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 pt-16 sm:pt-20 pb-36 md:pl-72 lg:pl-80">
+    <div className="notes-page min-h-screen bg-[#09090F] text-white selection:bg-[#2563eb]/30">
+      <main className="notes-main max-w-6xl mx-auto px-5 sm:px-6 pt-20 sm:pt-24 pb-36 md:pl-72 lg:pl-80">
 
         {/* ── 1. Clean Uncluttered Header ───────────────────────────────────────── */}
-        <header className="flex items-center justify-between gap-4 mb-6">
-          <div className="flex items-center gap-3">
+        <header className="flex items-start justify-between gap-3 mb-7 min-w-0">
+          <div className="flex items-start gap-3 min-w-0">
             <button
               onClick={() => router.push("/dashboard")}
-              className="w-10 h-10 rounded-2xl flex items-center justify-center bg-white/[0.04] hover:bg-white/[0.08] transition-all text-white/70 hover:text-white shrink-0 active:scale-95 shadow-md"
+              className="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-white/[0.06] transition-colors text-white/60 hover:text-white shrink-0"
               title="Back to Dashboard"
             >
               <ArrowLeft size={20} />
             </button>
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tight flex items-center gap-2.5 text-white">
-                MY NOTES
+            <div className="min-w-0">
+              <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-white leading-9">
+                Notes
               </h1>
-              <p className="text-xs text-white/60 font-semibold mt-1 flex items-center gap-2">
-                {syncStatus === "synced" && <span className="text-emerald-400 font-bold flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" /> Synced</span>}
-                {syncStatus === "syncing" && <span className="text-amber-400 font-bold flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" /> Syncing...</span>}
-                {syncStatus === "offline" && <span className="text-orange-400 font-bold flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-orange-400" /> Offline</span>}
-                <span className="text-white/30">•</span>
-                <span className="text-white/70 font-medium">{filteredNotes.length} {filteredNotes.length === 1 ? "Note" : "Notes"}</span>
+              <p className="text-xs text-white/45 mt-0.5 whitespace-nowrap">
+                {notes.length} {notes.length === 1 ? "note" : "notes"}
+                {syncStatus === "syncing" ? " · Syncing" : syncStatus === "offline" || syncStatus === "error" ? " · Offline" : ""}
               </p>
             </div>
           </div>
 
           {/* Header Action Buttons */}
-          <div className="flex items-center gap-2.5 shrink-0">
+          <div className="flex items-center gap-1 shrink-0">
             {/* New Note CTA Button */}
-            <button
+            {notes.length > 0 && <button
               onClick={() => openEditor()}
-              className="px-4.5 py-2.5 rounded-2xl bg-gradient-to-r from-[#3b82f6] to-[#2563eb] hover:brightness-110 active:scale-95 transition-all text-white font-bold text-xs sm:text-sm flex items-center gap-2 shadow-[0_0_20px_rgba(59,130,246,0.35)] shrink-0"
+              className="px-3 sm:px-4 h-9 rounded-lg bg-[#2563eb] hover:bg-[#1d4ed8] transition-colors text-white font-medium text-xs sm:text-sm flex items-center gap-1.5 shrink-0"
             >
               <Plus size={18} strokeWidth={2.5} />
-              <span>New Note</span>
-            </button>
+              <span>New note</span>
+            </button>}
 
             {/* ⋮ More Options Dropdown Button */}
             <div className="relative">
               <button
                 onClick={() => setShowMoreMenu(!showMoreMenu)}
-                className="w-10 h-10 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] transition-all flex items-center justify-center text-white/80 hover:text-white shrink-0 active:scale-95 shadow-md"
+                className="w-9 h-9 rounded-lg hover:bg-white/[0.06] transition-colors flex items-center justify-center text-white/60 hover:text-white shrink-0"
                 title="More options"
               >
                 <MoreVertical size={20} />
@@ -525,7 +518,7 @@ export default function NotesPage() {
         </header>
 
         {/* ── 2. Search & Filter Bar with 16px Spacing ───────────────────────────── */}
-        <div className="space-y-4 mb-7">
+        {(notes.length > 0 || searchQuery || viewFilter !== "all" || activeLabel || activeSubject) && <div className="space-y-4 mb-7">
           {/* Search Bar */}
           <div className="relative w-full">
             <Search size={18} className="absolute left-4.5 top-1/2 -translate-y-1/2 text-white/40" />
@@ -535,7 +528,7 @@ export default function NotesPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search title, content or tags..."
-              className="w-full pl-12 pr-10 py-3.5 rounded-2xl bg-white/[0.02] hover:bg-white/[0.04] focus:bg-white/[0.04] text-sm text-white placeholder-white/40 focus:outline-none transition-all font-medium backdrop-blur-md shadow-sm"
+              className="w-full pl-12 pr-10 py-3 rounded-lg bg-[#12121A] border border-[#292532] focus:border-[#3b82f6] text-sm text-white placeholder-white/40 focus:outline-none transition-colors"
             />
             {searchQuery && (
               <button onClick={() => setSearchQuery("")} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white p-1">
@@ -545,12 +538,12 @@ export default function NotesPage() {
           </div>
 
           {/* ── 3. Filters: Large Touch-Friendly Pills ───────────────────────────── */}
-          <div className="flex items-center gap-2.5 overflow-x-auto pb-2 scrollbar-none" style={{ scrollbarWidth: "none" }}>
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none" style={{ scrollbarWidth: "none" }}>
             {/* View Filter Dropdown Pill */}
             <div className="relative shrink-0">
               <button
                 onClick={() => setShowFilterMenu(!showFilterMenu)}
-                className="px-4 py-2.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] transition-all text-xs font-semibold text-white/90 flex items-center gap-2 shadow-sm whitespace-nowrap"
+                className="px-3 py-2 rounded-lg bg-[#12121A] border border-[#292532] hover:bg-white/[0.08] transition-colors text-xs font-medium text-white/80 flex items-center gap-2 whitespace-nowrap"
               >
                 <span>{viewLabels[viewFilter]}</span>
                 <ChevronDown size={14} className="text-white/50" />
@@ -578,9 +571,9 @@ export default function NotesPage() {
             <div className="relative shrink-0">
               <button
                 onClick={() => setShowSortMenu(!showSortMenu)}
-                className="px-4 py-2.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] transition-all text-xs font-semibold text-white/90 flex items-center gap-2 shadow-sm whitespace-nowrap"
+                className="px-3 py-2 rounded-lg bg-[#12121A] border border-[#292532] hover:bg-white/[0.08] transition-colors text-xs font-medium text-white/80 flex items-center gap-2 whitespace-nowrap"
               >
-                <span>⬇️ Sort</span>
+                <span>Sort</span>
                 <ChevronDown size={14} className="text-white/50" />
               </button>
               {showSortMenu && (
@@ -618,16 +611,15 @@ export default function NotesPage() {
                 className="px-4 py-2.5 rounded-full text-xs font-semibold transition-all shrink-0 flex items-center gap-1.5"
                 style={activeLabel === key ? { backgroundColor: cfg.bg, color: cfg.color, fontWeight: 700 } : { backgroundColor: "rgba(255,255,255,0.02)", color: "rgba(255,255,255,0.6)" }}
               >
-                <span>{cfg.emoji}</span>
                 <span>{cfg.label}</span>
               </button>
             ))}
 
             {/* Dynamic Academia Timetable Subjects Chips */}
-            {academiaSubjects.length > 0 && (
+            {getSubjects().length > 0 && (
               <>
                 <div className="w-px h-6 bg-white/10 mx-1 shrink-0" />
-                {academiaSubjects.map((subj) => {
+                {getSubjects().map((subj) => {
                   const sc = getSubjectMeta(subj);
                   const isSel = activeSubject === subj;
                   return (
@@ -637,7 +629,6 @@ export default function NotesPage() {
                       className="px-4 py-2.5 rounded-full text-xs font-semibold transition-all shrink-0 flex items-center gap-1.5"
                       style={isSel ? { backgroundColor: `${sc.color}25`, color: sc.color, fontWeight: 700 } : { backgroundColor: "rgba(255,255,255,0.02)", color: "rgba(255,255,255,0.6)" }}
                     >
-                      <span>{sc.emoji}</span>
                       <span>{subj}</span>
                     </button>
                   );
@@ -645,7 +636,7 @@ export default function NotesPage() {
               </>
             )}
           </div>
-        </div>
+        </div>}
 
         {/* ── Taller Note Cards with Metadata & Quick Actions ───────────────────── */}
         {isInitialLoad ? (
@@ -655,37 +646,30 @@ export default function NotesPage() {
           </div>
         ) : filteredNotes.length === 0 ? (
           /* ── Empty State Layout ───────────────────────────────────────── */
-          <div className="py-12 px-6 rounded-3xl bg-white/[0.01] text-center max-w-lg mx-auto border border-dashed border-white/10">
-            <div className="w-16 h-16 rounded-2xl bg-[#3b82f6]/10 flex items-center justify-center text-[#3b82f6] mx-auto mb-4">
-              <Folder size={32} />
+          <div className="py-16 px-5 text-center max-w-md mx-auto">
+            <div className="w-12 h-12 rounded-xl bg-[#12121A] border border-[#292532] flex items-center justify-center text-white/50 mx-auto mb-5">
+              <FileText size={23} />
             </div>
             <h3 className="text-lg font-bold text-white mb-1.5">
-              {searchQuery ? "No matching notes found" : viewFilter !== "all" ? `No ${viewFilter} notes` : "Create your first note!"}
+              {searchQuery ? "No matching notes" : viewFilter !== "all" || activeLabel || activeSubject ? "No notes in this view" : "Your notes start here"}
             </h3>
             <p className="text-xs text-white/50 mb-6 leading-relaxed">
-              {searchQuery ? "Try searching for a different keyword or tag." : "Organize your study notes, assignments, and to-do lists in one place."}
+              {searchQuery || viewFilter !== "all" || activeLabel || activeSubject ? "Try another search or filter." : "Keep lecture notes, assignments, and ideas together."}
             </p>
 
-            <button
-              onClick={() => openEditor()}
-              className="px-5 py-2.5 rounded-2xl bg-[#3b82f6] text-white text-xs font-bold hover:bg-[#2563eb] transition-all inline-flex items-center gap-2 shadow-lg"
-            >
-              <Plus size={16} /> Create Note
-            </button>
+            {notes.length === 0 && <button onClick={() => openEditor()} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#2563eb] hover:bg-[#1d4ed8] text-sm font-medium text-white transition-colors"><Plus size={16} /> Create a note</button>}
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredNotes.map((note) => {
               const labelCfg = LABEL_CONFIG[note.label] || LABEL_CONFIG.subject;
-              const subjMeta = note.subject ? getSubjectMeta(note.subject) : null;
               const preview = note.content.replace(/[#*`>\-\[\]]/g, "").trim().slice(0, 100);
 
               return (
                 <div
                   key={note._id}
                   onClick={() => openEditor(note)}
-                  className="group relative p-5 rounded-3xl bg-white/[0.02] hover:bg-white/[0.04] transition-all duration-200 cursor-pointer shadow-md hover:shadow-xl flex flex-col justify-between min-h-[140px] border-l-4"
-                  style={{ borderLeftColor: labelCfg.color }}
+                  className="group relative p-5 rounded-xl bg-[#12121A] border border-[#292532] hover:border-white/20 transition-colors cursor-pointer flex flex-col justify-between min-h-[140px]"
                 >
                   <div>
                     {/* Header: Title + Pin/Star Icons */}
@@ -727,13 +711,12 @@ export default function NotesPage() {
                   {/* Footer Metadata */}
                   <div className="flex items-center justify-between gap-2 pt-3 border-t border-white/5">
                     <div className="flex items-center gap-2 min-w-0">
-                      <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold flex items-center gap-1" style={{ backgroundColor: labelCfg.bg, color: labelCfg.color }}>
-                        <span>{labelCfg.emoji}</span>
+                      <span className="text-[11px] font-medium text-white/50 flex items-center gap-1">
                         <span>{labelCfg.label}</span>
                       </span>
-                      {note.subject && subjMeta && (
-                        <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-white/5 text-white/70 truncate flex items-center gap-1">
-                          <span>{subjMeta.emoji}</span>
+                      {note.subject && (
+                        <span className="text-[11px] text-white/50 truncate flex items-center gap-1">
+                          <span>·</span>
                           <span>{note.subject}</span>
                         </span>
                       )}
@@ -744,18 +727,6 @@ export default function NotesPage() {
               );
             })}
           </div>
-        )}
-
-        {/* ── Floating Action Button (+) Raised 24px Above Bottom Nav ──────── */}
-        {mounted && createPortal(
-          <button
-            onClick={() => openEditor()}
-            className="md:hidden fixed bottom-28 right-6 z-[9999] w-14 h-14 rounded-2xl bg-[#3b82f6] flex items-center justify-center text-white shadow-[0_8px_25px_rgba(59,130,246,0.5)] hover:scale-105 active:scale-95 transition-all"
-            aria-label="Create New Note"
-          >
-            <Plus size={28} strokeWidth={2.5} />
-          </button>,
-          document.body
         )}
 
         {/* ════════════════════════════════════════════════════════════════ */}

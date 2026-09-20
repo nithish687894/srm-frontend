@@ -9,19 +9,11 @@ import { scheduleIdleTask } from "@/lib/scheduleIdle";
 export default function ThemeWrapper({ children }: { children: React.ReactNode }) {
   const { theme } = useThemeStore();
   const [resolvedTheme, setResolvedTheme] = useState<"lumina" | "light">("lumina");
-  const [mounted, setMounted] = useState(false);
   
   // Initialize device-specific performance parameters on application load
   usePerfGuard();
 
-  useEffect(() => { 
-    const id = setTimeout(() => setMounted(true), 0); 
-    return () => clearTimeout(id); 
-  }, []);
-
   useEffect(() => {
-    if (!mounted) return;
-
     // Notification templates are non-critical; keep them off the startup path.
     const cancelTemplateSync = scheduleIdleTask(() => {
       syncPulseTemplates().catch(() => {});
@@ -35,17 +27,30 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
         active = theme === "light" ? "light" : "lumina";
       }
       setResolvedTheme(active);
-      // Remove any existing theme- classes and add the new one, preserving splash-active
-      const classesToRemove: string[] = [];
-      document.body.classList.forEach((cls) => {
-        if (cls.startsWith("theme-")) classesToRemove.push(cls);
-      });
-      classesToRemove.forEach((cls) => document.body.classList.remove(cls));
-      document.body.classList.add(`theme-${active}`);
-      document.body.style.background = active === "light" ? "var(--app-bg)" : "#09090F";
+
+      if (active === "light") {
+        document.documentElement.classList.remove("theme-lumina");
+        document.documentElement.classList.add("theme-light");
+        document.body.classList.remove("theme-lumina");
+        document.body.classList.add("theme-light");
+        document.body.style.background = "var(--app-bg)";
+      } else {
+        // Authoritative theme-lumina is already on <html> and <body> from root layout.
+        if (!document.body.classList.contains("theme-lumina")) {
+          document.body.classList.remove("theme-light");
+          document.body.classList.add("theme-lumina");
+        }
+        if (!document.documentElement.classList.contains("theme-lumina")) {
+          document.documentElement.classList.remove("theme-light");
+          document.documentElement.classList.add("theme-lumina");
+        }
+        document.body.style.background = "#09090F";
+      }
     };
 
-    resolveAndApply();
+    if (theme !== "lumina") {
+      resolveAndApply();
+    }
 
     if (theme === "system") {
       const media = window.matchMedia("(prefers-color-scheme: light)");
@@ -58,7 +63,7 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
     }
 
     return cancelTemplateSync;
-  }, [theme, mounted]);
+  }, [theme]);
 
   return (
     <>

@@ -13,8 +13,8 @@ import { Share2, Star, Activity, X, ChevronRight } from "lucide-react";
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function TimetableSkeleton() {
   return (
-    <div className="min-h-screen w-full bg-[#050508] text-white overflow-x-hidden">
-      <main className="w-full max-w-5xl mx-auto px-4 sm:px-6 pt-[calc(env(safe-area-inset-top,0px)+72px)] pb-36">
+    <div className="min-h-screen w-full bg-[#09090F] text-white overflow-x-hidden">
+      <main className="w-full max-w-[760px] mx-auto px-4 pt-[calc(env(safe-area-inset-top,0px)+54px)] pb-[calc(env(safe-area-inset-bottom,0px)+76px)]">
         <header className="min-h-[112px] flex flex-col gap-4 mb-5">
           <div className="flex items-start justify-between gap-4">
             <div className="min-w-0">
@@ -32,11 +32,11 @@ function TimetableSkeleton() {
         </header>
         <section className="space-y-3">
           {Array.from({ length: 4 }).map((_, index) => (
-            <div key={index} className="min-h-[96px] rounded-3xl bg-white/[0.035] border border-white/[0.06] p-4 flex items-center gap-4">
-              <div className="w-20 h-12 rounded-2xl bg-white/[0.06] shrink-0" />
+            <div key={index} className="min-h-[82px] rounded-2xl bg-white/[0.035] border border-white/[0.06] p-4 flex items-center gap-4">
+              <div className="w-20 h-10 rounded-xl bg-white/[0.06] shrink-0" />
               <div className="flex-1 min-w-0">
                 <div className="h-5 w-2/3 rounded-xl bg-white/[0.06]" />
-                <div className="h-4 w-1/2 rounded-xl bg-white/[0.04] mt-3" />
+                <div className="h-4 w-1/2 rounded-xl bg-white/[0.04] mt-2" />
               </div>
             </div>
           ))}
@@ -49,7 +49,7 @@ function TimetableSkeleton() {
 function TimetableUnavailable({ onRetry }: { onRetry: () => void }) {
   return (
     <div className="min-h-screen w-full bg-[#09090F] text-white overflow-x-hidden">
-      <main className="w-full max-w-xl mx-auto px-4 pt-[calc(env(safe-area-inset-top,0px)+76px)] pb-36">
+      <main className="w-full max-w-[760px] mx-auto px-4 pt-[calc(env(safe-area-inset-top,0px)+54px)] pb-[calc(env(safe-area-inset-bottom,0px)+76px)]">
         <h1 className="text-[28px] font-black mb-5">Timetable</h1>
         <section className="bg-[#12121A] border border-[#292532] rounded-[20px] p-6">
           <h2 className="text-[18px] font-extrabold text-[#F7F5FA]">Timetable unavailable</h2>
@@ -264,30 +264,14 @@ function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>):
       }
     });
 
-    const labGroups: { cells: { idx: number; slot: string; course: AnyValue }[] }[] = [];
-    for (let i = 0; i < labCells.length; i++) {
-      const cell = labCells[i];
-      const prev = i > 0 ? labCells[i - 1] : null;
-      const sameGroup = prev &&
-        prev.course.courseCode === cell.course.courseCode &&
-        (prev.course.courseType || '') === (cell.course.courseType || '') &&
-        cell.idx === prev.idx + 1;
-
-      if (sameGroup) {
-        labGroups[labGroups.length - 1].cells.push(cell);
-      } else {
-        labGroups.push({ cells: [cell] });
-      }
-    }
-
-    labGroups.forEach(group => {
-      const course = group.cells[0].course;
-      const startRange = parseTimeRange(timeStrings[group.cells[0].idx] || "");
-      const endRange = parseTimeRange(timeStrings[group.cells[group.cells.length - 1].idx] || "");
+    // Each master-grid cell is one class period, including consecutive lab cells.
+    labCells.forEach(cell => {
+      const course = cell.course;
+      const { start, end } = parseTimeRange(timeStrings[cell.idx] || "");
       classes.push({
-        slot: group.cells.map((c: AnyValue) => c.slot).join("-"),
-        startTime: startRange.start,
-        endTime: endRange.end,
+        slot: cell.slot,
+        startTime: start,
+        endTime: end,
         courseTitle: course.courseTitle || course.courseCode,
         courseCode: course.courseCode,
         courseType: course.courseType || "Practical",
@@ -688,28 +672,7 @@ export default function TimetablePage() {
     if (!Array.isArray(gridRows) || gridRows.length === 0 || !Array.isArray(courses) || courses.length === 0) return [];
 
     const slotMap = buildSlotToCourseMap(courses);
-    const rawSchedule = buildSchedule(gridRows, slotMap);
-    
-    return rawSchedule.map(day => {
-      const merged: ScheduleItem[] = [];
-      day.classes.forEach(cls => {
-        const prev = merged[merged.length - 1];
-        const isContinuous = prev && (parseStart(cls.startTime) - parseEnd(prev.endTime) <= 5);
-        const isSameCourse = prev && (prev.courseCode === cls.courseCode);
-        const isSameType = prev && ((prev.courseType || "").toLowerCase() === (cls.courseType || "").toLowerCase());
-        const isSameRoom = prev && ((prev.roomNo || "").trim().toUpperCase() === (cls.roomNo || "").trim().toUpperCase());
-
-        if (prev && isSameCourse && isSameType && isSameRoom && isContinuous) {
-          prev.endTime = cls.endTime;
-          if (!prev.slot.includes(cls.slot)) {
-            prev.slot = `${prev.slot}-${cls.slot}`;
-          }
-        } else {
-          merged.push({ ...cls });
-        }
-      });
-      return { ...day, classes: merged };
-    });
+    return buildSchedule(gridRows, slotMap);
   }, [ttQ.data, myTTQ.data]);
 
   const classes = useMemo(() => {
@@ -1244,7 +1207,7 @@ export function AuraTimetable({
         .timetable-main {
           width: 100%;
           min-width: 0;
-          max-width: 680px;
+          max-width: 760px;
           margin: 0 auto;
           box-sizing: border-box;
           overflow-x: hidden;
@@ -1258,10 +1221,34 @@ export function AuraTimetable({
           scrollbar-width: none;
         }
 
-        /* Class Card Touch & Feedback */
+        /* Class Card Touch, Feedback & Adaptive Layout */
+        .timetable-classes-list {
+          display: flex;
+          flex-direction: column;
+          border-top: 1px solid #302D38;
+        }
+
         .timetable-class-card {
           transition: background 0.16s ease;
           -webkit-tap-highlight-color: transparent;
+          min-height: 82px;
+          padding: 14px 8px;
+          border-radius: 0;
+          border-bottom: 1px solid #302D38;
+          background: transparent;
+          box-shadow: none;
+          cursor: pointer;
+          display: grid;
+          grid-template-columns: 86px minmax(0, 1fr) 32px;
+          align-items: center;
+          column-gap: 12px;
+          position: relative;
+          overflow: hidden;
+          border-left: 2px solid transparent;
+        }
+        .timetable-class-card[data-active="true"] {
+          background: #142018;
+          border-left-color: #4CAF73;
         }
         .timetable-class-card:not([data-active="true"]):hover {
           background: #171720 !important;
@@ -1269,6 +1256,125 @@ export function AuraTimetable({
         .timetable-class-card:focus-visible {
           outline: 2px solid #93C5FD;
           outline-offset: 2px;
+        }
+
+        .timetable-class-time-col {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          color: #B8B2C2;
+          font-size: 11px;
+          font-weight: 600;
+          font-variant-numeric: tabular-nums;
+          width: 86px;
+          min-width: 86px;
+          max-width: 86px;
+        }
+        .timetable-class-card[data-active="true"] .timetable-class-time-col {
+          color: #8DD8A6;
+        }
+
+        .timetable-class-title {
+          font-size: 13.5px;
+          font-weight: 650;
+          color: #F7F5FA;
+          line-height: 1.32;
+          text-transform: capitalize;
+        }
+
+        .timetable-class-meta {
+          display: flex;
+          align-items: center;
+          gap: 7px;
+          color: #A9A4B1;
+          font-size: 10.5px;
+        }
+
+        /* Break Row: Thin, elegant, muted timeline separator */
+        .timetable-break-row {
+          display: grid;
+          grid-template-columns: 86px minmax(0, 1fr);
+          column-gap: 12px;
+          align-items: center;
+          min-height: 36px;
+          padding: 6px 8px;
+          border-bottom: 1px solid #23202A;
+          background: rgba(255, 255, 255, 0.012);
+        }
+        .timetable-break-time {
+          font-size: 11px;
+          color: #726D7C;
+          font-weight: 550;
+          font-variant-numeric: tabular-nums;
+          width: 86px;
+          min-width: 86px;
+          max-width: 86px;
+        }
+        .timetable-break-label-wrap {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          min-width: 0;
+        }
+        .timetable-break-label {
+          font-size: 11px;
+          color: #8E8998;
+          font-weight: 550;
+          white-space: nowrap;
+          letter-spacing: 0.01em;
+        }
+        .timetable-break-line {
+          flex: 1;
+          height: 1px;
+          background: linear-gradient(90deg, #2D2937 0%, rgba(45, 41, 55, 0.05) 100%);
+        }
+
+        /* Adaptive: Tall phones (viewport height >= 800px) */
+        @media (min-height: 800px) {
+          .timetable-class-card {
+            min-height: 98px;
+            padding-top: 18px;
+            padding-bottom: 18px;
+          }
+          .timetable-class-title {
+            font-size: 14.5px;
+            line-height: 1.35;
+          }
+          .timetable-class-time-col {
+            font-size: 11.5px;
+            gap: 5px;
+          }
+          .timetable-class-meta {
+            font-size: 11px;
+          }
+        }
+
+        /* Adaptive: Extra tall phones / Large screens (viewport height >= 900px) */
+        @media (min-height: 900px) {
+          .timetable-class-card {
+            min-height: 108px;
+            padding-top: 22px;
+            padding-bottom: 22px;
+          }
+          .timetable-class-title {
+            font-size: 15px;
+            line-height: 1.36;
+          }
+        }
+
+        /* Busy schedules (5+ classes): Automatically return to compact so it never overflows or requires unnecessary scrolling */
+        .timetable--many-classes .timetable-class-card {
+          min-height: 80px !important;
+          padding-top: 12px !important;
+          padding-bottom: 12px !important;
+        }
+        .timetable--many-classes .timetable-class-title {
+          font-size: 13px !important;
+          line-height: 1.3 !important;
+        }
+        .timetable--many-classes .timetable-class-time-col {
+          font-size: 11px !important;
+          gap: 4px !important;
         }
 
         /* Bottom Sheet Transition Styles */
@@ -1292,7 +1398,7 @@ export function AuraTimetable({
           flex: 1, 
           position: "relative", 
           zIndex: 1, 
-          padding: "calc(env(safe-area-inset-top, 0px) + 12px) 16px calc(96px + env(safe-area-inset-bottom, 0px))", 
+          padding: "calc(env(safe-area-inset-top, 0px) + 54px) 16px calc(env(safe-area-inset-bottom, 0px) + 76px)", 
           color: "var(--text-main)", 
           display: "flex", 
           flexDirection: "column", 
@@ -1515,14 +1621,17 @@ export function AuraTimetable({
                 </div>
               </div>
             ) : (
-              <div style={{ display: "flex", flexDirection: "column", borderTop: "1px solid #302D38" }}>
+              <div className={`timetable-classes-list ${totalClasses >= 5 ? "timetable--many-classes" : ""}`}>
                 
                 {classesWithBreaks.map((item: any, i: number) => {
                   if (item.isBreak) {
                     return (
-                      <div key={`break-${i}`} style={{ display: "grid", gridTemplateColumns: "86px 1fr", gap: "12px", alignItems: "center", minHeight: "42px", borderBottom: "1px solid #302D38", padding: "4px 8px" }}>
-                        <span style={{ fontSize: "11px", color: "#A9A4B1", fontWeight: 550 }}>{fmt12(item.startTime)}</span>
-                        <span style={{ fontSize: "11px", color: "#A9A4B1", fontWeight: 600 }}>Break · until {fmt12(item.endTime)}</span>
+                      <div key={`break-${i}`} className="timetable-break-row">
+                        <div className="timetable-break-time">{fmt12(item.startTime)}</div>
+                        <div className="timetable-break-label-wrap">
+                          <span className="timetable-break-label">Break · until {fmt12(item.endTime)}</span>
+                          <div className="timetable-break-line" />
+                        </div>
                       </div>
                     );
                   }
@@ -1547,29 +1656,13 @@ export function AuraTimetable({
                         onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedClassDetails(item); } }}
                         className="timetable-class-card" 
                         data-active={isActive ? "true" : undefined}
-                        style={{ 
-                          padding: "12px 8px",
-                          borderRadius: "0",
-                          borderBottom: "1px solid #302D38",
-                          background: isActive ? "#142018" : "transparent",
-                          boxShadow: "none",
-                          cursor: "pointer",
-                          display: "grid",
-                          gridTemplateColumns: "86px minmax(0, 1fr) 32px",
-                          alignItems: "center",
-                          columnGap: "12px",
-                          minHeight: "76px",
-                          position: "relative",
-                          overflow: "hidden",
-                          borderLeft: isActive ? "2px solid #4CAF73" : "2px solid transparent"
-                        }}
                       >
-                        <div style={{ display: "flex", flexDirection: "column", gap: "4px", color: isActive ? "#8DD8A6" : "#B8B2C2", fontSize: "11px", fontWeight: 600 }}>
+                        <div className="timetable-class-time-col">
                             <span>{fmt12(item.startTime)}</span>
-                            <span style={{ color: "#A9A4B1", fontSize: "11px", fontWeight: 500 }}>{fmt12(item.endTime)}</span>
+                            <span style={{ color: "#A9A4B1", fontWeight: 500 }}>{fmt12(item.endTime)}</span>
                             {isExtendedSlot && (
                               <span style={{ 
-                                fontSize: "8px", 
+                                fontSize: "8.5px", 
                                 color: "#A9A4B1",
                                 fontWeight: 650
                               }}>
@@ -1579,10 +1672,10 @@ export function AuraTimetable({
                         </div>
 
                         <div style={{ minWidth: 0, display: "flex", flexDirection: "column", gap: "6px" }}>
-                          <div style={{ fontSize: "13px", fontWeight: 650, color: "#F7F5FA", lineHeight: 1.3, textTransform: "capitalize" }}>
+                          <div className="timetable-class-title">
                             {item.courseTitle.toLowerCase()}
                           </div>
-                          <div style={{ display: "flex", alignItems: "center", gap: "7px", color: "#A9A4B1", fontSize: "10.5px" }}>
+                          <div className="timetable-class-meta">
                             <span>{item.roomNo || "TBA"}</span>
                             {isLab && <span style={{ borderLeft: "1px solid #45414D", paddingLeft: "7px", fontSize: "9px", fontWeight: 650 }}>LAB</span>}
                             {isActive && <span style={{ color: "#8DD8A6", fontSize: "9px", fontWeight: 700 }}>NOW</span>}
