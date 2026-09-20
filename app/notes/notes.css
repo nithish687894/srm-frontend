@@ -29,6 +29,21 @@
   flex: none;
 }
 
+.notes-page .notes-more-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 8px;
+  font-size: 12px;
+  font-weight: 550;
+  white-space: nowrap;
+}
+
+.notes-page .notes-more-button svg {
+  flex: none;
+}
+
 .notes-page .notes-menu {
   width: min(256px, calc(100vw - 40px));
   padding: 6px;

@@ -13,7 +13,7 @@ import {
   X, ChevronDown, ArrowLeft, Loader2, FileText, CheckSquare,
   Bold, Italic, List, ListOrdered, Code, Quote, Hash, Eye, Edit3,
   Download, Upload, BarChart3, Clock, BookOpen, Sparkles, Check,
-  MoreVertical, Settings, BookMarked
+  Settings, BookMarked
 } from "lucide-react";
 
 // ─── Constants & Configurations ──────────────────────────────────────────────
@@ -433,14 +433,15 @@ export default function NotesPage() {
               <span>New note</span>
             </button>}
 
-            {/* ⋮ More Options Dropdown Button */}
+            {/* Additional Notes actions */}
             <div className="relative">
               <button
                 onClick={() => setShowMoreMenu(!showMoreMenu)}
-                className="w-9 h-9 rounded-lg hover:bg-white/[0.06] transition-colors flex items-center justify-center text-white/60 hover:text-white shrink-0"
-                title="More options"
+                className="notes-more-button h-9 rounded-lg hover:bg-white/[0.06] transition-colors text-white/70 hover:text-white shrink-0"
+                aria-expanded={showMoreMenu}
               >
-                <MoreVertical size={20} />
+                More
+                <ChevronDown size={14} aria-hidden="true" />
               </button>
 
               {showMoreMenu && (
