@@ -107,6 +107,7 @@ export default function SrmParkingToolPage() {
   const [bookingLoading, setBookingLoading] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState<string | null>(null);
   const [bookingError, setBookingError] = useState<string | null>(null);
+  const [cancellingBookingId, setCancellingBookingId] = useState<string | null>(null);
 
   // Comprehensive Schedule Details Calculation
   const scheduleDetails = useMemo(() => {
@@ -598,6 +599,51 @@ export default function SrmParkingToolPage() {
     }
   };
 
+  // Handle In-App Booking Cancellation
+  const handleCancelBooking = async (bookingId: string) => {
+    if (!session?.accessToken) return;
+    const confirmCancel = window.confirm("Are you sure you want to cancel this parking reservation?");
+    if (!confirmCancel) return;
+
+    setCancellingBookingId(bookingId);
+    setBookingError(null);
+    setBookingSuccess(null);
+
+    try {
+      const uId = session.user?.id || session.user?.userId;
+      const res = await fetch("/api/gridee/cancel-booking", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${session.accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: uId, bookingId }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setBookingError(data.error || "Failed to cancel reservation.");
+        return;
+      }
+
+      setBookingSuccess("Reservation cancelled successfully.");
+      if (activeQrPass?.bookingId === bookingId) {
+        setActiveQrPass(null);
+      }
+
+      // Live refresh of bookings, wallet balance, and spot counts
+      if (uId) {
+        fetchUserBookings(session.accessToken, uId);
+        fetchUserWallet(session.accessToken, uId);
+      }
+      fetchRealSpots(session.accessToken);
+    } catch (err: any) {
+      setBookingError(err.message || "Failed to cancel reservation.");
+    } finally {
+      setCancellingBookingId(null);
+    }
+  };
+
   return (
     <div style={{
       background: "#09090F",
@@ -887,6 +933,28 @@ export default function SrmParkingToolPage() {
                   >
                     <span>Save Pass Image</span>
                   </a>
+                  <button
+                    type="button"
+                    disabled={cancellingBookingId === activeQrPass.bookingId}
+                    onClick={() => handleCancelBooking(activeQrPass.bookingId)}
+                    style={{
+                      background: "rgba(239, 68, 68, 0.12)",
+                      border: "1px solid rgba(239, 68, 68, 0.3)",
+                      color: "#EF4444",
+                      padding: "8px 14px",
+                      borderRadius: "8px",
+                      fontSize: "12px",
+                      fontWeight: 700,
+                      cursor: cancellingBookingId === activeQrPass.bookingId ? "default" : "pointer",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "5px",
+                      opacity: cancellingBookingId === activeQrPass.bookingId ? 0.6 : 1
+                    }}
+                  >
+                    <Trash2 size={13} />
+                    <span>{cancellingBookingId === activeQrPass.bookingId ? "Cancelling…" : "Cancel Pass"}</span>
+                  </button>
                   <button
                     type="button"
                     onClick={() => setActiveQrPass(null)}
@@ -1547,40 +1615,65 @@ export default function SrmParkingToolPage() {
                           </p>
                         </div>
 
-                        <button
-                          type="button"
-                          onClick={() => {
-                            const qrStr = `GRIDEE:BOOKING:${bId}:${vNum}`;
-                            QRCode.toDataURL(qrStr, { width: 280, margin: 1 })
-                              .then((url) => {
-                                setActiveQrPass({
-                                  bookingId: bId,
-                                  vehicleNumber: vNum,
-                                  zoneName: zName,
-                                  slotShift: sShift,
-                                  qrDataUrl: url,
-                                });
-                                window.scrollTo({ top: 0, behavior: "smooth" });
-                              })
-                              .catch(() => {});
-                          }}
-                          style={{
-                            background: "#2563EB",
-                            border: "none",
-                            color: "#FFF",
-                            padding: "6px 12px",
-                            borderRadius: "6px",
-                            fontSize: "11.5px",
-                            fontWeight: 750,
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "4px",
-                            cursor: "pointer"
-                          }}
-                        >
-                          <QrCode size={13} />
-                          <span>View Gate QR</span>
-                        </button>
+                        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const qrStr = `GRIDEE:BOOKING:${bId}:${vNum}`;
+                              QRCode.toDataURL(qrStr, { width: 280, margin: 1 })
+                                .then((url) => {
+                                  setActiveQrPass({
+                                    bookingId: bId,
+                                    vehicleNumber: vNum,
+                                    zoneName: zName,
+                                    slotShift: sShift,
+                                    qrDataUrl: url,
+                                  });
+                                  window.scrollTo({ top: 0, behavior: "smooth" });
+                                })
+                                .catch(() => {});
+                            }}
+                            style={{
+                              background: "#2563EB",
+                              border: "none",
+                              color: "#FFF",
+                              padding: "6px 12px",
+                              borderRadius: "6px",
+                              fontSize: "11.5px",
+                              fontWeight: 750,
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "4px",
+                              cursor: "pointer"
+                            }}
+                          >
+                            <QrCode size={13} />
+                            <span>View Gate QR</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            disabled={cancellingBookingId === bId}
+                            onClick={() => handleCancelBooking(bId)}
+                            style={{
+                              background: "rgba(239, 68, 68, 0.12)",
+                              border: "1px solid rgba(239, 68, 68, 0.3)",
+                              color: "#EF4444",
+                              padding: "6px 10px",
+                              borderRadius: "6px",
+                              fontSize: "11.5px",
+                              fontWeight: 750,
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "4px",
+                              cursor: cancellingBookingId === bId ? "default" : "pointer",
+                              opacity: cancellingBookingId === bId ? 0.6 : 1
+                            }}
+                          >
+                            <Trash2 size={12} />
+                            <span>{cancellingBookingId === bId ? "Cancelling…" : "Cancel"}</span>
+                          </button>
+                        </div>
                       </div>
                     );
                   })}
