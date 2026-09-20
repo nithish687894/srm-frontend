@@ -35,48 +35,6 @@ function countdown(minutes: number | null | undefined, ending = false) {
   return `${ending ? "Ends" : "Starts"} in ${hours ? `${hours}h ` : ""}${remainder ? `${remainder}m` : ""}`.trim();
 }
 
-function getAttendanceHumanStatus(
-  attendance: number | null,
-  riskyCount: number,
-  safeSkips: number
-): { text: string; noteClass: string; isRisk: boolean } {
-  if (attendance === null) {
-    return { text: "Sync portal to check your status", noteClass: styles.dataNote, isRisk: false };
-  }
-
-  if (riskyCount > 0) {
-    const text = riskyCount === 1
-      ? "1 subject needs recovery · Below 75%"
-      : `${riskyCount} subjects need recovery · Below 75%`;
-    return { text, noteClass: styles.riskNote, isRisk: true };
-  }
-
-  if (safeSkips > 0) {
-    const text = safeSkips === 1
-      ? "Safe zone · 1 class you can miss"
-      : `Safe zone · ${safeSkips} classes you can miss`;
-    return { text, noteClass: styles.safeNote, isRisk: false };
-  }
-
-  return { text: "On track · Attend upcoming classes to stay safe", noteClass: styles.safeNote, isRisk: false };
-}
-
-function getMarksHumanStatus(averageMarks: number | null): { text: string; noteClass: string } {
-  if (averageMarks === null) {
-    return { text: "No test scores published yet", noteClass: styles.dataNote };
-  }
-  if (averageMarks >= 80) {
-    return { text: "Strong standing · Aiming for A/S grade", noteClass: styles.safeNote };
-  }
-  if (averageMarks >= 65) {
-    return { text: "Good standing · Keep up performance", noteClass: styles.safeNote };
-  }
-  if (averageMarks >= 50) {
-    return { text: "Passing internals · Push for finals", noteClass: styles.dataNote };
-  }
-  return { text: "Needs a boost in upcoming tests", noteClass: styles.riskNote };
-}
-
 export default function NexusHome(props: AnyValue) {
   const {
     data,
@@ -87,8 +45,7 @@ export default function NexusHome(props: AnyValue) {
     currentClassMeta,
     nextClassMeta,
     upcomingEvents = [],
-    riskySubjectsCount = 0,
-    totalSafeSkips = 0,
+    riskySubjectsCount,
     dayOrder,
   } = props;
   const email = useAuthStore((state) => state.email);
@@ -101,14 +58,12 @@ export default function NexusHome(props: AnyValue) {
   const attendance = percentage(avgAtt);
   const averageMarks = percentage(avgMarks);
   const lesson = currentClass || nextClass;
+  const lessonLabel = currentClass ? "In class now" : nextClassMeta?.isTomorrow ? "Tomorrow's first class" : "Next class";
   const records = data?.attendance || data?.studentPortal?.attendance || [];
   const subjectName = (course: AnyValue) => {
     const match = records.find((item: AnyValue) => (item["Course Code"] || item.courseCode) === course.courseCode);
     return match?.["Course Title"] || match?.courseTitle || course.courseTitle || course.courseCode || "Class";
   };
-
-  const attStatus = getAttendanceHumanStatus(attendance, Number(riskySubjectsCount) || 0, Number(totalSafeSkips) || 0);
-  const marksStatus = getMarksHumanStatus(averageMarks);
 
   const dateLabel = new Intl.DateTimeFormat("en-IN", {
     weekday: "long",
@@ -116,11 +71,6 @@ export default function NexusHome(props: AnyValue) {
     month: "long",
     timeZone: "Asia/Kolkata",
   }).format(today);
-
-  const countdownText = countdown(
-    currentClass ? currentClassMeta?.endsInMinutes : nextClassMeta?.startsInMinutes,
-    !!currentClass
-  );
 
   return (
     <main className={styles.home} data-home-dashboard>
@@ -135,28 +85,17 @@ export default function NexusHome(props: AnyValue) {
               <span className={styles.pill}>Day order {dayOrder}</span>
             ) : null}
           </div>
-          <div className={styles.headerTitleGroup}>
-            <h1 className={styles.greetingTitle}>Home</h1>
-            <p className={styles.dateSubtitle} suppressHydrationWarning>
-              {dateLabel}
-            </p>
-          </div>
+          <h1 className={styles.greetingTitle}>Home</h1>
+          <p className={styles.dateSubtitle} suppressHydrationWarning>
+            {dateLabel}
+          </p>
         </header>
 
         {/* 1. TODAY / SCHEDULE CARD */}
         <section className={`${styles.card} ${styles.scheduleCard}`}>
           <div className={styles.cardHeader}>
             <div className={styles.cardTitleWrap}>
-              {currentClass ? (
-                <div className={styles.liveBadge}>
-                  <span className={styles.liveDot} />
-                  <span>In class now</span>
-                </div>
-              ) : (
-                <h2 className={styles.cardHeading}>
-                  {nextClassMeta?.isTomorrow ? "Tomorrow's first class" : lesson ? "Next class" : "Today’s schedule"}
-                </h2>
-              )}
+              <h2 className={styles.cardHeading}>{lesson ? lessonLabel : "Today’s schedule"}</h2>
             </div>
             <Link href="/timetable" className={styles.cardActionLink}>
               Timetable <ChevronRight size={14} />
@@ -173,12 +112,18 @@ export default function NexusHome(props: AnyValue) {
                 <span>
                   <MapPin size={13} /> {lesson.roomNo ? `Room ${lesson.roomNo}` : "Room to be confirmed"}
                 </span>
-                {countdownText && (
-                  <span className={styles.countdownBadge}>
-                    {countdownText}
-                  </span>
-                )}
               </div>
+              {countdown(
+                currentClass ? currentClassMeta?.endsInMinutes : nextClassMeta?.startsInMinutes,
+                !!currentClass
+              ) && (
+                <div className={styles.countdownRow}>
+                  {countdown(
+                    currentClass ? currentClassMeta?.endsInMinutes : nextClassMeta?.startsInMinutes,
+                    !!currentClass
+                  )}
+                </div>
+              )}
             </div>
           ) : (
             <div className={styles.emptySchedule}>
@@ -198,21 +143,19 @@ export default function NexusHome(props: AnyValue) {
             <Link href="/attendance" className={styles.dataRow}>
               <div className={styles.dataCopy}>
                 <span className={styles.dataLabel}>Attendance</span>
-                <span className={attStatus.noteClass}>{attStatus.text}</span>
+                <span className={attendance === null ? styles.dataNote : riskySubjectsCount > 0 ? styles.riskNote : styles.safeNote}>
+                  {attendance === null ? "Connect Student Portal" : riskySubjectsCount > 0 ? `${riskySubjectsCount} ${riskySubjectsCount === 1 ? "course" : "courses"} below 75%` : "All courses at or above 75%"}
+                </span>
               </div>
-              <strong className={`${styles.dataValue} ${attStatus.isRisk ? styles.riskValue : ""}`}>
-                {attendance === null ? "—" : `${attendance.toFixed(1)}%`}
-              </strong>
+              <strong className={styles.dataValue}>{attendance === null ? "—" : `${attendance.toFixed(1)}%`}</strong>
               <ChevronRight size={15} className={styles.rowChevron} />
             </Link>
             <Link href="/marks" className={styles.dataRow}>
               <div className={styles.dataCopy}>
                 <span className={styles.dataLabel}>Internal marks</span>
-                <span className={marksStatus.noteClass}>{marksStatus.text}</span>
+                {averageMarks === null && <span className={styles.dataNote}>No scores yet</span>}
               </div>
-              <strong className={styles.dataValue}>
-                {averageMarks === null ? "—" : `${averageMarks.toFixed(1)}%`}
-              </strong>
+              <strong className={styles.dataValue}>{averageMarks === null ? "—" : `${averageMarks.toFixed(1)}%`}</strong>
               <ChevronRight size={15} className={styles.rowChevron} />
             </Link>
           </div>
