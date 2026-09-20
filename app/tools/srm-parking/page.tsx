@@ -30,7 +30,9 @@ import {
   Coins,
   QrCode,
   Calendar,
-  ArrowRight
+  ArrowRight,
+  Maximize2,
+  Minimize2
 } from "lucide-react";
 import QRCode from "qrcode";
 import { signInGrideeWithGoogle } from "@/lib/grideeFirebase";
@@ -69,6 +71,7 @@ export default function SrmParkingToolPage() {
     slotShift: string;
     qrDataUrl: string;
   } | null>(null);
+  const [qrFocusMode, setQrFocusMode] = useState<boolean>(false);
 
   // Helper for 12-hour formatting
   const formatTo12H = (time24: string) => {
@@ -914,7 +917,27 @@ export default function SrmParkingToolPage() {
                   </div>
                 </div>
 
-                <div style={{ display: "flex", gap: "8px" }}>
+                <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", justifyContent: "center" }}>
+                  <button
+                    type="button"
+                    onClick={() => setQrFocusMode(true)}
+                    style={{
+                      background: "rgba(37, 99, 235, 0.2)",
+                      border: "1.5px solid #2563EB",
+                      color: "#60A5FA",
+                      padding: "8px 14px",
+                      borderRadius: "8px",
+                      fontSize: "12px",
+                      fontWeight: 750,
+                      cursor: "pointer",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "5px"
+                    }}
+                  >
+                    <Maximize2 size={13} />
+                    <span>Only QR View</span>
+                  </button>
                   <a
                     href={activeQrPass.qrDataUrl}
                     download={`SRM_Parking_Pass_${activeQrPass.bookingId}.png`}
@@ -1629,7 +1652,7 @@ export default function SrmParkingToolPage() {
                                     slotShift: sShift,
                                     qrDataUrl: url,
                                   });
-                                  window.scrollTo({ top: 0, behavior: "smooth" });
+                                  setQrFocusMode(true);
                                 })
                                 .catch(() => {});
                             }}
@@ -2064,6 +2087,155 @@ export default function SrmParkingToolPage() {
                 {loginLoading ? "Authenticating with Gridee…" : "Sign In & Connect"}
               </button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* EXCLUSIVE FULLSCREEN ONLY-QR GATE PASS SCANNER OVERLAY */}
+      {qrFocusMode && activeQrPass && (
+        <div style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 999999,
+          background: "#06060A",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "calc(env(safe-area-inset-top, 0px) + 20px) 20px calc(env(safe-area-inset-bottom, 0px) + 24px)",
+          color: "#FFFFFF",
+          overflowY: "auto"
+        }}>
+          {/* Top Header */}
+          <div style={{ width: "100%", maxWidth: "420px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#10B981", boxShadow: "0 0 12px #10B981" }} />
+              <span style={{ fontSize: "12px", fontWeight: 800, color: "#10B981", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                Gate Scanner Display
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setQrFocusMode(false)}
+              style={{
+                background: "rgba(255, 255, 255, 0.1)",
+                border: "1px solid rgba(255, 255, 255, 0.15)",
+                color: "#FFFFFF",
+                width: "36px",
+                height: "36px",
+                borderRadius: "50%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer"
+              }}
+              aria-label="Exit Scanner Mode"
+            >
+              <X size={18} />
+            </button>
+          </div>
+
+          {/* Central High-Contrast QR Card */}
+          <div style={{
+            width: "100%",
+            maxWidth: "380px",
+            background: "#12121A",
+            border: "2px solid #2563EB",
+            borderRadius: "22px",
+            padding: "24px 20px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
+            boxShadow: "0 14px 44px rgba(37, 99, 235, 0.3)",
+            margin: "auto 0"
+          }}>
+            <p style={{ margin: "0 0 2px", fontSize: "11px", fontWeight: 750, color: "#60A5FA", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+              SRM Kattankulathur Campus Gate
+            </p>
+            <h2 style={{ margin: "0 0 16px", fontSize: "18px", fontWeight: 850, color: "#FFFFFF" }}>
+              {activeQrPass.zoneName}
+            </h2>
+
+            {/* Giant Crisp QR Code */}
+            <div style={{
+              background: "#FFFFFF",
+              padding: "16px",
+              borderRadius: "18px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.7)",
+              marginBottom: "18px"
+            }}>
+              <img
+                src={activeQrPass.qrDataUrl}
+                alt="Gate Entry QR Pass"
+                style={{ width: "240px", height: "240px", display: "block" }}
+              />
+            </div>
+
+            {/* Vehicle Plate Badge */}
+            <div style={{
+              background: "#09090F",
+              border: "1.5px solid #292532",
+              borderRadius: "10px",
+              padding: "8px 20px",
+              marginBottom: "14px"
+            }}>
+              <p style={{ margin: 0, fontSize: "10px", color: "#8F8998", textTransform: "uppercase", fontWeight: 750 }}>
+                Vehicle Number
+              </p>
+              <p style={{ margin: "2px 0 0", fontSize: "22px", fontWeight: 900, color: "#FFFFFF", letterSpacing: "0.08em" }}>
+                {activeQrPass.vehicleNumber}
+              </p>
+            </div>
+
+            {/* Pass Metadata */}
+            <div style={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
+              padding: "9px 12px",
+              background: "rgba(37, 99, 235, 0.08)",
+              border: "1px solid rgba(37, 99, 235, 0.25)",
+              borderRadius: "8px",
+              fontSize: "12px",
+              marginBottom: "12px"
+            }}>
+              <span style={{ color: "#8F8998", fontWeight: 700 }}>Schedule:</span>
+              <strong style={{ color: "#60A5FA" }}>{activeQrPass.slotShift}</strong>
+            </div>
+
+            <p style={{ margin: 0, fontSize: "11px", color: "#8F8998", lineHeight: 1.4 }}>
+              Hold screen towards the boom barrier optical scanner at gate entrance.
+            </p>
+          </div>
+
+          {/* Bottom Back Button */}
+          <div style={{ width: "100%", maxWidth: "380px" }}>
+            <button
+              type="button"
+              onClick={() => setQrFocusMode(false)}
+              style={{
+                width: "100%",
+                background: "#2563EB",
+                border: "none",
+                color: "#FFFFFF",
+                padding: "12px",
+                borderRadius: "10px",
+                fontSize: "13px",
+                fontWeight: 800,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "6px"
+              }}
+            >
+              <Minimize2 size={16} />
+              <span>Exit QR Mode & Back to Tools</span>
+            </button>
           </div>
         </div>
       )}
