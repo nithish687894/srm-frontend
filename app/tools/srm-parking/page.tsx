@@ -217,6 +217,13 @@ export default function SrmParkingToolPage() {
     seconds: 0,
   });
 
+  // ⚡ 5:00 AM Auto-Book Sniper State
+  const [autoSniperArmed, setAutoSniperArmed] = useState<boolean>(false);
+  const [sniperStatus, setSniperStatus] = useState<"IDLE" | "ARMED" | "FIRING" | "SUCCESS" | "FAILED">("IDLE");
+  const [sniperConfirmMsg, setSniperConfirmMsg] = useState<string | null>(null);
+  const [sniperLogs, setSniperLogs] = useState<string[]>([]);
+  const sniperFiringRef = React.useRef<boolean>(false);
+
   // Local storage vehicle numbers quick vault
   const [savedVehicles, setSavedVehicles] = useState<{ id: string; label: string; plate: string }[]>([]);
   const [selectedVehicle, setSelectedVehicle] = useState<string>("");
@@ -235,6 +242,18 @@ export default function SrmParkingToolPage() {
       const remembered = localStorage.getItem("gridee_nexus_last_email");
       if (remembered) {
         setLoginEmail(remembered);
+      }
+      const storedSniper = localStorage.getItem("gridee_nexus_auto_sniper");
+      if (storedSniper) {
+        try {
+          const parsed = JSON.parse(storedSniper);
+          if (parsed && parsed.armed) {
+            setAutoSniperArmed(true);
+            setSniperStatus("ARMED");
+            setSniperConfirmMsg(parsed.confirmMsg || "Auto-Book Sniper armed for 05:00:00 AM.");
+            if (parsed.plate) setSelectedVehicle(parsed.plate);
+          }
+        } catch {}
       }
     } catch (e) {
       console.error("Failed loading session", e);
@@ -393,7 +412,12 @@ export default function SrmParkingToolPage() {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  // 5:00 AM IST Countdown Calculation (SRM KTR Morning Classes Booking)
+  // 5:00 AM IST Countdown Calculation & Sniper Trigger
+  const autoSniperArmedRef = React.useRef<boolean>(false);
+  useEffect(() => {
+    autoSniperArmedRef.current = autoSniperArmed;
+  }, [autoSniperArmed]);
+
   useEffect(() => {
     const updateCountdown = () => {
       const now = new Date();
@@ -410,6 +434,11 @@ export default function SrmParkingToolPage() {
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
       setTimeLeft({ hours, minutes, seconds });
+
+      // Auto-trigger sniper at 05:00:00 AM IST
+      if (diff <= 1000 && autoSniperArmedRef.current && !sniperFiringRef.current) {
+        runSniperExecution();
+      }
     };
 
     updateCountdown();
@@ -524,25 +553,26 @@ export default function SrmParkingToolPage() {
     localStorage.removeItem("gridee_nexus_session");
   };
 
-  // Handle In-App Booking Submission
-  const handleBookSlot = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // Core reusable booking submitter (shared between manual booking and 5:00 AM sniper)
+  const executeBookingSubmission = async (isSniperTrigger = false): Promise<boolean> => {
     if (!session?.accessToken) {
-      setShowLoginModal(true);
-      return;
+      if (!isSniperTrigger) setShowLoginModal(true);
+      return false;
     }
 
     const userId = session.user?.id || session.user?.userId || "user_current";
     const plate = selectedVehicle.trim();
 
     if (!plate) {
-      setBookingError("Please select or enter a vehicle plate number.");
-      return;
+      if (!isSniperTrigger) setBookingError("Please select or enter a vehicle plate number.");
+      return false;
     }
 
-    setBookingLoading(true);
-    setBookingError(null);
-    setBookingSuccess(null);
+    if (!isSniperTrigger) {
+      setBookingLoading(true);
+      setBookingError(null);
+      setBookingSuccess(null);
+    }
 
     try {
       const { checkInTime, checkOutTime, date, costCoins, label } = scheduleDetails;
@@ -566,12 +596,14 @@ export default function SrmParkingToolPage() {
 
       const data = await res.json();
       if (!res.ok || !data.success) {
-        if (data.error?.includes("Insufficient wallet coins") || data.error?.includes("Insufficient funds")) {
-          setBookingError(`Gridee requires ${costCoins} coins (₹${costCoins}) to reserve this slot. Your current balance is ${walletBalance ?? 0} coins. Please top up your wallet in your Gridee account to finalize.`);
-        } else {
-          setBookingError(data.error || "Booking was not accepted by Gridee.");
+        const errMsg =
+          data.error?.includes("Insufficient wallet coins") || data.error?.includes("Insufficient funds")
+            ? `Gridee requires ${costCoins} coins (₹${costCoins}) to reserve this slot. Your current balance is ${walletBalance ?? 0} coins. Please top up your wallet in your Gridee account to finalize.`
+            : data.error || "Booking was not accepted by Gridee.";
+        if (!isSniperTrigger) {
+          setBookingError(errMsg);
         }
-        return;
+        throw new Error(errMsg);
       }
 
       const bId = data.booking?.bookingId || data.booking?.id || data.booking?.ticketId || "CONFIRMED";
@@ -595,11 +627,135 @@ export default function SrmParkingToolPage() {
       fetchRealSpots(session.accessToken);
       fetchUserBookings(session.accessToken, userId);
       fetchUserWallet(session.accessToken, userId);
+      return true;
     } catch (err: any) {
-      setBookingError(err.message || "Failed to submit booking.");
+      if (!isSniperTrigger) {
+        setBookingError(err.message || "Failed to submit booking.");
+      }
+      throw err;
     } finally {
-      setBookingLoading(false);
+      if (!isSniperTrigger) {
+        setBookingLoading(false);
+      }
     }
+  };
+
+  // Handle In-App Booking Submission
+  const handleBookSlot = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await executeBookingSubmission(false);
+    } catch {}
+  };
+
+  // ⚡ 5:00 AM Auto-Book Sniper Execution Engine
+  const runSniperExecution = async () => {
+    if (sniperFiringRef.current) return;
+    sniperFiringRef.current = true;
+    setSniperStatus("FIRING");
+    setSniperLogs((prev) => [
+      `[05:00:00 AM] ⚡ Auto-Sniper Triggered! Firing reservation payload to Gridee...`,
+      ...prev,
+    ]);
+
+    let attempt = 1;
+    const maxAttempts = 6;
+    let booked = false;
+
+    while (attempt <= maxAttempts && !booked) {
+      try {
+        setSniperLogs((prev) => [
+          `[Attempt ${attempt}/${maxAttempts}] Sending reservation request...`,
+          ...prev,
+        ]);
+        const success = await executeBookingSubmission(true);
+        if (success) {
+          booked = true;
+          setSniperStatus("SUCCESS");
+          setSniperConfirmMsg("🎯 Target Secured! Spot successfully booked and QR pass generated.");
+          setAutoSniperArmed(false);
+          localStorage.removeItem("gridee_nexus_auto_sniper");
+          setSniperLogs((prev) => [
+            `[SUCCESS] 🎯 Parking spot booked at 05:00:${String((attempt - 1) * 2).padStart(2, "0")} AM!`,
+            ...prev,
+          ]);
+          try {
+            const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            osc.frequency.setValueAtTime(880, ctx.currentTime);
+            osc.connect(ctx.destination);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.3);
+          } catch {}
+          break;
+        }
+      } catch (err: any) {
+        setSniperLogs((prev) => [
+          `[Attempt ${attempt}] Gridee response: ${err.message || "Slots not opened yet"}. Retrying in 1.5s...`,
+          ...prev,
+        ]);
+        attempt++;
+        if (attempt <= maxAttempts) {
+          await new Promise((resolve) => setTimeout(resolve, 1500));
+        }
+      }
+    }
+
+    if (!booked) {
+      setSniperStatus("FAILED");
+      setSniperLogs((prev) => [
+        `[FAILED] Auto-Sniper finished ${maxAttempts} attempts. Please check spots manually.`,
+        ...prev,
+      ]);
+    }
+    sniperFiringRef.current = false;
+  };
+
+  // ⚡ Toggle Auto-Book Sniper Arming
+  const handleToggleAutoSniper = (enable: boolean) => {
+    if (!enable) {
+      setAutoSniperArmed(false);
+      setSniperStatus("IDLE");
+      setSniperConfirmMsg(null);
+      sniperFiringRef.current = false;
+      localStorage.removeItem("gridee_nexus_auto_sniper");
+      return;
+    }
+
+    if (!session?.accessToken) {
+      setShowLoginModal(true);
+      setBookingError("Please log in to your Gridee account first to arm Auto-Book.");
+      return;
+    }
+
+    const plate = selectedVehicle.trim();
+    if (!plate) {
+      setBookingError("Please select or enter your vehicle plate number first to arm Auto-Book.");
+      return;
+    }
+
+    const zoneLabel = activeZone === "TP" ? "TP Avenue" : "Java Ground";
+    const dateLabel = scheduleDetails.dateLabel;
+    const shiftLabel = scheduleDetails.label;
+    const confirm = `Target locked: ${dateLabel} ${shiftLabel} at ${zoneLabel}. Armed for 05:00:00 AM.`;
+
+    setAutoSniperArmed(true);
+    setSniperStatus("ARMED");
+    setSniperConfirmMsg(confirm);
+    setBookingError(null);
+
+    localStorage.setItem(
+      "gridee_nexus_auto_sniper",
+      JSON.stringify({
+        armed: true,
+        plate,
+        zone: activeZone,
+        shift: selectedShift,
+        date: selectedDate,
+        confirmMsg: confirm,
+        armedAt: Date.now(),
+      })
+    );
   };
 
   // Handle In-App Booking Cancellation
@@ -1570,23 +1726,48 @@ export default function SrmParkingToolPage() {
                   </div>
                 )}
 
-                <button
-                  type="submit"
-                  disabled={bookingLoading}
-                  style={{
-                    background: "#2563EB",
-                    border: "none",
-                    color: "#FFF",
-                    padding: "11px",
-                    borderRadius: "8px",
-                    fontSize: "13px",
-                    fontWeight: 800,
-                    cursor: bookingLoading ? "default" : "pointer",
-                    marginTop: "4px"
-                  }}
-                >
-                  {bookingLoading ? "Processing Reservation…" : "Confirm & Reserve Slot"}
-                </button>
+                <div style={{ display: "flex", gap: "8px", marginTop: "4px", flexWrap: "wrap" }}>
+                  <button
+                    type="submit"
+                    disabled={bookingLoading}
+                    style={{
+                      flex: 1,
+                      minWidth: "160px",
+                      background: "#2563EB",
+                      border: "none",
+                      color: "#FFF",
+                      padding: "11px",
+                      borderRadius: "8px",
+                      fontSize: "13px",
+                      fontWeight: 800,
+                      cursor: bookingLoading ? "default" : "pointer"
+                    }}
+                  >
+                    {bookingLoading ? "Processing Reservation…" : "Confirm & Reserve Slot"}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleToggleAutoSniper(!autoSniperArmed)}
+                    style={{
+                      background: autoSniperArmed ? "rgba(16, 185, 129, 0.15)" : "#181622",
+                      border: autoSniperArmed ? "1px solid #10B981" : "1px solid #292532",
+                      color: autoSniperArmed ? "#34D399" : "#60A5FA",
+                      padding: "11px 14px",
+                      borderRadius: "8px",
+                      fontSize: "12px",
+                      fontWeight: 800,
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      whiteSpace: "nowrap"
+                    }}
+                  >
+                    <Sparkles size={14} />
+                    <span>{autoSniperArmed ? "Armed for 5 AM" : "⚡ Auto-Book 5 AM"}</span>
+                  </button>
+                </div>
               </form>
             </section>
 
@@ -1759,6 +1940,164 @@ export default function SrmParkingToolPage() {
                 Seconds
               </p>
             </div>
+          </div>
+
+          {/* ⚡ 5:00 AM Auto-Book Sniper Module */}
+          <div style={{
+            marginTop: "16px",
+            background: autoSniperArmed ? "rgba(16, 185, 129, 0.06)" : "#0E0E15",
+            border: autoSniperArmed ? "1px solid rgba(16, 185, 129, 0.4)" : "1px solid #292532",
+            borderRadius: "12px",
+            padding: "14px 16px",
+            transition: "all 0.2s ease"
+          }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "10px", flexWrap: "wrap" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <div style={{
+                  width: "34px",
+                  height: "34px",
+                  borderRadius: "8px",
+                  background: autoSniperArmed ? "rgba(16, 185, 129, 0.2)" : "rgba(96, 165, 250, 0.12)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: autoSniperArmed ? "#10B981" : "#60A5FA",
+                  flexShrink: 0
+                }}>
+                  <Sparkles size={17} />
+                </div>
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                    <span style={{ fontSize: "13px", fontWeight: 800, color: "#F7F5FA" }}>
+                      ⚡ Auto-Book at 5:00 AM
+                    </span>
+                    {autoSniperArmed ? (
+                      <span style={{
+                        background: "rgba(16, 185, 129, 0.2)",
+                        color: "#10B981",
+                        fontSize: "9.5px",
+                        fontWeight: 800,
+                        padding: "2px 6px",
+                        borderRadius: "4px",
+                        letterSpacing: "0.05em"
+                      }}>
+                        ARMED
+                      </span>
+                    ) : (
+                      <span style={{
+                        background: "rgba(96, 165, 250, 0.12)",
+                        color: "#60A5FA",
+                        fontSize: "9.5px",
+                        fontWeight: 800,
+                        padding: "2px 6px",
+                        borderRadius: "4px"
+                      }}>
+                        SNIPER
+                      </span>
+                    )}
+                  </div>
+                  <p style={{ margin: "2px 0 0", fontSize: "11.5px", color: "#8F8998" }}>
+                    Auto-submits your slot reservation at 05:00:00 AM with automated fast-retries.
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => handleToggleAutoSniper(!autoSniperArmed)}
+                style={{
+                  background: autoSniperArmed ? "#EF4444" : "#2563EB",
+                  color: "#FFF",
+                  border: "none",
+                  borderRadius: "8px",
+                  padding: "8px 14px",
+                  fontSize: "12px",
+                  fontWeight: 800,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px"
+                }}
+              >
+                {autoSniperArmed ? (
+                  <>
+                    <X size={14} />
+                    <span>Disarm Sniper</span>
+                  </>
+                ) : (
+                  <>
+                    <Sparkles size={14} />
+                    <span>Arm Auto-Book</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            {/* Armed Confirmation HUD */}
+            {autoSniperArmed && sniperConfirmMsg && (
+              <div style={{
+                marginTop: "12px",
+                padding: "12px 14px",
+                background: "rgba(16, 185, 129, 0.1)",
+                border: "1px solid rgba(16, 185, 129, 0.3)",
+                borderRadius: "10px"
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#34D399", fontWeight: 800, fontSize: "12.5px" }}>
+                  <ShieldCheck size={16} />
+                  <span>{sniperConfirmMsg}</span>
+                </div>
+
+                <div style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
+                  gap: "8px",
+                  marginTop: "10px",
+                  paddingTop: "10px",
+                  borderTop: "1px solid rgba(16, 185, 129, 0.2)",
+                  fontSize: "11px",
+                  color: "#D1FAE5"
+                }}>
+                  <div>
+                    <span style={{ color: "#6EE7B7", opacity: 0.8 }}>Vehicle: </span>
+                    <strong>{selectedVehicle || "Not Set"}</strong>
+                  </div>
+                  <div>
+                    <span style={{ color: "#6EE7B7", opacity: 0.8 }}>Zone: </span>
+                    <strong>{activeZone === "TP" ? "TP Avenue" : "Java Ground"}</strong>
+                  </div>
+                  <div>
+                    <span style={{ color: "#6EE7B7", opacity: 0.8 }}>Shift: </span>
+                    <strong>{scheduleDetails.label}</strong>
+                  </div>
+                  <div>
+                    <span style={{ color: "#6EE7B7", opacity: 0.8 }}>Schedule: </span>
+                    <strong>{scheduleDetails.dateLabel} (05:00:00 AM)</strong>
+                  </div>
+                </div>
+
+                {sniperLogs.length > 0 && (
+                  <div style={{
+                    marginTop: "10px",
+                    background: "#08080C",
+                    borderRadius: "6px",
+                    padding: "8px 10px",
+                    fontSize: "10.5px",
+                    fontFamily: "monospace",
+                    color: "#A7F3D0",
+                    maxHeight: "80px",
+                    overflowY: "auto"
+                  }}>
+                    {sniperLogs.map((log, idx) => (
+                      <div key={idx} style={{ lineHeight: 1.4 }}>{log}</div>
+                    ))}
+                  </div>
+                )}
+
+                <p style={{ margin: "8px 0 0", fontSize: "10.5px", color: "#9CA3AF" }}>
+                  💡 Leave this browser tab open overnight. Nexus will fire automatically at 05:00:00 AM sharp with fast-retry.
+                </p>
+              </div>
+            )}
           </div>
         </section>
 
