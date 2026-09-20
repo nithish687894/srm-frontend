@@ -878,45 +878,39 @@ export default function LoginPage() {
             <div
               style={{
                 position: "fixed", inset: 0, zIndex: 10000,
-                background: "rgba(0,0,0,0.98)", display: "flex",
+                background: "#09090F", display: "flex",
                 flexDirection: "column", alignItems: "center", justifyContent: "center",
-                backdropFilter: "blur(25px)",
+                backdropFilter: "none",
                 animation: "fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1)"
               }}
             >
-              <div
-                style={{ position: "relative", marginBottom: "72px" }}
-              >
-                {/* Aura Loading Core */}
+              <div style={{ position: "relative", marginBottom: "32px" }}>
                 <div style={{
-                  width: "120px", height: "120px", borderRadius: "32px",
+                  width: "76px", height: "76px", borderRadius: "14px",
                   background: loginPhase === "success" 
-                    ? "linear-gradient(135deg, #00FF88, #00E6FF)" 
-                    : "linear-gradient(135deg, #FF75C3, #CD93FF)",
+                    ? "rgba(34,197,94,0.14)"
+                    : "#12121A",
+                  border: `1px solid ${loginPhase === "success" ? "rgba(34,197,94,0.4)" : "#292532"}`,
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  boxShadow: loginPhase === "success" 
-                    ? "0 0 80px rgba(0, 255, 136, 0.4)" 
-                    : "0 0 80px rgba(255, 117, 195, 0.4)",
+                  boxShadow: "none",
                   transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1)",
                   animation: loginPhase === "success" ? "none" : "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
                 }}>
                   {loginPhase === "success" ? (
-                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                   ) : (
-                    <div>
-                      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                    </div>
+                    <Image src="/nexus-logo.png" alt="SRM Nexus" width={42} height={42} priority style={{ filter: "grayscale(1) brightness(2)" }} />
                   )}
                 </div>
                 
                 {loginPhase !== "success" && (
                   <div
                     style={{
-                      position: "absolute", inset: "-24px",
-                      border: "2.5px solid rgba(255,117,195,0.1)",
-                      borderTopColor: "#FF75C3",
-                      borderRadius: "44px",
-                      animation: "spin 3s linear infinite"
+                      position: "absolute", inset: "-12px",
+                      border: "1px solid rgba(37,99,235,0.18)",
+                      borderTopColor: "#60A5FA",
+                      borderRadius: "18px",
+                      animation: "spin 2s linear infinite"
                     }}
                   />
                 )}
@@ -924,12 +918,12 @@ export default function LoginPage() {
               
               <div style={{ textAlign: "center" }}>
                 <div
-                  style={{ fontSize: "17px", fontWeight: 950, letterSpacing: "0.08em", color: "#fff", textTransform: "uppercase", marginBottom: "18px" }}
+                  style={{ fontSize: "16px", fontWeight: 700, letterSpacing: "0.01em", color: "#F7F5FA", marginBottom: "8px" }}
                 >
-                  {loginPhase === "success" ? "AUTHENTICATION GRANTED" : "INITIALIZING SECURE LINK"}
+                  {loginPhase === "success" ? "Connected" : "Connecting your portals"}
                 </div>
-                <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.45)", letterSpacing: "0.18em", fontWeight: 600, textTransform: "uppercase" }}>
-                  {loginPhase === "success" ? "ESTABLISHING SECURE CONNECTION..." : "VERIFYING CREDENTIALS / RETRIEVING SESSION..."}
+                <div style={{ fontSize: "12px", color: "#B8B2C2", letterSpacing: "0.01em", fontWeight: 500 }}>
+                  {loginPhase === "success" ? "Opening your academic workspace…" : "Verifying your credentials and setting up a secure session…"}
                 </div>
               </div>
             </div>
@@ -938,18 +932,18 @@ export default function LoginPage() {
 
         <section className="hero-section">
               {loginStep === "hero" && (
-                <div style={{ maxWidth: "680px", margin: "0 auto", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "28px", animation: "slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1)" }}>
-                  <div style={{ display: "inline-flex", padding: "12px", background: "#12121A", borderRadius: "20px", border: "1px solid #292532", marginBottom: "4px" }}>
-                    <Image src="/nexus-logo.png" alt="Logo" width={64} height={64} priority />
+                <div style={{ maxWidth: "560px", margin: "0 auto", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "20px", animation: "slideInUp 0.45s ease-out" }}>
+                  <div style={{ display: "inline-flex", padding: "10px", background: "#12121A", borderRadius: "12px", border: "1px solid #292532" }}>
+                    <Image src="/nexus-logo.png" alt="SRM Nexus" width={48} height={48} priority style={{ filter: "grayscale(1) brightness(2)" }} />
                   </div>
-                  <h1 style={{ fontSize: "clamp(44px, 7vw, 72px)", fontWeight: 850, letterSpacing: "-0.055em", lineHeight: 1, margin: 0, color: "#F7F5FA" }}>
+                  <h1 style={{ fontSize: "clamp(36px, 7vw, 56px)", fontWeight: 700, letterSpacing: "-0.045em", lineHeight: 1, margin: 0, color: "#F7F5FA" }}>
                     SRM Nexus
                   </h1>
-                  <h2 style={{ fontSize: "clamp(18px, 3vw, 23px)", fontWeight: 700, color: "#B8B2C2", letterSpacing: "-0.02em", margin: 0, lineHeight: 1.25 }}>
-                    Your academic day, in one place.
+                  <h2 style={{ fontSize: "clamp(16px, 3vw, 19px)", fontWeight: 600, color: "#B8B2C2", letterSpacing: "-0.02em", margin: 0, lineHeight: 1.25 }}>
+                    Your SRM academic workspace.
                   </h2>
-                  <p style={{ fontSize: "16px", color: "#B8B2C2", lineHeight: 1.65, margin: "0 0 16px", fontWeight: 500, maxWidth: "560px" }}>
-                    Connect your SRM portal to view attendance, marks, timetable, GPA, tomorrow skip risk, and marks needed for your target grade — all in one smart dashboard.
+                  <p style={{ fontSize: "15px", color: "#B8B2C2", lineHeight: 1.6, margin: "0 0 12px", fontWeight: 500, maxWidth: "500px" }}>
+                    Check attendance, internal marks, timetable and academic dates in one private place.
                   </p>
                   <div style={{ display: "flex", flexDirection: "column", gap: "16px", alignItems: "center", width: "100%", maxWidth: "440px" }}>
                     <button
@@ -958,8 +952,8 @@ export default function LoginPage() {
                       style={{
                         width: "100%",
                         padding: "18px 28px",
-                        background: "#A855F7",
-                        border: "1px solid #A855F7",
+                        background: "#2563EB",
+                        border: "1px solid #2563EB",
                         color: "#ffffff",
                         borderRadius: "12px",
                         fontSize: "13px",
@@ -968,21 +962,19 @@ export default function LoginPage() {
                         letterSpacing: "0.14em",
                         cursor: "pointer",
                         transition: "all 0.3s",
-                        boxShadow: "0 8px 22px rgba(168, 85, 247, 0.22)"
+                        boxShadow: "none"
                       }}
                       onMouseEnter={e => {
-                        e.currentTarget.style.transform = "translateY(-4px)";
-                        e.currentTarget.style.boxShadow = "0 12px 28px rgba(168, 85, 247, 0.32)";
+                        e.currentTarget.style.background = "#1D4ED8";
                       }}
                       onMouseLeave={e => {
-                        e.currentTarget.style.transform = "translateY(0)";
-                        e.currentTarget.style.boxShadow = "0 8px 22px rgba(168, 85, 247, 0.22)";
+                        e.currentTarget.style.background = "#2563EB";
                       }}
                     >
                       Connect My Portal
                     </button>
                     <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.45)", fontWeight: 700, letterSpacing: "0.05em", marginTop: "4px" }}>
-                      Read-only sync · Encrypted sessions · Disconnect anytime
+                      Read-only access · Secure session · Disconnect anytime
                     </div>
                     
                     <button
@@ -1014,12 +1006,12 @@ export default function LoginPage() {
                     type="button"
                     onClick={() => setLoginStep("hero")}
                     style={{
-                      background: "rgba(255, 255, 255, 0.06)",
-                      border: "1px solid rgba(255, 255, 255, 0.10)",
-                      color: "rgba(255, 255, 255, 0.72)",
+                      background: "#12121A",
+                      border: "1px solid #292532",
+                      color: "#B8B2C2",
                       padding: "9px 14px",
-                      borderRadius: "999px",
-                      fontWeight: 800,
+                      borderRadius: "8px",
+                      fontWeight: 650,
                       fontSize: "12px",
                       cursor: "pointer",
                       marginBottom: "16px",
@@ -1027,8 +1019,8 @@ export default function LoginPage() {
                       alignItems: "center",
                       gap: "6px"
                     }}
-                    onMouseEnter={e => { e.currentTarget.style.color = "#fff"; e.currentTarget.style.background = "rgba(255, 255, 255, 0.06)"; }}
-                    onMouseLeave={e => { e.currentTarget.style.color = "rgba(255, 255, 255, 0.6)"; e.currentTarget.style.background = "rgba(255, 255, 255, 0.03)"; }}
+                    onMouseEnter={e => { e.currentTarget.style.color = "#F7F5FA"; e.currentTarget.style.background = "#1A1724"; }}
+                    onMouseLeave={e => { e.currentTarget.style.color = "#B8B2C2"; e.currentTarget.style.background = "#12121A"; }}
                   >
                     ← Back
                   </button>
@@ -1036,28 +1028,28 @@ export default function LoginPage() {
                     <div style={{ marginBottom: "22px" }}>
                       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "14px", marginBottom: "18px" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: "12px", minWidth: 0 }}>
-                          <div style={{ width: "54px", height: "54px", borderRadius: "18px", background: "linear-gradient(135deg, rgba(191,90,242,0.24), rgba(0,212,255,0.14))", border: "1px solid rgba(255,255,255,0.14)", display: "grid", placeItems: "center", flexShrink: 0 }}>
-                            <Image src="/nexus-logo.png" alt="SRM Nexus" width={38} height={38} priority style={{ filter: "drop-shadow(0 0 20px rgba(255, 117, 195, 0.55))" }} />
+                          <div style={{ width: "46px", height: "46px", borderRadius: "10px", background: "#09090F", border: "1px solid #292532", display: "grid", placeItems: "center", flexShrink: 0 }}>
+                            <Image src="/nexus-logo.png" alt="SRM Nexus" width={30} height={30} priority style={{ filter: "grayscale(1) brightness(2)" }} />
                           </div>
                           <div style={{ minWidth: 0 }}>
-                            <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.52)", fontWeight: 900, letterSpacing: "0.16em", textTransform: "uppercase" }}>SRM Nexus</div>
-                            <h2 style={{ fontSize: "26px", fontWeight: 950, letterSpacing: "-0.03em", margin: "3px 0 0", lineHeight: 1.05 }}>Student Access</h2>
+                            <div style={{ fontSize: "11px", color: "#B8B2C2", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase" }}>SRM Nexus</div>
+                            <h2 style={{ fontSize: "24px", fontWeight: 700, letterSpacing: "-0.03em", margin: "3px 0 0", lineHeight: 1.05 }}>Sign in</h2>
                           </div>
                         </div>
-                        <div style={{ display: "flex", alignItems: "center", gap: "6px", border: "1px solid rgba(48,209,88,0.28)", background: "rgba(48,209,88,0.10)", color: "#30D158", borderRadius: "999px", padding: "7px 9px", fontSize: "11px", fontWeight: 900 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "6px", border: "1px solid rgba(34,197,94,0.28)", background: "rgba(34,197,94,0.10)", color: "#4ADE80", borderRadius: "6px", padding: "7px 9px", fontSize: "11px", fontWeight: 700 }}>
                           <Shield size={13} />
                           Secure
                         </div>
                       </div>
                       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
                         {[
-                          ["Attendance", "#BF5AF2"],
-                          ["Marks", "#00D4FF"],
-                          ["Exam", "#30D158"],
+                          ["Attendance", "#60A5FA"],
+                          ["Marks", "#60A5FA"],
+                          ["Timetable", "#60A5FA"],
                         ].map(([label, color]) => (
-                          <div key={label} style={{ border: "1px solid rgba(255,255,255,0.09)", background: "rgba(255,255,255,0.045)", borderRadius: "12px", padding: "9px 8px" }}>
-                            <div style={{ width: "7px", height: "7px", borderRadius: "9999px", background: color, marginBottom: "7px", boxShadow: `0 0 12px ${color}` }} />
-                            <div style={{ color: "rgba(255,255,255,0.70)", fontSize: "11px", fontWeight: 850 }}>{label}</div>
+                          <div key={label} style={{ border: "1px solid #292532", background: "#09090F", borderRadius: "8px", padding: "9px 8px" }}>
+                            <div style={{ width: "6px", height: "6px", borderRadius: "9999px", background: color, marginBottom: "7px" }} />
+                            <div style={{ color: "#B8B2C2", fontSize: "11px", fontWeight: 650 }}>{label}</div>
                           </div>
                         ))}
                       </div>
@@ -1111,8 +1103,8 @@ export default function LoginPage() {
                           )}
                         </div>
                       )}
-                      <div style={{ fontSize: "12.5px", color: "rgba(255,255,255,0.62)", fontWeight: 700, textAlign: "left", marginBottom: "10px", paddingLeft: "2px" }}>
-                        Use your SRM NetID. SRM Nexus will automatically connect both Academia and Student Portal.
+                      <div style={{ fontSize: "12.5px", color: "#B8B2C2", fontWeight: 550, textAlign: "left", marginBottom: "10px", paddingLeft: "2px" }}>
+                        Use your SRM NetID. We’ll link Academia and Student Portal securely.
                       </div>
 
                       <input
@@ -1135,7 +1127,7 @@ export default function LoginPage() {
                         />
                         <button
                           type="button" onClick={() => setShowPassword(!showPassword)}
-                          style={{ position: 'absolute', right: '14px', top: '13px', width: "28px", height: "28px", borderRadius: "8px", background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.55)', cursor: 'pointer', display: "grid", placeItems: "center" }}
+                          style={{ position: 'absolute', right: '14px', top: '13px', width: "28px", height: "28px", borderRadius: "7px", background: '#12121A', border: '1px solid #292532', color: '#B8B2C2', cursor: 'pointer', display: "grid", placeItems: "center" }}
                           data-testid="toggle-password-btn"
                         >
                           {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -1143,8 +1135,8 @@ export default function LoginPage() {
                       </div>
 
                       <div style={{ marginBottom: "14px", textAlign: "center" }}>
-                        <span style={{ fontSize: "11px", color: "rgba(255, 255, 255, 0.4)", letterSpacing: "0.02em" }}>
-                          🔒 Zero-friction auto-CAPTCHA solver active
+                        <span style={{ fontSize: "11px", color: "#B8B2C2", letterSpacing: "0.02em" }}>
+                          Secure verification happens automatically
                         </span>
                       </div>
 
@@ -1154,7 +1146,7 @@ export default function LoginPage() {
                           type="checkbox" 
                           id="remember" 
                           style={{ 
-                            accentColor: '#ffffff', 
+                            accentColor: '#2563EB',
                             width: "16px", 
                             height: "16px",
                             cursor: "pointer",
@@ -1167,7 +1159,7 @@ export default function LoginPage() {
                           htmlFor="remember" 
                           style={{ 
                             fontSize: "13px", 
-                            color: "rgba(255, 255, 255, 0.55)", 
+                            color: "#B8B2C2",
                             fontWeight: 500,
                             cursor: "pointer"
                           }}
@@ -1175,7 +1167,7 @@ export default function LoginPage() {
                           Remember session
                         </label>
                         </div>
-                        <a href="/trust" style={{ color: "rgba(255,117,195,0.86)", fontSize: "12px", fontWeight: 850, textDecoration: "none" }}>Trust</a>
+                        <a href="/trust" style={{ color: "#60A5FA", fontSize: "12px", fontWeight: 700, textDecoration: "none" }}>Privacy</a>
                       </div>
 
                       <button type="submit" className="login-btn" disabled={loading} data-testid="submit-login-btn">
@@ -1183,26 +1175,26 @@ export default function LoginPage() {
                       </button>
                       
                       <div style={{ display: "flex", gap: "8px", alignItems: "center", justifyContent: "center", fontSize: "11px", color: "rgba(255,255,255,0.48)", fontWeight: 700, lineHeight: 1.4, textAlign: "center", marginTop: "14px", padding: "0 8px" }}>
-                        <Zap size={13} color="#00D4FF" />
+                        <Zap size={13} color="#60A5FA" />
                         Read-only sync. No official portal data is changed.
                       </div>
                     </form>
 
-                    <div style={{ display: "flex", flexDirection: "column", gap: "10px", fontSize: "12px", color: "rgba(255,255,255,0.86)", fontWeight: 800, textAlign: "left", marginTop: "20px", borderTop: "1px solid rgba(255,255,255,0.12)", paddingTop: "16px" }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "10px", fontSize: "12px", color: "#F7F5FA", fontWeight: 600, textAlign: "left", marginTop: "20px", borderTop: "1px solid #292532", paddingTop: "16px" }}>
                       <div style={{ display: "flex", gap: "8px" }}>
-                        <span style={{ color: "#00E5FF" }}>✓</span>
+                        <span style={{ color: "#60A5FA" }}>✓</span>
                         <span>Read-only academic sync</span>
                       </div>
                       <div style={{ display: "flex", gap: "8px" }}>
-                        <span style={{ color: "#00E5FF" }}>✓</span>
+                        <span style={{ color: "#60A5FA" }}>✓</span>
                         <span>We don’t change official portal data</span>
                       </div>
                       <div style={{ display: "flex", gap: "8px" }}>
-                        <span style={{ color: "#00E5FF" }}>✓</span>
+                        <span style={{ color: "#60A5FA" }}>✓</span>
                         <span>Disconnect anytime</span>
                       </div>
                       <div style={{ display: "flex", gap: "8px" }}>
-                        <span style={{ color: "#00E5FF" }}>✓</span>
+                        <span style={{ color: "#60A5FA" }}>✓</span>
                         <span>Delete your data anytime</span>
                       </div>
                     </div>

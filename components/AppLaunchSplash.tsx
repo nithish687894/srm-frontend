@@ -121,19 +121,14 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
           display: grid;
           place-items: center;
           overflow: hidden;
-          background:
-            radial-gradient(circle at 50% 28%, rgba(255, 117, 195, 0.16), transparent 34%),
-            radial-gradient(circle at 46% 62%, rgba(0, 229, 255, 0.1), transparent 36%),
-            linear-gradient(180deg, #050509 0%, #000000 100%);
+          background: #09090F;
           transition: opacity 520ms cubic-bezier(0.16, 1, 0.3, 1), transform 520ms cubic-bezier(0.16, 1, 0.3, 1), filter 520ms cubic-bezier(0.16, 1, 0.3, 1);
         }
         .nexus-splash::before {
           content: "";
           position: absolute;
           inset: 0;
-          background:
-            linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+          background: linear-gradient(rgba(255,255,255,0.014) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.014) 1px, transparent 1px);
           background-size: 42px 42px;
           mask-image: radial-gradient(circle at center, black 0%, transparent 78%);
           -webkit-mask-image: radial-gradient(circle at center, black 0%, transparent 78%);
@@ -160,49 +155,44 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
           height: 96px;
           display: grid;
           place-items: center;
-          border-radius: 28px;
-          background: rgba(255, 255, 255, 0.045);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          box-shadow:
-            0 24px 80px rgba(0, 0, 0, 0.6),
-            0 0 44px rgba(191, 90, 242, 0.16),
-            inset 0 1px 0 rgba(255,255,255,0.08);
-          backdrop-filter: blur(26px);
-          -webkit-backdrop-filter: blur(26px);
-          animation: nexusFloat 4.5s ease-in-out infinite;
+          border-radius: 16px;
+          background: #12121A;
+          border: 1px solid #292532;
+          box-shadow: none;
+          animation: none;
         }
         .nexus-logo-shell::before {
           content: "";
           position: absolute;
-          width: 132px;
-          height: 132px;
-          border-radius: 999px;
-          border: 1px solid rgba(0, 229, 255, 0.16);
-          box-shadow: 0 0 50px rgba(0, 229, 255, 0.1);
-          animation: nexusGlow 3.6s ease-in-out infinite;
+          width: 112px;
+          height: 112px;
+          border-radius: 20px;
+          border: 1px solid rgba(37,99,235,0.22);
+          box-shadow: none;
+          animation: none;
         }
         .nexus-logo-shell img {
           width: 62px;
           height: 62px;
-          border-radius: 18px;
+          border-radius: 10px;
           position: relative;
           z-index: 1;
-          filter: drop-shadow(0 0 18px rgba(0, 229, 255, 0.28));
+          filter: grayscale(1) brightness(2);
         }
         .nexus-title {
           margin-top: 34px;
           font-size: clamp(28px, 8vw, 42px);
-          font-weight: 950;
+          font-weight: 700;
           letter-spacing: 0;
           line-height: 0.95;
         }
         .nexus-subtitle {
           margin-top: 12px;
           font-size: 10px;
-          font-weight: 900;
-          letter-spacing: 0.24em;
+          font-weight: 700;
+          letter-spacing: 0.16em;
           text-transform: uppercase;
-          color: rgba(255,255,255,0.38);
+          color: #B8B2C2;
         }
         .nexus-progress {
           width: min(78vw, 300px);
@@ -220,17 +210,17 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
         .nexus-progress-track {
           height: 7px;
           overflow: hidden;
-          border-radius: 999px;
-          background: rgba(255,255,255,0.06);
-          border: 1px solid rgba(255,255,255,0.07);
-          box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+          border-radius: 6px;
+          background: #12121A;
+          border: 1px solid #292532;
+          box-shadow: none;
         }
         .nexus-progress-fill {
           position: relative;
           height: 100%;
           border-radius: inherit;
-          background: linear-gradient(90deg, #ff75c3, #bf5af2, #00e5ff);
-          box-shadow: 0 0 18px rgba(0,229,255,0.38);
+          background: #2563EB;
+          box-shadow: none;
           transition: width 360ms cubic-bezier(0.16, 1, 0.3, 1);
         }
         .nexus-progress-fill::after {
@@ -238,15 +228,15 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
           position: absolute;
           inset: 0;
           width: 42%;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent);
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.34), transparent);
           animation: nexusSweep 1.7s ease-in-out infinite;
         }
         .nexus-status {
           margin-top: 18px;
           min-height: 18px;
           font-size: 12px;
-          font-weight: 750;
-          color: rgba(255,255,255,0.68);
+          font-weight: 600;
+          color: #B8B2C2;
         }
         .nexus-version {
           position: absolute;
@@ -254,7 +244,7 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
           left: 50%;
           transform: translateX(-50%);
           font-size: 9px;
-          font-weight: 850;
+          font-weight: 700;
           letter-spacing: 0.18em;
           color: rgba(255,255,255,0.24);
           text-transform: uppercase;
