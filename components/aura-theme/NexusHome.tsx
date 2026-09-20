@@ -10,12 +10,7 @@ import {
   Clock,
   FileText,
   MapPin,
-  AlertCircle,
-  CheckCircle2,
-  TrendingUp,
-  GraduationCap,
 } from "lucide-react";
-import { useAuraTheme } from "./system/useAuraTheme";
 import { useAuthStore } from "@/lib/store";
 import styles from "./NexusHome.module.css";
 
@@ -45,17 +40,14 @@ export default function NexusHome(props: AnyValue) {
     data,
     avgAtt,
     avgMarks,
-    firstName,
     nextClass,
     currentClass,
     currentClassMeta,
     nextClassMeta,
     upcomingEvents = [],
-    safeSubjectsCount,
     riskySubjectsCount,
     dayOrder,
   } = props;
-  const { activeTheme } = useAuraTheme();
   const email = useAuthStore((state) => state.email);
   const [today] = useState(() => new Date());
 
@@ -66,13 +58,7 @@ export default function NexusHome(props: AnyValue) {
   const attendance = percentage(avgAtt);
   const averageMarks = percentage(avgMarks);
   const lesson = currentClass || nextClass;
-  const lessonLabel = currentClass
-    ? "In class now"
-    : nextClassMeta?.isTomorrow
-    ? "Tomorrow's first class"
-    : "Next class";
-  const rawName = String(firstName || "Student");
-  const name = rawName === rawName.toUpperCase() ? rawName.charAt(0) + rawName.slice(1).toLowerCase() : rawName;
+  const lessonLabel = currentClass ? "In class now" : nextClassMeta?.isTomorrow ? "Tomorrow's first class" : "Next class";
   const records = data?.attendance || data?.studentPortal?.attendance || [];
   const subjectName = (course: AnyValue) => {
     const match = records.find((item: AnyValue) => (item["Course Code"] || item.courseCode) === course.courseCode);
@@ -87,32 +73,29 @@ export default function NexusHome(props: AnyValue) {
   }).format(today);
 
   return (
-    <main className={styles.home}>
+    <main className={styles.home} data-home-dashboard>
       <div className={styles.container}>
         {/* HEADER */}
         <header className={styles.header}>
           <div className={styles.topline}>
-            <span className={styles.brand}>NEXUS</span>
+            <span className={styles.brand}>SRM NEXUS</span>
             {demo ? (
-              <span className={styles.pill}>Demo preview</span>
+              <span className={styles.pill}>DEMO</span>
             ) : dayOrder ? (
               <span className={styles.pill}>Day order {dayOrder}</span>
             ) : null}
           </div>
-          <h1 className={styles.greetingTitle}>
-            {activeTheme.greeting}
-          </h1>
+          <h1 className={styles.greetingTitle}>Home</h1>
           <p className={styles.dateSubtitle} suppressHydrationWarning>
             {dateLabel}
           </p>
         </header>
 
         {/* 1. TODAY / SCHEDULE CARD */}
-        <section className={styles.card}>
+        <section className={`${styles.card} ${styles.scheduleCard}`}>
           <div className={styles.cardHeader}>
             <div className={styles.cardTitleWrap}>
-              <span className={styles.cardEyebrow}>TODAY</span>
-              <h2 className={styles.cardHeading}>Schedule</h2>
+              <h2 className={styles.cardHeading}>{lesson ? lessonLabel : "Today’s schedule"}</h2>
             </div>
             <Link href="/timetable" className={styles.cardActionLink}>
               Timetable <ChevronRight size={14} />
@@ -121,13 +104,6 @@ export default function NexusHome(props: AnyValue) {
 
           {lesson ? (
             <div className={styles.activeSchedule}>
-              <div className={styles.lessonTagRow}>
-                <span className={styles.liveBadge}>
-                  <span className={styles.livePulse} />
-                  {lessonLabel}
-                </span>
-                {lesson.slot && <span className={styles.slotPill}>Slot {lesson.slot}</span>}
-              </div>
               <h3 className={styles.courseName}>{subjectName(lesson)}</h3>
               <div className={styles.courseMeta}>
                 <span>
@@ -160,74 +136,27 @@ export default function NexusHome(props: AnyValue) {
         {/* 2. ACADEMICS (ATTENDANCE & MARKS CARDS) */}
         <section className={styles.sectionWrap}>
           <div className={styles.sectionHeader}>
-            <h3 className={styles.sectionTitle}>Academics</h3>
-            <span className={styles.sectionMuted}>Active semester</span>
+            <h2 className={styles.sectionTitle}>Academics</h2>
           </div>
 
-          <div className={styles.metricsRow}>
-            {/* ATTENDANCE CARD */}
-            <Link href="/attendance" className={`${styles.card} ${styles.metricCard}`}>
-              <div className={styles.metricTop}>
-                <div className={styles.metricIconTitle}>
-                  <TrendingUp size={15} className={styles.metricIcon} />
-                  <span>Attendance</span>
-                </div>
-                <ChevronRight size={14} className={styles.chevron} />
+          <div className={styles.dataList}>
+            <Link href="/attendance" className={styles.dataRow}>
+              <div className={styles.dataCopy}>
+                <span className={styles.dataLabel}>Attendance</span>
+                <span className={attendance === null ? styles.dataNote : riskySubjectsCount > 0 ? styles.riskNote : styles.safeNote}>
+                  {attendance === null ? "Connect Student Portal" : riskySubjectsCount > 0 ? `${riskySubjectsCount} ${riskySubjectsCount === 1 ? "course" : "courses"} below 75%` : "All courses at or above 75%"}
+                </span>
               </div>
-
-              <div className={styles.metricMain}>
-                <div className={styles.statValue}>
-                  {attendance === null ? "—" : attendance.toFixed(1)}
-                  {attendance !== null && <small>%</small>}
-                </div>
-                <span className={styles.targetLabel}>Target 75%</span>
-              </div>
-
-              <div className={styles.metricBottom}>
-                {attendance === null ? (
-                  <span className={styles.tagNeutral}>Connect portal</span>
-                ) : riskySubjectsCount > 0 ? (
-                  <span className={styles.tagRisk}>
-                    <AlertCircle size={12} />
-                    {riskySubjectsCount} {riskySubjectsCount === 1 ? "course" : "courses"} below 75%
-                  </span>
-                ) : (
-                  <span className={styles.tagSafe}>
-                    <CheckCircle2 size={12} />
-                    All courses safe (≥ 75%)
-                  </span>
-                )}
-              </div>
+              <strong className={styles.dataValue}>{attendance === null ? "—" : `${attendance.toFixed(1)}%`}</strong>
+              <ChevronRight size={15} className={styles.rowChevron} />
             </Link>
-
-            {/* MARKS CARD */}
-            <Link href="/marks" className={`${styles.card} ${styles.metricCard}`}>
-              <div className={styles.metricTop}>
-                <div className={styles.metricIconTitle}>
-                  <GraduationCap size={15} className={styles.metricIcon} />
-                  <span>Internal Marks</span>
-                </div>
-                <ChevronRight size={14} className={styles.chevron} />
+            <Link href="/marks" className={styles.dataRow}>
+              <div className={styles.dataCopy}>
+                <span className={styles.dataLabel}>Internal marks</span>
+                {averageMarks === null && <span className={styles.dataNote}>No scores yet</span>}
               </div>
-
-              <div className={styles.metricMain}>
-                <div className={styles.statValue}>
-                  {averageMarks === null ? "—" : averageMarks.toFixed(1)}
-                  {averageMarks !== null && <small>%</small>}
-                </div>
-                <span className={styles.targetLabel}>Average</span>
-              </div>
-
-              <div className={styles.metricBottom}>
-                {averageMarks === null ? (
-                  <span className={styles.tagNeutral}>No scores yet</span>
-                ) : (
-                  <span className={styles.tagSafe}>
-                    <CheckCircle2 size={12} />
-                    Active assessments
-                  </span>
-                )}
-              </div>
+              <strong className={styles.dataValue}>{averageMarks === null ? "—" : `${averageMarks.toFixed(1)}%`}</strong>
+              <ChevronRight size={15} className={styles.rowChevron} />
             </Link>
           </div>
         </section>
@@ -235,13 +164,13 @@ export default function NexusHome(props: AnyValue) {
         {/* 3. COMING UP (TIMELINE CARD) */}
         <section className={styles.sectionWrap}>
           <div className={styles.sectionHeader}>
-            <h3 className={styles.sectionTitle}>Coming up</h3>
+            <h2 className={styles.sectionTitle}>Coming up</h2>
             <Link href="/calendar" className={styles.headerAction}>
               Calendar <ChevronRight size={14} />
             </Link>
           </div>
 
-          <div className={`${styles.card} ${styles.eventsCard}`}>
+          <div className={styles.eventsList}>
             {upcomingEvents.length ? (
               upcomingEvents.slice(0, 3).map((event: AnyValue, index: number) => (
                 <Link
@@ -251,7 +180,7 @@ export default function NexusHome(props: AnyValue) {
                 >
                   <div className={styles.eventBadge}>
                     <strong>{String(event.dateNum).padStart(2, "0")}</strong>
-                    <span>{String(event.monthLabel || "").split(" ")[0].toUpperCase()}</span>
+                    <span>{String(event.monthLabel || "").trim().slice(0, 3).toUpperCase()}</span>
                   </div>
                   <div className={styles.eventDetails}>
                     <h4>{event.event}</h4>
@@ -272,7 +201,7 @@ export default function NexusHome(props: AnyValue) {
         {/* 4. TOOLS (COMPACT 2x2 GRID CARDS) */}
         <section className={styles.sectionWrap}>
           <div className={styles.sectionHeader}>
-            <h3 className={styles.sectionTitle}>Tools</h3>
+            <h2 className={styles.sectionTitle}>Tools</h2>
             <Link href="/tools" className={styles.headerAction}>
               All tools <ChevronRight size={14} />
             </Link>
@@ -280,9 +209,10 @@ export default function NexusHome(props: AnyValue) {
 
           <div className={styles.toolsGrid}>
             {shortcuts.map(({ href, label, icon: Icon }) => (
-              <Link href={href} key={href} className={`${styles.card} ${styles.toolButton}`}>
+              <Link href={href} key={href} className={styles.toolButton}>
                 <Icon size={16} strokeWidth={1.8} className={styles.toolIcon} />
                 <span>{label}</span>
+                <ChevronRight size={14} className={styles.toolChevron} />
               </Link>
             ))}
           </div>

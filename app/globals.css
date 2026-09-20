@@ -3151,6 +3151,28 @@ a,
   .srmx-mobile-nav { display: none !important; }
 }
 
+/* The home screen keeps navigation quieter than its academic data. */
+body:has([data-home-dashboard]) .srmx-mobile-nav {
+  height: calc(62px + env(safe-area-inset-bottom, 0px)) !important;
+  background: #101016 !important;
+  box-shadow: none !important;
+}
+
+body:has([data-home-dashboard]) .srmx-mobile-nav .nav-item {
+  min-height: 54px !important;
+  gap: 3px !important;
+}
+
+body:has([data-home-dashboard]) .srmx-mobile-nav .nav-item svg {
+  width: 18px;
+  height: 18px;
+}
+
+body:has([data-home-dashboard]) .srmx-mobile-nav .nav-item span {
+  font-size: 10px !important;
+  font-weight: 600 !important;
+}
+
 /* Core academic pages share the same compact, information-first layout. */
 .marks-page-content {
   max-width: 760px;

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import {
   IdCard, Calendar, LayoutGrid,
   Sparkles, Calculator, ShieldAlert, GraduationCap, 
-  LayoutTemplate, LifeBuoy, ChevronRight
+  LayoutTemplate, LifeBuoy, ChevronRight, Car
 } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
@@ -169,6 +169,7 @@ export default function AppToolsPage() {
           <div style={{ display: 'flex', gap: '24px' }}>
             <MenuIcon icon={IdCard} label="Student Dashboard" color="#fff" onClick={() => router.push('/portal/student-dashboard')} />
             <MenuIcon icon={GraduationCap} label="Grade & Credit" color="#fff" onClick={() => router.push('/portal/grade-mark-credit')} />
+            <MenuIcon icon={Car} label="Parking" color={isLumina ? AURA_COLORS.accent : "#00ff88"} onClick={() => router.push('/tools/srm-parking')} />
           </div>
 
           {/* FORESIGHT ENGINE */}
@@ -179,6 +180,13 @@ export default function AppToolsPage() {
 
           {/* QUICK ACTIONS */}
           <SectionHeader title="QUICK ACTIONS" />
+          <ActionCard 
+            icon={Car} 
+            title="Campus Parking (Gridee)" 
+            subtitle="Live SRM spots & booking countdown" 
+            color="#60A5FA"
+            onClick={() => router.push('/tools/srm-parking')} 
+          />
           <ActionCard 
             icon={LayoutTemplate} 
             title="Themes" 

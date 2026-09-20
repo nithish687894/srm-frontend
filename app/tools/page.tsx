@@ -15,12 +15,13 @@ import {
   Users,
   Award,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  Car
 } from "lucide-react";
 import { useAuthStore } from "@/lib/store";
 import { WhatIfCalculator } from "@/components/aura-theme/WhatIfCalculator";
 
-type ToolCategory = "all" | "attendance" | "grades" | "schedule" | "ai";
+type ToolCategory = "all" | "attendance" | "grades" | "schedule" | "ai" | "campus";
 
 interface ToolItem {
   id: string;
@@ -95,6 +96,14 @@ const TOOL_ITEMS: ToolItem[] = [
     desc: "Detailed CLA scores, lab internals, and semester assessment performance.",
     icon: Award,
     href: "/marks",
+  },
+  {
+    id: "srm-parking",
+    name: "Campus Parking (Gridee)",
+    category: "campus",
+    desc: "Live SRM parking spot availability, slot shift countdowns, and quick booking access.",
+    icon: Car,
+    href: "/tools/srm-parking",
   },
 ];
 
@@ -522,6 +531,7 @@ export default function ToolsHubPage() {
                 { id: "attendance", label: "Attendance" },
                 { id: "grades", label: "Grades" },
                 { id: "schedule", label: "Schedule" },
+                { id: "campus", label: "Campus" },
                 { id: "ai", label: "AI" },
               ] as { id: ToolCategory; label: string }[]
             ).map((cat) => {
