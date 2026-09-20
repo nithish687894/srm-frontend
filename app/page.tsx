@@ -161,9 +161,9 @@ export default function LoginPage() {
       <style jsx global>{`
         .lp-root {
           min-height: 100vh;
-          background: #000000;
-          color: #ffffff;
-          font-family: 'Plus Jakarta Sans', sans-serif;
+          background: #09090F;
+          color: #F7F5FA;
+          font-family: var(--font-inter), Inter, sans-serif;
           overflow-x: hidden;
           position: relative;
         }
@@ -178,12 +178,7 @@ export default function LoginPage() {
           position: absolute;
           inset: 0;
           z-index: 0;
-          background: 
-            radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
-            radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.06) 0%, transparent 70%);
-          filter: blur(120px);
-          animation: nebulaDrift 35s ease-in-out infinite alternate;
+          background: linear-gradient(180deg, rgba(37,99,235,0.06), transparent 32%);
         }
 
         @keyframes nebulaDrift {
@@ -217,7 +212,7 @@ export default function LoginPage() {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          gap: 40px;
+          gap: 28px;
           max-width: 1400px;
           margin: 0 auto;
           text-align: center;
@@ -259,16 +254,10 @@ export default function LoginPage() {
           width: 100%;
           max-width: 460px;
           padding: 28px;
-          background:
-            linear-gradient(145deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.035)),
-            radial-gradient(circle at 18% 12%, rgba(255, 117, 195, 0.18), transparent 34%),
-            radial-gradient(circle at 82% 22%, rgba(0, 212, 255, 0.13), transparent 36%),
-            rgba(8, 8, 16, 0.86);
-          backdrop-filter: blur(34px);
-          -webkit-backdrop-filter: blur(34px);
-          border-radius: 24px;
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          box-shadow: 0 30px 90px rgba(0, 0, 0, 0.62), inset 0 1px 0 rgba(255,255,255,0.10);
+          background: #12121A;
+          border-radius: 14px;
+          border: 1px solid #292532;
+          box-shadow: none;
           position: relative;
           z-index: 2;
           overflow: hidden;
@@ -279,7 +268,7 @@ export default function LoginPage() {
           position: absolute;
           inset: 0;
           pointer-events: none;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent);
+          background: rgba(255,255,255,0.04);
           height: 1px;
         }
 
@@ -292,7 +281,7 @@ export default function LoginPage() {
           .login-container {
             max-width: 400px;
             padding: 30px;
-            border-radius: 26px;
+            border-radius: 14px;
           }
 
           .hero-content {
@@ -308,7 +297,7 @@ export default function LoginPage() {
         @media (max-width: 480px) {
           .login-container {
             padding: 32px 24px;
-            border-radius: 28px;
+            border-radius: 14px;
           }
         }
 
@@ -324,7 +313,7 @@ export default function LoginPage() {
           font-weight: 750;
           outline: none;
           transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
-          border-radius: 14px;
+          border-radius: 10px;
           margin-bottom: 12px;
         }
 
@@ -334,16 +323,16 @@ export default function LoginPage() {
         }
 
         .login-input:focus { 
-          border-color: #A855F7;
-          background: #1A1724;
-          box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.18);
+          border-color: #2563EB;
+          background: #12121A;
+          box-shadow: 0 0 0 2px rgba(37,99,235,0.18);
         }
 
         .login-btn {
           width: 100%;
           height: 52px;
           padding: 0 18px;
-          background: linear-gradient(135deg, #7B2CBF 0%, #BF5AF2 52%, #FF75C3 100%);
+          background: #2563EB;
           color: #ffffff;
           font-size: 13px;
           font-weight: 900;
@@ -352,15 +341,14 @@ export default function LoginPage() {
           cursor: pointer;
           border: none;
           transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-          border-radius: 14px;
+          border-radius: 10px;
           position: relative;
           overflow: hidden;
-          box-shadow: 0 16px 34px rgba(191, 90, 242, 0.28);
+          box-shadow: none;
         }
 
         .login-btn:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 16px 40px rgba(255, 255, 255, 0.25);
+          background: #1D4ED8;
         }
 
         .login-btn:active {

@@ -6,7 +6,6 @@ import {
   ChevronRight, 
   CalendarCheck, 
   Sun, 
-  Sparkles, 
   Clock, 
   X,
   Zap,
@@ -81,6 +80,21 @@ function buildSlotToCourseMap(myTT: AnyValue[]) {
     }
   });
   return map;
+}
+
+function getRegisteredCourses(payload: AnyValue): AnyValue[] {
+  if (Array.isArray(payload)) return payload;
+  if (Array.isArray(payload?.data?.courses)) return payload.data.courses;
+  if (Array.isArray(payload?.courses)) return payload.courses;
+  if (Array.isArray(payload?.data)) return payload.data;
+  return [];
+}
+
+function getMasterGridRows(payload: AnyValue): AnyValue[] {
+  if (Array.isArray(payload)) return payload;
+  if (Array.isArray(payload?.data?.rows)) return payload.data.rows;
+  if (Array.isArray(payload?.rows)) return payload.rows;
+  return [];
 }
 
 function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>): { day: string; classes: ScheduleItem[] }[] {
@@ -193,10 +207,8 @@ function getClassesForDayOrder(
   const doNum = typeof dayOrder === "string" ? parseInt(dayOrder.replace(/[^0-9]/g, ""), 10) : dayOrder;
   if (!doNum || doNum < 1 || doNum > 5) return [];
 
-  const rawCourses = Array.isArray(myTimetable) ? myTimetable : (myTimetable?.courses || myTimetable?.data || []);
-  const slotMap = buildSlotToCourseMap(rawCourses);
-
-  const gridRows = Array.isArray(masterTimetable) ? masterTimetable : (masterTimetable?.rows || masterTimetable?.data?.rows || []);
+  const slotMap = buildSlotToCourseMap(getRegisteredCourses(myTimetable));
+  const gridRows = getMasterGridRows(masterTimetable);
   const schedule = buildSchedule(gridRows, slotMap);
 
   const dayTargetStr = `Day ${doNum}`;
@@ -388,10 +400,8 @@ export default function CalendarPage() {
   const isLumina = resolvedTheme === "lumina";
   const pageText = isLumina ? "#fff" : "#17111f";
   const mutedText = isLumina ? "rgba(255,255,255,0.60)" : "rgba(23,17,31,0.62)";
-  const cardBg = isLumina
-    ? "linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))"
-    : "linear-gradient(145deg, rgba(255,255,255,0.96), rgba(245,240,255,0.92))";
-  const cardBorder = isLumina ? "rgba(255,255,255,0.09)" : "rgba(88,61,145,0.16)";
+  const cardBg = isLumina ? "#12121A" : "#FFFFFF";
+  const cardBorder = isLumina ? "#292532" : "rgba(23,17,31,0.14)";
 
   const { months, byDate } = useMemo(() => buildCalendarIndex(cal), [cal]);
   const semMonths = months[sem] || [];
@@ -449,7 +459,10 @@ export default function CalendarPage() {
 
   const monthEvents = useMemo(() => {
     if (!current?.days) return [];
-    return current.days.filter((d: CalendarDayInfo) => d.event && d.event.trim().length > 0 && d.event !== "Holiday" && d.event !== "Sunday");
+    return current.days.filter((d: CalendarDayInfo) => {
+      const event = String(d.event || "").trim().toLowerCase();
+      return event.length > 0 && !["holiday", "sunday", "no special events", "standard academic working day"].includes(event);
+    });
   }, [current]);
 
   const selectedDayClasses: ScheduleItem[] = useMemo(() => {
@@ -492,12 +505,12 @@ export default function CalendarPage() {
 
   return (
     <div style={{ 
-      background: isLumina ? "#050508" : "radial-gradient(circle at 20% 0%, rgba(191,90,242,0.08), transparent 40%), #f8f6fc", 
+      background: isLumina ? "#09090F" : "#f8f6fc", 
       minHeight: "100dvh", 
       display: "flex", 
       flexDirection: "column", 
       color: pageText, 
-      fontFamily: "'Plus Jakarta Sans', sans-serif" 
+      fontFamily: "var(--font-main), Inter, sans-serif" 
     }}>
       <style dangerouslySetInnerHTML={{ __html: `
         * { box-sizing: border-box; }
@@ -505,70 +518,59 @@ export default function CalendarPage() {
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .tabular-nums { font-variant-numeric: tabular-nums; }
         
-        .aura-blob {
-          position: fixed; width: 600px; height: 600px;
-          border-radius: 50%; filter: blur(150px);
-          opacity: 0.12; z-index: 0; pointer-events: none;
-        }
-
         .cal-day-cell {
+          appearance: none;
+          font: inherit;
+          padding: 0;
           aspect-ratio: 1 / 1;
           min-height: 52px;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          border-radius: 18px;
-          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+          border-radius: 10px;
+          transition: border-color 160ms ease, background-color 160ms ease;
           cursor: pointer;
           position: relative;
           user-select: none;
         }
         .cal-day-cell:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+          border-color: #4B5563 !important;
         }
         .cal-day-cell:active {
-          transform: scale(0.96);
+          transform: none;
         }
 
         .event-card {
-          border-radius: 20px;
-          padding: 16px 18px;
-          transition: all 0.2s ease;
+          border-radius: 10px;
+          padding: 14px 16px;
+          transition: border-color 160ms ease, background-color 160ms ease;
           display: flex;
           align-items: center;
           gap: 16px;
         }
         .event-card:hover {
-          transform: translateX(4px);
+          transform: none;
         }
 
         .class-slot-pill {
           padding: 12px 14px;
-          border-radius: 16px;
+          border-radius: 10px;
           display: flex;
           align-items: center;
           justify-content: space-between;
           gap: 12px;
-          transition: all 0.2s;
+          transition: border-color 160ms ease, background-color 160ms ease;
         }
         .class-slot-pill:hover {
           background: rgba(255,255,255,0.06) !important;
         }
       `}} />
 
-      {isLumina && (
-        <>
-          <div className="aura-blob" style={{ background: "#FF75C3", top: '-180px', left: '-100px' }} />
-          <div className="aura-blob" style={{ background: "#8F92FF", bottom: '-180px', right: '-100px' }} />
-        </>
-      )}
-
       {/* TOP HEADER */}
       <header style={{ 
         flexShrink: 0, 
-        padding: "calc(env(safe-area-inset-top, 0px) + 20px) 20px 14px", 
+        padding: "calc(env(safe-area-inset-top, 0px) + 66px) 20px 14px", 
         position: 'relative', 
         zIndex: 10, 
         display: 'flex', 
@@ -587,9 +589,9 @@ export default function CalendarPage() {
               background: isLumina ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.85)', 
               border: `1px solid ${cardBorder}`, 
               color: pageText, 
-              width: '42px', 
-              height: '42px', 
-              borderRadius: '16px', 
+              width: '38px', 
+              height: '38px', 
+              borderRadius: '8px', 
               display: 'flex', 
               alignItems: 'center', 
               justifyContent: 'center', 
@@ -602,9 +604,9 @@ export default function CalendarPage() {
             <ChevronLeft size={20} />
           </button>
           <div>
-            <h1 style={{ fontSize: "24px", fontWeight: 950, margin: 0, letterSpacing: '-0.04em' }}>Academic Calendar</h1>
-            <p style={{ margin: "2px 0 0", fontSize: "12px", fontWeight: 700, color: mutedText }}>
-              SRM Day Orders, Class Schedules & Attendance Forecaster
+            <h1 style={{ fontSize: "22px", fontWeight: 700, margin: 0, letterSpacing: '-0.02em' }}>Calendar</h1>
+            <p style={{ margin: "2px 0 0", fontSize: "12px", fontWeight: 550, color: mutedText }}>
+              Day orders and academic dates
             </p>
           </div>
         </div>
@@ -614,36 +616,36 @@ export default function CalendarPage() {
             onClick={() => setPlannerMode(!plannerMode)}
             style={{
               background: plannerMode 
-                ? "linear-gradient(135deg, #FF6B8B, #FF8E53)" 
-                : (isLumina ? "rgba(255,255,255,0.05)" : "rgba(88,61,145,0.08)"),
-              border: `1px solid ${plannerMode ? "#FF6B8B" : cardBorder}`,
+                ? "rgba(37,99,235,0.18)" 
+                : (isLumina ? "#12121A" : "rgba(88,61,145,0.08)"),
+              border: `1px solid ${plannerMode ? "#2563EB" : cardBorder}`,
               color: plannerMode ? "#fff" : pageText,
               padding: "8px 14px",
-              borderRadius: "100px",
+              borderRadius: "8px",
               fontSize: "12px",
-              fontWeight: 850,
+              fontWeight: 600,
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
               gap: "6px",
               transition: "all 0.2s",
-              boxShadow: plannerMode ? "0 4px 14px rgba(255,107,139,0.35)" : "none"
+              boxShadow: "none"
             }}
           >
             <Target size={14} />
-            <span>{plannerMode ? "Exit Bunk Planner" : "🎯 Bunk Forecaster"}</span>
+            <span>{plannerMode ? "Exit planner" : "Plan absence"}</span>
           </button>
 
           <button
             onClick={jumpToToday}
             style={{
-              background: isLumina ? "rgba(191,90,242,0.15)" : "rgba(124,58,237,0.12)",
-              border: `1px solid ${isLumina ? "rgba(191,90,242,0.35)" : "rgba(124,58,237,0.25)"}`,
-              color: isLumina ? "#D8B4FE" : "#7C3AED",
+              background: isLumina ? "#12121A" : "rgba(124,58,237,0.12)",
+              border: `1px solid ${cardBorder}`,
+              color: isLumina ? "#B8B2C2" : "#7C3AED",
               padding: "8px 14px",
-              borderRadius: "100px",
+              borderRadius: "8px",
               fontSize: "12px",
-              fontWeight: 850,
+              fontWeight: 600,
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
@@ -673,11 +675,11 @@ export default function CalendarPage() {
         {/* 1. BUNK PLANNER BANNER */}
         {plannerMode && (
           <section style={{
-            borderRadius: "24px",
-            padding: "16px 20px",
+            borderRadius: "10px",
+            padding: "14px 16px",
             margin: "4px 0 16px",
-            background: isLumina ? "linear-gradient(135deg, rgba(255,107,139,0.18), rgba(255,142,83,0.08))" : "linear-gradient(135deg, #FFF1F2, #FFF7ED)",
-            border: "1px solid rgba(255,107,139,0.35)",
+            background: isLumina ? "rgba(37,99,235,0.10)" : "#EFF6FF",
+            border: "1px solid rgba(37,99,235,0.35)",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
@@ -685,13 +687,13 @@ export default function CalendarPage() {
             gap: "12px"
           }}>
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <div style={{ width: "36px", height: "36px", borderRadius: "12px", background: "rgba(255,107,139,0.2)", display: "flex", alignItems: "center", justifyContent: "center", color: "#FF6B8B" }}>
+              <div style={{ width: "34px", height: "34px", borderRadius: "8px", background: "rgba(37,99,235,0.16)", display: "flex", alignItems: "center", justifyContent: "center", color: "#60A5FA" }}>
                 <Target size={18} />
               </div>
               <div>
-                <h4 style={{ margin: 0, fontSize: "14px", fontWeight: 900 }}>Bunk / Skip Forecaster Mode Active</h4>
+                <h4 style={{ margin: 0, fontSize: "14px", fontWeight: 700 }}>Absence planner active</h4>
                 <p style={{ margin: "2px 0 0", fontSize: "12px", color: mutedText, fontWeight: 700 }}>
-                  Tap any future working day on the calendar to test the exact attendance impact.
+                  Select working dates to preview their attendance impact.
                 </p>
               </div>
             </div>
@@ -700,11 +702,11 @@ export default function CalendarPage() {
               <button
                 onClick={() => setSkippedDates(new Set())}
                 style={{
-                  background: "rgba(255,255,255,0.1)",
+                  background: isLumina ? "#12121A" : "#FFFFFF",
                   border: `1px solid ${cardBorder}`,
                   color: pageText,
                   padding: "6px 12px",
-                  borderRadius: "100px",
+                  borderRadius: "8px",
                   fontSize: "11.5px",
                   fontWeight: 850,
                   cursor: "pointer",
@@ -722,15 +724,11 @@ export default function CalendarPage() {
 
         {/* 2. TODAY'S STATUS HERO CARD */}
         <section style={{
-          borderRadius: "28px",
-          padding: "22px 24px",
-          margin: "8px 0 20px",
-          background: isTodayHoliday 
-            ? (isLumina ? "linear-gradient(135deg, rgba(239,68,68,0.12), rgba(239,68,68,0.03))" : "linear-gradient(135deg, #FEF2F2, #FFF)")
-            : (isLumina ? "linear-gradient(135deg, rgba(191,90,242,0.14), rgba(56,189,248,0.05))" : "linear-gradient(135deg, #F5F3FF, #EFF6FF)"),
-          border: `1px solid ${isTodayHoliday ? "rgba(239,68,68,0.25)" : (isLumina ? "rgba(191,90,242,0.25)" : "rgba(124,58,237,0.20)")}`,
-          backdropFilter: "blur(24px)",
-          boxShadow: isLumina ? "0 20px 48px rgba(0,0,0,0.35)" : "0 20px 40px rgba(88,61,145,0.08)",
+          borderRadius: "12px",
+          padding: "18px 20px",
+          margin: "4px 0 16px",
+          background: cardBg,
+          border: `1px solid ${isTodayHoliday ? "rgba(239,68,68,0.42)" : cardBorder}`,
           display: "flex",
           flexDirection: "column",
           gap: "16px"
@@ -739,12 +737,12 @@ export default function CalendarPage() {
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px" }}>
                 <span style={{ 
-                  background: isTodayHoliday ? "rgba(239,68,68,0.15)" : "rgba(16,185,129,0.15)",
-                  color: isTodayHoliday ? "#EF4444" : "#10B981",
+                  background: isTodayHoliday ? "rgba(239,68,68,0.12)" : "rgba(37,99,235,0.14)",
+                  color: isTodayHoliday ? "#F87171" : "#60A5FA",
                   fontSize: "10.5px",
                   fontWeight: 900,
                   padding: "3px 10px",
-                  borderRadius: "100px",
+                  borderRadius: "6px",
                   textTransform: "uppercase",
                   letterSpacing: "0.05em",
                   display: "inline-flex",
@@ -752,15 +750,15 @@ export default function CalendarPage() {
                   gap: "5px"
                 }}>
                   {isTodayHoliday ? <Sun size={12} /> : <Zap size={12} />}
-                  {isTodayHoliday ? "Holiday / No Class" : "Working Day"}
+                  {isTodayHoliday ? "No classes" : "Working day"}
                 </span>
                 <span style={{ fontSize: "12px", fontWeight: 750, color: mutedText }}>{todayStr}</span>
               </div>
 
-              <h2 style={{ fontSize: "22px", fontWeight: 950, margin: "4px 0", letterSpacing: "-0.02em" }}>
+              <h2 style={{ fontSize: "20px", fontWeight: 700, margin: "4px 0", letterSpacing: "-0.02em" }}>
                 {isTodayHoliday 
                   ? (todayInfo?.event || "Weekend / Official Holiday")
-                  : `Day Order ${todayInfo?.dayOrder || "1"} • ${todayClasses.length} Classes Scheduled`
+                  : `Day Order ${todayInfo?.dayOrder || "1"} · ${todayClasses.length} classes`
                 }
               </h2>
             </div>
@@ -769,14 +767,14 @@ export default function CalendarPage() {
               display: "flex", 
               alignItems: "center", 
               gap: "14px",
-              background: isLumina ? "rgba(0,0,0,0.3)" : "rgba(255,255,255,0.8)", 
-              padding: "12px 20px", 
-              borderRadius: "20px",
+              background: isLumina ? "#09090F" : "#F8F8FA", 
+              padding: "10px 14px", 
+              borderRadius: "8px",
               border: `1px solid ${cardBorder}`
             }}>
               <div style={{ textAlign: "right" }}>
                 <div style={{ fontSize: "10px", fontWeight: 800, color: mutedText, textTransform: "uppercase", letterSpacing: "0.05em" }}>Today's Order</div>
-                <div style={{ fontSize: "28px", fontWeight: 950, color: isTodayHoliday ? "#EF4444" : (isLumina ? "#D8B4FE" : "#7C3AED"), lineHeight: 1 }} className="tabular-nums">
+                <div style={{ fontSize: "24px", fontWeight: 700, color: isTodayHoliday ? "#EF4444" : "#60A5FA", lineHeight: 1 }} className="tabular-nums">
                   {isTodayHoliday ? "OFF" : `DO ${todayInfo?.dayOrder || "—"}`}
                 </div>
               </div>
@@ -785,8 +783,8 @@ export default function CalendarPage() {
 
           {!isTodayHoliday && todayClasses.length > 0 && (
             <div style={{
-              background: isLumina ? "rgba(0,0,0,0.2)" : "rgba(255,255,255,0.6)",
-              borderRadius: "18px",
+              background: isLumina ? "#09090F" : "#F8F8FA",
+              borderRadius: "8px",
               padding: "12px 14px",
               border: `1px solid ${isLumina ? "rgba(255,255,255,0.06)" : "rgba(88,61,145,0.1)"}`
             }}>
@@ -796,7 +794,7 @@ export default function CalendarPage() {
                 </span>
                 <button
                   onClick={() => router.push(`/timetable?dayOrder=${todayInfo?.dayOrder || 1}`)}
-                  style={{ background: "none", border: "none", color: isLumina ? "#D8B4FE" : "#7C3AED", fontSize: "11.5px", fontWeight: 850, cursor: "pointer", display: "flex", alignItems: "center", gap: "2px" }}
+                  style={{ background: "none", border: "none", color: "#60A5FA", fontSize: "11.5px", fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: "2px" }}
                 >
                   <span>Full Timetable</span>
                   <ChevronRight size={14} />
@@ -810,14 +808,14 @@ export default function CalendarPage() {
                     style={{
                       minWidth: "160px",
                       flexShrink: 0,
-                      background: isLumina ? "rgba(255,255,255,0.04)" : "#fff",
+                      background: isLumina ? "#12121A" : "#fff",
                       border: `1px solid ${cardBorder}`,
-                      borderRadius: "14px",
+                      borderRadius: "8px",
                       padding: "8px 12px"
                     }}
                   >
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "4px" }}>
-                      <span style={{ fontSize: "10px", fontWeight: 900, color: cls.courseType.toLowerCase().includes("practical") || cls.courseType.toLowerCase().includes("lab") ? "#38BDF8" : "#A78BFA" }}>
+                      <span style={{ fontSize: "10px", fontWeight: 700, color: "#60A5FA" }}>
                         {cls.courseType}
                       </span>
                       <span style={{ fontSize: "9.5px", fontWeight: 800, color: mutedText }}>{fmt12(cls.startTime)}</span>
@@ -840,45 +838,45 @@ export default function CalendarPage() {
           <div style={{ 
             display: "inline-flex", 
             gap: "4px", 
-            background: isLumina ? "rgba(0,0,0,0.4)" : "rgba(88,61,145,0.08)", 
+            background: isLumina ? "#12121A" : "#F8F8FA", 
             padding: "4px", 
-            borderRadius: "100px",
+            borderRadius: "10px",
             border: `1px solid ${cardBorder}`
           }}>
             <button
               onClick={() => { setSem("ODD"); setMonthIdx(0); }}
               style={{
-                padding: "8px 18px",
-                borderRadius: "100px",
+                padding: "8px 14px",
+                borderRadius: "7px",
                 fontSize: "12px",
-                fontWeight: 850,
+                fontWeight: 650,
                 cursor: "pointer",
                 border: "none",
-                background: sem === "ODD" ? (isLumina ? "rgba(216,180,254,0.20)" : "#fff") : "transparent",
-                color: sem === "ODD" ? (isLumina ? "#D8B4FE" : "#17111f") : mutedText,
-                boxShadow: sem === "ODD" ? "0 2px 8px rgba(0,0,0,0.15)" : "none",
+                background: sem === "ODD" ? "#2563EB" : "transparent",
+                color: sem === "ODD" ? "#FFFFFF" : mutedText,
+                boxShadow: "none",
                 transition: "all 0.2s"
               }}
             >
-              Odd Semester (Jul – Dec)
+              Odd (Jul–Dec)
             </button>
 
             <button
               onClick={() => { setSem("EVEN"); setMonthIdx(0); }}
               style={{
-                padding: "8px 18px",
-                borderRadius: "100px",
+                padding: "8px 14px",
+                borderRadius: "7px",
                 fontSize: "12px",
-                fontWeight: 850,
+                fontWeight: 650,
                 cursor: "pointer",
                 border: "none",
-                background: sem === "EVEN" ? (isLumina ? "rgba(216,180,254,0.20)" : "#fff") : "transparent",
-                color: sem === "EVEN" ? (isLumina ? "#D8B4FE" : "#17111f") : mutedText,
-                boxShadow: sem === "EVEN" ? "0 2px 8px rgba(0,0,0,0.15)" : "none",
+                background: sem === "EVEN" ? "#2563EB" : "transparent",
+                color: sem === "EVEN" ? "#FFFFFF" : mutedText,
+                boxShadow: "none",
                 transition: "all 0.2s"
               }}
             >
-              Even Semester (Jan – Jun)
+              Even (Jan–Jun)
             </button>
           </div>
 
@@ -887,8 +885,8 @@ export default function CalendarPage() {
               onClick={() => setMonthIdx((i) => Math.max(0, i - 1))}
               disabled={monthIdx === 0}
               style={{
-                width: "36px", height: "36px", borderRadius: "12px",
-                background: isLumina ? "rgba(255,255,255,0.05)" : "#fff",
+                width: "36px", height: "36px", borderRadius: "8px",
+                background: isLumina ? "#12121A" : "#fff",
                 border: `1px solid ${cardBorder}`,
                 color: pageText,
                 display: "flex", alignItems: "center", justifyContent: "center",
@@ -900,7 +898,7 @@ export default function CalendarPage() {
               <ChevronLeft size={18} />
             </button>
 
-            <span style={{ fontSize: "14px", fontWeight: 900, minWidth: "120px", textAlign: "center" }}>
+            <span style={{ fontSize: "14px", fontWeight: 700, minWidth: "120px", textAlign: "center" }}>
               {current?.name || "Month"}
             </span>
 
@@ -908,8 +906,8 @@ export default function CalendarPage() {
               onClick={() => setMonthIdx((i) => Math.min(semMonths.length - 1, i + 1))}
               disabled={monthIdx >= semMonths.length - 1}
               style={{
-                width: "36px", height: "36px", borderRadius: "12px",
-                background: isLumina ? "rgba(255,255,255,0.05)" : "#fff",
+                width: "36px", height: "36px", borderRadius: "8px",
+                background: isLumina ? "#12121A" : "#fff",
                 border: `1px solid ${cardBorder}`,
                 color: pageText,
                 display: "flex", alignItems: "center", justifyContent: "center",
@@ -925,13 +923,11 @@ export default function CalendarPage() {
 
         {/* 4. CALENDAR GRID */}
         <section style={{
-          borderRadius: "28px",
-          padding: "22px 20px",
-          marginBottom: "24px",
+          borderRadius: "12px",
+          padding: "16px",
+          marginBottom: "20px",
           background: cardBg,
           border: `1px solid ${cardBorder}`,
-          backdropFilter: "blur(24px)",
-          boxShadow: isLumina ? "0 20px 48px rgba(0,0,0,0.35)" : "0 20px 40px rgba(88,61,145,0.08)",
         }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "8px", marginBottom: "12px" }}>
             {weekDays.map((d, i) => (
@@ -940,8 +936,8 @@ export default function CalendarPage() {
                 style={{ 
                   textAlign: "center", 
                   fontSize: "11px", 
-                  fontWeight: 850, 
-                  color: i >= 5 ? "#EF4444" : mutedText,
+                  fontWeight: 650, 
+                  color: mutedText,
                   textTransform: "uppercase",
                   letterSpacing: "0.05em"
                 }}
@@ -964,7 +960,8 @@ export default function CalendarPage() {
               const isSkipped = skippedDates.has(cell.isoDate);
 
               return (
-                <div
+                <button
+                  type="button"
                   key={i}
                   onClick={() => {
                     if (plannerMode && !cell.isHoliday && cell.dayOrder) {
@@ -976,20 +973,20 @@ export default function CalendarPage() {
                   className="cal-day-cell"
                   style={{
                     background: isToday
-                      ? "linear-gradient(135deg, #BF5AF2, #FF2D55)"
+                      ? "#2563EB"
                       : isSkipped
-                      ? "linear-gradient(135deg, rgba(255,107,139,0.3), rgba(255,142,83,0.25))"
+                      ? "rgba(239,68,68,0.12)"
                       : isSelected
-                      ? (isLumina ? "rgba(216,180,254,0.25)" : "rgba(124,58,237,0.18)")
+                      ? "rgba(37,99,235,0.18)"
                       : cell.isHoliday
                       ? (isLumina ? "rgba(239,68,68,0.08)" : "rgba(239,68,68,0.05)")
-                      : (isLumina ? "rgba(255,255,255,0.03)" : "rgba(88,61,145,0.04)"),
+                      : (isLumina ? "#09090F" : "#FAFAFA"),
                     border: isToday
-                      ? "none"
+                      ? "1px solid #2563EB"
                       : isSkipped
-                      ? "2px dashed #FF6B8B"
+                      ? "1px dashed #EF4444"
                       : isSelected
-                      ? "2px solid #BF5AF2"
+                      ? "1px solid #2563EB"
                       : `1px solid ${cell.isHoliday ? "rgba(239,68,68,0.18)" : cardBorder}`,
                     color: isToday ? "#fff" : pageText
                   }}
@@ -1007,8 +1004,8 @@ export default function CalendarPage() {
                     <span style={{
                       fontSize: "8px",
                       fontWeight: 900,
-                      color: "#FF6B8B",
-                      background: "rgba(255,107,139,0.2)",
+                      color: "#F87171",
+                      background: "rgba(239,68,68,0.16)",
                       padding: "1px 4px",
                       borderRadius: "6px"
                     }}>
@@ -1018,8 +1015,8 @@ export default function CalendarPage() {
                     <span style={{
                       fontSize: "8.5px",
                       fontWeight: 900,
-                      color: isToday ? "rgba(255,255,255,0.95)" : (isLumina ? "#D8B4FE" : "#7C3AED"),
-                      background: isToday ? "rgba(0,0,0,0.2)" : (isLumina ? "rgba(191,90,242,0.15)" : "rgba(124,58,237,0.10)"),
+                      color: isToday ? "rgba(255,255,255,0.95)" : "#60A5FA",
+                      background: isToday ? "rgba(0,0,0,0.16)" : "rgba(37,99,235,0.14)",
                       padding: "1px 5px",
                       borderRadius: "6px",
                       letterSpacing: "0.02em"
@@ -1049,10 +1046,10 @@ export default function CalendarPage() {
                       height: "4px",
                       borderRadius: "50%",
                       background: "#38BDF8",
-                      boxShadow: "0 0 6px #38BDF8"
+                      boxShadow: "none"
                     }} />
                   )}
-                </div>
+                </button>
               );
             }) : (
               <div style={{ gridColumn: "span 7", padding: "40px 20px", textAlign: "center", color: mutedText }}>
@@ -1065,52 +1062,33 @@ export default function CalendarPage() {
             display: "flex", 
             alignItems: "center", 
             justifyContent: "center", 
-            flexWrap: "wrap", 
-            gap: "16px", 
-            marginTop: "18px", 
-            paddingTop: "14px",
-            borderTop: `1px solid ${isLumina ? "rgba(255,255,255,0.06)" : "rgba(88,61,145,0.08)"}`,
+            marginTop: "14px", 
+            paddingTop: "12px",
+            borderTop: `1px solid ${cardBorder}`,
             fontSize: "11px",
             fontWeight: 800
           }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "linear-gradient(135deg, #BF5AF2, #FF2D55)" }} />
-              <span>Today</span>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <span style={{ width: "10px", height: "10px", borderRadius: "4px", background: "rgba(191,90,242,0.25)", border: "1px solid rgba(191,90,242,0.4)" }} />
-              <span>Day Order (1–5)</span>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <span style={{ width: "10px", height: "10px", borderRadius: "4px", background: "rgba(239,68,68,0.2)", border: "1px solid rgba(239,68,68,0.4)" }} />
-              <span>Holiday / Sunday</span>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <span style={{ width: "10px", height: "10px", borderRadius: "4px", background: "rgba(255,107,139,0.3)", border: "1px dashed #FF6B8B" }} />
-              <span>Planned Skip</span>
-            </div>
+            <span>Tap a date to see its schedule.</span>
+            {plannerMode && <span>Working dates can be selected for the absence planner.</span>}
           </div>
         </section>
 
         {/* 5. ATTENDANCE FORECAST IMPACT DECK */}
         {skippedDates.size > 0 && (
           <section style={{
-            borderRadius: "28px",
-            padding: "24px",
-            marginBottom: "24px",
-            background: isLumina 
-              ? "linear-gradient(145deg, rgba(255,107,139,0.12), rgba(142,68,255,0.06))" 
-              : "linear-gradient(145deg, #FFF1F2, #FAF5FF)",
+            borderRadius: "12px",
+            padding: "18px",
+            marginBottom: "20px",
+            background: cardBg,
             border: "1px solid rgba(255,107,139,0.3)",
-            boxShadow: "0 20px 48px rgba(0,0,0,0.4)"
           }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px", marginBottom: "18px" }}>
               <div>
-                <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "rgba(255,107,139,0.2)", padding: "4px 10px", borderRadius: "100px", color: "#FF6B8B", fontSize: "11px", fontWeight: 900, marginBottom: "4px" }}>
+                <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "rgba(239,68,68,0.12)", padding: "4px 8px", borderRadius: "6px", color: "#F87171", fontSize: "11px", fontWeight: 700, marginBottom: "4px" }}>
                   <Target size={12} />
                   <span>PROJECTED ATTENDANCE IMPACT</span>
                 </div>
-                <h3 style={{ fontSize: "18px", fontWeight: 950, margin: 0 }}>
+                <h3 style={{ fontSize: "17px", fontWeight: 700, margin: 0 }}>
                   {skippedDates.size} Day{skippedDates.size > 1 ? "s" : ""} Selected ({forecast.totalHoursMissed} class hours missed)
                 </h3>
               </div>
@@ -1122,10 +1100,10 @@ export default function CalendarPage() {
                     {forecast.currentOverallPct.toFixed(1)}%
                   </div>
                 </div>
-                <ArrowRight size={18} color="#FF6B8B" />
+                <ArrowRight size={18} color={mutedText} />
                 <div style={{ textAlign: "right" }}>
-                  <span style={{ fontSize: "11px", fontWeight: 800, color: forecast.projectedOverallPct < 75 ? "#EF4444" : "#FF6B8B" }}>Projected</span>
-                  <div style={{ fontSize: "28px", fontWeight: 950, color: forecast.projectedOverallPct < 75 ? "#EF4444" : "#FF6B8B" }} className="tabular-nums">
+                  <span style={{ fontSize: "11px", fontWeight: 800, color: forecast.projectedOverallPct < 75 ? "#EF4444" : "#60A5FA" }}>Projected</span>
+                  <div style={{ fontSize: "26px", fontWeight: 700, color: forecast.projectedOverallPct < 75 ? "#EF4444" : "#60A5FA" }} className="tabular-nums">
                     {forecast.projectedOverallPct.toFixed(1)}%
                   </div>
                 </div>
@@ -1137,8 +1115,8 @@ export default function CalendarPage() {
                 <div
                   key={idx}
                   style={{
-                    background: isLumina ? "rgba(0,0,0,0.3)" : "#fff",
-                    borderRadius: "16px",
+                    background: isLumina ? "#09090F" : "#fff",
+                    borderRadius: "8px",
                     padding: "12px 16px",
                     border: `1px solid ${subj.isAtRisk ? "rgba(239,68,68,0.4)" : cardBorder}`,
                     display: "flex",
@@ -1205,10 +1183,10 @@ export default function CalendarPage() {
                 maxHeight: "85vh",
                 display: "flex",
                 flexDirection: "column",
-                background: isLumina ? "#110E18" : "#fff",
-                border: `1px solid ${isLumina ? "rgba(255,255,255,0.15)" : "rgba(88,61,145,0.25)"}`,
-                borderRadius: "32px",
-                padding: "24px",
+                background: isLumina ? "#12121A" : "#fff",
+                border: `1px solid ${cardBorder}`,
+                borderRadius: "14px",
+                padding: "20px",
                 boxShadow: "0 24px 60px rgba(0,0,0,0.6)",
                 color: pageText,
                 position: "relative",
@@ -1221,12 +1199,12 @@ export default function CalendarPage() {
                   position: "absolute",
                   top: "18px",
                   right: "18px",
-                  background: isLumina ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)",
-                  border: "none",
+                  background: isLumina ? "#09090F" : "rgba(0,0,0,0.06)",
+                  border: `1px solid ${cardBorder}`,
                   color: pageText,
                   width: "34px",
                   height: "34px",
-                  borderRadius: "50%",
+                  borderRadius: "8px",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -1238,12 +1216,12 @@ export default function CalendarPage() {
 
               <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
                 <span style={{ 
-                  background: selectedDay.isHoliday ? "rgba(239,68,68,0.15)" : "rgba(16,185,129,0.15)",
-                  color: selectedDay.isHoliday ? "#EF4444" : "#10B981",
+                  background: selectedDay.isHoliday ? "rgba(239,68,68,0.12)" : "rgba(37,99,235,0.14)",
+                  color: selectedDay.isHoliday ? "#EF4444" : "#60A5FA",
                   fontSize: "11px",
                   fontWeight: 900,
                   padding: "4px 10px",
-                  borderRadius: "100px",
+                  borderRadius: "6px",
                   textTransform: "uppercase"
                 }}>
                   {selectedDay.isHoliday ? "Holiday" : `Day Order ${selectedDay.dayOrder}`}
@@ -1251,14 +1229,15 @@ export default function CalendarPage() {
                 <span style={{ fontSize: "13px", fontWeight: 750, color: mutedText }}>{selectedDay.weekdayLabel}</span>
               </div>
 
-              <h3 style={{ fontSize: "22px", fontWeight: 950, margin: "0 0 6px" }}>
+              <h3 style={{ fontSize: "20px", fontWeight: 700, margin: "0 0 6px" }}>
                 {new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" }).format(new Date(selectedDay.isoDate))}
               </h3>
 
               <div style={{ 
-                background: isLumina ? "rgba(255,255,255,0.04)" : "rgba(88,61,145,0.05)", 
+                background: isLumina ? "#09090F" : "#F8F8FA", 
                 padding: "12px 14px", 
-                borderRadius: "16px",
+                borderRadius: "8px",
+                border: `1px solid ${cardBorder}`,
                 margin: "12px 0",
                 fontSize: "13px",
                 fontWeight: 700,
@@ -1277,7 +1256,7 @@ export default function CalendarPage() {
                     <div style={{ fontSize: "12px", fontWeight: 900, color: mutedText, textTransform: "uppercase", letterSpacing: "0.05em" }}>
                       Registered Classes ({selectedDayClasses.length})
                     </div>
-                    <span style={{ fontSize: "11px", color: isLumina ? "#D8B4FE" : "#7C3AED", fontWeight: 850 }}>
+                    <span style={{ fontSize: "11px", color: "#60A5FA", fontWeight: 700 }}>
                       DO {selectedDay.dayOrder}
                     </span>
                   </div>
@@ -1289,7 +1268,7 @@ export default function CalendarPage() {
                           key={idx}
                           className="class-slot-pill"
                           style={{
-                            background: isLumina ? "rgba(255,255,255,0.03)" : "rgba(88,61,145,0.04)",
+                            background: isLumina ? "#09090F" : "#F8F8FA",
                             border: `1px solid ${cardBorder}`
                           }}
                         >
@@ -1300,10 +1279,10 @@ export default function CalendarPage() {
                               borderRadius: "12px",
                               background: cls.courseType.toLowerCase().includes("practical") || cls.courseType.toLowerCase().includes("lab") 
                                 ? "rgba(56,189,248,0.15)" 
-                                : "rgba(191,90,242,0.15)",
+                                : "rgba(37,99,235,0.15)",
                               color: cls.courseType.toLowerCase().includes("practical") || cls.courseType.toLowerCase().includes("lab") 
                                 ? "#38BDF8" 
-                                : "#D8B4FE",
+                                : "#60A5FA",
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
@@ -1316,7 +1295,7 @@ export default function CalendarPage() {
                                 {cls.courseCode} — {cls.courseTitle}
                               </div>
                               <div style={{ fontSize: "11px", color: mutedText, fontWeight: 750, marginTop: "2px", display: "flex", alignItems: "center", gap: "6px" }}>
-                                <span style={{ color: isLumina ? "#D8B4FE" : "#7C3AED", fontWeight: 850 }}>{cls.slot}</span>
+                                <span style={{ color: "#60A5FA", fontWeight: 700 }}>{cls.slot}</span>
                                 <span>•</span>
                                 <span>{cls.roomNo || "Room TBA"}</span>
                               </div>
@@ -1350,12 +1329,12 @@ export default function CalendarPage() {
                       style={{
                         flex: 1,
                         background: skippedDates.has(selectedDay.isoDate) 
-                          ? "rgba(255,107,139,0.2)" 
-                          : (isLumina ? "rgba(255,255,255,0.06)" : "rgba(88,61,145,0.08)"),
-                        border: `1px solid ${skippedDates.has(selectedDay.isoDate) ? "#FF6B8B" : cardBorder}`,
-                        color: skippedDates.has(selectedDay.isoDate) ? "#FF6B8B" : pageText,
+                          ? "rgba(239,68,68,0.12)" 
+                          : (isLumina ? "#09090F" : "#F8F8FA"),
+                        border: `1px solid ${skippedDates.has(selectedDay.isoDate) ? "#EF4444" : cardBorder}`,
+                        color: skippedDates.has(selectedDay.isoDate) ? "#F87171" : pageText,
                         padding: "12px",
-                        borderRadius: "16px",
+                        borderRadius: "8px",
                         fontSize: "12.5px",
                         fontWeight: 900,
                         cursor: "pointer",
@@ -1366,18 +1345,18 @@ export default function CalendarPage() {
                       }}
                     >
                       <Target size={15} />
-                      <span>{skippedDates.has(selectedDay.isoDate) ? "Unmark Bunk" : "Simulate Bunk"}</span>
+                      <span>{skippedDates.has(selectedDay.isoDate) ? "Remove absence" : "Plan absence"}</span>
                     </button>
 
                     <button
                       onClick={() => router.push(`/timetable?dayOrder=${selectedDay.dayOrder}`)}
                       style={{
                         flex: 1,
-                        background: "linear-gradient(135deg, #BF5AF2, #FF2D55)",
+                        background: "#2563EB",
                         border: "none",
                         color: "#fff",
                         padding: "12px",
-                        borderRadius: "16px",
+                        borderRadius: "8px",
                         fontSize: "12.5px",
                         fontWeight: 900,
                         cursor: "pointer",
@@ -1397,12 +1376,11 @@ export default function CalendarPage() {
           </div>
         )}
 
-        {/* 7. SCHEDULED EVENTS & EXAMS THIS MONTH */}
+        {/* 7. IMPORTANT DATES THIS MONTH */}
         <section>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "14px" }}>
-            <Sparkles size={18} color="#38BDF8" />
-            <h2 style={{ fontSize: "16px", fontWeight: 900, margin: 0 }}>
-              Events & Schedules in {current?.name || "Month"} ({monthEvents.length})
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
+            <h2 style={{ fontSize: "16px", fontWeight: 700, margin: 0 }}>
+              Important dates · {current?.name || "Month"}
             </h2>
           </div>
 
@@ -1422,10 +1400,10 @@ export default function CalendarPage() {
                   <div style={{
                     width: "48px",
                     height: "48px",
-                    borderRadius: "16px",
-                    background: d.isHoliday ? "rgba(239,68,68,0.12)" : "rgba(56,189,248,0.12)",
-                    border: `1px solid ${d.isHoliday ? "rgba(239,68,68,0.25)" : "rgba(56,189,248,0.25)"}`,
-                    color: d.isHoliday ? "#EF4444" : "#38BDF8",
+                    borderRadius: "8px",
+                    background: d.isHoliday ? "rgba(239,68,68,0.12)" : "rgba(37,99,235,0.14)",
+                    border: `1px solid ${d.isHoliday ? "rgba(239,68,68,0.25)" : "rgba(37,99,235,0.25)"}`,
+                    color: d.isHoliday ? "#EF4444" : "#60A5FA",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -1437,7 +1415,7 @@ export default function CalendarPage() {
                   </div>
 
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <h3 style={{ fontSize: "14.5px", fontWeight: 850, margin: "0 0 2px" }}>{d.event}</h3>
+                    <h3 style={{ fontSize: "14.5px", fontWeight: 700, margin: "0 0 2px" }}>{d.event}</h3>
                     <span style={{ fontSize: "11px", fontWeight: 750, color: mutedText }}>
                       {d.isHoliday ? "Holiday / Off" : `Day Order ${d.dayOrder}`}
                     </span>
@@ -1451,7 +1429,7 @@ export default function CalendarPage() {
                 textAlign: "center", 
                 padding: "32px 20px", 
                 background: cardBg, 
-                borderRadius: "20px", 
+                borderRadius: "10px", 
                 border: `1px solid ${cardBorder}`,
                 color: mutedText,
                 fontSize: "13px",

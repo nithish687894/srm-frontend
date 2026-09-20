@@ -328,11 +328,15 @@ function insertBreaks(classes: ScheduleItem[]) {
     if (i < classes.length - 1) {
       const curEnd = parseEnd(classes[i].endTime);
       const nextStart = parseStart(classes[i+1].startTime);
-      if (nextStart - curEnd >= 15) {
+      const breakMinutes = nextStart - curEnd;
+      // SRM periods are separated by real five-minute transitions. Preserve
+      // every verified gap of five minutes or more in the daily schedule.
+      if (breakMinutes >= 5) {
         res.push({
           isBreak: true,
           startTime: classes[i].endTime,
           endTime: classes[i+1].startTime,
+          durationMinutes: breakMinutes,
         });
       }
     }
@@ -1629,7 +1633,7 @@ export function AuraTimetable({
                       <div key={`break-${i}`} className="timetable-break-row">
                         <div className="timetable-break-time">{fmt12(item.startTime)}</div>
                         <div className="timetable-break-label-wrap">
-                          <span className="timetable-break-label">Break · until {fmt12(item.endTime)}</span>
+                          <span className="timetable-break-label">{item.durationMinutes} min break · until {fmt12(item.endTime)}</span>
                           <div className="timetable-break-line" />
                         </div>
                       </div>
