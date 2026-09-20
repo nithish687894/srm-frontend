@@ -93,6 +93,7 @@ export default function SrmParkingToolPage() {
   // Booking Form State
   const [selectedShift, setSelectedShift] = useState<string>("MORNING");
   const [selectedVehicle, setSelectedVehicle] = useState<string>("");
+  const [selectedSpotId, setSelectedSpotId] = useState<string>("Slot 01");
 
   // Countdown to 18:30 IST (Booking open time)
   const [timeLeft, setTimeLeft] = useState<{ hours: number; minutes: number; seconds: number }>({
@@ -600,17 +601,17 @@ export default function SrmParkingToolPage() {
               fontWeight: 800,
               letterSpacing: "0.04em"
             }}>
-              {isFull ? "LOT CURRENTLY FULL" : `${liveSpotCount} SPOTS AVAILABLE`}
+              {session ? (isFull ? "ALL 10 SLOTS TAKEN" : `${liveSpotCount} SPOTS AVAILABLE`) : "10 SLOTS • SELECT BELOW"}
             </span>
           </div>
 
           {/* Big Spot Numbers */}
           <div style={{ display: "flex", alignItems: "baseline", gap: "10px", marginBottom: "8px" }}>
-            <span style={{ fontSize: "44px", fontWeight: 900, lineHeight: 1, letterSpacing: "-0.04em", color: isFull ? "#EF4444" : "#10B981" }}>
-              {liveSpotCount}
+            <span style={{ fontSize: "44px", fontWeight: 900, lineHeight: 1, letterSpacing: "-0.04em", color: session && isFull ? "#EF4444" : "#10B981" }}>
+              {session ? liveSpotCount : totalSpots}
             </span>
             <span style={{ fontSize: "18px", color: "#8F8998", fontWeight: 700 }}>
-              / {totalSpots} spots available
+              {session ? `/ ${totalSpots} spots available` : "total campus slots"}
             </span>
           </div>
 
@@ -618,33 +619,6 @@ export default function SrmParkingToolPage() {
             <MapPin size={14} color="#60A5FA" />
             <span>SRM Kattankulathur Campus • Potheri, Chennai</span>
           </p>
-
-          {/* Real Spots list if unlocked via auth */}
-          {session && realSpots && realSpots.length > 0 && (
-            <div style={{ marginBottom: "16px" }}>
-              <p style={{ fontSize: "11px", fontWeight: 750, color: "#60A5FA", textTransform: "uppercase", marginBottom: "8px", letterSpacing: "0.05em" }}>
-                Unlocked Spots ({realSpots.length})
-              </p>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-                {realSpots.map((sp: any, i: number) => (
-                  <span
-                    key={sp.id || i}
-                    style={{
-                      background: "#1E1E28",
-                      border: "1px solid #292532",
-                      color: "#F7F5FA",
-                      fontSize: "11px",
-                      fontWeight: 700,
-                      padding: "4px 10px",
-                      borderRadius: "6px"
-                    }}
-                  >
-                    Spot {sp.spotNumber || sp.name || (i + 1)}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
 
           {/* Quick Info bar */}
           <div style={{
@@ -665,6 +639,87 @@ export default function SrmParkingToolPage() {
             <span style={{ fontSize: "11.5px", color: "#60A5FA", fontWeight: 700 }}>
               1 Day Advance
             </span>
+          </div>
+        </section>
+
+        {/* 2. Interactive Visual 10-Slot Parking Bay Grid */}
+        <section style={{
+          background: "#12121A",
+          border: "1px solid #292532",
+          borderRadius: "14px",
+          padding: "18px 20px"
+        }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px", flexWrap: "wrap", gap: "8px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <Car size={16} color="#60A5FA" />
+              <h2 style={{ fontSize: "14px", fontWeight: 800, margin: 0, color: "#F7F5FA" }}>
+                Campus Parking Bays ({totalSpots} Slots)
+              </h2>
+            </div>
+            <span style={{ fontSize: "11.5px", color: "#10B981", fontWeight: 750, background: "rgba(16, 185, 129, 0.1)", border: "1px solid rgba(16, 185, 129, 0.25)", padding: "3px 8px", borderRadius: "6px" }}>
+              {selectedSpotId ? `Selected: ${selectedSpotId}` : "Tap any slot to reserve"}
+            </span>
+          </div>
+
+          <p style={{ margin: "0 0 14px", fontSize: "12px", color: "#8F8998" }}>
+            Tap any parking slot below to select it for your {selectedShift.toLowerCase()} shift reservation:
+          </p>
+
+          {/* 10-Slot Layout Grid */}
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(110px, 1fr))",
+            gap: "8px"
+          }}>
+            {Array.from({ length: totalSpots }).map((_, index) => {
+              const spotNum = index + 1;
+              const spotLabel = `Slot ${spotNum < 10 ? '0' + spotNum : spotNum}`;
+              const isSelected = selectedSpotId === spotLabel;
+              return (
+                <button
+                  key={spotLabel}
+                  type="button"
+                  onClick={() => setSelectedSpotId(spotLabel)}
+                  style={{
+                    background: isSelected ? "rgba(37, 99, 235, 0.18)" : "#0E0E15",
+                    border: `1.5px solid ${isSelected ? "#2563EB" : "#292532"}`,
+                    borderRadius: "10px",
+                    padding: "12px 8px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: "6px",
+                    cursor: "pointer",
+                    transition: "all 0.15s ease",
+                    position: "relative"
+                  }}
+                >
+                  <div style={{
+                    width: "32px",
+                    height: "32px",
+                    borderRadius: "8px",
+                    background: isSelected ? "#2563EB" : "#1E1E28",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: isSelected ? "#FFF" : "#60A5FA"
+                  }}>
+                    <Car size={16} />
+                  </div>
+                  <p style={{ margin: 0, fontSize: "12.5px", fontWeight: 800, color: isSelected ? "#FFF" : "#F7F5FA" }}>
+                    {spotLabel}
+                  </p>
+                  <span style={{ fontSize: "10px", fontWeight: 700, color: isSelected ? "#60A5FA" : "#10B981" }}>
+                    {isSelected ? "Selected" : "Selectable"}
+                  </span>
+                  {isSelected && (
+                    <div style={{ position: "absolute", top: "4px", right: "6px" }}>
+                      <CheckCircle2 size={13} color="#60A5FA" />
+                    </div>
+                  )}
+                </button>
+              );
+            })}
           </div>
         </section>
 
@@ -715,6 +770,24 @@ export default function SrmParkingToolPage() {
                   </button>
                 ))}
               </div>
+            </div>
+
+            {/* Target Bay Preview */}
+            <div style={{
+              background: "#0E0E15",
+              border: "1px solid #292532",
+              borderRadius: "8px",
+              padding: "10px 12px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between"
+            }}>
+              <span style={{ fontSize: "11.5px", color: "#8F8998", fontWeight: 700, textTransform: "uppercase" }}>
+                Target Parking Bay
+              </span>
+              <span style={{ fontSize: "13px", fontWeight: 800, color: "#10B981" }}>
+                {selectedSpotId}
+              </span>
             </div>
 
             {/* Vehicle Selector */}
