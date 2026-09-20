@@ -15,7 +15,17 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const res = await fetch(`${GRIDEE_API_BASE}/api/parking-lots/${SRM_LOT_ID}/spots/available`, {
+    const { searchParams } = new URL(req.url);
+    const now = new Date();
+    const defaultStart = now.toISOString();
+    const defaultEnd = new Date(now.getTime() + 4 * 60 * 60 * 1000).toISOString();
+
+    const startTime = searchParams.get("startTime") || defaultStart;
+    const endTime = searchParams.get("endTime") || defaultEnd;
+
+    const url = `${GRIDEE_API_BASE}/api/parking-lots/${SRM_LOT_ID}/spots/available?startTime=${encodeURIComponent(startTime)}&endTime=${encodeURIComponent(endTime)}`;
+
+    const res = await fetch(url, {
       headers: {
         Authorization: authHeader,
         Accept: "application/json",
