@@ -26,8 +26,11 @@ import {
   X,
   Lock,
   Building2,
-  Coffee
+  Coffee,
+  Coins,
+  QrCode
 } from "lucide-react";
+import QRCode from "qrcode";
 import { signInGrideeWithGoogle } from "@/lib/grideeFirebase";
 
 interface GrideeSession {
@@ -52,6 +55,18 @@ export default function SrmParkingToolPage() {
   const [loginToken, setLoginToken] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
   const [loginError, setLoginError] = useState("");
+
+  // Live Wallet Balance
+  const [walletBalance, setWalletBalance] = useState<number | null>(null);
+
+  // Active Digital Gate Pass (QR Code)
+  const [activeQrPass, setActiveQrPass] = useState<{
+    bookingId: string;
+    vehicleNumber: string;
+    zoneName: string;
+    slotShift: string;
+    qrDataUrl: string;
+  } | null>(null);
 
   // Zone & Spot Selection
   const [activeZone, setActiveZone] = useState<"TP" | "JAVA">("TP");
@@ -138,10 +153,46 @@ export default function SrmParkingToolPage() {
         const data = await res.json();
         if (data.success && data.bookings) {
           setMyBookings(data.bookings);
+          if (data.bookings.length > 0 && !activeQrPass) {
+            const first = data.bookings[0];
+            const bId = first.bookingId || first.id || first.ticketId || "ACTIVE";
+            const vNum = first.vehicleNumber || selectedVehicle || "TN01NIT111";
+            const zName = first.zoneName || "SRM Campus Parking";
+            const sShift = first.slotId || "ACTIVE";
+            const qrStr = `GRIDEE:BOOKING:${bId}:${vNum}`;
+            QRCode.toDataURL(qrStr, { width: 280, margin: 1 })
+              .then((url) => {
+                setActiveQrPass({
+                  bookingId: bId,
+                  vehicleNumber: vNum,
+                  zoneName: zName,
+                  slotShift: sShift,
+                  qrDataUrl: url,
+                });
+              })
+              .catch(() => {});
+          }
         }
       }
     } catch (e) {
       console.warn("Could not fetch user bookings", e);
+    }
+  };
+
+  // Fetch live wallet balance
+  const fetchUserWallet = async (token: string, userId: string) => {
+    try {
+      const res = await fetch(`/api/gridee/wallet?userId=${userId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && typeof data.balance === "number") {
+          setWalletBalance(data.balance);
+        }
+      }
+    } catch (e) {
+      console.warn("Could not fetch user wallet", e);
     }
   };
 
@@ -151,6 +202,7 @@ export default function SrmParkingToolPage() {
       const uId = session.user?.id || session.user?.userId;
       if (uId) {
         fetchUserBookings(session.accessToken, uId);
+        fetchUserWallet(session.accessToken, uId);
       }
 
       // Auto-populate registered vehicle
@@ -405,9 +457,27 @@ export default function SrmParkingToolPage() {
         return;
       }
 
-      setBookingSuccess(`Slot booked successfully! Reference: ${data.booking?.bookingId || data.booking?.id || "CONFIRMED"}`);
+      const bId = data.booking?.bookingId || data.booking?.id || data.booking?.ticketId || "CONFIRMED";
+      setBookingSuccess(`Slot booked successfully! Reference: ${bId}`);
+
+      // Generate Gate Entry QR Code Pass
+      const qrData = `GRIDEE:BOOKING:${bId}:${plate}:${activeZone}`;
+      try {
+        const qrUrl = await QRCode.toDataURL(qrData, { width: 280, margin: 1 });
+        setActiveQrPass({
+          bookingId: bId,
+          vehicleNumber: plate,
+          zoneName: activeZone === "TP" ? "Tech Park (TP Avenue)" : "Java Ground",
+          slotShift: selectedShift,
+          qrDataUrl: qrUrl,
+        });
+      } catch (qrErr) {
+        console.error("QR Generation error", qrErr);
+      }
+
       fetchRealSpots(session.accessToken);
       fetchUserBookings(session.accessToken, userId);
+      fetchUserWallet(session.accessToken, userId);
     } catch (err: any) {
       setBookingError(err.message || "Failed to submit booking.");
     } finally {
@@ -474,9 +544,15 @@ export default function SrmParkingToolPage() {
 
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             {session ? (
-              <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                <span style={{ fontSize: "11px", color: "#10B981", background: "rgba(16, 185, 129, 0.12)", border: "1px solid rgba(16, 185, 129, 0.25)", padding: "4px 8px", borderRadius: "6px", fontWeight: 700 }}>
-                  {session.user?.email ? session.user.email.split("@")[0] : "Logged In"}
+              <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" }}>
+                {walletBalance !== null && (
+                  <span style={{ fontSize: "11px", color: "#FBBF24", background: "rgba(245, 158, 11, 0.12)", border: "1px solid rgba(245, 158, 11, 0.25)", padding: "4px 8px", borderRadius: "6px", fontWeight: 750, display: "flex", alignItems: "center", gap: "4px" }}>
+                    <Coins size={13} />
+                    <span>{walletBalance} Coins</span>
+                  </span>
+                )}
+                <span style={{ fontSize: "11px", color: "#10B981", background: "rgba(16, 185, 129, 0.12)", border: "1px solid rgba(16, 185, 129, 0.25)", padding: "4px 8px", borderRadius: "6px", fontWeight: 750 }}>
+                  {session.user?.name ? session.user.name.split(" ")[0] : (session.user?.email ? session.user.email.split("@")[0] : "Connected")}
                 </span>
                 <button
                   onClick={handleLogout}
@@ -620,6 +696,115 @@ export default function SrmParkingToolPage() {
         ) : (
           /* AUTHENTICATED STATE: Full TP & Java Zones Hub */
           <>
+            {/* ACTIVE DIGITAL PARKING PASS (GATE QR) */}
+            {activeQrPass && (
+              <section style={{
+                background: "linear-gradient(135deg, rgba(37, 99, 235, 0.18) 0%, rgba(16, 185, 129, 0.12) 100%)",
+                border: "1.5px solid rgba(37, 99, 235, 0.4)",
+                borderRadius: "16px",
+                padding: "20px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
+                position: "relative",
+                boxShadow: "0 8px 24px rgba(0, 0, 0, 0.35)"
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+                  <QrCode size={18} color="#60A5FA" />
+                  <h3 style={{ margin: 0, fontSize: "16px", fontWeight: 850, color: "#F7F5FA", letterSpacing: "-0.02em" }}>
+                    Digital Campus Gate Pass (Scan QR)
+                  </h3>
+                </div>
+
+                <p style={{ margin: "0 0 14px", fontSize: "12px", color: "#9C96A7" }}>
+                  Scan this QR at the SRM Kattankulathur gate barrier scanner to check in
+                </p>
+
+                {/* QR Code Container */}
+                <div style={{
+                  background: "#FFFFFF",
+                  padding: "12px",
+                  borderRadius: "14px",
+                  boxShadow: "0 4px 16px rgba(0,0,0,0.5)",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: "14px"
+                }}>
+                  <img
+                    src={activeQrPass.qrDataUrl}
+                    alt="Entry QR Code"
+                    style={{ width: "190px", height: "190px", display: "block" }}
+                  />
+                </div>
+
+                {/* Pass Details Pill Grid */}
+                <div style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: "8px",
+                  width: "100%",
+                  maxWidth: "340px",
+                  marginBottom: "14px"
+                }}>
+                  <div style={{ background: "rgba(18, 18, 26, 0.7)", border: "1px solid #292532", borderRadius: "8px", padding: "8px 10px", textAlign: "left" }}>
+                    <p style={{ margin: 0, fontSize: "10px", color: "#8F8998", textTransform: "uppercase", fontWeight: 700 }}>Vehicle Plate</p>
+                    <p style={{ margin: "2px 0 0", fontSize: "13px", fontWeight: 850, color: "#F7F5FA" }}>{activeQrPass.vehicleNumber}</p>
+                  </div>
+                  <div style={{ background: "rgba(18, 18, 26, 0.7)", border: "1px solid #292532", borderRadius: "8px", padding: "8px 10px", textAlign: "left" }}>
+                    <p style={{ margin: 0, fontSize: "10px", color: "#8F8998", textTransform: "uppercase", fontWeight: 700 }}>Zone Ground</p>
+                    <p style={{ margin: "2px 0 0", fontSize: "13px", fontWeight: 850, color: "#60A5FA" }}>{activeQrPass.zoneName}</p>
+                  </div>
+                  <div style={{ background: "rgba(18, 18, 26, 0.7)", border: "1px solid #292532", borderRadius: "8px", padding: "8px 10px", textAlign: "left" }}>
+                    <p style={{ margin: 0, fontSize: "10px", color: "#8F8998", textTransform: "uppercase", fontWeight: 700 }}>Shift / Timing</p>
+                    <p style={{ margin: "2px 0 0", fontSize: "12px", fontWeight: 800, color: "#F7F5FA" }}>{activeQrPass.slotShift}</p>
+                  </div>
+                  <div style={{ background: "rgba(18, 18, 26, 0.7)", border: "1px solid #292532", borderRadius: "8px", padding: "8px 10px", textAlign: "left" }}>
+                    <p style={{ margin: 0, fontSize: "10px", color: "#8F8998", textTransform: "uppercase", fontWeight: 700 }}>Pass Status</p>
+                    <p style={{ margin: "2px 0 0", fontSize: "12px", fontWeight: 850, color: "#10B981" }}>READY TO SCAN</p>
+                  </div>
+                </div>
+
+                <div style={{ display: "flex", gap: "8px" }}>
+                  <a
+                    href={activeQrPass.qrDataUrl}
+                    download={`SRM_Parking_Pass_${activeQrPass.bookingId}.png`}
+                    style={{
+                      background: "#2563EB",
+                      color: "#FFF",
+                      padding: "8px 16px",
+                      borderRadius: "8px",
+                      fontSize: "12px",
+                      fontWeight: 750,
+                      textDecoration: "none",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "6px"
+                    }}
+                  >
+                    <span>Save Pass Image</span>
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => setActiveQrPass(null)}
+                    style={{
+                      background: "#1E1E28",
+                      border: "1px solid #292532",
+                      color: "#B8B2C2",
+                      padding: "8px 14px",
+                      borderRadius: "8px",
+                      fontSize: "12px",
+                      fontWeight: 700,
+                      cursor: "pointer"
+                    }}
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              </section>
+            )}
+
             {/* Zone Selector: TP vs Java Ground */}
             <section style={{
               background: "#12121A",
@@ -809,6 +994,30 @@ export default function SrmParkingToolPage() {
                   </span>
                   <span style={{ fontSize: "13px", fontWeight: 800, color: "#10B981" }}>
                     {activeZone === "TP" ? "Tech Park" : "Java Ground"} • {selectedSpotId}
+                  </span>
+                </div>
+
+                {/* Live Wallet & Cost Indicator */}
+                <div style={{
+                  background: "#0E0E15",
+                  border: "1px solid #292532",
+                  borderRadius: "8px",
+                  padding: "10px 12px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between"
+                }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                    <Coins size={14} color="#FBBF24" />
+                    <span style={{ fontSize: "11.5px", color: "#8F8998", fontWeight: 700, textTransform: "uppercase" }}>
+                      Gridee Wallet
+                    </span>
+                    <strong style={{ fontSize: "12.5px", color: "#FBBF24", fontWeight: 800 }}>
+                      {walletBalance !== null ? `${walletBalance} Coins` : "Loading..."}
+                    </strong>
+                  </div>
+                  <span style={{ fontSize: "11px", color: "#10B981", fontWeight: 750, background: "rgba(16, 185, 129, 0.1)", padding: "2px 6px", borderRadius: "4px" }}>
+                    Cost: 5 Coins (₹5)
                   </span>
                 </div>
 
