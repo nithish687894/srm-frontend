@@ -47,7 +47,7 @@ export default function SrmParkingToolPage() {
   const [session, setSession] = useState<GrideeSession | null>(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loginMode, setLoginMode] = useState<"email" | "token" | "google">("email");
-  const [loginEmail, setLoginEmail] = useState("nithish687894@gmail.com");
+  const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [loginToken, setLoginToken] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
@@ -92,12 +92,16 @@ export default function SrmParkingToolPage() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
 
-  // Load session from localStorage on mount
+  // Load session & remembered email from localStorage on mount
   useEffect(() => {
     try {
       const stored = localStorage.getItem("gridee_nexus_session");
       if (stored) {
         setSession(JSON.parse(stored));
+      }
+      const remembered = localStorage.getItem("gridee_nexus_last_email");
+      if (remembered) {
+        setLoginEmail(remembered);
       }
     } catch (e) {
       console.error("Failed loading session", e);
@@ -336,6 +340,9 @@ export default function SrmParkingToolPage() {
 
       setSession(newSession);
       localStorage.setItem("gridee_nexus_session", JSON.stringify(newSession));
+      if (loginEmail) {
+        localStorage.setItem("gridee_nexus_last_email", loginEmail.trim());
+      }
       setShowLoginModal(false);
       setLoginPassword("");
       setLoginToken("");
