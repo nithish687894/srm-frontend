@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { authAPI, dataAPI } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { useThemeStore } from "@/lib/themeStore";
-import { X, ShieldCheck, RefreshCw, Cpu, Eye, EyeOff, Sparkles, Zap } from "lucide-react";
+import { X, ShieldCheck, RefreshCw, Cpu, Eye, EyeOff, Zap } from "lucide-react";
 
 interface PortalSyncModalProps {
   isOpen: boolean;
@@ -91,29 +91,12 @@ export default function PortalSyncModal({
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [showManualCaptcha, setShowManualCaptcha] = useState(false);
   const [refreshingCaptcha, setRefreshingCaptcha] = useState(false);
-  const [isSolvingCaptcha, setIsSolvingCaptcha] = useState(false);
 
   const isFetchingCaptchaRef = useRef(false);
   const hasFetchedForOpenRef = useRef(false);
 
   const storeEmail = useAuthStore((state) => state.email);
   const effectiveNetId = (netId || storeEmail || "").split("@")[0].replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
-
-  const handleAutoSolve = useCallback(async (imageToSolve?: string) => {
-    const targetImage = imageToSolve || captchaImage;
-    if (!targetImage || isSolvingCaptcha) return;
-    setIsSolvingCaptcha(true);
-    try {
-      const res = await authAPI.solveCaptcha(targetImage);
-      if (res?.success && res?.text) {
-        setCaptcha(res.text.toLowerCase());
-      }
-    } catch (err: AnyValue) {
-      console.warn("[PortalSync] Auto-solve failed, fallback to manual input", err);
-    } finally {
-      setIsSolvingCaptcha(false);
-    }
-  }, [captchaImage, isSolvingCaptcha]);
 
   const fetchNewCaptcha = useCallback(async (force = false) => {
     if (isFetchingCaptchaRef.current && !force) return;
@@ -128,21 +111,6 @@ export default function PortalSyncModal({
         setCaptchaToken(token);
         setShowManualCaptcha(true);
         setCaptcha("");
-
-        // Automatically trigger AI auto-solve
-        setIsSolvingCaptcha(true);
-        authAPI.solveCaptcha(img)
-          .then((solveRes) => {
-            if (solveRes?.success && solveRes?.text) {
-              setCaptcha(solveRes.text.toLowerCase());
-            }
-          })
-          .catch((err) => {
-            console.warn("[PortalSync] Background AI auto-solve error", err);
-          })
-          .finally(() => {
-            setIsSolvingCaptcha(false);
-          });
       } else {
         setError(res?.error?.message || res?.message || "Failed to load fresh CAPTCHA. Tap 'Refresh CAPTCHA' to retry.");
       }
@@ -747,37 +715,11 @@ export default function PortalSyncModal({
                           )}
                         </div>
 
-                        <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                          <button
-                            type="button"
-                            onClick={() => handleAutoSolve()}
-                            disabled={isSolvingCaptcha || refreshingCaptcha || loading || !captchaImage}
-                            aria-label="AI Auto-Solve"
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              gap: "6px",
-                              background: isSolvingCaptcha ? "#1A1724" : "#A855F7",
-                              border: "1px solid #A855F7",
-                              color: "#FFFFFF",
-                              padding: "8px 12px",
-                              borderRadius: "10px",
-                              fontSize: "11px",
-                              fontWeight: 900,
-                              cursor: isSolvingCaptcha || loading ? "not-allowed" : "pointer",
-                              transition: "all 0.2s",
-                              whiteSpace: "nowrap",
-                            }}
-                          >
-                            <Sparkles size={13} style={{ animation: isSolvingCaptcha ? "spin-slow 1s linear infinite" : "none" }} />
-                            {isSolvingCaptcha ? "AI Solving..." : "⚡ AI Auto-Solve"}
-                          </button>
-
+                        <div style={{ display: "flex", alignItems: "center" }}>
                           <button
                             type="button"
                             onClick={() => fetchNewCaptcha(true)}
-                            disabled={refreshingCaptcha || loading || isSolvingCaptcha}
+                            disabled={refreshingCaptcha || loading}
                             aria-label="Refresh Captcha"
                             style={{
                               display: "flex",
@@ -787,16 +729,16 @@ export default function PortalSyncModal({
                               background: "#1A1724",
                               border: "1px solid #292532",
                               color: "#B8B2C2",
-                              padding: "6px 12px",
+                              padding: "10px 14px",
                               borderRadius: "10px",
-                              fontSize: "10.5px",
+                              fontSize: "11px",
                               fontWeight: 700,
                               cursor: refreshingCaptcha || loading ? "not-allowed" : "pointer",
                               transition: "all 0.2s",
                               whiteSpace: "nowrap",
                             }}
                           >
-                            <RefreshCw size={12} style={{ animation: refreshingCaptcha ? "spin-slow 1s linear infinite" : "none" }} />
+                            <RefreshCw size={13} style={{ animation: refreshingCaptcha ? "spin-slow 1s linear infinite" : "none" }} />
                             Refresh
                           </button>
                         </div>
@@ -805,7 +747,7 @@ export default function PortalSyncModal({
                       <div style={{ position: "relative" }}>
                         <input
                           type="text"
-                          placeholder={isSolvingCaptcha ? "AI is auto-solving CAPTCHA..." : "Enter 5 or 6-character Captcha"}
+                          placeholder="Enter 5 or 6-character Captcha"
                           maxLength={8}
                           style={{
                             ...getInputStyle("captcha"),
@@ -829,23 +771,7 @@ export default function PortalSyncModal({
                           autoCorrect="off"
                           spellCheck={false}
                         />
-                        {isSolvingCaptcha && (
-                          <span style={{
-                            position: "absolute",
-                            right: "12px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            fontSize: "10px",
-                            color: colors.accent,
-                            fontWeight: 800,
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "4px"
-                          }}>
-                            <Sparkles size={11} style={{ animation: "spin-slow 1s linear infinite" }} /> AI Solving...
-                          </span>
-                        )}
-                        {!isSolvingCaptcha && captcha.length >= 5 && (
+                        {captcha.length >= 5 && (
                           <span style={{
                             position: "absolute",
                             right: "12px",
@@ -858,7 +784,7 @@ export default function PortalSyncModal({
                             alignItems: "center",
                             gap: "4px"
                           }}>
-                            ✓ Solved
+                            ✓ Ready
                           </span>
                         )}
                       </div>

@@ -596,27 +596,35 @@ export default function SrmParkingToolPage() {
 
       const data = await res.json();
       if (!res.ok || !data.success) {
-        const errMsg =
-          data.error?.includes("Insufficient wallet coins") || data.error?.includes("Insufficient funds")
+        const aiDiag = data.aiDiagnosis;
+        const errMsg = aiDiag?.userAdvice
+          ? `${aiDiag.diagnosis} (${aiDiag.userAdvice})`
+          : data.error?.includes("Insufficient wallet coins") || data.error?.includes("Insufficient funds")
             ? `Gridee requires ${costCoins} coins (₹${costCoins}) to reserve this slot. Your current balance is ${walletBalance ?? 0} coins. Please top up your wallet in your Gridee account to finalize.`
             : data.error || "Booking was not accepted by Gridee.";
         if (!isSniperTrigger) {
           setBookingError(errMsg);
         }
-        throw new Error(errMsg);
+        const customErr: any = new Error(errMsg);
+        customErr.aiDiagnosis = aiDiag;
+        throw customErr;
       }
 
       const bId = data.booking?.bookingId || data.booking?.id || data.booking?.ticketId || "CONFIRMED";
-      setBookingSuccess(`Slot booked successfully! Reference: ${bId}`);
+      const resolvedZone = data.autoPivoted && data.autoPivotedZone === "JAVA" ? "JAVA" : activeZone;
+      const successMsg = data.aiResolution
+        ? `🎯 ${data.aiResolution} Reference: ${bId}`
+        : `Slot booked successfully! Reference: ${bId}`;
+      setBookingSuccess(successMsg);
 
       // Generate Gate Entry QR Code Pass
-      const qrData = `GRIDEE:BOOKING:${bId}:${plate}:${activeZone}`;
+      const qrData = `GRIDEE:BOOKING:${bId}:${plate}:${resolvedZone}`;
       try {
         const qrUrl = await QRCode.toDataURL(qrData, { width: 280, margin: 1 });
         setActiveQrPass({
           bookingId: bId,
           vehicleNumber: plate,
-          zoneName: activeZone === "TP" ? "Tech Park (TP Avenue)" : "Java Ground",
+          zoneName: resolvedZone === "TP" ? "Tech Park (TP Avenue)" : "Java Ground",
           slotShift: label,
           qrDataUrl: qrUrl,
         });
@@ -648,7 +656,7 @@ export default function SrmParkingToolPage() {
     } catch {}
   };
 
-  // ⚡ 5:00 AM Auto-Book Sniper Execution Engine
+  // ⚡ 5:00 AM Auto-Book Sniper Execution Engine with AI Auto-Recovery
   const runSniperExecution = async () => {
     if (sniperFiringRef.current) return;
     sniperFiringRef.current = true;
@@ -665,7 +673,7 @@ export default function SrmParkingToolPage() {
     while (attempt <= maxAttempts && !booked) {
       try {
         setSniperLogs((prev) => [
-          `[Attempt ${attempt}/${maxAttempts}] Sending reservation request...`,
+          `[Attempt ${attempt}/${maxAttempts}] Sending reservation request (${activeZone === "TP" ? "TP Avenue" : "Java Ground"})...`,
           ...prev,
         ]);
         const success = await executeBookingSubmission(true);
@@ -690,10 +698,25 @@ export default function SrmParkingToolPage() {
           break;
         }
       } catch (err: any) {
-        setSniperLogs((prev) => [
-          `[Attempt ${attempt}] Gridee response: ${err.message || "Slots not opened yet"}. Retrying in 1.5s...`,
-          ...prev,
-        ]);
+        const aiDiag = err.aiDiagnosis;
+        if (aiDiag?.recommendedAction === "SWITCH_ZONE" && activeZone !== "JAVA") {
+          setActiveZone("JAVA");
+          setSniperLogs((prev) => [
+            `[Attempt ${attempt}] 🤖 AI Auto-Resolver: TP Avenue full. Auto-switching target to Java Ground (ps6)...`,
+            ...prev,
+          ]);
+        } else if (aiDiag?.recommendedAction === "TOP_UP") {
+          setSniperLogs((prev) => [
+            `[ABORTED] 🤖 AI Diagnosis: ${aiDiag.diagnosis} — ${aiDiag.userAdvice}`,
+            ...prev,
+          ]);
+          break;
+        } else {
+          setSniperLogs((prev) => [
+            `[Attempt ${attempt}] 🤖 ${aiDiag ? "AI: " + aiDiag.diagnosis : "Gridee: " + (err.message || "Slots not opened yet")}. Retrying in 1.5s...`,
+            ...prev,
+          ]);
+        }
         attempt++;
         if (attempt <= maxAttempts) {
           await new Promise((resolve) => setTimeout(resolve, 1500));

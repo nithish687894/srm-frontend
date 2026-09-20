@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { diagnoseGrideeIssueWithAI } from "@/lib/grideeAiResolver";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +17,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { userId, vehicleNumber, parkingSpotId, slotId } = body;
+    const { userId, vehicleNumber } = body;
 
     if (!userId || !vehicleNumber) {
       return NextResponse.json(
@@ -31,9 +32,9 @@ export async function POST(req: NextRequest) {
     // Compute checkInTime & checkOutTime based on shift or custom inputs
     let checkInTime = body.checkInTime;
     let checkOutTime = body.checkOutTime;
+    const shift = (body.slotId || body.shift || "MORNING").toUpperCase();
 
     if (!checkInTime || !checkOutTime) {
-      const shift = (body.slotId || body.shift || "MORNING").toUpperCase();
       const baseDate = bookingDate; // YYYY-MM-DD
       if (shift === "MORNING") {
         checkInTime = new Date(`${baseDate}T08:00:00.000+05:30`).toISOString();
@@ -66,7 +67,7 @@ export async function POST(req: NextRequest) {
     };
 
     // Call verified user-scoped booking create endpoint
-    const res = await fetch(`${GRIDEE_API_BASE}/api/bookings/${userId}/create`, {
+    let res = await fetch(`${GRIDEE_API_BASE}/api/bookings/${userId}/create`, {
       method: "POST",
       headers: {
         Authorization: authHeader,
@@ -76,12 +77,66 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify(payload),
     });
 
-    const resData = await res.json();
+    let resData = await res.json();
+    let autoPivoted = false;
+    let autoPivotedZone = "";
+
+    // ⚡ Intelligent Auto-Pivot: If TP (ps5) fails due to capacity/full, automatically attempt Java (ps6)
+    if (!res.ok && spotId === "ps5") {
+      const rawErrMsg = (resData?.message || resData?.error || "").toLowerCase();
+      const isCapacityIssue =
+        rawErrMsg.includes("full") ||
+        rawErrMsg.includes("unavailable") ||
+        rawErrMsg.includes("capacity") ||
+        rawErrMsg.includes("occupied") ||
+        rawErrMsg.includes("spot") ||
+        rawErrMsg.includes("rejected");
+
+      if (isCapacityIssue) {
+        console.log("[Gridee Book] TP Avenue full/rejected, auto-pivoting to Java Ground (ps6)...");
+        const fallbackPayload = { ...payload, spotId: "ps6" };
+        const fallbackRes = await fetch(`${GRIDEE_API_BASE}/api/bookings/${userId}/create`, {
+          method: "POST",
+          headers: {
+            Authorization: authHeader,
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(fallbackPayload),
+        });
+
+        if (fallbackRes.ok) {
+          const fallbackData = await fallbackRes.json();
+          res = fallbackRes;
+          resData = fallbackData;
+          autoPivoted = true;
+          autoPivotedZone = "JAVA";
+        }
+      }
+    }
+
     if (!res.ok) {
+      const rawError = resData?.message || resData?.error || "Booking request rejected by Gridee";
+
+      // 🤖 AI Diagnostic and Recovery Resolution
+      const aiDiagnosis = await diagnoseGrideeIssueWithAI({
+        operation: "BOOK",
+        rawError,
+        status: res.status,
+        details: resData,
+        spotId,
+        zoneName: spotId === "ps5" ? "Tech Park (TP Avenue)" : "Java Ground",
+        shift,
+        date: bookingDate,
+        vehicleNumber,
+      });
+
       return NextResponse.json(
         {
           success: false,
-          error: resData?.message || resData?.error || "Booking request rejected by Gridee",
+          error: aiDiagnosis.diagnosis || rawError,
+          rawError,
+          aiDiagnosis,
           details: resData,
         },
         { status: res.status }
@@ -91,11 +146,28 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       booking: resData,
+      autoPivoted,
+      autoPivotedZone,
+      aiResolution: autoPivoted
+        ? "TP Avenue was at capacity. AI Auto-Resolver successfully booked your spot in Java Ground (ps6)."
+        : undefined,
     });
   } catch (err: any) {
     console.error("[Gridee Book Error]", err);
+
+    // Fallback AI diagnosis for unexpected network or execution errors
+    const aiDiagnosis = await diagnoseGrideeIssueWithAI({
+      operation: "BOOK",
+      rawError: err.message || "Unknown error during booking request",
+      status: 500,
+    });
+
     return NextResponse.json(
-      { success: false, error: err.message || "Failed to create booking" },
+      {
+        success: false,
+        error: aiDiagnosis.diagnosis || err.message || "Failed to create booking",
+        aiDiagnosis,
+      },
       { status: 500 }
     );
   }
