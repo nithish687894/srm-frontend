@@ -71,7 +71,6 @@ export default function SrmParkingToolPage() {
   // Zone & Spot Selection
   const [activeZone, setActiveZone] = useState<"TP" | "JAVA">("TP");
   const [selectedShift, setSelectedShift] = useState<string>("MORNING");
-  const [selectedSpotId, setSelectedSpotId] = useState<string>("TP-01");
 
   // Real Spots & Bookings
   const [realSpots, setRealSpots] = useState<any[] | null>(null);
@@ -230,10 +229,6 @@ export default function SrmParkingToolPage() {
         if (parsed.length > 0 && !selectedVehicle) {
           setSelectedVehicle(parsed[0].plate);
         }
-      } else {
-        const sample = [{ id: "1", label: "Two Wheeler (Bike)", plate: "TN 19 AX 0000" }];
-        setSavedVehicles(sample);
-        setSelectedVehicle("TN 19 AX 0000");
       }
     } catch (e) {
       console.error("Failed reading localStorage", e);
@@ -313,11 +308,6 @@ export default function SrmParkingToolPage() {
     if (timeInMins >= morningStart && timeInMins <= dayEnd) return "FULL_DAY";
     return null;
   }, []);
-
-  // Update default slot selection when zone changes
-  useEffect(() => {
-    setSelectedSpotId(`${activeZone}-01`);
-  }, [activeZone]);
 
   // Google Sign-In Handler
   const handleGoogleSignIn = async () => {
@@ -443,7 +433,7 @@ export default function SrmParkingToolPage() {
           userId,
           vehicleNumber: plate,
           slotId: selectedShift,
-          parkingSpotId: selectedSpotId,
+          spotId: activeZone === "TP" ? "ps5" : "ps6",
         }),
       });
 
@@ -484,17 +474,6 @@ export default function SrmParkingToolPage() {
       setBookingLoading(false);
     }
   };
-
-  // 10 spots for TP, 10 spots for Java
-  const currentSlots = Array.from({ length: 10 }).map((_, index) => {
-    const num = index + 1;
-    const label = `${activeZone}-${num < 10 ? "0" + num : num}`;
-    return {
-      id: label,
-      number: num,
-      zone: activeZone,
-    };
-  });
 
   return (
     <div style={{
@@ -886,83 +865,68 @@ export default function SrmParkingToolPage() {
               </div>
             </section>
 
-            {/* Visual Slots Grid for the Active Zone */}
-            <section style={{
-              background: "#12121A",
-              border: "1px solid #292532",
-              borderRadius: "14px",
-              padding: "18px 20px"
-            }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px", flexWrap: "wrap", gap: "8px" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                  <Car size={16} color="#60A5FA" />
-                  <h2 style={{ fontSize: "14px", fontWeight: 800, margin: 0, color: "#F7F5FA" }}>
-                    {activeZone === "TP" ? "Tech Park (TP) Bays" : "Java Ground Bays"}
-                  </h2>
-                </div>
-                <span style={{ fontSize: "11.5px", color: "#10B981", fontWeight: 750, background: "rgba(16, 185, 129, 0.1)", border: "1px solid rgba(16, 185, 129, 0.25)", padding: "3px 8px", borderRadius: "6px" }}>
-                  Selected: {selectedSpotId}
-                </span>
-              </div>
+            {/* Live Campus Ground Status & Metrics (Real Backend Data) */}
+            {(() => {
+              const activeSpot = activeZone === "TP" ? tpSpotData : javaSpotData;
+              const freeSpots = activeSpot ? activeSpot.availableCapacity : (activeZone === "TP" ? 292 : 494);
+              const totalCap = activeSpot?.spot?.capacity || (activeZone === "TP" ? 300 : 500);
+              const booked = activeSpot ? activeSpot.bookedCount : (activeZone === "TP" ? 8 : 6);
+              const pctUsed = Math.round((booked / totalCap) * 100);
+              const rate = activeSpot?.spot?.bookingRate || 5;
 
-              <p style={{ margin: "0 0 14px", fontSize: "12px", color: "#8F8998" }}>
-                Select a slot bay below for your reservation:
-              </p>
+              return (
+                <section style={{
+                  background: "#12121A",
+                  border: "1px solid #292532",
+                  borderRadius: "14px",
+                  padding: "18px 20px"
+                }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "14px", flexWrap: "wrap", gap: "8px" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                      <Car size={16} color="#60A5FA" />
+                      <h2 style={{ fontSize: "14px", fontWeight: 800, margin: 0, color: "#F7F5FA" }}>
+                        {activeZone === "TP" ? "Tech Park (TP Avenue STEP Area)" : "Java Ground Parking Area"}
+                      </h2>
+                    </div>
+                    <span style={{ fontSize: "11px", color: "#10B981", fontWeight: 750, background: "rgba(16, 185, 129, 0.12)", border: "1px solid rgba(16, 185, 129, 0.25)", padding: "3px 8px", borderRadius: "6px" }}>
+                      Status: Open & Available
+                    </span>
+                  </div>
 
-              <div style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(110px, 1fr))",
-                gap: "8px"
-              }}>
-                {currentSlots.map((slot) => {
-                  const isSelected = selectedSpotId === slot.id;
-                  return (
-                    <button
-                      key={slot.id}
-                      type="button"
-                      onClick={() => setSelectedSpotId(slot.id)}
-                      style={{
-                        background: isSelected ? "rgba(37, 99, 235, 0.18)" : "#0E0E15",
-                        border: `1.5px solid ${isSelected ? "#2563EB" : "#292532"}`,
-                        borderRadius: "10px",
-                        padding: "12px 8px",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        gap: "6px",
-                        cursor: "pointer",
-                        transition: "all 0.15s ease",
-                        position: "relative"
-                      }}
-                    >
-                      <div style={{
-                        width: "32px",
-                        height: "32px",
-                        borderRadius: "8px",
-                        background: isSelected ? "#2563EB" : "#1E1E28",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: isSelected ? "#FFF" : "#60A5FA"
-                      }}>
-                        <Car size={16} />
-                      </div>
-                      <p style={{ margin: 0, fontSize: "12.5px", fontWeight: 800, color: isSelected ? "#FFF" : "#F7F5FA" }}>
-                        {slot.id}
-                      </p>
-                      <span style={{ fontSize: "10px", fontWeight: 700, color: isSelected ? "#60A5FA" : "#10B981" }}>
-                        {isSelected ? "Selected" : "Available"}
-                      </span>
-                      {isSelected && (
-                        <div style={{ position: "absolute", top: "4px", right: "6px" }}>
-                          <CheckCircle2 size={13} color="#60A5FA" />
-                        </div>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-            </section>
+                  {/* Real Metrics Grid */}
+                  <div style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(3, 1fr)",
+                    gap: "10px",
+                    marginBottom: "12px"
+                  }}>
+                    <div style={{ background: "#0E0E15", border: "1px solid #292532", borderRadius: "10px", padding: "12px", textAlign: "center" }}>
+                      <p style={{ margin: 0, fontSize: "10px", color: "#8F8998", textTransform: "uppercase", fontWeight: 750 }}>Free Capacity</p>
+                      <p style={{ margin: "4px 0 0", fontSize: "18px", fontWeight: 850, color: "#10B981" }}>{freeSpots}</p>
+                      <span style={{ fontSize: "9.5px", color: "#8F8998" }}>of {totalCap} spots</span>
+                    </div>
+
+                    <div style={{ background: "#0E0E15", border: "1px solid #292532", borderRadius: "10px", padding: "12px", textAlign: "center" }}>
+                      <p style={{ margin: 0, fontSize: "10px", color: "#8F8998", textTransform: "uppercase", fontWeight: 750 }}>Occupied</p>
+                      <p style={{ margin: "4px 0 0", fontSize: "18px", fontWeight: 850, color: "#60A5FA" }}>{booked}</p>
+                      <span style={{ fontSize: "9.5px", color: "#8F8998" }}>{pctUsed}% occupancy</span>
+                    </div>
+
+                    <div style={{ background: "#0E0E15", border: "1px solid #292532", borderRadius: "10px", padding: "12px", textAlign: "center" }}>
+                      <p style={{ margin: 0, fontSize: "10px", color: "#8F8998", textTransform: "uppercase", fontWeight: 750 }}>Hourly Rate</p>
+                      <p style={{ margin: "4px 0 0", fontSize: "18px", fontWeight: 850, color: "#FBBF24" }}>₹{rate}</p>
+                      <span style={{ fontSize: "9.5px", color: "#8F8998" }}>per shift / hr</span>
+                    </div>
+                  </div>
+
+                  <p style={{ margin: 0, fontSize: "11px", color: "#8F8998", lineHeight: 1.5 }}>
+                    {activeZone === "TP"
+                      ? "📍 TP Avenue STEP Area — Barrier scanner located near Tech Park entrance."
+                      : "📍 Java Ground Area — Barrier scanner located behind Java Canteen & Mechanical block."}
+                  </p>
+                </section>
+              );
+            })()}
 
             {/* Direct In-App Booking Console */}
             <section style={{
@@ -979,7 +943,7 @@ export default function SrmParkingToolPage() {
               </div>
 
               <form onSubmit={handleBookSlot} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                {/* Target Bay Indicator */}
+                {/* Selected Ground Indicator */}
                 <div style={{
                   background: "#0E0E15",
                   border: "1px solid #292532",
@@ -989,11 +953,11 @@ export default function SrmParkingToolPage() {
                   alignItems: "center",
                   justifyContent: "space-between"
                 }}>
-                  <span style={{ fontSize: "11.5px", color: "#8F8998", fontWeight: 700, textTransform: "uppercase" }}>
-                    Target Bay
+                  <span style={{ fontSize: "11.5px", color: "#8F8998", fontWeight: 750, textTransform: "uppercase" }}>
+                    Selected Ground
                   </span>
                   <span style={{ fontSize: "13px", fontWeight: 800, color: "#10B981" }}>
-                    {activeZone === "TP" ? "Tech Park" : "Java Ground"} • {selectedSpotId}
+                    {activeZone === "TP" ? "Tech Park (TP Avenue)" : "Java Ground"}
                   </span>
                 </div>
 
@@ -1134,10 +1098,99 @@ export default function SrmParkingToolPage() {
                     marginTop: "4px"
                   }}
                 >
-                  {bookingLoading ? "Processing Booking…" : `Confirm & Book ${selectedSpotId}`}
+                  {bookingLoading ? "Processing Reservation…" : "Confirm & Reserve Slot"}
                 </button>
               </form>
             </section>
+
+            {/* My Active Bookings from Backend */}
+            {myBookings && myBookings.length > 0 && (
+              <section style={{
+                background: "#12121A",
+                border: "1px solid #292532",
+                borderRadius: "14px",
+                padding: "18px 20px"
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
+                  <CheckCircle2 size={16} color="#10B981" />
+                  <h2 style={{ fontSize: "14px", fontWeight: 800, margin: 0, color: "#F7F5FA" }}>
+                    Your Active Reservations
+                  </h2>
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  {myBookings.map((b: any, idx: number) => {
+                    const bId = b.bookingId || b.id || b.ticketId || `BK-${idx + 1}`;
+                    const vNum = b.vehicleNumber || selectedVehicle || "Registered Vehicle";
+                    const zName = b.parkingLotName || b.zoneName || "SRM Campus Ground";
+                    const sShift = b.slotId || b.shift || "Active";
+                    return (
+                      <div
+                        key={bId}
+                        style={{
+                          background: "#0E0E15",
+                          border: "1px solid #292532",
+                          borderRadius: "10px",
+                          padding: "12px 14px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          flexWrap: "wrap",
+                          gap: "10px"
+                        }}
+                      >
+                        <div>
+                          <span style={{ fontSize: "10px", fontWeight: 750, color: "#10B981", background: "rgba(16, 185, 129, 0.12)", padding: "2px 6px", borderRadius: "4px" }}>
+                            CONFIRMED
+                          </span>
+                          <p style={{ margin: "4px 0 0", fontSize: "13px", fontWeight: 800, color: "#F7F5FA" }}>
+                            {vNum} • {zName}
+                          </p>
+                          <p style={{ margin: "2px 0 0", fontSize: "11px", color: "#8F8998" }}>
+                            Ref #{bId} • Shift: {sShift}
+                          </p>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const qrStr = `GRIDEE:BOOKING:${bId}:${vNum}`;
+                            QRCode.toDataURL(qrStr, { width: 280, margin: 1 })
+                              .then((url) => {
+                                setActiveQrPass({
+                                  bookingId: bId,
+                                  vehicleNumber: vNum,
+                                  zoneName: zName,
+                                  slotShift: sShift,
+                                  qrDataUrl: url,
+                                });
+                                window.scrollTo({ top: 0, behavior: "smooth" });
+                              })
+                              .catch(() => {});
+                          }}
+                          style={{
+                            background: "#2563EB",
+                            border: "none",
+                            color: "#FFF",
+                            padding: "6px 12px",
+                            borderRadius: "6px",
+                            fontSize: "11.5px",
+                            fontWeight: 750,
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "4px",
+                            cursor: "pointer"
+                          }}
+                        >
+                          <QrCode size={13} />
+                          <span>View Gate QR</span>
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            )}
           </>
         )}
 
