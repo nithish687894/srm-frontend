@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import {
   ChevronLeft,
   RefreshCw,
@@ -18,7 +17,13 @@ import {
   ShieldCheck,
   MapPin,
   Sparkles,
-  Info
+  Info,
+  LogIn,
+  LogOut,
+  User,
+  KeyRound,
+  CalendarCheck,
+  X
 } from "lucide-react";
 
 interface ParkingSlot {
@@ -49,6 +54,16 @@ interface ParkingLotData {
   };
 }
 
+interface GrideeSession {
+  accessToken: string;
+  user: {
+    id?: string;
+    userId?: string;
+    email?: string;
+    name?: string;
+  };
+}
+
 export default function SrmParkingToolPage() {
   const router = useRouter();
 
@@ -57,6 +72,27 @@ export default function SrmParkingToolPage() {
   const [lastUpdated, setLastUpdated] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+
+  // Authenticated User Session
+  const [session, setSession] = useState<GrideeSession | null>(null);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [loginMode, setLoginMode] = useState<"email" | "token">("email");
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [loginToken, setLoginToken] = useState("");
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [loginError, setLoginError] = useState("");
+
+  // Authenticated real spots & bookings
+  const [realSpots, setRealSpots] = useState<any[] | null>(null);
+  const [myBookings, setMyBookings] = useState<any[]>([]);
+  const [bookingLoading, setBookingLoading] = useState(false);
+  const [bookingSuccess, setBookingSuccess] = useState<string | null>(null);
+  const [bookingError, setBookingError] = useState<string | null>(null);
+
+  // Booking Form State
+  const [selectedShift, setSelectedShift] = useState<string>("MORNING");
+  const [selectedVehicle, setSelectedVehicle] = useState<string>("");
 
   // Countdown to 18:30 IST (Booking open time)
   const [timeLeft, setTimeLeft] = useState<{ hours: number; minutes: number; seconds: number }>({
@@ -72,7 +108,20 @@ export default function SrmParkingToolPage() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
 
-  // Fetch live lot data from proxy route
+  // Load session from localStorage
+  useEffect(() => {
+    try {
+      const storedSession = localStorage.getItem("gridee_nexus_session");
+      if (storedSession) {
+        const parsed = JSON.parse(storedSession);
+        setSession(parsed);
+      }
+    } catch (e) {
+      console.error("Failed loading Gridee session", e);
+    }
+  }, []);
+
+  // Fetch live lot data
   const fetchStatus = async () => {
     try {
       setRefreshing(true);
@@ -93,24 +142,70 @@ export default function SrmParkingToolPage() {
     }
   };
 
+  // Fetch real spots if authenticated
+  const fetchAuthenticatedSpots = async (token: string) => {
+    try {
+      const res = await fetch("/api/gridee/spots", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.spots) {
+          setRealSpots(data.spots);
+        }
+      }
+    } catch (e) {
+      console.warn("Could not fetch authenticated spots", e);
+    }
+  };
+
+  // Fetch user bookings if authenticated
+  const fetchUserBookings = async (token: string, userId: string) => {
+    try {
+      const res = await fetch(`/api/gridee/my-bookings?userId=${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.bookings) {
+          setMyBookings(data.bookings);
+        }
+      }
+    } catch (e) {
+      console.warn("Could not fetch user bookings", e);
+    }
+  };
+
   useEffect(() => {
     fetchStatus();
-    // Refresh every 45s
     const interval = setInterval(fetchStatus, 45000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (session?.accessToken) {
+      fetchAuthenticatedSpots(session.accessToken);
+      const uId = session.user?.id || session.user?.userId;
+      if (uId) {
+        fetchUserBookings(session.accessToken, uId);
+      }
+    }
+  }, [session]);
 
   // Load saved vehicles from localStorage
   useEffect(() => {
     try {
       const stored = localStorage.getItem("srm_nexus_saved_vehicles");
       if (stored) {
-        setSavedVehicles(JSON.parse(stored));
+        const parsed = JSON.parse(stored);
+        setSavedVehicles(parsed);
+        if (parsed.length > 0 && !selectedVehicle) {
+          setSelectedVehicle(parsed[0].plate);
+        }
       } else {
-        // Preset sample
-        setSavedVehicles([
-          { id: "1", label: "Two Wheeler (Bike)", plate: "TN 19 AX 0000" }
-        ]);
+        const sample = [{ id: "1", label: "Two Wheeler (Bike)", plate: "TN 19 AX 0000" }];
+        setSavedVehicles(sample);
+        setSelectedVehicle("TN 19 AX 0000");
       }
     } catch (e) {
       console.error("Failed reading localStorage", e);
@@ -136,6 +231,7 @@ export default function SrmParkingToolPage() {
     };
     const updated = [...savedVehicles, item];
     saveVehiclesToLocal(updated);
+    if (!selectedVehicle) setSelectedVehicle(item.plate);
     setNewLabel("");
     setNewPlate("");
     setShowAddModal(false);
@@ -156,11 +252,9 @@ export default function SrmParkingToolPage() {
   useEffect(() => {
     const updateCountdown = () => {
       const now = new Date();
-      // Target today at 18:30
       const target = new Date();
       target.setHours(18, 30, 0, 0);
 
-      // If already past 18:30 today, count down to tomorrow 18:30
       if (now.getTime() > target.getTime()) {
         target.setDate(target.getDate() + 1);
       }
@@ -192,9 +286,107 @@ export default function SrmParkingToolPage() {
     return null;
   }, []);
 
+  // Handle Login Submission
+  const handleLoginSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginError("");
+    setLoginLoading(true);
+
+    try {
+      const payload = loginMode === "email"
+        ? { mode: "email", email: loginEmail.trim(), password: loginPassword }
+        : { mode: "token", accessToken: loginToken.trim() };
+
+      const res = await fetch("/api/gridee/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setLoginError(data.error || "Login failed. Check your credentials.");
+        return;
+      }
+
+      const newSession: GrideeSession = {
+        accessToken: data.accessToken,
+        user: data.user,
+      };
+
+      setSession(newSession);
+      localStorage.setItem("gridee_nexus_session", JSON.stringify(newSession));
+      setShowLoginModal(false);
+      setLoginPassword("");
+      setLoginToken("");
+    } catch (err: any) {
+      setLoginError(err.message || "Network error. Please try again.");
+    } finally {
+      setLoginLoading(false);
+    }
+  };
+
+  const handleLogout = () => {
+    setSession(null);
+    setRealSpots(null);
+    setMyBookings([]);
+    localStorage.removeItem("gridee_nexus_session");
+  };
+
+  // Handle In-App Booking Submission
+  const handleBookSlot = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!session?.accessToken) {
+      setShowLoginModal(true);
+      return;
+    }
+
+    const userId = session.user?.id || session.user?.userId || "user_current";
+    const plate = selectedVehicle.trim();
+
+    if (!plate) {
+      setBookingError("Please select or enter a vehicle plate number.");
+      return;
+    }
+
+    setBookingLoading(true);
+    setBookingError(null);
+    setBookingSuccess(null);
+
+    try {
+      const res = await fetch("/api/gridee/book", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${session.accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+          vehicleNumber: plate,
+          slotId: selectedShift,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setBookingError(data.error || "Booking was not accepted by Gridee.");
+        return;
+      }
+
+      setBookingSuccess(`Slot booked successfully! Booking Reference: ${data.booking?.bookingId || data.booking?.id || "CONFIRMED"}`);
+      fetchAuthenticatedSpots(session.accessToken);
+      fetchUserBookings(session.accessToken, userId);
+    } catch (err: any) {
+      setBookingError(err.message || "Failed to submit booking.");
+    } finally {
+      setBookingLoading(false);
+    }
+  };
+
   const totalSpots = lotData?.totalSpots ?? 10;
-  const availableSpots = lotData?.availableSpots ?? 0;
-  const isFull = availableSpots === 0;
+  // If authenticated spots are available, use length of available spots; otherwise use public lotData count
+  const liveSpotCount = realSpots !== null ? realSpots.length : (lotData?.availableSpots ?? 0);
+  const isFull = liveSpotCount === 0;
 
   return (
     <div style={{
@@ -212,7 +404,7 @@ export default function SrmParkingToolPage() {
         width: "100%",
         margin: "0 auto"
       }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "10px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <button
               onClick={() => router.push("/tools")}
@@ -242,26 +434,76 @@ export default function SrmParkingToolPage() {
             </div>
           </div>
 
-          <button
-            onClick={fetchStatus}
-            disabled={refreshing}
-            style={{
-              background: "#12121A",
-              border: "1px solid #292532",
-              color: "#B8B2C2",
-              padding: "7px 12px",
-              borderRadius: "8px",
-              fontSize: "12px",
-              fontWeight: 700,
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-              cursor: refreshing ? "default" : "pointer"
-            }}
-          >
-            <RefreshCw size={13} className={refreshing ? "animate-spin" : ""} />
-            <span>{refreshing ? "Syncing…" : "Refresh"}</span>
-          </button>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            {session ? (
+              <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                <span style={{ fontSize: "11px", color: "#10B981", background: "rgba(16, 185, 129, 0.12)", border: "1px solid rgba(16, 185, 129, 0.25)", padding: "4px 8px", borderRadius: "6px", fontWeight: 700 }}>
+                  {session.user?.email ? session.user.email.split("@")[0] : "Logged In"}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  title="Log out from Gridee"
+                  style={{
+                    background: "#12121A",
+                    border: "1px solid #292532",
+                    color: "#EF4444",
+                    padding: "7px 10px",
+                    borderRadius: "8px",
+                    fontSize: "11px",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "4px"
+                  }}
+                >
+                  <LogOut size={12} />
+                  <span>Logout</span>
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setShowLoginModal(true)}
+                style={{
+                  background: "#2563EB",
+                  border: "none",
+                  color: "#FFF",
+                  padding: "7px 14px",
+                  borderRadius: "8px",
+                  fontSize: "12px",
+                  fontWeight: 750,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  cursor: "pointer"
+                }}
+              >
+                <LogIn size={13} />
+                <span>Sign In Gridee</span>
+              </button>
+            )}
+
+            <button
+              onClick={fetchStatus}
+              disabled={refreshing}
+              style={{
+                background: "#12121A",
+                border: "1px solid #292532",
+                color: "#B8B2C2",
+                padding: "7px 12px",
+                borderRadius: "8px",
+                fontSize: "12px",
+                fontWeight: 700,
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                cursor: refreshing ? "default" : "pointer"
+              }}
+            >
+              <RefreshCw size={13} className={refreshing ? "animate-spin" : ""} />
+              <span>{refreshing ? "Syncing…" : "Refresh"}</span>
+            </button>
+          </div>
         </div>
       </header>
 
@@ -276,6 +518,43 @@ export default function SrmParkingToolPage() {
         flexDirection: "column",
         gap: "16px"
       }}>
+        {/* Account Authentication Banner if not signed in */}
+        {!session && (
+          <div style={{
+            background: "rgba(37, 99, 235, 0.08)",
+            border: "1px solid rgba(37, 99, 235, 0.25)",
+            borderRadius: "12px",
+            padding: "12px 16px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: "10px"
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <Sparkles size={16} color="#60A5FA" />
+              <p style={{ margin: 0, fontSize: "12.5px", color: "#D1CBD7" }}>
+                <strong>Sign in to unlock live spot numbers</strong> and book parking directly from Nexus.
+              </p>
+            </div>
+            <button
+              onClick={() => setShowLoginModal(true)}
+              style={{
+                background: "#2563EB",
+                color: "#FFF",
+                border: "none",
+                padding: "6px 12px",
+                borderRadius: "6px",
+                fontSize: "11.5px",
+                fontWeight: 750,
+                cursor: "pointer"
+              }}
+            >
+              Sign In Now
+            </button>
+          </div>
+        )}
+
         {/* 1. Live Parking Status Card */}
         <section style={{
           background: "#12121A",
@@ -296,7 +575,7 @@ export default function SrmParkingToolPage() {
                 boxShadow: isLive ? "0 0 10px #10B981" : "none"
               }} />
               <span style={{ fontSize: "11px", fontWeight: 750, color: isLive ? "#10B981" : "#F59E0B", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-                {isLive ? "Live Server Connected" : "Cached State"}
+                {session ? "Authenticated Live Feed" : (isLive ? "Public Server Connected" : "Cached State")}
               </span>
               {lastUpdated && (
                 <span style={{ fontSize: "11px", color: "#8F8998" }}>• Updated {lastUpdated}</span>
@@ -313,14 +592,14 @@ export default function SrmParkingToolPage() {
               fontWeight: 800,
               letterSpacing: "0.04em"
             }}>
-              {isFull ? "LOT CURRENTLY FULL" : `${availableSpots} SPOTS AVAILABLE`}
+              {isFull ? "LOT CURRENTLY FULL" : `${liveSpotCount} SPOTS AVAILABLE`}
             </span>
           </div>
 
           {/* Big Spot Numbers */}
           <div style={{ display: "flex", alignItems: "baseline", gap: "10px", marginBottom: "8px" }}>
             <span style={{ fontSize: "44px", fontWeight: 900, lineHeight: 1, letterSpacing: "-0.04em", color: isFull ? "#EF4444" : "#10B981" }}>
-              {availableSpots}
+              {liveSpotCount}
             </span>
             <span style={{ fontSize: "18px", color: "#8F8998", fontWeight: 700 }}>
               / {totalSpots} spots available
@@ -331,6 +610,33 @@ export default function SrmParkingToolPage() {
             <MapPin size={14} color="#60A5FA" />
             <span>SRM Kattankulathur Campus • Potheri, Chennai</span>
           </p>
+
+          {/* Real Spots list if unlocked via auth */}
+          {session && realSpots && realSpots.length > 0 && (
+            <div style={{ marginBottom: "16px" }}>
+              <p style={{ fontSize: "11px", fontWeight: 750, color: "#60A5FA", textTransform: "uppercase", marginBottom: "8px", letterSpacing: "0.05em" }}>
+                Unlocked Spots ({realSpots.length})
+              </p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+                {realSpots.map((sp: any, i: number) => (
+                  <span
+                    key={sp.id || i}
+                    style={{
+                      background: "#1E1E28",
+                      border: "1px solid #292532",
+                      color: "#F7F5FA",
+                      fontSize: "11px",
+                      fontWeight: 700,
+                      padding: "4px 10px",
+                      borderRadius: "6px"
+                    }}
+                  >
+                    Spot {sp.spotNumber || sp.name || (i + 1)}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Quick Info bar */}
           <div style={{
@@ -354,7 +660,140 @@ export default function SrmParkingToolPage() {
           </div>
         </section>
 
-        {/* 2. Daily 18:30 Booking Rush Countdown */}
+        {/* 2. Direct In-App Booking Console */}
+        <section style={{
+          background: "#12121A",
+          border: "1px solid #292532",
+          borderRadius: "14px",
+          padding: "18px 20px"
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
+            <CalendarCheck size={16} color="#60A5FA" />
+            <h2 style={{ fontSize: "14px", fontWeight: 800, margin: 0, color: "#F7F5FA" }}>
+              Book Parking Slot (Nexus In-App)
+            </h2>
+          </div>
+
+          <form onSubmit={handleBookSlot} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+            {/* Shift Picker */}
+            <div>
+              <label style={{ display: "block", fontSize: "11px", fontWeight: 750, color: "#8F8998", marginBottom: "6px", textTransform: "uppercase" }}>
+                Select Parking Shift
+              </label>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
+                {[
+                  { id: "MORNING", label: "Morning", time: "08:00 - 12:30" },
+                  { id: "AFTERNOON", label: "Afternoon", time: "12:30 - 17:30" },
+                  { id: "FULL_DAY", label: "Full Day", time: "08:00 - 17:30" },
+                ].map((s) => (
+                  <button
+                    key={s.id}
+                    type="button"
+                    onClick={() => setSelectedShift(s.id)}
+                    style={{
+                      padding: "8px 6px",
+                      borderRadius: "8px",
+                      border: selectedShift === s.id ? "1px solid #2563EB" : "1px solid #292532",
+                      background: selectedShift === s.id ? "#2563EB" : "#0E0E15",
+                      color: selectedShift === s.id ? "#FFF" : "#B8B2C2",
+                      fontSize: "12px",
+                      fontWeight: 750,
+                      cursor: "pointer",
+                      textAlign: "center"
+                    }}
+                  >
+                    <div>{s.label}</div>
+                    <div style={{ fontSize: "9.5px", opacity: 0.8, marginTop: "2px" }}>{s.time}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Vehicle Selector */}
+            <div>
+              <label style={{ display: "block", fontSize: "11px", fontWeight: 750, color: "#8F8998", marginBottom: "6px", textTransform: "uppercase" }}>
+                Vehicle Plate Number
+              </label>
+              <div style={{ display: "flex", gap: "8px" }}>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. TN 19 AX 1234"
+                  value={selectedVehicle}
+                  onChange={(e) => setSelectedVehicle(e.target.value.toUpperCase())}
+                  style={{
+                    flex: 1,
+                    background: "#0E0E15",
+                    border: "1px solid #292532",
+                    borderRadius: "8px",
+                    padding: "9px 12px",
+                    fontSize: "13px",
+                    fontWeight: 700,
+                    color: "#FFF",
+                    outline: "none"
+                  }}
+                />
+
+                {savedVehicles.length > 0 && (
+                  <select
+                    onChange={(e) => e.target.value && setSelectedVehicle(e.target.value)}
+                    style={{
+                      background: "#0E0E15",
+                      border: "1px solid #292532",
+                      borderRadius: "8px",
+                      padding: "9px 10px",
+                      fontSize: "12px",
+                      color: "#60A5FA",
+                      fontWeight: 700,
+                      outline: "none",
+                      cursor: "pointer"
+                    }}
+                  >
+                    <option value="">Quick Pick</option>
+                    {savedVehicles.map((v) => (
+                      <option key={v.id} value={v.plate}>
+                        {v.label} ({v.plate})
+                      </option>
+                    ))}
+                  </select>
+                )}
+              </div>
+            </div>
+
+            {/* Alerts */}
+            {bookingError && (
+              <div style={{ background: "rgba(239, 68, 68, 0.1)", border: "1px solid rgba(239, 68, 68, 0.3)", borderRadius: "8px", padding: "10px", fontSize: "12px", color: "#EF4444" }}>
+                {bookingError}
+              </div>
+            )}
+
+            {bookingSuccess && (
+              <div style={{ background: "rgba(16, 185, 129, 0.1)", border: "1px solid rgba(16, 185, 129, 0.3)", borderRadius: "8px", padding: "10px", fontSize: "12px", color: "#10B981" }}>
+                {bookingSuccess}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={bookingLoading}
+              style={{
+                background: session ? "#2563EB" : "#1E1E28",
+                border: session ? "none" : "1px solid #292532",
+                color: "#FFF",
+                padding: "10px",
+                borderRadius: "8px",
+                fontSize: "13px",
+                fontWeight: 800,
+                cursor: bookingLoading ? "default" : "pointer",
+                marginTop: "4px"
+              }}
+            >
+              {bookingLoading ? "Processing Booking…" : (session ? "Confirm & Book Slot Now" : "Sign In to Book Slot")}
+            </button>
+          </form>
+        </section>
+
+        {/* 3. Daily 18:30 Booking Rush Countdown */}
         <section style={{
           background: "#12121A",
           border: "1px solid #292532",
@@ -411,71 +850,7 @@ export default function SrmParkingToolPage() {
           </div>
         </section>
 
-        {/* 3. Fixed Shift Slots Breakdown */}
-        <section style={{
-          background: "#12121A",
-          border: "1px solid #292532",
-          borderRadius: "14px",
-          padding: "18px 20px"
-        }}>
-          <h2 style={{ fontSize: "14px", fontWeight: 800, margin: "0 0 12px", color: "#F7F5FA" }}>
-            Campus Fixed Parking Shifts
-          </h2>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            {[
-              { id: "MORNING", name: "Morning Shift", time: "08:00 AM – 12:30 PM", desc: "Best for morning theory & lab classes" },
-              { id: "AFTERNOON", name: "Afternoon Shift", time: "12:30 PM – 05:30 PM", desc: "For post-lunch batch and afternoon lab sessions" },
-              { id: "FULL_DAY", name: "Full Day Parking", time: "08:00 AM – 05:30 PM", desc: "Covers entire working day & day orders 1–5" },
-            ].map((shift) => {
-              const isActive = currentShiftId === shift.id;
-              return (
-                <div
-                  key={shift.id}
-                  style={{
-                    background: isActive ? "rgba(37, 99, 235, 0.08)" : "#0E0E15",
-                    border: `1px solid ${isActive ? "#2563EB" : "#292532"}`,
-                    borderRadius: "10px",
-                    padding: "12px 14px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: "12px"
-                  }}
-                >
-                  <div>
-                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                      <p style={{ margin: 0, fontSize: "13px", fontWeight: 750, color: "#F7F5FA" }}>
-                        {shift.name}
-                      </p>
-                      {isActive && (
-                        <span style={{
-                          background: "#2563EB",
-                          color: "#FFF",
-                          fontSize: "9.5px",
-                          fontWeight: 800,
-                          padding: "2px 6px",
-                          borderRadius: "4px",
-                          textTransform: "uppercase"
-                        }}>
-                          Current Shift
-                        </span>
-                      )}
-                    </div>
-                    <p style={{ margin: "2px 0 0", fontSize: "11.5px", color: "#8F8998" }}>
-                      {shift.desc}
-                    </p>
-                  </div>
-                  <span style={{ fontSize: "12px", fontWeight: 750, color: "#60A5FA", whiteSpace: "nowrap" }}>
-                    {shift.time}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* 4. Vehicle Plate Quick Vault (For 1-Tap Copy when booking) */}
+        {/* 4. Vehicle Plate Quick Vault */}
         <section style={{
           background: "#12121A",
           border: "1px solid #292532",
@@ -609,70 +984,7 @@ export default function SrmParkingToolPage() {
           )}
         </section>
 
-        {/* 5. Launch Official Gridee App */}
-        <section style={{
-          background: "#12121A",
-          border: "1px solid #292532",
-          borderRadius: "14px",
-          padding: "18px 20px"
-        }}>
-          <h2 style={{ fontSize: "14px", fontWeight: 800, margin: "0 0 4px", color: "#F7F5FA" }}>
-            Book & Check-in via Gridee
-          </h2>
-          <p style={{ margin: "0 0 14px", fontSize: "12px", color: "#9C96A7" }}>
-            Slots and QR check-in are validated at the boom barrier via the Gridee app.
-          </p>
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-            <a
-              href="https://play.google.com/store/apps/details?id=com.gridee.parking"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                background: "#0E0E15",
-                border: "1px solid #292532",
-                borderRadius: "10px",
-                padding: "12px",
-                textDecoration: "none",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                color: "#F7F5FA"
-              }}
-            >
-              <div>
-                <p style={{ margin: 0, fontSize: "12px", fontWeight: 750 }}>Android App</p>
-                <p style={{ margin: "2px 0 0", fontSize: "10.5px", color: "#8F8998" }}>Google Play Store</p>
-              </div>
-              <ExternalLink size={14} color="#60A5FA" />
-            </a>
-
-            <a
-              href="https://apps.apple.com/in/app/grideeapp/id6757460398"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                background: "#0E0E15",
-                border: "1px solid #292532",
-                borderRadius: "10px",
-                padding: "12px",
-                textDecoration: "none",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                color: "#F7F5FA"
-              }}
-            >
-              <div>
-                <p style={{ margin: 0, fontSize: "12px", fontWeight: 750 }}>iOS App</p>
-                <p style={{ margin: "2px 0 0", fontSize: "10.5px", color: "#8F8998" }}>Apple App Store</p>
-              </div>
-              <ExternalLink size={14} color="#60A5FA" />
-            </a>
-          </div>
-        </section>
-
-        {/* 6. Official Rules & Policies */}
+        {/* 5. Official Rules & Policies */}
         <section style={{
           background: "#12121A",
           border: "1px solid #292532",
@@ -706,6 +1018,166 @@ export default function SrmParkingToolPage() {
           </div>
         </section>
       </main>
+
+      {/* LOGIN MODAL */}
+      {showLoginModal && (
+        <div style={{
+          position: "fixed",
+          inset: 0,
+          background: "rgba(0, 0, 0, 0.75)",
+          backdropFilter: "blur(6px)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 9999,
+          padding: "16px"
+        }}>
+          <div style={{
+            background: "#12121A",
+            border: "1px solid #292532",
+            borderRadius: "16px",
+            maxWidth: "400px",
+            width: "100%",
+            padding: "24px",
+            position: "relative"
+          }}>
+            <button
+              onClick={() => setShowLoginModal(false)}
+              style={{
+                position: "absolute",
+                top: "16px",
+                right: "16px",
+                background: "none",
+                border: "none",
+                color: "#8F8998",
+                cursor: "pointer"
+              }}
+            >
+              <X size={18} />
+            </button>
+
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
+              <User size={20} color="#60A5FA" />
+              <h3 style={{ margin: 0, fontSize: "16px", fontWeight: 800, color: "#F7F5FA" }}>
+                Connect Gridee Account
+              </h3>
+            </div>
+
+            <p style={{ fontSize: "12px", color: "#8F8998", margin: "0 0 16px" }}>
+              Sign in with your Gridee credentials to unlock real-time live spots and book directly in Nexus.
+            </p>
+
+            {/* Mode Switcher */}
+            <div style={{ display: "flex", gap: "6px", marginBottom: "16px", background: "#0E0E15", padding: "4px", borderRadius: "8px", border: "1px solid #292532" }}>
+              <button
+                type="button"
+                onClick={() => setLoginMode("email")}
+                style={{
+                  flex: 1,
+                  padding: "6px",
+                  borderRadius: "6px",
+                  border: "none",
+                  fontSize: "12px",
+                  fontWeight: 750,
+                  cursor: "pointer",
+                  background: loginMode === "email" ? "#2563EB" : "transparent",
+                  color: loginMode === "email" ? "#FFF" : "#8F8998"
+                }}
+              >
+                Email & Password
+              </button>
+              <button
+                type="button"
+                onClick={() => setLoginMode("token")}
+                style={{
+                  flex: 1,
+                  padding: "6px",
+                  borderRadius: "6px",
+                  border: "none",
+                  fontSize: "12px",
+                  fontWeight: 750,
+                  cursor: "pointer",
+                  background: loginMode === "token" ? "#2563EB" : "transparent",
+                  color: loginMode === "token" ? "#FFF" : "#8F8998"
+                }}
+              >
+                Direct Token
+              </button>
+            </div>
+
+            <form onSubmit={handleLoginSubmit} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              {loginMode === "email" ? (
+                <>
+                  <div>
+                    <label style={{ display: "block", fontSize: "11px", fontWeight: 700, color: "#8F8998", marginBottom: "4px" }}>
+                      Gridee Account Email
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      placeholder="your.email@gmail.com"
+                      value={loginEmail}
+                      onChange={(e) => setLoginEmail(e.target.value)}
+                      style={{ width: "100%", background: "#0E0E15", border: "1px solid #292532", borderRadius: "8px", padding: "9px 12px", fontSize: "13px", color: "#FFF", outline: "none" }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: "block", fontSize: "11px", fontWeight: 700, color: "#8F8998", marginBottom: "4px" }}>
+                      Password
+                    </label>
+                    <input
+                      type="password"
+                      required
+                      placeholder="••••••••"
+                      value={loginPassword}
+                      onChange={(e) => setLoginPassword(e.target.value)}
+                      style={{ width: "100%", background: "#0E0E15", border: "1px solid #292532", borderRadius: "8px", padding: "9px 12px", fontSize: "13px", color: "#FFF", outline: "none" }}
+                    />
+                  </div>
+                </>
+              ) : (
+                <div>
+                  <label style={{ display: "block", fontSize: "11px", fontWeight: 700, color: "#8F8998", marginBottom: "4px" }}>
+                    Bearer Token / JWT
+                  </label>
+                  <textarea
+                    rows={3}
+                    required
+                    placeholder="Paste Gridee Bearer access token here..."
+                    value={loginToken}
+                    onChange={(e) => setLoginToken(e.target.value)}
+                    style={{ width: "100%", background: "#0E0E15", border: "1px solid #292532", borderRadius: "8px", padding: "9px 12px", fontSize: "12px", color: "#FFF", outline: "none" }}
+                  />
+                </div>
+              )}
+
+              {loginError && (
+                <div style={{ background: "rgba(239, 68, 68, 0.1)", border: "1px solid rgba(239, 68, 68, 0.3)", borderRadius: "8px", padding: "8px 10px", fontSize: "11.5px", color: "#EF4444" }}>
+                  {loginError}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={loginLoading}
+                style={{
+                  background: "#2563EB",
+                  color: "#FFF",
+                  border: "none",
+                  padding: "10px",
+                  borderRadius: "8px",
+                  fontSize: "13px",
+                  fontWeight: 800,
+                  cursor: loginLoading ? "default" : "pointer",
+                  marginTop: "6px"
+                }}
+              >
+                {loginLoading ? "Authenticating with Gridee…" : "Sign In & Connect"}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
