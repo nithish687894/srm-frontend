@@ -151,7 +151,7 @@ function AttendanceRegister({
             >
               <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                 <AlertCircle size={15} color="#EF4444" style={{ flexShrink: 0 }} />
-                <span>{stats.atRiskCount} {stats.atRiskCount === 1 ? "course" : "courses"} below 75% requirement.</span>
+                <span>Action needed: {stats.atRiskCount} {stats.atRiskCount === 1 ? "course needs" : "courses need"} recovery (&lt; 75%).</span>
               </div>
               <ChevronRight size={15} color="#F87171" />
             </button>
@@ -297,12 +297,12 @@ function AttendanceRegister({
             <div style={{ marginTop: "16px", color: "#D1CBD7", fontSize: "13px", lineHeight: 1.5, background: "#0E0E15", border: "1px solid #22222C", padding: "12px 14px", borderRadius: "10px" }}>
               {selectedSubject.pct >= 75 ? (
                 selectedSubject.skipBuffer > 0 ? (
-                  <span>Safe. You have a margin of <strong style={{ color: "#10B981" }}>{selectedSubject.skipBuffer}</strong> class{selectedSubject.skipBuffer === 1 ? "" : "es"} before falling below the 75% requirement.</span>
+                  <span>Safe zone. You can safely miss <strong style={{ color: "#10B981" }}>{selectedSubject.skipBuffer}</strong> {selectedSubject.skipBuffer === 1 ? "class" : "classes"} without dropping below 75%.</span>
                 ) : (
-                  <span>At limit. You are currently exactly at 75%. Attendance in your next scheduled class is required to maintain safety.</span>
+                  <span>Right at 75%. Attend your next scheduled class to maintain your safety buffer.</span>
                 )
               ) : (
-                <span>Below 75%. You must attend the next <strong style={{ color: "#EF4444" }}>{selectedSubject.requiredToPass}</strong> consecutive class{selectedSubject.requiredToPass === 1 ? "" : "es"} without absence to restore 75% attendance.</span>
+                <span>Needs recovery. Attend the next <strong style={{ color: "#EF4444" }}>{selectedSubject.requiredToPass}</strong> consecutive {selectedSubject.requiredToPass === 1 ? "class" : "classes"} without absence to get back above 75%.</span>
               )}
             </div>
           </section>
