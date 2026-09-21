@@ -346,6 +346,18 @@ function insertBreaks(classes: ScheduleItem[]) {
 
 const ADMIN_EMAILS = ["ns4770", "ts0014"];
 
+// Deterministic muted colour per subject — small palette, consistent across page loads.
+function getSubjectColor(courseCode: string): string {
+  const PALETTE = ["#3B82F6", "#60A5FA", "#2563EB", "#4F7FD9", "#7AA2E3", "#93C5FD"];
+  let hash = 0;
+  const code = (courseCode || "").toUpperCase();
+  for (let i = 0; i < code.length; i++) {
+    hash = (hash * 31 + code.charCodeAt(i)) >>> 0;
+  }
+  return PALETTE[hash % PALETTE.length];
+}
+
+
 export default function TimetablePage() {
   const { 
     academicData, 
@@ -1236,7 +1248,7 @@ export function AuraTimetable({
           transition: background 0.16s ease;
           -webkit-tap-highlight-color: transparent;
           min-height: 82px;
-          padding: 14px 8px;
+          padding: 14px 8px 14px 10px;
           border-radius: 0;
           border-bottom: 1px solid #302D38;
           background: transparent;
@@ -1248,7 +1260,7 @@ export function AuraTimetable({
           column-gap: 12px;
           position: relative;
           overflow: hidden;
-          border-left: 2px solid transparent;
+          border-left: 3px solid transparent;
         }
         .timetable-class-card[data-active="true"] {
           background: #142018;
@@ -1422,6 +1434,7 @@ export function AuraTimetable({
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", gap: "12px" }}>
             <div style={{ minWidth: 0, flex: 1 }}>
+              <div style={{ color: "#60A5FA", fontSize: "10px", fontWeight: 750, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "5px" }}>Day plan</div>
               <h1 style={{ fontSize: "19px", lineHeight: 1.15, fontWeight: 700, letterSpacing: "-0.025em", margin: 0, color: "#F7F5FA" }}>
                 {selectedDayDateStr}
               </h1>
@@ -1609,6 +1622,13 @@ export function AuraTimetable({
               </button>
             )}
 
+            {totalClasses > 0 && (
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: "2px", color: "#777181", fontSize: "10px", fontWeight: 750, letterSpacing: "0.06em", textTransform: "uppercase" }}>
+                <span>Class track</span>
+                <span>{totalClasses} sessions</span>
+              </div>
+            )}
+
             {/* Classes */}
             {totalClasses === 0 ? (
               <div style={{
@@ -1648,6 +1668,7 @@ export function AuraTimetable({
                     ? `${Math.floor(durMins / 60)}h${durMins % 60 ? ` ${durMins % 60}m` : ""}` 
                     : `${durMins}m`;
                   const isExtendedSlot = durMins >= 85;
+                  const subjectColor = getSubjectColor(item.courseCode);
 
                   return (
                     <div key={i}>
@@ -1660,6 +1681,7 @@ export function AuraTimetable({
                         onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedClassDetails(item); } }}
                         className="timetable-class-card" 
                         data-active={isActive ? "true" : undefined}
+                        style={{ borderLeftColor: isActive ? "#4CAF73" : subjectColor }}
                       >
                         <div className="timetable-class-time-col">
                             <span>{fmt12(item.startTime)}</span>

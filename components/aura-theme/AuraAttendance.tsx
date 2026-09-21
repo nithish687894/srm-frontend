@@ -46,17 +46,18 @@ function AttendanceRegister({
   handleCloseSubject
 }: AnyValue) {
   const overallColor = getStatusColor(stats.overallAvg);
+  const attendanceBuffer = stats.overallAvg - 75;
 
   return (
     <AuraBackground theme={activeTheme} stars={stars}>
-      <main style={{ minHeight: "100dvh", padding: "calc(env(safe-area-inset-top, 0px) + 54px) 16px calc(env(safe-area-inset-bottom, 0px) + 76px)" }}>
+      <main className="attendance-workspace" style={{ minHeight: "100dvh", padding: "calc(env(safe-area-inset-top, 0px) + 54px) 16px calc(env(safe-area-inset-bottom, 0px) + 76px)" }}>
         <div style={{ maxWidth: "760px", width: "100%", margin: "0 auto" }}>
           
           {/* Header */}
           <header style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "22px" }}>
             <div>
               <p style={{ margin: "0 0 6px", color: "#60A5FA", fontSize: "11px", fontWeight: 750, letterSpacing: "0.06em", textTransform: "uppercase" }}>
-                {demoPreview ? "Demo workspace" : "Academic workspace"}
+                {demoPreview ? "Demo workspace" : "Attendance centre"}
               </p>
               <h1 style={{ margin: 0, color: "#F7F5FA", fontSize: "30px", letterSpacing: "-0.04em", fontWeight: 850 }}>
                 Attendance
@@ -95,24 +96,24 @@ function AttendanceRegister({
             <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "16px" }}>
               <div>
                 <div style={{ color: "#9C96A7", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 750 }}>
-                  Overall attendance
+                  Semester health
                 </div>
                 <div style={{ fontSize: "40px", color: overallColor, fontWeight: 850, letterSpacing: "-0.06em", lineHeight: 1.1, marginTop: "6px" }}>
                   {stats.overallAvg.toFixed(1)}%
                 </div>
                 <div style={{ color: "#8F8998", fontSize: "12px", marginTop: "6px", fontWeight: 600 }}>
-                  {stats.totalAttended} attended of {stats.totalConducted} conducted classes
+                  {stats.totalAttended} attended of {stats.totalConducted} conducted classes this semester
                 </div>
               </div>
 
               <div style={{ borderLeft: "1px solid #292532", paddingLeft: "16px", display: "grid", gap: "8px", minWidth: "110px", textAlign: "right" }}>
                 <div>
                   <div style={{ color: "#F7F5FA", fontSize: "18px", fontWeight: 800 }}>{stats.totalSubs}</div>
-                  <div style={{ color: "#8F8998", fontSize: "11px" }}>Courses</div>
+                  <div style={{ color: "#8F8998", fontSize: "11px" }}>Registered</div>
                 </div>
                 <div>
                   <div style={{ color: stats.atRiskCount ? "#EF4444" : "#10B981", fontSize: "18px", fontWeight: 800 }}>{stats.atRiskCount}</div>
-                  <div style={{ color: "#8F8998", fontSize: "11px" }}>Below 75%</div>
+                  <div style={{ color: "#8F8998", fontSize: "11px" }}>Need recovery</div>
                 </div>
               </div>
             </div>
@@ -122,8 +123,12 @@ function AttendanceRegister({
             </div>
 
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: "8px", color: "#807A88", fontSize: "11px" }}>
-              <span>Target: 75%</span>
-              <span>{demoPreview ? "Preview dataset" : "Active registration"}</span>
+                <span>Required: 75%</span>
+              <span style={{ color: stats.atRiskCount > 0 ? "#FCA5A5" : "#93C5FD", fontWeight: 700 }}>
+                {stats.atRiskCount > 0
+                  ? `${stats.atRiskCount} course${stats.atRiskCount === 1 ? "" : "s"} need attention`
+                  : `${attendanceBuffer.toFixed(1)} points above target`}
+              </span>
             </div>
           </section>
 
@@ -210,7 +215,13 @@ function AttendanceRegister({
           </div>
 
           {/* Course List */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+          <div style={{ background: "#12121A", border: "1px solid #292532", borderRadius: "10px", overflow: "hidden" }}>
+            {!isLoading && filteredAttendance.length > 0 && (
+              <div style={{ display: "flex", justifyContent: "space-between", gap: "12px", padding: "10px 16px", borderBottom: "1px solid #292532", color: "#777181", fontSize: "10px", fontWeight: 750, letterSpacing: "0.06em", textTransform: "uppercase" }}>
+                <span>Course register</span>
+                <span>Attendance · action</span>
+              </div>
+            )}
             {isLoading ? (
               <div style={{ background: "#12121A", border: "1px solid #292532", borderRadius: "12px", padding: "28px 20px", textAlign: "center", color: "#8F8998", fontSize: "13px" }}>
                 Loading attendance records…
@@ -221,8 +232,7 @@ function AttendanceRegister({
               </div>
             ) : (
               filteredAttendance.map((course: AnyValue, index: number) => {
-                const color = getStatusColor(course.pct);
-                const safe = course.pct >= 75;
+                const isAtRisk = course.pct < 75;
 
                 return (
                   <button
@@ -231,38 +241,48 @@ function AttendanceRegister({
                     style={{
                       width: "100%",
                       textAlign: "left",
-                      background: "#12121A",
-                      border: "1px solid #292532",
-                      borderRadius: "12px",
-                      padding: "14px 16px",
+                      background: isAtRisk ? "rgba(239,68,68,0.055)" : "#12121A",
+                      border: "none",
+                      borderBottom: index < filteredAttendance.length - 1 ? "1px solid #292532" : "none",
+                      borderRadius: 0,
+                      padding: "0",
                       cursor: "pointer",
+                      display: "flex",
+                      flexDirection: "column",
+                      overflow: "hidden"
+                    }}
+                  >
+                    {/* Main row */}
+                    <div style={{
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
-                      gap: "14px"
-                    }}
-                  >
-                    <div style={{ minWidth: 0, flex: 1 }}>
-                      <h2 style={{ margin: 0, color: "#F7F5FA", fontSize: "14px", fontWeight: 750, lineHeight: 1.3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                        {course.courseTitle}
-                      </h2>
-                      <div style={{ color: "#8F8998", fontSize: "11px", marginTop: "3px", fontWeight: 650 }}>
-                        {course.courseCode} · {course.attended}/{course.conducted} classes
+                      gap: "14px",
+                      padding: "15px 16px"
+                    }}>
+                      <div style={{ minWidth: 0, flex: 1 }}>
+                        <h2 style={{ margin: 0, color: "#F7F5FA", fontSize: "14px", fontWeight: 650, lineHeight: 1.3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                          {course.courseTitle}
+                        </h2>
+                        <div style={{ color: "#8F8998", fontSize: "11px", marginTop: "3px", fontWeight: 600 }}>
+                          {course.courseCode} &middot; {course.attended}/{course.conducted} classes
+                        </div>
+                      </div>
+
+                      <div style={{ textAlign: "right", flexShrink: 0 }}>
+                        <div style={{ color: isAtRisk ? "#F87171" : "#F7F5FA", fontSize: "20px", lineHeight: 1, fontWeight: 750, letterSpacing: "-0.03em", fontVariantNumeric: "tabular-nums" }}>
+                          {course.pct.toFixed(1)}%
+                        </div>
+                        <div style={{ color: isAtRisk ? "#F87171" : "#9C96A7", fontSize: "10.5px", marginTop: "4px", fontWeight: 650 }}>
+                          {course.pct >= 75
+                            ? course.skipBuffer > 0
+                              ? `${course.skipBuffer} class${course.skipBuffer === 1 ? "" : "es"} margin`
+                              : "At 75% threshold"
+                            : `${course.requiredToPass} class${course.requiredToPass === 1 ? "" : "es"} required`}
+                        </div>
                       </div>
                     </div>
 
-                    <div style={{ textAlign: "right", flexShrink: 0 }}>
-                      <div style={{ color, fontSize: "18px", lineHeight: 1, fontWeight: 850, letterSpacing: "-0.03em" }}>
-                        {course.pct.toFixed(1)}%
-                      </div>
-                      <div style={{ color: safe ? "#10B981" : "#EF4444", fontSize: "11px", marginTop: "4px", fontWeight: 700 }}>
-                        {safe
-                          ? course.skipBuffer > 0
-                            ? `${course.skipBuffer} classes margin`
-                            : "At 75% threshold"
-                          : `${course.requiredToPass} classes required`}
-                      </div>
-                    </div>
                   </button>
                 );
               })
@@ -434,7 +454,7 @@ export default function AuraAttendance({
   if (isUnavailable) {
     return (
       <AuraBackground theme={activeTheme} stars={stars}>
-        <main style={{ minHeight: "100dvh", padding: "calc(env(safe-area-inset-top, 0px) + 54px) 16px calc(env(safe-area-inset-bottom, 0px) + 76px)" }}>
+        <main className="attendance-workspace" style={{ minHeight: "100dvh", padding: "calc(env(safe-area-inset-top, 0px) + 54px) 16px calc(env(safe-area-inset-bottom, 0px) + 76px)" }}>
           <div style={{ maxWidth: "760px", width: "100%", margin: "0 auto" }}>
             <h1 style={{ fontSize: "30px", fontWeight: 850, letterSpacing: "-0.04em", margin: "0 0 20px", color: "#F7F5FA" }}>Attendance</h1>
             <section style={{ background: "#12121A", border: "1px solid #292532", borderRadius: "14px", padding: "24px", textAlign: "left" }}>

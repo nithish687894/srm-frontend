@@ -55,7 +55,8 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
     const totalM = processedMarks.reduce((a: number, b: AnyValue) => a + b.maxPossible, 0);
     const overallAvg = totalM > 0 ? (totalS / totalM) * 100 : 0;
     const atRisk = processedMarks.filter((m: AnyValue) => m.pct > 0 && m.pct < 40).length;
-    return { totalSubs, overallAvg, atRisk };
+    const publishedCourses = processedMarks.filter((m: AnyValue) => m.maxPossible > 0).length;
+    return { totalSubs, overallAvg, atRisk, publishedCourses };
   }, [processedMarks]);
 
   const hasPublishedMarks = useMemo(() => processedMarks.some((mark: AnyValue) =>
@@ -91,7 +92,7 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
 
   return (
     <AuraBackground theme={activeTheme} stars={stars}>
-      <main style={{ minHeight: "100dvh", padding: "calc(env(safe-area-inset-top, 0px) + 54px) 16px calc(env(safe-area-inset-bottom, 0px) + 76px)" }}>
+      <main className="marks-workspace" style={{ minHeight: "100dvh", padding: "calc(env(safe-area-inset-top, 0px) + 54px) 16px calc(env(safe-area-inset-bottom, 0px) + 76px)" }}>
         <div style={{ maxWidth: "760px", width: "100%", margin: "0 auto" }}>
           
           {/* Header */}
@@ -131,21 +132,30 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
             </button>
           </header>
 
-          {/* Overall Average Card */}
-          <section style={{ background: "#12121A", border: "1px solid #292532", borderRadius: "14px", padding: "18px 20px", marginBottom: "16px" }}>
+          {/* Performance overview: the decision comes before the course list. */}
+          <section style={{ background: "#12121A", border: "1px solid #292532", borderTop: "2px solid #2563EB", borderRadius: "14px", padding: "18px 20px", marginBottom: "12px" }}>
             <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "16px" }}>
               <div>
-                <div style={{ color: "#9C96A7", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 750 }}>
-                  Overall average
+                <div style={{ color: "#9C96A7", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 750 }}>
+                  Semester score
                 </div>
-                <div style={{ fontSize: "40px", color: hasPublishedMarks ? "#F7F5FA" : "#938D9B", fontWeight: 850, letterSpacing: "-0.06em", lineHeight: 1.1, marginTop: "6px" }}>
+                <div style={{ fontSize: "46px", color: hasPublishedMarks ? "#F7F5FA" : "#938D9B", fontWeight: 850, letterSpacing: "-0.065em", lineHeight: 1, marginTop: "7px" }}>
                   {hasPublishedMarks ? stats.overallAvg.toFixed(1) : "—"}
-                  <span style={{ color: avgColor, fontSize: "24px" }}>{hasPublishedMarks ? "%" : ""}</span>
+                  <span style={{ color: avgColor, fontSize: "24px", marginLeft: "2px" }}>{hasPublishedMarks ? "%" : ""}</span>
+                </div>
+                <div style={{ color: "#8F8998", fontSize: "11.5px", marginTop: "8px", fontWeight: 600 }}>
+                  Weighted from published internal assessments
                 </div>
               </div>
-              <div style={{ textAlign: "right", color: "#A7A1AF", fontSize: "12px", lineHeight: 1.6 }}>
-                <div><strong style={{ color: "#F7F5FA" }}>{stats.totalSubs}</strong> courses registered</div>
-                <div><strong style={{ color: stats.atRisk ? "#F87171" : "#10B981" }}>{stats.atRisk}</strong> {stats.atRisk === 1 ? "course" : "courses"} below 40%</div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(58px, 1fr))", gap: "10px", minWidth: "142px", textAlign: "right" }}>
+                <div style={{ paddingLeft: "10px", borderLeft: "1px solid #292532" }}>
+                  <strong style={{ display: "block", color: "#F7F5FA", fontSize: "18px", fontWeight: 800 }}>{stats.publishedCourses}</strong>
+                  <span style={{ color: "#8F8998", fontSize: "10px", fontWeight: 650 }}>Scored</span>
+                </div>
+                <div style={{ paddingLeft: "10px", borderLeft: "1px solid #292532" }}>
+                  <strong style={{ display: "block", color: stats.atRisk ? "#F87171" : "#10B981", fontSize: "18px", fontWeight: 800 }}>{stats.atRisk}</strong>
+                  <span style={{ color: "#8F8998", fontSize: "10px", fontWeight: 650 }}>Need review</span>
+                </div>
               </div>
             </div>
           </section>
@@ -155,6 +165,13 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
             <div style={{ display: "flex", gap: "10px", alignItems: "center", padding: "12px 14px", marginBottom: "16px", borderRadius: "10px", background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.24)", color: "#FCA5A5", fontSize: "12px", fontWeight: 700 }}>
               <AlertTriangle size={15} color="#EF4444" style={{ flexShrink: 0 }} />
               <span>{stats.atRisk} course{stats.atRisk === 1 ? "" : "s"} currently below 40% internal mark threshold.</span>
+            </div>
+          )}
+
+          {hasPublishedMarks && stats.atRisk === 0 && (
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "10px 12px", marginBottom: "16px", borderRadius: "9px", background: "rgba(16,185,129,0.07)", border: "1px solid rgba(16,185,129,0.18)", color: "#6EE7B7", fontSize: "11.5px", fontWeight: 700 }}>
+              <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#10B981", flexShrink: 0 }} />
+              All published internal scores are above the 40% review threshold.
             </div>
           )}
 
@@ -218,8 +235,12 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
             </div>
           </div>
 
-          {/* Courses List - Data-focused rows */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+          {/* Course performance register */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", margin: "2px 0 10px", color: "#777181", fontSize: "10px", fontWeight: 750, letterSpacing: "0.06em", textTransform: "uppercase" }}>
+            <span>Course performance</span>
+            <span>{stats.totalSubs} registered</span>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", background: "#12121A", border: "1px solid #292532", borderRadius: "12px", overflow: "hidden" }}>
             {!hasPublishedMarks ? (
               <div style={{ background: "#12121A", border: "1px solid #292532", borderRadius: "12px", padding: "28px 20px", textAlign: "center", color: "#8F8998", fontSize: "13px" }}>
                 Internal marks have not been published by the university yet.
@@ -231,7 +252,7 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
             ) : (
               filteredMarks.map((mark: AnyValue, index: number) => {
                 const key = `${mark.courseCode || mark.code}-${index}`;
-                const isExpanded = expandedCourses[key] ?? true; // expanded by default for data clarity
+                const isExpanded = expandedCourses[key] ?? false;
                 const color = getStatusColor(mark.pct);
                 const badge = getStatusBadge(mark.pct);
                 const scoreText = mark.maxPossible > 0
@@ -243,23 +264,30 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
                     key={key}
                     style={{
                       background: "#12121A",
-                      border: "1px solid #292532",
-                      borderRadius: "12px",
+                      borderBottom: index < filteredMarks.length - 1 ? "1px solid #292532" : "none",
+                      borderRadius: 0,
                       overflow: "hidden",
                       transition: "border-color 0.15s ease"
                     }}
                   >
                     {/* Primary Row */}
-                    <div
+                    <button
+                      type="button"
                       onClick={() => toggleCourse(key)}
+                      aria-expanded={isExpanded}
+                      aria-label={`${isExpanded ? "Collapse" : "Expand"} assessments for ${mark.title}`}
                       style={{
+                        width: "100%",
                         padding: "14px 16px",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "space-between",
                         gap: "14px",
                         cursor: "pointer",
-                        userSelect: "none"
+                        userSelect: "none",
+                        border: "none",
+                        background: "transparent",
+                        textAlign: "left"
                       }}
                     >
                       <div style={{ minWidth: 0, flex: 1 }}>
@@ -285,23 +313,11 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
                             {scoreText}
                           </div>
                         </div>
-                        <button
-                          type="button"
-                          aria-label={isExpanded ? "Collapse assessments" : "Expand assessments"}
-                          style={{
-                            background: "transparent",
-                            border: "none",
-                            color: "#8F8998",
-                            padding: "4px",
-                            cursor: "pointer",
-                            display: "flex",
-                            alignItems: "center"
-                          }}
-                        >
+                        <span style={{ color: "#8F8998", padding: "4px", display: "flex", alignItems: "center" }} aria-hidden="true">
                           {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                        </button>
+                        </span>
                       </div>
-                    </div>
+                    </button>
 
                     {/* Compact Assessment Rows (CT1/CT2/Model/CLA) */}
                     {isExpanded && (

@@ -44,6 +44,7 @@ export default function NexusHome(props: AnyValue) {
     currentClass,
     currentClassMeta,
     nextClassMeta,
+    todaySchedule = [],
     upcomingEvents = [],
     riskySubjectsCount,
     dayOrder,
@@ -59,6 +60,9 @@ export default function NexusHome(props: AnyValue) {
   const averageMarks = percentage(avgMarks);
   const lesson = currentClass || nextClass;
   const lessonLabel = currentClass ? "In class now" : nextClassMeta?.isTomorrow ? "Tomorrow's first class" : "Next class";
+  const trackSchedule = Array.isArray(todaySchedule)
+    ? todaySchedule.filter((course: AnyValue) => course?.courseCode || course?.courseTitle).slice(0, 4)
+    : [];
   const records = data?.attendance || data?.studentPortal?.attendance || [];
   const subjectName = (course: AnyValue) => {
     const match = records.find((item: AnyValue) => (item["Course Code"] || item.courseCode) === course.courseCode);
@@ -85,7 +89,7 @@ export default function NexusHome(props: AnyValue) {
               <span className={styles.pill}>Day order {dayOrder}</span>
             ) : null}
           </div>
-          <h1 className={styles.greetingTitle}>Home</h1>
+          <h1 className={styles.greetingTitle}>Today</h1>
           <p className={styles.dateSubtitle} suppressHydrationWarning>
             {dateLabel}
           </p>
@@ -94,8 +98,11 @@ export default function NexusHome(props: AnyValue) {
         {/* 1. TODAY / SCHEDULE CARD */}
         <section className={`${styles.card} ${styles.scheduleCard}`}>
           <div className={styles.cardHeader}>
-            <div className={styles.cardTitleWrap}>
-              <h2 className={styles.cardHeading}>{lesson ? lessonLabel : "Today’s schedule"}</h2>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <h2 className={styles.cardHeading}>{lesson ? lessonLabel : "Today's schedule"}</h2>
+              {currentClass && (
+                <span style={{ display: "inline-block", width: 6, height: 6, borderRadius: "50%", background: "#4CAF73", flexShrink: 0 }} aria-label="Live" />
+              )}
             </div>
             <Link href="/timetable" className={styles.cardActionLink}>
               Timetable <ChevronRight size={14} />
@@ -104,26 +111,34 @@ export default function NexusHome(props: AnyValue) {
 
           {lesson ? (
             <div className={styles.activeSchedule}>
-              <h3 className={styles.courseName}>{subjectName(lesson)}</h3>
-              <div className={styles.courseMeta}>
-                <span>
-                  <Clock size={13} /> {lesson.startTime} – {lesson.endTime}
-                </span>
-                <span>
-                  <MapPin size={13} /> {lesson.roomNo ? `Room ${lesson.roomNo}` : "Room to be confirmed"}
-                </span>
+              <div className={styles.trackHeroBody}>
+                <div className={styles.trackTime}>
+                  <span>{lesson.startTime}</span>
+                  <small>{lesson.endTime}</small>
+                </div>
+                <div className={styles.trackCourse}>
+                  <h3 className={styles.courseName}>{subjectName(lesson)}</h3>
+                  <div className={styles.courseMeta}>
+                    <span>
+                      <MapPin size={13} /> {lesson.roomNo ? `Room ${lesson.roomNo}` : "Room to be confirmed"}
+                    </span>
+                  </div>
+                </div>
               </div>
-              {countdown(
-                currentClass ? currentClassMeta?.endsInMinutes : nextClassMeta?.startsInMinutes,
-                !!currentClass
-              ) && (
-                <div className={styles.countdownRow}>
+              <div className={styles.scheduleBottomRow}>
+                <span className={styles.trackLabel}><Clock size={13} /> {currentClass ? "Class in progress" : "Upcoming session"}</span>
+                {countdown(
+                  currentClass ? currentClassMeta?.endsInMinutes : nextClassMeta?.startsInMinutes,
+                  !!currentClass
+                ) && (
+                  <span className={styles.countdownRow}>
                   {countdown(
                     currentClass ? currentClassMeta?.endsInMinutes : nextClassMeta?.startsInMinutes,
                     !!currentClass
                   )}
-                </div>
-              )}
+                  </span>
+                )}
+              </div>
             </div>
           ) : (
             <div className={styles.emptySchedule}>
@@ -133,30 +148,80 @@ export default function NexusHome(props: AnyValue) {
           )}
         </section>
 
-        {/* 2. ACADEMICS (ATTENDANCE & MARKS CARDS) */}
+        <section className={styles.sectionWrap}>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>Your day</h2>
+            {dayOrder && <span className={styles.dayOrderLabel}>Day order {dayOrder}</span>}
+          </div>
+          <div className={styles.dayTrack}>
+            {trackSchedule.length ? trackSchedule.map((course: AnyValue, index: number) => {
+              const isFocus = lesson && course.courseCode && course.courseCode === lesson.courseCode;
+              return (
+                <Link href="/timetable" className={`${styles.trackRow} ${isFocus ? styles.trackRowActive : ""}`} key={`${course.courseCode || course.courseTitle}-${index}`}>
+                  <div className={styles.trackRowTime}>
+                    <strong>{course.startTime || "—"}</strong>
+                    <span>{course.endTime || ""}</span>
+                  </div>
+                  <span className={styles.trackDot} aria-hidden="true" />
+                  <div className={styles.trackRowCourse}>
+                    <strong>{subjectName(course)}</strong>
+                    <span>{course.roomNo ? `Room ${course.roomNo}` : "Room to be confirmed"}</span>
+                  </div>
+                  <ChevronRight size={15} className={styles.rowChevron} />
+                </Link>
+              );
+            }) : (
+              <Link href="/timetable" className={styles.noTrack}>
+                <CalendarDays size={17} /> Open your full timetable <ChevronRight size={15} />
+              </Link>
+            )}
+          </div>
+        </section>
+
+        {/* 3. ACADEMICS */}
         <section className={styles.sectionWrap}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>Academics</h2>
           </div>
 
-          <div className={styles.dataList}>
-            <Link href="/attendance" className={styles.dataRow}>
+          <div className={styles.academicBoard}>
+            <Link href="/attendance" className={styles.academicTile}>
               <div className={styles.dataCopy}>
+                <span className={styles.academicKicker}>Attendance safety</span>
                 <span className={styles.dataLabel}>Attendance</span>
                 <span className={attendance === null ? styles.dataNote : riskySubjectsCount > 0 ? styles.riskNote : styles.safeNote}>
                   {attendance === null ? "Connect Student Portal" : riskySubjectsCount > 0 ? `${riskySubjectsCount} ${riskySubjectsCount === 1 ? "course" : "courses"} below 75%` : "All courses at or above 75%"}
                 </span>
+                {attendance !== null && (
+                  <span className={styles.metricTrack} aria-hidden="true">
+                    <span className={styles.metricFill} data-risk={riskySubjectsCount > 0 ? "true" : undefined} style={{ width: `${attendance}%` }} />
+                  </span>
+                )}
               </div>
-              <strong className={styles.dataValue}>{attendance === null ? "—" : `${attendance.toFixed(1)}%`}</strong>
-              <ChevronRight size={15} className={styles.rowChevron} />
+              <div className={styles.academicMetric}>
+                <strong className={styles.dataValue} data-risk={attendance !== null && riskySubjectsCount > 0 ? "true" : undefined} data-safe={attendance !== null && riskySubjectsCount === 0 ? "true" : undefined}>
+                  {attendance === null ? "—" : `${attendance.toFixed(1)}%`}
+                </strong>
+                <ChevronRight size={15} className={styles.rowChevron} />
+              </div>
             </Link>
-            <Link href="/marks" className={styles.dataRow}>
+            <Link href="/marks" className={styles.academicTile}>
               <div className={styles.dataCopy}>
+                <span className={styles.academicKicker}>Semester progress</span>
                 <span className={styles.dataLabel}>Internal marks</span>
-                {averageMarks === null && <span className={styles.dataNote}>No scores yet</span>}
+                <span className={styles.dataNote}>{averageMarks === null ? "No scores yet" : "Current semester average"}</span>
+                {averageMarks !== null && (
+                  <span className={styles.metricTrack} aria-hidden="true">
+                    <span className={styles.metricFill} style={{ width: `${averageMarks}%` }} />
+                  </span>
+                )}
               </div>
-              <strong className={styles.dataValue}>{averageMarks === null ? "—" : `${averageMarks.toFixed(1)}%`}</strong>
-              <ChevronRight size={15} className={styles.rowChevron} />
+              <div className={styles.academicMetric}>
+                <strong className={styles.dataValue}>
+                  {averageMarks === null ? "—" : `${averageMarks.toFixed(1)}%`}
+                </strong>
+                <ChevronRight size={15} className={styles.rowChevron} />
+              </div>
             </Link>
           </div>
         </section>
@@ -170,7 +235,7 @@ export default function NexusHome(props: AnyValue) {
             </Link>
           </div>
 
-          <div className={styles.eventsList}>
+          <div className={styles.eventAgenda}>
             {upcomingEvents.length ? (
               upcomingEvents.slice(0, 3).map((event: AnyValue, index: number) => (
                 <Link
@@ -207,10 +272,10 @@ export default function NexusHome(props: AnyValue) {
             </Link>
           </div>
 
-          <div className={styles.toolsGrid}>
+          <div className={styles.toolShelf}>
             {shortcuts.map(({ href, label, icon: Icon }) => (
               <Link href={href} key={href} className={styles.toolButton}>
-                <Icon size={16} strokeWidth={1.8} className={styles.toolIcon} />
+                <span className={styles.toolIconWrap}><Icon size={17} strokeWidth={1.8} className={styles.toolIcon} /></span>
                 <span>{label}</span>
                 <ChevronRight size={14} className={styles.toolChevron} />
               </Link>

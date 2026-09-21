@@ -11,7 +11,7 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 26px;
 }
 
 .topline {
@@ -38,11 +38,11 @@
 }
 
 .greetingTitle {
-  margin: 8px 0 2px;
-  font-size: 18px;
-  font-weight: 650;
-  line-height: 1.25;
-  letter-spacing: -.015em;
+  margin: 10px 0 3px;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -.025em;
 }
 
 .dateSubtitle {
@@ -51,10 +51,18 @@
   font-size: 13px;
 }
 
+/* Schedule card has a top blue accent to make it the primary visual anchor */
 .card {
   background: #121218;
   border: 1px solid #26242d;
-  border-radius: 8px;
+  border-radius: 10px;
+}
+
+.scheduleCard {
+  border-top: 2px solid #3b82f6;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.11), rgba(18, 18, 24, 0.96) 42%), #121218;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.22);
 }
 
 .cardHeader {
@@ -62,13 +70,16 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 16px 16px 0;
+  padding: 14px 16px 0;
 }
 
 .cardHeading {
   margin: 0;
-  font-size: 13px;
-  font-weight: 650;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #9C96A7;
 }
 
 .cardActionLink,
@@ -85,16 +96,61 @@
 .activeSchedule {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 18px 16px 17px;
+  gap: 10px;
+  padding: 18px 16px 20px;
+}
+
+.trackHeroBody {
+  display: grid;
+  grid-template-columns: 80px minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+}
+
+.trackTime {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-right: 14px;
+  border-right: 1px solid rgba(96, 165, 250, 0.25);
+  font-variant-numeric: tabular-nums;
+}
+
+.trackTime span {
+  color: #F7F5FA;
+  font-size: 17px;
+  font-weight: 750;
+  letter-spacing: -.035em;
+}
+
+.trackTime small { color: #9C96A7; font-size: 11px; font-weight: 650; }
+.trackCourse { min-width: 0; }
+
+.scheduleBottomRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.trackLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #A9A4B1;
+  font-size: 11px;
+  font-weight: 650;
 }
 
 .courseName {
   margin: 0;
-  font-size: 18px;
-  font-weight: 650;
-  line-height: 1.35;
-  letter-spacing: -.015em;
+  font-size: clamp(21px, 5vw, 26px);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -.02em;
+  color: #F7F5FA;
 }
 
 .courseMeta {
@@ -112,9 +168,14 @@
 }
 
 .countdownRow {
-  margin-top: 2px;
-  color: #aaa5b4;
+  flex-shrink: 0;
+  padding: 6px 9px;
+  border: 1px solid rgba(96, 165, 250, 0.28);
+  border-radius: 6px;
+  background: rgba(37, 99, 235, 0.12);
+  color: #a9c7ff;
   font-size: 11px;
+  font-weight: 600;
 }
 
 .emptySchedule {
@@ -132,10 +193,11 @@
   color: #aaa5b4;
 }
 
+/* Section layout */
 .sectionWrap {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .sectionHeader {
@@ -148,14 +210,125 @@
 
 .sectionTitle {
   margin: 0;
-  font-size: 14px;
-  font-weight: 650;
-  letter-spacing: -.01em;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .01em;
+  color: #B8B2C2;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
+.dayOrderLabel {
+  color: #93C5FD;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.dayTrack {
+  overflow: hidden;
+  border-top: 1px solid #292532;
+  border-bottom: 1px solid #292532;
+}
+
+.trackRow,
+.noTrack {
+  position: relative;
+  display: grid;
+  grid-template-columns: 60px 18px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  min-height: 66px;
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid #1E1C25;
+}
+
+.trackRow:last-child { border-bottom: 0; }
+.trackRow:hover { background: #12121A; }
+
+.trackRowTime {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: #AAA5B4;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.trackRowTime strong { color: #E8E5ED; font-size: 12px; }
+.trackDot { width: 8px; height: 8px; border: 2px solid #52647F; border-radius: 999px; background: #09090F; z-index: 1; }
+.trackRow:not(:last-child) .trackDot::after { content: ""; position: absolute; width: 1px; height: 58px; margin-left: 2px; background: #292532; top: 37px; }
+.trackRowCourse { display: flex; min-width: 0; flex-direction: column; gap: 3px; }
+.trackRowCourse strong { overflow: hidden; color: #F7F5FA; font-size: 13px; font-weight: 650; text-overflow: ellipsis; white-space: nowrap; }
+.trackRowCourse span { color: #9C96A7; font-size: 11px; }
+
+.trackRowActive { background: linear-gradient(90deg, rgba(37, 99, 235, 0.13), transparent 72%); }
+.trackRowActive .trackDot { border-color: #60A5FA; background: #2563EB; box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12); }
+
+.noTrack {
+  display: flex;
+  justify-content: center;
+  min-height: 58px;
+  color: #93C5FD;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+/* Academics: two decision panels in one focused academic board */
+.academicBoard {
+  overflow: hidden;
+  background: #121218;
+  border: 1px solid #26242d;
+  border-radius: 12px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.14);
+}
+
+.academicTile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 104px;
+  padding: 15px 16px;
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid #24212c;
+  transition: background 0.14s ease;
+}
+
+.academicTile:last-child { border-bottom: none; }
+.academicTile:hover { background: #16141e; }
+
+.academicTile:first-child {
+  background: linear-gradient(90deg, rgba(239, 68, 68, 0.06), transparent 48%);
+}
+
+.academicKicker {
+  color: #8daefa;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: .09em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.academicMetric {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Academics list */
 .dataList,
 .eventsList {
-  border-top: 1px solid #302d38;
+  background: #121218;
+  border: 1px solid #26242d;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.dataList {
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
 }
 
 .dataRow,
@@ -163,17 +336,27 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  min-height: 62px;
-  padding: 10px 2px;
+  min-height: 76px;
+  padding: 12px 14px;
   color: inherit;
   text-decoration: none;
-  border-bottom: 1px solid #302d38;
+  border-bottom: 1px solid #1e1c25;
+  transition: background 0.14s ease;
+}
+
+.dataRow:last-child,
+.eventRow:last-child {
+  border-bottom: none;
 }
 
 .dataRow:hover,
 .eventRow:hover,
 .toolButton:hover {
-  background: #15141b;
+  background: #16141e;
+}
+
+.dataRow:first-child {
+  background: linear-gradient(90deg, rgba(239, 68, 68, 0.07), transparent 42%);
 }
 
 .dataCopy,
@@ -182,12 +365,13 @@
   flex: 1;
   min-width: 0;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 
 .dataLabel {
   font-size: 14px;
   font-weight: 600;
+  color: #F7F5FA;
 }
 
 .dataNote,
@@ -198,47 +382,93 @@
   line-height: 1.3;
 }
 
-.riskNote { color: #ee8585; }
-.safeNote { color: #7dcf9a; }
+.metricTrack {
+  display: block;
+  width: 100%;
+  height: 3px;
+  margin-top: 4px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #282531;
+}
+
+.metricFill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #3B82F6;
+}
+
+.metricFill[data-risk="true"] {
+  background: #EF4444;
+}
+
+.riskNote { color: #f87171; }
+.safeNote { color: #6ee7a0; }
 
 .dataValue {
   flex-shrink: 0;
-  font-size: 18px;
-  font-weight: 650;
+  font-size: 22px;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
-  letter-spacing: -.025em;
+  letter-spacing: -.03em;
+  color: #F7F5FA;
+}
+
+.dataValue[data-risk="true"] {
+  color: #f87171;
+}
+
+.dataValue[data-safe="true"] {
+  color: #6ee7a0;
 }
 
 .rowChevron,
 .eventChevron,
 .toolChevron {
   flex-shrink: 0;
-  color: #898390;
+  color: #5c5768;
 }
 
+/* Calendar events: an agenda rather than another generic card grid */
+.eventAgenda {
+  overflow: hidden;
+  background: #121218;
+  border-top: 1px solid #292532;
+  border-bottom: 1px solid #292532;
+}
+
+/* Calendar events */
 .eventRow {
   gap: 14px;
-  min-height: 62px;
+  min-height: 60px;
 }
 
 .eventBadge {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 35px;
+  justify-content: center;
+  width: 38px;
+  min-height: 38px;
   flex-shrink: 0;
+  background: #1A1724;
+  border-radius: 8px;
   font-variant-numeric: tabular-nums;
 }
 
 .eventBadge strong {
   font-size: 16px;
-  line-height: 1.2;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #F7F5FA;
 }
 
 .eventBadge span {
-  color: #aaa5b4;
+  color: #9C96A7;
   font-size: 9px;
-  font-weight: 650;
+  font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
 .eventDetails h4,
@@ -248,24 +478,37 @@
   line-height: 1.3;
 }
 
-.eventDetails h4 { font-weight: 550; }
+.eventDetails h4 { font-weight: 600; color: #F7F5FA; }
 .eventDetails p { color: #aaa5b4; font-size: 11px; }
 
 .emptyEvents {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 15px 2px;
+  padding: 18px 14px;
   color: #aaa5b4;
 }
 
 .emptyEvents p { margin: 0; font-size: 12px; }
 
+/* Tools: the reusable student workspace */
+.toolShelf {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  overflow: hidden;
+  background: #121218;
+  border: 1px solid #26242d;
+  border-radius: 12px;
+}
+
+/* Tools grid */
 .toolsGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 24px;
-  border-top: 1px solid #302d38;
+  background: #121218;
+  border: 1px solid #26242d;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .toolButton {
@@ -274,15 +517,37 @@
   gap: 10px;
   min-width: 0;
   min-height: 56px;
-  padding: 12px 2px;
+  padding: 12px 14px;
   color: #e8e5ed;
   font-size: 13px;
+  font-weight: 550;
   text-decoration: none;
-  border-bottom: 1px solid #302d38;
+  border-bottom: 1px solid #1e1c25;
+  border-right: 1px solid #1e1c25;
+  transition: background 0.14s ease;
+}
+
+.toolButton:nth-child(2n) {
+  border-right: none;
+}
+
+.toolButton:nth-last-child(-n+2) {
+  border-bottom: none;
 }
 
 .toolButton span { flex: 1; }
-.toolIcon { flex-shrink: 0; color: #aaa5b4; }
+.toolIcon { flex-shrink: 0; color: #8daefa; }
+
+.toolIconWrap {
+  display: inline-grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px !important;
+  place-items: center;
+  border: 1px solid #2b2933;
+  border-radius: 7px;
+  background: #1a1724;
+}
 
 .cardActionLink:focus-visible,
 .headerAction:focus-visible,
@@ -290,7 +555,7 @@
 .eventRow:focus-visible,
 .toolButton:focus-visible {
   outline: 2px solid #87adff;
-  outline-offset: 2px;
+  outline-offset: -2px;
 }
 
 .footer { display: none; }
@@ -318,9 +583,96 @@
   .eventRow {
     min-height: 64px;
   }
+
+  .academicBoard {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .academicTile,
+  .academicTile:last-child {
+    min-height: 116px;
+    border-right: 1px solid #24212c;
+    border-bottom: none;
+  }
+
+  .academicTile:last-child { border-right: none; }
 }
 
 @media (max-width: 360px) {
-  .toolsGrid { column-gap: 10px; }
+  .toolsGrid { column-gap: 0; }
   .toolButton { font-size: 11px; }
+  .trackHeroBody { grid-template-columns: 68px minmax(0, 1fr); gap: 12px; }
 }
+
+/* Light mode keeps the Home hierarchy, but replaces dark containers with
+   paper-like surfaces and stronger text contrast. */
+:global(.theme-light) .home {
+  background: #f6f8fb;
+  color: #172033;
+}
+
+:global(.theme-light) .brand { color: #27334a; }
+:global(.theme-light) .pill { border-left-color: #cfd7e3; color: #66738a; }
+:global(.theme-light) .greetingTitle,
+:global(.theme-light) .courseName,
+:global(.theme-light) .trackTime span,
+:global(.theme-light) .trackRowTime strong,
+:global(.theme-light) .trackRowCourse strong,
+:global(.theme-light) .dataLabel,
+:global(.theme-light) .dataValue,
+:global(.theme-light) .eventBadge strong,
+:global(.theme-light) .eventDetails h4 { color: #172033; }
+
+:global(.theme-light) .dateSubtitle,
+:global(.theme-light) .courseMeta,
+:global(.theme-light) .trackLabel,
+:global(.theme-light) .trackTime small,
+:global(.theme-light) .trackRowTime,
+:global(.theme-light) .trackRowCourse span,
+:global(.theme-light) .dataNote,
+:global(.theme-light) .eventDetails p { color: #66738a; }
+
+:global(.theme-light) .card,
+:global(.theme-light) .academicBoard,
+:global(.theme-light) .toolShelf,
+:global(.theme-light) .dataList,
+:global(.theme-light) .eventsList {
+  background: #ffffff;
+  border-color: #dfe5ee;
+  box-shadow: 0 5px 16px rgba(23, 32, 51, 0.05);
+}
+
+:global(.theme-light) .scheduleCard {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.075), #ffffff 45%);
+  box-shadow: 0 7px 20px rgba(23, 32, 51, 0.07);
+}
+
+:global(.theme-light) .scheduleBottomRow,
+:global(.theme-light) .dayTrack,
+:global(.theme-light) .trackRow,
+:global(.theme-light) .academicTile,
+:global(.theme-light) .eventAgenda,
+:global(.theme-light) .eventRow,
+:global(.theme-light) .toolButton { border-color: #e5eaf1; }
+
+:global(.theme-light) .trackRow:hover,
+:global(.theme-light) .academicTile:hover,
+:global(.theme-light) .eventRow:hover,
+:global(.theme-light) .toolButton:hover { background: #f8fafc; }
+
+:global(.theme-light) .trackRowActive {
+  background: linear-gradient(90deg, rgba(37, 99, 235, 0.10), transparent 72%);
+}
+
+:global(.theme-light) .trackDot { border-color: #8aa0bf; background: #f6f8fb; }
+:global(.theme-light) .trackRow:not(:last-child) .trackDot::after { background: #d7e0ec; }
+:global(.theme-light) .trackRowActive .trackDot { border-color: #2563eb; background: #2563eb; }
+:global(.theme-light) .eventAgenda { background: #ffffff; }
+:global(.theme-light) .eventBadge,
+:global(.theme-light) .toolIconWrap { background: #f4f7fb; border-color: #dfe5ee; }
+:global(.theme-light) .toolButton { color: #27334a; }
+:global(.theme-light) .rowChevron,
+:global(.theme-light) .eventChevron,
+:global(.theme-light) .toolChevron { color: #8a98ad; }
+:global(.theme-light) .metricTrack { background: #e5eaf1; }

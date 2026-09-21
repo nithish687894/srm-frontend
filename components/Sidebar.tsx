@@ -246,23 +246,23 @@ export default function Sidebar() {
     }
   };
 
-  const hubAccent = "#BF5AF2";
-  const hubAccentGlow = "rgba(191,90,242,0.15)";
-  const hubBg = "#0f0a15";
+  const hubAccent = "#2563EB";
+  const hubAccentGlow = "rgba(37,99,235,0.18)";
+  const hubBg = "#09090F";
   const hubCardBg = "rgba(255,255,255,0.03)";
   const hubCardBorder = "rgba(255,255,255,0.06)";
 
   const moreItems = [
     { href: "/friends", label: "Friends Sync", icon: Users, color: "#F59E0B" },
-    { href: "/notes", label: "Notes", icon: StickyNote, color: "#FF9500" },
-    { href: "/calendar", label: "University Calendar", icon: Calendar, color: "#00E5FF" },
-    { href: "/exam-library", label: "Exam", icon: BookOpen, color: "#30D158" },
-    { href: "/exam-hub", label: "Exam Hub", icon: BookOpen, color: "#BF5AF2" },
-    { href: "/tools", label: "Academic Tools", icon: LayoutGrid, color: "#00ff88" },
+    { href: "/notes", label: "Notes", icon: StickyNote, color: "#93C5FD" },
+    { href: "/calendar", label: "University Calendar", icon: Calendar, color: "#93C5FD" },
+    { href: "/exam-library", label: "Exam", icon: BookOpen, color: "#93C5FD" },
+    { href: "/exam-hub", label: "Exam Hub", icon: BookOpen, color: "#93C5FD" },
+    { href: "/tools", label: "Academic Tools", icon: LayoutGrid, color: "#93C5FD" },
     { href: "/premium", label: "Nexus Premium", icon: Sparkles, color: "#FFD700" },
-    { href: "/ai", label: "AI Tutor", icon: Sparkles, color: "#BF5AF2" },
-    { href: "/gpa", label: "GPA / CGPA Planner", icon: GraduationCap, color: "#FF2D55" },
-    ...(isAdmin ? [{ href: "/admin", label: "Admin Control", icon: Shield, color: "#FF9500" }] : []),
+    { href: "/ai", label: "AI Tutor", icon: Sparkles, color: "#93C5FD" },
+    { href: "/gpa", label: "GPA / CGPA Planner", icon: GraduationCap, color: "#93C5FD" },
+    ...(isAdmin ? [{ href: "/admin", label: "Admin Control", icon: Shield, color: "#93C5FD" }] : []),
   ];
 
   const portalServices = [
