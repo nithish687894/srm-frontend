@@ -3289,6 +3289,69 @@ body.theme-light,
   .srmx-mobile-nav { display: none !important; }
 }
 
+/* Mobile navigation is the student's always-available route switcher. Give
+   each destination a real touch target and make the current destination clear
+   at a glance, without turning the bar into a decorative card strip. */
+@media (max-width: 1023px) {
+  .srmx-mobile-nav {
+    height: calc(74px + env(safe-area-inset-bottom, 0px)) !important;
+    padding: 7px 10px env(safe-area-inset-bottom, 0px) !important;
+    gap: 4px !important;
+    background: #101016 !important;
+    border-top-color: #292532 !important;
+    box-shadow: 0 -10px 28px rgba(0, 0, 0, 0.18) !important;
+  }
+
+  .srmx-mobile-nav .nav-item {
+    min-width: 0;
+    min-height: 58px !important;
+    border-radius: 12px;
+    gap: 4px !important;
+    color: #A8A2B0 !important;
+    transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
+  }
+
+  .srmx-mobile-nav .nav-item svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .srmx-mobile-nav .nav-item span {
+    font-size: 10px !important;
+    font-weight: 650 !important;
+    line-height: 1;
+  }
+
+  .srmx-mobile-nav .nav-item.active {
+    color: #DBEAFE !important;
+    background: rgba(37, 99, 235, 0.22);
+  }
+
+  .srmx-mobile-nav .nav-item.active span {
+    color: inherit !important;
+    font-weight: 750 !important;
+  }
+
+  .srmx-mobile-nav .nav-item:active {
+    transform: scale(0.96);
+  }
+
+  .theme-light .srmx-mobile-nav {
+    background: #FFFFFF !important;
+    border-top-color: #DFE5EE !important;
+    box-shadow: 0 -10px 26px rgba(23, 32, 51, 0.08) !important;
+  }
+
+  .theme-light .srmx-mobile-nav .nav-item {
+    color: #64748B !important;
+  }
+
+  .theme-light .srmx-mobile-nav .nav-item.active {
+    color: #1D4ED8 !important;
+    background: #EAF1FF;
+  }
+}
+
 /* Core academic pages share the same compact, information-first layout. */
 
 /* Core academic pages share the same compact, information-first layout. */
