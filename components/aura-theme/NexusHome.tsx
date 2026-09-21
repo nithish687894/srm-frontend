@@ -60,9 +60,11 @@ export default function NexusHome(props: AnyValue) {
   const averageMarks = percentage(avgMarks);
   const lesson = currentClass || nextClass;
   const lessonLabel = currentClass ? "In class now" : nextClassMeta?.isTomorrow ? "Tomorrow's first class" : "Next class";
-  const trackSchedule = Array.isArray(todaySchedule)
-    ? todaySchedule.filter((course: AnyValue) => course?.courseCode || course?.courseTitle).slice(0, 4)
+  const allTodayClasses = Array.isArray(todaySchedule)
+    ? todaySchedule.filter((course: AnyValue) => course?.courseCode || course?.courseTitle)
     : [];
+  const trackSchedule = allTodayClasses.slice(0, 4);
+  const remainingScheduleCount = Math.max(0, allTodayClasses.length - trackSchedule.length);
   const records = data?.attendance || data?.studentPortal?.attendance || [];
   const subjectName = (course: AnyValue) => {
     const match = records.find((item: AnyValue) => (item["Course Code"] || item.courseCode) === course.courseCode);
@@ -173,6 +175,12 @@ export default function NexusHome(props: AnyValue) {
             }) : (
               <Link href="/timetable" className={styles.noTrack}>
                 <CalendarDays size={17} /> Open your full timetable <ChevronRight size={15} />
+              </Link>
+            )}
+            {remainingScheduleCount > 0 && (
+              <Link href="/timetable" className={styles.moreTrackClasses}>
+                <span>{remainingScheduleCount} more {remainingScheduleCount === 1 ? "class" : "classes"} today</span>
+                <span>View timetable <ChevronRight size={15} /></span>
               </Link>
             )}
           </div>

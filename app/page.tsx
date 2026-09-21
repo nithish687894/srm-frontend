@@ -2,7 +2,8 @@
 import { useCallback, useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { authAPI } from "@/lib/api";
+import { authAPI, dataAPI } from "@/lib/api";
+import { applyUnifiedResponse } from "@/lib/normalizeUnified";
 import { useAuthStore } from "@/lib/store";
 import { Eye, EyeOff, MonitorPlay, Shield, Zap, Bell, TrendingUp } from "lucide-react";
 
@@ -38,7 +39,7 @@ export default function LoginPage() {
       if (window.location.pathname === "/") {
         window.location.assign(target);
       }
-    }, 1800);
+    }, 600);
   }, [router]);
 
   const fetchCaptcha = useCallback(async () => {
@@ -78,8 +79,8 @@ export default function LoginPage() {
     setError("");
     const canonicalNetId = email.split("@")[0].trim().toLowerCase();
 
-    const MIN_LOADING_MS = 1200;
-    const MIN_SUCCESS_MS = 1500;
+    const MIN_LOADING_MS = 400;
+    const MIN_SUCCESS_MS = 200;
     
     try {
       const devBypassCode = typeof window !== "undefined" ? sessionStorage.getItem("developerPasscode") : null;
@@ -98,6 +99,13 @@ export default function LoginPage() {
             studentPortal: res.connectors.studentPortal?.status || "disconnected",
           });
         }
+
+        // Prefetch unified data during success animation so dashboard
+        // renders instantly from Zustand cache. Uses the shared normalizer
+        // to produce the exact same shape the dashboard expects.
+        dataAPI.getUnified().then((d) => {
+          applyUnifiedResponse(d);
+        }).catch(() => {}); // Dashboard will retry on mount anyway
 
         // Ensure the loading screen is visible for at least MIN_LOADING_MS before transitioning to success
         const elapsed = Date.now() - loginStartMs;

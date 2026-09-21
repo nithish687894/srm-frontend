@@ -222,6 +222,7 @@ export default function SrmParkingToolPage() {
   const [sniperStatus, setSniperStatus] = useState<"IDLE" | "ARMED" | "FIRING" | "SUCCESS" | "FAILED">("IDLE");
   const [sniperConfirmMsg, setSniperConfirmMsg] = useState<string | null>(null);
   const [sniperLogs, setSniperLogs] = useState<string[]>([]);
+  const [sniperCloudArmed, setSniperCloudArmed] = useState<boolean>(false);
   const sniperFiringRef = React.useRef<boolean>(false);
 
   // Local storage vehicle numbers quick vault
@@ -233,11 +234,31 @@ export default function SrmParkingToolPage() {
   const [showAddModal, setShowAddModal] = useState(false);
 
   // Load session & remembered email from localStorage on mount
+  // Also sync cloud sniper status
+  const fetchCloudSniperStatus = async (token: string) => {
+    try {
+      const res = await fetch("/api/gridee/sniper/status", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.target?.armed) {
+          setSniperCloudArmed(true);
+          setAutoSniperArmed(true);
+          setSniperStatus("ARMED");
+          setSniperConfirmMsg(`☁️ Cloud Sniper armed on server. Fires at 05:00:00 AM IST — even when your phone is off.`);
+        }
+      }
+    } catch {}
+  };
   useEffect(() => {
     try {
       const stored = localStorage.getItem("gridee_nexus_session");
       if (stored) {
-        setSession(JSON.parse(stored));
+        const parsed = JSON.parse(stored) as GrideeSession;
+        setSession(parsed);
+        // Fetch cloud sniper status right after session restore
+        fetchCloudSniperStatus(parsed.accessToken);
       }
       const remembered = localStorage.getItem("gridee_nexus_last_email");
       if (remembered) {
@@ -734,14 +755,30 @@ export default function SrmParkingToolPage() {
     sniperFiringRef.current = false;
   };
 
-  // ⚡ Toggle Auto-Book Sniper Arming
-  const handleToggleAutoSniper = (enable: boolean) => {
+  // ⚡ Toggle Auto-Book Sniper Arming (Cloud + Local)
+  const handleToggleAutoSniper = async (enable: boolean) => {
     if (!enable) {
+      // Disarm locally
       setAutoSniperArmed(false);
+      setSniperCloudArmed(false);
       setSniperStatus("IDLE");
       setSniperConfirmMsg(null);
       sniperFiringRef.current = false;
       localStorage.removeItem("gridee_nexus_auto_sniper");
+
+      // Disarm on cloud server
+      if (session?.accessToken) {
+        try {
+          await fetch("/api/gridee/sniper/disarm", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${session.accessToken}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({}),
+          });
+        } catch {}
+      }
       return;
     }
 
@@ -758,15 +795,18 @@ export default function SrmParkingToolPage() {
     }
 
     const zoneLabel = activeZone === "TP" ? "TP Avenue" : "Java Ground";
+    const spotId = activeZone === "TP" ? "ps5" : "ps6";
+    const userId = session.user?.id || session.user?.userId || "user_current";
     const dateLabel = scheduleDetails.dateLabel;
     const shiftLabel = scheduleDetails.label;
-    const confirm = `Target locked: ${dateLabel} ${shiftLabel} at ${zoneLabel}. Armed for 05:00:00 AM.`;
+    const confirm = `☁️ Cloud Sniper armed on server. Target: ${dateLabel} ${shiftLabel} at ${zoneLabel}. Fires at 05:00:00 AM IST — even when your phone is off.`;
 
     setAutoSniperArmed(true);
     setSniperStatus("ARMED");
     setSniperConfirmMsg(confirm);
     setBookingError(null);
 
+    // Save locally as fallback
     localStorage.setItem(
       "gridee_nexus_auto_sniper",
       JSON.stringify({
@@ -779,6 +819,46 @@ export default function SrmParkingToolPage() {
         armedAt: Date.now(),
       })
     );
+
+    // 🌐 Arm on cloud server (Srm-Nexus cron fires 05:00 IST regardless of phone state)
+    try {
+      const res = await fetch("/api/gridee/sniper/arm", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${session.accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+          grideeToken: session.accessToken,
+          vehicleNumber: plate,
+          spotId,
+          shift: selectedShift,
+          bookingDate: selectedDate,
+          checkInTime: scheduleDetails.checkInTime,
+          checkOutTime: scheduleDetails.checkOutTime,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSniperCloudArmed(true);
+        setSniperConfirmMsg(`☁️ Cloud Sniper ACTIVE on Srm-Nexus server. Target: ${dateLabel} ${shiftLabel} at ${zoneLabel}. Fires at 05:00:00 AM IST — phone can be off.`);
+        setSniperLogs((prev) => [
+          `[CLOUD] ✅ Sniper armed on Srm-Nexus server. Will fire at 05:00:00 AM IST for ${plate} @ ${zoneLabel}.`,
+          ...prev,
+        ]);
+      } else {
+        setSniperLogs((prev) => [
+          `[CLOUD] ⚠️ Server arm failed: ${data.error || "Unknown error"}. Local sniper is still armed as fallback.`,
+          ...prev,
+        ]);
+      }
+    } catch (err: any) {
+      setSniperLogs((prev) => [
+        `[CLOUD] ⚠️ Could not reach Srm-Nexus: ${err.message}. Local sniper is still armed as fallback.`,
+        ...prev,
+      ]);
+    }
   };
 
   // Handle In-App Booking Cancellation
@@ -2096,6 +2176,17 @@ export default function SrmParkingToolPage() {
                     <span style={{ color: "#6EE7B7", opacity: 0.8 }}>Schedule: </span>
                     <strong>{scheduleDetails.dateLabel} (05:00:00 AM)</strong>
                   </div>
+                  {sniperCloudArmed && (
+                    <div style={{ gridColumn: "1 / -1" }}>
+                      <span style={{
+                        display: "inline-flex", alignItems: "center", gap: "4px",
+                        background: "rgba(37, 99, 235, 0.18)", color: "#60A5FA",
+                        borderRadius: "6px", padding: "2px 8px", fontSize: "10.5px", fontWeight: 700
+                      }}>
+                        ☁️ CLOUD ACTIVE — Srm-Nexus server will fire at 05:00:00 AM IST even if phone is off
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 {sniperLogs.length > 0 && (
@@ -2117,7 +2208,9 @@ export default function SrmParkingToolPage() {
                 )}
 
                 <p style={{ margin: "8px 0 0", fontSize: "10.5px", color: "#9CA3AF" }}>
-                  💡 Leave this browser tab open overnight. Nexus will fire automatically at 05:00:00 AM sharp with fast-retry.
+                  {sniperCloudArmed
+                    ? "☁️ Cloud Sniper is active on Srm-Nexus server — phone can be completely off. Booking fires at 05:00:00 AM IST."
+                    : "💡 Keep this tab open overnight. Nexus fires automatically at 05:00:00 AM sharp with fast-retry."}
                 </p>
               </div>
             )}

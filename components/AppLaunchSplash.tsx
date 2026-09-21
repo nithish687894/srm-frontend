@@ -12,6 +12,17 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
   const [latestVersion, setLatestVersion] = useState("");
   const [minVersion, setMinVersion] = useState("");
 
+  const steps = useMemo(
+    () => [
+      "Opening workspace",
+      "Checking secure session",
+      "Preparing academic data",
+      "Syncing interface",
+      "Ready",
+    ],
+    []
+  );
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     const hasSplashed = sessionStorage.getItem("srmx_splashed") === "true";
@@ -29,7 +40,7 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
     const recoveryTimer = window.setTimeout(() => {
       setIsExiting(true);
       window.setTimeout(() => setIsDestroyed(true), 520);
-    }, 5000);
+    }, 2500);
 
     const runSplash = async () => {
       let requiresUpdate = false;
@@ -53,7 +64,7 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
         return;
       }
 
-      const duration = 1150;
+      const duration = 600;
       const interval = window.setInterval(() => {
         setStep((current) => Math.min(current + 1, steps.length - 1));
       }, duration / steps.length);
@@ -79,18 +90,7 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
       window.clearTimeout(recoveryTimer);
       document.body.classList.remove("splash-active");
     };
-  }, []);
-
-  const steps = useMemo(
-    () => [
-      "Opening workspace",
-      "Checking secure session",
-      "Preparing academic data",
-      "Syncing interface",
-      "Ready",
-    ],
-    []
-  );
+  }, [steps]);
 
   const progress = Math.round(((step + 1) / steps.length) * 100);
 

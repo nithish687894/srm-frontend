@@ -2,6 +2,7 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { dataAPI } from "@/lib/api";
+import { applyUnifiedResponse } from "@/lib/normalizeUnified";
 import { useAuthStore } from "@/lib/store";
 import { useAuth } from "@/hooks/useAuth";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
@@ -607,82 +608,21 @@ export default function DashboardPage() {
   }, [data?.lastFetchedAt]);
 
   const fetchUnifiedData = useCallback(async (silent = false) => {
-    const requestEmail = String(useAuthStore.getState().email || "").toLowerCase();
     try {
       const d = await dataAPI.getUnified();
-      const currentEmail = String(useAuthStore.getState().email || "").toLowerCase();
-      if (requestEmail && currentEmail && requestEmail !== currentEmail) return;
-      if (d && d.success) {
-        // Sync premium status from backend
-        if (d.isPremium !== undefined) {
-          setPremium(d.isPremium, d.premiumExpiresAt);
-        }
+      const hasData = applyUnifiedResponse(d);
 
-        // Normalize profile to support both camelCase canonical and legacy uppercase keys
-        const rawProfile = d.profile || d.academia?.profile || d.studentPortal?.profile;
-        const normalizedProfile = rawProfile ? {
-          ...rawProfile,
-          "Name": rawProfile["Name"] || rawProfile.name || "",
-          "Registration Number": rawProfile["Registration Number"] || rawProfile.regNumber || "",
-          "Department": rawProfile["Department"] || rawProfile.department || "",
-          "Program": rawProfile["Program"] || rawProfile.program || "",
-          "Semester": rawProfile["Semester"] || rawProfile.semester || "",
-          "Section": rawProfile["Section"] || rawProfile.section || "",
-          "Combo / Batch": rawProfile["Combo / Batch"] || rawProfile.batch || "",
-        } : null;
+      if (d?.success) {
+        // Read back the normalized data from Zustand to update local state
+        const store = useAuthStore.getState();
+        setData(store.academicData);
 
-        // Extract canonical datasets
-        const attendanceList = Array.isArray(d.attendance) && d.attendance.length > 0
-          ? d.attendance
-          : (Array.isArray(d.studentPortal?.attendance) ? d.studentPortal.attendance : (Array.isArray(d.academia?.attendance) ? d.academia.attendance : []));
-        const marksList = Array.isArray(d.marks) && d.marks.length > 0
-          ? d.marks
-          : (Array.isArray(d.studentPortal?.marks) ? d.studentPortal.marks : (Array.isArray(d.academia?.marks) ? d.academia.marks : []));
-        const timetableData = d.timetable || d.academia?.timetable || null;
-        const calendarData = d.calendar || d.academia?.calendar || [];
-
-        const spStatus = d.connectors?.studentPortal?.status || d.studentPortal?.sessionStatus || "disconnected";
-        const isSpActive = spStatus === "connected" || spStatus === "active";
-
-        const spObject = d.studentPortal || {
-          profile: normalizedProfile,
-          attendance: attendanceList,
-          marks: marksList,
-          sessionStatus: isSpActive ? "active" : (spStatus === "session_expired" ? "expired" : "disconnected"),
-          lastSyncedAt: d.connectors?.studentPortal?.lastFetchedAt || new Date().toISOString(),
-        };
-
-        const mergedData = {
-          profile: normalizedProfile,
-          attendance: attendanceList,
-          marks: marksList,
-          timetable: timetableData,
-          calendar: calendarData,
-          studentPortal: spObject,
-          lastFetchedAt: Date.now(),
-        };
-
-        setData(mergedData);
-        setAcademicData(mergedData);
-        setStudentPortalData(spObject);
-        setStudentPortalConnected(isSpActive);
-
-        useAuthStore.getState().setConnectorStatuses({
-          studentPortal: isSpActive ? "connected" : (spStatus === "session_expired" ? "session_expired" : "disconnected"),
-          academia: d.connectors?.academia?.status === "connected" ? "connected" : "disconnected",
-        });
-
-        if (normalizedProfile) {
-          setProfile(normalizedProfile);
-          const b = extractBatch(normalizedProfile["Combo / Batch"] || "");
+        if (store.profile) {
+          const b = extractBatch(store.profile["Combo / Batch"] || "");
           if (b) setBatch(b);
         }
 
-        const hasAtt = attendanceList.length > 0;
-        const hasMarks = marksList.length > 0;
-        const hasProf = Boolean(normalizedProfile);
-
-        if (!hasAtt && !hasMarks && !hasProf) {
+        if (!hasData) {
           setSyncError("Portal session expired or data missing. Please try again.");
         } else {
           setSyncError(null);
@@ -701,10 +641,12 @@ export default function DashboardPage() {
         }
       }
     }
-  }, [setPremium, setAcademicData, setStudentPortalData, setProfile, setStudentPortalConnected]);
+  }, []);
   useEffect(() => {
     if (!ready) return;
-    fetchUnifiedData(false);
+    // If login prefetched data into Zustand, show it instantly and refresh silently
+    const hasCachedData = !!useAuthStore.getState().academicData;
+    fetchUnifiedData(hasCachedData);
   }, [ready]);
 
   useEffect(() => {
@@ -738,8 +680,11 @@ export default function DashboardPage() {
     return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
   }, [ready, data?.lastFetchedAt, fetchUnifiedData]);
 
+  // Defer timetable/calendar/my-timetable/broadcast fetches until AFTER unified
+  // data is loaded, so they don't compete with the critical unified request.
+  const unifiedLoaded = !!data;
   useEffect(() => {
-    if (!ready) return;
+    if (!ready || !unifiedLoaded) return;
     let active = true;
     const requestEmail = String(useAuthStore.getState().email || "").toLowerCase();
     const stillCurrent = () => {
@@ -751,7 +696,7 @@ export default function DashboardPage() {
     dataAPI.getMyTimetable().then(d => { if (stillCurrent()) { setMyTTData(d); setMyTimetable(d); } }).catch(() => { });
     dataAPI.getBroadcast().then(d => setBroadcast(d)).catch(() => { });
     return () => { active = false; };
-  }, [ready, batch, setTimetable, setCalendar, setMyTimetable]);
+  }, [ready, unifiedLoaded, batch, setTimetable, setCalendar, setMyTimetable]);
 
   // Calculate top stats
   const totalCourses = att.length;

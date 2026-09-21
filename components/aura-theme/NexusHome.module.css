@@ -274,6 +274,31 @@
   font-weight: 650;
 }
 
+.moreTrackClasses {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 52px;
+  padding: 0 14px 0 16px;
+  color: #93C5FD;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  border-top: 1px dashed #36323f;
+}
+
+.moreTrackClasses span:last-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: #a9c7ff;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.moreTrackClasses:hover { background: #12121A; }
+
 /* Academics: two decision panels in one focused academic board */
 .academicBoard {
   overflow: hidden;
@@ -660,6 +685,10 @@
 :global(.theme-light) .academicTile:hover,
 :global(.theme-light) .eventRow:hover,
 :global(.theme-light) .toolButton:hover { background: #f8fafc; }
+
+:global(.theme-light) .moreTrackClasses { border-top-color: #cfd9e7; color: #2563eb; }
+:global(.theme-light) .moreTrackClasses span:last-child { color: #3b6fcd; }
+:global(.theme-light) .moreTrackClasses:hover { background: #f8fafc; }
 
 :global(.theme-light) .trackRowActive {
   background: linear-gradient(90deg, rgba(37, 99, 235, 0.10), transparent 72%);
