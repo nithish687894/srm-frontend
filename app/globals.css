@@ -3352,6 +3352,63 @@ body.theme-light,
   }
 }
 
+/* Icon-led mobile dock: the selected destination is shown through the icon,
+   label weight, and a compact route marker—not a large button-shaped pill. */
+@media (max-width: 1023px) {
+  .srmx-mobile-nav .nav-item,
+  .theme-light .srmx-mobile-nav .nav-item {
+    position: relative;
+    min-height: 58px !important;
+    border-radius: 0;
+    background: transparent !important;
+    color: #97919E !important;
+  }
+
+  .srmx-mobile-nav .nav-item svg {
+    width: 22px !important;
+    height: 22px !important;
+    stroke-width: 1.9;
+  }
+
+  .srmx-mobile-nav .nav-item.active,
+  .theme-light .srmx-mobile-nav .nav-item.active {
+    background: transparent !important;
+    color: #F7F5FA !important;
+  }
+
+  .srmx-mobile-nav .nav-item.active::before {
+    content: "";
+    display: block !important;
+    position: absolute;
+    top: 0;
+    width: 22px;
+    height: 3px;
+    border-radius: 0 0 3px 3px;
+    background: #2563EB;
+  }
+
+  .srmx-mobile-nav .nav-item.active::after {
+    display: none !important;
+  }
+
+  .srmx-mobile-nav .nav-item.active svg {
+    stroke-width: 2.7;
+  }
+
+  .srmx-mobile-nav .nav-item span {
+    font-size: 10px !important;
+    font-weight: 600 !important;
+  }
+
+  .srmx-mobile-nav .nav-item.active span {
+    font-weight: 750 !important;
+  }
+
+  .theme-light .srmx-mobile-nav .nav-item.active {
+    color: #172033 !important;
+  }
+}
+
 /* Core academic pages share the same compact, information-first layout. */
 
 /* Core academic pages share the same compact, information-first layout. */
