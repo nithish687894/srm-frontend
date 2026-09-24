@@ -31,7 +31,6 @@ const NAV_MORE_ITEMS = [
   { href: "/exam-library", label: "Exam", icon: BookOpen, color: "#30D158" },
   { href: "/exam-hub", label: "Exam Hub", icon: BookOpen, color: "#BF5AF2" },
   { href: "/tools", label: "Academic Tools", icon: LayoutGrid, color: "#00ff88" },
-  { href: "/ai", label: "AI Tutor", icon: Sparkles, color: "#fff" },
   { href: "/gpa", label: "GPA Calc", icon: GraduationCap, color: "#fff" },
 ] as const;
 
@@ -260,7 +259,6 @@ export default function Sidebar() {
     { href: "/exam-hub", label: "Exam Hub", icon: BookOpen, color: "#93C5FD" },
     { href: "/tools", label: "Academic Tools", icon: LayoutGrid, color: "#93C5FD" },
     { href: "/premium", label: "Nexus Premium", icon: Sparkles, color: "#FFD700" },
-    { href: "/ai", label: "AI Tutor", icon: Sparkles, color: "#93C5FD" },
     { href: "/gpa", label: "GPA / CGPA Planner", icon: GraduationCap, color: "#93C5FD" },
     ...(isAdmin ? [{ href: "/admin", label: "Admin Control", icon: Shield, color: "#93C5FD" }] : []),
   ];

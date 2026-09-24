@@ -58,14 +58,6 @@ const TOOL_ITEMS: ToolItem[] = [
     href: "/gpa",
   },
   {
-    id: "ai-tutor",
-    name: "AI Academic Companion",
-    category: "ai",
-    desc: "Academic context helper, syllabus breakdown, and interactive subject assistance.",
-    icon: Sparkles,
-    href: "/ai",
-  },
-  {
     id: "timetable",
     name: "Master Timetable",
     category: "schedule",

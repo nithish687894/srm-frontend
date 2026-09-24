@@ -2974,7 +2974,7 @@ body.theme-lumina,
 }
 
 :where(a, button, input, select, textarea, [tabindex]):focus-visible {
-  outline: 3px solid #A855F7 !important;
+  outline: 3px solid #2563EB !important;
   outline-offset: 3px;
 }
 
