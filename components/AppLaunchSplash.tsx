@@ -4,6 +4,8 @@ import Image from "next/image";
 import { APP_VERSION } from "@/lib/version";
 
 export default function AppLaunchSplash({ children }: { children: React.ReactNode }) {
+  // Fail open on the server/first client frame. If another subtree has a
+  // hydration issue, the launch surface must never permanently block the app.
   const [isSplashed, setIsSplashed] = useState(true);
   const [isExiting, setIsExiting] = useState(true);
   const [isDestroyed, setIsDestroyed] = useState(true);
@@ -40,7 +42,7 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
     const recoveryTimer = window.setTimeout(() => {
       setIsExiting(true);
       window.setTimeout(() => setIsDestroyed(true), 520);
-    }, 2500);
+    }, 3200);
 
     const runSplash = async () => {
       let requiresUpdate = false;
@@ -64,7 +66,9 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
         return;
       }
 
-      const duration = 600;
+      // Deliberate pacing makes the handoff feel dependable rather than like a
+      // decorative progress bar rapidly cycling through made-up activity.
+      const duration = 1500;
       const interval = window.setInterval(() => {
         setStep((current) => Math.min(current + 1, steps.length - 1));
       }, duration / steps.length);
@@ -151,11 +155,11 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
           color: #fff;
         }
         .nexus-logo-shell {
-          width: 96px;
-          height: 96px;
+          width: 80px;
+          height: 80px;
           display: grid;
           place-items: center;
-          border-radius: 16px;
+          border-radius: 14px;
           background: #12121A;
           border: 1px solid #292532;
           box-shadow: none;
@@ -164,53 +168,53 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
         .nexus-logo-shell::before {
           content: "";
           position: absolute;
-          width: 112px;
-          height: 112px;
-          border-radius: 20px;
+          width: 94px;
+          height: 94px;
+          border-radius: 18px;
           border: 1px solid rgba(37,99,235,0.22);
           box-shadow: none;
           animation: none;
         }
         .nexus-logo-shell img {
-          width: 62px;
-          height: 62px;
-          border-radius: 10px;
+          width: 48px;
+          height: 48px;
+          border-radius: 8px;
           position: relative;
           z-index: 1;
           filter: grayscale(1) brightness(2);
         }
         .nexus-title {
-          margin-top: 34px;
-          font-size: clamp(28px, 8vw, 42px);
+          margin-top: 28px;
+          font-size: clamp(26px, 7vw, 34px);
           font-weight: 700;
-          letter-spacing: 0;
-          line-height: 0.95;
+          letter-spacing: -0.035em;
+          line-height: 1;
         }
         .nexus-subtitle {
-          margin-top: 12px;
-          font-size: 10px;
-          font-weight: 700;
-          letter-spacing: 0.16em;
-          text-transform: uppercase;
+          margin-top: 10px;
+          font-size: 12px;
+          font-weight: 600;
+          letter-spacing: 0;
+          text-transform: none;
           color: #B8B2C2;
         }
         .nexus-progress {
           width: min(78vw, 300px);
-          margin-top: 34px;
+          margin-top: 32px;
         }
         .nexus-progress-meta {
           display: flex;
           justify-content: space-between;
           align-items: center;
           margin-bottom: 10px;
-          font-size: 10px;
-          font-weight: 850;
+          font-size: 11px;
+          font-weight: 650;
           color: rgba(255,255,255,0.5);
         }
         .nexus-progress-track {
-          height: 7px;
+          height: 5px;
           overflow: hidden;
-          border-radius: 6px;
+          border-radius: 999px;
           background: #12121A;
           border: 1px solid #292532;
           box-shadow: none;
@@ -232,7 +236,7 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
           animation: nexusSweep 1.7s ease-in-out infinite;
         }
         .nexus-status {
-          margin-top: 18px;
+          margin-top: 14px;
           min-height: 18px;
           font-size: 12px;
           font-weight: 600;
@@ -261,9 +265,9 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
           width: min(88vw, 380px);
           padding: 28px;
           border-radius: 24px;
-          background: rgba(10, 10, 15, 0.88);
-          border: 1px solid rgba(255, 45, 85, 0.3);
-          box-shadow: 0 22px 70px rgba(255, 45, 85, 0.16);
+          background: #12121A;
+          border: 1px solid #292532;
+          box-shadow: 0 22px 70px rgba(0, 0, 0, 0.28);
           color: #fff;
           text-align: center;
         }
@@ -284,17 +288,17 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
                 <Image src="/nexus-logo.png" alt="SRM Nexus" width={64} height={64} priority />
               </div>
               <div className="nexus-title">SRM Nexus</div>
-              <div className="nexus-subtitle">Academic Intelligence</div>
+              <div className="nexus-subtitle">Your academic workspace</div>
               <div className="nexus-progress">
                 <div className="nexus-progress-meta">
                   <span>{steps[step]}</span>
                   <span>{progress}%</span>
                 </div>
-                <div className="nexus-progress-track">
+                <div className="nexus-progress-track" role="progressbar" aria-label="Preparing SRM Nexus" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress}>
                   <div className="nexus-progress-fill" style={{ width: `${progress}%` }} />
                 </div>
               </div>
-              <div className="nexus-status">Preparing your academic workspace</div>
+              <div className="nexus-status">Securely loading your saved workspace</div>
             </div>
           ) : (
             <div className="nexus-update-card">
@@ -309,7 +313,7 @@ export default function AppLaunchSplash({ children }: { children: React.ReactNod
                   border: 0,
                   borderRadius: "16px",
                   padding: "14px 16px",
-                  background: "linear-gradient(135deg, #ff75c3, #bf5af2)",
+                  background: "#2563EB",
                   color: "#fff",
                   fontWeight: 900,
                   cursor: "pointer",

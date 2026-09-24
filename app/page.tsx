@@ -5,7 +5,7 @@ import Image from "next/image";
 import { authAPI, dataAPI } from "@/lib/api";
 import { applyUnifiedResponse } from "@/lib/normalizeUnified";
 import { useAuthStore } from "@/lib/store";
-import { Eye, EyeOff, MonitorPlay, Shield, Zap, Bell, TrendingUp } from "lucide-react";
+import { Check, Eye, EyeOff, FileText, GraduationCap, MonitorPlay, Shield, Zap, Bell, TrendingUp } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -80,7 +80,7 @@ export default function LoginPage() {
     const canonicalNetId = email.split("@")[0].trim().toLowerCase();
 
     const MIN_LOADING_MS = 400;
-    const MIN_SUCCESS_MS = 200;
+    const MIN_SUCCESS_MS = 450;
     
     try {
       const devBypassCode = typeof window !== "undefined" ? sessionStorage.getItem("developerPasscode") : null;
@@ -187,6 +187,180 @@ export default function LoginPage() {
           inset: 0;
           z-index: 0;
           background: linear-gradient(180deg, rgba(37,99,235,0.06), transparent 32%);
+        }
+
+        .portal-connection-overlay {
+          position: fixed;
+          inset: 0;
+          z-index: 10000;
+          display: flex;
+          min-height: 100dvh;
+          flex-direction: column;
+          overflow: hidden;
+          background: #09090F;
+          color: #F7F5FA;
+          animation: fadeIn 220ms ease-out;
+        }
+
+        .portal-connection-overlay::before,
+        .portal-connection-overlay::after {
+          position: absolute;
+          width: 360px;
+          height: 360px;
+          border: 1px solid rgba(37, 99, 235, 0.12);
+          border-radius: 50%;
+          content: "";
+          pointer-events: none;
+        }
+
+        .portal-connection-overlay::before { top: -248px; left: -214px; }
+        .portal-connection-overlay::after { right: -260px; bottom: -228px; }
+
+        .portal-connection-brand {
+          position: relative;
+          z-index: 1;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: max(28px, calc(env(safe-area-inset-top, 0px) + 22px)) 24px 0;
+          font-size: 17px;
+          font-weight: 700;
+          letter-spacing: -0.025em;
+        }
+
+        .portal-connection-brand img { filter: grayscale(1) brightness(2); }
+
+        .portal-connection-content {
+          position: relative;
+          z-index: 1;
+          display: flex;
+          width: min(100%, 540px);
+          flex: 1;
+          flex-direction: column;
+          justify-content: center;
+          box-sizing: border-box;
+          margin: 0 auto;
+          padding: 36px 24px max(42px, calc(env(safe-area-inset-bottom, 0px) + 28px));
+        }
+
+        .portal-connection-eyebrow {
+          margin: 0 0 16px;
+          color: #B8B2C2;
+          font-size: 12px;
+          font-weight: 650;
+          letter-spacing: 0.02em;
+        }
+
+        .portal-connection-content h1 {
+          max-width: 420px;
+          margin: 0;
+          color: #F7F5FA;
+          font-size: clamp(32px, 10vw, 46px);
+          font-weight: 700;
+          letter-spacing: -0.052em;
+          line-height: 1.04;
+        }
+
+        .portal-connection-intro {
+          max-width: 330px;
+          margin: 16px 0 0;
+          color: #B8B2C2;
+          font-size: 15px;
+          font-weight: 500;
+          line-height: 1.55;
+        }
+
+        .portal-connection-map {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) 94px minmax(0, 1fr);
+          align-items: start;
+          margin-top: 64px;
+        }
+
+        .portal-connection-origin,
+        .portal-connection-destination {
+          min-width: 0;
+        }
+
+        .portal-connection-destination { text-align: right; }
+
+        .portal-connection-marker {
+          display: grid;
+          width: 54px;
+          height: 54px;
+          place-items: center;
+          border: 1px solid #292532;
+          border-radius: 50%;
+          background: #12121A;
+          color: #B8B2C2;
+        }
+
+        .portal-connection-destination .portal-connection-marker { margin-left: auto; }
+        .portal-connection-marker.active { border-color: #2563EB; color: #FFFFFF; box-shadow: 0 0 0 8px rgba(37, 99, 235, 0.12); }
+        .portal-connection-marker.complete { border-color: #2563EB; background: #2563EB; color: #FFFFFF; }
+
+        .portal-connection-origin strong,
+        .portal-connection-destination strong {
+          display: block;
+          margin-top: 14px;
+          color: #F7F5FA;
+          font-size: 14px;
+          font-weight: 700;
+          letter-spacing: -0.015em;
+        }
+
+        .portal-connection-origin span,
+        .portal-connection-destination span {
+          display: block;
+          margin-top: 4px;
+          color: #B8B2C2;
+          font-size: 13px;
+          font-weight: 500;
+        }
+
+        .portal-connection-origin .active + strong + span { color: #60A5FA; }
+
+        .portal-connection-line {
+          position: relative;
+          height: 2px;
+          margin-top: 26px;
+          overflow: hidden;
+          background: repeating-linear-gradient(90deg, #292532 0 3px, transparent 3px 9px);
+        }
+
+        .portal-connection-line span {
+          position: absolute;
+          top: 0;
+          left: -36%;
+          width: 36%;
+          height: 100%;
+          background: #2563EB;
+          animation: portalTransfer 1.2s ease-in-out infinite;
+        }
+
+        .portal-connection-line.complete { background: #2563EB; }
+        .portal-connection-line.complete span { display: none; }
+
+        .portal-connection-note {
+          margin: 64px 0 0;
+          color: #B8B2C2;
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 1.5;
+          text-align: center;
+        }
+
+        @keyframes portalTransfer {
+          0% { transform: translateX(0); opacity: 0; }
+          18% { opacity: 1; }
+          82% { opacity: 1; }
+          100% { transform: translateX(380%); opacity: 0; }
+        }
+
+        @media (min-width: 768px) {
+          .portal-connection-brand { padding-inline: 48px; }
+          .portal-connection-content { padding-inline: 48px; }
+          .portal-connection-map { grid-template-columns: minmax(0, 1fr) 180px minmax(0, 1fr); }
         }
 
         @keyframes nebulaDrift {
@@ -883,57 +1057,47 @@ export default function LoginPage() {
 
         <div>
           {loading && (
-            <div
-              style={{
-                position: "fixed", inset: 0, zIndex: 10000,
-                background: "#09090F", display: "flex",
-                flexDirection: "column", alignItems: "center", justifyContent: "center",
-                backdropFilter: "none",
-                animation: "fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1)"
-              }}
-            >
-              <div style={{ position: "relative", marginBottom: "32px" }}>
-                <div style={{
-                  width: "76px", height: "76px", borderRadius: "14px",
-                  background: loginPhase === "success" 
-                    ? "rgba(34,197,94,0.14)"
-                    : "#12121A",
-                  border: `1px solid ${loginPhase === "success" ? "rgba(34,197,94,0.4)" : "#292532"}`,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  boxShadow: "none",
-                  transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1)",
-                  animation: loginPhase === "success" ? "none" : "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
-                }}>
-                  {loginPhase === "success" ? (
-                    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                  ) : (
-                    <Image src="/nexus-logo.png" alt="SRM Nexus" width={42} height={42} priority style={{ filter: "grayscale(1) brightness(2)" }} />
-                  )}
-                </div>
-                
-                {loginPhase !== "success" && (
-                  <div
-                    style={{
-                      position: "absolute", inset: "-12px",
-                      border: "1px solid rgba(37,99,235,0.18)",
-                      borderTopColor: "#60A5FA",
-                      borderRadius: "18px",
-                      animation: "spin 2s linear infinite"
-                    }}
-                  />
-                )}
+            <div className="portal-connection-overlay" role="status" aria-live="polite" aria-label="Connecting SRM portals">
+              <div className="portal-connection-brand">
+                <Image src="/nexus-logo.png" alt="SRM Nexus" width={40} height={40} priority />
+                <span>SRM Nexus</span>
               </div>
-              
-              <div style={{ textAlign: "center" }}>
-                <div
-                  style={{ fontSize: "16px", fontWeight: 700, letterSpacing: "0.01em", color: "#F7F5FA", marginBottom: "8px" }}
-                >
-                  {loginPhase === "success" ? "Connected" : "Connecting your portals"}
+
+              <section className="portal-connection-content" aria-label="Connection progress">
+                <p className="portal-connection-eyebrow">Secure connection</p>
+                <h1>{loginPhase === "success" ? "Your portals are connected" : "Connecting your SRM portals"}</h1>
+                <p className="portal-connection-intro">
+                  {loginPhase === "success"
+                    ? "Opening your academic workspace now."
+                    : "We are securely linking your academic services."}
+                </p>
+
+                <div className="portal-connection-map">
+                  <div className="portal-connection-origin">
+                    <div className={`portal-connection-marker ${loginPhase === "success" ? "complete" : "active"}`}>
+                      {loginPhase === "success" ? <Check size={22} strokeWidth={2.5} /> : <GraduationCap size={25} strokeWidth={2} />}
+                    </div>
+                    <strong>Academia</strong>
+                    <span>{loginPhase === "success" ? "Connected" : "Connecting now"}</span>
+                  </div>
+
+                  <div className={`portal-connection-line ${loginPhase === "success" ? "complete" : ""}`} aria-hidden="true">
+                    <span />
+                  </div>
+
+                  <div className="portal-connection-destination">
+                    <div className={`portal-connection-marker ${loginPhase === "success" ? "complete" : "pending"}`}>
+                      {loginPhase === "success" ? <Check size={22} strokeWidth={2.5} /> : <FileText size={23} strokeWidth={2} />}
+                    </div>
+                    <strong>Student Portal</strong>
+                    <span>{loginPhase === "success" ? "Ready" : "Queued"}</span>
+                  </div>
                 </div>
-                <div style={{ fontSize: "12px", color: "#B8B2C2", letterSpacing: "0.01em", fontWeight: 500 }}>
-                  {loginPhase === "success" ? "Opening your academic workspace…" : "Verifying your credentials and setting up a secure session…"}
-                </div>
-              </div>
+
+                <p className="portal-connection-note">
+                  {loginPhase === "success" ? "Taking you to your dashboard…" : "This can take a moment. Keep this screen open."}
+                </p>
+              </section>
             </div>
           )}
         </div>
