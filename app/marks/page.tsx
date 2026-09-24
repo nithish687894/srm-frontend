@@ -135,7 +135,10 @@ export default function MarksPage() {
         .animate-spin { animation: spin 2s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
       `}} />
-      <main style={{ flex: 1, paddingBottom: "140px", paddingTop: "calc(env(safe-area-inset-top, 0px) + 72px)" }} className="max-w-4xl mx-auto px-4 w-full">
+      {/* AuraMarks owns the safe-area, horizontal, and bottom-navigation spacing.
+          A second wrapper previously added 72px above it, creating the large
+          empty band visible before the Marks heading on mobile. */}
+      <main style={{ flex: 1, minWidth: 0 }} className="w-full">
         <AuraMarks marks={marks} handleSync={handleSync} isSyncing={isSyncing} />
       </main>
     </div>

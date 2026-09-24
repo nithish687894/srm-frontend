@@ -288,12 +288,12 @@ export default function FriendsSyncPage() {
   const periodMatrix = dayResult?.periodMatrix || [];
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white pb-36 max-w-6xl mx-auto overflow-x-hidden w-full box-border" style={{ maxWidth: "100vw" }}>
+    <div className="min-h-screen bg-[#09090F] text-white pb-32 max-w-6xl mx-auto overflow-x-hidden w-full box-border" style={{ maxWidth: "100vw" }}>
       {toast && <Toast title={toast.title} body={toast.body} type={toast.type} onClose={() => setToast(null)} />}
 
       {/* ─── Hero Header ──────────────────────────────────────────────────────── */}
       <header 
-        className="w-full max-w-full px-4 sm:px-6 md:px-8 mb-6 box-border"
+        className="w-full max-w-full px-4 sm:px-6 md:px-8 mb-3 box-border"
         style={{
           paddingTop: "calc(env(safe-area-inset-top, 0px) + 76px)",
         }}
@@ -301,24 +301,24 @@ export default function FriendsSyncPage() {
         {/* Title row & Subtitle — explicitly right-padded so it never collides with floating status bar buttons */}
         <div className="w-full max-w-full min-w-0 pr-24 sm:pr-0 box-border">
           <div className="flex items-center gap-2.5 flex-wrap min-w-0">
-            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white break-words">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white break-words">
               Friends Sync
             </h1>
-            <span className="bg-gradient-to-r from-amber-400 to-amber-500 text-black text-[10.5px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-[0_0_12px_rgba(245,158,11,0.35)] shrink-0">
+            <span className="border border-amber-400/35 bg-amber-400/10 text-amber-300 text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-md shrink-0">
               PRO
             </span>
           </div>
 
           {/* Subtitle — cleanly wrapped within available width */}
-          <p className="text-xs sm:text-sm text-white/50 mt-2 font-medium leading-relaxed break-words">
-            Zero-friction peer discovery, permissioned timetable sync &amp; instant common free time planner.
+          <p className="text-sm text-[#B8B2C2] mt-1.5 font-medium leading-relaxed break-words">
+            Find shared free time and compare schedules with classmates you trust.
           </p>
         </div>
 
         {/* Status pills */}
         <div className="flex items-center gap-2 mt-3 flex-wrap">
-          <div className="bg-white/[0.04] border border-white/10 px-3 py-1.5 rounded-xl flex items-center gap-2 text-xs font-bold text-white/80 shrink-0">
-            <Users size={14} className="text-purple-400" />
+          <div className="bg-[#12121A] border border-[#292532] px-2.5 py-1 rounded-lg flex items-center gap-2 text-xs font-medium text-[#B8B2C2] shrink-0">
+            <Users size={14} className="text-[#60A5FA]" />
             <span>{friends.length} {friends.length === 1 ? "Friend" : "Friends"}</span>
           </div>
           {incomingRequests.length > 0 && (
@@ -342,53 +342,53 @@ export default function FriendsSyncPage() {
               msOverflowStyle: "none"
             }}
           >
-            <div className="flex items-center gap-2 min-w-max pb-2.5 px-0.5">
+            <div className="flex items-center gap-1 min-w-max pb-2 px-0.5">
               <button
                 onClick={() => setActiveTab("freetime")}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all whitespace-nowrap shrink-0 ${
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all whitespace-nowrap shrink-0 ${
                   activeTab === "freetime"
-                    ? "bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-300 border border-amber-500/40 shadow-lg"
-                    : "text-white/60 hover:text-white hover:bg-white/5"
+                    ? "bg-blue-500/15 text-blue-200 border border-blue-500/35"
+                    : "text-[#B8B2C2] hover:text-white hover:bg-white/[0.04]"
                 }`}
               >
-                <Flame size={15} className={activeTab === "freetime" ? "text-amber-400" : "text-white/40"} />
-                ⚡ Free Time Together
+                <Flame size={15} className={activeTab === "freetime" ? "text-blue-400" : "text-white/40"} />
+                Free time
               </button>
 
               <button
                 onClick={() => setActiveTab("schedule")}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all whitespace-nowrap shrink-0 ${
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all whitespace-nowrap shrink-0 ${
                   activeTab === "schedule"
-                    ? "bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-lg"
-                    : "text-white/60 hover:text-white hover:bg-white/5"
+                    ? "bg-blue-500/15 text-blue-200 border border-blue-500/35"
+                    : "text-[#B8B2C2] hover:text-white hover:bg-white/[0.04]"
                 }`}
               >
-                <Calendar size={15} className={activeTab === "schedule" ? "text-purple-400" : "text-white/40"} />
-                📅 Shared Schedule
+                <Calendar size={15} className={activeTab === "schedule" ? "text-blue-400" : "text-white/40"} />
+                Schedule
               </button>
 
               <button
                 onClick={() => setActiveTab("attendance")}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all whitespace-nowrap shrink-0 ${
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all whitespace-nowrap shrink-0 ${
                   activeTab === "attendance"
-                    ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-lg"
-                    : "text-white/60 hover:text-white hover:bg-white/5"
+                    ? "bg-blue-500/15 text-blue-200 border border-blue-500/35"
+                    : "text-[#B8B2C2] hover:text-white hover:bg-white/[0.04]"
                 }`}
               >
-                <TrendingUp size={15} className={activeTab === "attendance" ? "text-emerald-400" : "text-white/40"} />
-                📊 Attendance Radar
+                <TrendingUp size={15} className={activeTab === "attendance" ? "text-blue-400" : "text-white/40"} />
+                Attendance
               </button>
 
               <button
                 onClick={() => setActiveTab("friends")}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all whitespace-nowrap shrink-0 ${
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all whitespace-nowrap shrink-0 ${
                   activeTab === "friends"
-                    ? "bg-blue-500/20 text-blue-300 border border-blue-500/40 shadow-lg"
-                    : "text-white/60 hover:text-white hover:bg-white/5"
+                    ? "bg-blue-500/15 text-blue-200 border border-blue-500/35"
+                    : "text-[#B8B2C2] hover:text-white hover:bg-white/[0.04]"
                 }`}
               >
                 <Users size={15} className={activeTab === "friends" ? "text-blue-400" : "text-white/40"} />
-                👥 Friends &amp; Requests {incomingRequests.length > 0 && `(${incomingRequests.length})`}
+                People {incomingRequests.length > 0 && `(${incomingRequests.length})`}
               </button>
             </div>
           </div>
@@ -397,23 +397,24 @@ export default function FriendsSyncPage() {
 
       {/* ─── TAB 1: FREE TIME TOGETHER (FLAGSHIP CONSTRAINT ENGINE) ───────────── */}
       {activeTab === "freetime" && (
-        <section className="w-full max-w-full space-y-6 px-4 sm:px-6 md:px-8 pt-4 box-border">
+        <section className="w-full max-w-full space-y-6 px-4 sm:px-6 md:px-8 pt-5 box-border">
           {friends.length === 0 ? (
-            <div className="w-full max-w-sm mx-auto bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/10 rounded-3xl p-6 backdrop-blur-xl shadow-2xl my-4 box-border">
+            <div className="w-full max-w-xl min-h-[330px] mx-auto bg-[#12121A] border border-[#292532] rounded-2xl p-6 sm:p-8 flex items-center my-3 box-border">
               <div className="flex flex-col items-center text-center">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-purple-500/20 to-amber-500/20 border border-white/10 flex items-center justify-center mb-4 text-purple-300 shadow-inner">
-                  <Users size={32} />
+                <div className="w-14 h-14 rounded-xl bg-blue-500/10 border border-blue-400/25 flex items-center justify-center mb-5 text-blue-300">
+                  <Users size={27} />
                 </div>
-                <h3 className="text-lg font-black text-white tracking-tight">No Friends Connected Yet</h3>
-                <p className="text-xs text-white/55 mt-2 mb-6 leading-relaxed">
-                  Add your classmates by Registration Number or NetID to discover when you are free together!
+                <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-blue-300 mb-2">Start planning together</p>
+                <h3 className="text-xl font-bold text-white tracking-tight">Add your first classmate</h3>
+                <p className="max-w-sm text-sm text-[#B8B2C2] mt-2 mb-6 leading-relaxed">
+                  Connect using a registration number or NetID. You choose exactly what schedule and attendance information to share.
                 </p>
                 <button
                   onClick={() => setActiveTab("friends")}
-                  className="inline-flex items-center justify-center gap-2 w-fit min-w-[160px] max-w-[200px] bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-black text-xs uppercase tracking-wider px-5 py-2.5 rounded-2xl shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-all active:scale-95"
+                  className="inline-flex items-center justify-center gap-2 w-fit min-w-[174px] bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold text-sm px-4 py-2.5 rounded-lg transition-colors active:scale-95"
                 >
                   <UserPlus size={15} />
-                  <span>Add First Friend</span>
+                  <span>Add classmate</span>
                 </button>
               </div>
             </div>

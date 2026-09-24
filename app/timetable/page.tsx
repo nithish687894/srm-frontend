@@ -330,8 +330,9 @@ function insertBreaks(classes: ScheduleItem[]) {
       const nextStart = parseStart(classes[i+1].startTime);
       const breakMinutes = nextStart - curEnd;
       // SRM periods are separated by real five-minute transitions. Preserve
-      // every verified gap of five minutes or more in the daily schedule.
-      if (breakMinutes >= 5) {
+      // Five-minute transitions between periods are normal movement time, not
+      // useful schedule content. Only surface meaningful breaks.
+      if (breakMinutes >= 15) {
         res.push({
           isBreak: true,
           startTime: classes[i].endTime,

@@ -264,6 +264,11 @@ export default function Sidebar() {
     { href: "/gpa", label: "GPA / CGPA Planner", icon: GraduationCap, color: "#93C5FD" },
     ...(isAdmin ? [{ href: "/admin", label: "Admin Control", icon: Shield, color: "#93C5FD" }] : []),
   ];
+  // The desktop rail is a wayfinder, not a full sitemap. Less-frequent
+  // destinations remain available from Tools without crowding every page.
+  const desktopQuickItems = moreItems.filter(({ href }) =>
+    ["/friends", "/notes", "/calendar"].includes(href)
+  );
 
   const portalServices = [
     { href: "/portal/grade-mark-credit", label: "Grades & Credits", icon: GraduationCap, color: "#FF2D55" },
@@ -402,15 +407,15 @@ export default function Sidebar() {
               <div 
                 className="w-11 h-11 rounded-full flex items-center justify-center text-black text-sm font-black shrink-0"
                 style={{ 
-                  background: `linear-gradient(135deg, ${hubAccent} 0%, #ffffff 200%)`, 
-                  boxShadow: `0 4px 12px ${hubAccentGlow}` 
+                  background: hubAccent,
+                  boxShadow: "none"
                 }}
               >
                 {initials}
               </div>
               <div className="min-w-0">
-                <h3 className="text-sm font-black desktop-profile-name leading-tight truncate">{userName}</h3>
-                <p className="text-[9px] font-bold uppercase tracking-widest mt-1 tabular-nums desktop-profile-reg">
+                <h3 className="text-sm font-semibold desktop-profile-name leading-tight truncate">{userName}</h3>
+                <p className="text-[9px] font-medium uppercase tracking-[0.12em] mt-1 tabular-nums desktop-profile-reg">
                   {regNo ? `${regNo.substring(0, 10)}...` : "Profile loading"}
                 </p>
               </div>
@@ -418,21 +423,21 @@ export default function Sidebar() {
 
            {/* Main Links */}
            <div className="flex flex-col gap-2">
-             <p className="text-[8px] font-black desktop-sidebar-section-title uppercase tracking-[0.25em] mb-2 pl-1">Nexus Core</p>
+             <p className="text-[9px] font-semibold desktop-sidebar-section-title uppercase tracking-[0.18em] mb-2 pl-1">Workspace</p>
              {NAV_MAIN.map(({ href, label, icon: Icon }) => (
                <Link 
                  key={href} 
                  href={href} 
                  prefetch={true}
-                 className={`desktop-nav-link ${isActive(href, path) ? "active" : ""}`}
+                 className={`desktop-nav-link ${isActive(href, path) || (href === "/tools" && isMoreActive) ? "active" : ""}`}
                >
-                 <Icon size={18} color={isActive(href, path) ? hubAccent : (resolvedTheme === "light" ? "rgba(27,20,40,0.5)" : "currentColor")} />
-                 <span className="text-xs font-black tracking-wide">{label}</span>
+                 <Icon size={18} color={isActive(href, path) || (href === "/tools" && isMoreActive) ? hubAccent : (resolvedTheme === "light" ? "rgba(27,20,40,0.5)" : "currentColor")} />
+                 <span className="text-[13px] font-semibold tracking-normal">{label}</span>
                </Link>
              ))}
 
-             <p className="text-[8px] font-black desktop-sidebar-section-title uppercase tracking-[0.25em] mt-4 mb-2 pl-1">Extended Tools</p>
-             {moreItems.map(({ href, label, icon: Icon, color }) => (
+             <p className="text-[9px] font-semibold desktop-sidebar-section-title uppercase tracking-[0.18em] mt-5 mb-2 pl-1">Quick access</p>
+             {desktopQuickItems.map(({ href, label, icon: Icon, color }) => (
                <Link 
                  key={href} 
                  href={href} 
@@ -440,9 +445,9 @@ export default function Sidebar() {
                  className={`desktop-nav-link ${isActive(href, path) ? "active" : ""}`}
                >
                  <Icon size={18} color={isActive(href, path) ? hubAccent : color} />
-                 <span className="text-xs font-black tracking-wide flex-1">{label}</span>
+                 <span className="text-[13px] font-semibold tracking-normal flex-1">{label}</span>
                  {href === "/friends" && (
-                   <span className="bg-gradient-to-r from-amber-400 to-amber-500 text-black text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-full shadow-[0_0_8px_rgba(245,158,11,0.4)] ml-auto">
+                   <span className="bg-amber-400/15 border border-amber-400/30 text-amber-300 text-[9px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded-md ml-auto">
                      PRO
                    </span>
                  )}
@@ -458,7 +463,7 @@ export default function Sidebar() {
               className="desktop-nav-link w-full"
             >
               <Settings size={18} color={resolvedTheme === "light" ? "rgba(27,20,40,0.5)" : "currentColor"} />
-              <span className="text-xs font-black tracking-wide">Settings</span>
+              <span className="text-[13px] font-semibold tracking-normal">Settings</span>
             </button>
             <button 
               onClick={handleLogout}
@@ -466,7 +471,7 @@ export default function Sidebar() {
               style={{ color: "rgba(239, 68, 68, 0.85)" }}
             >
               <LogOut size={18} color="rgba(239, 68, 68, 0.85)" />
-              <span className="text-xs font-black tracking-wide uppercase font-sans">Sign Out</span>
+              <span className="text-[13px] font-semibold tracking-normal uppercase font-sans">Sign Out</span>
             </button>
          </div>
       </div>
@@ -496,12 +501,12 @@ export default function Sidebar() {
             style={{ 
               zIndex: 100005,
               background: resolvedTheme === "light" 
-                ? "linear-gradient(145deg, rgba(246, 241, 255, 0.88) 0%, rgba(232, 239, 255, 0.86) 100%)"
-                : "linear-gradient(145deg, rgba(16, 12, 28, 0.92) 0%, rgba(10, 7, 18, 0.96) 100%)",
+                ? "#FFFFFF"
+                : "#12121A",
               borderColor: resolvedTheme === "light" ? "rgba(96, 68, 145, 0.14)" : "rgba(255, 255, 255, 0.08)",
               boxShadow: resolvedTheme === "light"
-                ? `0 26px 60px rgba(46, 32, 74, 0.18), 0 0 36px rgba(191, 90, 242, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.72)`
-                : `0 25px 60px rgba(0, 0, 0, 0.65), 0 0 40px rgba(191, 90, 242, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.08)`,
+                ? "0 18px 42px rgba(23, 32, 51, 0.16)"
+                : "0 18px 42px rgba(0, 0, 0, 0.42)",
             }}
           >
             {/* Popover Arrow */}
