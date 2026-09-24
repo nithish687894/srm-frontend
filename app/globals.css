@@ -3427,6 +3427,24 @@ body.theme-light,
 
 /* Core academic pages share the same compact, information-first layout. */
 
+/* Mobile browser chrome changes `dvh` as the address bar expands or collapses.
+   Academic pages must use the small, stable viewport so their header and
+   bottom-navigation spacing does not visibly resize while the student scrolls. */
+@media (max-width: 1023px) {
+  .swipe-wrapper,
+  .aura-background-root,
+  .marks-workspace,
+  .attendance-workspace,
+  [style*="min-height: 100dvh"],
+  [style*="height: 100dvh"] {
+    min-height: 100svh !important;
+  }
+
+  [style*="height: 100dvh"] {
+    height: 100svh !important;
+  }
+}
+
 /* Core academic pages share the same compact, information-first layout. */
 .marks-page-content {
   max-width: 760px;

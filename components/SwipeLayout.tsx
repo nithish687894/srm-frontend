@@ -250,8 +250,10 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
           gestureRef.current = "vertical";
         }
       } else if (absDX > absDY * 1.8) {
-        gestureRef.current = "horizontal";
-        setGestureTransition(true);
+        // Mobile already has persistent bottom navigation. Do not translate the
+        // whole workspace for a slight diagonal scroll; it makes the UI appear
+        // to slide sideways and resize under the student's finger.
+        gestureRef.current = "vertical";
       } else {
         // Diagonal — treat as vertical scroll (don't hijack)
         gestureRef.current = "vertical";
