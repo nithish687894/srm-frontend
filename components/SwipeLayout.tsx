@@ -372,7 +372,7 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
     <>
       <div
         className={`swipe-wrapper ${!hideSidebar ? 'layout-with-sidebar' : ''}`}
-        style={{ overflowX: "hidden", position: "relative", minHeight: "100dvh", width: "100%", maxWidth: "100%", minWidth: 0 }}
+        style={{ overflowX: "clip", position: "relative", minHeight: "100dvh", width: "100%", maxWidth: "100%", minWidth: 0 }}
       >
         {/* Pull to Refresh Indicator */}
         <div ref={pullIndicatorRef} aria-hidden="true" style={{

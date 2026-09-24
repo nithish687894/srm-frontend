@@ -1703,8 +1703,10 @@ body:has(.timetable-sheet-open) .srmx-mobile-nav {
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  overflow-x: hidden;
-  contain: layout style;
+  overflow-x: clip;
+  /* Layout containment clips descendant height from the shared workspace,
+     preventing long mobile pages from extending the native document scroll. */
+  contain: style;
   transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), filter 0.6s cubic-bezier(0.22, 1, 0.36, 1), border-radius 0.6s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1) !important;
   transform-origin: center top;
 }

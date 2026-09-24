@@ -1,5 +1,6 @@
 .home {
   min-height: 100svh;
+  flex-shrink: 0;
   padding: calc(env(safe-area-inset-top, 0px) + 54px) 16px calc(env(safe-area-inset-bottom, 0px) + 76px);
   background: #09090f;
   color: #f7f5fa;

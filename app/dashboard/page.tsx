@@ -1249,7 +1249,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div style={{ minHeight: "100dvh", width: "100%", background: "#000", display: "flex", flexDirection: "column", position: "relative" }}>
+    <>
       {activeDashboard}
       {isSyncModalOpen && (
         <PortalSyncModal
@@ -1261,6 +1261,6 @@ export default function DashboardPage() {
         />
       )}
       {renderStudentInfoModal()}
-    </div>
+    </>
   );
 }
