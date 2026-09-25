@@ -3496,3 +3496,23 @@ body.theme-light,
   box-shadow: none !important;
 }
 
+
+/* ── Touch Scrolling & Mobile Responsiveness Guarantee ── */
+html, body, .swipe-wrapper, .page-content, main {
+  touch-action: pan-y pinch-zoom !important;
+}
+
+.attendance-workspace,
+.attendance-workspace *,
+.marks-workspace,
+.marks-workspace *,
+.timetable-main,
+.timetable-main * {
+  touch-action: pan-y pinch-zoom !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.attendance-workspace button:active,
+.marks-workspace button:active {
+  transform: none !important;
+}

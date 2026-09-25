@@ -1,7 +1,7 @@
 .home {
   min-height: 100svh;
   flex-shrink: 0;
-  padding: calc(env(safe-area-inset-top, 0px) + 54px) 16px calc(env(safe-area-inset-bottom, 0px) + 76px);
+  padding: calc(env(safe-area-inset-top, 0px) + 20px) 16px calc(env(safe-area-inset-bottom, 0px) + 80px);
   background: #09090f;
   color: #f7f5fa;
 }
@@ -12,58 +12,111 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 26px;
+  gap: 22px;
+}
+
+.dashboardGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.mainColumn,
+.sideColumn {
+  display: contents;
+}
+
+.scheduleCardWrapper {
+  order: 1;
+}
+
+.yourDayWrapper {
+  order: 2;
+}
+
+.academicsWrapper {
+  order: 3;
+}
+
+.comingUpWrapper {
+  order: 4;
+}
+
+.toolsWrapper {
+  order: 5;
+}
+
+.header {
+  padding-right: 90px;
+}
+
+.completedBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #34d399;
+  font-size: 11px;
+  font-weight: 650;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.02em;
 }
 
 .topline {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   min-height: 20px;
 }
 
 .brand {
-  color: #ddd9e2;
+  color: #A1A6B4;
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: .05em;
+  letter-spacing: 0.06em;
 }
 
 .pill {
-  padding-left: 10px;
-  border-left: 1px solid #45414d;
-  color: #aaa5b4;
+  padding: 2px 7px;
+  border-radius: 5px;
+  background: #1A1724;
+  border: 1px solid #292532;
+  color: #93C5FD;
   font-size: 10px;
   font-weight: 650;
-  letter-spacing: .04em;
+  letter-spacing: 0.02em;
 }
 
 .greetingTitle {
-  margin: 10px 0 3px;
-  font-size: 26px;
+  margin: 8px 0 2px;
+  font-size: 28px;
   font-weight: 700;
   line-height: 1.2;
-  letter-spacing: -.025em;
+  letter-spacing: -0.03em;
+  color: #F7F5FA;
 }
 
 .dateSubtitle {
   margin: 0;
-  color: #a9a4b1;
+  color: #9C96A7;
   font-size: 13px;
+  font-weight: 500;
 }
 
 /* Schedule card has a top blue accent to make it the primary visual anchor */
 .card {
-  background: #121218;
-  border: 1px solid #26242d;
-  border-radius: 10px;
+  background: #12121A;
+  border: 1px solid #292532;
+  border-radius: 12px;
 }
 
 .scheduleCard {
-  border-top: 2px solid #3b82f6;
-  border-radius: 10px;
+  border-top: 2px solid #2563EB;
+  border-radius: 12px;
   background: #12121A;
-  box-shadow: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
 }
 
 .cardHeader {
@@ -227,8 +280,9 @@
 
 .dayTrack {
   overflow: hidden;
-  border-top: 1px solid #292532;
-  border-bottom: 1px solid #292532;
+  background: #12121A;
+  border: 1px solid #292532;
+  border-radius: 12px;
 }
 
 .trackRow,
@@ -237,28 +291,30 @@
   display: grid;
   grid-template-columns: 60px 18px minmax(0, 1fr) auto;
   align-items: center;
-  gap: 10px;
-  min-height: 66px;
+  gap: 12px;
+  min-height: 64px;
+  padding: 0 16px;
   color: inherit;
   text-decoration: none;
   border-bottom: 1px solid #1E1C25;
+  transition: background 0.14s ease;
 }
 
 .trackRow:last-child { border-bottom: 0; }
-.trackRow:hover { background: #12121A; }
+.trackRow:hover { background: #171522; }
 
 .trackRowTime {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  color: #AAA5B4;
+  color: #9C96A7;
   font-size: 10px;
   font-variant-numeric: tabular-nums;
 }
 
-.trackRowTime strong { color: #E8E5ED; font-size: 12px; }
+.trackRowTime strong { color: #F7F5FA; font-size: 12px; font-weight: 650; }
 .trackDot { width: 8px; height: 8px; border: 2px solid #52647F; border-radius: 999px; background: #09090F; z-index: 1; }
-.trackRow:not(:last-child) .trackDot::after { content: ""; position: absolute; width: 1px; height: 58px; margin-left: 2px; background: #292532; top: 37px; }
+.trackRow:not(:last-child) .trackDot::after { content: ""; position: absolute; width: 1px; height: 56px; margin-left: 2px; background: #292532; top: 36px; }
 .trackRowCourse { display: flex; min-width: 0; flex-direction: column; gap: 3px; }
 .trackRowCourse strong { overflow: hidden; color: #F7F5FA; font-size: 13px; font-weight: 650; text-overflow: ellipsis; white-space: nowrap; }
 .trackRowCourse span { color: #9C96A7; font-size: 11px; }
@@ -280,49 +336,50 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  min-height: 52px;
-  padding: 0 14px 0 16px;
+  min-height: 48px;
+  padding: 0 16px;
   color: #93C5FD;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 650;
   text-decoration: none;
-  border-top: 1px dashed #36323f;
+  border-top: 1px solid #1E1C25;
+  background: rgba(37, 99, 235, 0.04);
+  transition: background 0.14s ease;
 }
 
 .moreTrackClasses span:last-child {
   display: inline-flex;
   align-items: center;
-  gap: 2px;
-  color: #a9c7ff;
+  gap: 3px;
+  color: #93C5FD;
   font-size: 11px;
-  font-weight: 650;
+  font-weight: 600;
 }
 
-.moreTrackClasses:hover { background: #12121A; }
+.moreTrackClasses:hover { background: rgba(37, 99, 235, 0.08); }
 
 /* Academics: two decision panels in one focused academic board */
 .academicBoard {
   overflow: hidden;
-  background: #121218;
-  border: 1px solid #26242d;
+  background: #12121A;
+  border: 1px solid #292532;
   border-radius: 12px;
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.14);
 }
 
 .academicTile {
   display: flex;
   align-items: center;
   gap: 16px;
-  min-height: 104px;
-  padding: 15px 16px;
+  min-height: 98px;
+  padding: 16px 18px;
   color: inherit;
   text-decoration: none;
-  border-bottom: 1px solid #24212c;
+  border-bottom: 1px solid #201D2A;
   transition: background 0.14s ease;
 }
 
 .academicTile:last-child { border-bottom: none; }
-.academicTile:hover { background: #16141e; }
+.academicTile:hover { background: #171522; }
 
 .academicTile:first-child { background: transparent; }
 
@@ -455,15 +512,22 @@
 /* Calendar events: an agenda rather than another generic card grid */
 .eventAgenda {
   overflow: hidden;
-  background: #121218;
-  border-top: 1px solid #292532;
-  border-bottom: 1px solid #292532;
+  background: #12121A;
+  border: 1px solid #292532;
+  border-radius: 12px;
 }
 
 /* Calendar events */
 .eventRow {
   gap: 14px;
   min-height: 60px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #1E1C25;
+  transition: background 0.14s ease;
+}
+
+.eventRow:last-child {
+  border-bottom: none;
 }
 
 .eventBadge {
@@ -471,16 +535,17 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  min-height: 38px;
+  width: 40px;
+  min-height: 40px;
   flex-shrink: 0;
   background: #1A1724;
+  border: 1px solid #292532;
   border-radius: 8px;
   font-variant-numeric: tabular-nums;
 }
 
 .eventBadge strong {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   line-height: 1.1;
   color: #F7F5FA;
@@ -501,14 +566,14 @@
 }
 
 .eventDetails h4 { font-weight: 600; color: #F7F5FA; }
-.eventDetails p { color: #aaa5b4; font-size: 11px; }
+.eventDetails p { color: #9C96A7; font-size: 11px; }
 
 .emptyEvents {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 18px 14px;
-  color: #aaa5b4;
+  color: #9C96A7;
 }
 
 .emptyEvents p { margin: 0; font-size: 12px; }
@@ -518,35 +583,29 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   overflow: hidden;
-  background: #121218;
-  border: 1px solid #26242d;
+  background: #12121A;
+  border: 1px solid #292532;
   border-radius: 12px;
-}
-
-/* Tools grid */
-.toolsGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  background: #121218;
-  border: 1px solid #26242d;
-  border-radius: 10px;
-  overflow: hidden;
 }
 
 .toolButton {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   min-width: 0;
   min-height: 56px;
-  padding: 12px 14px;
-  color: #e8e5ed;
+  padding: 12px 16px;
+  color: #F7F5FA;
   font-size: 13px;
   font-weight: 550;
   text-decoration: none;
-  border-bottom: 1px solid #1e1c25;
-  border-right: 1px solid #1e1c25;
+  border-bottom: 1px solid #1E1C25;
+  border-right: 1px solid #1E1C25;
   transition: background 0.14s ease;
+}
+
+.toolButton:hover {
+  background: #171522;
 }
 
 .toolButton:nth-child(2n) {
@@ -558,17 +617,17 @@
 }
 
 .toolButton span { flex: 1; }
-.toolIcon { flex-shrink: 0; color: #8daefa; }
+.toolIcon { flex-shrink: 0; color: #93C5FD; }
 
 .toolIconWrap {
   display: inline-grid;
-  width: 30px;
-  height: 30px;
-  flex: 0 0 30px !important;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px !important;
   place-items: center;
-  border: 1px solid #2b2933;
-  border-radius: 7px;
-  background: #1a1724;
+  border: 1px solid #292532;
+  border-radius: 8px;
+  background: #1A1724;
 }
 
 .cardActionLink:focus-visible,
@@ -582,18 +641,43 @@
 
 .footer { display: none; }
 
-@media (min-width: 1200px) {
-  .container {
-    max-width: 1040px;
-    display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
-    align-items: start;
-    column-gap: 38px;
-    row-gap: 30px;
+@media (min-width: 1024px) {
+  .home {
+    padding: 32px 40px 60px 40px;
   }
 
-  .header {
-    grid-column: 1 / -1;
+  .container {
+    max-width: 1200px;
+    gap: 28px;
+  }
+
+  .dashboardGrid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.92fr);
+    column-gap: 36px;
+    align-items: start;
+  }
+
+  .mainColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    min-width: 0;
+  }
+
+  .sideColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    min-width: 0;
+  }
+
+  .scheduleCardWrapper,
+  .academicsWrapper,
+  .toolsWrapper,
+  .yourDayWrapper,
+  .comingUpWrapper {
+    order: unset;
   }
 
   .card,
@@ -702,3 +786,8 @@
 :global(.theme-light) .eventChevron,
 :global(.theme-light) .toolChevron { color: #8a98ad; }
 :global(.theme-light) .metricTrack { background: #e5eaf1; }
+:global(.theme-light) .completedBadge {
+  background: rgba(34, 197, 94, 0.12);
+  border-color: rgba(34, 197, 94, 0.3);
+  color: #15803d;
+}

@@ -92,7 +92,7 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
 
   return (
     <AuraBackground theme={activeTheme} stars={stars}>
-      <main className="marks-workspace" style={{ minHeight: "100dvh", padding: "calc(env(safe-area-inset-top, 0px) + 54px) 16px calc(env(safe-area-inset-bottom, 0px) + 76px)" }}>
+      <main className="marks-workspace" style={{ padding: "calc(env(safe-area-inset-top, 0px) + 20px) 16px calc(env(safe-area-inset-bottom, 0px) + 100px)", width: "100%", maxWidth: "100%", boxSizing: "border-box" }}>
         <div style={{ maxWidth: "760px", width: "100%", margin: "0 auto" }}>
           
           {/* Header */}
@@ -213,6 +213,8 @@ export default function AuraMarks({ marks, handleSync, isSyncing }: AnyValue) {
             <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
               <SlidersHorizontal size={13} color="#8F8998" />
               <select
+                id="marks-sort-select"
+                name="sortOption"
                 aria-label="Sort marks"
                 value={sortOption}
                 onChange={(e) => setSortOption(e.target.value as any)}

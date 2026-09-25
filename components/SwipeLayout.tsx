@@ -363,7 +363,7 @@ export default function SwipeLayout({ children }: { children: ReactNode }) {
     maxWidth: "100%",
     minWidth: 0,
     willChange: "auto",
-    overflowX: "hidden" as const
+    overflowX: "clip" as const
   };
 
   const hideSidebar = ["/", "/setup", "/terms", "/privacy", "/trust"].includes(pathname);

@@ -88,12 +88,12 @@ export default function InstallPWA() {
 
   if (isStandalone) return null;
 
-  const bg = isLight ? "#ffffff" : "#0f0f13";
-  const border = isLight ? "rgba(0, 0, 0, 0.08)" : "rgba(255, 255, 255, 0.08)";
-  const color = isLight ? "#111" : "#fff";
-  const subColor = isLight ? "#666" : "rgba(255, 255, 255, 0.6)";
-  const btnAccent = isLight ? "#BF5AF2" : "#FF75C3";
-  const btnText = isLight ? "#fff" : "#000";
+  const bg = isLight ? "#ffffff" : "#12121A";
+  const border = isLight ? "rgba(0, 0, 0, 0.08)" : "#292532";
+  const color = isLight ? "#111827" : "#F7F5FA";
+  const subColor = isLight ? "#6B7280" : "#9C96A7";
+  const btnAccent = "#2563EB";
+  const btnText = "#FFFFFF";
 
   return (
     <>
@@ -102,63 +102,66 @@ export default function InstallPWA() {
         <div
           style={{
             position: "fixed",
-            bottom: "calc(76px + env(safe-area-inset-bottom))",
-            left: "20px",
-            right: "20px",
+            bottom: "calc(82px + env(safe-area-inset-bottom))",
+            left: "16px",
+            right: "16px",
             zIndex: 100100,
             display: "flex",
-            justifyContent: "center"
+            justifyContent: "center",
+            pointerEvents: "none"
           }}
         >
           <div style={{
             background: bg,
-            border: `1.5px solid ${border}`,
-            borderRadius: "24px",
-            padding: "20px",
-            maxWidth: "400px",
+            border: `1px solid ${border}`,
+            borderRadius: "14px",
+            padding: "16px 18px",
+            maxWidth: "380px",
             width: "100%",
-            boxShadow: isLight ? "0 10px 30px rgba(0,0,0,0.08)" : "0 20px 40px rgba(0,0,0,0.65)",
+            boxShadow: isLight ? "0 10px 30px rgba(0,0,0,0.08)" : "0 16px 36px rgba(0,0,0,0.6)",
             position: "relative",
-            fontFamily: "'Plus Jakarta Sans', sans-serif"
+            pointerEvents: "auto"
           }}>
             <button 
               onClick={dismissAndroid}
-              style={{ position: "absolute", top: "16px", right: "16px", background: "none", border: "none", color: subColor, cursor: "pointer" }}
+              style={{ position: "absolute", top: "14px", right: "14px", background: "none", border: "none", color: subColor, cursor: "pointer", padding: "4px" }}
+              aria-label="Dismiss installation prompt"
             >
-              <X size={16} />
+              <X size={15} />
             </button>
 
-            <div style={{ display: "flex", gap: "14px", alignItems: "center" }}>
+            <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
               <div style={{ 
-                width: "44px", 
-                height: "44px", 
-                borderRadius: "12px", 
-                background: `linear-gradient(135deg, ${btnAccent} 0%, #ffffff 200%)`,
+                width: "40px", 
+                height: "40px", 
+                borderRadius: "10px", 
+                background: "#1A1724",
+                border: "1px solid #292532",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 flexShrink: 0
               }}>
-                <span style={{ color: isLight ? "#fff" : "#000", fontWeight: 900, fontSize: "18px" }}>N</span>
+                <span style={{ color: "#93C5FD", fontWeight: 800, fontSize: "16px" }}>N</span>
               </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
-                <div style={{ fontSize: "14px", fontWeight: 900, color: color }}>Install Nexus</div>
-                <div style={{ fontSize: "11px", color: subColor, fontWeight: 500, lineHeight: 1.4 }}>Use Nexus like an app on your phone.</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "2px", minWidth: 0, paddingRight: "20px" }}>
+                <div style={{ fontSize: "13px", fontWeight: 700, color: color }}>Install Nexus</div>
+                <div style={{ fontSize: "11px", color: subColor, fontWeight: 500, lineHeight: 1.3 }}>Use Nexus like an app on your device.</div>
               </div>
             </div>
 
-            <div style={{ display: "flex", gap: "10px", marginTop: "16px" }}>
+            <div style={{ display: "flex", gap: "8px", marginTop: "14px" }}>
               <button 
                 onClick={dismissAndroid}
                 style={{
                   flex: 1,
-                  padding: "10px",
+                  padding: "8px 12px",
                   background: "transparent",
                   color: subColor,
-                  borderRadius: "12px",
+                  borderRadius: "8px",
                   border: `1px solid ${border}`,
-                  fontWeight: 700,
-                  fontSize: "11px",
+                  fontWeight: 600,
+                  fontSize: "12px",
                   cursor: "pointer"
                 }}
               >
@@ -168,13 +171,13 @@ export default function InstallPWA() {
                 onClick={handleInstall}
                 style={{
                   flex: 1,
-                  padding: "10px",
+                  padding: "8px 12px",
                   background: btnAccent,
                   color: btnText,
-                  borderRadius: "12px",
+                  borderRadius: "8px",
                   border: "none",
-                  fontWeight: 800,
-                  fontSize: "11px",
+                  fontWeight: 650,
+                  fontSize: "12px",
                   cursor: "pointer"
                 }}
               >
@@ -190,40 +193,40 @@ export default function InstallPWA() {
         <div
           style={{
             position: "fixed",
-            bottom: "calc(76px + env(safe-area-inset-bottom))",
-            left: "12px",
-            right: "12px",
+            bottom: "calc(82px + env(safe-area-inset-bottom))",
+            left: "16px",
+            right: "16px",
             zIndex: 100100,
             display: "flex",
             justifyContent: "center",
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
-            animation: "slideUp 0.3s ease-out"
+            pointerEvents: "none"
           }}
         >
           <div style={{
             background: bg,
-            border: `1.5px solid ${border}`,
-            borderRadius: "24px",
-            padding: "20px",
-            maxWidth: "420px",
+            border: `1px solid ${border}`,
+            borderRadius: "14px",
+            padding: "16px 18px",
+            maxWidth: "380px",
             width: "100%",
-            boxShadow: isLight ? "0 10px 30px rgba(0,0,0,0.08)" : "0 20px 40px rgba(0,0,0,0.65)",
+            boxShadow: isLight ? "0 10px 30px rgba(0,0,0,0.08)" : "0 16px 36px rgba(0,0,0,0.6)",
             display: "flex",
             flexDirection: "column",
-            gap: "16px"
+            gap: "12px",
+            pointerEvents: "auto"
           }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <div>
-                <div style={{ fontSize: "9px", color: btnAccent, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em" }}>Apple iOS Guide</div>
-                <h3 style={{ fontSize: "15px", fontWeight: 900, color: color, margin: "2px 0 0" }}>Add Nexus to Home Screen</h3>
+                <div style={{ fontSize: "10px", color: "#93C5FD", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>iOS Guide</div>
+                <h3 style={{ fontSize: "14px", fontWeight: 700, color: color, margin: "2px 0 0" }}>Add Nexus to Home Screen</h3>
               </div>
               <button 
                 onClick={dismissIos}
                 style={{
                   width: "24px",
                   height: "24px",
-                  borderRadius: "50%",
-                  background: isLight ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.03)",
+                  borderRadius: "6px",
+                  background: isLight ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.04)",
                   border: "none",
                   color: subColor,
                   display: "flex",
@@ -231,31 +234,28 @@ export default function InstallPWA() {
                   justifyContent: "center",
                   cursor: "pointer"
                 }}
+                aria-label="Close iOS guide"
               >
-                <X size={12} />
+                <X size={13} />
               </button>
             </div>
 
-            <p style={{ fontSize: "11.5px", color: subColor, margin: 0, lineHeight: 1.4, fontWeight: 550 }}>
-              Open Nexus faster from your iPhone like a real app.
+            <p style={{ fontSize: "11px", color: subColor, margin: 0, lineHeight: 1.4, fontWeight: 500 }}>
+              Add to Home Screen for fast, fullscreen access.
             </p>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px", background: isLight ? "rgba(0,0,0,0.02)" : "rgba(255,255,255,0.01)", border: `1px solid ${border}`, borderRadius: "16px", padding: "14px" }}>
-              <div style={{ display: "flex", gap: "10px", alignItems: "flex-start", fontSize: "11.5px", color: color, fontWeight: 600 }}>
-                <span style={{ color: btnAccent, fontWeight: 900 }}>1.</span>
-                <span style={{ display: "flex", alignItems: "center", gap: "4px", flexWrap: "wrap" }}>
-                  Tap the Share button <Share size={14} style={{ display: "inline-block", verticalAlign: "middle" }} /> in Safari.
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px", background: isLight ? "rgba(0,0,0,0.02)" : "rgba(255,255,255,0.02)", border: `1px solid ${border}`, borderRadius: "10px", padding: "10px 12px" }}>
+              <div style={{ display: "flex", gap: "8px", alignItems: "center", fontSize: "11px", color: color, fontWeight: 550 }}>
+                <span style={{ color: "#93C5FD", fontWeight: 750 }}>1.</span>
+                <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                  Tap Share <Share size={13} style={{ display: "inline-block" }} /> in Safari.
                 </span>
               </div>
-              <div style={{ display: "flex", gap: "10px", alignItems: "flex-start", fontSize: "11.5px", color: color, fontWeight: 600 }}>
-                <span style={{ color: btnAccent, fontWeight: 900 }}>2.</span>
-                <span style={{ display: "flex", alignItems: "center", gap: "4px", flexWrap: "wrap" }}>
-                  Tap Add to Home Screen <PlusSquare size={14} style={{ display: "inline-block", verticalAlign: "middle" }} />
+              <div style={{ display: "flex", gap: "8px", alignItems: "center", fontSize: "11px", color: color, fontWeight: 550 }}>
+                <span style={{ color: "#93C5FD", fontWeight: 750 }}>2.</span>
+                <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                  Tap Add to Home Screen <PlusSquare size={13} style={{ display: "inline-block" }} />
                 </span>
-              </div>
-              <div style={{ display: "flex", gap: "10px", alignItems: "flex-start", fontSize: "11.5px", color: color, fontWeight: 600 }}>
-                <span style={{ color: btnAccent, fontWeight: 900 }}>3.</span>
-                <span>Open Nexus from your home screen.</span>
               </div>
             </div>
 
@@ -263,15 +263,13 @@ export default function InstallPWA() {
               onClick={dismissIos}
               style={{
                 width: "100%",
-                padding: "12px",
+                padding: "8px 12px",
                 background: btnAccent,
                 color: btnText,
-                borderRadius: "14px",
+                borderRadius: "8px",
                 border: "none",
-                fontWeight: 800,
-                fontSize: "11.5px",
-                textTransform: "uppercase",
-                letterSpacing: "0.05em",
+                fontWeight: 650,
+                fontSize: "12px",
                 cursor: "pointer"
               }}
             >

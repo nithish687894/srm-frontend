@@ -6,6 +6,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAuthStore } from "@/lib/store";
 import { buildCalendarIndex } from "@/lib/calendarIndex";
 import AuraAttendance from "@/components/aura-theme/AuraAttendance";
+import LoadingSkeleton from "@/components/aura-theme/LoadingSkeleton";
 import { extractBatch } from "@/lib/utils";
 
 const PortalSyncModal = dynamic(() => import("@/components/PortalSyncModal"), { ssr: false });
@@ -61,6 +62,8 @@ export default function AttendancePage() {
   const [isSyncing, setIsSyncing] = useState(false);
   const [isSyncModalOpen, setIsSyncModalOpen] = useState(false);
   const [now, setNow] = useState(() => Date.now());
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
 
   const studentPortalStatus = connectorStatuses.studentPortal;
   const isSpConnected = studentPortalStatus === "connected";
@@ -418,6 +421,8 @@ export default function AttendancePage() {
     return acc + (isNaN(p) ? 0 : p);
   }, 0);
 
+  if (!mounted) return <LoadingSkeleton />;
+
   const themeProps = {
     att, avgAtt, totalAgg, presentAgg, absentAgg, 
     showPredictor, setShowPredictor, next30Days, selectedDates, toggleDate, 
@@ -431,16 +436,14 @@ export default function AttendancePage() {
   };
 
   return (
-    <div style={{ minHeight: "100dvh", width: "100%", background: "var(--app-bg)", display: "flex", flexDirection: "column", position: "relative" }}>
-      <main id="attendance-parent-scroll" style={{ flex: 1, paddingBottom: "100px" }}>
-        <AuraAttendance
-          attendance={previewAttendance}
-          handleSync={handleSync}
-          onReconnect={handleReconnect}
-          isSyncing={isSyncing}
-          {...themeProps}
-        />
-      </main>
+    <>
+      <AuraAttendance
+        attendance={previewAttendance}
+        handleSync={handleSync}
+        onReconnect={handleReconnect}
+        isSyncing={isSyncing}
+        {...themeProps}
+      />
       {isSyncModalOpen && (
         <PortalSyncModal
           isOpen
@@ -450,6 +453,6 @@ export default function AttendancePage() {
           type="student-portal"
         />
       )}
-    </div>
+    </>
   );
 }

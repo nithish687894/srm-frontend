@@ -50,49 +50,54 @@ function AttendanceRegister({
 
   return (
     <AuraBackground theme={activeTheme} stars={stars}>
-      <main className="attendance-workspace" style={{ minHeight: "100dvh", padding: "calc(env(safe-area-inset-top, 0px) + 54px) 16px calc(env(safe-area-inset-bottom, 0px) + 76px)" }}>
+      <main className="attendance-workspace" style={{ padding: "calc(env(safe-area-inset-top, 0px) + 20px) 16px calc(env(safe-area-inset-bottom, 0px) + 100px)", width: "100%", maxWidth: "100%", boxSizing: "border-box" }}>
         <div style={{ maxWidth: "760px", width: "100%", margin: "0 auto" }}>
           
           {/* Header */}
-          <header style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "22px" }}>
-            <div>
-              <p style={{ margin: "0 0 6px", color: "#60A5FA", fontSize: "11px", fontWeight: 750, letterSpacing: "0.06em", textTransform: "uppercase" }}>
-                {demoPreview ? "Demo workspace" : "Attendance centre"}
-              </p>
-              <h1 style={{ margin: 0, color: "#F7F5FA", fontSize: "30px", letterSpacing: "-0.04em", fontWeight: 850 }}>
-                Attendance
-              </h1>
-              <p style={{ margin: "5px 0 0", color: "#9C96A7", fontSize: "13px" }}>
-                {demoPreview ? "Sample semester records" : timeAgoStr || "Current semester records"}
-              </p>
+          <header style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "18px" }}>
+            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", paddingRight: "96px" }}>
+              <div>
+                <p suppressHydrationWarning style={{ margin: "0 0 4px", color: "#60A5FA", fontSize: "10px", fontWeight: 750, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                  {demoPreview ? "Demo workspace" : "Attendance centre"}
+                </p>
+                <h1 style={{ margin: 0, color: "#F7F5FA", fontSize: "28px", letterSpacing: "-0.03em", fontWeight: 750 }}>
+                  Attendance
+                </h1>
+                <p suppressHydrationWarning style={{ margin: "4px 0 0", color: "#9C96A7", fontSize: "13px" }}>
+                  {demoPreview ? "Sample semester records" : timeAgoStr || "Current semester records"}
+                </p>
+              </div>
             </div>
-            <button
-              onClick={demoPreview ? undefined : handleSync}
-              disabled={isSyncing}
-              aria-label="Refresh attendance"
-              style={{
-                height: "38px",
-                padding: "0 12px",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "6px",
-                borderRadius: "10px",
-                border: "1px solid #292532",
-                background: "#12121A",
-                color: demoPreview || isSpConnected ? "#93C5FD" : "#FBBF24",
-                fontSize: "12px",
-                fontWeight: 700,
-                cursor: demoPreview || isSyncing ? "default" : "pointer",
-                whiteSpace: "nowrap"
-              }}
-            >
-              <RefreshCcw size={14} className={isSyncing ? "animate-spin" : ""} />
-              <span>{demoPreview ? "Sample data" : isSyncing ? "Refreshing…" : isSpConnected ? "Refresh" : "Connect portal"}</span>
-            </button>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <button
+                suppressHydrationWarning
+                onClick={demoPreview ? undefined : handleSync}
+                disabled={isSyncing}
+                aria-label="Refresh attendance"
+                style={{
+                  height: "34px",
+                  padding: "0 12px",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  borderRadius: "8px",
+                  border: "1px solid #292532",
+                  background: "#12121A",
+                  color: demoPreview || isSpConnected ? "#93C5FD" : "#FBBF24",
+                  fontSize: "12px",
+                  fontWeight: 650,
+                  cursor: demoPreview || isSyncing ? "default" : "pointer",
+                  whiteSpace: "nowrap"
+                }}
+              >
+                <RefreshCcw size={13} className={isSyncing ? "animate-spin" : ""} />
+                <span suppressHydrationWarning>{demoPreview ? "Sample data" : isSyncing ? "Refreshing…" : isSpConnected ? "Refresh" : "Connect portal"}</span>
+              </button>
+            </div>
           </header>
 
           {/* Overall Attendance Card */}
-          <section style={{ background: "#12121A", border: "1px solid #292532", borderRadius: "14px", padding: "18px 20px", marginBottom: "16px" }}>
+          <section style={{ background: "#12121A", border: "1px solid #292532", borderRadius: "14px", padding: "18px 20px", marginBottom: "16px", touchAction: "pan-y" }}>
             <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "16px" }}>
               <div>
                 <div style={{ color: "#9C96A7", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 750 }}>
@@ -151,7 +156,8 @@ function AttendanceRegister({
                 color: "#FCA5A5",
                 fontSize: "12px",
                 fontWeight: 700,
-                cursor: "pointer"
+                cursor: "pointer",
+                touchAction: "pan-y"
               }}
             >
               <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -192,6 +198,8 @@ function AttendanceRegister({
             <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
               <SlidersHorizontal size={13} color="#8F8998" />
               <select
+                id="attendance-sort-select"
+                name="sortOption"
                 aria-label="Sort courses"
                 value={sortOption}
                 onChange={(event) => setSortOption(event.target.value)}
@@ -215,7 +223,7 @@ function AttendanceRegister({
           </div>
 
           {/* Course List */}
-          <div style={{ background: "#12121A", border: "1px solid #292532", borderRadius: "10px", overflow: "hidden" }}>
+          <div style={{ background: "#12121A", border: "1px solid #292532", borderRadius: "12px", overflow: "hidden" }}>
             {!isLoading && filteredAttendance.length > 0 && (
               <div style={{ display: "flex", justifyContent: "space-between", gap: "12px", padding: "10px 16px", borderBottom: "1px solid #292532", color: "#777181", fontSize: "10px", fontWeight: 750, letterSpacing: "0.06em", textTransform: "uppercase" }}>
                 <span>Course register</span>
@@ -243,13 +251,15 @@ function AttendanceRegister({
                       textAlign: "left",
                       background: isAtRisk ? "rgba(239,68,68,0.055)" : "#12121A",
                       border: "none",
-                      borderBottom: index < filteredAttendance.length - 1 ? "1px solid #292532" : "none",
+                      borderBottom: index < filteredAttendance.length - 1 ? "1px solid #1E1C25" : "none",
                       borderRadius: 0,
                       padding: "0",
                       cursor: "pointer",
                       display: "flex",
                       flexDirection: "column",
-                      overflow: "hidden"
+                      overflow: "hidden",
+                      touchAction: "pan-y",
+                      WebkitTapHighlightColor: "transparent"
                     }}
                   >
                     {/* Main row */}
@@ -347,6 +357,8 @@ export default function AuraAttendance({
   const [filter, setFilter] = useState<string>("All");
   const [sortOption, setSortOption] = useState<string>("default");
   const [selectedSubject, setSelectedSubject] = useState<AnyValue | null>(null);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
   const { activeTheme, stars } = useAuraTheme();
 
   const isSpConnected = studentPortalStatus === "connected";
@@ -448,13 +460,13 @@ export default function AuraAttendance({
     return result;
   }, [processedAttendance, filter, sortOption]);
 
-  const isUnavailable = !demoPreview && (attendanceState === "unavailable" || attendanceState === "loading");
+  const isUnavailable = mounted && !demoPreview && (attendanceState === "unavailable" || (attendanceState === "loading" && processedAttendance.length === 0));
   const retryLabel = isSpConnected ? "Retry" : "Reconnect";
 
   if (isUnavailable) {
     return (
       <AuraBackground theme={activeTheme} stars={stars}>
-        <main className="attendance-workspace" style={{ minHeight: "100dvh", padding: "calc(env(safe-area-inset-top, 0px) + 54px) 16px calc(env(safe-area-inset-bottom, 0px) + 76px)" }}>
+        <main className="attendance-workspace" style={{ padding: "calc(env(safe-area-inset-top, 0px) + 20px) 16px calc(env(safe-area-inset-bottom, 0px) + 100px)", width: "100%", maxWidth: "100%", boxSizing: "border-box" }}>
           <div style={{ maxWidth: "760px", width: "100%", margin: "0 auto" }}>
             <h1 style={{ fontSize: "30px", fontWeight: 850, letterSpacing: "-0.04em", margin: "0 0 20px", color: "#F7F5FA" }}>Attendance</h1>
             <section style={{ background: "#12121A", border: "1px solid #292532", borderRadius: "14px", padding: "24px", textAlign: "left" }}>
