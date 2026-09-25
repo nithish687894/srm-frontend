@@ -7,6 +7,8 @@ export default function JsonLd() {
     "name": "SRM Nexus",
     "alternateName": ["Nexus Academia", "SRM Academia Portal", "srmnexus", "SRMX", "Lumina OS"],
     "url": "https://srmnexus.app",
+    "image": "https://srmnexus.app/og-image.png",
+    "logo": "https://srmnexus.app/nexus-logo.png",
     "applicationCategory": "EducationalApplication",
     "operatingSystem": "All (Windows, macOS, iOS, Android, Linux)",
     "browserRequirements": "Requires HTML5 compatible browsers (Chrome, Safari, Firefox, Edge)",
@@ -17,17 +19,18 @@ export default function JsonLd() {
       "priceCurrency": "INR"
     },
     "featureList": [
-      "Real-time Attendance Tracking (99.8% scraper bypass rate)",
-      "Internal Marks Visual Registry",
+      "Authoritative Student Portal Attendance (Margin Forecaster)",
+      "Component-wise Internal Marks Breakdown",
       "Interactive 'What-If' SGPA & CGPA Simulator",
       "Dynamic PWA Offline Hub Caching",
-      "Personalized Academic Timetable Schedules",
-      "Local CryptoJS Browser Vault Encryption"
+      "Day Order 1–5 Academic Timetable Schedules",
+      "Friends Sync & Mutual Free Time Intelligence"
     ],
     "author": {
       "@type": "Organization",
-      "name": "SRM Nexus Team",
-      "url": "https://srmnexus.app"
+      "name": "SRM Nexus",
+      "url": "https://srmnexus.app",
+      "logo": "https://srmnexus.app/nexus-logo.png"
     }
   };
 
@@ -37,6 +40,7 @@ export default function JsonLd() {
     "url": "https://srmnexus.app",
     "name": "SRM Nexus",
     "alternateName": ["SRMNexus", "Nexus Academia", "SRM Academia Portal"],
+    "image": "https://srmnexus.app/og-image.png",
     "potentialAction": {
       "@type": "SearchAction",
       "target": "https://srmnexus.app/search?q={search_term_string}",

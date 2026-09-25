@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Share, PlusSquare, X, Info } from "lucide-react";
 import { useThemeStore } from "@/lib/themeStore";
 import { useAuthStore } from "@/lib/store";
+import { NexusMark } from "@/components/brand/NexusLogo";
 
 export default function InstallPWA() {
   const { theme } = useThemeStore();
@@ -131,19 +132,7 @@ export default function InstallPWA() {
             </button>
 
             <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-              <div style={{ 
-                width: "40px", 
-                height: "40px", 
-                borderRadius: "10px", 
-                background: "#1A1724",
-                border: "1px solid #292532",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexShrink: 0
-              }}>
-                <span style={{ color: "#93C5FD", fontWeight: 800, fontSize: "16px" }}>N</span>
-              </div>
+              <NexusMark size={38} />
               <div style={{ display: "flex", flexDirection: "column", gap: "2px", minWidth: 0, paddingRight: "20px" }}>
                 <div style={{ fontSize: "13px", fontWeight: 700, color: color }}>Install Nexus</div>
                 <div style={{ fontSize: "11px", color: subColor, fontWeight: 500, lineHeight: 1.3 }}>Use Nexus like an app on your device.</div>

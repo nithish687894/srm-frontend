@@ -1,16 +1,21 @@
 {
-  "name": "SRM Nexus",
-  "short_name": "Nexus",
-  "description": "SRM Nexus academic dashboard for attendance, marks, timetable, and planning.",
+  "name": "SRM Nexus — Unified Academic Workspace",
+  "short_name": "SRM Nexus",
+  "description": "Authoritative attendance, component-wise internal marks, Day Order timetables, and Friends Sync for SRMIST students.",
   "start_url": "/dashboard",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#050508",
-  "theme_color": "#050508",
+  "background_color": "#09090F",
+  "theme_color": "#09090F",
   "icons": [
     {
-      "src": "/nexus-logo.png",
+      "src": "/android-chrome-192x192.png",
       "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
       "type": "image/png"
     },
     {

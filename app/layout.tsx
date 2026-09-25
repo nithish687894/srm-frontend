@@ -28,9 +28,9 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "SRM Nexus — The Ultimate SRM Academia Student Portal",
-  description: "Experience SRM Nexus, the definitive SRM Academia student portal. Track attendance, internal marks, timetable, and SGPA with precision. The ultimate Nexus Academia interface for SRM University students.",
+  description: "Experience SRM Nexus, the definitive SRM Academia student portal. Track authoritative Student Portal attendance, component-wise internal marks, Day Order timetables, and SGPA with precision.",
   applicationName: "SRM Nexus",
-  keywords: ["nexus academia", "srm nexus", "srm academia", "srm student portal", "srm attendance tracker", "srm timetable", "srm internal marks", "srmist portal"],
+  keywords: ["nexus academia", "srm nexus", "srm academia", "srm student portal", "srm attendance tracker", "srm timetable", "srm internal marks", "srmist portal", "srm nexus login"],
   authors: [{ name: "SRM Nexus Team" }],
   openGraph: {
     title: "SRM Nexus — The Ultimate SRM Academia Student Portal",
@@ -39,13 +39,30 @@ export const metadata: Metadata = {
     siteName: "SRM Nexus",
     locale: "en_IN",
     type: "website",
+    images: [
+      {
+        url: "https://srmnexus.app/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "SRM Nexus — Unified Academic Workspace Logo",
+        type: "image/png",
+      },
+      {
+        url: "https://srmnexus.app/nexus-logo.png",
+        width: 512,
+        height: 512,
+        alt: "SRM Nexus App Icon Logo",
+        type: "image/png",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "SRM Nexus — The Ultimate SRM Academia Student Portal",
     description: "The definitive student portal for SRM University. Track attendance, marks, and timetable with SRM Nexus.",
+    images: ["https://srmnexus.app/og-image.png"],
   },
-  manifest: "/site.webmanifest?v=4",
+  manifest: "/site.webmanifest",
   appleWebApp: {
     capable: true,
     title: "SRM Nexus",
@@ -55,8 +72,17 @@ export const metadata: Metadata = {
     "apple-mobile-web-app-title": "SRM Nexus",
   },
   icons: {
-    icon: "/nexus-logo.png",
-    apple: "/nexus-logo.png",
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/nexus-logo.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+      { url: "/apple-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    shortcut: "/favicon.svg",
   },
   alternates: {
     canonical: "https://srmnexus.app",
