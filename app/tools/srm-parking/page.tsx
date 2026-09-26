@@ -913,7 +913,7 @@ export default function SrmParkingToolPage() {
       display: "flex",
       flexDirection: "column",
       color: "#F7F5FA",
-      fontFamily: "'Plus Jakarta Sans', sans-serif"
+      fontFamily: "var(--font-main, 'Inter', -apple-system, BlinkMacSystemFont, sans-serif)"
     }}>
       {/* Top Header */}
       <header style={{
@@ -1262,7 +1262,7 @@ export default function SrmParkingToolPage() {
               background: "#12121A",
               border: "1px solid #292532",
               borderRadius: "14px",
-              padding: "14px 16px"
+              padding: "16px"
             }}>
               <p style={{ margin: "0 0 10px", fontSize: "11px", fontWeight: 750, color: "#8F8998", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                 Select Campus Parking Ground
@@ -1273,33 +1273,47 @@ export default function SrmParkingToolPage() {
                   onClick={() => setActiveZone("TP")}
                   style={{
                     padding: "12px",
-                    borderRadius: "10px",
+                    borderRadius: "12px",
                     border: activeZone === "TP" ? "1.5px solid #2563EB" : "1px solid #292532",
-                    background: activeZone === "TP" ? "rgba(37, 99, 235, 0.15)" : "#0E0E15",
+                    background: activeZone === "TP" ? "rgba(37, 99, 235, 0.12)" : "#0E0E15",
                     color: activeZone === "TP" ? "#FFF" : "#B8B2C2",
                     cursor: "pointer",
                     display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                    textAlign: "left"
+                    flexDirection: "column",
+                    gap: "8px",
+                    textAlign: "left",
+                    transition: "all 0.16s ease"
                   }}
                 >
-                  <div style={{ width: "34px", height: "34px", borderRadius: "8px", background: activeZone === "TP" ? "#2563EB" : "#1E1E28", display: "flex", alignItems: "center", justifyContent: "center", color: "#FFF" }}>
-                    <Building2 size={16} />
-                  </div>
-                  <div>
-                    <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                      <p style={{ margin: 0, fontSize: "13px", fontWeight: 800, color: activeZone === "TP" ? "#FFF" : "#F7F5FA" }}>Tech Park (TP)</p>
-                      {tpSpotData && (
-                        <span style={{ fontSize: "10px", fontWeight: 750, color: "#10B981", background: "rgba(16, 185, 129, 0.15)", padding: "1px 6px", borderRadius: "4px" }}>
-                          {tpSpotData.availableCapacity} Free
-                        </span>
-                      )}
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                      <div style={{ width: "32px", height: "32px", borderRadius: "8px", background: activeZone === "TP" ? "#2563EB" : "#1E1E28", display: "flex", alignItems: "center", justifyContent: "center", color: "#FFF" }}>
+                        <Building2 size={16} />
+                      </div>
+                      <div>
+                        <p style={{ margin: 0, fontSize: "13px", fontWeight: 750, color: activeZone === "TP" ? "#FFF" : "#F7F5FA" }}>Tech Park (TP)</p>
+                        <p style={{ margin: "1px 0 0", fontSize: "10.5px", color: "#8F8998" }}>Near Main Building</p>
+                      </div>
                     </div>
-                    <p style={{ margin: "2px 0 0", fontSize: "10.5px", color: "#8F8998" }}>
-                      {tpSpotData ? `${tpSpotData.availableCapacity} / ${tpSpotData.spot?.capacity || 300} Spots (${tpSpotData.bookedCount} Parked)` : "Near TP & Main Building"}
-                    </p>
+                    {tpSpotData && (
+                      <span style={{ fontSize: "10px", fontWeight: 750, color: "#10B981", background: "rgba(16, 185, 129, 0.15)", padding: "2px 6px", borderRadius: "4px" }}>
+                        {tpSpotData.availableCapacity} Free
+                      </span>
+                    )}
                   </div>
+
+                  {/* Micro Progress Bar */}
+                  {tpSpotData && (
+                    <div style={{ width: "100%", background: "#1E1C25", height: "4px", borderRadius: "2px", overflow: "hidden" }}>
+                      <div style={{
+                        width: `${Math.min(100, Math.round((tpSpotData.bookedCount / (tpSpotData.spot?.capacity || 300)) * 100))}%`,
+                        background: activeZone === "TP" ? "#2563EB" : "#10B981",
+                        height: "100%",
+                        borderRadius: "2px",
+                        transition: "width 0.3s ease"
+                      }} />
+                    </div>
+                  )}
                 </button>
 
                 <button
@@ -1307,33 +1321,47 @@ export default function SrmParkingToolPage() {
                   onClick={() => setActiveZone("JAVA")}
                   style={{
                     padding: "12px",
-                    borderRadius: "10px",
+                    borderRadius: "12px",
                     border: activeZone === "JAVA" ? "1.5px solid #2563EB" : "1px solid #292532",
-                    background: activeZone === "JAVA" ? "rgba(37, 99, 235, 0.15)" : "#0E0E15",
+                    background: activeZone === "JAVA" ? "rgba(37, 99, 235, 0.12)" : "#0E0E15",
                     color: activeZone === "JAVA" ? "#FFF" : "#B8B2C2",
                     cursor: "pointer",
                     display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                    textAlign: "left"
+                    flexDirection: "column",
+                    gap: "8px",
+                    textAlign: "left",
+                    transition: "all 0.16s ease"
                   }}
                 >
-                  <div style={{ width: "34px", height: "34px", borderRadius: "8px", background: activeZone === "JAVA" ? "#2563EB" : "#1E1E28", display: "flex", alignItems: "center", justifyContent: "center", color: "#FFF" }}>
-                    <Coffee size={16} />
-                  </div>
-                  <div>
-                    <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                      <p style={{ margin: 0, fontSize: "13px", fontWeight: 800, color: activeZone === "JAVA" ? "#FFF" : "#F7F5FA" }}>Java Ground</p>
-                      {javaSpotData && (
-                        <span style={{ fontSize: "10px", fontWeight: 750, color: "#10B981", background: "rgba(16, 185, 129, 0.15)", padding: "1px 6px", borderRadius: "4px" }}>
-                          {javaSpotData.availableCapacity} Free
-                        </span>
-                      )}
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                      <div style={{ width: "32px", height: "32px", borderRadius: "8px", background: activeZone === "JAVA" ? "#2563EB" : "#1E1E28", display: "flex", alignItems: "center", justifyContent: "center", color: "#FFF" }}>
+                        <Coffee size={16} />
+                      </div>
+                      <div>
+                        <p style={{ margin: 0, fontSize: "13px", fontWeight: 750, color: activeZone === "JAVA" ? "#FFF" : "#F7F5FA" }}>Java Ground</p>
+                        <p style={{ margin: "1px 0 0", fontSize: "10.5px", color: "#8F8998" }}>Behind Canteen</p>
+                      </div>
                     </div>
-                    <p style={{ margin: "2px 0 0", fontSize: "10.5px", color: "#8F8998" }}>
-                      {javaSpotData ? `${javaSpotData.availableCapacity} / ${javaSpotData.spot?.capacity || 500} Spots (${javaSpotData.bookedCount} Parked)` : "Behind Java Canteen & Mech"}
-                    </p>
+                    {javaSpotData && (
+                      <span style={{ fontSize: "10px", fontWeight: 750, color: "#10B981", background: "rgba(16, 185, 129, 0.15)", padding: "2px 6px", borderRadius: "4px" }}>
+                        {javaSpotData.availableCapacity} Free
+                      </span>
+                    )}
                   </div>
+
+                  {/* Micro Progress Bar */}
+                  {javaSpotData && (
+                    <div style={{ width: "100%", background: "#1E1C25", height: "4px", borderRadius: "2px", overflow: "hidden" }}>
+                      <div style={{
+                        width: `${Math.min(100, Math.round((javaSpotData.bookedCount / (javaSpotData.spot?.capacity || 500)) * 100))}%`,
+                        background: activeZone === "JAVA" ? "#2563EB" : "#10B981",
+                        height: "100%",
+                        borderRadius: "2px",
+                        transition: "width 0.3s ease"
+                      }} />
+                    </div>
+                  )}
                 </button>
               </div>
             </section>
@@ -1357,11 +1385,11 @@ export default function SrmParkingToolPage() {
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "14px", flexWrap: "wrap", gap: "8px" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                       <Car size={16} color="#60A5FA" />
-                      <h2 style={{ fontSize: "14px", fontWeight: 800, margin: 0, color: "#F7F5FA" }}>
+                      <h2 style={{ fontSize: "14px", fontWeight: 750, margin: 0, color: "#F7F5FA" }}>
                         {activeZone === "TP" ? "Tech Park (TP Avenue STEP Area)" : "Java Ground Parking Area"}
                       </h2>
                     </div>
-                    <span style={{ fontSize: "11px", color: "#10B981", fontWeight: 750, background: "rgba(16, 185, 129, 0.12)", border: "1px solid rgba(16, 185, 129, 0.25)", padding: "3px 8px", borderRadius: "6px" }}>
+                    <span style={{ fontSize: "11px", color: "#10B981", fontWeight: 700, background: "rgba(16, 185, 129, 0.12)", border: "1px solid rgba(16, 185, 129, 0.25)", padding: "3px 8px", borderRadius: "6px" }}>
                       Status: Open & Available
                     </span>
                   </div>
@@ -1374,20 +1402,20 @@ export default function SrmParkingToolPage() {
                     marginBottom: "12px"
                   }}>
                     <div style={{ background: "#0E0E15", border: "1px solid #292532", borderRadius: "10px", padding: "12px", textAlign: "center" }}>
-                      <p style={{ margin: 0, fontSize: "10px", color: "#8F8998", textTransform: "uppercase", fontWeight: 750 }}>Free Capacity</p>
-                      <p style={{ margin: "4px 0 0", fontSize: "18px", fontWeight: 850, color: "#10B981" }}>{freeSpots}</p>
+                      <p style={{ margin: 0, fontSize: "10px", color: "#8F8998", textTransform: "uppercase", fontWeight: 700 }}>Free Capacity</p>
+                      <p style={{ margin: "4px 0 0", fontSize: "18px", fontWeight: 750, color: "#10B981" }}>{freeSpots}</p>
                       <span style={{ fontSize: "9.5px", color: "#8F8998" }}>of {totalCap} spots</span>
                     </div>
 
                     <div style={{ background: "#0E0E15", border: "1px solid #292532", borderRadius: "10px", padding: "12px", textAlign: "center" }}>
-                      <p style={{ margin: 0, fontSize: "10px", color: "#8F8998", textTransform: "uppercase", fontWeight: 750 }}>Occupied</p>
-                      <p style={{ margin: "4px 0 0", fontSize: "18px", fontWeight: 850, color: "#60A5FA" }}>{booked}</p>
+                      <p style={{ margin: 0, fontSize: "10px", color: "#8F8998", textTransform: "uppercase", fontWeight: 700 }}>Occupied</p>
+                      <p style={{ margin: "4px 0 0", fontSize: "18px", fontWeight: 750, color: "#60A5FA" }}>{booked}</p>
                       <span style={{ fontSize: "9.5px", color: "#8F8998" }}>{pctUsed}% occupancy</span>
                     </div>
 
                     <div style={{ background: "#0E0E15", border: "1px solid #292532", borderRadius: "10px", padding: "12px", textAlign: "center" }}>
-                      <p style={{ margin: 0, fontSize: "10px", color: "#8F8998", textTransform: "uppercase", fontWeight: 750 }}>Hourly Rate</p>
-                      <p style={{ margin: "4px 0 0", fontSize: "18px", fontWeight: 850, color: "#FBBF24" }}>₹{rate}</p>
+                      <p style={{ margin: 0, fontSize: "10px", color: "#8F8998", textTransform: "uppercase", fontWeight: 700 }}>Hourly Rate</p>
+                      <p style={{ margin: "4px 0 0", fontSize: "18px", fontWeight: 750, color: "#FBBF24" }}>₹{rate}</p>
                       <span style={{ fontSize: "9.5px", color: "#8F8998" }}>per shift / hr</span>
                     </div>
                   </div>

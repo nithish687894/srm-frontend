@@ -235,6 +235,29 @@ function buildSlotToCourseMap(myTT: AnyValue[]) {
   return map;
 }
 
+function getRegisteredCourses(payload: AnyValue): AnyValue[] {
+  if (!payload) return [];
+  if (Array.isArray(payload)) return payload;
+  if (Array.isArray(payload?.data?.courses)) return payload.data.courses;
+  if (Array.isArray(payload?.courses)) return payload.courses;
+  if (Array.isArray(payload?.data?.data)) return payload.data.data;
+  if (Array.isArray(payload?.data)) return payload.data;
+  if (Array.isArray(payload?.timetable?.courses)) return payload.timetable.courses;
+  if (Array.isArray(payload?.timetable)) return payload.timetable;
+  return [];
+}
+
+function getMasterGridRows(payload: AnyValue): AnyValue[] {
+  if (!payload) return [];
+  if (Array.isArray(payload)) return payload;
+  if (Array.isArray(payload?.data?.rows)) return payload.data.rows;
+  if (Array.isArray(payload?.rows)) return payload.rows;
+  if (Array.isArray(payload?.data?.data?.rows)) return payload.data.data.rows;
+  if (Array.isArray(payload?.data)) return payload.data;
+  if (Array.isArray(payload?.timetableRows)) return payload.timetableRows;
+  return [];
+}
+
 function buildSchedule(gridRows: AnyValue[], slotMap: Record<string, AnyValue>): { day: string; classes: ScheduleItem[] }[] {
   if (!Array.isArray(gridRows)) return [];
   const timeRow = gridRows.find((r: AnyValue) => Array.isArray(r) && typeof r[0] === "string" && /^from$/i.test(r[0].trim()));
@@ -649,48 +672,37 @@ export default function TimetablePage() {
   }, [calendarIndex, todayInfo]);
 
 
+  const registeredCourses = useMemo(() => {
+    const fromMyTTQ = getRegisteredCourses(myTTQ.data);
+    if (fromMyTTQ.length > 0) return fromMyTTQ;
+
+    const fromCachedMyTT = getRegisteredCourses(trustedMyTimetable);
+    if (fromCachedMyTT.length > 0) return fromCachedMyTT;
+
+    const fromAcademicData = getRegisteredCourses(trustedAcademicData?.timetable);
+    if (fromAcademicData.length > 0) return fromAcademicData;
+
+    return [];
+  }, [myTTQ.data, trustedMyTimetable, trustedAcademicData?.timetable]);
+
+  const masterGridRows = useMemo(() => {
+    const fromTTQ = getMasterGridRows(ttQ.data);
+    if (fromTTQ.length > 0) return fromTTQ;
+
+    const fromCachedTT = getMasterGridRows(trustedTimetable);
+    if (fromCachedTT.length > 0) return fromCachedTT;
+
+    const fromAcademicData = getMasterGridRows(trustedAcademicData?.timetableRows);
+    if (fromAcademicData.length > 0) return fromAcademicData;
+
+    return [];
+  }, [ttQ.data, trustedTimetable, trustedAcademicData?.timetableRows]);
+
   const schedule = useMemo(() => {
-    const rawMyTT = myTTQ.data;
-    let courses: AnyValue[] = [];
-    if (Array.isArray(rawMyTT)) {
-      courses = rawMyTT;
-    } else if (Array.isArray(rawMyTT?.data?.courses)) {
-      courses = rawMyTT.data.courses;
-    } else if (Array.isArray(rawMyTT?.courses)) {
-      courses = rawMyTT.courses;
-    } else if (Array.isArray(rawMyTT?.data)) {
-      courses = rawMyTT.data;
-    } else if (Array.isArray(rawMyTT?.data?.data)) {
-      courses = rawMyTT.data.data;
-    }
-
-    if (courses.length === 0 && Array.isArray(trustedAcademicData?.timetable)) {
-      courses = trustedAcademicData.timetable;
-    }
-
-    const rawTT = ttQ.data;
-    let gridRows: AnyValue[] = [];
-    if (Array.isArray(rawTT)) {
-      gridRows = rawTT;
-    } else if (Array.isArray(rawTT?.data?.rows)) {
-      gridRows = rawTT.data.rows;
-    } else if (Array.isArray(rawTT?.rows)) {
-      gridRows = rawTT.rows;
-    } else if (Array.isArray(rawTT?.data?.data?.rows)) {
-      gridRows = rawTT.data.data.rows;
-    } else if (Array.isArray(rawTT?.data)) {
-      gridRows = rawTT.data;
-    }
-
-    if (gridRows.length === 0 && Array.isArray(trustedAcademicData?.timetableRows)) {
-      gridRows = trustedAcademicData.timetableRows;
-    }
-
-    if (!Array.isArray(gridRows) || gridRows.length === 0 || !Array.isArray(courses) || courses.length === 0) return [];
-
-    const slotMap = buildSlotToCourseMap(courses);
-    return buildSchedule(gridRows, slotMap);
-  }, [ttQ.data, myTTQ.data]);
+    if (!registeredCourses.length || !masterGridRows.length) return [];
+    const slotMap = buildSlotToCourseMap(registeredCourses);
+    return buildSchedule(masterGridRows, slotMap);
+  }, [registeredCourses, masterGridRows]);
 
   const classes = useMemo(() => {
     const targetRow = schedule.find(s => {
@@ -931,10 +943,12 @@ export default function TimetablePage() {
 
   const studentInitials = studentInfo?.Name ? studentInfo.Name.substring(0, 2).toUpperCase() : "ST";
 
-  const myCourses = myTTQ.data?.data?.courses || myTTQ.data?.data || [];
+  const myCourses = registeredCourses;
 
-  const isDataLoading = (!trustedMyTimetable && !trustedAcademicData?.timetable && !myTTQ.data && myTTQ.isLoading) || 
-                        (!trustedTimetable && !ttQ.data && ttQ.isLoading);
+  const hasLoadedSchedule = schedule.length > 0;
+  const isFetchingTimetable = (myTTQ.isLoading || myTTQ.isPending || myTTQ.isFetching) ||
+                              (ttQ.isLoading || ttQ.isPending || ttQ.isFetching);
+  const isDataLoading = !hasLoadedSchedule && isFetchingTimetable;
   useEffect(() => {
     if (!isDataLoading) {
       setLoadTimedOut(false);
